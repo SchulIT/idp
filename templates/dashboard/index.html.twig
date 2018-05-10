@@ -1,0 +1,57 @@
+{% extends "main.html.twig" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <div class="contentbox">
+        <h2>{{ 'dashboard.welcome'|trans({ '%firstname%': app.user.firstname, '%lastname%': app.user.lastname }) }}</h2>
+    </div>
+
+    <div class="row widgetrow">
+        <div class="col-md-6">
+            <div class="contentbox">
+                <h4>{{ 'dashboard.data'|trans }}</h4>
+
+                <div class="row no-padding">
+                    <div class="col-md-3 col-sm-4 col-xs-4"><p>{{ 'label.username'|trans }}</p></div>
+                    <div class="col-md-9 col-sm-8 col-xs-8"><p>{{ app.user.username }}</p></div>
+                </div>
+
+                <div class="row no-padding">
+                    <div class="col-md-3 col-sm-4 col-xs-4"><p>{{ 'label.firstname'|trans }}</p></div>
+                    <div class="col-md-9 col-sm-8 col-xs-8"><p>{{ app.user.firstname }}</p></div>
+                </div>
+
+                <div class="row no-padding">
+                    <div class="col-md-3 col-sm-4 col-xs-4"><p>{{ 'label.lastname'|trans }}</p></div>
+                    <div class="col-md-9 col-sm-8 col-xs-8"><p>{{ app.user.lastname }}</p></div>
+                </div>
+
+                <div class="row no-padding">
+                    <div class="col-md-3 col-sm-4 col-xs-4"><p>{{ 'label.email'|trans }}</p></div>
+                    <div class="col-md-9 col-sm-8 col-xs-8"><p>{{ app.user.email }}</p></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="contentbox no-padding">
+                <h4>{{ 'dashboard.services'|trans }}</h4>
+
+                {% for service in services %}
+                    <div class="row no-padding service">
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <p class="service-name">{{ service.name }}</p>
+                            <small class="service-description">{{ service.description }}</small>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3 btn-open">
+                            <a href="{{ service.url }}" class="btn btn-primary btn-sm">
+                                {{ 'dashboard.open'|trans }}
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

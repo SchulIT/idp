@@ -1,0 +1,7 @@
+adauth:
+  host: '%ad_host%'
+  port: '%ad_port%'
+  tls:
+    peer_name: '%ad_peername%'
+    serialnumber: '%ad_serialnumber%'
+    ca_certificate_file: '%ad_ca_file%'

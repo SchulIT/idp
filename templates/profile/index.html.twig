@@ -1,0 +1,18 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'profile.label'|trans }}{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+
+    {{ form_widget(form) }}
+
+    <div class="buttons">
+        <button type="submit" class="btn btn-sm btn-primary">
+            <i class="fa fa-save"></i> {{ 'actions.save'|trans }}
+        </button>
+    </div>
+    {{ form_end(form) }}
+
+
+{% endblock %}

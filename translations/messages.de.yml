@@ -1,0 +1,214 @@
+label:
+  general: Allgemeine Informationen
+  entity_id: Entity ID
+  name: Name
+  acs: Assertion Customer Service URL
+  url: URL
+  certificate: Zertifikat
+  label: Anzeigename
+  description: Beschreibung
+  user_edit_enabled: Benutzer können dieses Attribut ändern
+  saml_attribute_name: SAML Attribut-Name
+  type: Typ
+  services: Dienste
+  id: ID
+  internal_id: Interne ID
+  samAccountName: sAMAccountName
+  username: Benutzername
+  firstname: Vorname
+  lastname: Nachname
+  email: E-Mail Adresse
+  is_active: ist aktiv
+  user_type: Benutzer-Typ
+  password: Passwort
+  repeat_password: Passwort wiederholen
+  signin: Anmelden
+  edu_person: eduPersonAffliation
+  source: Quelle
+  ad_group: Active Directory Gruppe
+  ou: Active Directory Organisatationseinheit
+  value: Wert
+  user_roles: Benutzerrollen
+  is_multiple_choice: Mehrfach-Auswhl möglich (nur Auswahlfeld)
+  options: Optionen (nur Auswahlfeld)
+  attributes: Attribute
+  key: Schlüssel
+  idp: Identity Provider
+  roles: Rollen
+  code: Code
+  alias: Alias
+  grade: Klasse
+  can_change:
+    name: Benutzer kann Namen ändern
+    name_hint: Der Administrator erlaubt eine Änderung des Namens nicht.
+    email: Benutzer kann E-Mail Adresse ändern
+    email_hint: Der Administrator erlaubt eine Änderung der E-Mail Adresse nicht.
+
+auth:
+  login: Anmelden
+  remember_me: angemeldet bleiben
+  lost_pw: Passwort vergessen?
+  logout: Abmelden
+
+error:
+  label: Fehler
+
+info:
+  label: Information
+  attribute_must_changed_in_ad: Dieser Wert muss im Active Directory geändert werden.
+
+success:
+  label: Erfolg
+
+menu:
+  label: Menü
+
+services:
+  label: Online-Dienste
+
+profile:
+  label: Konto-Einstellungen
+  change_password: Passwort ändern
+
+two_factor:
+  label: Zwei-Faktor Authentifizierung
+  status:
+    label: Status
+    enabled: Zwei-Faktor Authentifizierung ist aktiviert
+    disabled: Zwei-Faktor Authentifizierung ist deaktiviert
+  enabled: aktiviert
+  disabled: nicht aktiviert
+  enable: aktivieren
+  disable: deaktivieren
+  google:
+    label: Google Authenticator (App)
+    backup:
+      label: Backup-Codes
+      info: Backup-Codes können genutzt werden, falls die Google Authenticator App nicht zu Hand ist.
+      regenerate: Neue Backup-Codes generieren
+      regenreate_success: Neue Backup-Codes erfolgreich generiert
+    enable:
+      label: Google Authenticator aktivieren
+      step_one:
+        label: "Schritt 1: Schlüssel eintragen"
+        info: Bitte den QR-Code mit der App scannen oder den Code manuell eintragen.
+        secret: Schlüssel
+      step_two:
+        label: "Schritt 2: Verifizieren"
+        info: Zur Verifizierung den nun in der App erzeugten Schlüssel eingeben und bestätigen.
+      success: Zwei-Faktor Authentifizierung über Google Authenticator erfolgreich aktiviert
+      wrong_code: Es wurde ein falscher Code eingegeben.
+    disable:
+      success: Zwei-Faktor Authentifizierung über Google Authenticator erfolgreich deaktiviert
+
+dashboard:
+  label: Übersicht
+  welcome: Willkommen, %firstname% %lastname%!
+  data: Benutzerdaten
+  services: Meine Dienste
+  open: öffnen
+
+user_menu:
+  label: Benutzer-Verwaltung
+
+users:
+  label: Benutzer
+  add: Neuer Benutzer
+  edit: Benutzer bearbeiten
+  attributes:
+    label: Attribute
+    header: Attribute für Benutzer "%username%"
+    source: Ursprung
+    sources:
+      user: Benutzer
+      role: Benutzerrolle
+      type: Benutzertyp
+
+management:
+  label: Verwaltung
+
+user_roles:
+  label: Benutzerrollen
+  add: Neue Rolle
+  edit: Rolle bearbeiten
+
+user_types:
+  label: Benutzertypen
+  add: Neuer Benutzertyp
+  edit: Benutzertyp bearbeiten
+  remove: Benutzertyp löschen
+
+ad_sync_options:
+  label: AD Sync Optionen
+  add: Neue AD Sync Option
+  edit: AD Sync Option bearbeiten
+  grades:
+    label: Synchronisationsregeln für Klassen
+    add:
+      label: Neue Synchronisationsregel
+      success: Regel erfolgreich angelegt
+    edit:
+      label: Synchronisationsregel bearbeiten
+      success: Regel erfolgreich aktualisiert
+    remove:
+      label: Synchronisationsregel löschen
+      confirm: Soll die Synchronisationsregel für die Klasse "%grade%" wirklich gelöscht werden?
+      success: Regel erfolgreich gelöscht
+
+
+service_providers:
+  label: Service Provider
+  add: Neuer Service Provider
+  edit: Service Provider bearbeiten
+  certificate_info: Zertifikat-Informationen
+
+certificate_info:
+  name: Name
+  subject: Subject
+  issuer: Aussteller
+  serial_number: Seriennummer
+  sign_algorithm: Signatur-Algorithmus
+  valid_from: Gültig ab
+  valid_until: Gültig bis
+
+service_attributes:
+  label: Attribute
+  add: Neues Attribut
+  edit: Attribut bearbeiten
+  types:
+    text: Text
+    select: Auswahlfeld
+  add_option: Neue Option
+
+actions:
+  label: Aktionen
+  add: hinzufügen
+  edit: bearbeiten
+  remove: löschen
+  save: speichern
+  cancel: abbrechen
+
+form:
+  multiple_help: In diesem Feld ist Mehrfachauswahl mit den Tasten Strg und/oder Shift möglich.
+  select_all: alle auswählen
+  unselect_all: alle abwählen
+
+idp:
+  xml: IdP Details (XML)
+  details: IdP Details
+
+  saml_login_url: Anmelde-URL
+  saml_logout_url: Ausloggen-URL
+
+  roles:
+    user: Benutzer
+    admin: Administrator
+    super_admin: Super Administrator
+
+search:
+  label: suchen
+  close: schließen
+
+filter:
+  label: filtern
+  all_types: Alle Benutzertypen

@@ -1,0 +1,52 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'service_attributes.edit'|trans }}{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+
+    {{ form_errors(form) }}
+
+    {{ form_row(form.group_general) }}
+
+    <div class="contentbox">
+        <h4>{{ 'label.options'|trans }}</h4>
+
+        {{ form_row(form.group_select.isMultipleChoice ) }}
+
+        <div class="form-group">
+            {{ form_label(form.group_select.options) }}
+
+            <div class="col-md-10">
+                <ul class="options list-unstyled" data-prototype="{{ form_widget(form.group_select.options.vars.prototype)|e('html_attr') }}">
+                    {% for option in form.group_select.options %}
+                        <li>{{ form_widget(option) }}</li>
+                    {% endfor %}
+                </ul>
+
+                <a href="#" class="btn btn-primary btn-sm btn-add-option"><i class="fa fa-plus"></i> {{ 'service_attributes.add_option'|trans }}</a>
+
+                {{ form_errors(form.group_select.options) }}
+            </div>
+
+            <!-- {{ form_row(form.group_select.options) }} -->
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button type="submit" class="btn btn-sm btn-primary">
+            <i class="fa fa-save"></i> {{ 'actions.save'|trans }}
+        </button>
+
+        <a href="{{ path('attributes') }}" class="btn btn-sm btn-secondary">
+            {{ 'actions.cancel'|trans }}
+        </a>
+    </div>
+
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% block post_javascript %}
+    <script type="text/javascript" src="{{ asset('build/attributes.js') }}"></script>
+{% endblock %}

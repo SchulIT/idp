@@ -1,0 +1,4 @@
+invalid_credentials: Benutzername und/oder Passwort falsch.
+server_unavailable: Der Authentifizierungserver ist aktuell nicht erreichbar.
+not_allowed: Der Benutzer ist nicht berechtigt, sich anzumelden.
+unknown_error: Ein unbekannter Fehler ist bei der Anmeldung aufgetreten. Bitte den Administrator benachrichtigen.

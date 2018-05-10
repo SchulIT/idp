@@ -1,0 +1,66 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'two_factor.label'|trans }}{% endblock %}
+
+{% block content %}
+    {% if isGoogleEnabled %}
+        <div class="bs-callout bs-callout-success">
+            <h4>{{ 'two_factor.status.label'|trans }}</h4>
+            <p>{{ 'two_factor.status.enabled'|trans }}</p>
+        </div>
+    {% else %}
+        <div class="bs-callout bs-callout-info">
+            <h4>{{ 'two_factor.status.label'|trans }}</h4>
+            <p>{{ 'two_factor.status.disabled'|trans }}</p>
+        </div>
+    {% endif %}
+
+    <div class="contentbox">
+        <h4>
+            {{ 'two_factor.google.label'|trans }}
+
+            {% if isGoogleEnabled %}
+                <span class="badge badge-success"><i class="fa fa-check"></i> {{ 'two_factor.enabled'|trans }}</span>
+            {% else %}
+                <span class="badge badge-danger"><i class="fa fa-times"></i> {{ 'two_factor.disabled'|trans }}</span>
+            {% endif %}
+        </h4>
+
+        {% if isGoogleEnabled %}
+            <h5>{{ 'two_factor.google.backup.label'|trans }}</h5>
+            <p>
+                {{ 'two_factor.google.backup.info'|trans }}
+            </p>
+
+            <ul>
+                {% for code in backupCodes %}
+                    <li>{{ code }}</li>
+                {% endfor %}
+            </ul>
+
+            <div class="clearfix">
+                <form action="{{ path('disable_google_two_factor') }}" method="post" class="pull-left form-inline">
+                    <input type="hidden" name="_csrf_token" value="{{ csrfToken.value }}" />
+
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        <i class="fa fa-times"></i> {{ 'two_factor.disable'|trans }}
+                    </button>
+                </form>
+
+                <form action="{{ path('regenerate_backup_codes') }}" method="post" class="pull-left form-inline" style="margin-left: 10px">
+                    <input type="hidden" name="_csrf_token" value="{{ csrfToken.value }}" />
+
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fa fa-refresh"></i> {{ 'two_factor.google.backup.regenerate'|trans }}
+                    </button>
+                </form>
+            </div>
+
+        {% else %}
+            <a href="{{ path('enable_google_two_factor') }}" class="btn btn-success btn-sm">
+                <i class="fa fa-check"></i> {{ 'two_factor.enable'|trans }}
+            </a>
+        {% endif %}
+    </div>
+
+{% endblock %}

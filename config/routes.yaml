@@ -1,0 +1,17 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+login_check:
+  path: /login/check
+
+2fa_login:
+  path: /login/two_factor
+  defaults:
+    _controller: "scheb_two_factor.form_controller:form"
+
+2fa_login_check:
+  path: /login/two_factor/check
+
+logout:
+  path: /logout

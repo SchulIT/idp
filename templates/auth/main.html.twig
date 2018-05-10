@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ config.name }}</title>
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('build/app.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('build/signin.css') }}" />
+
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+
+<header class="clearfix" id="page-header">
+    <div id="logo">
+        <h1>{{ 'auth.login'|trans }}</h1>
+    </div>
+</header>
+
+<div class="container-fluid main">
+    <div class="container">
+        {% for msg in app.session.flashbag.get('error') %}
+            <div class="bs-callout bs-callout-danger">
+                <h4>{{ 'error.label'|trans }}</h4>
+                <p>{{ msg|trans }}</p>
+            </div>
+        {% endfor %}
+
+        {% for msg in app.session.flashbag.get('info') %}
+            <div class="bs-callout bs-callout-info">
+                <h4>{{ 'info.label'|trans }}</h4>
+                <p>{{ msg|trans }}</p>
+            </div>
+        {% endfor %}
+
+        {% for msg in app.session.flashbag.get('success') %}
+            <div class="bs-callout bs-callout-success">
+                <h4>{{ 'success.label'|trans }}</h4>
+                <p>{{ msg|trans }}</p>
+            </div>
+        {% endfor %}
+
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+<footer>
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <h3>{{ config.name }}</h3>
+
+            <p>
+                Version {{ config.version }}
+            </p>
+
+        </div>
+
+        <div class="col-md-6 col-xs-12">
+            <p>
+                © {{ "now"|date("Y")  }} School IdP
+            </p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

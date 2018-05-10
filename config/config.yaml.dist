@@ -1,0 +1,25 @@
+parameters:
+    database_driver: pdo_mysql
+    database_host: 127.0.0.1
+    database_port: 3306
+    database_name:
+    database_user:
+    database_password:
+    mailer_transport: null
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: ThisTokenIsNotSoSecretChangeIt
+    app_name: 'SchoolIT Single Sign-On'
+    app_host: sso.school.it
+    app_path: /
+    app_ssl: true
+    app_logo: ~
+    ad_enabled: false
+    ad_host: ~
+    ad_port: 55117
+    ad_transport: tls
+    ad_peername: ~
+    ad_serialnumber: ~
+    ad_ca_file: ~
+    saml_entity_id: 'https://sso.school.it/'

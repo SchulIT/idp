@@ -1,0 +1,56 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'service_providers.certificate_info'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="contentbox">
+        <h4>{{ 'service_providers.certificate_info'|trans }} ({{ service_provider.name }})</h4>
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <tbody>
+                <tr>
+                    <td>{{ 'certificate_info.name'|trans }}</td>
+                    <td>{{ certificate.name }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'certificate_info.subject'|trans }}</td>
+                    <td>
+                        {% for key, value in certificate.subject %}
+                            {{ key }}={{ value }}{% if not loop.last %}<br />{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ 'certificate_info.issuer'|trans }}</td>
+                    <td>
+                        {% for key, value in certificate.issuer %}
+                            {{ key }}={{ value }}{% if not loop.last %}<br />{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ 'certificate_info.serial_number'|trans }}</td>
+                    <td>{{ certificate.serialNumberHex }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'certificate_info.sign_algorithm'|trans }}</td>
+                    <td>{{ certificate.signatureTypeLN }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'certificate_info.valid_from'|trans }}</td>
+                    <td>{{ certificate.validFrom_time_t|date('d/m/Y H:i:s') }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'certificate_info.valid_until'|trans }}</td>
+                    <td>{{ certificate.validTo_time_t|date('d/m/Y H:i:s') }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+<pre>
+{{ service_provider.certificate }}
+</pre>
+    </div>
+{% endblock %}

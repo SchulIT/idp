@@ -1,0 +1,34 @@
+{% extends "auth/main.html.twig" %}
+
+{% block content %}
+    <form class="form-signin" method="post" action="{{ path('2fa_login_check') }}">
+        {% for flashMessage in app.session.flashbag.get("two_factor") %}
+            <div class="bs-callout bs-callout-danger">
+                <h4>{{ 'error.label'|trans }}</h4>
+                <p>{{ flashMessage|trans }}</p>
+            </div>
+        {% endfor %}
+
+        <input type="text" name="_auth_code" class="form-control top" autocomplete="off" placeholder="{{ "scheb_two_factor.auth_code"|trans }}" required="required" autofocus />
+
+        {% if displayTrustedOption %}
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" name="_trusted" value="true" /> {{ "scheb_two_factor.trusted"|trans }}
+            </label>
+        </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-md-6">
+                <button class="btn btn-primary btn-block" type="submit">{{ "scheb_two_factor.login"|trans }}</button>
+            </div>
+            <div class="col-md-6">
+                <a href="{{ path('logout') }}" class="btn btn-secondary btn-block" role="button">
+                    {{ "scheb_two_factor.cancel"|trans }}
+                </a>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

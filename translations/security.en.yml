@@ -1,0 +1,4 @@
+invalid_credentials: Username and/or password invalid.
+server_unavailable: Authentication server is currently not available.
+not_allowed: This user is not allowed to login.
+unknown_error: An unknown error occured while authentication. Please contact the administrator.

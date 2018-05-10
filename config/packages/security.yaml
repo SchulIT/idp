@@ -1,0 +1,62 @@
+security:
+    encoders:
+        App\Entity\User:
+          algorithm: bcrypt
+
+
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        database:
+            entity:
+                class: App:User
+                property: username
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER,
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+    access_decision_manager:
+        strategy: unanimous
+
+    access_control:
+        - { path: ^/users, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_SUPER_ADMIN }
+        - { path: ^/login/two_factor, roles: IS_AUTHENTICATED_2FA_IN_PROGRESS }
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        login:
+            anonymous: ~
+            pattern: ^/login$
+
+        secured:
+            pattern: ^/
+            two_factor:
+                auth_form_path: 2fa_login
+                check_path: 2fa_login_check
+            simple_form:
+                authenticator: app.user_authenticator
+                check_path: login_check
+                login_path: login
+            logout:
+                path: /logout
+                target: /
+                invalidate_session: true
+            remember_me:
+                secret: '%env(APP_SECRET)%'
+                lifetime: 604800 # 1 week in seconds
+                token_provider: Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider
+
+        main:
+            anonymous: ~
+            # activate different ways to authenticate
+
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+            #http_basic: ~
+
+            # https://symfony.com/doc/current/security/form_login_setup.html
+            #form_login: ~

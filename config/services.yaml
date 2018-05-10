@@ -1,0 +1,183 @@
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: 'en'
+    locales: [ 'de', 'en' ]
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: false      # Automatically injects dependencies in your services.
+        autoconfigure: false # Automatically registers your services as commands, event subscribers, etc.
+        public: false       # Allows optimizing the container by removing unused services; this also means
+                            # fetching services directly from the container via $container->get() won't work.
+                            # The best practice is to be explicit about your dependencies anyway.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
+        public:    false
+        arguments:
+            - 'mysql:host=%env(DATABASE_HOST)%;port=%env(DATABASE_PORT)%;dbname=%env(DATABASE_NAME)%'
+            - { db_username: '%env(DATABASE_USER)%', db_password: '%env(DATABASE_PASSWORD)%' }
+
+
+    Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider:
+        public: false
+        arguments: [ "@doctrine.dbal.default_connection"]
+
+
+    ## PUBLIC SERVICES
+
+    # Authentication
+
+    app.user_authenticator:
+        class: App\Security\UserAuthenticator
+        arguments: [ "%ad_enabled%", "@security.password_encoder", "@doctrine.orm.entity_manager", "@adauth", "@auth.user_creator", "@monolog.logger.auth"]
+
+    ad.option_resolver:
+        class: App\ActiveDirectory\OptionResolver
+
+    auth.user_creator:
+        class: App\Security\UserCreator
+        arguments:
+          - "@doctrine.orm.entity_manager"
+          - "@ad.option_resolver"
+
+    # Services
+
+    user.sp_resolver:
+      public: true
+      class: App\Service\UserServiceProviderResolver
+      arguments: [ "@security.token_storage"]
+
+    attribute.resolver:
+      public: true
+      class: App\Service\AttributeResolver
+      arguments: [ "@repository.service_attribute_value"]
+
+    attribute.persister:
+      public: true
+      class: App\Service\AttributePersister
+      arguments: [ "@repository.service_attribute", "@repository.service_attribute_value"]
+
+    # Repositories
+
+    repository.service_attribute:
+      class: Doctrine\ORM\EntityRepository
+      factory: ['@doctrine.orm.default_entity_manager', getRepository]
+      arguments:
+        - App\Entity\ServiceAttribute
+
+    repository.service_attribute_value:
+      class: App\Repository\ServiceAttributeValueRepository
+      arguments: ['@doctrine.orm.default_entity_manager']
+
+    # Forms
+
+    forms.user_type:
+      class: App\Form\UserType
+      arguments: [ "@repository.service_attribute", "@attribute.resolver" ]
+      tags: [ form.type ]
+      public: true
+
+    forms.user_type_type:
+      class: App\Form\UserTypeType
+      arguments: [ "@repository.service_attribute", "@attribute.resolver" ]
+      tags: [ form.type ]
+      public: true
+
+    forms.user_role_type:
+      class: App\Form\UserRoleType
+      arguments: [ "@repository.service_attribute", "@attribute.resolver" ]
+      tags: [ form.type ]
+      public: true
+
+    forms.profile_type:
+      class: App\Form\ProfileType
+      arguments: [ "@repository.service_attribute", "@attribute.resolver", "@translator" ]
+      tags: [ form.type ]
+      public: true
+
+    # Twig
+
+    #twig.config_variable:
+    #  class: App\Twig\ConfigVariable
+    #  arguments: [ "%app_name%", "%app_host%", "%app_path%","%app_ssl%", "%version%"]
+
+    twig.user_variable:
+      class: App\Twig\UserVariable
+      arguments:
+       - "@security.token_storage"
+       - "@user.sp_resolver"
+
+    twig.filters:
+      class: App\Twig\TwigFilters
+      arguments: [ "@translator" ]
+      tags: [ twig.extension ]
+
+    # LightSAML
+    app.lightsaml.sp_store:
+      public: true
+      class: App\Saml\ServiceProviderEntityStore
+      arguments: [ "@doctrine.orm.entity_manager"]
+
+    lightsaml.provider.name_id:
+      public: true
+      class: App\Saml\NameIdProvider
+      arguments: [ "@lightsaml.own.entity_descriptor_provider", "@security.token_storage" ]
+
+    lightsaml.provider.attribute_value:
+      public: true
+      class: App\Saml\AttributeValueProvider
+      arguments: [ "@security.token_storage", "@attribute.resolver", "@repository.service_attribute", "@user.sp_resolver"]
+
+    # Security
+    security.sp_voter:
+      class: App\Security\Voter\ServiceProviderVoter
+      arguments: [ "@user.sp_resolver"]
+      tags:
+        -  { name: security.voter }
+
+    security.backup_code_generator:
+      public: true
+      class: App\Security\TwoFactor\BackupCodeGenerator
+
+    # Menu
+    app.menu:
+      class: App\Menu\Builder
+      arguments: ["@knp_menu.factory"]
+      calls:
+        - [ setContainer, ["@service_container" ]]
+      tags:
+        - { name: knp_menu.menu_builder, method: mainMenu, alias: mainMenu }
+
+    app.menu.voter:
+      class: App\Menu\Voter
+      arguments:
+        - "@request_stack"
+      tags:
+        - { name: knp_menu.voter }
+
+    # Import
+    app.import.user:
+      class: ApiBundle\Import\User\UserImporter
+      arguments:
+        - "@attribute.persister"
+        - "@doctrine.orm.entity_manager"
+        - "@jms_serializer"
+        - "@validator"
+        - "@monolog.logger.import"

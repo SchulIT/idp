@@ -1,0 +1,11 @@
+twig:
+    paths: ['%kernel.project_dir%/templates']
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+
+    form_themes:
+      - form/layout.html.twig
+    globals:
+      config: '@app.common.config'
+      user: '@twig.user_variable'
+      profile_url: "profile"

@@ -1,0 +1,36 @@
+{% extends "auth/main.html.twig" %}
+
+{% block content %}
+
+<form class="form-signin" role="form" action="{{ path('login_check') }}" method="post">
+
+    {% if error %}
+        <div class="bs-callout bs-callout-danger">
+            <h4>{{ 'error.label'|trans }}</h4>
+            <p>{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+        </div>
+    {% endif %}
+
+
+    <input type="text" name="_username" class="form-control top" value="{{ last_username }}" placeholder="{{ 'label.username'|trans }}" required="required" autofocus />
+    <input type="password" name="_password" class="form-control bottom" placeholder="{{ 'label.password'|trans }}" required="required" />
+
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="_remember_me" value="true" /> {{ 'auth.remember_me'|trans }}
+        </label>
+    </div>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+
+    <div class="row">
+        <div class="col-md-6">
+            <button class="btn btn-primary btn-block" type="submit">{{ 'label.signin'|trans }}</button>
+        </div>
+        <div class="col-md-6">
+            <a href="#" class="btn btn-secondary btn-block" role="button">{{ 'auth.lost_pw'|trans }}</a>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

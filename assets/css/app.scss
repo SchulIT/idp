@@ -1,0 +1,25 @@
+$enable-shadows: true;
+$enable-gradients: true;
+
+
+// Import Bootstrap
+@import '../../node_modules/bootstrap/scss/bootstrap';
+
+// Import FontAwesome
+@import '../../node_modules/font-awesome/scss/font-awesome';
+
+// Import SchoolIT design
+@import '../../vendor/schoolit/common/Resources/assets/css/layout.scss';
+@import '../../vendor/schoolit/common/Resources/assets/css/additions.scss';
+
+/*
+// Import Bootstrap
+@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
+@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/theme';
+
+// Import FontAwesome
+@import '../../node_modules/font-awesome/scss/font-awesome';
+
+// Import SchoolIT design
+@import '../../vendor/schoolit/common/Resources/assets/css/layout.scss';
+@import '../../vendor/schoolit/common/Resources/assets/css/additions.scss';*/

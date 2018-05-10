@@ -1,0 +1,24 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'service_providers.edit'|trans }}{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+
+    <div class="contentbox">
+        {{ form_widget(form) }}
+    </div>
+
+    <div class="buttons">
+        <button type="submit" class="btn btn-sm btn-primary">
+            <i class="fa fa-save"></i> {{ 'actions.save'|trans }}
+        </button>
+
+        <a href="{{ path('service_providers') }}" class="btn btn-sm btn-secondary">
+            {{ 'actions.cancel'|trans }}
+        </a>
+    </div>
+    {{ form_end(form) }}
+
+
+{% endblock %}

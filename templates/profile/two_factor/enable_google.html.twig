@@ -1,0 +1,40 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'two_factor.google.enable.label'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="contentbox">
+        <h4>{{ 'two_factor.google.enable.step_one.label'|trans }}</h4>
+
+        <p>{{ 'two_factor.google.enable.step_one.info'|trans }}</p>
+
+        <img src="{{ qr_code_data_uri(qrContent, { size: 250 }) }}" />
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                {{ 'two_factor.google.enable.step_one.secret'|trans }}
+            </label>
+            <span class="col-md-10">
+                {{ secret }}
+            </span>
+        </div>
+    </div>
+
+    {{ form_start(form) }}
+
+    <div class="contentbox">
+        <h4>{{ 'two_factor.google.enable.step_two.label'|trans }}</h4>
+
+        <p>{{ 'two_factor.google.enable.step_two.info'|trans }}</p>
+
+        {{ form_widget(form) }}
+    </div>
+
+    <div class="buttons">
+        <button type="submit" class="btn btn-sm btn-success">
+            <i class="fa fa-check"></i> {{ 'two_factor.enable'|trans }}
+        </button>
+    </div>
+    {{ form_end(form) }}
+
+{% endblock %}

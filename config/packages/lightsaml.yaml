@@ -1,0 +1,16 @@
+# LightSAML
+light_saml_symfony_bridge:
+  own:
+      entity_id: "%saml_entity_id%" # required
+      credentials:
+          -
+              certificate: "%kernel.project_dir%/certs/idp.crt"
+              key:         "%kernel.project_dir%/certs/idp.key"
+              password:    ~
+  system:
+      event_dispatcher: ~
+      logger: ~
+  store:
+      request: ~
+      id_state: ~
+      sso_state: ~
