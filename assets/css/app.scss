@@ -9,17 +9,5 @@ $enable-gradients: true;
 @import '../../node_modules/font-awesome/scss/font-awesome';
 
 // Import SchoolIT design
-@import '../../vendor/schoolit/common/Resources/assets/css/layout.scss';
-@import '../../vendor/schoolit/common/Resources/assets/css/additions.scss';
-
-/*
-// Import Bootstrap
-@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
-@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/theme';
-
-// Import FontAwesome
-@import '../../node_modules/font-awesome/scss/font-awesome';
-
-// Import SchoolIT design
-@import '../../vendor/schoolit/common/Resources/assets/css/layout.scss';
-@import '../../vendor/schoolit/common/Resources/assets/css/additions.scss';*/
+@import '../../vendor/schoolit/common-bundle/Resources/assets/css/layout.scss';
+@import '../../vendor/schoolit/common-bundle/Resources/assets/css/additions.scss';
