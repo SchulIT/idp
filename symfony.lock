@@ -92,6 +92,9 @@
     "fig/link-util": {
         "version": "1.0.0"
     },
+    "fightbulc/moment": {
+        "version": "1.26.10"
+    },
     "gedmo/doctrine-extensions": {
         "version": "v2.4.34"
     },

@@ -81,6 +81,14 @@ class Builder implements ContainerAwareInterface {
             $menu->addChild('idp.details', [
                 'route' => 'idp_details'
             ]);
+
+            $menu->addChild('logs.label', [
+                'route' => 'admin_logs'
+            ]);
+
+            $menu->addChild('mails.label', [
+                'route' => 'admin_mails'
+            ]);
         }
 
         return $menu;

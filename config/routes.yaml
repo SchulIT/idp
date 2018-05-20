@@ -13,5 +13,9 @@ login_check:
 2fa_login_check:
   path: /login/two_factor/check
 
+common:
+    resource: "@CommonBundle/Controller"
+    type: annotation
+
 logout:
   path: /logout
