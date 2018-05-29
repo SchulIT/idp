@@ -11,20 +11,3 @@ $enable-gradients: true;
 // Import SchoolIT design
 @import '../../vendor/schoolit/common-bundle/Resources/assets/css/layout.scss';
 @import '../../vendor/schoolit/common-bundle/Resources/assets/css/additions.scss';
-
-.widget.link-widget {
-  a.content {
-    color: $black !important;
-    font-size: 130%;
-    padding:45px 0px;
-
-    -webkit-transition: background-color 0.1s ease-in-out;
-    -o-transition: background-color 0.1s ease-in-out;
-    transition: background-color 0.1s ease-in-out;
-  }
-
-  a.content:hover {
-    background: $secondary;
-    color: $white !important;
-  }
-}

@@ -3114,12 +3114,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchoolIT-DE/common-bundle.git",
-                "reference": "f10418e5e9a85652c073f131a2891ba147d56900"
+                "reference": "da24ceef3ff35b30e5baaac5ba7d457e9c4403f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchoolIT-DE/common-bundle/zipball/f10418e5e9a85652c073f131a2891ba147d56900",
-                "reference": "f10418e5e9a85652c073f131a2891ba147d56900",
+                "url": "https://api.github.com/repos/SchoolIT-DE/common-bundle/zipball/da24ceef3ff35b30e5baaac5ba7d457e9c4403f2",
+                "reference": "da24ceef3ff35b30e5baaac5ba7d457e9c4403f2",
                 "shasum": ""
             },
             "require": {
@@ -3145,7 +3145,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-05-20T09:49:37+00:00"
+            "time": "2018-05-29T15:17:36+00:00"
         },
         {
             "name": "schoolit/lightsaml-idp-bundle",
