@@ -6,10 +6,11 @@ use App\Entity\ActiveDirectoryUser;
 use App\Entity\User;
 use App\Form\EnableTwoFactorType;
 use App\Form\ProfileType;
+use Scheb\TwoFactorBundle\Security\TwoFactor\Trusted\TrustedDeviceManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Csrf\CsrfToken;
@@ -57,7 +58,7 @@ class ProfileController extends Controller {
     /**
      * @Route("/two_factor", name="two_factor")
      */
-    public function twoFactorAuthentication() {
+    public function twoFactorAuthentication(Request $request, TrustedDeviceManager $trustedDeviceManager, FirewallMap $firewallMap) {
         /** @var User $user */
         $user = $this->getUser();
         $isGoogleEnabled = $user->isGoogleAuthenticatorEnabled();
@@ -66,11 +67,13 @@ class ProfileController extends Controller {
         $csrfToken = $this->get('security.csrf.token_manager')
             ->getToken(static::TWO_FACTOR_EMAIL_CSRF_TOKEN);
 
+        $isTrustedDevice = $trustedDeviceManager->isTrustedDevice($user, $firewallMap->getFirewallConfig($request)->getName());
 
         return $this->render('profile/two_factor/index.html.twig', [
             'isGoogleEnabled' => $isGoogleEnabled,
             'backupCodes' => $backupCodes,
-            'csrfToken' => $csrfToken
+            'csrfToken' => $csrfToken,
+            'isTrustedDevice' => $isTrustedDevice
         ]);
     }
 

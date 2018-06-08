@@ -15,6 +15,13 @@
         </div>
     {% endif %}
 
+    {% if isTrustedDevice %}
+        <div class="bs-callout bs-callout-info">
+            <h4>{{ 'info.label'|trans }}</h4>
+            <p>{{ 'scheb_two_factor.trusted'|trans }}</p>
+        </div>
+    {% endif %}
+
     <div class="contentbox">
         <h4>
             {{ 'two_factor.google.label'|trans }}

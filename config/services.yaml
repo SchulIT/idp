@@ -39,7 +39,6 @@ services:
         public: false
         arguments: [ "@doctrine.dbal.default_connection"]
 
-
     ## PUBLIC SERVICES
 
     # Authentication
@@ -181,3 +180,11 @@ services:
         - "@jms_serializer"
         - "@validator"
         - "@monolog.logger.import"
+
+    # Two factor
+    Scheb\TwoFactorBundle\Security\TwoFactor\Trusted\TrustedDeviceManager:
+      alias: scheb_two_factor.default_trusted_device_manager
+
+    # Firewall map
+    Symfony\Bundle\SecurityBundle\Security\FirewallMap:
+      alias: security.firewall.map
