@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use LightSaml\Model\Context\SerializationContext;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class IdpController extends Controller {

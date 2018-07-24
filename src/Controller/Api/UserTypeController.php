@@ -4,7 +4,7 @@ namespace App\Controller\Api;
 
 use App\Entity\UserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class UserTypeController extends Controller {

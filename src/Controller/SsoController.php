@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\ServiceProvider;
 use App\Security\Voter\ServiceProviderVoter;
 use LightSaml\Bridge\Pimple\Container\BuildContainer;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 

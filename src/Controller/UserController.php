@@ -7,7 +7,7 @@ use App\Entity\User;
 use App\Entity\UserType as UserTypeEntity;
 use App\Form\UserType;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 

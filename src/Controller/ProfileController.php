@@ -8,7 +8,7 @@ use App\Form\EnableTwoFactorType;
 use App\Form\ProfileType;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Trusted\TrustedDeviceManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
 use Symfony\Component\Form\FormError;
