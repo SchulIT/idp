@@ -10,6 +10,9 @@ use App\Entity\UserType;
 use App\Repository\ServiceAttributeValueRepositoryInterface;
 use App\Traits\ArrayTrait;
 
+/**
+ * Helper which computes all attributes for a given user.
+ */
 class AttributeResolver {
     use ArrayTrait;
 

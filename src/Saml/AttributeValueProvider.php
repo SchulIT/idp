@@ -17,6 +17,9 @@ use SchoolIT\LightSamlIdpBundle\Provider\Attribute\AbstractAttributeProvider;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * Helper class which is used in LightSAML to determine attributes for a user.
+ */
 class AttributeValueProvider extends AbstractAttributeProvider {
 
     use ArrayTrait;
@@ -33,6 +36,12 @@ class AttributeValueProvider extends AbstractAttributeProvider {
         $this->userServiceProviderResolver = $userServiceProviderResolver;
     }
 
+    /**
+     * Returns a list of common attributes which should always be included in a SAMLResponse
+     *
+     * @param User|null $user
+     * @return array
+     */
     public function getCommonAttributesForUser(User $user = null) {
         if($user === null) {
             return [ ];
@@ -81,6 +90,8 @@ class AttributeValueProvider extends AbstractAttributeProvider {
     }
 
     /**
+     * Returns a list of attributes for the given user and the given entityId (of the requested service provider).
+     *
      * @param $entityId
      * @param User $user
      * @return string[]
@@ -121,6 +132,7 @@ class AttributeValueProvider extends AbstractAttributeProvider {
 
         return $attributes;
     }
+
 
     protected function getServices(User $user) {
         /** @var ServiceProvider[] $services */

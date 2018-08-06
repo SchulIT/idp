@@ -9,6 +9,9 @@ use LightSaml\Provider\NameID\NameIdProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * Provider which is used by LightSAML to create the NameId for the current user.
+ */
 class NameIdProvider implements NameIdProviderInterface {
 
     private $tokenStorage;

@@ -5,6 +5,7 @@ namespace App\Entity;
 use Burgov\Bundle\KeyValueFormBundle\KeyValueContainer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -44,6 +45,7 @@ class ServiceAttribute {
 
     /**
      * @ORM\Column(type="boolean", name="is_user_edit_enabled")
+     * @Serializer\Exclude()
      */
     private $isUserEditEnabled = true;
 
@@ -76,6 +78,7 @@ class ServiceAttribute {
      *  joinColumns={@ORM\JoinColumn(name="service", referencedColumnName="id")},
      *  inverseJoinColumns={@ORM\JoinColumn(name="attribute", referencedColumnName="id")}
      * )
+     * @Serializer\Exclude()
      */
     private $services;
 

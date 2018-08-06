@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Validator\X509Certificate;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -42,6 +43,7 @@ class ServiceProvider {
      * @ORM\Column(type="text")
      * @Assert\NotBlank()
      * @Assert\Url()
+     * @Serializer\Exclude()
      */
     private $acs;
 
@@ -56,11 +58,13 @@ class ServiceProvider {
      * @ORM\Column(type="text")
      * @Assert\NotBlank()
      * @X509Certificate()
+     * @Serializer\Exclude()
      */
     private $certificate;
 
     /**
      * @ORM\ManyToMany(targetEntity="ServiceAttribute", mappedBy="services")
+     * @Serializer\Exclude()
      */
     private $attributes;
 

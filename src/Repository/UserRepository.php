@@ -13,6 +13,21 @@ class UserRepository implements UserRepositoryInterface {
         $this->_em = $objectManager;
     }
 
+    public function findAll($offset = 0, $limit = null) {
+        $qb = $this->_em
+            ->createQueryBuilder()
+            ->select('u')
+            ->from(User::class, 'u')
+            ->orderBy('u.username', 'asc')
+            ->setFirstResult($offset);
+
+        if($limit !== null) {
+            $qb->setMaxResults($limit);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function getUsersUpdatedAfter(\DateTime $dateTime) {
         $qb = $this->_em
             ->createQueryBuilder();
@@ -36,5 +51,10 @@ class UserRepository implements UserRepositoryInterface {
 
         $result = $qb->getQuery()->getScalarResult();
         return $result;
+    }
+
+    public function findOneByUsername(string $username): ?User {
+        return $this->_em->getRepository(User::class)
+            ->findOneByUsername($username);
     }
 }

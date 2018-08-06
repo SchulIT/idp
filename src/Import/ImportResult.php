@@ -7,6 +7,7 @@ use JMS\Serializer\Annotation as Serializer;
 class ImportResult implements ImportResultInterface {
 
     /**
+     * @Serializer\Type("boolean")
      * @Serializer\Accessor(getter="isSuccessful")
      * @Serializer\SerializedName("success")
      */

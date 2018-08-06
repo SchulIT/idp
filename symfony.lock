@@ -98,6 +98,9 @@
             "ref": "b9fcbe18b537c63bf61d3c3be8116a00a85c8e2e"
         }
     },
+    "exsyst/swagger": {
+        "version": "v0.4.1"
+    },
     "fig/link-util": {
         "version": "1.0.0"
     },
@@ -154,6 +157,15 @@
     },
     "myclabs/php-enum": {
         "version": "1.5.2"
+    },
+    "nelmio/api-doc-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "c8e0c38e1a280ab9e37587a8fa32b251d5bc1c94"
+        }
     },
     "nikic/php-parser": {
         "version": "v4.0.1"
@@ -508,5 +520,8 @@
     },
     "zendframework/zend-eventmanager": {
         "version": "3.2.0"
+    },
+    "zircote/swagger-php": {
+        "version": "2.0.13"
     }
 }

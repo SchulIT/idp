@@ -12,6 +12,10 @@ use LightSaml\Model\Metadata\SpSsoDescriptor;
 use LightSaml\SamlConstants;
 use LightSaml\Store\EntityDescriptor\EntityDescriptorStoreInterface;
 
+/**
+ * Helper which is used by LightSAML to retrieve all valid ServiceProviders. These ServiceProviders are loaded from the
+ * database.
+ */
 class ServiceProviderEntityStore implements EntityDescriptorStoreInterface {
 
     private $em;

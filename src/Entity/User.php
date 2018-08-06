@@ -6,6 +6,7 @@ use App\Json\DateTimeHandler;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation as Serializer;
 use Scheb\TwoFactorBundle\Model\BackupCodeInterface;
 use Scheb\TwoFactorBundle\Model\TrustedDeviceInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -50,6 +51,7 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
 
     /**
      * @ORM\Column(type="string", length=62)
+     * @Serializer\Exclude()
      */
     private $password;
 
@@ -74,6 +76,7 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
 
     /**
      * @ORM\Column(type="json_array")
+     * @Serializer\Exclude()
      */
     private $roles = [ 'ROLE_USER' ];
 
@@ -108,28 +111,33 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
 
     /**
      * @ORM\Column(type="string", name="google_authenticator_secret", nullable=true)
+     * @Serializer\Exclude()
      */
     private $googleAuthenticatorSecret;
 
     /**
      * @ORM\Column(type="json_array")
+     * @Serializer\Exclude()
      */
     private $backupCodes = [ ];
 
     /**
      * @ORM\Column(type="integer", name="trusted_version")
+     * @Serializer\Exclude()
      */
     private $trustedVersion;
 
     /**
      * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="create")
+     * @Serializer\Exclude()
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Gedmo\Timestampable(on="update", field={"firstname", "lastname", "email", "type", "userRoles"})
+     * @Serializer\Exclude()
      */
     private $updatedAt;
 

@@ -5,15 +5,17 @@ namespace App\Import\User;
 use App\Import\ImportResult as BaseImportResult;
 use JMS\Serializer\Annotation as Serializer;
 
-class ImportResult extends BaseImportResult {
+class UserImportResult extends BaseImportResult {
 
     /**
      * @Serializer\Accessor(getter="getAdded")
+     * @Serializer\Type("array<App\Entity\User>")
      */
     private $added;
 
     /**
      * @Serializer\Accessor(getter="updated")
+     * @Serializer\Type("array<App\Entity\User>")
      */
     private $updated;
 

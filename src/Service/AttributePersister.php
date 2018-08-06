@@ -14,6 +14,9 @@ use App\Repository\ServiceAttributeValueRepositoryInterface;
 use App\Repository\TransactionalRepositoryInterface;
 use App\Traits\ArrayTrait;
 
+/**
+ * Helper which persists attributes of a user in the database.
+ */
 class AttributePersister {
     use ArrayTrait;
 

@@ -11,6 +11,9 @@ use App\Entity\UserType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 
+/**
+ * Helper which creates users after successful Active Directory authentication.
+ */
 class UserCreator {
     /** @var ActiveDirectorySyncOption[] */
     private $syncOptions = null;

@@ -11,12 +11,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 abstract class AbstractImporter implements ImporterInterface {
 
     protected $logger;
-    protected $serialiser;
+    protected $serializer;
     protected $validator;
 
-    public function __construct(SerializerInterface $serialiser, ValidatorInterface $validator, LoggerInterface $logger = null) {
+    public function __construct(SerializerInterface $serializer, ValidatorInterface $validator, LoggerInterface $logger = null) {
         $this->logger = $logger ?? new NullLogger();
-        $this->serialiser = $serialiser;
+        $this->serializer = $serializer;
         $this->validator = $validator;
     }
 
@@ -35,7 +35,7 @@ abstract class AbstractImporter implements ImporterInterface {
      * @return mixed
      */
     protected function parseJson($json, $className) {
-        $result = $this->serialiser->deserialize($json, $className, 'json');
+        $result = $this->serializer->deserialize($json, $className, 'json');
         return $result;
     }
 

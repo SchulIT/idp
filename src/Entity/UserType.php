@@ -35,6 +35,7 @@ class UserType {
     private $alias;
 
     /**
+     * @var string[]
      * @ORM\Column(type="json_array")
      * @Assert\Count(min="1")
      */

@@ -2,6 +2,9 @@
 
 namespace App\Saml;
 
+/**
+ * Enumeration for EduPersonAffliation
+ */
 class EduPersonAffliation {
     const MEMBER = 'member';
     const STAFF = 'staff';

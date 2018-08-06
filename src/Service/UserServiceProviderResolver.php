@@ -8,6 +8,9 @@ use App\Entity\UserRole;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+/**
+ * Resolves services which users are enabled for.
+ */
 class UserServiceProviderResolver {
     private $tokenStorage;
 
@@ -26,11 +29,22 @@ class UserServiceProviderResolver {
         return $user;
     }
 
+    /**
+     * Returns the list of services the currently loggedin user is enabled for.
+     *
+     * @return ArrayCollection
+     */
     public function getServicesForCurrentUser() {
         $user = $this->getUser();
         return $this->getServices($user);
     }
 
+    /**
+     * Returns a list of services (ServiceProvider) the given user is enabled for.
+     *
+     * @param User|null $user
+     * @return ArrayCollection
+     */
     public function getServices(User $user = null) {
         if($user === null) {
             return new ArrayCollection();

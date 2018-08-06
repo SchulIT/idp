@@ -6,6 +6,7 @@ use App\Entity\ServiceAttribute;
 use App\Entity\User;
 use App\Entity\UserType;
 use App\Import\AbstractImporter;
+use App\Import\FailedImportResult;
 use App\Service\AttributePersister;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\SerializerInterface;
@@ -35,6 +36,9 @@ class UserImporter extends AbstractImporter {
 
         $this->entityManager->beginTransaction();
 
+        $added = [ ];
+        $updated = [ ];
+
         try {
             foreach($userImportData->getUsers() as $userData) {
                 $user = $this->entityManager->getRepository(User::class)
@@ -61,8 +65,12 @@ class UserImporter extends AbstractImporter {
 
             $this->entityManager->flush();
             $this->entityManager->commit();
+
+            return new UserImportResult(true, $added, $updated);
         } catch(\Exception $e) {
             $this->entityManager->rollback();
+
+            return new FailedImportResult($e);
         }
     }
 }

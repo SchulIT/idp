@@ -13,6 +13,10 @@ use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
+/**
+ * Listener which checks whether there is a SAMLRequest pending from before login. If so, the listener redirects to the
+ * SSO controller in order to send the SAMLResponse (and redirect the user to the requested service).
+ */
 class HandleSamlRequestListener implements EventSubscriberInterface {
 
     private $urlGenerator;

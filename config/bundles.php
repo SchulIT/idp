@@ -23,4 +23,5 @@ return [
     SchoolIT\LightSamlIdpBundle\LightSamlIdpBundle::class => ['all' => true],
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
     SchoolIT\CommonBundle\CommonBundle::class => ['all' => true],
+    Nelmio\ApiDocBundle\NelmioApiDocBundle::class => ['all' => true],
 ];

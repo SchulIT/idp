@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -37,6 +38,7 @@ class UserRole {
      *   joinColumns={@ORM\JoinColumn(name="role", referencedColumnName="id")},
      *   inverseJoinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id")}
      * )
+     * @Serializer\Exclude()
      */
     private $users;
 
@@ -46,11 +48,13 @@ class UserRole {
      *   joinColumns={@ORM\JoinColumn(name="role", referencedColumnName="id")},
      *   inverseJoinColumns={@ORM\JoinColumn(name="service", referencedColumnName="id")}
      * )
+     * @Serializer\Exclude()
      */
     private $enabledServices;
 
     /**
      * @ORM\OneToMany(targetEntity="ServiceAttributeUserRoleValue", mappedBy="userRole")
+     * @Serializer\Exclude()
      */
     private $attributes;
 
