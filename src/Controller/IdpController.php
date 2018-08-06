@@ -6,9 +6,12 @@ use LightSaml\Model\Context\SerializationContext;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+/**
+ * @Route("/admin/idp")
+ */
 class IdpController extends Controller {
     /**
-     * @Route("/admin/idp", name="idp_details")
+     * @Route("", name="idp_details")
      */
     public function index() {
         $context = new SerializationContext();

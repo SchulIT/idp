@@ -4,15 +4,17 @@ namespace App\Controller;
 
 use App\Entity\ServiceProvider;
 use App\Form\ServiceProviderType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/admin/service_providers")
+ */
 class ServiceProviderController extends Controller {
 
     /**
-     * @Route("/admin/service_providers", name="service_providers")
+     * @Route("", name="service_providers")
      */
     public function index() {
         $serviceProviders = $this->getDoctrine()
@@ -25,7 +27,7 @@ class ServiceProviderController extends Controller {
     }
 
     /**
-     * @Route("/admin/service_providers/{id}/certificate", name="service_provider_certificate")
+     * @Route("/{id}/certificate", name="service_provider_certificate")
      */
     public function certificateInfo(ServiceProvider $serviceProvider) {
 
@@ -40,7 +42,7 @@ class ServiceProviderController extends Controller {
     }
 
     /**
-     * @Route("/admin/service_providers/add", name="add_service_provider")
+     * @Route("/add", name="add_service_provider")
      */
     public function add(Request $request) {
         $serviceProvider = new ServiceProvider();
@@ -62,7 +64,7 @@ class ServiceProviderController extends Controller {
     }
 
     /**
-     * @Route("/admin/service_providers/{id}/edit", name="edit_service_provider")
+     * @Route("/{id}/edit", name="edit_service_provider")
      */
     public function edit(Request $request, ServiceProvider $serviceProvider) {
         $form = $this->createForm(ServiceProviderType::class, $serviceProvider);
@@ -82,7 +84,7 @@ class ServiceProviderController extends Controller {
     }
 
     /**
-     * @Route("/admin/service_providers/remove", name="remove_service_provider")
+     * @Route("/remove", name="remove_service_provider")
      */
     public function remove() {
 

@@ -1,3 +1,3 @@
 lightsaml_idp:
     idp_saml_path: idp_saml
-    sp_entity_store: app.lightsaml.sp_store
+    sp_entity_store: App\Saml\ServiceProviderEntityStore

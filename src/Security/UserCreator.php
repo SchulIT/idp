@@ -8,6 +8,7 @@ use App\Entity\ActiveDirectoryGradeSyncOption;
 use App\Entity\ActiveDirectorySyncOption;
 use App\Entity\ActiveDirectoryUser;
 use App\Entity\UserType;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 
 class UserCreator {
@@ -25,7 +26,7 @@ class UserCreator {
     /**
      * @param EntityManager $entityManager
      */
-    public function __construct(EntityManager $entityManager, OptionResolver $optionResolver) {
+    public function __construct(ObjectManager $entityManager, OptionResolver $optionResolver) {
         $this->em = $entityManager;
         $this->optionsResolver = $optionResolver;
     }

@@ -8,9 +8,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @Route("/admin/user_roles")
+ */
 class UserRoleController extends Controller {
     /**
-     * @Route("/admin/user_roles", name="user_roles")
+     * @Route("", name="user_roles")
      */
     public function index() {
         $roles = $this->getDoctrine()->getManager()
@@ -23,7 +26,7 @@ class UserRoleController extends Controller {
     }
 
     /**
-     * @Route("/admin/user_roles/add", name="add_role")
+     * @Route("/add", name="add_role")
      */
     public function add(Request $request) {
         $role = new UserRole();
@@ -51,7 +54,7 @@ class UserRoleController extends Controller {
     }
 
     /**
-     * @Route("/admin/user_roles/{id}/edit", name="edit_role")
+     * @Route("/{id}/edit", name="edit_role")
      */
     public function edit(Request $request, UserRole $role) {
         $form = $this->createForm(UserRoleType::class, $role);
@@ -77,7 +80,7 @@ class UserRoleController extends Controller {
     }
 
     /**
-     * @Route("/admin/user_roles/{id}/remove", name="remove_role")
+     * @Route("/{id}/remove", name="remove_role")
      */
     public function remove() {
 

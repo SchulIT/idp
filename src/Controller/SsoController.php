@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\ServiceProvider;
 use App\Security\Voter\ServiceProviderVoter;
 use LightSaml\Bridge\Pimple\Container\BuildContainer;
+use LightSaml\Idp\Builder\Profile\WebBrowserSso\Idp\SsoIdpReceiveAuthnRequestProfileBuilder;
+use SchoolIT\LightSamlIdpBundle\Builder\Profile\WebBrowserSso\Idp\SsoIdpSendResponseProfileBuilderFactory;
+use SchoolIT\LightSamlIdpBundle\RequestStorage\RequestStorageInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -14,13 +17,11 @@ class SsoController extends Controller {
     /**
      * @Route("/idp/saml", name="idp_saml")
      */
-    public function saml() {
-        $requestStorage = $this->get('lightsaml.idp.request_storage');
+    public function saml(RequestStorageInterface $requestStorage, SsoIdpReceiveAuthnRequestProfileBuilder $receiveBuilder, SsoIdpSendResponseProfileBuilderFactory $sendResponseBuilder) {
         $requestStorage->load();
 
         /** @var BuildContainer $buildContext */
         $buildContext = $this->get('lightsaml.container.build');
-        $receiveBuilder = $this->get('lightsaml.idp.profile.authn_request');
 
         $context = $receiveBuilder->buildContext();
         $action = $receiveBuilder->buildAction();
@@ -41,7 +42,7 @@ class SsoController extends Controller {
             throw new AccessDeniedHttpException();
         }
 
-        $sendBuilder = $this->get('lightsaml.idp.profile.send_response_factory')->build(
+        $sendBuilder = $sendResponseBuilder->build(
             [new \LightSaml\Idp\Builder\Action\Profile\SingleSignOn\Idp\SsoIdpAssertionActionBuilder($buildContext)],
             $partyContext->getEntityDescriptor()->getEntityID()
         );

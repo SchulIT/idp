@@ -3,14 +3,21 @@
 namespace App\Repository;
 
 use App\Entity\User;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
-class UserRepository extends EntityRepository {
+class UserRepository implements UserRepositoryInterface {
+
+    private $_em;
+
+    public function __construct(EntityManagerInterface $objectManager) {
+        $this->_em = $objectManager;
+    }
+
     public function getUsersUpdatedAfter(\DateTime $dateTime) {
         $qb = $this->_em
             ->createQueryBuilder();
 
-        $qb->select(['DISTINT u.id'])
+        $qb->select(['DISTINCT u.id'])
             ->from(User::class, 'u')
             ->leftJoin('u.attributes', 'a')
             ->where(

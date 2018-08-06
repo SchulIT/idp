@@ -5,13 +5,20 @@ namespace App\Controller;
 use App\Entity\ActiveDirectoryUser;
 use App\Entity\User;
 use App\Entity\UserType as UserTypeEntity;
+use App\Form\AttributeDataTrait;
 use App\Form\UserType;
+use App\Saml\AttributeValueProvider;
+use App\Service\AttributePersister;
+use App\Service\AttributeResolver;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends Controller {
+
+    use AttributeDataTrait;
+
     const USERS_PER_PAGE = 25;
 
     /**
@@ -84,11 +91,8 @@ class UserController extends Controller {
     /**
      * @Route("/users/{id}/attributes", name="show_attributes")
      */
-    public function showAttributes(User $user) {
-        $resolver = $this->get('attribute.resolver');
+    public function showAttributes(User $user, AttributeResolver $resolver, AttributeValueProvider $provider) {
         $attributes = $resolver->getDetailedResultingAttributeValuesForUser($user);
-
-        $provider = $this->get('lightsaml.provider.attribute_value');
         $defaultAttributes = $provider->getCommonAttributesForUser($user);
 
         return $this->render('users/attributes.html.twig', [
@@ -101,7 +105,7 @@ class UserController extends Controller {
     /**
      * @Route("/users/add", name="add_user")
      */
-    public function add(Request $request) {
+    public function add(Request $request, AttributePersister $attributePersister) {
         $user = new User();
 
         $form = $this->createForm(UserType::class, $user);
@@ -115,10 +119,7 @@ class UserController extends Controller {
             $em->persist($user);
             $em->flush();
 
-            $userType = $this->get('forms.user_type');
-            $attributeData = $userType->getAttributeData($form);
-
-            $attributePersister = $this->get('attribute.persister');
+            $attributeData = $this->getAttributeData($form);
             $attributePersister->persistUserAttributes($attributeData, $user);
 
             return $this->redirectToRoute('users');
@@ -132,7 +133,7 @@ class UserController extends Controller {
     /**
      * @Route("/users/{id}/edit", name="edit_user")
      */
-    public function edit(Request $request, User $user) {
+    public function edit(Request $request, User $user, AttributePersister $attributePersister) {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -148,10 +149,7 @@ class UserController extends Controller {
             $em->persist($user);
             $em->flush();
 
-            $userType = $this->get('forms.user_type');
-            $attributeData = $userType->getAttributeData($form);
-
-            $attributePersister = $this->get('attribute.persister');
+            $attributeData = $this->getAttributeData($form);
             $attributePersister->persistUserAttributes($attributeData, $user);
 
             return $this->redirectToRoute('users');

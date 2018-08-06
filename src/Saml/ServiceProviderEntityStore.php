@@ -3,7 +3,7 @@
 namespace App\Saml;
 
 use App\Entity\ServiceProvider;
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use LightSaml\Credential\X509Certificate;
 use LightSaml\Model\Metadata\AssertionConsumerService;
 use LightSaml\Model\Metadata\EntityDescriptor;
@@ -16,7 +16,7 @@ class ServiceProviderEntityStore implements EntityDescriptorStoreInterface {
 
     private $em;
 
-    public function __construct(EntityManager $entityManager) {
+    public function __construct(ObjectManager $entityManager) {
         $this->em = $entityManager;
     }
 

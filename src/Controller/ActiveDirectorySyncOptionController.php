@@ -8,9 +8,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @Route("/admin/ad_sync")
+ */
 class ActiveDirectorySyncOptionController extends Controller {
     /**
-     * @Route("/admin/ad_sync", name="ad_sync_options")
+     * @Route("", name="ad_sync_options")
      */
     public function index() {
         $syncOptions = $this->getDoctrine()->getManager()
@@ -23,7 +26,7 @@ class ActiveDirectorySyncOptionController extends Controller {
     }
 
     /**
-     * @Route("/admin/ad_sync/add", name="add_ad_sync_option")
+     * @Route("/add", name="add_ad_sync_option")
      */
     public function add(Request $request) {
         $syncOption = new ActiveDirectorySyncOption();
@@ -45,7 +48,7 @@ class ActiveDirectorySyncOptionController extends Controller {
     }
 
     /**
-     * @Route("/admin/ad_sync/{id}/edit", name="edit_ad_sync_option")
+     * @Route("/{id}/edit", name="edit_ad_sync_option")
      */
     public function edit(Request $request, ActiveDirectorySyncOption $syncOption) {
         $form = $this->createForm(ActiveDirectorySyncOptionType::class, $syncOption);
@@ -65,7 +68,7 @@ class ActiveDirectorySyncOptionController extends Controller {
     }
 
     /**
-     * @Route("/admin/ad_sync/{id}/remove", name="remove_ad_sync_option")
+     * @Route("/{id}/remove", name="remove_ad_sync_option")
      */
     public function remove() {
 

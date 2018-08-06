@@ -7,5 +7,5 @@ twig:
       - form/layout.html.twig
     globals:
       config: '@app.common.config'
-      user: '@twig.user_variable'
+      user: '@App\Twig\UserVariable'
       profile_url: "profile"

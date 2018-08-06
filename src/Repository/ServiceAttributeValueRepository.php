@@ -9,13 +9,15 @@ use App\Entity\User;
 use App\Entity\UserRole;
 use App\Entity\UserType;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 
 class ServiceAttributeValueRepository implements ServiceAttributeValueRepositoryInterface, TransactionalRepositoryInterface {
 
     private $_em;
-    
-    public function __construct(EntityManager $entityManager) {
-        $this->_em = $entityManager;
+
+    public function __construct(EntityManagerInterface $objectManager) {
+        $this->_em = $objectManager;
     }
 
     /**

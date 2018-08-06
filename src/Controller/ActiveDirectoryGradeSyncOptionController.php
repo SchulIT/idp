@@ -8,10 +8,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @Route("/admin/ad_sync/grades")
+ */
 class ActiveDirectoryGradeSyncOptionController extends Controller {
 
     /**
-     * @Route("/admin/ad_sync/grades", name="ad_grades_sync_options")
+     * @Route("", name="ad_grades_sync_options")
      */
     public function index() {
         $options = $this->getDoctrine()
@@ -24,7 +27,7 @@ class ActiveDirectoryGradeSyncOptionController extends Controller {
     }
 
     /**
-     * @Route("/admin/ad_sync/grades/add", name="add_ad_grades_sync_options")
+     * @Route("/add", name="add_ad_grades_sync_options")
      */
     public function add(Request $request) {
         $option = new ActiveDirectoryGradeSyncOption();
@@ -47,7 +50,7 @@ class ActiveDirectoryGradeSyncOptionController extends Controller {
     }
 
     /**
-     * @Route("/admin/ad_sync/grades/{id}/edit", name="edit_ad_grades_sync_options")
+     * @Route("/{id}/edit", name="edit_ad_grades_sync_options")
      */
     public function edit(Request $request, ActiveDirectoryGradeSyncOption $option) {
         $form = $this->createForm(ActiveDirectoryGradeSyncOptionType::class, $option);
@@ -68,7 +71,7 @@ class ActiveDirectoryGradeSyncOptionController extends Controller {
     }
 
     /**
-     * @Route("/admin/ad_sync/grades/{id}/remove", name="remove_ad_grades_sync_options")
+     * @Route("/{id}/remove", name="remove_ad_grades_sync_options")
      */
     public function remove() {
 

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\UserServiceProviderResolver;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -17,8 +18,8 @@ class DashboardController extends Controller {
     /**
      * @Route("/dashboard", name="dashboard")
      */
-    public function dashboard() {
-        $services = $this->get('user.sp_resolver')->getServicesForCurrentUser();
+    public function dashboard(UserServiceProviderResolver $resolver) {
+        $services = $resolver->getServicesForCurrentUser();
 
         return $this->render('dashboard/index.html.twig', [
             'services' => $services

@@ -7,13 +7,12 @@ use AdAuth\Credentials;
 use AdAuth\Response\AuthenticationResponse;
 use AdAuth\SocketException;
 use App\Entity\ActiveDirectoryUser;
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -29,7 +28,7 @@ class UserAuthenticator implements SimpleFormAuthenticatorInterface {
     private $adAuth;
     private $userCreator;
 
-    public function __construct($isActiveDirectoryEnabled, UserPasswordEncoderInterface $encoder, EntityManager $entityManager, AdAuthInterface $adAuth, UserCreator $userCreator, LoggerInterface $logger = null) {
+    public function __construct($isActiveDirectoryEnabled, UserPasswordEncoderInterface $encoder, ObjectManager $entityManager, AdAuthInterface $adAuth, UserCreator $userCreator, LoggerInterface $logger = null) {
         $this->isActiveDirectoryEnabled = $isActiveDirectoryEnabled;
         $this->encoder = $encoder;
         $this->em = $entityManager;

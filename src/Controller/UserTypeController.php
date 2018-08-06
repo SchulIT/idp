@@ -3,15 +3,22 @@
 namespace App\Controller;
 
 use App\Entity\UserType;
+use App\Form\AttributeDataTrait;
 use App\Form\UserTypeType;
+use App\Service\AttributePersister;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @Route("/admin/user_types")
+ */
 class UserTypeController extends Controller {
 
+    use AttributeDataTrait;
+
     /**
-     * @Route("/admin/user_types", name="user_types")
+     * @Route("", name="user_types")
      */
     public function index() {
         $userTypes = $this->getDoctrine()->getManager()
@@ -24,9 +31,9 @@ class UserTypeController extends Controller {
     }
 
     /**
-     * @Route("/admin/user_types/add", name="add_user_type")
+     * @Route("/add", name="add_user_type")
      */
-    public function add(Request $request) {
+    public function add(Request $request, AttributePersister $attributePersister) {
         $userType = new UserType();
 
         $form = $this->createForm(UserTypeType::class, $userType);
@@ -37,10 +44,7 @@ class UserTypeController extends Controller {
             $em->persist($userType);
             $em->flush();
 
-            $userTypeType = $this->get('forms.user_type_type');
-            $attributeData = $userTypeType->getAttributeData($form);
-
-            $attributePersister = $this->get('attribute.persister');
+            $attributeData = $this->getAttributeData($form);
             $attributePersister->persistUserTypeAttributes($attributeData, $userType);
 
             return $this->redirectToRoute('user_types');
@@ -52,9 +56,9 @@ class UserTypeController extends Controller {
     }
 
     /**
-     * @Route("/admin/user_types/{id}/edit", name="edit_user_type")
+     * @Route("/{id}/edit", name="edit_user_type")
      */
-    public function edit(Request $request, UserType $userType) {
+    public function edit(Request $request, UserType $userType, AttributePersister $attributePersister) {
         $form = $this->createForm(UserTypeType::class, $userType);
         $form->handleRequest($request);
 
@@ -63,10 +67,7 @@ class UserTypeController extends Controller {
             $em->persist($userType);
             $em->flush();
 
-            $userTypeType = $this->get('forms.user_type_type');
-            $attributeData = $userTypeType->getAttributeData($form);
-
-            $attributePersister = $this->get('attribute.persister');
+            $attributeData = $this->getAttributeData($form);
             $attributePersister->persistUserTypeAttributes($attributeData, $userType);
 
             return $this->redirectToRoute('user_types');
@@ -78,7 +79,7 @@ class UserTypeController extends Controller {
     }
 
     /**
-     * @Route("/admin/user_types/{id}/remove", name="remove_user_type")
+     * @Route("/{id}/remove", name="remove_user_type")
      */
     public function remove() {
 

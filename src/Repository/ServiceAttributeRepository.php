@@ -3,15 +3,22 @@
 namespace App\Repository;
 
 use App\Entity\ServiceAttribute;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
-class ServiceAttributeRepository extends EntityRepository implements ServiceAttributeRepositoryInterface {
+class ServiceAttributeRepository implements ServiceAttributeRepositoryInterface {
+
+    private $_em;
+
+    public function __construct(EntityManagerInterface $objectManager) {
+        $this->_em = $objectManager;
+    }
 
     /**
      * @inheritDoc
      */
     public function getAttributes() {
-        return $this->findAll();
+        return $this->_em->getRepository(ServiceAttribute::class)
+            ->findAll();
     }
 
     public function getAttributesForServiceProvider($entityId) {
