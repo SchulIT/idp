@@ -10,6 +10,8 @@ security:
             entity:
                 class: App:User
                 property: username
+        application:
+            id: App\Security\ApplicationUserProvider
 
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER,
@@ -19,6 +21,7 @@ security:
         strategy: unanimous
 
     access_control:
+        - { path: ^/api, roles: ROLE_API }
         - { path: ^/users, roles: ROLE_ADMIN }
         - { path: ^/admin, roles: ROLE_SUPER_ADMIN }
         - { path: ^/login/two_factor, roles: IS_AUTHENTICATED_2FA_IN_PROGRESS }
@@ -28,6 +31,13 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        api:
+            pattern: ^/api
+            stateless: true
+            simple_preauth:
+                authenticator: App\Security\ApplicationAuthenticator
+            provider: application
 
         login:
             anonymous: ~
@@ -50,6 +60,7 @@ security:
                 secret: '%env(APP_SECRET)%'
                 lifetime: 604800 # 1 week in seconds
                 token_provider: Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider
+            provider: database
 
         main:
             anonymous: ~

@@ -2,12 +2,12 @@
 
 namespace App\Import\User;
 
-use App\Import\AbstractImporter;
 use App\Entity\ServiceAttribute;
 use App\Entity\User;
 use App\Entity\UserType;
+use App\Import\AbstractImporter;
 use App\Service\AttributePersister;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\SerializerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -18,7 +18,7 @@ class UserImporter extends AbstractImporter {
 
     private $attributePersister;
 
-    public function __construct(AttributePersister $attributePersister, EntityManager $manager, SerializerInterface $serialiser, ValidatorInterface $validator, LoggerInterface $logger = null) {
+    public function __construct(AttributePersister $attributePersister, EntityManagerInterface $manager, SerializerInterface $serialiser, ValidatorInterface $validator, LoggerInterface $logger = null) {
         parent::__construct($serialiser, $validator, $logger);
 
         $this->attributePersister = $attributePersister;
@@ -31,9 +31,6 @@ class UserImporter extends AbstractImporter {
 
         /** @var UserType[] $types */
         $types = $this->entityManager->getRepository(UserType::class)
-            ->findAll();
-        /** @var ServiceAttribute[] $attributes */
-        $attributes = $this->entityManager->getRepository(ServiceAttribute::class)
             ->findAll();
 
         $this->entityManager->beginTransaction();

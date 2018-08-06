@@ -3,17 +3,17 @@
 namespace App\Controller\Api;
 
 use App\Entity\UserType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class UserTypeController extends Controller {
+/**
+ * @Route("/api")
+ */
+class UserTypeController extends AbstractApiController {
 
     /**
      * Returns a list of user types which a user can be assigned.
      *
-     * @Route("/api/user_types")
-     * @Method("GET")
+     * @Route("/user_types", methods={"GET"})
      */
     public function getUserTypes() {
         $types = $this->getDoctrine()->getRepository(UserType::class)

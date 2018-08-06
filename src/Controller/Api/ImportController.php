@@ -3,16 +3,16 @@
 namespace App\Controller\Api;
 
 use App\Import\User\UserImporter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
-class ImportController extends Controller {
+/**
+ * @Route("/api/import")
+ */
+class ImportController extends AbstractApiController {
 
     /**
-     * @Route("/api/import/users")
-     * @Method("POST")
+     * @Route("/users", methods={"POST"})
      */
     public function import(Request $request, UserImporter $importer) {
         $json = $request->getContent();
