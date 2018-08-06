@@ -1,8 +1,23 @@
 monolog:
     handlers:
+        php:
+            type: fingers_crossed
+            action_level: notice
+            handler: php_stream
+            channels: php
+            excluded_404s:
+                # regex: exclude all 404 errors from the logs
+                - ^/
+
+        php_stream:
+            type: stream
+            path: '%kernel.logs_dir%/%kernel.environment%.log'
+            level: debug
+            channels: ["!event"]
+
         main:
             type: fingers_crossed
-            action_level: error
+            action_level: notice
             handler: nested
             excluded_404s:
                 # regex: exclude all 404 errors from the logs
@@ -11,6 +26,7 @@ monolog:
             type: service
             id: monolog.db_handler
             level: debug
+
         console:
             type:   console
             process_psr_3_messages: false
