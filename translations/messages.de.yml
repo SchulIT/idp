@@ -101,6 +101,31 @@ two_factor:
       wrong_code: Es wurde ein falscher Code eingegeben.
     disable:
       success: Zwei-Faktor Authentifizierung über Google Authenticator erfolgreich deaktiviert
+    auth:
+      label: Code eingeben
+      message: Den Bestätigungscode aus der Google Authenticator App eintragen, um mit der Anmeldung fortzufahren. Falls die App nicht verfügbar ist, können die Backup-Codes genutzt werden.
+      switch:
+        label: Authenticator-App nicht zur Hand?
+        link: Mit Sicherheitsschlüssel anmelden
+  u2f:
+    label: Sicherheitsschlüssel (U2F)
+    auth:
+      label: Sicherheitsschlüssel einstecken
+      message: Den Button auf dem Sicherheitsschlüssel drücken, um mit der Anmeldung fortzufahren. Falls der Sicherheitsschlüssel keinen Button hat, den Schlüssel einfach erneut einstecken.
+      retry: Erneut versuchen
+      success: Anmeldung erfolgreich. Bitte warten...
+      switch:
+        label: Sicherheitsschlüssel nicht zur Hand?
+        link: Mit Google Authenticator App anmelden
+    enable:
+      label: Neuer Sicherheitsschlüssel
+      action: Registrieren
+      press: Button auf dem Gerät drücken
+    remove:
+      label: Sicherheitsschlüssel löschen
+      confirm: Soll der Sicherheitsschlüssel "%name%" wirklich gelöscht werden? Der Schlüssel kann danach nicht weiter zum Anmelden genutzt werden.
+      success: Sicherheitsschlüssel erfolgreich gelöscht
+    key_name: Name des Schlüssels
 
 dashboard:
   label: Übersicht

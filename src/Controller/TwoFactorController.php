@@ -2,16 +2,20 @@
 
 namespace App\Controller;
 
+use App\Entity\U2fKey;
 use App\Entity\User;
 use App\Form\EnableTwoFactorType;
 use App\Security\TwoFactor\BackupCodeGenerator;
+use App\Security\Voter\U2fKeyVoter;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Trusted\TrustedDeviceManager;
+use SchoolIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * @Route("/two_factor")
@@ -35,11 +39,15 @@ class TwoFactorController extends Controller {
 
         $isTrustedDevice = $trustedDeviceManager->isTrustedDevice($user, $firewallMap->getFirewallConfig($request)->getName());
 
+        $isU2fEnabled = $user->isU2FAuthEnabled();
+
         return $this->render('profile/two_factor/index.html.twig', [
             'isGoogleEnabled' => $isGoogleEnabled,
+            'isU2fEnabled' => $isU2fEnabled,
             'backupCodes' => $backupCodes,
             'csrfToken' => $csrfToken,
-            'isTrustedDevice' => $isTrustedDevice
+            'isTrustedDevice' => $isTrustedDevice,
+            'u2fKeys' => $user->getU2FKeys()
         ]);
     }
 
@@ -202,5 +210,33 @@ class TwoFactorController extends Controller {
 
         $this->addFlash('success', 'two_factor.email.disable.success');
         return $this->redirectToRoute('two_factor');
+    }
+
+    /**
+     * @Route("/u2f/{id}/remove", name="remove_u2f_device")
+     */
+    public function removeU2FDevice(U2fKey $key, Request $request, TranslatorInterface $translator) {
+        $this->denyAccessUnlessGranted(U2fKeyVoter::REMOVE, $key);
+
+        $form = $this->createForm(ConfirmType::class, null, [
+            'header' => $translator->trans('two_factor.u2f.remove.label'),
+            'message' => $translator->trans('two_factor.u2f.remove.confirm', [
+                '%name%' => $key->getName()
+            ])
+        ]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($key);
+            $em->flush();
+
+            $this->addFlash('success', 'two_factor.u2f.remove.success');
+            return $this->redirectToRoute('two_factor');
+        }
+
+        return $this->render('profile/two_factor/remove_u2f.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }

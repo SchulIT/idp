@@ -99,6 +99,21 @@ two_factor:
       wrong_code: The code is wrong.
     disable:
       success: Two-Factor authentication using Google Authenticator successfully disabled
+  u2f:
+    label: U2F Geräte
+    auth:
+      label: Sicherheitsschlüssel einstecken
+      message: Den Button auf dem Sicherheitsschlüssel drücken, um mit der Anmeldung fortzufahren. Falls der Sicherheitsschlüssel keinen Button hat, den Schlüssel einfach erneut einstecken.
+      retry: Erneut versuchen
+
+    enable:
+      label: Neues Gerät
+      action: Registrieren
+      press: Button auf dem Gerät drücken
+    key_name: Name des Gerätes
+
+
+
 
 dashboard:
   label: Dashboard

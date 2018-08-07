@@ -1,0 +1,49 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'two_factor.google.enable.label'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="contentbox">
+        <h4>{{ 'two_factor.u2f.enable.label'|trans }}</h4>
+
+        <form method="post" action="{{ path('club_base_register_u2f') }}" id="u2fform" data-action="reg" data-request='{{ registrationRequest|raw }}'>
+            <div id="u2fkeyname">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-2 required" for="keyName">{{ 'two_factor.u2f.key_name'|trans }}</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="keyName" id="keyName" class="form-control" required/>
+                    </div>
+                </div>
+
+                <input class="btn btn-primary btn-sm" type="button" value="{{ 'two_factor.u2f.enable.action'|trans }}" onclick="u2fauth.register()" />
+                <a href="{{ path('two_factor') }}" class="btn btn-secondary btn-sm">
+                    {{ 'actions.cancel'|trans }}
+                </a>
+            </div>
+            <div id="u2fbutton" style="display: none;">
+                <i class="fa fa-spinner fa-spin"></i> {{ 'two_factor.u2f.enable.press'|trans }}
+            </div>
+            <input type="hidden" name="_auth_code" id="_auth_code" />
+            <div id="u2ferrorContainer" style="display: none;">
+                <i class="fa fa-exclamation-triangle text-danger"></i> <span id="u2ferror"></span>
+
+                <div style="margin-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-sm" id="u2fretry">
+                        {{ 'two_factor.u2f.auth.retry'|trans }}
+                    </button>
+
+                    <a href="{{ path('two_factor') }}" class="btn btn-secondary btn-sm">
+                        {{ 'actions.cancel'|trans }}
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block post_javascript %}
+    <script src="{{ asset('bundles/ru2ftwofactor/js/u2f-api.js') }}"></script>
+    <script src="{{ asset('js/auth.js') }}"></script>
+    <script src="{{ asset('js/auth.de.js') }}"></script>
+{% endblock %}

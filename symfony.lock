@@ -242,6 +242,9 @@
     "psr/simple-cache": {
         "version": "1.0.1"
     },
+    "r/u2f-two-factor-bundle": {
+        "version": "0.6.2"
+    },
     "robrichards/xmlseclibs": {
         "version": "3.0.1"
     },
@@ -586,6 +589,9 @@
     },
     "webmozart/assert": {
         "version": "1.3.0"
+    },
+    "yubico/u2flib-server": {
+        "version": "1.0.1"
     },
     "zendframework/zend-code": {
         "version": "3.3.0"

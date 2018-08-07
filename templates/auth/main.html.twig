@@ -16,7 +16,7 @@
 
 <header class="clearfix" id="page-header">
     <div id="logo">
-        <h1>{{ 'auth.login'|trans }}</h1>
+        <h1>{% block title %}{{ 'auth.login'|trans }}{% endblock %}</h1>
     </div>
 </header>
 
@@ -43,7 +43,13 @@
             </div>
         {% endfor %}
 
-        {% block content %}{% endblock %}
+        {% block error %}{% endblock %}
+
+        <div class="card card-signin">
+            <div class="card-body">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
     </div>
 </div>
 
@@ -65,6 +71,8 @@
         </div>
     </div>
 </footer>
+
+{% block javascript %}{% endblock %}
 
 </body>
 </html>

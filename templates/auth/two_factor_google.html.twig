@@ -1,23 +1,30 @@
 {% extends "auth/main.html.twig" %}
 
-{% block content %}
-    <form class="form-signin" method="post" action="{{ path('2fa_login_check') }}">
-        {% for flashMessage in app.session.flashbag.get("two_factor") %}
-            <div class="bs-callout bs-callout-danger">
-                <h4>{{ 'error.label'|trans }}</h4>
-                <p>{{ flashMessage|trans }}</p>
-            </div>
-        {% endfor %}
-
-        <input type="text" name="_auth_code" class="form-control single" autocomplete="off" placeholder="{{ "scheb_two_factor.auth_code"|trans }}" required="required" autofocus />
-
-        {% if displayTrustedOption %}
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" name="_trusted" value="true" /> {{ "scheb_two_factor.trusted"|trans }}
-            </label>
+{% block error %}
+    {% for flashMessage in app.session.flashbag.get("two_factor") %}
+        <div class="bs-callout bs-callout-danger">
+            <h4>{{ 'error.label'|trans }}</h4>
+            <p>{{ flashMessage|trans }}</p>
         </div>
-        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+    <div class="text-center">
+        <i class="fa fa-mobile-phone fa-3x d-block text-secondary"></i>
+        <h4>{{ 'two_factor.google.auth.label'|trans }}</h4>
+
+        <p>{{ 'two_factor.google.auth.message'|trans }}</p>
+    </div>
+
+    <hr />
+
+    <form class="form-signin" method="post" action="{{ path('2fa_login_check') }}">
+        <div class="form-group">
+            <label class="control-label" for="auth_code">{{ "scheb_two_factor.auth_code"|trans }}</label>
+            <input type="text" id="auth_code" name="_auth_code" class="form-control" autocomplete="off" required="required" autofocus />
+        </div>
+
 
         <div class="row">
             <div class="col-md-6">
@@ -30,5 +37,15 @@
             </div>
         </div>
     </form>
+
+    {% if app.user.isU2FAuthEnabled %}
+        <hr />
+        <div class="switch-method">
+            <strong>{{ 'two_factor.google.auth.switch.label'|trans }}</strong>
+            <ul class="list-unstyled">
+                <li><i class="fa fa-key"></i> <a href="?preferProvider=u2f_two_factor">{{ 'two_factor.google.auth.switch.link'|trans }}</a></li>
+            </ul>
+        </div>
+    {% endif %}
 
 {% endblock %}

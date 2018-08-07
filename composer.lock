@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "896b88358250f42a0f66b875a9071fde",
+    "content-hash": "5078c0e5c7307393e48c52b32afd1f28",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -3293,6 +3293,60 @@
                 "simple-cache"
             ],
             "time": "2017-10-23T01:57:42+00:00"
+        },
+        {
+            "name": "r/u2f-two-factor-bundle",
+            "version": "0.6.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/darookee/u2f-two-factor-bundle.git",
+                "reference": "4a7e4d65078b608dce6c43f4378eae3de4c3f3b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/darookee/u2f-two-factor-bundle/zipball/4a7e4d65078b608dce6c43f4378eae3de4c3f3b7",
+                "reference": "4a7e4d65078b608dce6c43f4378eae3de4c3f3b7",
+                "shasum": ""
+            },
+            "require": {
+                "scheb/two-factor-bundle": "^3.2.0",
+                "yubico/u2flib-server": "^1.0.0"
+            },
+            "conflict": {
+                "godzillante/u2f-two-factor-bundle": "*",
+                "tubssz/u2f-two-factor-bundle": "*"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "R\\U2FTwoFactorBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nils Uliczka",
+                    "email": "nils.uliczka@darookee.net"
+                },
+                {
+                    "name": "Francesco De Francesco",
+                    "email": "francesco.defrancesco@gmail.com"
+                }
+            ],
+            "description": "Use U2F-Keys as 2FA for Symfony2, using scheb/two-factor-bundle",
+            "homepage": "https://github.com/darookee/u2f-two-factor-bundle",
+            "keywords": [
+                "Authentication",
+                "Symfony2",
+                "fido",
+                "two-factor",
+                "two-step",
+                "yubikey"
+            ],
+            "time": "2018-07-23T08:17:34+00:00"
         },
         {
             "name": "robrichards/xmlseclibs",
@@ -6665,6 +6719,41 @@
                 "validate"
             ],
             "time": "2018-01-29T19:49:41+00:00"
+        },
+        {
+            "name": "yubico/u2flib-server",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Yubico/php-u2flib-server.git",
+                "reference": "dc318c80b59e62921c210f31b014def26ceebbab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Yubico/php-u2flib-server/zipball/dc318c80b59e62921c210f31b014def26ceebbab",
+                "reference": "dc318c80b59e62921c210f31b014def26ceebbab",
+                "shasum": ""
+            },
+            "require": {
+                "ext-openssl": "*",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "description": "Library for U2F implementation",
+            "homepage": "https://developers.yubico.com/php-u2flib-server",
+            "time": "2017-05-09T07:33:58+00:00"
         },
         {
             "name": "zendframework/zend-code",

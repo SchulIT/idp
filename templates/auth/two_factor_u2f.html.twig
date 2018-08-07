@@ -1,0 +1,59 @@
+{% extends "auth/main.html.twig" %}
+
+{% block error %}
+    {% for flashMessage in app.session.flashbag.get("two_factor") %}
+        <div class="bs-callout bs-callout-danger">
+            <h4>{{ 'error.label'|trans }}</h4>
+            <p>{{ flashMessage|trans }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+    <div class="text-center">
+        <div>
+            <i class="fa fa-shield fa-3x d-block text-secondary"></i>
+            <h4>{{ 'two_factor.u2f.auth.label'|trans }}</h4>
+
+            <p>{{ 'two_factor.u2f.auth.message'|trans }}</p>
+        </div>
+
+        <hr />
+
+        <form class="form" action="{{ path('2fa_login_check') }}" method="post" id="u2fform" data-action="auth" data-request='{{ authenticationData|raw }}'>
+            <div id="u2fsuccess" style="display: none;">
+                <i class="fa fa-info-circle"></i> {{ 'two_factor.u2f.auth.success'|trans }}
+            </div>
+
+            <div id="u2fbutton">
+                <i class="fa fa-spinner fa-spin"></i> {{ 'two_factor.u2f.enable.press'|trans }}
+            </div>
+
+            <div id="u2ferrorContainer" style="display: none;">
+                <i class="fa fa-exclamation-triangle text-danger"></i> <span id="u2ferror"></span>
+                <div class="retry-button">
+                    <button type="button" class="btn btn-primary btn-block" id="u2fretry">
+                        {{ 'two_factor.u2f.auth.retry'|trans }}
+                    </button>
+                </div>
+            </div>
+            <p class="widget"><input id="_auth_code" type="hidden" autocomplete="off" name="_auth_code" /></p>
+        </form>
+    </div>
+
+    {% if app.user.isGoogleAuthenticatorEnabled %}
+        <hr />
+        <div class="switch-method">
+            <strong>{{ 'two_factor.u2f.auth.switch.label'|trans }}</strong>
+            <ul class="list-unstyled">
+                <li><i class="fa fa-mobile-phone"></i> <a href="?preferProvider=google">{{ 'two_factor.u2f.auth.switch.link'|trans }}</a></li>
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block javascript %}
+        <script src="{{ asset('bundles/ru2ftwofactor/js/u2f-api.js') }}"></script>
+        <script src="{{ asset('js/auth.js') }}"></script>
+        <script src="{{ asset('js/auth.de.js') }}"></script>
+{% endblock %}

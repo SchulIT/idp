@@ -12,6 +12,7 @@
         "lightsaml/lightsaml-idp": "^1.0",
         "lightsaml/symfony-bridge": "^1.1",
         "nelmio/api-doc-bundle": "^3.2",
+        "r/u2f-two-factor-bundle": "^0.6.2",
         "scheb/two-factor-bundle": "^3.3",
         "schoolit/adauth-bundle": "^1.0",
         "schoolit/common-bundle": "dev-master",

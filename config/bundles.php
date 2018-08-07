@@ -24,4 +24,5 @@ return [
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
     SchoolIT\CommonBundle\CommonBundle::class => ['all' => true],
     Nelmio\ApiDocBundle\NelmioApiDocBundle::class => ['all' => true],
+    R\U2FTwoFactorBundle\RU2FTwoFactorBundle::class => ['all' => true],
 ];

@@ -24,3 +24,7 @@ app.swagger_ui:
   path: /doc/api
   methods: GET
   defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+
+r_u2f:
+  resource: "@RU2FTwoFactorBundle/Resources/config/routing.yml"
+  prefix: /two_factor/u2f

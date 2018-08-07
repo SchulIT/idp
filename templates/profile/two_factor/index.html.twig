@@ -3,7 +3,7 @@
 {% block title %}{{ 'two_factor.label'|trans }}{% endblock %}
 
 {% block content %}
-    {% if isGoogleEnabled %}
+    {% if isGoogleEnabled or isU2fEnabled %}
         <div class="bs-callout bs-callout-success">
             <h4>{{ 'two_factor.status.label'|trans }}</h4>
             <p>{{ 'two_factor.status.enabled'|trans }}</p>
@@ -68,6 +68,28 @@
                 <i class="fa fa-check"></i> {{ 'two_factor.enable'|trans }}
             </a>
         {% endif %}
+    </div>
+
+    <div class="contentbox">
+        <h4>
+            {{ 'two_factor.u2f.label'|trans }}
+
+            {% if isU2fEnabled %}
+                <span class="badge badge-success"><i class="fa fa-check"></i> {{ 'two_factor.enabled'|trans }}</span>
+            {% else %}
+                <span class="badge badge-danger"><i class="fa fa-times"></i> {{ 'two_factor.disabled'|trans }}</span>
+            {% endif %}
+        </h4>
+
+        <ul>
+            {% for key in u2fKeys %}
+            <li>{{ key.name }} <a href="{{ path('remove_u2f_device', { id: key.id }) }}" class="btn btn-sm btn-danger" title="{{ 'two_factor.u2f.remove.label'|trans }}"><i class="fa fa-trash"></i> </a> </li>
+            {% endfor %}
+        </ul>
+
+        <a href="{{ path('club_base_register_u2f') }}" class="btn btn-primary btn-sm">
+            <i class="fa fa-plus"></i> {{ 'two_factor.u2f.enable.label'|trans }}
+        </a>
     </div>
 
 {% endblock %}

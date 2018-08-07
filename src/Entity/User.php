@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
-use App\Json\DateTimeHandler;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as Serializer;
+use R\U2FTwoFactorBundle\Model\U2F\TwoFactorInterface as U2FTwoFactorInterface;
+use R\U2FTwoFactorBundle\Model\U2F\U2FKey;
 use Scheb\TwoFactorBundle\Model\BackupCodeInterface;
+use Scheb\TwoFactorBundle\Model\PreferredProviderInterface;
 use Scheb\TwoFactorBundle\Model\TrustedDeviceInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -22,7 +24,7 @@ use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface as GoogleTwoFactorInte
  * @ORM\Table(options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"})
  * @UniqueEntity(fields={"email", "username"})
  */
-class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInterface, BackupCodeInterface {
+class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInterface, BackupCodeInterface, U2FTwoFactorInterface, PreferredProviderInterface {
     /**
      * @ORM\GeneratedValue()
      * @ORM\Id()
@@ -141,10 +143,16 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
      */
     private $updatedAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\U2fKey", mappedBy="user")
+     */
+    private $u2fKeys;
+
     public function __construct() {
         $this->enabledServices = new ArrayCollection();
         $this->attributes = new ArrayCollection();
         $this->userRoles = new ArrayCollection();
+        $this->u2fKeys = new ArrayCollection();
     }
 
     public function getId() {
@@ -462,5 +470,46 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
      */
     public function getUpdatedAt(): ?\DateTime {
         return $this->updatedAt;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isU2FAuthEnabled() {
+        return count($this->u2fKeys) > 0;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getU2FKeys() {
+        return $this->u2fKeys;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function addU2FKey($key) {
+        $this->u2fKeys->add($key);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function removeU2FKey($key) {
+        $this->u2fKeys->removeElement($key);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPreferredTwoFactorProvider(): ?string {
+        if($this->isU2FAuthEnabled()) {
+            return 'u2f_two_factor';
+        } else if($this->isGoogleAuthenticatorEnabled()) {
+            return 'google';
+        }
+
+        return null;
     }
 }
