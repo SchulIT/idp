@@ -8,7 +8,7 @@ login_check:
 2fa_login:
   path: /login/two_factor
   defaults:
-    _controller: "scheb_two_factor.form_controller:form"
+    _controller: "scheb_two_factor.form_controller::form"
 
 2fa_login_check:
   path: /login/two_factor/check
@@ -28,3 +28,8 @@ app.swagger_ui:
 r_u2f:
   resource: "@RU2FTwoFactorBundle/Resources/config/routing.yml"
   prefix: /two_factor/u2f
+
+composer:
+    resource: '@ComposerDependencyListBundle/Controller'
+    type: annotation
+    prefix: /dependencies

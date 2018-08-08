@@ -25,4 +25,5 @@ return [
     SchoolIT\CommonBundle\CommonBundle::class => ['all' => true],
     Nelmio\ApiDocBundle\NelmioApiDocBundle::class => ['all' => true],
     R\U2FTwoFactorBundle\RU2FTwoFactorBundle::class => ['all' => true],
+    FrostieDE\ComposerDependencyListBundle\ComposerDependencyListBundle::class => ['all' => true],
 ];
