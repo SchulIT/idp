@@ -1,0 +1,31 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'users.remove.label'|trans }}{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+
+    <div class="contentbox">
+        <h4>{{ form.group_general.vars.legend|trans }}</h4>
+
+        <div class="bs-callout bs-callout-danger">
+            <h4><i class="fa fa-exclamation-triangle"></i> {{ 'caution'|trans }} <i class="fa fa-exclamation-triangle"></i></h4>
+            <p>{{ 'users.remove.help'|trans }}</p>
+        </div>
+
+        {{ form_row(form.group_general.confirm) }}
+    </div>
+
+    <div class="buttons">
+        <button type="submit" class="btn btn-sm btn-danger">
+            <i class="fa fa-trash"></i> {{ 'actions.remove'|trans }}
+        </button>
+
+        <a href="{{ path('users') }}" class="btn btn-sm btn-secondary">
+            {{ 'actions.cancel'|trans }}
+        </a>
+    </div>
+    {{ form_end(form) }}
+
+
+{% endblock %}

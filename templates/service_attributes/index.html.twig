@@ -43,7 +43,7 @@
                                 {{ 'actions.edit'|trans }}
                             </a>
 
-                            <a href="{{ path('edit_attribute', { id: attribute.id }) }}" class="btn btn-sm btn-danger">
+                            <a href="{{ path('remove_attribute', { id: attribute.id }) }}" class="btn btn-sm btn-danger">
                                 {{ 'actions.remove'|trans }}
                             </a>
                         </td>
@@ -56,7 +56,7 @@
 
     <div class="buttons">
         <a href="{{ path('add_attribute') }}" class="btn btn-sm btn-primary">
-            <i class="fa fa-plus"></i> {{ 'service_attributes.add'|trans }}
+            <i class="fa fa-plus"></i> {{ 'service_attributes.add.label'|trans }}
         </a>
     </div>
 {% endblock%}

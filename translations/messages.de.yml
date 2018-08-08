@@ -139,8 +139,19 @@ user_menu:
 
 users:
   label: Benutzer
-  add: Neuer Benutzer
-  edit: Benutzer bearbeiten
+  add:
+    label: Neuer Benutzer
+    success: Benutzer erfolgreich angelegt
+  edit:
+    label: Benutzer bearbeiten
+    success: Benutzer erfolgreich aktualisiert
+  remove:
+    label: Benutzer löschen
+    success: Benutzer erfolgreich gelöscht
+    confirm: Soll der Benutzer "%lastname%, %firstname% (%username%)" wirklich gelöscht werden?
+    help: Nach Abschluss dieser Aktion kann sich der Benutzer nicht weiter anmelden. Wurde der Benutzer aus dem Active Directory importiert und existiert eine Synchronisationsregel, wird der Benutzer anschließend erneut angelegt. Aktive Sitzungen des Benutzers werden erst nach deren Ablauf ungültig.
+    error:
+      self: Der aktuelle Benutzer kann nicht durch sich selbst gelöscht werden.
   attributes:
     label: Attribute
     header: Attribute für Benutzer "%username%"
@@ -155,19 +166,46 @@ management:
 
 user_roles:
   label: Benutzerrollen
-  add: Neue Rolle
-  edit: Rolle bearbeiten
+  add:
+    label: Neue Rolle
+    success: Rolle erfolgreich angelegt
+  edit:
+    label: Rolle bearbeiten
+    success: Rolle erfolgreich bearbeitet
+  remove:
+    label: Rolle löschen
+    confirm: Soll die Rolle "%name%" wirklich gelöscht werden?
+    help: Benutzer mit dieser Rolle wird die Rolle entzogen, sodass diesen Benutzern anschließend möglicherweise weniger Dienste zur Verfügung stehen.
+    success: Rolle erfolgreich gelöscht
 
 user_types:
   label: Benutzertypen
-  add: Neuer Benutzertyp
-  edit: Benutzertyp bearbeiten
-  remove: Benutzertyp löschen
+  add:
+    label: Neuer Benutzertyp
+    success: Benutzertyp erfolgreich angelegt
+  edit:
+    label: Benutzertyp bearbeiten
+    success: Benutzertyp erfolgreich aktualisiert
+  remove:
+    label: Benutzertyp löschen
+    success: Benutzertyp erfolgreich gelöscht
+    confirm: Soll der Benutzertyp "%name%" wirklich gelöscht werden?
+    help: Alle Attribute und Synchronisationsregeln, die diesen Benutzertypen betreffen, werden gelöscht.
+    error: Benutzertyp kann nicht gelöscht werden, da es Benutzer mit diesem Benutzertyp gibt.
 
 ad_sync_options:
-  label: AD Sync Optionen
-  add: Neue AD Sync Option
-  edit: AD Sync Option bearbeiten
+  label: AD Synchronisationsregeln
+  add:
+    label: Neue AD Synchronisationsregel
+    success: Synchronisationsregel erfolgreich angelegt
+  edit:
+    label: AD Synchronisationsregel bearbeiten
+    success: Synchronisationsregel erfolgreich aktualisiert
+  remove:
+    label: AD Synchronisationsregel löschen
+    success: Synchronisationsregel erfolgreich gelöscht
+    confirm: Soll die Synchronisationsregel "%name%" wirklich gelöscht werden?
+    help: Nach Abschluss dieser Aktion gibt es möglicherweise Probleme bei der korrekten Zuweisung von Benutzerrollen und -typen bei der Auto-Synchronisation mit dem Active Directory.
   grades:
     label: Synchronisationsregeln für Klassen
     add:
@@ -180,12 +218,21 @@ ad_sync_options:
       label: Synchronisationsregel löschen
       confirm: Soll die Synchronisationsregel für die Klasse "%grade%" wirklich gelöscht werden?
       success: Regel erfolgreich gelöscht
-
+      help: Nach Abschluss dieser Aktion gibt es möglicherweise Probleme bei der korrekten Zuweisung der Klasse bei der Auto-Synchronisation mit dem Active Directory.
 
 service_providers:
   label: Service Provider
-  add: Neuer Service Provider
-  edit: Service Provider bearbeiten
+  add:
+    label: Neuer Service Provider
+    success: Service Provider erfolgreich angelegt
+  edit:
+    label: Service Provider bearbeiten
+    success: Service Provider erfolgreich aktualisiert
+  remove:
+    label: Service Provider löschen
+    success: Service Provider erfolgreich gelöscht
+    confirm: Soll der Service Provider "%name%" wirklich gelöscht werden?
+    help: Benutzer können sich anschließend nicht weiter an dem Service Provider anmelden. Attribute des Service Providers werden ebenfalls gelöscht.
   certificate_info: Zertifikat-Informationen
 
 certificate_info:
@@ -199,8 +246,17 @@ certificate_info:
 
 service_attributes:
   label: Attribute
-  add: Neues Attribut
-  edit: Attribut bearbeiten
+  add:
+    label: Neues Attribut
+    success: Attribut erfolgreich hinzugefügt
+  edit:
+    label: Attribut bearbeiten
+    success: Attribut erfolgreich aktualisiert
+  remove:
+    label: Attribut löschen
+    confirm: Soll das Attribut "%name%" wirklich gelöscht werden?
+    help: Alle eingetragenen Werte werden bei diesem Vorgang ebenfalls gelöscht.
+    success: Attribut erfolgreich gelöscht
   types:
     text: Text
     select: Auswahlfeld
@@ -251,3 +307,5 @@ applications:
     label: Anwendung löschen
     confirm: Soll die Anwendung "%name%" wirklich gelöscht werden?
     success: Anwendung erfolgreich gelöscht
+
+caution: Achtung

@@ -35,8 +35,8 @@ class UserRole {
     /**
      * @ORM\ManyToMany(targetEntity="User", mappedBy="userRoles")
      * @ORM\JoinTable(
-     *   joinColumns={@ORM\JoinColumn(name="role", referencedColumnName="id")},
-     *   inverseJoinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id")}
+     *   joinColumns={@ORM\JoinColumn(name="role", referencedColumnName="id", onDelete="CASCADE")},
+     *   inverseJoinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id", onDelete="CASCADE")}
      * )
      * @Serializer\Exclude()
      */
@@ -45,8 +45,8 @@ class UserRole {
     /**
      * @ORM\ManyToMany(targetEntity="ServiceProvider")
      * @ORM\JoinTable(
-     *   joinColumns={@ORM\JoinColumn(name="role", referencedColumnName="id")},
-     *   inverseJoinColumns={@ORM\JoinColumn(name="service", referencedColumnName="id")}
+     *   joinColumns={@ORM\JoinColumn(name="role", referencedColumnName="id", onDelete="CASCADE")},
+     *   inverseJoinColumns={@ORM\JoinColumn(name="service", referencedColumnName="id", onDelete="CASCADE")}
      * )
      * @Serializer\Exclude()
      */

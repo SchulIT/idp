@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\ServiceAttribute;
 use App\Form\ServiceAttributeType;
+use SchoolIT\CommonBundle\Form\ConfirmType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class ServiceAttributeController extends Controller {
 
@@ -37,6 +39,7 @@ class ServiceAttributeController extends Controller {
             $em->persist($attribute);
             $em->flush();
 
+            $this->addFlash('success', 'service_attributes.add.success');
             return $this->redirectToRoute('attributes');
         }
 
@@ -57,6 +60,7 @@ class ServiceAttributeController extends Controller {
             $em->persist($attribute);
             $em->flush();
 
+            $this->addFlash('success', 'service_attributes.edit.success');
             return $this->redirectToRoute('attributes');
         }
 
@@ -68,8 +72,28 @@ class ServiceAttributeController extends Controller {
     /**
      * @Route("/admin/attributes/{id}/remove", name="remove_attribute")
      */
-    public function remove() {
+    public function remove(ServiceAttribute $attribute, Request $request, TranslatorInterface $translator) {
+        $form = $this->createForm(ConfirmType::class, [], [
+            'message' => $translator->trans('service_attributes.remove.confirm', [
+                '%name%' => $attribute->getName()
+            ]),
+            'label' => 'service_attributes.remove.label'
+        ]);
+        $form->handleRequest($request);
 
+        if($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($attribute);
+            $em->flush();
+
+            $this->addFlash('success', 'service_attributes.remove.success');
+            return $this->redirectToRoute('attributes');
+        }
+
+        return $this->render('service_attributes/remove.html.twig', [
+            'form' => $form->createView(),
+            'attribute' => $attribute
+        ]);
     }
 
 

@@ -11,9 +11,11 @@ use App\Saml\AttributeValueProvider;
 use App\Service\AttributePersister;
 use App\Service\AttributeResolver;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use SchoolIT\CommonBundle\Form\ConfirmType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class UserController extends Controller {
 
@@ -122,6 +124,7 @@ class UserController extends Controller {
             $attributeData = $this->getAttributeData($form);
             $attributePersister->persistUserAttributes($attributeData, $user);
 
+            $this->addFlash('success', 'users.add.success');
             return $this->redirectToRoute('users');
         }
 
@@ -152,6 +155,7 @@ class UserController extends Controller {
             $attributeData = $this->getAttributeData($form);
             $attributePersister->persistUserAttributes($attributeData, $user);
 
+            $this->addFlash('success', 'users.edit.success');
             return $this->redirectToRoute('users');
         }
 
@@ -163,7 +167,33 @@ class UserController extends Controller {
     /**
      * @Route("/users/{id}/remove", name="remove_user")
      */
-    public function remove() {
+    public function remove(User $user, Request $request, TranslatorInterface $translator) {
+        if($this->getUser() instanceof User && $this->getUser()->getId() === $user->getId()) {
+            $this->addFlash('error', 'users.remove.error.self');
+            return $this->redirectToRoute('users');
+        }
 
+        $form = $this->createForm(ConfirmType::class, [], [
+            'message' => $translator->trans('users.remove.confirm', [
+                '%username%' => $user->getUsername(),
+                '%firstname%' => $user->getFirstname(),
+                '%lastname%' => $user->getLastname()
+            ]),
+            'label' => 'users.remove.label'
+        ]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($user);
+            $em->flush();
+
+            $this->addFlash('success', 'users.remove.success');
+            return $this->redirectToRoute('users');
+        }
+
+        return $this->render('users/remove.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }

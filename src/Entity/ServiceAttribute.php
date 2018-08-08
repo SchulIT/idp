@@ -75,8 +75,8 @@ class ServiceAttribute {
     /**
      * @ORM\ManyToMany(targetEntity="ServiceProvider", inversedBy="attributes")
      * @ORM\JoinTable(
-     *  joinColumns={@ORM\JoinColumn(name="service", referencedColumnName="id")},
-     *  inverseJoinColumns={@ORM\JoinColumn(name="attribute", referencedColumnName="id")}
+     *  joinColumns={@ORM\JoinColumn(name="service", referencedColumnName="id", onDelete="CASCADE")},
+     *  inverseJoinColumns={@ORM\JoinColumn(name="attribute", referencedColumnName="id", onDelete="CASCADE")}
      * )
      * @Serializer\Exclude()
      */

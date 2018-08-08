@@ -3548,12 +3548,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchoolIT-DE/common-bundle.git",
-                "reference": "eab704264e06483de7b4221ef216cbd2f40e948b"
+                "reference": "9d5e0562e441b7e234e5e6a490247773b246400c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchoolIT-DE/common-bundle/zipball/eab704264e06483de7b4221ef216cbd2f40e948b",
-                "reference": "eab704264e06483de7b4221ef216cbd2f40e948b",
+                "url": "https://api.github.com/repos/SchoolIT-DE/common-bundle/zipball/9d5e0562e441b7e234e5e6a490247773b246400c",
+                "reference": "9d5e0562e441b7e234e5e6a490247773b246400c",
                 "shasum": ""
             },
             "require": {
@@ -3582,7 +3582,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-08-08T14:18:41+00:00"
+            "time": "2018-08-08T14:54:56+00:00"
         },
         {
             "name": "schoolit/lightsaml-idp-bundle",
@@ -8475,16 +8475,16 @@
         },
         {
             "name": "symfony/maker-bundle",
-            "version": "v1.5.0",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/maker-bundle.git",
-                "reference": "bb0485a3b2eecc561eff735109316677e18fb1d1"
+                "reference": "a1b0d9ff35219ec36c44fcc6213056cc339a1cf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/bb0485a3b2eecc561eff735109316677e18fb1d1",
-                "reference": "bb0485a3b2eecc561eff735109316677e18fb1d1",
+                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/a1b0d9ff35219ec36c44fcc6213056cc339a1cf8",
+                "reference": "a1b0d9ff35219ec36c44fcc6213056cc339a1cf8",
                 "shasum": ""
             },
             "require": {
@@ -8536,7 +8536,7 @@
                 "scaffold",
                 "scaffolding"
             ],
-            "time": "2018-05-17T19:26:29+00:00"
+            "time": "2018-08-07T16:05:09+00:00"
         },
         {
             "name": "symfony/phpunit-bridge",

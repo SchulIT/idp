@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\ServiceProvider;
 use App\Form\ServiceProviderType;
+use SchoolIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * @Route("/admin/service_providers")
@@ -55,6 +57,7 @@ class ServiceProviderController extends Controller {
             $em->persist($serviceProvider);
             $em->flush();
 
+            $this->addFlash('success', 'service_providers.add.success');
             return $this->redirectToRoute('service_providers');
         }
 
@@ -75,6 +78,7 @@ class ServiceProviderController extends Controller {
             $em->persist($serviceProvider);
             $em->flush();
 
+            $this->addFlash('success', 'service_providers.edit.success');
             return $this->redirectToRoute('service_providers');
         }
 
@@ -84,9 +88,29 @@ class ServiceProviderController extends Controller {
     }
 
     /**
-     * @Route("/remove", name="remove_service_provider")
+     * @Route("/{id}/remove", name="remove_service_provider")
      */
-    public function remove() {
+    public function remove(ServiceProvider $serviceProvider, Request $request, TranslatorInterface $translator) {
+        $form = $this->createForm(ConfirmType::class, [], [
+            'message' => $translator->trans('service_providers.remove.confirm', [
+                '%name%' => $serviceProvider->getName()
+            ]),
+            'label' => 'service_providers.remove.label'
+        ]);
+        $form->handleRequest($request);
 
+        if($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($serviceProvider);
+            $em->flush();
+
+            $this->addFlash('success', 'service_providers.remove.success');
+            return $this->redirectToRoute('service_providers');
+        }
+
+        return $this->render('service_providers/remove.html.twig', [
+            'form' => $form->createView(),
+            'service_provider' => $serviceProvider
+        ]);
     }
 }

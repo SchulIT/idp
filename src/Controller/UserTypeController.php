@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Entity\UserType;
 use App\Form\AttributeDataTrait;
 use App\Form\UserTypeType;
+use App\Repository\UserTypeRepositoryInterface;
 use App\Service\AttributePersister;
+use SchoolIT\CommonBundle\Form\ConfirmType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * @Route("/admin/user_types")
@@ -47,6 +50,7 @@ class UserTypeController extends Controller {
             $attributeData = $this->getAttributeData($form);
             $attributePersister->persistUserTypeAttributes($attributeData, $userType);
 
+            $this->addFlash('success', 'user_types.add.success');
             return $this->redirectToRoute('user_types');
         }
 
@@ -70,6 +74,7 @@ class UserTypeController extends Controller {
             $attributeData = $this->getAttributeData($form);
             $attributePersister->persistUserTypeAttributes($attributeData, $userType);
 
+            $this->addFlash('success', 'user_types.edit.success');
             return $this->redirectToRoute('user_types');
         }
 
@@ -81,7 +86,34 @@ class UserTypeController extends Controller {
     /**
      * @Route("/{id}/remove", name="remove_user_type")
      */
-    public function remove() {
+    public function remove(UserType $type, Request $request, UserTypeRepositoryInterface $userTypeRepository, TranslatorInterface $translator) {
+        if($userTypeRepository->countUsersOfUserType($type) > 0) {
+            $this->addFlash('error', $translator->trans('user_types.remove.error', [
+                '%name%' => $type->getName()
+            ]));
 
+            return $this->redirectToRoute('user_types');
+        }
+
+        $form = $this->createForm(ConfirmType::class, [], [
+            'message' => $translator->trans('user_types.remove.confirm', [ '%name%' => $type->getName() ]),
+            //'help' => $translator->trans('user_types.remove.help'),
+            'header' => 'user_types.remove.label'
+        ]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($type);
+            $em->flush();
+
+            $this->addFlash('success', 'user_types.remove.success');
+            return $this->redirectToRoute('user_types');
+        }
+
+        return $this->render('user_types/remove.html.twig', [
+            'form' => $form->createView(),
+            'type' => $type
+        ]);
     }
 }

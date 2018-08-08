@@ -95,8 +95,8 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     /**
      * @ORM\ManyToMany(targetEntity="ServiceProvider")
      * @ORM\JoinTable(
-     *  joinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id")},
-     *  inverseJoinColumns={@ORM\JoinColumn(name="service", referencedColumnName="id")}
+     *  joinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id", onDelete="CASCADE")},
+     *  inverseJoinColumns={@ORM\JoinColumn(name="service", referencedColumnName="id", onDelete="CASCADE")}
      * )
      */
     private $enabledServices;
