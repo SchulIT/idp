@@ -63,7 +63,8 @@ class UserType extends AbstractType {
                             'label' => 'label.username'
                         ])
                         ->add('isActive', CheckboxType::class, [
-                            'label' => 'label.is_active'
+                            'label' => 'label.is_active',
+                            'required' => false
                         ])
                         ->add('enabledFrom', DateType::class, [
                             'label' => 'label.enabled_from',

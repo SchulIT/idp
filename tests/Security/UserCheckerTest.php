@@ -13,7 +13,7 @@ class UserCheckerTest extends TestCase {
         $userChecker = new UserChecker($dateHelper);
 
         $user = (new User())
-            ->setActive(true)
+            ->setIsActive(true)
             ->setEnabledFrom(null)
             ->setEnabledUntil(null);
 
@@ -29,7 +29,7 @@ class UserCheckerTest extends TestCase {
         $userChecker = new UserChecker($dateHelper);
 
         $user = (new User())
-            ->setActive(false)
+            ->setIsActive(false)
             ->setEnabledFrom(null)
             ->setEnabledUntil(null);
 
@@ -47,7 +47,7 @@ class UserCheckerTest extends TestCase {
         $userChecker = new UserChecker($dateHelper);
 
         $user = (new User())
-            ->setActive(true)
+            ->setIsActive(true)
             ->setEnabledFrom(new \DateTime('2018-08-02'))
             ->setEnabledUntil(null);
 
@@ -65,7 +65,7 @@ class UserCheckerTest extends TestCase {
         $userChecker = new UserChecker($dateHelper);
 
         $user = (new User())
-            ->setActive(true)
+            ->setIsActive(true)
             ->setEnabledFrom(null)
             ->setEnabledUntil(new \DateTime('2018-07-31'));
 
@@ -77,7 +77,7 @@ class UserCheckerTest extends TestCase {
         $userChecker = new UserChecker($dateHelper);
 
         $user = (new User())
-            ->setActive(true)
+            ->setIsActive(true)
             ->setEnabledFrom(new \DateTime('2018-07-01'))
             ->setEnabledUntil(new \DateTime('2018-09-30'));
 

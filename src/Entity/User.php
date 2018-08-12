@@ -302,7 +302,7 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
      * @param bool $active
      * @return User
      */
-    public function setActive($active) {
+    public function setIsActive($active) {
         $this->isActive = $active;
         return $this;
     }
