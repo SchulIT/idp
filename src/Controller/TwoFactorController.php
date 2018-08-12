@@ -118,7 +118,7 @@ class TwoFactorController extends Controller {
             return $this->redirectToRoute('two_factor');
         }
 
-        if(!$this->get('security.csrf.token_manager')->isTokenValid(new CsrfToken(static::TWO_FACTOR_EMAIL_CSRF_TOKEN, $token))) {
+        if(!$this->isCsrfTokenValid(static::TWO_FACTOR_EMAIL_CSRF_TOKEN, $token)) {
             $this->addFlash('error', 'two_factor.invalid_csrf');
             return $this->redirectToRoute('two_factor');
         }
@@ -139,7 +139,7 @@ class TwoFactorController extends Controller {
     public function disableGoogleTwoFactorAuthentication(Request $request) {
         $token = $request->request->get('_csrf_token');
 
-        if(!$this->get('security.csrf.token_manager')->isTokenValid(new CsrfToken(static::TWO_FACTOR_EMAIL_CSRF_TOKEN, $token))) {
+        if(!$this->isCsrfTokenValid(static::TWO_FACTOR_EMAIL_CSRF_TOKEN, $token)) {
             $this->addFlash('error', 'two_factor.invalid_csrf');
             return $this->redirectToRoute('two_factor');
         }
@@ -164,7 +164,7 @@ class TwoFactorController extends Controller {
     public function enableEmailTwoFactorAuthentication(Request $request) {
         $token = $request->request->get('_csrf_token');
 
-        if(!$this->get('security.csrf.token_manager')->isTokenValid(new CsrfToken(static::TWO_FACTOR_EMAIL_CSRF_TOKEN, $token))) {
+        if(!$this->isCsrfTokenValid(static::TWO_FACTOR_EMAIL_CSRF_TOKEN, $token)) {
             $this->addFlash('error', 'two_factor.invalid_csrf');
             return $this->redirectToRoute('two_factor');
         }
@@ -194,7 +194,7 @@ class TwoFactorController extends Controller {
     public function disableEmailTwoFactorAuthentication(Request $request) {
         $token = $request->request->get('_csrf_token');
 
-        if(!$this->get('security.csrf.token_manager')->isTokenValid(new CsrfToken(static::TWO_FACTOR_EMAIL_CSRF_TOKEN, $token))) {
+        if(!$this->isCsrfTokenValid(static::TWO_FACTOR_EMAIL_CSRF_TOKEN, $token)) {
             $this->addFlash('error', 'two_factor.invalid_csrf');
             return $this->redirectToRoute('two_factor');
         }
