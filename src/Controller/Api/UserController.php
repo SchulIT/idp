@@ -56,7 +56,7 @@ class UserController extends AbstractApiController {
         }
 
         $users = $userRepository->findAll($offset, $limit);
-        return $this->json($users);
+        return $this->returnJson($users);
     }
 
     /**
@@ -88,7 +88,7 @@ class UserController extends AbstractApiController {
             throw new NotFoundHttpException();
         }
 
-        return $this->json($user);
+        return $this->returnJson($user);
     }
 
     /**
@@ -118,6 +118,6 @@ class UserController extends AbstractApiController {
         $json = $request->getContent();
         $result = $importer->import($json);
 
-        return $this->json($result);
+        return $this->returnJson($result);
     }
 }
