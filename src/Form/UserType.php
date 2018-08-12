@@ -66,6 +66,12 @@ class UserType extends AbstractType {
                             'disabled' => true,
                             'label' => 'label.username'
                         ])
+                        ->add('firstname', TextType::class, [
+                            'label' => 'label.firstname'
+                        ])
+                        ->add('lastname', TextType::class, [
+                            'label' => 'label.lastname'
+                        ])
                         ->add('isActive', CheckboxType::class, [
                             'label' => 'label.is_active',
                             'required' => false
@@ -75,12 +81,6 @@ class UserType extends AbstractType {
                         ])
                         ->add('enabledUntil', DateType::class, [
                             'label' => 'label.enabled_until'
-                        ])
-                        ->add('firstname', TextType::class, [
-                            'label' => 'label.firstname'
-                        ])
-                        ->add('lastname', TextType::class, [
-                            'label' => 'label.lastname'
                         ])
                         ->add('email', EmailType::class, [
                             'label' => 'label.email'
@@ -251,17 +251,17 @@ class UserType extends AbstractType {
                         ->add('username', TextType::class, [
                             'disabled' => true,
                             'label' => 'label.username',
-                            'attr' => [ 'help' => 'info.attribute_must_changed_in_ad' ]
+                            'attr' => [ 'help' => 'info.attribute_must_change_in_ad' ]
                         ])
                         ->add('firstname', TextType::class, [
                             'disabled' => true,
                             'label' => 'label.firstname',
-                            'attr' => [ 'help' => 'info.attribute_must_changed_in_ad' ]
+                            'attr' => [ 'help' => 'info.attribute_must_change_in_ad' ]
                         ])
                         ->add('lastname', TextType::class, [
                             'disabled' => true,
                             'label' => 'label.lastname',
-                            'attr' => [ 'help' => 'info.attribute_must_changed_in_ad' ]
+                            'attr' => [ 'help' => 'info.attribute_must_change_in_ad' ]
                         ]);
                 }
             });

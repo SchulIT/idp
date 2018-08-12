@@ -73,7 +73,7 @@ error:
 
 info:
   label: Information
-  attribute_must_changed_in_ad: Dieser Wert muss im Active Directory geändert werden.
+  attribute_must_change_in_ad: Dieser Wert muss im Active Directory geändert werden.
 
 success:
   label: Erfolg

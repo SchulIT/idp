@@ -8,7 +8,7 @@
 
     {% for attrname,attrvalue in attr %}
         {% if attrname == 'help' %}
-            <span class="form-text text-muted">{{ attrvalue }}</span>{% endif %}
+            <span class="form-text text-muted">{{ attrvalue|trans }}</span>{% endif %}
     {% endfor %}
 {%- endblock form_widget_simple -%}
 
@@ -21,7 +21,7 @@
 
     {% for attrname,attrvalue in attr %}
         {% if attrname == 'help' %}
-            <span class="form-text text-muted">{{ attrvalue }}</span>{% endif %}
+            <span class="form-text text-muted">{{ attrvalue|trans }}</span>{% endif %}
     {% endfor %}
 {%- endblock choice_widget -%}
 
