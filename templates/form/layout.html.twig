@@ -59,3 +59,18 @@
         <button class="btn btn-danger btn-delete" type="button"><i class="fa fa-trash"></i></button>
     </div>
 {% endblock %}
+
+{% block date_widget %}
+    {% if form.vars.is_custom is defined %}
+    <div class="input-group">
+        {{- parent() -}}
+        <div class="input-group-append">
+            <button type="button" class="btn btn-secondary" onclick="$(this).closest('.input-group').find('input[type=date]').val();">
+                {{ 'datepicker.null'|trans }}
+            </button>
+        </div>
+    </div>
+    {% else %}
+        {{- parent() -}}
+    {% endif %}
+{% endblock %}

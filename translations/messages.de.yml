@@ -44,6 +44,8 @@ label:
     email: Benutzer kann E-Mail Adresse ändern
     email_hint: Der Administrator erlaubt eine Änderung der E-Mail Adresse nicht.
   api_key: API-Key
+  enabled_from: aktiviert von
+  enabled_until: aktiviert bis
 
 auth:
   login: Anmelden
@@ -309,3 +311,6 @@ applications:
     success: Anwendung erfolgreich gelöscht
 
 caution: Achtung
+
+datepicker:
+  "null": Nie

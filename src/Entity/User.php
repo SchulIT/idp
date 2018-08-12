@@ -25,6 +25,7 @@ use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface as GoogleTwoFactorInte
  * @UniqueEntity(fields={"email", "username"})
  */
 class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInterface, BackupCodeInterface, U2FTwoFactorInterface, PreferredProviderInterface {
+
     /**
      * @ORM\GeneratedValue()
      * @ORM\Id()
@@ -147,6 +148,16 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
      * @ORM\OneToMany(targetEntity="App\Entity\U2fKey", mappedBy="user")
      */
     private $u2fKeys;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $enabledFrom;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $enabledUntil;
 
     public function __construct() {
         $this->enabledServices = new ArrayCollection();
@@ -511,5 +522,37 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
         }
 
         return null;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getEnabledFrom(): ?\DateTime {
+        return $this->enabledFrom;
+    }
+
+    /**
+     * @param \DateTime|null $enabledFrom
+     * @return User
+     */
+    public function setEnabledFrom(?\DateTime $enabledFrom): User {
+        $this->enabledFrom = $enabledFrom;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getEnabledUntil(): ?\DateTime {
+        return $this->enabledUntil;
+    }
+
+    /**
+     * @param \DateTime|null $enabledUntil
+     * @return User
+     */
+    public function setEnabledUntil(?\DateTime$enabledUntil): User {
+        $this->enabledUntil = $enabledUntil;
+        return $this;
     }
 }
