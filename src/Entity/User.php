@@ -146,6 +146,7 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\U2fKey", mappedBy="user")
+     * @Serializer\Exclude()
      */
     private $u2fKeys;
 

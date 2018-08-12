@@ -4,6 +4,13 @@ nelmio_api_doc:
             title: '%app_name%'
             description: ~
             version: '%version%'
+        securityDefinitions:
+            apiKey:
+                type: apiKey
+                name: X-Token
+                in: header
+        security:
+            - apiKey: [ ]
     areas: # to filter documented areas
         path_patterns:
             - ^/api(?!/doc.json$) # Accepts routes under /api except /api/doc
