@@ -1,14 +1,5 @@
 {% extends "auth/main.html.twig" %}
 
-{% block error %}
-    {% for flashMessage in app.session.flashbag.get("two_factor") %}
-        <div class="bs-callout bs-callout-danger">
-            <h4>{{ 'error.label'|trans }}</h4>
-            <p>{{ flashMessage|trans }}</p>
-        </div>
-    {% endfor %}
-{% endblock %}
-
 {% block content %}
     <div class="text-center">
         <i class="fa fa-mobile-phone fa-3x d-block text-secondary"></i>
@@ -19,12 +10,22 @@
 
     <hr />
 
+    {% if authenticationError %}
+        <div class="bs-callout bs-callout-danger">
+            <h4>{{ 'error.label'|trans }}</h4>
+            <p>{{ "scheb_two_factor.code_invalid"|trans(authenticationErrorData) }}</p>
+        </div>
+    {% endif %}
+
     <form class="form-signin" method="post" action="{{ path('2fa_login_check') }}">
         <div class="form-group">
             <label class="control-label" for="auth_code">{{ "scheb_two_factor.auth_code"|trans }}</label>
             <input type="text" id="auth_code" name="_auth_code" class="form-control" autocomplete="off" required="required" autofocus />
         </div>
 
+        {% if isCsrfProtectionEnabled %}
+            <input type="hidden" name="{{ csrfParameterName }}" value="{{ csrf_token(csrfTokenId) }}">
+        {% endif %}
 
         <div class="row">
             <div class="col-md-6">

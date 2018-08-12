@@ -3541,16 +3541,16 @@
         },
         {
             "name": "scheb/two-factor-bundle",
-            "version": "v3.9.0",
+            "version": "v3.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scheb/two-factor-bundle.git",
-                "reference": "6c4cf4f863d0df10a4605d9e7f5bdffb2be80397"
+                "reference": "180fecde55add54eb6f116aba88c0b44f055ec26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scheb/two-factor-bundle/zipball/6c4cf4f863d0df10a4605d9e7f5bdffb2be80397",
-                "reference": "6c4cf4f863d0df10a4605d9e7f5bdffb2be80397",
+                "url": "https://api.github.com/repos/scheb/two-factor-bundle/zipball/180fecde55add54eb6f116aba88c0b44f055ec26",
+                "reference": "180fecde55add54eb6f116aba88c0b44f055ec26",
                 "shasum": ""
             },
             "require": {
@@ -3598,7 +3598,7 @@
                 "two-factor",
                 "two-step"
             ],
-            "time": "2018-08-07T21:29:45+00:00"
+            "time": "2018-08-08T21:11:42+00:00"
         },
         {
             "name": "schoolit/adauth",
@@ -3683,12 +3683,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchoolIT-DE/common-bundle.git",
-                "reference": "9d5e0562e441b7e234e5e6a490247773b246400c"
+                "reference": "eb3e901fc5d462bfd0eb0e630b6d9c25ab496628"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchoolIT-DE/common-bundle/zipball/9d5e0562e441b7e234e5e6a490247773b246400c",
-                "reference": "9d5e0562e441b7e234e5e6a490247773b246400c",
+                "url": "https://api.github.com/repos/SchoolIT-DE/common-bundle/zipball/eb3e901fc5d462bfd0eb0e630b6d9c25ab496628",
+                "reference": "eb3e901fc5d462bfd0eb0e630b6d9c25ab496628",
                 "shasum": ""
             },
             "require": {
@@ -3697,15 +3697,18 @@
                 "fightbulc/moment": "^1.26",
                 "frostiede/composer-dependency-list-bundle": "^1.0",
                 "knplabs/knp-menu": "^2.3",
-                "lightsaml/lightsaml": "^1.4",
                 "monolog/monolog": "^1.23",
                 "php": "^7.1.3",
-                "swiftmailer/swiftmailer": "^6.1",
                 "symfony/form": "^4.0",
                 "symfony/framework-bundle": "^4.0",
                 "symfony/translation": "^4.0",
                 "symfony/yaml": "^4.0",
                 "twig/twig": "^2.5"
+            },
+            "suggest": {
+                "knplabs/knp-menu-bundle": "",
+                "lightsaml/lightsaml": "",
+                "swiftmailer/swiftmailer": ""
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -3717,7 +3720,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-08-08T14:54:56+00:00"
+            "time": "2018-08-09T12:48:59+00:00"
         },
         {
             "name": "schoolit/lightsaml-idp-bundle",
@@ -8466,20 +8469,20 @@
         },
         {
             "name": "symfony/debug-pack",
-            "version": "v1.0.5",
+            "version": "v1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug-pack.git",
-                "reference": "ae4b15596788f9592f67f8615398671bf3f796e4"
+                "reference": "630548c117a5f9e27d3385787641629945b6de50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug-pack/zipball/ae4b15596788f9592f67f8615398671bf3f796e4",
-                "reference": "ae4b15596788f9592f67f8615398671bf3f796e4",
+                "url": "https://api.github.com/repos/symfony/debug-pack/zipball/630548c117a5f9e27d3385787641629945b6de50",
+                "reference": "630548c117a5f9e27d3385787641629945b6de50",
                 "shasum": ""
             },
             "require": {
-                "easycorp/easy-log-handler": "^1.0.2",
+                "easycorp/easy-log-handler": "^1.0.7",
                 "php": "^7.0",
                 "symfony/debug-bundle": "^3.3|^4.0",
                 "symfony/monolog-bundle": "^3.0",
@@ -8492,7 +8495,7 @@
                 "MIT"
             ],
             "description": "A debug pack for Symfony projects",
-            "time": "2018-03-29T13:53:44+00:00"
+            "time": "2018-08-10T15:18:32+00:00"
         },
         {
             "name": "symfony/dom-crawler",
