@@ -99,3 +99,8 @@ services:
         public: true
         class: App\Saml\AttributeValueProvider
         autowire: true
+
+    # Forgot password
+    App\Security\ForgotPassword\ForgotPasswordManager:
+      arguments:
+        $from: "%mailer_from%"

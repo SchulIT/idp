@@ -3,3 +3,7 @@ server_unavailable: Der Authentifizierungserver ist aktuell nicht erreichbar.
 not_allowed: Der Benutzer ist nicht berechtigt, sich anzumelden.
 unknown_error: Ein unbekannter Fehler ist bei der Anmeldung aufgetreten. Bitte den Administrator benachrichtigen.
 account_disabled: Der Benutzeraccount ist derzeit deaktiviert.
+
+forgot_pw:
+  username_empty: Benutzername darf nicht leer sein.
+  success: E-Mail zum Zurücksetzen des Passwortes wurde verschickt.

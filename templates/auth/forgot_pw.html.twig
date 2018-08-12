@@ -1,0 +1,35 @@
+{% extends "auth/main.html.twig" %}
+
+
+{% block content %}
+
+    <div class="text-center">
+        <i class="fa fa-key fa-3x d-block text-secondary"></i>
+        <h4>{{ 'forgot_pw.label'|trans }}</h4>
+
+        <p>{{ 'forgot_pw.request.message'|trans }}</p>
+    </div>
+
+    <hr />
+
+    {% include 'auth/errors.html.twig' %}
+
+    <form class="form-signin" role="form" action="{{ path('forgot_password') }}" method="post">
+        <div class="form-group">
+            <label for="username" class="control-label">{{ 'label.username'|trans }}</label>
+            <input type="text" id="username" name="_username" class="form-control" required="required" autofocus />
+        </div>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token(csrfTokenId) }}" />
+
+        <div class="row">
+            <div class="col-md-6">
+                <button class="btn btn-primary btn-block" type="submit">{{ 'forgot_pw.request.button'|trans }}</button>
+            </div>
+            <div class="col-md-6">
+                <a href="{{ path('login') }}" class="btn btn-secondary btn-block" role="button">{{ 'actions.cancel'|trans }}</a>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

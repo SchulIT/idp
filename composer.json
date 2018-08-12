@@ -14,6 +14,7 @@
         "lightsaml/symfony-bridge": "^1.1",
         "nelmio/api-doc-bundle": "^3.2",
         "r/u2f-two-factor-bundle": "^0.6.2",
+        "rollerworks/password-strength-bundle": "^2.0",
         "scheb/two-factor-bundle": "^3.3",
         "schoolit/adauth-bundle": "^1.0",
         "schoolit/common-bundle": "dev-master",

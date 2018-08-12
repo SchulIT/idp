@@ -3,3 +3,7 @@ server_unavailable: Authentication server is currently not available.
 not_allowed: This user is not allowed to login.
 unknown_error: An unknown error occured while authentication. Please contact the administrator.
 account_disabled: The user account is currently disabled.
+
+forgot_pw:
+  username_empty: Username must not be empty.
+  success: E-Mail with further instructions has been sent.

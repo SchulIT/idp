@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Entity\UserRole;
 use App\Entity\UserType as UserTypeEntity;
 use App\Repository\ServiceAttributeRepositoryInterface;
+use App\Security\PasswordStrengthHelper;
 use App\Service\AttributeResolver;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -23,6 +24,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Choice;
 
 class UserType extends AbstractType {
@@ -32,10 +34,12 @@ class UserType extends AbstractType {
 
     private $serviceAttributeRepository;
     private $userAttributeResolver;
+    private $passwordStrengthHelper;
 
-    public function __construct(ServiceAttributeRepositoryInterface $serviceAttributeRepository, AttributeResolver $userAttributeResolver) {
+    public function __construct(ServiceAttributeRepositoryInterface $serviceAttributeRepository, AttributeResolver $userAttributeResolver, PasswordStrengthHelper $passwordStrengthHelper) {
         $this->serviceAttributeRepository = $serviceAttributeRepository;
         $this->userAttributeResolver = $userAttributeResolver;
+        $this->passwordStrengthHelper = $passwordStrengthHelper;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
@@ -147,6 +151,9 @@ class UserType extends AbstractType {
                                     'class' => 'password-field'
                                 ],
                             ],
+                            'constraints' => [
+                                $this->passwordStrengthHelper->getConstraint()
+                            ],
                             'required' => true,
                             'first_options'  => ['label' => 'label.password'],
                             'second_options' => ['label' => 'label.repeat_password']
@@ -225,6 +232,9 @@ class UserType extends AbstractType {
                                 'attr' => [
                                     'class' => 'password-field'
                                 ],
+                            ],
+                            'constraints' => [
+                                $this->passwordStrengthHelper->getConstraint()
                             ],
                             'required' => false,
                             'first_options'  => ['label' => 'label.password'],

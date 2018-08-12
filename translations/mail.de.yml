@@ -1,0 +1,8 @@
+greeting: Hallo, %firstname% %lastname%!
+farewell: Das SingleSignOn-Team
+notice: Diese Benachrichtigung wurde automatisch durch das System versendet. Bitte nicht antworten.
+
+reset_password:
+  title: Passwort zurücksetzen
+  message: Es wurde eine Anfrage zum Zurücksetzen des Passwortes erstellt. Klicken Sie auf den folgenden Link %link%, um das Passwort zurückzusetzen. Falls Sie das Passwort nicht ändern möchten, können Sie diese E-Mail ignorieren.
+  expiry: Bitte beachten Sie, dass der Link nur bis %date% gültig ist.

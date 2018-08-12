@@ -4,6 +4,8 @@
 
 <form class="form-signin" role="form" action="{{ path('login_check') }}" method="post">
 
+    {% include 'auth/errors.html.twig' %}
+
     {% if error %}
         <div class="bs-callout bs-callout-danger">
             <h4>{{ 'error.label'|trans }}</h4>
@@ -33,7 +35,7 @@
             <button class="btn btn-primary btn-block" type="submit">{{ 'label.signin'|trans }}</button>
         </div>
         <div class="col-md-6">
-            <a href="#" class="btn btn-secondary btn-block" role="button">{{ 'auth.lost_pw'|trans }}</a>
+            <a href="{{ path('forgot_password') }}" class="btn btn-secondary btn-block" role="button">{{ 'auth.lost_pw'|trans }}</a>
         </div>
     </div>
 </form>

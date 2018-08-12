@@ -50,8 +50,23 @@ label:
 auth:
   login: Anmelden
   remember_me: angemeldet bleiben
-  lost_pw: Passwort vergessen?
+  forgot_pw: Passwort vergessen?
   logout: Abmelden
+
+forgot_pw:
+  label: Passwort vergessen
+  request:
+    message: Nach der Eingabe des Benutzernamens wird eine E-Mail verschickt, mit der das Passwort geändert werden kann.
+    button: Passwort ändern
+    success: E-Mail zum Ändern des Passwortes wurde verschickt.
+    cannot_change: Das Passwort des Benutzeraccounts kann nicht zurückgesetzt werden.
+    username_empty: Es muss ein Benutzername eingetragen werden.
+  change:
+    message: Bitte das neue Kennwort eingeben und anschließend bestätigen.
+    button: Passwort ändern
+    success: Passwort wurde erfolgreich geändert.
+    password_mismatch: Die Passwörter stimmen nicht überein.
+    password_constraint_error: Die Passwort-Regeln wurden nicht eingehalten.
 
 error:
   label: Fehler

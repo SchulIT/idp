@@ -1,0 +1,20 @@
+{% for msg in app.session.flashbag.get('error') %}
+    <div class="bs-callout bs-callout-danger">
+        <h4>{{ 'error.label'|trans }}</h4>
+        <p>{{ msg|trans }}</p>
+    </div>
+{% endfor %}
+
+{% for msg in app.session.flashbag.get('info') %}
+    <div class="bs-callout bs-callout-info">
+        <h4>{{ 'info.label'|trans }}</h4>
+        <p>{{ msg|trans }}</p>
+    </div>
+{% endfor %}
+
+{% for msg in app.session.flashbag.get('success') %}
+    <div class="bs-callout bs-callout-success">
+        <h4>{{ 'success.label'|trans }}</h4>
+        <p>{{ msg|trans }}</p>
+    </div>
+{% endfor %}

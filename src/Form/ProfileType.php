@@ -6,6 +6,7 @@ use App\Entity\ActiveDirectoryUser;
 use App\Entity\ServiceAttribute;
 use App\Entity\User;
 use App\Repository\ServiceAttributeRepositoryInterface;
+use App\Security\PasswordStrengthHelper;
 use App\Service\AttributeResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -27,11 +28,13 @@ class ProfileType extends AbstractType {
     private $serviceAttributeRepository;
     private $userAttributeResolver;
     private $translator;
+    private $passwordStrengthHelper;
 
-    public function __construct(ServiceAttributeRepositoryInterface $serviceAttributeRepository, AttributeResolver $userAttributeResolver, TranslatorInterface $translator) {
+    public function __construct(ServiceAttributeRepositoryInterface $serviceAttributeRepository, AttributeResolver $userAttributeResolver, TranslatorInterface $translator, PasswordStrengthHelper $passwordStrengthHelper) {
         $this->serviceAttributeRepository = $serviceAttributeRepository;
         $this->userAttributeResolver = $userAttributeResolver;
         $this->translator = $translator;
+        $this->passwordStrengthHelper = $passwordStrengthHelper;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
@@ -70,6 +73,9 @@ class ProfileType extends AbstractType {
                                 'attr' => [
                                     'class' => 'password-field'
                                 ],
+                            ],
+                            'constraints' => [
+                                $this->passwordStrengthHelper->getConstraint()
                             ],
                             'required' => true,
                             'first_options'  => ['label' => 'label.password'],
@@ -175,6 +181,9 @@ class ProfileType extends AbstractType {
                                 'attr' => [
                                     'class' => 'password-field'
                                 ],
+                            ],
+                            'constraints' => [
+                                $this->passwordStrengthHelper->getConstraint()
                             ],
                             'required' => false,
                             'first_options'  => ['label' => 'label.password'],

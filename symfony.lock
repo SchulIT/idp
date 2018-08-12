@@ -251,6 +251,12 @@
     "robrichards/xmlseclibs": {
         "version": "3.0.1"
     },
+    "rollerworks/password-strength-bundle": {
+        "version": "v2.0.2"
+    },
+    "rollerworks/password-strength-validator": {
+        "version": "v1.1.3"
+    },
     "scheb/two-factor-bundle": {
         "version": "v3.3.0"
     },

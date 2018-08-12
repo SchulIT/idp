@@ -47,6 +47,10 @@ security:
             anonymous: ~
             pattern: ^/login$
 
+        forgot_password:
+            anonymous: ~
+            pattern: ^/forgot_pw
+
         secured:
             pattern: ^/
             user_checker: App\Security\UserChecker
