@@ -41,6 +41,7 @@ class ProfileController extends Controller {
             $attributeData = $this->getAttributeData($form);
             $attributePersister->persistUserAttributes($attributeData, $user);
 
+            $this->addFlash('success', 'profile.success');
             return $this->redirectToRoute('profile');
         }
 

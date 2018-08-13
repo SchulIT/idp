@@ -8,6 +8,7 @@
             <table class="table table-striped table-hover">
                 <colgroup>
                     <col />
+                    <col class="column-280" />
                     <col class="column-lg" />
                     <col class="column-lg" />
                 </colgroup>
@@ -30,7 +31,7 @@
                             <p><small>{{ option.description }}</small></p>
                         </td>
                         <td>
-                            <span class="label label-default">{% if option.sourceType == 'ou' %}{{ 'label.ou'|trans }}{% else %}{{ 'label.ad_group'|trans }}{% endif %}</span>
+                            <span class="badge badge-primary">{% if option.sourceType == 'ou' %}{{ 'label.ou'|trans }}{% else %}{{ 'label.ad_group'|trans }}{% endif %}</span>
                             {{ option.source }}
                         </td>
                         <td>{{ option.userType.name }}</td>

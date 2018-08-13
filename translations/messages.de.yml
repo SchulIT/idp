@@ -87,6 +87,7 @@ services:
 profile:
   label: Konto-Einstellungen
   change_password: Passwort ändern
+  success: Konto-Einstellungen erfolgreich geändert
 
 two_factor:
   label: Zwei-Faktor Authentifizierung
@@ -286,6 +287,7 @@ actions:
   remove: löschen
   save: speichern
   cancel: abbrechen
+  back: zurück
 
 form:
   multiple_help: In diesem Feld ist Mehrfachauswahl mit den Tasten Strg und/oder Shift möglich.

@@ -27,7 +27,7 @@
                             {{ option.grade }}
                         </td>
                         <td>
-                            <span class="label label-default">{% if option.sourceType == 'ou' %}{{ 'label.ou'|trans }}{% else %}{{ 'label.ad_group'|trans }}{% endif %}</span>
+                            <span class="badge badge-primary">{% if option.sourceType == 'ou' %}{{ 'label.ou'|trans }}{% else %}{{ 'label.ad_group'|trans }}{% endif %}</span>
                             {{ option.source }}
                         </td>
                         <td>
@@ -49,6 +49,10 @@
     <div class="buttons">
         <a href="{{ path('add_ad_grades_sync_options') }}" class="btn btn-sm btn-primary">
             <i class="fa fa-plus"></i> {{ 'ad_sync_options.grades.add.label'|trans }}
+        </a>
+
+        <a href="{{ path('ad_sync_options') }}" class="btn btn-sm btn-secondary">
+            <i class="fa fa-arrow-left"></i> {{ 'actions.back'|trans }}
         </a>
     </div>
 {% endblock%}

@@ -11,3 +11,19 @@ $enable-gradients: true;
 // Import SchoolIT design
 @import '../../vendor/schoolit/common-bundle/Resources/assets/css/layout.scss';
 @import '../../vendor/schoolit/common-bundle/Resources/assets/css/additions.scss';
+
+small, .small {
+  font-size: 90% !important;
+}
+
+table {
+  .column-320 {
+    width: 320px;
+  }
+
+  td {
+    p, ul {
+      margin-bottom: 0 !important;
+    }
+  }
+}
