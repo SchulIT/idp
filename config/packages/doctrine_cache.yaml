@@ -1,0 +1,11 @@
+doctrine_cache:
+  providers:
+    metadata:
+      php_file:
+        directory: '%kernel.cache_dir%/doctrine/metadata'
+    query:
+      php_file:
+        directory: '%kernel.cache_dir%/doctrine/query'
+    result:
+      php_file:
+        directory: '%kernel.cache_dir%/doctrine/result'
