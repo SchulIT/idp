@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e8842eb1061135bb98f7bdb49784f9f",
+    "content-hash": "89c3ec308fad063bbcf683ed35453c2d",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -3644,16 +3644,16 @@
         },
         {
             "name": "schoolit/adauth-bundle",
-            "version": "1.0.1",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchoolIT-DE/adauth-bundle.git",
-                "reference": "3a9f2fa9e009ec7cf803f3a85cbfe7a9e84fadd2"
+                "reference": "84fe9e8b970f442727bd99490f18594578978e2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchoolIT-DE/adauth-bundle/zipball/3a9f2fa9e009ec7cf803f3a85cbfe7a9e84fadd2",
-                "reference": "3a9f2fa9e009ec7cf803f3a85cbfe7a9e84fadd2",
+                "url": "https://api.github.com/repos/SchoolIT-DE/adauth-bundle/zipball/84fe9e8b970f442727bd99490f18594578978e2e",
+                "reference": "84fe9e8b970f442727bd99490f18594578978e2e",
                 "shasum": ""
             },
             "require": {
@@ -3675,20 +3675,20 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-08-06T16:10:27+00:00"
+            "time": "2018-08-19T11:24:00+00:00"
         },
         {
             "name": "schoolit/common-bundle",
-            "version": "dev-master",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchoolIT-DE/common-bundle.git",
-                "reference": "eb3e901fc5d462bfd0eb0e630b6d9c25ab496628"
+                "reference": "48b7b0d879f8537448a0c63b0a3dd17330057c32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchoolIT-DE/common-bundle/zipball/eb3e901fc5d462bfd0eb0e630b6d9c25ab496628",
-                "reference": "eb3e901fc5d462bfd0eb0e630b6d9c25ab496628",
+                "url": "https://api.github.com/repos/SchoolIT-DE/common-bundle/zipball/48b7b0d879f8537448a0c63b0a3dd17330057c32",
+                "reference": "48b7b0d879f8537448a0c63b0a3dd17330057c32",
                 "shasum": ""
             },
             "require": {
@@ -3720,7 +3720,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-08-09T12:48:59+00:00"
+            "time": "2018-08-19T11:24:56+00:00"
         },
         {
             "name": "schoolit/lightsaml-idp-bundle",
@@ -9118,7 +9118,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "schoolit/common-bundle": 20,
         "symfony/lts": 20
     },
     "prefer-stable": false,

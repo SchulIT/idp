@@ -44,7 +44,6 @@ class Kernel extends BaseKernel
         $container->setParameter('container.dumper.inline_class_loader', true);
         $confDir = $this->getProjectDir().'/config';
 
-        $loader->load($confDir.'/config'.self::CONFIG_EXTS, 'glob'); // load configuration file
         $loader->load($confDir.'/version'.self::CONFIG_EXTS, 'glob'); // load version
         $loader->load($confDir.'/{packages}/*'.self::CONFIG_EXTS, 'glob');
         $loader->load($confDir.'/{packages}/'.$this->environment.'/**/*'.self::CONFIG_EXTS, 'glob');

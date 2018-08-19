@@ -31,9 +31,7 @@ services:
     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
         public:    false
         arguments:
-            - 'mysql:host=%database_host%;port=%database_port%;dbname=%database_name%'
-            - { db_username: '%database_user%', db_password: '%database_password%' }
-
+            - '%env(DATABASE_URL)%'
 
     Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider:
         public: false
@@ -45,7 +43,7 @@ services:
     App\Security\UserAuthenticator:
         autowire: true
         arguments:
-          $isActiveDirectoryEnabled: "%ad_enabled%"
+          $isActiveDirectoryEnabled: "%env(bool:ADAUTH_ENABLED)%"
           $logger: "@monolog.logger.auth"
 
     # LightSAML
@@ -103,4 +101,4 @@ services:
     # Forgot password
     App\Security\ForgotPassword\ForgotPasswordManager:
       arguments:
-        $from: "%mailer_from%"
+        $from: "%env(MAILER_FROM)%"

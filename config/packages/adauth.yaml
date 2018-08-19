@@ -1,7 +1,8 @@
+parameters:
+  env(ADAUTH_URL): ''
+
 adauth:
-  host: '%ad_host%'
-  port: '%ad_port%'
+  url: '%env(ADAUTH_URL)%'
   tls:
-    peer_name: '%ad_peername%'
-    serialnumber: '%ad_serialnumber%'
-    ca_certificate_file: '%ad_ca_file%'
+    serialnumber: '%env(ADAUTH_SERIAL)%'
+    ca_certificate_file: '%kernel.project_dir%/certs/ca.crt'

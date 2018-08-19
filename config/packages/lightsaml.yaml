@@ -1,7 +1,7 @@
 # LightSAML
 light_saml_symfony_bridge:
   own:
-      entity_id: "%saml_entity_id%" # required
+      entity_id: "%env(SAML_ENTITYID)%" # required
       credentials:
           -
               certificate: "%kernel.project_dir%/certs/idp.crt"

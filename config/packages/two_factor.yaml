@@ -15,8 +15,8 @@ scheb_two_factor:
     # Google Authenticator config
     google:
         enabled: true                  # If Google Authenticator should be enabled, default false
-        server_name: '%app_host%'      # Server name used in QR code
-        issuer: '%app_name%'           # Issuer name used in QR code
+#        server_name: '%app_host%'      # Server name used in QR code
+        issuer: '%env(APP_NAME)%'           # Issuer name used in QR code
         template: 'auth/two_factor_google.html.twig'   # Template used to render the authentication form
 
     backup_codes:
