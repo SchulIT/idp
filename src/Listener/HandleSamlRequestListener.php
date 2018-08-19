@@ -33,6 +33,11 @@ class HandleSamlRequestListener implements EventSubscriberInterface {
         $request = $event->getRequest();
         $route = $request->get('_route');
 
+        if(!$event->isMasterRequest()) {
+            // prevent loops
+            return;
+        }
+
         /** @var TokenInterface $token */
         $token = $this->tokenStorage->getToken();
 
