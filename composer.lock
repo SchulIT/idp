@@ -1300,16 +1300,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "2.1.4",
+            "version": "2.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "8790f594151ca6a2010c6218e09d96df67173ad3"
+                "reference": "54859fabea8b3beecbb1a282888d5c990036b9e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/8790f594151ca6a2010c6218e09d96df67173ad3",
-                "reference": "8790f594151ca6a2010c6218e09d96df67173ad3",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/54859fabea8b3beecbb1a282888d5c990036b9e3",
+                "reference": "54859fabea8b3beecbb1a282888d5c990036b9e3",
                 "shasum": ""
             },
             "require": {
@@ -1353,7 +1353,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2018-04-10T10:11:19+00:00"
+            "time": "2018-08-16T20:49:45+00:00"
         },
         {
             "name": "endroid/installer",
@@ -1402,16 +1402,16 @@
         },
         {
             "name": "endroid/qr-code",
-            "version": "3.2.12",
+            "version": "3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/qr-code.git",
-                "reference": "15411c93fa91c0d0c25d98b08a3d5cc9de720fc7"
+                "reference": "0a63eaffdb40d51ae3c8a6691469f2e819238b75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code/zipball/15411c93fa91c0d0c25d98b08a3d5cc9de720fc7",
-                "reference": "15411c93fa91c0d0c25d98b08a3d5cc9de720fc7",
+                "url": "https://api.github.com/repos/endroid/qr-code/zipball/0a63eaffdb40d51ae3c8a6691469f2e819238b75",
+                "reference": "0a63eaffdb40d51ae3c8a6691469f2e819238b75",
                 "shasum": ""
             },
             "require": {
@@ -1458,24 +1458,24 @@
                 "qr",
                 "qrcode"
             ],
-            "time": "2018-05-07T16:04:16+00:00"
+            "time": "2018-08-17T21:40:52+00:00"
         },
         {
             "name": "endroid/qr-code-bundle",
-            "version": "3.2.3",
+            "version": "3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/qr-code-bundle.git",
-                "reference": "2b971be53ec4666d2b1064a0143206a153464657"
+                "reference": "46851afa0684b4c1e7e3134a59a36e90e5c949d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code-bundle/zipball/2b971be53ec4666d2b1064a0143206a153464657",
-                "reference": "2b971be53ec4666d2b1064a0143206a153464657",
+                "url": "https://api.github.com/repos/endroid/qr-code-bundle/zipball/46851afa0684b4c1e7e3134a59a36e90e5c949d2",
+                "reference": "46851afa0684b4c1e7e3134a59a36e90e5c949d2",
                 "shasum": ""
             },
             "require": {
-                "endroid/qr-code": "^3.2.5",
+                "endroid/qr-code": "^3.3",
                 "php": ">=7.1",
                 "symfony/framework-bundle": "^3.4|^4.0",
                 "symfony/twig-bundle": "^3.4|^4.0",
@@ -1502,8 +1502,7 @@
             "authors": [
                 {
                     "name": "Jeroen van den Enden",
-                    "email": "info@endroid.nl",
-                    "homepage": "https://endroid.nl/"
+                    "email": "info@endroid.nl"
                 }
             ],
             "description": "Endroid QR Code Bundle",
@@ -1516,7 +1515,7 @@
                 "qr",
                 "symfony"
             ],
-            "time": "2018-04-02T19:28:50+00:00"
+            "time": "2018-08-17T21:42:28+00:00"
         },
         {
             "name": "exsyst/swagger",
@@ -3541,16 +3540,16 @@
         },
         {
             "name": "scheb/two-factor-bundle",
-            "version": "v3.11.0",
+            "version": "v3.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scheb/two-factor-bundle.git",
-                "reference": "180fecde55add54eb6f116aba88c0b44f055ec26"
+                "reference": "16916d3b4f05586a227ebf15ea1c130b6a973dae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scheb/two-factor-bundle/zipball/180fecde55add54eb6f116aba88c0b44f055ec26",
-                "reference": "180fecde55add54eb6f116aba88c0b44f055ec26",
+                "url": "https://api.github.com/repos/scheb/two-factor-bundle/zipball/16916d3b4f05586a227ebf15ea1c130b6a973dae",
+                "reference": "16916d3b4f05586a227ebf15ea1c130b6a973dae",
                 "shasum": ""
             },
             "require": {
@@ -3598,7 +3597,7 @@
                 "two-factor",
                 "two-step"
             ],
-            "time": "2018-08-08T21:11:42+00:00"
+            "time": "2018-08-13T19:51:47+00:00"
         },
         {
             "name": "schoolit/adauth",
@@ -6913,16 +6912,16 @@
         },
         {
             "name": "zendframework/zend-code",
-            "version": "3.3.0",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-code.git",
-                "reference": "6b1059db5b368db769e4392c6cb6cc139e56640d"
+                "reference": "c21db169075c6ec4b342149f446e7b7b724f95eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-code/zipball/6b1059db5b368db769e4392c6cb6cc139e56640d",
-                "reference": "6b1059db5b368db769e4392c6cb6cc139e56640d",
+                "url": "https://api.github.com/repos/zendframework/zend-code/zipball/c21db169075c6ec4b342149f446e7b7b724f95eb",
+                "reference": "c21db169075c6ec4b342149f446e7b7b724f95eb",
                 "shasum": ""
             },
             "require": {
@@ -6943,8 +6942,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2-dev",
-                    "dev-develop": "3.3-dev"
+                    "dev-master": "3.3.x-dev",
+                    "dev-develop": "3.4.x-dev"
                 }
             },
             "autoload": {
@@ -6962,7 +6961,7 @@
                 "code",
                 "zf2"
             ],
-            "time": "2017-10-20T15:21:32+00:00"
+            "time": "2018-08-13T20:36:59+00:00"
         },
         {
             "name": "zendframework/zend-eventmanager",
