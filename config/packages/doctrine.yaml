@@ -20,15 +20,6 @@ doctrine:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
-        metadata_cache_driver:
-            type: service
-            id: doctrine_cache.providers.metadata
-        query_cache_driver:
-            type: service
-            id: doctrine_cache.providers.query
-        result_cache_driver:
-            type: service
-            id: doctrine_cache.providers.result
         mappings:
             App:
                 is_bundle: false
