@@ -9,12 +9,12 @@ use JMS\Serializer\Annotation as Serializer;
 use R\U2FTwoFactorBundle\Model\U2F\TwoFactorInterface as U2FTwoFactorInterface;
 use R\U2FTwoFactorBundle\Model\U2F\U2FKey;
 use Scheb\TwoFactorBundle\Model\BackupCodeInterface;
+use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface as GoogleTwoFactorInterface;
 use Scheb\TwoFactorBundle\Model\PreferredProviderInterface;
 use Scheb\TwoFactorBundle\Model\TrustedDeviceInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface as GoogleTwoFactorInterface;
 
 /**
  * @ORM\Entity()
@@ -128,7 +128,7 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
      * @ORM\Column(type="integer", name="trusted_version")
      * @Serializer\Exclude()
      */
-    private $trustedVersion;
+    private $trustedVersion = 0;
 
     /**
      * @ORM\Column(type="datetime")

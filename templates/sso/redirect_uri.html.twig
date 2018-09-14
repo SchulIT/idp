@@ -1,0 +1,7 @@
+{% extends "sso/redirect.html.twig" %}
+
+{% block redirect %}
+    <a href="{{ destination }}" class="btn btn-primary btn-block">
+        {{ 'actions.confirm'|trans }}
+    </a>
+{% endblock %}

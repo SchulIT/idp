@@ -111,7 +111,7 @@ class AttributeValueProvider extends AbstractAttributeProvider {
         return $attributes;
     }
 
-    protected function getValuesForUser(UserInterface $user, $entityId) {
+    public function getValuesForUser(UserInterface $user, $entityId) {
         $attributes = [ ];
 
         $attributes[] = new Attribute(ClaimTypes::COMMON_NAME, $user->getUsername());

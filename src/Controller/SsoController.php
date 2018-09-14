@@ -3,21 +3,24 @@
 namespace App\Controller;
 
 use App\Entity\ServiceProvider;
+use App\Saml\AttributeValueProvider;
 use App\Security\Voter\ServiceProviderVoter;
+use LightSaml\Binding\SamlPostResponse;
 use LightSaml\Bridge\Pimple\Container\BuildContainer;
 use LightSaml\Idp\Builder\Profile\WebBrowserSso\Idp\SsoIdpReceiveAuthnRequestProfileBuilder;
 use SchoolIT\LightSamlIdpBundle\Builder\Profile\WebBrowserSso\Idp\SsoIdpSendResponseProfileBuilderFactory;
 use SchoolIT\LightSamlIdpBundle\RequestStorage\RequestStorageInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class SsoController extends Controller {
 
     /**
      * @Route("/idp/saml", name="idp_saml")
      */
-    public function saml(RequestStorageInterface $requestStorage, SsoIdpReceiveAuthnRequestProfileBuilder $receiveBuilder, SsoIdpSendResponseProfileBuilderFactory $sendResponseBuilder) {
+    public function saml(RequestStorageInterface $requestStorage, AttributeValueProvider $attributeValueProvider, SsoIdpReceiveAuthnRequestProfileBuilder $receiveBuilder, SsoIdpSendResponseProfileBuilderFactory $sendResponseBuilder) {
         $requestStorage->load();
 
         /** @var BuildContainer $buildContext */
@@ -39,7 +42,11 @@ class SsoController extends Controller {
             ->findOneByEntityId($partyContext->getEntityId());
 
         if(!$this->isGranted(ServiceProviderVoter::ENABLED, $serviceProvider)) {
-            throw new AccessDeniedHttpException();
+            $requestStorage->clear();
+
+            return $this->render('sso/denied.html.twig', [
+                'service' => $serviceProvider
+            ], new Response(null, Response::HTTP_FORBIDDEN));
         }
 
         $sendBuilder = $sendResponseBuilder->build(
@@ -58,6 +65,31 @@ class SsoController extends Controller {
 
         $requestStorage->clear();
 
-        return $context->getHttpResponseContext()->getResponse();
+        $response = $context->getHttpResponseContext()->getResponse();
+
+        if($response instanceof SamlPostResponse) {
+            $data = $response->getData();
+            $destination = $response->getDestination();
+            $attributes = $attributeValueProvider->getValuesForUser($this->getUser(), $serviceProvider->getEntityId());
+
+            return $this->render('sso/redirect_post.html.twig', [
+                'service' => $serviceProvider,
+                'data' => $data,
+                'destination' => $destination,
+                'attributes' => $attributes
+            ]);
+        } elseif($response instanceof RedirectResponse) {
+            $destination = $response->getTargetUrl();
+
+            $attributes = $attributeValueProvider->getValuesForUser($this->getUser(), $serviceProvider->getEntityId());
+
+            return $this->render('sso/redirect_uri.html.twig', [
+                'service' => $serviceProvider,
+                'destination' => $destination,
+                'attributes' => $attributes
+            ]);
+        }
+
+        throw new \RuntimeException('Unsupported Binding!');
     }
 }

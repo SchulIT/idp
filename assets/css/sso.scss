@@ -1,0 +1,46 @@
+header {
+  text-align:center !important;
+
+  #logo {
+    margin:0 auto !important;
+    width:450px;
+    text-align:left;
+  }
+}
+
+.container {
+  max-width:450px;
+  margin:0 auto;
+  padding-left:0px;
+  padding-right:0px;
+}
+
+.container.redirect {
+  max-width: 600px;
+}
+
+.card.card-sso {
+  margin-bottom: 40px;
+}
+
+.card {
+  .bs-callout {
+    margin-right: 0px;
+  }
+
+  .row {
+    padding: 0px;
+    margin-top: 10px;
+  }
+}
+
+@media screen and (max-width:768px) {
+  header#page-header {
+    padding:10px;
+  }
+
+  header #logo {
+    padding-top:1px;
+  }
+}
+

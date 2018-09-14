@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ config.name }} | {% block title %}{% endblock %}</title>
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('build/app.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('build/sso.css') }}" />
+
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+
+<header class="clearfix" id="page-header">
+    <div id="logo">
+        <h1>{{ block('title') }}</h1>
+    </div>
+</header>
+
+<div class="container-fluid main">
+    <div class="container {% block container_css %}{% endblock %}">
+
+        {% block error %}{% endblock %}
+
+        <div class="card card-sso">
+            <div class="card-body">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <h3>{{ config.name }}</h3>
+
+            <p>
+                Version {{ config.version }}
+            </p>
+
+        </div>
+
+        <div class="col-md-6 col-xs-12">
+            <p>
+                © {{ "now"|date("Y")  }} School IdP
+            </p>
+        </div>
+    </div>
+</footer>
+
+{% block javascript %}{% endblock %}
+
+</body>
+</html>

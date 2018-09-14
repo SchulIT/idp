@@ -151,6 +151,7 @@ dashboard:
   data: Benutzerdaten
   services: Meine Dienste
   open: öffnen
+  link: Zur Übersicht
 
 user_menu:
   label: Benutzer-Verwaltung
@@ -331,3 +332,25 @@ caution: Achtung
 
 datepicker:
   "null": Nie
+
+sso:
+  denied:
+    title: Zugriff verweigert
+    message: Der Benutzer %username% ist nicht berechtigt, den Dienst %service% zu nutzen.
+    help: Im Falle eines Fehlers bitte den Administrator benachrichtigen.
+  confirm:
+    title: Anmeldung bestätigen
+    message: "Mit der Anmeldung werden folgende Daten an den Dienst %service% weitergeleitet:"
+
+attributes:
+  friendly:
+    common_name: Benutzername
+    surname: Nachname
+    givenname: Vorname
+    email_address: E-Mail Adresse
+    type: Benutzertyp
+    grade: Klasse
+    internal_id: Interne ID
+    services: Dienste
+    id: Benutzer-ID
+    roles: Benutzerrollen

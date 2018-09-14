@@ -6,19 +6,27 @@ use App\Entity\ServiceAttributeUserRoleValue;
 use App\Entity\ServiceAttributeUserTypeValue;
 use App\Entity\ServiceAttributeValue;
 use App\Entity\ServiceAttributeValueInterface;
+use App\Service\FriendlyAttributeResolver;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class TwigFilters extends \Twig_Extension {
     private $translator;
+    private $friendlyAttributeResolver;
 
-    public function __construct(TranslatorInterface $translator) {
+    public function __construct(TranslatorInterface $translator, FriendlyAttributeResolver $friendlyAttributeResolver) {
         $this->translator = $translator;
+        $this->friendlyAttributeResolver = $friendlyAttributeResolver;
     }
 
     public function getFilters() {
         return [
-            new \Twig_SimpleFilter('attributeSource', [ $this, 'attributeSource' ])
+            new \Twig_SimpleFilter('attributeSource', [ $this, 'attributeSource' ]),
+            new \Twig_SimpleFilter('attributeFriendlyName', [ $this, 'attributeFriendlyName'])
         ];
+    }
+
+    public function attributeFriendlyName($attribute) {
+        return $this->friendlyAttributeResolver->getFriendlyAttributeName($attribute);
     }
 
     public function attributeSource(ServiceAttributeValueInterface $attributeValue) {
