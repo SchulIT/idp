@@ -182,6 +182,9 @@
     "ocramius/proxy-manager": {
         "version": "2.2.0"
     },
+    "paragonie/random_compat": {
+        "version": "v9.99.99"
+    },
     "phar-io/manifest": {
         "version": "1.0.3"
     },
