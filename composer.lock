@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "373377f881602c045db4bcd51b3f2eb1",
+    "content-hash": "185354ff8bd3f5c435c1b8c3089b6e3d",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1301,16 +1301,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "2.1.5",
+            "version": "2.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "54859fabea8b3beecbb1a282888d5c990036b9e3"
+                "reference": "0578b32b30b22de3e8664f797cf846fc9246f786"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/54859fabea8b3beecbb1a282888d5c990036b9e3",
-                "reference": "54859fabea8b3beecbb1a282888d5c990036b9e3",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/0578b32b30b22de3e8664f797cf846fc9246f786",
+                "reference": "0578b32b30b22de3e8664f797cf846fc9246f786",
                 "shasum": ""
             },
             "require": {
@@ -1354,7 +1354,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2018-08-16T20:49:45+00:00"
+            "time": "2018-09-25T20:47:26+00:00"
         },
         {
             "name": "endroid/installer",
@@ -2758,16 +2758,16 @@
         },
         {
             "name": "ocramius/proxy-manager",
-            "version": "2.2.1",
+            "version": "2.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ocramius/ProxyManager.git",
-                "reference": "306da837ddf12aa5a85a8ca343587ec822802ac3"
+                "reference": "14b137b06b0f911944132df9d51e445a35920ab1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/ProxyManager/zipball/306da837ddf12aa5a85a8ca343587ec822802ac3",
-                "reference": "306da837ddf12aa5a85a8ca343587ec822802ac3",
+                "url": "https://api.github.com/repos/Ocramius/ProxyManager/zipball/14b137b06b0f911944132df9d51e445a35920ab1",
+                "reference": "14b137b06b0f911944132df9d51e445a35920ab1",
                 "shasum": ""
             },
             "require": {
@@ -2824,7 +2824,7 @@
                 "proxy pattern",
                 "service proxies"
             ],
-            "time": "2018-08-26T15:07:25+00:00"
+            "time": "2018-09-27T13:45:01+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -3416,23 +3416,21 @@
         },
         {
             "name": "robrichards/xmlseclibs",
-            "version": "3.0.1",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/robrichards/xmlseclibs.git",
-                "reference": "d937712f70f93a584eb0299ccd87dc6374003781"
+                "reference": "1f4de0c0d121922aafd8c62c2a9f5e528830cf38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/robrichards/xmlseclibs/zipball/d937712f70f93a584eb0299ccd87dc6374003781",
-                "reference": "d937712f70f93a584eb0299ccd87dc6374003781",
+                "url": "https://api.github.com/repos/robrichards/xmlseclibs/zipball/1f4de0c0d121922aafd8c62c2a9f5e528830cf38",
+                "reference": "1f4de0c0d121922aafd8c62c2a9f5e528830cf38",
                 "shasum": ""
             },
             "require": {
+                "ext-openssl": "*",
                 "php": ">= 5.4"
-            },
-            "suggest": {
-                "ext-openssl": "OpenSSL extension"
             },
             "type": "library",
             "autoload": {
@@ -3452,7 +3450,7 @@
                 "xml",
                 "xmldsig"
             ],
-            "time": "2017-08-31T09:27:07+00:00"
+            "time": "2018-09-27T13:24:13+00:00"
         },
         {
             "name": "rollerworks/password-strength-bundle",
@@ -3694,16 +3692,16 @@
         },
         {
             "name": "schoolit/adauth-bundle",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchoolIT-DE/adauth-bundle.git",
-                "reference": "84fe9e8b970f442727bd99490f18594578978e2e"
+                "reference": "2cf225e0e2d77a96ddc83ff255bb4ac2606eae94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchoolIT-DE/adauth-bundle/zipball/84fe9e8b970f442727bd99490f18594578978e2e",
-                "reference": "84fe9e8b970f442727bd99490f18594578978e2e",
+                "url": "https://api.github.com/repos/SchoolIT-DE/adauth-bundle/zipball/2cf225e0e2d77a96ddc83ff255bb4ac2606eae94",
+                "reference": "2cf225e0e2d77a96ddc83ff255bb4ac2606eae94",
                 "shasum": ""
             },
             "require": {
@@ -3712,7 +3710,6 @@
                 "schoolit/adauth": "^1.0",
                 "symfony/flex": "^1.0",
                 "symfony/framework-bundle": "^4.0",
-                "symfony/lts": "^4@dev",
                 "symfony/yaml": "^4.0"
             },
             "type": "symfony-bundle",
@@ -3725,7 +3722,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-08-19T11:24:00+00:00"
+            "time": "2018-09-29T18:48:00+00:00"
         },
         {
             "name": "schoolit/common-bundle",
@@ -3774,16 +3771,16 @@
         },
         {
             "name": "schoolit/lightsaml-idp-bundle",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchoolIT-DE/lightsaml-idp-bundle.git",
-                "reference": "7849e2a6c9e4e99908a41ee1f64c24fc65c51ac0"
+                "reference": "602f82c6aff3665bf690b9f582e972afd65b4507"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchoolIT-DE/lightsaml-idp-bundle/zipball/7849e2a6c9e4e99908a41ee1f64c24fc65c51ac0",
-                "reference": "7849e2a6c9e4e99908a41ee1f64c24fc65c51ac0",
+                "url": "https://api.github.com/repos/SchoolIT-DE/lightsaml-idp-bundle/zipball/602f82c6aff3665bf690b9f582e972afd65b4507",
+                "reference": "602f82c6aff3665bf690b9f582e972afd65b4507",
                 "shasum": ""
             },
             "require": {
@@ -3792,7 +3789,6 @@
                 "php": "^7.1.3",
                 "symfony/flex": "^1.0",
                 "symfony/framework-bundle": "^4.0",
-                "symfony/lts": "^4@dev",
                 "symfony/security-core": "^4.0",
                 "symfony/yaml": "^4.0"
             },
@@ -3806,7 +3802,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-09-03T18:30:51+00:00"
+            "time": "2018-09-29T18:46:56+00:00"
         },
         {
             "name": "sensio/framework-extra-bundle",
@@ -5250,100 +5246,6 @@
                 "localization"
             ],
             "time": "2018-08-01T08:24:03+00:00"
-        },
-        {
-            "name": "symfony/lts",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/lts.git",
-                "reference": "b5442df5a473775a3e5b34287e61570b45deb771"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/lts/zipball/b5442df5a473775a3e5b34287e61570b45deb771",
-                "reference": "b5442df5a473775a3e5b34287e61570b45deb771",
-                "shasum": ""
-            },
-            "conflict": {
-                "symfony/asset": ">=5",
-                "symfony/browser-kit": ">=5",
-                "symfony/cache": ">=5",
-                "symfony/class-loader": ">=5",
-                "symfony/config": ">=5",
-                "symfony/console": ">=5",
-                "symfony/css-selector": ">=5",
-                "symfony/debug": ">=5",
-                "symfony/debug-bundle": ">=5",
-                "symfony/dependency-injection": ">=5",
-                "symfony/doctrine-bridge": ">=5",
-                "symfony/dom-crawler": ">=5",
-                "symfony/dotenv": ">=5",
-                "symfony/event-dispatcher": ">=5",
-                "symfony/expression-language": ">=5",
-                "symfony/filesystem": ">=5",
-                "symfony/finder": ">=5",
-                "symfony/form": ">=5",
-                "symfony/framework-bundle": ">=5",
-                "symfony/http-foundation": ">=5",
-                "symfony/http-kernel": ">=5",
-                "symfony/inflector": ">=5",
-                "symfony/intl": ">=5",
-                "symfony/ldap": ">=5",
-                "symfony/lock": ">=5",
-                "symfony/messenger": ">=5",
-                "symfony/monolog-bridge": ">=5",
-                "symfony/options-resolver": ">=5",
-                "symfony/process": ">=5",
-                "symfony/property-access": ">=5",
-                "symfony/property-info": ">=5",
-                "symfony/proxy-manager-bridge": ">=5",
-                "symfony/routing": ">=5",
-                "symfony/security": ">=5",
-                "symfony/security-bundle": ">=5",
-                "symfony/security-core": ">=5",
-                "symfony/security-csrf": ">=5",
-                "symfony/security-guard": ">=5",
-                "symfony/security-http": ">=5",
-                "symfony/serializer": ">=5",
-                "symfony/stopwatch": ">=5",
-                "symfony/symfony": ">=5",
-                "symfony/templating": ">=5",
-                "symfony/translation": ">=5",
-                "symfony/twig-bridge": ">=5",
-                "symfony/twig-bundle": ">=5",
-                "symfony/validator": ">=5",
-                "symfony/var-dumper": ">=5",
-                "symfony/web-link": ">=5",
-                "symfony/web-profiler-bundle": ">=5",
-                "symfony/web-server-bundle": ">=5",
-                "symfony/workflow": ">=5",
-                "symfony/yaml": ">=5"
-            },
-            "type": "metapackage",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4-dev"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Enforces Long Term Supported versions of Symfony components",
-            "homepage": "https://symfony.com",
-            "abandoned": "symfony/flex",
-            "time": "2018-09-13T17:13:03+00:00"
         },
         {
             "name": "symfony/monolog-bridge",
@@ -9174,9 +9076,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "symfony/lts": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
