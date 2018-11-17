@@ -1,6 +1,7 @@
 require('../css/app.scss');
 
 var $ = require('jquery');
+require('popper.js');
 require('bootstrap');
 
 // Make jQuery available
