@@ -272,6 +272,9 @@
     "schoolit/common-bundle": {
         "version": "1.0.0"
     },
+    "schoolit/idp-exchange-models": {
+        "version": "1.0.0"
+    },
     "schoolit/lib-adauth": {
         "version": "1.0.0"
     },

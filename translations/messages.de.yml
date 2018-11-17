@@ -253,6 +253,14 @@ service_providers:
     confirm: Soll der Service Provider "%name%" wirklich gelöscht werden?
     help: Benutzer können sich anschließend nicht weiter an dem Service Provider anmelden. Attribute des Service Providers werden ebenfalls gelöscht.
   certificate_info: Zertifikat-Informationen
+  token:
+    label: Token anzeigen
+    regenerate:
+      label: Token neu generieren
+      help: Das Token muss anschließend in der Konfiguration des Service Providers aktualisiert werden.
+      confirm: Soll das Token wirklich neu generiert werden?
+      success: Token erfolgreich generiert
+      submit: neu generieren
 
 certificate_info:
   name: Name

@@ -3,7 +3,6 @@ security:
         App\Entity\User:
           algorithm: bcrypt
 
-
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
         database:
@@ -12,6 +11,8 @@ security:
                 property: username
         application:
             id: App\Security\ApplicationUserProvider
+        service_provider:
+            id: App\Security\ServiceProviderUserProvider
 
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER,
@@ -21,6 +22,7 @@ security:
         strategy: unanimous
 
     access_control:
+        - { path: ^/exchange, roles: ROLE_SERVICEPROVIDER }
         - { path: ^/api, roles: ROLE_API }
         - { path: ^/users, roles: ROLE_ADMIN }
         - { path: ^/admin, roles: ROLE_SUPER_ADMIN }
@@ -35,6 +37,13 @@ security:
         composer:
             anonymous: ~
             pattern: ^/dependencies
+
+        exchange:
+            pattern: ^/exchange
+            stateless: true
+            simple_preauth:
+                authenticator: App\Security\ServiceProviderAuthenticator
+            provider: service_provider
 
         api:
             pattern: ^/api

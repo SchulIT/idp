@@ -68,6 +68,12 @@ class ServiceProvider {
      */
     private $attributes;
 
+    /**
+     * @ORM\Column(type="string", length=128, unique=true, nullable=true)
+     * @Serializer\Exclude()
+     */
+    private $token = null;
+
     public function __construct() {
         $this->attributes = new ArrayCollection();
     }
@@ -180,5 +186,18 @@ class ServiceProvider {
      */
     public function getAttributes() {
         return $this->attributes;
+    }
+
+    public function getToken() {
+        return $this->token;
+    }
+
+    /**
+     * @param string $token
+     * @return ServiceProvider
+     */
+    public function setToken(string $token): ServiceProvider {
+        $this->token = $token;
+        return $this;
     }
 }

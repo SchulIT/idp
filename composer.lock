@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "185354ff8bd3f5c435c1b8c3089b6e3d",
+    "content-hash": "cdf0f8cbd66eac014b7a747a5fb80288",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -3768,6 +3768,46 @@
                 "MIT"
             ],
             "time": "2018-08-19T11:24:56+00:00"
+        },
+        {
+            "name": "schoolit/idp-exchange-models",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SchoolIT-DE/idp-exchange-models.git",
+                "reference": "057b9cf315bb9c9b3ece591cfaa06cdeaa2b1878"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SchoolIT-DE/idp-exchange-models/zipball/057b9cf315bb9c9b3ece591cfaa06cdeaa2b1878",
+                "reference": "057b9cf315bb9c9b3ece591cfaa06cdeaa2b1878",
+                "shasum": ""
+            },
+            "require": {
+                "jms/serializer": "^1.13",
+                "php": "^7.1",
+                "symfony/validator": "^4.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SchoolIT\\IdpExchange\\": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marcel Marnitz",
+                    "email": "marcelmarnitz@googlemail.com"
+                }
+            ],
+            "time": "2018-11-17T14:57:13+00:00"
         },
         {
             "name": "schoolit/lightsaml-idp-bundle",

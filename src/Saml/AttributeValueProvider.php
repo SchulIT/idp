@@ -111,6 +111,11 @@ class AttributeValueProvider extends AbstractAttributeProvider {
         return $attributes;
     }
 
+    /**
+     * @param UserInterface $user
+     * @param $entityId
+     * @return Attribute[]
+     */
     public function getValuesForUser(UserInterface $user, $entityId) {
         $attributes = [ ];
 

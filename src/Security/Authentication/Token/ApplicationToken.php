@@ -10,7 +10,7 @@ class ApplicationToken extends AbstractToken {
     private $application;
     private $apiKey;
 
-    public function __construct($apiKey,Application $application = null, array $roles = []) {
+    public function __construct($apiKey, Application $application = null, array $roles = []) {
         parent::__construct($roles);
 
         $this->apiKey = $apiKey;

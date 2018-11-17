@@ -1,0 +1,22 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'service_providers.token.label'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="contentbox">
+        <h4>{{ 'service_providers.token.label'|trans }}</h4>
+
+        <input type="text" class="form-control" readonly="readonly" value="{{ service_provider.token }}" />
+    </div>
+
+    <div class="buttons">
+        <a href="{{ path('service_provider_token_regenerate', { id: service_provider.id }) }}" class="btn btn-sm btn-danger">
+            <i class="fa fa-refresh"></i> {{ 'service_providers.token.regenerate.label'|trans }}
+        </a>
+
+        <a href="{{ path('service_providers') }}" class="btn btn-sm btn-primary">
+            <i class="fa fa-arrow-left"></i> {{ 'actions.back'|trans }}
+        </a>
+    </div>
+
+{% endblock %}

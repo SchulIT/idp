@@ -102,3 +102,13 @@ services:
     App\Security\ForgotPassword\ForgotPasswordManager:
       arguments:
         $from: "%env(MAILER_FROM)%"
+
+    # Doctrine Listeners
+    App\EventListener\ServiceProviderListener:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
+    # Exchange API
+    App\Controller\Api\IdpExchangeController:
+        arguments:
+            $logger: '@monolog.logger.exchange'

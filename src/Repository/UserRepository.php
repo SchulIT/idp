@@ -28,11 +28,25 @@ class UserRepository implements UserRepositoryInterface {
         return $qb->getQuery()->getResult();
     }
 
-    public function getUsersUpdatedAfter(\DateTime $dateTime) {
+    public function findUsersByUsernames(array $usernames) {
+        $qb = $this->_em->createQueryBuilder();
+
+        $qb->select(['u', 'a', 'r', 't'])
+            ->from(User::class, 'u')
+            ->leftJoin('u.attributes', 'a')
+            ->leftJoin('u.userRoles', 'r')
+            ->leftJoin('u.type', 't')
+            ->where('u.username IN (:usernames)')
+            ->setParameter('usernames', $usernames);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findUsersUpdatedAfter(\DateTime $dateTime, array $usernames = [ ]) {
         $qb = $this->_em
             ->createQueryBuilder();
 
-        $qb->select(['DISTINCT u.id'])
+        $qb->select(['DISTINCT u.username'])
             ->from(User::class, 'u')
             ->leftJoin('u.attributes', 'a')
             ->where(
@@ -49,12 +63,27 @@ class UserRepository implements UserRepositoryInterface {
             )
             ->setParameter('datetime', $dateTime);
 
-        $result = $qb->getQuery()->getScalarResult();
-        return $result;
+        if(count($usernames) > 0) {
+            $qb->andWhere('u.username IN (:usernames)')
+                ->setParameter('usernames', $usernames);
+        }
+
+        $usernames = $qb->getQuery()->getScalarResult();
+
+        return $this->findUsersByUsernames($usernames);
     }
 
     public function findOneByUsername(string $username): ?User {
-        return $this->_em->getRepository(User::class)
-            ->findOneByUsername($username);
+        $qb = $this->_em->createQueryBuilder();
+
+        $qb->select(['u', 'a', 'r', 't'])
+            ->from(User::class, 'u')
+            ->leftJoin('u.attributes', 'a')
+            ->leftJoin('u.userRoles', 'r')
+            ->leftJoin('u.type', 't')
+            ->where('u.username = :usernames')
+            ->setParameter('username', $username);
+
+        return $qb->getQuery()->getResult();
     }
 }
