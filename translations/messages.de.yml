@@ -255,6 +255,7 @@ service_providers:
   certificate_info: Zertifikat-Informationen
   token:
     label: Token anzeigen
+    none: "Aktuell ist kein Token erstellt. Zum Erstellen des Tokens, auf den Button \"Token neu generieren\" klicken."
     regenerate:
       label: Token neu generieren
       help: Das Token muss anschließend in der Konfiguration des Service Providers aktualisiert werden.

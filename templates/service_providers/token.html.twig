@@ -6,7 +6,11 @@
     <div class="contentbox">
         <h4>{{ 'service_providers.token.label'|trans }}</h4>
 
-        <input type="text" class="form-control" readonly="readonly" value="{{ service_provider.token }}" />
+        {% if service_provider.token is null %}
+            <p>{{ 'service_providers.token.none'|trans }}</p>
+        {% else %}
+            <input type="text" class="form-control" readonly="readonly" value="{{ service_provider.token }}" />
+        {% endif %}
     </div>
 
     <div class="buttons">
