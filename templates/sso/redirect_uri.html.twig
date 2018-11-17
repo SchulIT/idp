@@ -1,7 +1,11 @@
 {% extends "sso/redirect.html.twig" %}
 
+{% block head %}
+    <meta http-equiv="refresh" content="0; URL={{ destination }}">
+{% endblock %}
+
 {% block redirect %}
     <a href="{{ destination }}" class="btn btn-primary btn-block">
-        {{ 'actions.confirm'|trans }}
+        {{ 'sso.redirect.submit'|trans }}
     </a>
 {% endblock %}

@@ -350,6 +350,11 @@ sso:
   confirm:
     title: Anmeldung bestätigen
     message: "Mit der Anmeldung werden folgende Daten an den Dienst %service% weitergeleitet:"
+    submit: "Bestätigen & merken"
+  redirect:
+    title: Weiterleitung
+    message: Die Anmeldung war erfolgreich. Falls die automatische Weiterleitung nicht funktioniert, bitte unten auf den Button klicken.
+    submit: Zum Dienst
 
 attributes:
   friendly:

@@ -1,0 +1,28 @@
+{% extends "sso/confirm.html.twig" %}
+
+{% block redirect %}
+    <form action="{{ destination }}" method="post">
+        {% for name, value in data %}
+            <input type="hidden" name="{{ name|e }}" value="{{ value|e }}" />
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary btn-block">
+            {{ 'actions.confirm'|trans }}
+        </button>
+    </form>
+{% endblock %}
+
+{% block confirm %}
+    <form action="{{ path('confirm_redirect', { id: service.id })}}" method="post">
+        <input type="hidden" name="type" value="post" />
+        <input type="hidden" name="destination" value="{{ destination }}" />
+        {% for name, value in data %}
+            <input type="hidden" name="data[{{ name|e }}]" value="{{ value|e }}" />
+        {% endfor %}
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+        <button type="submit" class="btn btn-primary btn-block">
+            {{ 'sso.confirm.submit'|trans }}
+        </button>
+    </form>
+{% endblock %}

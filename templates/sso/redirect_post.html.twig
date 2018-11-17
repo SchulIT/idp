@@ -1,13 +1,19 @@
 {% extends "sso/redirect.html.twig" %}
 
+{% block javascript %}
+    <script>
+        document.getElementById('form-submit').submit();
+    </script>
+{% endblock %}
+
 {% block redirect %}
-    <form action="{{ destination }}" method="post">
+    <form action="{{ destination }}" method="post" id="form-submit">
         {% for name, value in data %}
             <input type="hidden" name="{{ name|e }}" value="{{ value|e }}" />
         {% endfor %}
 
         <button type="submit" class="btn btn-primary btn-block">
-            {{ 'actions.confirm'|trans }}
+            {{ 'sso.redirect.submit'|trans }}
         </button>
     </form>
 {% endblock %}
