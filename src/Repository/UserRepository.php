@@ -81,9 +81,15 @@ class UserRepository implements UserRepositoryInterface {
             ->leftJoin('u.attributes', 'a')
             ->leftJoin('u.userRoles', 'r')
             ->leftJoin('u.type', 't')
-            ->where('u.username = :usernames')
+            ->where('u.username = :username')
             ->setParameter('username', $username);
 
-        return $qb->getQuery()->getResult();
+        $result = $qb->getQuery()->getResult();
+
+        if(count($result) === 0) {
+            return null;
+        }
+
+        return $result[0];
     }
 }
