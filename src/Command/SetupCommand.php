@@ -41,7 +41,8 @@ class SetupCommand extends ContainerAwareCommand {
     private function addDefaultUserType() {
         $userType = (new UserType())
             ->setName('User')
-            ->setEduPerson('member');
+            ->setAlias('user')
+            ->setEduPerson(['member']);
 
         $em = $this->getEntityManager();
         $em->persist($userType);

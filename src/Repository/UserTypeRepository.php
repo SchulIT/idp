@@ -23,4 +23,11 @@ class UserTypeRepository implements UserTypeRepositoryInterface {
 
         return $qb->getQuery()->getSingleScalarResult();
     }
+
+    public function findAll() {
+        return $this->_em->getRepository(UserType::class)
+            ->findBy([], [
+                'name' => 'asc'
+            ]);
+    }
 }
