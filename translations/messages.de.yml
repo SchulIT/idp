@@ -46,6 +46,7 @@ label:
   api_key: API-Key
   enabled_from: aktiviert von
   enabled_until: aktiviert bis
+  not_specified: nicht festgelegt
 
 auth:
   login: Anmelden

@@ -78,14 +78,19 @@ class UserRoleType extends AbstractType {
                                 $choices[$value] = $key;
                             }
 
-                            $options['choices'] = $choices;
-
                             if($attribute->isMultipleChoice()) {
                                 $options['multiple'] = true;
+                            } else {
+                                array_unshift($choices, [
+                                    'label.not_specified' => null
+                                ]);
+                                $options['placeholder'] = false;
+                            }
 
-                                if(count($choices) < static::EXPANDED_THRESHOLD) {
-                                    $options['expanded'] = true;
-                                }
+                            $options['choices'] = $choices;
+
+                            if(count($choices) < static::EXPANDED_THRESHOLD) {
+                                $options['expanded'] = true;
                             }
 
                             $choiceConstraint = new Choice();
