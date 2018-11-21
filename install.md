@@ -52,6 +52,7 @@ In der Datei `.env` die Konfiguration vornehmen.
 
 ## Zertifikate
 
-Nun müssen noch Zertifikate für den Identity Provider erstellt werden. Dazu kann das folgende Kommando genutzt werden:
+Nun muss noch ein Zertifikat für den Identity Provider erstellt werden. Dazu kann das folgende Kommando genutzt werden:
 
     $ php bin/console app:create-certificate
+
