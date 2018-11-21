@@ -22,6 +22,10 @@ yarn-error.log
 /.web-server-pid
 ###< symfony/web-server-bundle ###
 
+###> phpunit/phpunit ###
+/phpunit.xml
+###< phpunit/phpunit ###
+
 
 
 # Created by https://www.gitignore.io/api/phpstorm+all
@@ -96,9 +100,5 @@ modules.xml
 
 # End of https://www.gitignore.io/api/phpstorm+all
 
-certs/*
-config/config.yaml
 public/images/*
-###> phpunit/phpunit ###
-/phpunit.xml
-###< phpunit/phpunit ###
+
