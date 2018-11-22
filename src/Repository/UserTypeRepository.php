@@ -8,14 +8,14 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UserTypeRepository implements UserTypeRepositoryInterface {
 
-    private $_em;
+    private $em;
 
     public function __construct(EntityManagerInterface $entityManager) {
-        $this->_em = $entityManager;
+        $this->em = $entityManager;
     }
 
     public function countUsersOfUserType(UserType $userType): int {
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->em->createQueryBuilder()
             ->select('COUNT(1)')
             ->from(User::class, 'u')
             ->where('u.type = :type')
@@ -25,9 +25,19 @@ class UserTypeRepository implements UserTypeRepositoryInterface {
     }
 
     public function findAll() {
-        return $this->_em->getRepository(UserType::class)
+        return $this->em->getRepository(UserType::class)
             ->findBy([], [
                 'name' => 'asc'
             ]);
+    }
+
+    public function persist(UserType $userType) {
+        $this->em->persist($userType);
+        $this->em->flush();
+    }
+
+    public function remove(UserType $userType) {
+        $this->em->remove($userType);
+        $this->em->flush();
     }
 }

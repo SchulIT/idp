@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Entity\UserType;
+use App\Repository\UserTypeRepositoryInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -15,9 +16,8 @@ class UserTypeController extends AbstractApiController {
      *
      * @Route("/user_types", methods={"GET"})
      */
-    public function getUserTypes() {
-        $types = $this->getDoctrine()->getRepository(UserType::class)
-            ->findAll();
+    public function getUserTypes(UserTypeRepositoryInterface $repository) {
+        $types = $repository->findAll();
 
         return $this->json($types);
     }

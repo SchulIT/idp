@@ -4,7 +4,7 @@ namespace App\Listener;
 
 use App\Entity\U2fKey;
 use App\Entity\User;
-use Doctrine\Common\Persistence\ObjectManager;
+use App\Repository\U2fKeyRepositoryInterface;
 use R\U2FTwoFactorBundle\Event\RegisterEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -12,11 +12,11 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class U2FRegistrationListener implements EventSubscriberInterface {
 
-    private $em;
+    private $repository;
     private $urlGenerator;
 
-    public function __construct(ObjectManager $objectManager, UrlGeneratorInterface $urlGenerator) {
-        $this->em = $objectManager;
+    public function __construct(U2fKeyRepositoryInterface $repository, UrlGeneratorInterface $urlGenerator) {
+        $this->repository = $repository;
         $this->urlGenerator = $urlGenerator;
     }
 
@@ -35,8 +35,7 @@ class U2FRegistrationListener implements EventSubscriberInterface {
 
         $user->addU2FKey($key);
 
-        $this->em->persist($key);
-        $this->em->flush();
+        $this->repository->persist($key);
 
         $response = new RedirectResponse($this->urlGenerator->generate('two_factor'));
         $event->setResponse($response);

@@ -13,12 +13,10 @@ class ServiceProviderConfirmationService {
 
     private $attributeValueProvider;
     private $confirmationRepository;
-    private $em;
 
     public function __construct(AttributeValueProvider $attributeValueProvider, ServiceProviderConfirmationRepositoryInterface $confirmationRepository, EntityManagerInterface $entityManager) {
         $this->attributeValueProvider = $attributeValueProvider;
         $this->confirmationRepository = $confirmationRepository;
-        $this->em = $entityManager;
     }
 
     public function needsConfirmation(User $user, ServiceProvider $serviceProvider) {
@@ -49,7 +47,6 @@ class ServiceProviderConfirmationService {
         $currentAttributes = array_keys($this->attributeValueProvider->getValuesForUser($user, $serviceProvider->getEntityId()));
         $confirmation->setAttributes($currentAttributes);
 
-        $this->em->persist($confirmation);
-        $this->em->flush();
+        $this->confirmationRepository->persist($confirmation);
     }
 }

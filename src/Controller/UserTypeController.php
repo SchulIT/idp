@@ -20,12 +20,17 @@ class UserTypeController extends Controller {
 
     use AttributeDataTrait;
 
+    private $repository;
+
+    public function __construct(UserTypeRepositoryInterface $repository) {
+        $this->repository = $repository;
+    }
+
     /**
      * @Route("", name="user_types")
      */
     public function index() {
-        $userTypes = $this->getDoctrine()->getManager()
-            ->getRepository(UserType::class)
+        $userTypes = $this->repository
             ->findAll();
 
         return $this->render('user_types/index.html.twig', [
@@ -43,9 +48,7 @@ class UserTypeController extends Controller {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($userType);
-            $em->flush();
+            $this->repository->persist($userType);
 
             $attributeData = $this->getAttributeData($form);
             $attributePersister->persistUserTypeAttributes($attributeData, $userType);
@@ -67,9 +70,7 @@ class UserTypeController extends Controller {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($userType);
-            $em->flush();
+            $this->repository->persist($userType);
 
             $attributeData = $this->getAttributeData($form);
             $attributePersister->persistUserTypeAttributes($attributeData, $userType);
@@ -86,26 +87,24 @@ class UserTypeController extends Controller {
     /**
      * @Route("/{id}/remove", name="remove_user_type")
      */
-    public function remove(UserType $type, Request $request, UserTypeRepositoryInterface $userTypeRepository, TranslatorInterface $translator) {
-        if($userTypeRepository->countUsersOfUserType($type) > 0) {
+    public function remove(UserType $userType, Request $request, UserTypeRepositoryInterface $userTypeRepository, TranslatorInterface $translator) {
+        if($userTypeRepository->countUsersOfUserType($userType) > 0) {
             $this->addFlash('error', $translator->trans('user_types.remove.error', [
-                '%name%' => $type->getName()
+                '%name%' => $userType->getName()
             ]));
 
             return $this->redirectToRoute('user_types');
         }
 
         $form = $this->createForm(ConfirmType::class, [], [
-            'message' => $translator->trans('user_types.remove.confirm', [ '%name%' => $type->getName() ]),
+            'message' => $translator->trans('user_types.remove.confirm', [ '%name%' => $userType->getName() ]),
             //'help' => $translator->trans('user_types.remove.help'),
             'header' => 'user_types.remove.label'
         ]);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($type);
-            $em->flush();
+            $this->repository->remove($userType);
 
             $this->addFlash('success', 'user_types.remove.success');
             return $this->redirectToRoute('user_types');
@@ -113,7 +112,7 @@ class UserTypeController extends Controller {
 
         return $this->render('user_types/remove.html.twig', [
             'form' => $form->createView(),
-            'type' => $type
+            'type' => $userType
         ]);
     }
 }

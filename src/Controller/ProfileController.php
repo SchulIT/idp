@@ -6,6 +6,7 @@ use App\Entity\ActiveDirectoryUser;
 use App\Form\AttributeDataTrait;
 use App\Form\ProfileType;
 use App\Service\AttributePersister;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,7 +22,7 @@ class ProfileController extends Controller {
     /**
      * @Route("", name="profile")
      */
-    public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder, AttributePersister $attributePersister) {
+    public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder, AttributePersister $attributePersister, EntityManagerInterface $em) {
         $user = $this->getUser();
 
         $form = $this->createForm(ProfileType::class, $user);
@@ -34,7 +35,6 @@ class ProfileController extends Controller {
                 $user->setPassword($passwordEncoder->encodePassword($user, $password));
             }
 
-            $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
 

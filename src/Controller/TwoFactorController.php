@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\U2fKey;
 use App\Entity\User;
 use App\Form\EnableTwoFactorType;
+use App\Repository\U2fKeyRepositoryInterface;
+use App\Repository\UserRepositoryInterface;
 use App\Security\TwoFactor\BackupCodeGenerator;
 use App\Security\Voter\U2fKeyVoter;
 use Google\Authenticator\RuntimeException;
@@ -27,6 +29,12 @@ class TwoFactorController extends Controller {
 
     const TWO_FACTOR_EMAIL_CSRF_TOKEN = 'two-factor-csrf';
     const GOOGLE_SECRET_KEY = 'google-code';
+
+    private $userRepository;
+
+    public function __construct(UserRepositoryInterface $repository) {
+        $this->userRepository = $repository;
+    }
 
     /**
      * @Route("", name="two_factor")
@@ -87,10 +95,8 @@ class TwoFactorController extends Controller {
             if($googleAuthenticator->checkCode($fakeUser, $code)) {
                 $user->setGoogleAuthenticatorSecret($secret);
                 $user->setBackupCodes($backupCodeGenerator->generateCodes());
-                $em = $this->getDoctrine()->getManager();
 
-                $em->persist($user);
-                $em->flush();
+                $this->userRepository->persist($user);
 
                 $this->addFlash('success', 'two_factor.google.enable.success');
                 return $this->redirectToRoute('two_factor');
@@ -127,9 +133,7 @@ class TwoFactorController extends Controller {
 
         $user->setBackupCodes($backupCodeGenerator->generateCodes());
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($user);
-        $em->flush();
+        $this->userRepository->persist($user);
 
         $this->addFlash('success', 'two_factor.google.backup.regenreate_success');
         return $this->redirectToRoute('two_factor');
@@ -148,13 +152,11 @@ class TwoFactorController extends Controller {
 
         /** @var User $user */
         $user = $this->getUser();
-        $em = $this->getDoctrine()->getManager();
 
         $user->setGoogleAuthenticatorSecret(null);
         $user->emptyBackupCodes();
 
-        $em->persist($user);
-        $em->flush();
+        $this->userRepository->persist($user);
 
         $this->addFlash('success', 'two_factor.google.disable.success');
         return $this->redirectToRoute('two_factor');
@@ -179,12 +181,9 @@ class TwoFactorController extends Controller {
             return $this->redirectToRoute('two_factor');
         }
 
-        $em = $this->getDoctrine()->getManager();
-
         $user->setIsEmailAuthEnabled(true);
 
-        $em->persist($user);
-        $em->flush();
+        $this->userRepository->persist($user);
 
         $this->addFlash('success', 'two_factor.email.enable.success');
         return $this->redirectToRoute('two_factor');
@@ -203,12 +202,10 @@ class TwoFactorController extends Controller {
 
         /** @var User $user */
         $user = $this->getUser();
-        $em = $this->getDoctrine()->getManager();
 
         $user->setIsEmailAuthEnabled(false);
 
-        $em->persist($user);
-        $em->flush();
+        $this->userRepository->persist($user);
 
         $this->addFlash('success', 'two_factor.email.disable.success');
         return $this->redirectToRoute('two_factor');
@@ -217,7 +214,7 @@ class TwoFactorController extends Controller {
     /**
      * @Route("/u2f/{id}/remove", name="remove_u2f_device")
      */
-    public function removeU2FDevice(U2fKey $key, Request $request, TranslatorInterface $translator) {
+    public function removeU2FDevice(U2fKey $key, Request $request, TranslatorInterface $translator, U2fKeyRepositoryInterface $repository) {
         $this->denyAccessUnlessGranted(U2fKeyVoter::REMOVE, $key);
 
         $form = $this->createForm(ConfirmType::class, null, [
@@ -229,9 +226,7 @@ class TwoFactorController extends Controller {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($key);
-            $em->flush();
+            $repository->remove($key);
 
             $this->addFlash('success', 'two_factor.u2f.remove.success');
             return $this->redirectToRoute('two_factor');

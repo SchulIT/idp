@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\ServiceProvider;
+use App\Repository\ServiceProviderRepositoryInterface;
 use App\Saml\AttributeValueProvider;
 use App\Security\Voter\ServiceProviderVoter;
 use App\Service\ServiceProviderConfirmationService;
@@ -31,7 +32,10 @@ class SsoController extends Controller {
     /**
      * @Route("/idp/saml", name="idp_saml")
      */
-    public function saml(RequestStorageInterface $requestStorage, AttributeValueProvider $attributeValueProvider, SsoIdpReceiveAuthnRequestProfileBuilder $receiveBuilder, SsoIdpSendResponseProfileBuilderFactory $sendResponseBuilder, CsrfTokenManagerInterface $tokenManager) {
+    public function saml(RequestStorageInterface $requestStorage, AttributeValueProvider $attributeValueProvider,
+                         SsoIdpReceiveAuthnRequestProfileBuilder $receiveBuilder,
+                         SsoIdpSendResponseProfileBuilderFactory $sendResponseBuilder,
+                         CsrfTokenManagerInterface $tokenManager, ServiceProviderRepositoryInterface $serviceProviderRepository) {
         $requestStorage->load();
 
         /** @var BuildContainer $buildContext */
@@ -47,9 +51,7 @@ class SsoController extends Controller {
         $message = $context->getInboundMessage();
 
         // check authorization
-        /** @var ServiceProvider $serviceProvider */
-        $serviceProvider = $this->getDoctrine()->getManager()
-            ->getRepository(ServiceProvider::class)
+        $serviceProvider = $serviceProviderRepository
             ->findOneByEntityId($partyContext->getEntityId());
 
         if(!$this->isGranted(ServiceProviderVoter::ENABLED, $serviceProvider)) {

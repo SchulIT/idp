@@ -11,4 +11,8 @@ interface UserTypeRepositoryInterface {
      * @return UserType[]
      */
     public function findAll();
+
+    public function persist(UserType $userType);
+
+    public function remove(UserType $userType);
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ServiceProvider;
 use App\Form\ServiceProviderType;
+use App\Repository\ServiceProviderRepositoryInterface;
 use App\Service\IdpExchangeService;
 use App\Service\ServiceProviderTokenGenerator;
 use SchoolIT\CommonBundle\Form\ConfirmType;
@@ -17,12 +18,17 @@ use Symfony\Component\Translation\TranslatorInterface;
  */
 class ServiceProviderController extends Controller {
 
+    private $repository;
+
+    public function __construct(ServiceProviderRepositoryInterface $repository) {
+        $this->repository = $repository;
+    }
+
     /**
      * @Route("", name="service_providers")
      */
     public function index() {
-        $serviceProviders = $this->getDoctrine()
-            ->getRepository(ServiceProvider::class)
+        $serviceProviders = $this->repository
             ->findAll();
 
         return $this->render('service_providers/index.html.twig', [
@@ -55,9 +61,7 @@ class ServiceProviderController extends Controller {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($serviceProvider);
-            $em->flush();
+            $this->repository->persist($serviceProvider);
 
             $this->addFlash('success', 'service_providers.add.success');
             return $this->redirectToRoute('service_providers');
@@ -76,9 +80,7 @@ class ServiceProviderController extends Controller {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($serviceProvider);
-            $em->flush();
+            $this->repository->persist($serviceProvider);
 
             $this->addFlash('success', 'service_providers.edit.success');
             return $this->redirectToRoute('service_providers');
@@ -102,9 +104,7 @@ class ServiceProviderController extends Controller {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($serviceProvider);
-            $em->flush();
+            $this->repository->remove($serviceProvider);
 
             $this->addFlash('success', 'service_providers.remove.success');
             return $this->redirectToRoute('service_providers');
@@ -139,10 +139,7 @@ class ServiceProviderController extends Controller {
 
         if($form->isSubmitted() && $form->isValid()) {
             $serviceProvider->setToken($serviceProviderTokenGenerator->generateToken());
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($serviceProvider);
-            $em->flush();
+            $this->repository->persist($serviceProvider);
 
             $this->addFlash('success', 'service_providers.token.regenerate.success');
             return $this->redirectToRoute('service_providers');

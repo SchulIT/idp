@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ServiceAttribute;
 use App\Form\ServiceAttributeType;
+use App\Repository\ServiceAttributeRepositoryInterface;
 use SchoolIT\CommonBundle\Form\ConfirmType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,12 +13,17 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 class ServiceAttributeController extends Controller {
 
+    private $repository;
+
+    public function __construct(ServiceAttributeRepositoryInterface $repository) {
+        $this->repository = $repository;
+    }
+
     /**
      * @Route("/admin/attributes", name="attributes")
      */
     public function index() {
-        $attributes = $this->getDoctrine()->getManager()
-            ->getRepository(ServiceAttribute::class)
+        $attributes = $this->repository
             ->findAll();
 
         return $this->render('service_attributes/index.html.twig', [
@@ -35,9 +41,7 @@ class ServiceAttributeController extends Controller {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($attribute);
-            $em->flush();
+            $this->repository->persist($attribute);
 
             $this->addFlash('success', 'service_attributes.add.success');
             return $this->redirectToRoute('attributes');
@@ -56,9 +60,7 @@ class ServiceAttributeController extends Controller {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($attribute);
-            $em->flush();
+            $this->repository->persist($attribute);
 
             $this->addFlash('success', 'service_attributes.edit.success');
             return $this->redirectToRoute('attributes');
@@ -82,9 +84,7 @@ class ServiceAttributeController extends Controller {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($attribute);
-            $em->flush();
+            $this->repository->remove($attribute);
 
             $this->addFlash('success', 'service_attributes.remove.success');
             return $this->redirectToRoute('attributes');

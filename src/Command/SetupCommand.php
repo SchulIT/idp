@@ -3,13 +3,25 @@
 namespace App\Command;
 
 use App\Entity\UserType;
-use Doctrine\ORM\EntityManager;
+use App\Repository\UserTypeRepositoryInterface;
+use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 class SetupCommand extends ContainerAwareCommand {
+
+    private $dbalConnection;
+    private $userTypeRepository;
+
+    public function __construct(Connection $connection, UserTypeRepositoryInterface $userTypeRepository, ?string $name = null) {
+        parent::__construct($name);
+
+        $this->dbalConnection = $connection;
+        $this->userTypeRepository = $userTypeRepository;
+    }
+
     public function configure() {
         $this
             ->setName('app:setup')
@@ -31,22 +43,13 @@ class SetupCommand extends ContainerAwareCommand {
         $io->success('Setup completed');
     }
 
-    /**
-     * @return EntityManager
-     */
-    private function getEntityManager() {
-        return $this->getContainer()->get('doctrine')->getManager();
-    }
-
     private function addDefaultUserType() {
         $userType = (new UserType())
             ->setName('User')
             ->setAlias('user')
             ->setEduPerson(['member']);
 
-        $em = $this->getEntityManager();
-        $em->persist($userType);
-        $em->flush();
+        $this->userTypeRepository->persist($userType);
     }
 
     private function setupRememberMe() {
@@ -60,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `rememberme_token` (
 );
 SQL;
 
-        $this->getEntityManager()->getConnection()->exec($sql);
+        $this->dbalConnection->exec($sql);
     }
 
     private function setupSessions() {
@@ -73,6 +76,6 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 ) COLLATE utf8_bin, ENGINE = InnoDB;
 SQL;
 
-        $this->getEntityManager()->getConnection()->exec($sql);
+        $this->dbalConnection->exec($sql);
     }
 }

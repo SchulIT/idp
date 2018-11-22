@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Application;
 use App\Form\ApplicationType;
+use App\Repository\ApplicationRepositoryInterface;
 use App\Service\ApplicationKeyGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,14 +14,18 @@ use Symfony\Component\Routing\Annotation\Route;
  * @Route("/admin/applications")
  */
 class ApplicationController extends Controller {
+
+    private $repository;
+
+    public function __construct(ApplicationRepositoryInterface $repository) {
+        $this->repository = $repository;
+    }
+
     /**
      * @Route("", name="applications")
      */
     public function index() {
-        /** @var Application[] $applications */
-        $applications = $this->getDoctrine()->getManager()
-            ->getRepository(Application::class)
-            ->findBy([], ['name' => 'asc']);
+        $applications = $this->repository->findAll();
 
         return $this->render('applications/index.html.twig', [
             'applications' => $applications
@@ -39,9 +44,7 @@ class ApplicationController extends Controller {
         if($form->isSubmitted() && $form->isValid()) {
             $application->setApiKey($keyGenerator->generateApiKey());
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($application);
-            $em->flush();
+            $this->repository->persist($application);
 
             return $this->redirectToRoute('applications');
         }
@@ -59,9 +62,7 @@ class ApplicationController extends Controller {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($application);
-            $em->flush();
+            $this->repository->persist($application);
 
             return $this->redirectToRoute('applications');
         }

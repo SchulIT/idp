@@ -36,4 +36,14 @@ class ServiceProviderRepository implements ServiceProviderRepositoryInterface {
         return $this->em->getRepository(ServiceProvider::class)
             ->findOneBy(['entityId' => $entityId]);
     }
+
+    public function persist(ServiceProvider $provider) {
+        $this->em->persist($provider);
+        $this->em->flush();
+    }
+
+    public function remove(ServiceProvider $provider) {
+        $this->em->remove($provider);
+        $this->em->flush();
+    }
 }

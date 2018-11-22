@@ -7,7 +7,7 @@ use AdAuth\Credentials;
 use AdAuth\Response\AuthenticationResponse;
 use AdAuth\SocketException;
 use App\Entity\ActiveDirectoryUser;
-use Doctrine\Common\Persistence\ObjectManager;
+use App\Repository\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,15 +23,15 @@ class UserAuthenticator implements SimpleFormAuthenticatorInterface {
 
     private $isActiveDirectoryEnabled;
     private $encoder;
-    private $em;
     private $logger;
     private $adAuth;
     private $userCreator;
+    private $userRepository;
 
-    public function __construct($isActiveDirectoryEnabled, UserPasswordEncoderInterface $encoder, ObjectManager $entityManager, AdAuthInterface $adAuth, UserCreator $userCreator, LoggerInterface $logger = null) {
+    public function __construct($isActiveDirectoryEnabled, UserPasswordEncoderInterface $encoder, UserRepositoryInterface $userRepository, AdAuthInterface $adAuth, UserCreator $userCreator, LoggerInterface $logger = null) {
         $this->isActiveDirectoryEnabled = $isActiveDirectoryEnabled;
         $this->encoder = $encoder;
-        $this->em = $entityManager;
+        $this->userRepository = $userRepository;
         $this->adAuth = $adAuth;
         $this->userCreator = $userCreator;
         $this->logger = $logger ?? new NullLogger();
@@ -84,8 +84,7 @@ class UserAuthenticator implements SimpleFormAuthenticatorInterface {
 
                 $user->setPassword($this->encoder->encodePassword($user, $token->getCredentials()));
 
-                $this->em->persist($user);
-                $this->em->flush();
+                $this->userRepository->persist($user);
 
                 return $user;
             } else {

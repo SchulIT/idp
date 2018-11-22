@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\PasswordResetToken;
 use App\Entity\User;
+use App\Repository\UserRepositoryInterface;
 use App\Security\ForgotPassword\ForgotPasswordManager;
 use App\Security\PasswordStrengthHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -47,12 +48,10 @@ class ForgotPasswordController extends Controller {
     /**
      * @Route("/forgot_pw", name="forgot_password")
      */
-    public function request(Request $request, CsrfTokenManagerInterface $csrfTokenManager, TranslatorInterface $translator) {
+    public function request(Request $request, CsrfTokenManagerInterface $csrfTokenManager, TranslatorInterface $translator, UserRepositoryInterface $userRepository) {
         if($request->isMethod('POST')) {
             $username = $request->request->get('_username');
-            $user = $this->getDoctrine()
-                ->getRepository(User::class)
-                ->findOneByUsername($username);
+            $user = $userRepository->findOneByUsername($username);
 
             if($this->isCsrfTokenFromRequestValid($request) !== true) {
                 $this->addFlash('error', $this->getCsrfTokenMessage());

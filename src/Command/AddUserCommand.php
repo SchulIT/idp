@@ -3,7 +3,6 @@
 namespace App\Command;
 
 use App\Entity\User;
-use App\Entity\UserType;
 use App\Repository\UserRepositoryInterface;
 use App\Repository\UserTypeRepositoryInterface;
 use Doctrine\ORM\EntityManager;
@@ -18,11 +17,13 @@ use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 class AddUserCommand extends ContainerAwareCommand {
 
     private $userTypeRepository;
+    private $userRepository;
 
-    public function __construct(UserTypeRepositoryInterface $userTypeRepository, $name = null)
+    public function __construct(UserTypeRepositoryInterface $userTypeRepository, UserRepositoryInterface $userRepository, $name = null)
     {
         parent::__construct($name);
         $this->userTypeRepository = $userTypeRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function configure() {
@@ -118,8 +119,7 @@ class AddUserCommand extends ContainerAwareCommand {
 
         $user->setPassword($encodedPassword);
 
-        $em->persist($user);
-        $em->flush();
+        $this->userRepository->persist($user);
 
         $io->success('User successfully added');
     }

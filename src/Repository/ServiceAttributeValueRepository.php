@@ -14,44 +14,44 @@ use Doctrine\ORM\EntityRepository;
 
 class ServiceAttributeValueRepository implements ServiceAttributeValueRepositoryInterface, TransactionalRepositoryInterface {
 
-    private $_em;
+    private $em;
 
     public function __construct(EntityManagerInterface $objectManager) {
-        $this->_em = $objectManager;
+        $this->em = $objectManager;
     }
 
     /**
      * @inheritDoc
      */
     public function persist($attributeValue) {
-        $this->_em->persist($attributeValue);
+        $this->em->persist($attributeValue);
     }
 
     /**
      * @inheritDoc
      */
     public function remove($attributeValue) {
-        $this->_em->remove($attributeValue);
+        $this->em->remove($attributeValue);
     }
 
     public function beginTransaction() {
-        $this->_em->beginTransaction();
+        $this->em->beginTransaction();
     }
 
     public function commit() {
-        $this->_em->commit();
-        $this->_em->flush();
+        $this->em->commit();
+        $this->em->flush();
     }
 
     public function rollBack() {
-        $this->_em->rollback();
+        $this->em->rollback();
     }
 
     /**
      * @inheritDoc
      */
     public function getAttributeValuesForUser(User $user) {
-        $query = $this->_em
+        $query = $this->em
             ->createQueryBuilder()
             ->select(['v', 'a'])
             ->from(ServiceAttributeValue::class, 'v')
@@ -67,7 +67,7 @@ class ServiceAttributeValueRepository implements ServiceAttributeValueRepository
      * @inheritDoc
      */
     public function getAttributeValuesForUserType(UserType $userType) {
-        $query = $this->_em
+        $query = $this->em
             ->createQueryBuilder()
             ->select(['v', 'a'])
             ->from(ServiceAttributeUserTypeValue::class, 'v')
@@ -82,7 +82,7 @@ class ServiceAttributeValueRepository implements ServiceAttributeValueRepository
      * @inheritDoc
      */
     public function getAttributeValuesForUserRole(UserRole $userRole) {
-        $query = $this->_em
+        $query = $this->em
             ->createQueryBuilder()
             ->select(['v', 'a'])
             ->from(ServiceAttributeUserRoleValue::class, 'v')

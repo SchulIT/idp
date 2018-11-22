@@ -7,6 +7,15 @@ use App\Entity\ServiceProvider;
 interface ServiceProviderRepositoryInterface {
 
     /**
+     * @return ServiceProvider[]
+     */
+    public function findAll();
+
+    public function persist(ServiceProvider $provider);
+    
+    public function remove(ServiceProvider $provider);
+
+    /**
      * @param string $token
      * @return ServiceProvider|null
      */
@@ -18,8 +27,5 @@ interface ServiceProviderRepositoryInterface {
      */
     public function findOneByEntityId(string $entityId): ?ServiceProvider;
 
-    /**
-     * @return ServiceProvider[]
-     */
-    public function findAll();
+
 }

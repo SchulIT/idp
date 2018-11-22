@@ -7,6 +7,8 @@ use App\Entity\User;
 use App\Entity\UserType as UserTypeEntity;
 use App\Form\AttributeDataTrait;
 use App\Form\UserType;
+use App\Repository\UserRepositoryInterface;
+use App\Repository\UserTypeRepositoryInterface;
 use App\Saml\AttributeValueProvider;
 use App\Service\AttributePersister;
 use App\Service\AttributeResolver;
@@ -15,6 +17,7 @@ use SchoolIT\CommonBundle\Form\ConfirmType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class UserController extends Controller {
@@ -23,6 +26,14 @@ class UserController extends Controller {
 
     const USERS_PER_PAGE = 25;
 
+    private $repository;
+    private $typeRepository;
+
+    public function __construct(UserRepositoryInterface $repository, UserTypeRepositoryInterface $typeRepository) {
+        $this->repository = $repository;
+        $this->typeRepository = $typeRepository;
+    }
+
     /**
      * @Route("/users", name="users")
      */
@@ -30,49 +41,9 @@ class UserController extends Controller {
         $q = $request->query->get('q', null);
         $type = $request->query->get('type', null);
 
-        $em = $this->getDoctrine()->getManager();
+        $types = $this->typeRepository->findAll();
 
-        /** @var UserTypeEntity[] $types */
-        $types = $em->getRepository(UserTypeEntity::class)
-            ->findAll();
-
-        $query = $em->createQueryBuilder()
-            ->select('u')
-            ->from(User::class, 'u')
-            ->orderBy('u.username', 'asc');
-
-        if(!empty($q)) {
-            $query
-                ->andWhere(
-                    $query->expr()->orX(
-                        'u.username LIKE :query',
-                        'u.firstname LIKE :query',
-                        'u.lastname LIKE :query',
-                        'u.email LIKE :query'
-                    )
-                )
-                ->setParameter('query', '%' . $q . '%');
-        }
-
-        if(!empty($type)) {
-            $query
-                ->andWhere(
-                    'u.type = :type'
-                )
-                ->setParameter('type', $type);
-        }
-
-        $page = $request->query->get('p', 1);
-        if(!is_numeric($page) || $page < 1) {
-            $page = 1;
-        }
-
-        $offset = ($page - 1) * static::USERS_PER_PAGE;
-
-        $paginator = new Paginator($query);
-        $paginator->getQuery()
-            ->setMaxResults(static::USERS_PER_PAGE)
-            ->setFirstResult($offset);
+        $paginator = $this->repository->getPaginatedUsers(static::USERS_PER_PAGE, $page, $type, $q);
 
         $pages = 1;
 
@@ -107,19 +78,16 @@ class UserController extends Controller {
     /**
      * @Route("/users/add", name="add_user")
      */
-    public function add(Request $request, AttributePersister $attributePersister) {
+    public function add(Request $request, AttributePersister $attributePersister, PasswordEncoderInterface $passwordEncoder) {
         $user = new User();
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $passwordEncoder = $this->get('security.password_encoder');
             $user->setPassword($passwordEncoder->encodePassword($user, $form->get('group_password')->get('password')->getData()));
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
+            $this->repository->persist($user);
 
             $attributeData = $this->getAttributeData($form);
             $attributePersister->persistUserAttributes($attributeData, $user);
@@ -136,7 +104,7 @@ class UserController extends Controller {
     /**
      * @Route("/users/{id}/edit", name="edit_user")
      */
-    public function edit(Request $request, User $user, AttributePersister $attributePersister) {
+    public function edit(Request $request, User $user, AttributePersister $attributePersister, PasswordEncoderInterface $passwordEncoder) {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -144,13 +112,10 @@ class UserController extends Controller {
             $password = $form->get('group_password')->get('password')->getData();
 
             if(!empty($password) && !$user instanceof ActiveDirectoryUser) {
-                $passwordEncoder = $this->get('security.password_encoder');
                 $user->setPassword($passwordEncoder->encodePassword($user, $password));
             }
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
+            $this->repository->persist($user);
 
             $attributeData = $this->getAttributeData($form);
             $attributePersister->persistUserAttributes($attributeData, $user);
@@ -184,9 +149,7 @@ class UserController extends Controller {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($user);
-            $em->flush();
+            $this->repository->remove($user);
 
             $this->addFlash('success', 'users.remove.success');
             return $this->redirectToRoute('users');

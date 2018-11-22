@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Application;
+use App\Repository\ApplicationRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -10,10 +11,10 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class ApplicationKeyGenerator {
 
-    private $em;
+    private $repository;
 
-    public function __construct(EntityManagerInterface $entityManager) {
-        $this->em = $entityManager;
+    public function __construct(ApplicationRepositoryInterface $repository) {
+        $this->repository = $repository;
     }
 
     /**
@@ -24,7 +25,7 @@ class ApplicationKeyGenerator {
     public function generateApiKey() {
         do {
             $apiKey = bin2hex(openssl_random_pseudo_bytes(32));
-            $application = $this->em->getRepository(Application::class)
+            $application = $this->repository
                 ->findOneByApiKey($apiKey);
         } while($application !== null);
 

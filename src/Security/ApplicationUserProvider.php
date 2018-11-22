@@ -3,32 +3,30 @@
 namespace App\Security;
 
 use App\Entity\Application;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\ApplicationRepositoryInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class ApplicationUserProvider implements UserProviderInterface {
 
-    private $em;
+    private $repository;
 
-    public function __construct(EntityManagerInterface $entityManager) {
-        $this->em = $entityManager;
+    public function __construct(ApplicationRepositoryInterface $repository) {
+        $this->repository = $repository;
     }
 
     public function loadUserByApiKey($apiKey): ?Application {
-        return $this->em
-            ->getRepository(Application::class)
+        return $this->repository
             ->findOneByApiKey($apiKey);
     }
 
     /**
      * @inheritDoc
      */
-    public function loadUserByUsername($username) {
-        return $this->em
-            ->getRepository(Application::class)
-            ->findOneByUsername($username);
+    public function loadUserByUsername($apiKey) {
+        return $this->repository
+            ->findOneByApiKey($apiKey);
     }
 
     /**

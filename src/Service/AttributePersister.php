@@ -31,7 +31,7 @@ class AttributePersister {
     public function persist(array $values, array $currentAttributes, \Closure $factory) {
         /** @var ServiceAttribute[] $attributes */
         $attributes = $this->makeArrayWithKeys(
-            $this->attributeRepository->getAttributes(),
+            $this->attributeRepository->findAll(),
             function(ServiceAttribute $attribute) {
                 return $attribute->getName();
             }

@@ -8,7 +8,8 @@ use App\Entity\ActiveDirectoryGradeSyncOption;
 use App\Entity\ActiveDirectorySyncOption;
 use App\Entity\ActiveDirectoryUser;
 use App\Entity\UserType;
-use Doctrine\Common\Persistence\ObjectManager;
+use App\Repository\ActiveDirectoryGradeSyncOptionRepositoryInterface;
+use App\Repository\ActiveDirectorySyncOptionRepositoryInterface;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -24,26 +25,30 @@ class UserCreator {
     /** @var OptionResolver */
     private $optionsResolver;
 
-    private $em;
+    /** @var ActiveDirectorySyncOptionRepositoryInterface  */
+    private $syncOptionRepository;
+
+    /** @var ActiveDirectoryGradeSyncOptionRepositoryInterface  */
+    private $gradeSyncOptionRepository;
 
     /**
      * @param EntityManager $entityManager
      */
-    public function __construct(ObjectManager $entityManager, OptionResolver $optionResolver) {
-        $this->em = $entityManager;
+    public function __construct(ActiveDirectorySyncOptionRepositoryInterface $syncOptionRepository,
+                                ActiveDirectoryGradeSyncOptionRepositoryInterface $gradeSyncOptionRepository, OptionResolver $optionResolver) {
+        $this->syncOptionRepository = $syncOptionRepository;
+        $this->gradeSyncOptionRepository = $gradeSyncOptionRepository;
         $this->optionsResolver = $optionResolver;
     }
 
     private function initialise() {
         if ($this->syncOptions === null) {
-            $this->syncOptions = $this->em
-                ->getRepository(ActiveDirectorySyncOption::class)
+            $this->syncOptions = $this->syncOptionRepository
                 ->findAll();
         }
 
         if ($this->gradeSyncOptions === null) {
-            $this->gradeSyncOptions = $this->em
-                ->getRepository(ActiveDirectoryGradeSyncOption::class)
+            $this->gradeSyncOptions = $this->gradeSyncOptionRepository
                 ->findAll();
         }
     }

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 interface UserRepositoryInterface {
     /**
@@ -20,5 +21,16 @@ interface UserRepositoryInterface {
 
     public function findOneByUsername(string $username): ?User;
 
+    /**
+     * @param int $offset
+     * @param null $limit
+     * @return User[]
+     */
     public function findAll($offset = 0, $limit = null);
+
+    public function persist(User $user);
+
+    public function remove(User $user);
+
+    public function getPaginatedUsers($itemsPerPage, &$page, $type = null, $query = null): Paginator;
 }

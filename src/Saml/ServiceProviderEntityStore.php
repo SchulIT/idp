@@ -3,6 +3,7 @@
 namespace App\Saml;
 
 use App\Entity\ServiceProvider;
+use App\Repository\ServiceProviderRepositoryInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use LightSaml\Credential\X509Certificate;
 use LightSaml\Model\Metadata\AssertionConsumerService;
@@ -18,18 +19,17 @@ use LightSaml\Store\EntityDescriptor\EntityDescriptorStoreInterface;
  */
 class ServiceProviderEntityStore implements EntityDescriptorStoreInterface {
 
-    private $em;
+    private $repository;
 
-    public function __construct(ObjectManager $entityManager) {
-        $this->em = $entityManager;
+    public function __construct(ServiceProviderRepositoryInterface $repository) {
+        $this->repository = $repository;
     }
 
     /**
      * @inheritDoc
      */
     public function get($entityId) {
-        /** @var ServiceProvider $provider */
-        $provider = $this->em->getRepository(ServiceProvider::class)
+        $provider = $this->repository
            ->findOneByEntityId($entityId);
 
         if($provider === null) {
@@ -53,8 +53,7 @@ class ServiceProviderEntityStore implements EntityDescriptorStoreInterface {
         /** @var EntityDescriptor[] $all */
         $all = [ ];
 
-        /** @var ServiceProvider[] $serviceProviders */
-        $serviceProviders = $this->em->getRepository(ServiceProvider::class)
+        $serviceProviders = $this->repository
             ->findAll();
 
         foreach ($serviceProviders as $serviceProvider) {

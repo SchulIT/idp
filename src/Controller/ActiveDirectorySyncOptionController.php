@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ActiveDirectorySyncOption;
 use App\Form\ActiveDirectorySyncOptionType;
+use App\Repository\ActiveDirectorySyncOptionRepositoryInterface;
 use SchoolIT\CommonBundle\Form\ConfirmType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -14,13 +15,18 @@ use Symfony\Component\Translation\TranslatorInterface;
  * @Route("/admin/ad_sync")
  */
 class ActiveDirectorySyncOptionController extends Controller {
+
+    private $repository;
+
+    public function __construct(ActiveDirectorySyncOptionRepositoryInterface $repository) {
+        $this->repository = $repository;
+    }
+
     /**
      * @Route("", name="ad_sync_options")
      */
     public function index() {
-        $syncOptions = $this->getDoctrine()->getManager()
-            ->getRepository(ActiveDirectorySyncOption::class)
-            ->findAll();
+        $syncOptions = $this->repository->findAll();
 
         return $this->render('ad_sync_options/index.html.twig', [
             'sync_options' => $syncOptions
@@ -37,9 +43,7 @@ class ActiveDirectorySyncOptionController extends Controller {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($syncOption);
-            $em->flush();
+            $this->repository->persist($syncOption);
 
             $this->addFlash('success', 'ad_sync_options.add.success');
             return $this->redirectToRoute('ad_sync_options');
@@ -58,9 +62,7 @@ class ActiveDirectorySyncOptionController extends Controller {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($syncOption);
-            $em->flush();
+            $this->repository->persist($syncOption);
 
             $this->addFlash('success', 'ad_sync_options.edit.success');
             return $this->redirectToRoute('ad_sync_options');
@@ -74,19 +76,17 @@ class ActiveDirectorySyncOptionController extends Controller {
     /**
      * @Route("/{id}/remove", name="remove_ad_sync_option")
      */
-    public function remove(ActiveDirectorySyncOption $option, Request $request, TranslatorInterface $translator) {
+    public function remove(ActiveDirectorySyncOption $syncOption, Request $request, TranslatorInterface $translator) {
         $form = $this->createForm(ConfirmType::class, [], [
             'message' => $translator->trans('ad_sync_options.remove.confirm', [
-                '%name%' => $option->getName()
+                '%name%' => $syncOption->getName()
             ]),
             'label' => 'ad_sync_options.remove.label'
         ]);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($option);
-            $em->flush();
+            $this->repository->remove($syncOption);
 
             $this->addFlash('success', 'ad_sync_options.remove.success');
             return $this->redirectToRoute('ad_sync_options');
@@ -94,7 +94,7 @@ class ActiveDirectorySyncOptionController extends Controller {
 
         return $this->render('ad_sync_options/remove.html.twig', [
             'form' => $form->createView(),
-            'option' => $option
+            'option' => $syncOption
         ]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ActiveDirectoryGradeSyncOption;
 use App\Form\ActiveDirectoryGradeSyncOptionType;
+use App\Repository\ActiveDirectoryGradeSyncOptionRepositoryInterface;
 use SchoolIT\CommonBundle\Form\ConfirmType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,13 +16,17 @@ use Symfony\Component\Translation\TranslatorInterface;
  */
 class ActiveDirectoryGradeSyncOptionController extends Controller {
 
+    private $repository;
+
+    public function __construct(ActiveDirectoryGradeSyncOptionRepositoryInterface $repository) {
+        $this->repository = $repository;
+    }
+
     /**
      * @Route("", name="ad_grades_sync_options")
      */
     public function index() {
-        $options = $this->getDoctrine()
-            ->getRepository(ActiveDirectoryGradeSyncOption::class)
-            ->findAll();
+        $options = $this->repository->findAll();
 
         return $this->render('ad_sync_options/grades/index.html.twig', [
             'sync_options' => $options
@@ -38,9 +43,7 @@ class ActiveDirectoryGradeSyncOptionController extends Controller {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($option);
-            $em->flush();
+            $this->repository->persist($option);
 
             $this->addFlash('success', 'ad_sync_options.grades.add.success');
             return $this->redirectToRoute('ad_grades_sync_options');
@@ -59,9 +62,7 @@ class ActiveDirectoryGradeSyncOptionController extends Controller {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($option);
-            $em->flush();
+            $this->repository->persist($option);
 
             $this->addFlash('success', 'ad_sync_options.grades.add.success');
             return $this->redirectToRoute('ad_grades_sync_options');
@@ -85,9 +86,7 @@ class ActiveDirectoryGradeSyncOptionController extends Controller {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($option);
-            $em->flush();
+            $this->repository->remove($option);
 
             $this->addFlash('success', 'ad_sync_options.grades.remove.success');
             return $this->redirectToRoute('ad_grades_sync_options');

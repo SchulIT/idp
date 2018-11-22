@@ -22,4 +22,9 @@ class ServiceProviderConfirmationRepository implements ServiceProviderConfirmati
                 'serviceProvider' => $serviceProvider
             ]);
     }
+
+    public function persist(ServiceProviderConfirmation $confirmation) {
+        $this->em->persist($confirmation);
+        $this->em->flush();
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\UserRole;
 use App\Form\AttributeDataTrait;
 use App\Form\UserRoleType;
+use App\Repository\UserRoleRepositoryInterface;
 use App\Service\AttributePersister;
 use SchoolIT\CommonBundle\Form\ConfirmType;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,12 +20,17 @@ class UserRoleController extends Controller {
 
     use AttributeDataTrait;
 
+    private $repository;
+
+    public function __construct(UserRoleRepositoryInterface $repository) {
+        $this->repository = $repository;
+    }
+
     /**
      * @Route("", name="user_roles")
      */
     public function index() {
-        $roles = $this->getDoctrine()->getManager()
-            ->getRepository(UserRole::class)
+        $roles = $this->repository
             ->findAll();
 
         return $this->render('user_roles/index.html.twig', [
@@ -42,9 +48,7 @@ class UserRoleController extends Controller {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($role);
-            $em->flush();
+            $this->repository->persist($role);
 
             $attributeData = $this->getAttributeData($form);
             $attributePersister->persistUserRoleAttributes($attributeData, $role);
@@ -66,9 +70,7 @@ class UserRoleController extends Controller {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($role);
-            $em->flush();
+            $this->repository->persist($role);
 
             $attributeData = $this->getAttributeData($form);
             $attributePersister->persistUserRoleAttributes($attributeData, $role);
@@ -95,9 +97,7 @@ class UserRoleController extends Controller {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($role);
-            $em->flush();
+            $this->repository->remove($role);
 
             $this->addFlash('success', 'user_roles.remove.success');
             return $this->redirectToRoute('user_roles');

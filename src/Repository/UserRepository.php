@@ -4,17 +4,18 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class UserRepository implements UserRepositoryInterface {
 
-    private $_em;
+    private $em;
 
     public function __construct(EntityManagerInterface $objectManager) {
-        $this->_em = $objectManager;
+        $this->em = $objectManager;
     }
 
     public function findAll($offset = 0, $limit = null) {
-        $qb = $this->_em
+        $qb = $this->em
             ->createQueryBuilder()
             ->select('u')
             ->from(User::class, 'u')
@@ -29,7 +30,7 @@ class UserRepository implements UserRepositoryInterface {
     }
 
     public function findUsersByUsernames(array $usernames) {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->em->createQueryBuilder();
 
         $qb->select(['u', 'a', 'r', 't'])
             ->from(User::class, 'u')
@@ -43,7 +44,7 @@ class UserRepository implements UserRepositoryInterface {
     }
 
     public function findUsersUpdatedAfter(\DateTime $dateTime, array $usernames = [ ]) {
-        $qb = $this->_em
+        $qb = $this->em
             ->createQueryBuilder();
 
         $qb->select(['DISTINCT u.username'])
@@ -74,7 +75,7 @@ class UserRepository implements UserRepositoryInterface {
     }
 
     public function findOneByUsername(string $username): ?User {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->em->createQueryBuilder();
 
         $qb->select(['u', 'a', 'r', 't'])
             ->from(User::class, 'u')
@@ -91,5 +92,57 @@ class UserRepository implements UserRepositoryInterface {
         }
 
         return $result[0];
+    }
+
+    public function persist(User $user) {
+        $this->em->persist($user);
+        $this->em->flush();
+    }
+
+    public function remove(User $user) {
+        $this->em->remove($user);
+        $this->em->flush();
+    }
+
+    public function getPaginatedUsers($itemsPerPage, &$page, $type = null, $query = null): Paginator {
+        $query = $this->em
+            ->createQueryBuilder()
+            ->select('u')
+            ->from(User::class, 'u')
+            ->orderBy('u.username', 'asc');
+
+        if(!empty($q)) {
+            $query
+                ->andWhere(
+                    $query->expr()->orX(
+                        'u.username LIKE :query',
+                        'u.firstname LIKE :query',
+                        'u.lastname LIKE :query',
+                        'u.email LIKE :query'
+                    )
+                )
+                ->setParameter('query', '%' . $q . '%');
+        }
+
+        if(!empty($type)) {
+            $query
+                ->andWhere(
+                    'u.type = :type'
+                )
+                ->setParameter('type', $type);
+        }
+
+        if(!is_numeric($page) || $page < 1) {
+            $page = 1;
+        }
+
+        $offset = ($page - 1) * $itemsPerPage;
+
+        $paginator = new Paginator($query);
+        $paginator->getQuery()
+            ->setMaxResults($itemsPerPage)
+            ->setFirstResult($offset);
+
+        return $paginator;
     }
 }
