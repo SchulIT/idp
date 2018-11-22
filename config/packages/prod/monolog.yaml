@@ -24,7 +24,7 @@ monolog:
                 - ^/
         nested:
             type: service
-            id: monolog.db_handler
+            id: SchoolIT\CommonBundle\Monolog\DatabaseHandler
             level: debug
 
         console:

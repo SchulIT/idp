@@ -7,6 +7,8 @@ use App\Entity\User;
 use App\Form\EnableTwoFactorType;
 use App\Security\TwoFactor\BackupCodeGenerator;
 use App\Security\Voter\U2fKeyVoter;
+use Google\Authenticator\RuntimeException;
+use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticator;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Trusted\TrustedDeviceManager;
 use SchoolIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,6 +17,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
@@ -28,13 +31,14 @@ class TwoFactorController extends Controller {
     /**
      * @Route("", name="two_factor")
      */
-    public function twoFactorAuthentication(Request $request, TrustedDeviceManager $trustedDeviceManager, FirewallMap $firewallMap) {
+    public function twoFactorAuthentication(Request $request, TrustedDeviceManager $trustedDeviceManager,
+                                            FirewallMap $firewallMap, CsrfTokenManagerInterface $tokenManager) {
         /** @var User $user */
         $user = $this->getUser();
         $isGoogleEnabled = $user->isGoogleAuthenticatorEnabled();
         $backupCodes = $user->getBackupCodes();
 
-        $csrfToken = $this->get('security.csrf.token_manager')
+        $csrfToken = $tokenManager
             ->getToken(static::TWO_FACTOR_EMAIL_CSRF_TOKEN);
 
         $isTrustedDevice = $trustedDeviceManager->isTrustedDevice($user, $firewallMap->getFirewallConfig($request)->getName());
@@ -54,15 +58,13 @@ class TwoFactorController extends Controller {
     /**
      * @Route("/google/enable", name="enable_google_two_factor")
      */
-    public function enableGoogleTwoFactorAuthentication(Request $request, BackupCodeGenerator $backupCodeGenerator) {
+    public function enableGoogleTwoFactorAuthentication(Request $request, BackupCodeGenerator $backupCodeGenerator, GoogleAuthenticator $googleAuthenticator) {
         /** @var User $user */
         $user = $this->getUser();
 
         if($user->isGoogleAuthenticatorEnabled()) {
             return $this->redirectToRoute('two_factor');
         }
-
-        $googleAuthenticator = $this->get('scheb_two_factor.security.google_authenticator');
 
         $secret = $googleAuthenticator->generateSecret();
         $form = $this->createForm(EnableTwoFactorType::class, [
@@ -77,12 +79,12 @@ class TwoFactorController extends Controller {
         $fakeUser = (new User())
             ->setUsername($user->getUsername());
         $fakeUser->setGoogleAuthenticatorSecret($secret);
-        $qrContent = $this->get("scheb_two_factor.security.google_authenticator")->getQRContent($fakeUser);
+        $qrContent = $googleAuthenticator->getQRContent($fakeUser);
 
         if($form->isSubmitted() && $form->isValid()) {
             $code = $form->get('code')->getData();
 
-            if($this->get("scheb_two_factor.security.google_authenticator")->checkCode($fakeUser, $code)) {
+            if($googleAuthenticator->checkCode($fakeUser, $code)) {
                 $user->setGoogleAuthenticatorSecret($secret);
                 $user->setBackupCodes($backupCodeGenerator->generateCodes());
                 $em = $this->getDoctrine()->getManager();

@@ -29,48 +29,25 @@ services:
     # please note that last definitions always *replace* previous ones
 
     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
-        public:    false
         arguments:
-            - '%env(DATABASE_URL)%'
+            $pdoOrDsn: '%env(DATABASE_URL)%'
 
     Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider:
-        public: false
-        arguments: [ "@doctrine.dbal.default_connection"]
-
-    ## PUBLIC SERVICES
+        arguments:
+            $conn: "@doctrine.dbal.default_connection"
 
     # Authentication
     App\Security\UserAuthenticator:
-        autowire: true
         arguments:
           $isActiveDirectoryEnabled: "%env(bool:ADAUTH_ENABLED)%"
           $logger: "@monolog.logger.auth"
 
-    # LightSAML
-    App\Saml\ServiceProviderEntityStore:
-        autowire: true
-        public: true
-
-    # Repositories
-    App\Repository\ServiceAttributeRepositoryInterface:
-        alias: App\Repository\ServiceAttributeRepository
-
-    App\Repository\ServiceAttributeValueRepositoryInterface:
-        alias: App\Repository\ServiceAttributeValueRepository
-
     # Menu
-    app.menu:
-      class: App\Menu\Builder
-      arguments: ["@knp_menu.factory"]
-      calls:
-        - [ setContainer, ["@service_container" ]]
+    App\Menu\Builder:
       tags:
         - { name: knp_menu.menu_builder, method: mainMenu, alias: mainMenu }
 
-    app.menu.voter:
-      class: App\Menu\Voter
-      arguments:
-        - "@request_stack"
+    App\Menu\Voter:
       tags:
         - { name: knp_menu.voter }
 
@@ -81,7 +58,6 @@ services:
     # Firewall map
     Symfony\Bundle\SecurityBundle\Security\FirewallMap:
       alias: security.firewall.map
-
 
     # LightSAML overrides
     # Note: these services override existing services provided by LightSAML. This is necessary in order to properly
@@ -107,3 +83,9 @@ services:
     App\Controller\Api\IdpExchangeController:
         arguments:
             $logger: '@monolog.logger.exchange'
+
+    SchoolIT\CommonBundle\Command\CreateCertificateCommand:
+        arguments:
+            $keyFile: '%idp_cert_key%'
+            $certFile: '%idp_cert_file%'
+

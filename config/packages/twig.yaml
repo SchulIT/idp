@@ -6,6 +6,6 @@ twig:
     form_themes:
       - form/layout.html.twig
     globals:
-      config: '@app.common.config'
+      config: '@SchoolIT\CommonBundle\Twig\ConfigVariable'
       user: '@App\Twig\UserVariable'
       profile_url: "profile"

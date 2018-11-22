@@ -3,16 +3,15 @@
 namespace App\Menu;
 
 use Knp\Menu\FactoryInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-class Builder implements ContainerAwareInterface {
-    use ContainerAwareTrait;
-
+class Builder {
     private $factory;
+    private $authorizationChecker;
 
-    public function __construct(FactoryInterface $factory) {
+    public function __construct(FactoryInterface $factory, AuthorizationCheckerInterface $authorizationChecker) {
         $this->factory = $factory;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     public function mainMenu(array $options) {
@@ -37,9 +36,7 @@ class Builder implements ContainerAwareInterface {
             'route' => 'two_factor'
         ]);
 
-        $authorizationChecker = $this->container->get('security.authorization_checker');
-
-        if($authorizationChecker->isGranted('ROLE_ADMIN')) {
+        if($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
             $menu->addChild('user_menu.label', [
                 'attributes' => [
                     'class' => 'header'
@@ -51,7 +48,7 @@ class Builder implements ContainerAwareInterface {
             ]);
         }
 
-        if($authorizationChecker->isGranted('ROLE_SUPER_ADMIN')) {
+        if($this->authorizationChecker->isGranted('ROLE_SUPER_ADMIN')) {
             $menu->addChild('management.label', [
                 'attributes' => [
                     'class' => 'header'

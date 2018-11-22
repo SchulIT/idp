@@ -1,11 +1,15 @@
-# LightSAML
+parameters:
+    idp_cert_file: "%kernel.project_dir%/certs/idp.crt"
+    idp_cert_key: "%kernel.project_dir%/certs/idp.key"
+
+
 light_saml_symfony_bridge:
   own:
-      entity_id: "%env(SAML_ENTITY_ID)%" # required
+      entity_id: "%env(SAML_ENTITY_ID)%"
       credentials:
           -
-              certificate: "%kernel.project_dir%/certs/idp.crt"
-              key:         "%kernel.project_dir%/certs/idp.key"
+              certificate: "%idp_cert_file%"
+              key: "%idp_cert_key%"
               password:    ~
   system:
       event_dispatcher: ~
