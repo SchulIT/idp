@@ -8,6 +8,9 @@
     "burgov/key-value-form-bundle": {
         "version": "1.4.2"
     },
+    "dasprid/enum": {
+        "version": "1.0.0"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -359,6 +362,9 @@
             "ref": "e3868d2f4a5104f19f844fe551099a00c6562527"
         }
     },
+    "symfony/contracts": {
+        "version": "v1.0.0"
+    },
     "symfony/css-selector": {
         "version": "v4.0.8"
     },
@@ -559,6 +565,9 @@
     },
     "symfony/var-dumper": {
         "version": "v4.0.8"
+    },
+    "symfony/var-exporter": {
+        "version": "v4.2.0"
     },
     "symfony/web-link": {
         "version": "v4.0.8"
