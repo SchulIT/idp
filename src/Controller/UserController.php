@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\ActiveDirectoryUser;
 use App\Entity\User;
-use App\Entity\UserType as UserTypeEntity;
 use App\Form\AttributeDataTrait;
 use App\Form\UserType;
 use App\Repository\UserRepositoryInterface;
@@ -12,15 +11,14 @@ use App\Repository\UserTypeRepositoryInterface;
 use App\Saml\AttributeValueProvider;
 use App\Service\AttributePersister;
 use App\Service\AttributeResolver;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use SchoolIT\CommonBundle\Form\ConfirmType;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class UserController extends Controller {
+class UserController extends AbstractController {
 
     use AttributeDataTrait;
 

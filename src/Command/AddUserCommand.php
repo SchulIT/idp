@@ -5,25 +5,28 @@ namespace App\Command;
 use App\Entity\User;
 use App\Repository\UserRepositoryInterface;
 use App\Repository\UserTypeRepositoryInterface;
-use Doctrine\ORM\EntityManager;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class AddUserCommand extends ContainerAwareCommand {
+class AddUserCommand extends Command {
 
     private $userTypeRepository;
     private $userRepository;
+    private $passwordEncoder;
 
-    public function __construct(UserTypeRepositoryInterface $userTypeRepository, UserRepositoryInterface $userRepository, $name = null)
+    public function __construct(UserTypeRepositoryInterface $userTypeRepository, UserRepositoryInterface $userRepository,
+                                UserPasswordEncoderInterface $passwordEncoder, $name = null)
     {
         parent::__construct($name);
         $this->userTypeRepository = $userTypeRepository;
         $this->userRepository = $userRepository;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     public function configure() {
@@ -86,11 +89,6 @@ class AddUserCommand extends ContainerAwareCommand {
         $question = new ConfirmationQuestion('Is this an administrator?');
         $isAdmin = $io->askQuestion($question);
 
-        $app = $this->getContainer();
-
-        /** @var EntityManager $em */
-        $em = $app->get('doctrine')->getManager();
-
         $userTypes = $this->userTypeRepository->findAll();
         $choices = [ ];
         foreach($userTypes as $userType) {
@@ -113,9 +111,7 @@ class AddUserCommand extends ContainerAwareCommand {
             $user->setRoles(['ROLE_SUPER_ADMIN']);
         }
 
-        /** @var PasswordEncoderInterface $encoder */
-        $encoder = $app->get('security.password_encoder');
-        $encodedPassword = $encoder->encodePassword($user, $password);
+        $encodedPassword = $this->passwordEncoder->encodePassword($user, $password);
 
         $user->setPassword($encodedPassword);
 

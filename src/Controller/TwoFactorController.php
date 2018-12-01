@@ -9,23 +9,21 @@ use App\Repository\U2fKeyRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use App\Security\TwoFactor\BackupCodeGenerator;
 use App\Security\Voter\U2fKeyVoter;
-use Google\Authenticator\RuntimeException;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticator;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Trusted\TrustedDeviceManager;
 use SchoolIT\CommonBundle\Form\ConfirmType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/two_factor")
  */
-class TwoFactorController extends Controller {
+class TwoFactorController extends AbstractController {
 
     const TWO_FACTOR_EMAIL_CSRF_TOKEN = 'two-factor-csrf';
     const GOOGLE_SECRET_KEY = 'google-code';

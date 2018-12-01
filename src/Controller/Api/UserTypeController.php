@@ -2,7 +2,6 @@
 
 namespace App\Controller\Api;
 
-use App\Entity\UserType;
 use App\Repository\UserTypeRepositoryInterface;
 use Symfony\Component\Routing\Annotation\Route;
 

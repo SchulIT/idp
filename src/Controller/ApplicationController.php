@@ -6,14 +6,14 @@ use App\Entity\Application;
 use App\Form\ApplicationType;
 use App\Repository\ApplicationRepositoryInterface;
 use App\Service\ApplicationKeyGenerator;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/applications")
  */
-class ApplicationController extends Controller {
+class ApplicationController extends AbstractController {
 
     private $repository;
 

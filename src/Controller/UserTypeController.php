@@ -8,15 +8,15 @@ use App\Form\UserTypeType;
 use App\Repository\UserTypeRepositoryInterface;
 use App\Service\AttributePersister;
 use SchoolIT\CommonBundle\Form\ConfirmType;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/admin/user_types")
  */
-class UserTypeController extends Controller {
+class UserTypeController extends AbstractController {
 
     use AttributeDataTrait;
 

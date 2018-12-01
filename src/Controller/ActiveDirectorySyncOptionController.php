@@ -6,15 +6,15 @@ use App\Entity\ActiveDirectorySyncOption;
 use App\Form\ActiveDirectorySyncOptionType;
 use App\Repository\ActiveDirectorySyncOptionRepositoryInterface;
 use SchoolIT\CommonBundle\Form\ConfirmType;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/admin/ad_sync")
  */
-class ActiveDirectorySyncOptionController extends Controller {
+class ActiveDirectorySyncOptionController extends AbstractController {
 
     private $repository;
 

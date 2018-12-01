@@ -7,7 +7,7 @@ use App\Form\AttributeDataTrait;
 use App\Form\ProfileType;
 use App\Service\AttributePersister;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 /**
  * @Route("/profile")
  */
-class ProfileController extends Controller {
+class ProfileController extends AbstractController {
 
     use AttributeDataTrait;
 

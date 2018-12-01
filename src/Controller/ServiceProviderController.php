@@ -5,18 +5,17 @@ namespace App\Controller;
 use App\Entity\ServiceProvider;
 use App\Form\ServiceProviderType;
 use App\Repository\ServiceProviderRepositoryInterface;
-use App\Service\IdpExchangeService;
 use App\Service\ServiceProviderTokenGenerator;
 use SchoolIT\CommonBundle\Form\ConfirmType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/admin/service_providers")
  */
-class ServiceProviderController extends Controller {
+class ServiceProviderController extends AbstractController {
 
     private $repository;
 

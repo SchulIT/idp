@@ -6,15 +6,15 @@ use App\Entity\ActiveDirectoryGradeSyncOption;
 use App\Form\ActiveDirectoryGradeSyncOptionType;
 use App\Repository\ActiveDirectoryGradeSyncOptionRepositoryInterface;
 use SchoolIT\CommonBundle\Form\ConfirmType;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/admin/ad_sync/grades")
  */
-class ActiveDirectoryGradeSyncOptionController extends Controller {
+class ActiveDirectoryGradeSyncOptionController extends AbstractController {
 
     private $repository;
 

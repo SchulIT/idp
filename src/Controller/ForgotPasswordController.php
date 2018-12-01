@@ -3,19 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\PasswordResetToken;
-use App\Entity\User;
 use App\Repository\UserRepositoryInterface;
 use App\Security\ForgotPassword\ForgotPasswordManager;
 use App\Security\PasswordStrengthHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ForgotPasswordController extends Controller {
+class ForgotPasswordController extends AbstractController {
 
     private const CSRF_TOKEN_ID = 'forgot_pw';
 

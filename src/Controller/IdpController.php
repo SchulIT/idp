@@ -3,13 +3,13 @@
 namespace App\Controller;
 
 use LightSaml\Model\Context\SerializationContext;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * @Route("/admin/idp")
  */
-class IdpController extends Controller {
+class IdpController extends AbstractController {
     /**
      * @Route("", name="idp_details")
      */

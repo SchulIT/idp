@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use App\Service\UserServiceProviderResolver;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class DashboardController extends Controller {
+class DashboardController extends AbstractController {
 
     /**
      * @Route("/")

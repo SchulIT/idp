@@ -5,12 +5,12 @@ namespace App\Command;
 use App\Entity\UserType;
 use App\Repository\UserTypeRepositoryInterface;
 use Doctrine\DBAL\Connection;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class SetupCommand extends ContainerAwareCommand {
+class SetupCommand extends Command {
 
     private $dbalConnection;
     private $userTypeRepository;
