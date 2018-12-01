@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Repository\ApplicationRepositoryInterface;
 use App\Security\Authentication\Token\ApplicationToken;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,48 +10,22 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Component\Security\Guard\AuthenticatorInterface;
+use Symfony\Component\Security\Guard\Token\GuardTokenInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 use Symfony\Component\Security\Http\Authentication\SimplePreAuthenticatorInterface;
 
-class ApplicationAuthenticator implements SimplePreAuthenticatorInterface, AuthenticationFailureHandlerInterface {
+class ApplicationAuthenticator extends AbstractGuardAuthenticator {
 
-    public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey) {
-        if(!$userProvider instanceof ApplicationUserProvider) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'The user provider must be an instance of ApplicationUserProvider (%s was given).',
-                    get_class($userProvider)
-                )
-            );
-        }
+    private const HEADER_KEY = 'X-Token';
 
-        $apiKey = $token->getCredentials();
-        $application = $userProvider->loadUserByApiKey($apiKey);
+    private $repository;
 
-        if($application === null) {
-            throw new AuthenticationException();
-        }
-
-        return new ApplicationToken(
-            $apiKey,
-            $application,
-            $application->getRoles()
-        );
-    }
-
-    public function supportsToken(TokenInterface $token, $providerKey) {
-        return $token instanceof ApplicationToken;
-    }
-
-    public function createToken(Request $request, $providerKey) {
-        $apiKey = $request->headers->get('x-token');
-
-        if($apiKey === null) {
-            throw new BadCredentialsException();
-        }
-
-        return new ApplicationToken($apiKey);
+    public function __construct(ApplicationRepositoryInterface $repository) {
+        $this->repository = $repository;
     }
 
     /**
@@ -59,8 +34,67 @@ class ApplicationAuthenticator implements SimplePreAuthenticatorInterface, Authe
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception) {
         return new JsonResponse([
             'success' => false,
-            'message' => $exception->getMessage(),
-            'type' => get_class($exception)
-        ], 401);
+            'message' => sprintf('Authentication failed: %s', $exception->getMessage())
+        ], Response::HTTP_FORBIDDEN);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function start(Request $request, AuthenticationException $authException = null) {
+        return new JsonResponse([
+            'success' => false,
+            'message' => 'Authentication required'
+        ], Response::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function supports(Request $request) {
+        return $request->headers->has(static::HEADER_KEY);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCredentials(Request $request) {
+        return [
+            'token' => $request->headers->get(static::HEADER_KEY)
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUser($credentials, UserProviderInterface $userProvider) {
+        $application = $this->repository->findOneByApiKey($credentials['token']);
+
+        if($application === null) {
+            throw new AuthenticationException('Invalid API key');
+        }
+
+        return $application;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function checkCredentials($credentials, UserInterface $user) {
+        // Credentials already checked in getUser()
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey) {
+        return null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function supportsRememberMe() {
+        return false;
     }
 }

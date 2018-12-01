@@ -9,10 +9,6 @@ security:
             entity:
                 class: App:User
                 property: username
-        application:
-            id: App\Security\ApplicationUserProvider
-        service_provider:
-            id: App\Security\ServiceProviderUserProvider
 
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER,
@@ -41,16 +37,16 @@ security:
         exchange:
             pattern: ^/exchange
             stateless: true
-            simple_preauth:
-                authenticator: App\Security\ServiceProviderAuthenticator
-            provider: service_provider
+            guard:
+                authenticators:
+                    - App\Security\ServiceProviderAuthenticator
 
         api:
             pattern: ^/api
             stateless: true
-            simple_preauth:
-                authenticator: App\Security\ApplicationAuthenticator
-            provider: application
+            guard:
+                authenticators:
+                    - App\Security\ApplicationAuthenticator
 
         login:
             anonymous: ~
@@ -67,10 +63,9 @@ security:
                 auth_form_path: 2fa_login
                 check_path: 2fa_login_check
                 csrf_token_generator: security.csrf.token_manager
-            simple_form:
-                authenticator: App\Security\UserAuthenticator
-                check_path: login_check
-                login_path: login
+            guard:
+                authenticators:
+                    - App\Security\UserAuthenticator
             logout:
                 path: /logout
                 target: /

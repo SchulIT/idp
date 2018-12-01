@@ -6,13 +6,14 @@ use App\Validator\X509Certificate;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"})
  */
-class ServiceProvider {
+class ServiceProvider implements UserInterface {
     /**
      * @ORM\GeneratedValue()
      * @ORM\Id()
@@ -200,4 +201,33 @@ class ServiceProvider {
         $this->token = $token;
         return $this;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRoles() {
+        return ['ROLE_SERVICEPROVIDER'];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPassword() { }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSalt() {  }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUsername() {
+        return $this->getEntityId();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials() { }
 }

@@ -41,6 +41,8 @@ services:
         arguments:
           $isActiveDirectoryEnabled: "%env(bool:ADAUTH_ENABLED)%"
           $logger: "@monolog.logger.auth"
+          $loginRoute: 'login'
+          $checkRoute: 'login_check'
 
     # Menu
     App\Menu\Builder:
