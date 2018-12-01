@@ -1759,20 +1759,21 @@
         },
         {
             "name": "frostiede/composer-dependency-list-bundle",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/frostieDE/composer-dependency-list-bundle.git",
-                "reference": "eeb9986da6755072c3ca4c7f9198d44f8b134e55"
+                "reference": "e56f96644d20ca56138bec0e39e8f92f7589e2e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/frostieDE/composer-dependency-list-bundle/zipball/eeb9986da6755072c3ca4c7f9198d44f8b134e55",
-                "reference": "eeb9986da6755072c3ca4c7f9198d44f8b134e55",
+                "url": "https://api.github.com/repos/frostieDE/composer-dependency-list-bundle/zipball/e56f96644d20ca56138bec0e39e8f92f7589e2e4",
+                "reference": "e56f96644d20ca56138bec0e39e8f92f7589e2e4",
                 "shasum": ""
             },
             "require": {
                 "frostiede/composer-dependency-list": "^1.0",
+                "symfony/console": "^4.2",
                 "symfony/framework-bundle": "^3.0|^4.0"
             },
             "type": "symfony-bundle",
@@ -1791,7 +1792,7 @@
                     "email": "marcelmarnitz@googlemail.com"
                 }
             ],
-            "time": "2018-08-25T17:56:10+00:00"
+            "time": "2018-12-01T20:26:48+00:00"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -3747,23 +3748,22 @@
         },
         {
             "name": "schoolit/adauth-bundle",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchoolIT-DE/adauth-bundle.git",
-                "reference": "2cf225e0e2d77a96ddc83ff255bb4ac2606eae94"
+                "reference": "61be8151867b2c6416fe08ebb6d266939ac170cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchoolIT-DE/adauth-bundle/zipball/2cf225e0e2d77a96ddc83ff255bb4ac2606eae94",
-                "reference": "2cf225e0e2d77a96ddc83ff255bb4ac2606eae94",
+                "url": "https://api.github.com/repos/SchoolIT-DE/adauth-bundle/zipball/61be8151867b2c6416fe08ebb6d266939ac170cc",
+                "reference": "61be8151867b2c6416fe08ebb6d266939ac170cc",
                 "shasum": ""
             },
             "require": {
                 "ext-iconv": "*",
                 "php": "^7.1.3",
                 "schoolit/adauth": "^1.0",
-                "symfony/flex": "^1.0",
                 "symfony/framework-bundle": "^4.0",
                 "symfony/yaml": "^4.0"
             },
@@ -3777,20 +3777,20 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-09-29T18:48:00+00:00"
+            "time": "2018-12-01T20:32:11+00:00"
         },
         {
             "name": "schoolit/common-bundle",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchoolIT-DE/common-bundle.git",
-                "reference": "c07da37e55fdf46b2e51cb4ea3fd859096b4b8e1"
+                "reference": "896f34e9a45f2c57bb88a9f93c6e8f730b4f1442"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchoolIT-DE/common-bundle/zipball/c07da37e55fdf46b2e51cb4ea3fd859096b4b8e1",
-                "reference": "c07da37e55fdf46b2e51cb4ea3fd859096b4b8e1",
+                "url": "https://api.github.com/repos/SchoolIT-DE/common-bundle/zipball/896f34e9a45f2c57bb88a9f93c6e8f730b4f1442",
+                "reference": "896f34e9a45f2c57bb88a9f93c6e8f730b4f1442",
                 "shasum": ""
             },
             "require": {
@@ -3801,8 +3801,11 @@
                 "knplabs/knp-menu": "^2.3",
                 "monolog/monolog": "^1.23",
                 "php": "^7.1.3",
+                "sensiolabs/ansi-to-html": "^1.1",
                 "symfony/form": "^4.0",
                 "symfony/framework-bundle": "^4.0",
+                "symfony/security": "^4.2",
+                "symfony/security-core": "^4.2",
                 "symfony/translation": "^4.0",
                 "symfony/yaml": "^4.0",
                 "twig/twig": "^2.5"
@@ -3822,7 +3825,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-11-22T19:04:55+00:00"
+            "time": "2018-12-01T20:21:40+00:00"
         },
         {
             "name": "schoolit/idp-exchange-models",
@@ -3969,6 +3972,50 @@
                 "controllers"
             ],
             "time": "2018-10-26T14:09:02+00:00"
+        },
+        {
+            "name": "sensiolabs/ansi-to-html",
+            "version": "v1.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sensiolabs/ansi-to-html.git",
+                "reference": "8b5d787dca714bd98dd770c078d76528320a8286"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sensiolabs/ansi-to-html/zipball/8b5d787dca714bd98dd770c078d76528320a8286",
+                "reference": "8b5d787dca714bd98dd770c078d76528320a8286",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "suggest": {
+                "twig/twig": "Provides nice templating features"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "SensioLabs\\AnsiConverter": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "A library to convert a text with ANSI codes to HTML",
+            "time": "2017-05-02T00:53:29+00:00"
         },
         {
             "name": "sonata-project/google-authenticator",
