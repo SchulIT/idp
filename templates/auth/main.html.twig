@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ config.name }}</title>
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('build/app.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('build/signin.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ preload(asset('build/app.css')) }}" />
+    <link rel="stylesheet" type="text/css" href="{{ preload(asset('build/signin.css')) }}" />
 
     {% block head %}{% endblock %}
 </head>
