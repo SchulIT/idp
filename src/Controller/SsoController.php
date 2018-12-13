@@ -8,8 +8,8 @@ use App\Saml\AttributeValueProvider;
 use App\Security\Voter\ServiceProviderVoter;
 use App\Service\ServiceProviderConfirmationService;
 use LightSaml\Binding\SamlPostResponse;
-use LightSaml\Bridge\Pimple\Container\BuildContainer;
 use LightSaml\Idp\Builder\Profile\WebBrowserSso\Idp\SsoIdpReceiveAuthnRequestProfileBuilder;
+use LightSaml\SymfonyBridgeBundle\Bridge\Container\BuildContainer;
 use SchoolIT\LightSamlIdpBundle\Builder\Profile\WebBrowserSso\Idp\SsoIdpSendResponseProfileBuilderFactory;
 use SchoolIT\LightSamlIdpBundle\RequestStorage\RequestStorageInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,11 +34,9 @@ class SsoController extends AbstractController {
     public function saml(RequestStorageInterface $requestStorage, AttributeValueProvider $attributeValueProvider,
                          SsoIdpReceiveAuthnRequestProfileBuilder $receiveBuilder,
                          SsoIdpSendResponseProfileBuilderFactory $sendResponseBuilder,
-                         CsrfTokenManagerInterface $tokenManager, ServiceProviderRepositoryInterface $serviceProviderRepository) {
+                         CsrfTokenManagerInterface $tokenManager, ServiceProviderRepositoryInterface $serviceProviderRepository,
+                         BuildContainer $buildContainer) {
         $requestStorage->load();
-
-        /** @var BuildContainer $buildContext */
-        $buildContext = $this->get('lightsaml.container.build');
 
         $context = $receiveBuilder->buildContext();
         $action = $receiveBuilder->buildAction();
@@ -62,7 +60,7 @@ class SsoController extends AbstractController {
         }
 
         $sendBuilder = $sendResponseBuilder->build(
-            [new \LightSaml\Idp\Builder\Action\Profile\SingleSignOn\Idp\SsoIdpAssertionActionBuilder($buildContext)],
+            [new \LightSaml\Idp\Builder\Action\Profile\SingleSignOn\Idp\SsoIdpAssertionActionBuilder($buildContainer)],
             $partyContext->getEntityDescriptor()->getEntityID()
         );
         $sendBuilder->setPartyEntityDescriptor($partyContext->getEntityDescriptor());

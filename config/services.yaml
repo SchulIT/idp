@@ -76,6 +76,9 @@ services:
         class: App\Saml\AttributeValueProvider
         autowire: true
 
+    LightSaml\SymfonyBridgeBundle\Bridge\Container\BuildContainer:
+        alias: 'lightsaml.container.build'
+
     # Forgot password
     App\Security\ForgotPassword\ForgotPasswordManager:
       arguments:
