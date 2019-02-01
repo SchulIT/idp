@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use LightSaml\Model\Context\SerializationContext;
+use LightSaml\Provider\EntityDescriptor\EntityDescriptorProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -13,10 +14,11 @@ class IdpController extends AbstractController {
     /**
      * @Route("", name="idp_details")
      */
-    public function index() {
+    public function index(EntityDescriptorProviderInterface $provider) {
         $context = new SerializationContext();
-        $own = $this->get('lightsaml.own.entity_descriptor_provider')
-            ->get();
+        /*$own = $this->get('lightsaml.own.entity_descriptor_provider')
+            ->get();*/
+        $own = $provider->get();
         $own->serialize($context->getDocument(), $context);
         $context->getDocument()->formatOutput = true;
         $idpXml = $context->getDocument()->saveXML();

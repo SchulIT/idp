@@ -39,11 +39,11 @@
                 </tr>
                 <tr>
                     <td>{{ 'certificate_info.valid_from'|trans }}</td>
-                    <td>{{ certificate.validFrom_time_t|date('d/m/Y H:i:s') }}</td>
+                    <td>{{ certificate.validFrom|date('d/m/Y H:i:s') }}</td>
                 </tr>
                 <tr>
                     <td>{{ 'certificate_info.valid_until'|trans }}</td>
-                    <td>{{ certificate.validTo_time_t|date('d/m/Y H:i:s') }}</td>
+                    <td>{{ certificate.validTo|date('d/m/Y H:i:s') }}</td>
                 </tr>
                 </tbody>
             </table>
