@@ -30,6 +30,10 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        metadata:
+            pattern: ^/metadata$
+            security: false
+
         composer:
             anonymous: ~
             pattern: ^/dependencies

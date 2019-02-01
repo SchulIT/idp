@@ -9,3 +9,4 @@ twig:
       config: '@SchoolIT\CommonBundle\Twig\ConfigVariable'
       user: '@App\Twig\UserVariable'
       profile_url: "profile"
+      health_check: '@App\HealthCheck\HealthCheckService'

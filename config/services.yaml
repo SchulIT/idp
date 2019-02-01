@@ -84,6 +84,15 @@ services:
       arguments:
         $from: "%env(MAILER_FROM)%"
 
+    # Controllers
+    App\Controller\IdpController:
+        bind:
+            $provider: '@lightsaml.own.entity_descriptor_provider'
+
+    App\Controller\MetadataController:
+        bind:
+            $provider: '@lightsaml.own.entity_descriptor_provider'
+
     # Exchange API
     App\Controller\Api\IdpExchangeController:
         arguments:
@@ -93,4 +102,14 @@ services:
         arguments:
             $keyFile: '%idp_cert_key%'
             $certFile: '%idp_cert_file%'
+
+    # Health Check
+    App\HealthCheck\IdentityProviderCertificateCheck:
+        arguments:
+            $certificateFile: '%kernel.project_dir%/certs/idp.crt'
+
+    App\HealthCheck\HealthCheckService:
+        calls:
+            - [ 'addCheck', [ '@App\HealthCheck\IdentityProviderCertificateCheck']]
+            - [ 'addCheck', [ '@App\HealthCheck\ServiceProviderCertificateCheck']]
 
