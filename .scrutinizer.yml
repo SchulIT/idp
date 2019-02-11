@@ -25,6 +25,7 @@ filter:
 tools:
     external_code_coverage: true
     php_mess_detector: true
+    php_cpd: false
     php_pdepend: true
     php_analyzer: true
     php_loc: true
