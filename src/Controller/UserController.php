@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserController extends AbstractController {
@@ -76,7 +77,7 @@ class UserController extends AbstractController {
     /**
      * @Route("/users/add", name="add_user")
      */
-    public function add(Request $request, AttributePersister $attributePersister, PasswordEncoderInterface $passwordEncoder) {
+    public function add(Request $request, AttributePersister $attributePersister, UserPasswordEncoderInterface $passwordEncoder) {
         $user = new User();
 
         $form = $this->createForm(UserType::class, $user);
@@ -102,7 +103,7 @@ class UserController extends AbstractController {
     /**
      * @Route("/users/{id}/edit", name="edit_user")
      */
-    public function edit(Request $request, User $user, AttributePersister $attributePersister, PasswordEncoderInterface $passwordEncoder) {
+    public function edit(Request $request, User $user, AttributePersister $attributePersister, UserPasswordEncoderInterface $passwordEncoder) {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
