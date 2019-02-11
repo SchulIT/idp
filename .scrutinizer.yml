@@ -1,0 +1,33 @@
+build:
+    environment:
+        php:
+            version: 7.2
+    nodes:
+        analysis:
+            project_setup:
+                override:
+                    - 'true'
+            tests:
+                override:
+                    - php-scrutinizer-run
+                    -
+                        command: phpcs-run
+                        use_website_config: true
+        tests: true
+filter:
+    excluded_paths:
+        - 'tests/*'
+tools:
+    external_code_coverage: true
+    php_mess_detector: true
+    php_cpd: true
+    php_code_sniffer:
+        config:
+            standard: PSR2
+    php_pdepend: true
+    php_analyzer: true
+    php_loc: true
+    sensiolabs_security_checker: true
+checks:
+    php: true
+
