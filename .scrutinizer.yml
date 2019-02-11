@@ -1,4 +1,8 @@
 build:
+    dependencies:
+        override:
+            - true
+
     environment:
         php:
             version: 7.2
@@ -6,7 +10,7 @@ build:
         analysis:
             project_setup:
                 override:
-                    - 'true'
+                    - true
             tests:
                 override:
                     - php-scrutinizer-run
