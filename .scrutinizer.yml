@@ -1,7 +1,7 @@
 build:
     dependencies:
         override:
-            - true
+            - composer install
 
     environment:
         php:
@@ -14,7 +14,9 @@ build:
             tests:
                 override:
                     - php-scrutinizer-run
-        tests: true
+        tests:
+            override:
+                - true
 filter:
     excluded_paths:
         - 'tests/*'
