@@ -14,6 +14,9 @@ build:
             tests:
                 override:
                     - php-scrutinizer-run
+    tests:
+        override:
+            - true
 filter:
     excluded_paths:
         - 'tests/*'
