@@ -3,24 +3,18 @@
 namespace App\Security;
 
 use App\Repository\ApplicationRepositoryInterface;
-use App\Security\Authentication\Token\ApplicationToken;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
-use Symfony\Component\Security\Guard\AuthenticatorInterface;
-use Symfony\Component\Security\Guard\Token\GuardTokenInterface;
-use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
-use Symfony\Component\Security\Http\Authentication\SimplePreAuthenticatorInterface;
 
 class ApplicationAuthenticator extends AbstractGuardAuthenticator {
 
-    private const HEADER_KEY = 'X-Token';
+    public const HEADER_KEY = 'X-Token';
 
     private $repository;
 
@@ -82,6 +76,7 @@ class ApplicationAuthenticator extends AbstractGuardAuthenticator {
      */
     public function checkCredentials($credentials, UserInterface $user) {
         // Credentials already checked in getUser()
+        return true;
     }
 
     /**

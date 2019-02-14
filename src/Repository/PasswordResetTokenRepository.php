@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Repository;
+
+use App\Entity\PasswordResetToken;
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
+
+class PasswordResetTokenRepository implements PasswordResetTokenRepositoryInterface {
+
+    private $em;
+
+    public function __construct(EntityManagerInterface $entityManager) {
+        $this->em = $entityManager;
+    }
+
+    public function persist(PasswordResetToken $passwordResetToken) {
+        $this->em->persist($passwordResetToken);
+        $this->em->flush();
+    }
+
+    public function remove(PasswordResetToken $passwordResetToken) {
+        $this->em->remove($passwordResetToken);
+        $this->em->flush();
+    }
+
+    public function findOneByUser(User $user): ?PasswordResetToken {
+        return $this->em->getRepository(PasswordResetToken::class)
+            ->findOneBy([
+                'user' => $user
+            ]);
+    }
+
+    public function findOneByToken(string $token): ?PasswordResetToken {
+        return $this->em->getRepository(PasswordResetToken::class)
+            ->findOneBy([
+                'token' => $token
+            ]);
+    }
+}

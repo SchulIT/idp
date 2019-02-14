@@ -8,6 +8,15 @@
     "burgov/key-value-form-bundle": {
         "version": "1.4.2"
     },
+    "dama/doctrine-test-bundle": {
+        "version": "4.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "4.0",
+            "ref": "56eaa387b5e48ebcc7c95a893b47dfa1ad51449c"
+        }
+    },
     "dasprid/enum": {
         "version": "1.0.0"
     },

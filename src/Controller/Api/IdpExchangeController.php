@@ -21,15 +21,24 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class IdpExchangeController extends AbstractApiController {
 
     private $service;
-    private $serializer;
     private $validator;
     private $logger;
 
     public function __construct(IdpExchangeService $idpExchangeService, SerializerInterface $serializer, ValidatorInterface $validator, LoggerInterface $logger) {
+        parent::__construct($serializer);
+
         $this->service = $idpExchangeService;
-        $this->serializer = $serializer;
         $this->validator = $validator;
         $this->logger = $logger;
+    }
+
+    /**
+     * Default IdP Exchange controller (only used for testing purporses)
+     *
+     * @Route("", name="idp_exchange_default")
+     */
+    public function index() {
+        return $this->returnJson([]);
     }
 
     /**

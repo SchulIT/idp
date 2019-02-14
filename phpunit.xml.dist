@@ -14,6 +14,17 @@
         <env name="APP_DEBUG" value="1" />
         <env name="APP_SECRET" value="s$cretf0rt3st" />
         <env name="SHELL_VERBOSITY" value="-1" />
+        <env name="DATABASE_URL" value="mysql://travis@127.0.0.1/idp_test" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled" />
+        <env name="APP_NAME" value="SchulIT IdP Test" />
+        <env name="APP_URL" value="https://sso.school.it/" />
+        <env name="APP_LOGO" value="bundles/common/images/schoolit-logo.svg" />
+        <env name="SAML_ENTITY_ID" value="https://sso.school.it/" />
+        <env name="MAILER_FROM" value="noreply@sso.school.it" />
+        <env name="MAILER_URL" value="null://localhost" />
+        <env name="ADAUTH_ENABLED" value="true" />
+        <env name="ADAUTH_URL" value="tls://dc01.school.lokal:55117" />
+        <env name="ADAUTH_SERIAL" value="" />
         <!-- define your env variables for the test env here -->
     </php>
 

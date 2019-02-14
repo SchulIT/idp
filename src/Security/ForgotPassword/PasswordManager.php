@@ -4,7 +4,8 @@ namespace App\Security\ForgotPassword;
 
 use App\Entity\PasswordResetToken;
 use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\PasswordResetTokenRepositoryInterface;
+use App\Repository\UserRepositoryInterface;
 use SchoolIT\CommonBundle\Helper\DateHelper;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -13,25 +14,24 @@ class PasswordManager {
 
     private $dateHelper;
     private $passwordEncoder;
-    private $em;
+    private $userRepository;
+    private $passwordResetTokenRepository;
     private $tokenLifetime;
 
-    public function __construct(DateHelper $dateHelper, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager, $tokenLifetime = self::DefaultTokenLifetime) {
+    public function __construct(DateHelper $dateHelper, UserPasswordEncoderInterface $passwordEncoder, UserRepositoryInterface $userRepository, PasswordResetTokenRepositoryInterface $passwordResetTokenRepository, $tokenLifetime = self::DefaultTokenLifetime) {
         $this->dateHelper = $dateHelper;
         $this->passwordEncoder = $passwordEncoder;
-        $this->em = $entityManager;
+        $this->userRepository = $userRepository;
+        $this->passwordResetTokenRepository = $passwordResetTokenRepository;
         $this->tokenLifetime = $tokenLifetime;
     }
 
     /**
      * @param User $user
      * @return PasswordResetToken
-     * @throws \Exception
      */
     public function createPasswordToken(User $user) {
-        /** @var PasswordResetToken $token */
-        $token = $this->em
-            ->getRepository(PasswordResetToken::class)
+        $token = $this->passwordResetTokenRepository
             ->findOneByUser($user);
 
         if($token !== null && $this->dateHelper->getNow() < $token->getExpiresAt()) {
@@ -47,8 +47,7 @@ class PasswordManager {
             ->setToken(bin2hex(random_bytes(32)))
             ->setExpiresAt($expiresAt);
 
-        $this->em->persist($token);
-        $this->em->flush();
+        $this->passwordResetTokenRepository->persist($token);
 
         return $token;
     }
@@ -58,8 +57,7 @@ class PasswordManager {
      * @return PasswordResetToken|null
      */
     public function getPasswordToken(string $token) {
-        return $this->em
-            ->getRepository(PasswordResetToken::class)
+        return $this->passwordResetTokenRepository
             ->findOneByToken($token);
     }
 
@@ -71,8 +69,7 @@ class PasswordManager {
         $user = $token->getUser();
 
         $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
-        $this->em->persist($user);
-        $this->em->flush();
+        $this->userRepository->persist($user);
 
         $this->removePasswordToken($token);
     }
@@ -81,7 +78,6 @@ class PasswordManager {
      * @param PasswordResetToken $token
      */
     public function removePasswordToken(PasswordResetToken $token) {
-        $this->em->remove($token);
-        $this->em->flush();
+        $this->passwordResetTokenRepository->remove($token);
     }
 }
