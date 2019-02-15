@@ -494,10 +494,10 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     }
 
     /**
-     * @inheritDoc
+     * @return ArrayCollection
      */
     public function getU2FKeys() {
-        return $this->u2fKeys->toArray();
+        return $this->u2fKeys;
     }
 
     /**
