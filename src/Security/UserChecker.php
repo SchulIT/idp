@@ -4,7 +4,6 @@ namespace App\Security;
 
 use App\Entity\User;
 use SchoolIT\CommonBundle\Helper\DateHelper;
-use Symfony\Component\Security\Core\Exception\AccountStatusException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
