@@ -15,7 +15,7 @@ abstract class AbstractCertificateHealthCheck implements HealthCheckInterface {
         $now = new \DateTime();
 
         if(empty($certificate)) {
-            $result[] = new HealthCheckResult(
+            return new HealthCheckResult(
                 HealthCheckResultType::Error(),
                 'health_check.error',
                 $this->getEmptyMessage(),
@@ -29,7 +29,7 @@ abstract class AbstractCertificateHealthCheck implements HealthCheckInterface {
             // Error
             $error = openssl_error_string();
 
-            $result[] = new HealthCheckResult(
+            return new HealthCheckResult(
                 HealthCheckResultType::Error(),
                 'health_check.error',
                 $this->getInvalidMessage(),

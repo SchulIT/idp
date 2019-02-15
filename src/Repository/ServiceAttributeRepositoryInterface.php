@@ -17,7 +17,7 @@ interface ServiceAttributeRepositoryInterface {
 
     /**
      * @return ServiceAttribute[]
-     * @deprecated
+     * @deprecated Use findAll();
      */
     public function getAttributes();
 

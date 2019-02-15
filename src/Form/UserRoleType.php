@@ -59,7 +59,7 @@ class UserRoleType extends AbstractType {
                 'fields' => function(FormBuilderInterface $builder) use(&$userRole) {
                     $attributeValues = $this->userAttributeResolver->getAttributesForRole($userRole);
 
-                    foreach($this->serviceAttributeRepository->getAttributes() as $attribute) {
+                    foreach($this->serviceAttributeRepository->findAll() as $attribute) {
                         $type = $attribute->getType() === ServiceAttribute::TYPE_TEXT ? TextType::class : ChoiceType::class;
                         $options = [
                             'label' => $attribute->getLabel(),

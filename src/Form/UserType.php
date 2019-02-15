@@ -166,7 +166,7 @@ class UserType extends AbstractType {
                 'fields' => function(FormBuilderInterface $builder) use(&$user) {
                     $attributeValues = $this->userAttributeResolver->getAttributeValuesForUser($user);
 
-                    foreach($this->serviceAttributeRepository->getAttributes() as $attribute) {
+                    foreach($this->serviceAttributeRepository->findAll() as $attribute) {
                         $type = $attribute->getType() === ServiceAttribute::TYPE_TEXT ? TextType::class : ChoiceType::class;
                         $options = [
                             'label' => $attribute->getLabel(),

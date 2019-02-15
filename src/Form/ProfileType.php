@@ -89,7 +89,7 @@ class ProfileType extends AbstractType {
                 'fields' => function(FormBuilderInterface $builder) use(&$user) {
                     $attributeValues = $this->userAttributeResolver->getAttributeValuesForUser($user);
 
-                    foreach($this->serviceAttributeRepository->getAttributes() as $attribute) {
+                    foreach($this->serviceAttributeRepository->findAll() as $attribute) {
                         if($attribute->isUserEditEnabled() !== true) {
                             continue;
                         }

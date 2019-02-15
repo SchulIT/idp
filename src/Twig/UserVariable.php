@@ -16,9 +16,9 @@ class UserVariable {
     }
 
     /**
-     * @return User
+     * @return User|null
      */
-    public function getUser(): User {
+    public function getUser(): ?User {
         $token = $this->tokenStorage->getToken();
 
         if($token === null) {

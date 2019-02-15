@@ -166,6 +166,9 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
         $this->u2fKeys = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId() {
         return $this->id;
     }
@@ -494,7 +497,7 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
      * @inheritDoc
      */
     public function getU2FKeys() {
-        return $this->u2fKeys;
+        return $this->u2fKeys->toArray();
     }
 
     /**

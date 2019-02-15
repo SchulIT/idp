@@ -115,7 +115,7 @@ class IdpExchangeService {
         return $builder->build();
     }
 
-    private function computeLastUpdate(User $user) {
+    private function computeLastUpdate(User $user): \DateTime {
         $max = $user->getUpdatedAt();
 
         foreach($user->getAttributes() as $attribute) {

@@ -3,6 +3,7 @@
 namespace App\Security\Voter;
 
 use App\Entity\ServiceProvider;
+use App\Entity\User;
 use App\Service\UserServiceProviderResolver;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -34,6 +35,10 @@ class ServiceProviderVoter extends Voter {
         }
 
         $user = $token->getUser();
+
+        if(!$user instanceof User) {
+            return false;
+        }
 
         /** @var ServiceProvider[] $services */
         $services = $this->userServiceProviderResolver->getServices($user);
