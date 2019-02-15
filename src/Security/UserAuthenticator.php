@@ -102,8 +102,6 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator {
             throw new InvalidCsrfTokenException();
         }
 
-        $user = null;
-
         try {
             $user = $userProvider->loadUserByUsername($credentials['username']);
 
@@ -114,7 +112,7 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator {
             $user = $this->authenticateUsingActiveDirectory(new Credentials($credentials['username'], $credentials['password']));
         }
 
-        if(!$user === null) {
+        if($user === null) {
             throw new CustomUserMessageAuthenticationException('invalid_credentials');
         }
 
@@ -177,9 +175,9 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator {
             throw new CustomUserMessageAuthenticationException('server_unavailable');
         } catch(\Exception $e) {
             $this->logger->critical(
-                sprintf('Authentication failed', [
+                'Authentication failed', [
                     'exception' => $e
-                ])
+                ]
             );
 
             throw new CustomUserMessageAuthenticationException('unknown_error');

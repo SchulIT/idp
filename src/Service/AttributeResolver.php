@@ -70,7 +70,7 @@ class AttributeResolver {
 
         $values = $this->getAttributesForType($user->getType());
 
-        $userRoles = $user->getRoles();
+        $userRoles = $user->getUserRoles();
 
         foreach($userRoles as $role) {
             $values = array_merge($values, $this->getAttributesForRole($role));

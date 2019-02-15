@@ -36,6 +36,11 @@ class UserServiceProviderResolver {
      */
     public function getServicesForCurrentUser() {
         $user = $this->getUser();
+
+        if(!$user instanceof User) {
+            return new ArrayCollection();
+        }
+
         return $this->getServices($user);
     }
 

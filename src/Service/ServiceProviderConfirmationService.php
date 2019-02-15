@@ -7,14 +7,13 @@ use App\Entity\ServiceProviderConfirmation;
 use App\Entity\User;
 use App\Repository\ServiceProviderConfirmationRepositoryInterface;
 use App\Saml\AttributeValueProvider;
-use Doctrine\ORM\EntityManagerInterface;
 
 class ServiceProviderConfirmationService {
 
     private $attributeValueProvider;
     private $confirmationRepository;
 
-    public function __construct(AttributeValueProvider $attributeValueProvider, ServiceProviderConfirmationRepositoryInterface $confirmationRepository, EntityManagerInterface $entityManager) {
+    public function __construct(AttributeValueProvider $attributeValueProvider, ServiceProviderConfirmationRepositoryInterface $confirmationRepository) {
         $this->attributeValueProvider = $attributeValueProvider;
         $this->confirmationRepository = $confirmationRepository;
     }

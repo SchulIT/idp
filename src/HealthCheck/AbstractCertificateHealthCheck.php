@@ -45,19 +45,19 @@ abstract class AbstractCertificateHealthCheck implements HealthCheckInterface {
         $validTo = (new \DateTime())->setTimestamp($certificateInfo['validTo']);
 
         if($validTo < $now) {
-            $result[] = new HealthCheckResult(
+            return new HealthCheckResult(
                 HealthCheckResultType::Error(),
                 'health_check.error',
                 $this->getExpiredMessage()
             );
         } else if($validTo < $now->add(new \DateInterval('P' . static::CertificateWarningThresholdInDays . 'D'))) {
-            $result[] = new HealthCheckResult(
+            return new HealthCheckResult(
                 HealthCheckResultType::Warning(),
                 'health_check.error',
                 $this->getExpiresSoonMessage()
             );
         } else {
-            $result[] = new HealthCheckResult(
+            return new HealthCheckResult(
                 HealthCheckResultType::Fine(),
                 'health_check.error',
                 $this->getFineMessage()

@@ -21,7 +21,7 @@ class Voter implements VoterInterface {
         $currentUri = $this->requestStack->getMasterRequest()->getRequestUri();
         $itemUri = $item->getUri();
 
-        if($itemUri === null) {
+        if(empty($itemUri)) {
             return false;
         }
 

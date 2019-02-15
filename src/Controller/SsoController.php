@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
@@ -50,6 +51,10 @@ class SsoController extends AbstractController {
         // check authorization
         $serviceProvider = $serviceProviderRepository
             ->findOneByEntityId($partyContext->getEntityId());
+
+        if($serviceProvider === null) {
+            throw new BadRequestHttpException('The issusing service provider does not exist.');
+        }
 
         if(!$this->isGranted(ServiceProviderVoter::ENABLED, $serviceProvider)) {
             $requestStorage->clear();

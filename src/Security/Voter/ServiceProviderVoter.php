@@ -29,7 +29,7 @@ class ServiceProviderVoter extends Voter {
      * @return bool
      */
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token) {
-        if($subject === null) {
+        if($subject === null || $token->getUser() === null) {
             return false;
         }
 

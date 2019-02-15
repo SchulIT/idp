@@ -40,15 +40,15 @@ abstract class AbstractImporter implements ImporterInterface {
     }
 
     /**
-     * @param $object
+     * @param $objectToValidate
      */
-    protected function throwIfNotValid($object) {
+    protected function throwIfNotValid($objectToValidate) {
         $objects = [ ];
 
-        if(!is_array($object)) {
-            $objects[] = $object;
+        if(!is_array($objectToValidate)) {
+            $objects[] = $objectToValidate;
         } else {
-            $objects = $object;
+            $objects = $objectToValidate;
         }
 
         foreach($objects as $object) {

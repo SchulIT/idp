@@ -14,7 +14,7 @@ class Builder {
         $this->authorizationChecker = $authorizationChecker;
     }
 
-    public function mainMenu(array $options) {
+    public function mainMenu() {
         $menu = $this->factory->createItem('root')
             ->setChildrenAttribute('class', 'nav nav-pills flex-column');
 

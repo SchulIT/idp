@@ -42,7 +42,9 @@ class UserImporter extends AbstractImporter {
         try {
             foreach($userImportData->getUsers() as $userData) {
                 $user = $this->entityManager->getRepository(User::class)
-                    ->findOneByUsername($userData->username);
+                    ->findOneBy([
+                        'username' => $userData->username
+                    ]);
 
                 if($user === null) {
                     $user = (new User())

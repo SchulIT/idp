@@ -14,7 +14,7 @@ abstract class AbstractApiController extends AbstractController {
         $this->serializer = $serializer;
     }
 
-    public function returnJson($data, int $status = 200, array $headers = [], array $context = []): JsonResponse {
+    public function returnJson($data, int $status = 200, array $headers = []): JsonResponse {
         $json = $this->serializer->serialize($data, 'json');
 
         return new JsonResponse($json, $status, $headers, true);

@@ -18,8 +18,20 @@ class UserVariable {
     /**
      * @return User
      */
-    public function getUser() {
-        return $this->tokenStorage->getToken()->getUser();
+    public function getUser(): User {
+        $token = $this->tokenStorage->getToken();
+
+        if($token === null) {
+            return null;
+        }
+
+        $user = $token->getUser();
+
+        if($user === null || !$user instanceof User) {
+            return null;
+        }
+
+        return $user;
     }
 
     public function getStudentId() {

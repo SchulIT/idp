@@ -161,55 +161,6 @@ class TwoFactorController extends AbstractController {
     }
 
     /**
-     * @Route("/email/enable", name="enable_email_two_factor", methods={"POST"})
-     */
-    public function enableEmailTwoFactorAuthentication(Request $request) {
-        $token = $request->request->get('_csrf_token');
-
-        if(!$this->isCsrfTokenValid(static::TWO_FACTOR_EMAIL_CSRF_TOKEN, $token)) {
-            $this->addFlash('error', 'two_factor.invalid_csrf');
-            return $this->redirectToRoute('two_factor');
-        }
-
-        /** @var User $user */
-        $user = $this->getUser();
-
-        if(empty($user->getEmail())) {
-            $this->addFlash('error', 'two_factor.enable.empty_email');
-            return $this->redirectToRoute('two_factor');
-        }
-
-        $user->setIsEmailAuthEnabled(true);
-
-        $this->userRepository->persist($user);
-
-        $this->addFlash('success', 'two_factor.email.enable.success');
-        return $this->redirectToRoute('two_factor');
-    }
-
-    /**
-     * @Route("/email/disable", name="disable_email_two_factor", methods={"POST"})
-     */
-    public function disableEmailTwoFactorAuthentication(Request $request) {
-        $token = $request->request->get('_csrf_token');
-
-        if(!$this->isCsrfTokenValid(static::TWO_FACTOR_EMAIL_CSRF_TOKEN, $token)) {
-            $this->addFlash('error', 'two_factor.invalid_csrf');
-            return $this->redirectToRoute('two_factor');
-        }
-
-        /** @var User $user */
-        $user = $this->getUser();
-
-        $user->setIsEmailAuthEnabled(false);
-
-        $this->userRepository->persist($user);
-
-        $this->addFlash('success', 'two_factor.email.disable.success');
-        return $this->redirectToRoute('two_factor');
-    }
-
-    /**
      * @Route("/u2f/{id}/remove", name="remove_u2f_device")
      */
     public function removeU2FDevice(U2fKey $key, Request $request, TranslatorInterface $translator, U2fKeyRepositoryInterface $repository) {

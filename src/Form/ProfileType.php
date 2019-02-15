@@ -44,7 +44,7 @@ class ProfileType extends AbstractType {
         $builder
             ->add('group_general', FieldsetType::class, [
                 'legend' => 'label.general',
-                'fields' => function(FormBuilderInterface $builder) use (&$user) {
+                'fields' => function(FormBuilderInterface $builder) {
                     $builder
                         ->add('username', TextType::class, [
                             'disabled' => true,

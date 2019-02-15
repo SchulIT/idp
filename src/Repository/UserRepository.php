@@ -105,27 +105,27 @@ class UserRepository implements UserRepositoryInterface {
     }
 
     public function getPaginatedUsers($itemsPerPage, &$page, $type = null, $query = null): Paginator {
-        $query = $this->em
+        $qb = $this->em
             ->createQueryBuilder()
             ->select('u')
             ->from(User::class, 'u')
             ->orderBy('u.username', 'asc');
 
-        if(!empty($q)) {
-            $query
+        if(!empty($query)) {
+            $qb
                 ->andWhere(
-                    $query->expr()->orX(
+                    $qb->expr()->orX(
                         'u.username LIKE :query',
                         'u.firstname LIKE :query',
                         'u.lastname LIKE :query',
                         'u.email LIKE :query'
                     )
                 )
-                ->setParameter('query', '%' . $q . '%');
+                ->setParameter('query', '%' . $query . '%');
         }
 
         if(!empty($type)) {
-            $query
+            $qb
                 ->andWhere(
                     'u.type = :type'
                 )
@@ -138,7 +138,7 @@ class UserRepository implements UserRepositoryInterface {
 
         $offset = ($page - 1) * $itemsPerPage;
 
-        $paginator = new Paginator($query);
+        $paginator = new Paginator($qb);
         $paginator->getQuery()
             ->setMaxResults($itemsPerPage)
             ->setFirstResult($offset);

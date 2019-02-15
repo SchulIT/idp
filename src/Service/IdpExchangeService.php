@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\ServiceProvider;
 use App\Entity\User;
 use App\Repository\UserRepositoryInterface;
 use App\Saml\AttributeValueProvider;
@@ -66,11 +67,17 @@ class IdpExchangeService {
     private function getEntityId(): ?string {
         $token = $this->tokenStorage->getToken();
 
-        if($token === null || !$token instanceof ServiceProviderToken) {
+        if($token === null) {
             return null;
         }
 
-        return $token->getServiceProvider()->getEntityId();
+        $serviceProvider = $token->getUser();
+
+        if($serviceProvider === null || !$serviceProvider instanceof ServiceProvider) {
+            return null;
+        }
+
+        return $serviceProvider->getEntityId();
     }
 
     private function buildUserResponse(User $user = null, ?string $entityId = null) {
@@ -113,6 +120,10 @@ class IdpExchangeService {
 
         foreach($user->getAttributes() as $attribute) {
             $max = max($max, $attribute->getUpdatedAt());
+        }
+
+        if($max === null) {
+            return new \DateTime('2019-01-01');
         }
 
         return $max;

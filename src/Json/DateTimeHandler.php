@@ -26,7 +26,7 @@ class DateTimeHandler implements SubscribingHandlerInterface {
         ];
     }
 
-    public function deserializeDateTimeFromJson(JsonDeserializationVisitor $visitor, $data, array $type) {
+    public function deserializeDateTimeFromJson(/** @scrutinizer ignore-unused */JsonDeserializationVisitor $visitor, $data, /** @scrutinizer ignore-unused */ array $type) {
         if($data === null) {
             return $data;
         }

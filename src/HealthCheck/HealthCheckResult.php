@@ -70,17 +70,17 @@ class HealthCheckResult {
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getRoute(): string {
+    public function getRoute(): ?string {
         return $this->route;
     }
 
     /**
-     * @param string $route
+     * @param string|null $route
      * @return HealthCheckResult
      */
-    public function setRoute(string $route): HealthCheckResult {
+    public function setRoute(?string $route): HealthCheckResult {
         $this->route = $route;
         return $this;
     }

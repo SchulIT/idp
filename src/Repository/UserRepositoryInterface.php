@@ -23,7 +23,7 @@ interface UserRepositoryInterface {
 
     /**
      * @param int $offset
-     * @param null $limit
+     * @param int|null $limit
      * @return User[]
      */
     public function findAll($offset = 0, $limit = null);
