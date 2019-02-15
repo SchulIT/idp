@@ -7,7 +7,9 @@ php:
 services:
     - mysql
 
-install: composer install
+install:
+    - cp .env.test.dist .env.test
+    - composer install
 
 script:
     - mkdir -p builds/logs
