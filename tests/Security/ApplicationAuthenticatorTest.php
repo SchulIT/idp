@@ -3,15 +3,11 @@
 namespace App\Tests\Security;
 
 use App\Entity\Application;
-use App\Tests\RunCommandTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Client;
-use Symfony\Bundle\FrameworkBundle\Console\Application as ConsoleApplication;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ApplicationAuthenticatorTest extends WebTestCase {
-
-    use RunCommandTrait;
 
     /** @var EntityManagerInterface */
     private $em;
@@ -28,12 +24,6 @@ class ApplicationAuthenticatorTest extends WebTestCase {
         $this->em = $this->client->getContainer()
             ->get('doctrine')
             ->getManager();
-
-        $application = new ConsoleApplication($this->client->getKernel());
-
-        self::runCommand($application, 'doctrine:database:drop --if-exists --force');
-        self::runCommand($application, 'doctrine:database:create');
-        self::runCommand($application, 'doctrine:schema:create');
 
         $this->application = (new Application())
             ->setName('Test app')
