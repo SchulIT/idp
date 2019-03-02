@@ -1,5 +1,5 @@
 parameters:
-    locale: 'en'
+    locale: 'de'
     locales: [ 'de', 'en' ]
 
 framework:
