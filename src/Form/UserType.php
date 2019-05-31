@@ -26,6 +26,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Choice;
+use Symfony\Component\Validator\Constraints\NotCompromisedPassword;
 
 class UserType extends AbstractType {
     use AttributeDataTrait;
@@ -152,7 +153,7 @@ class UserType extends AbstractType {
                                 ],
                             ],
                             'constraints' => [
-                                $this->passwordStrengthHelper->getConstraint()
+                                $this->passwordStrengthHelper->getConstraints(),
                             ],
                             'required' => true,
                             'first_options'  => ['label' => 'label.password'],
@@ -238,9 +239,7 @@ class UserType extends AbstractType {
                                     'class' => 'password-field'
                                 ],
                             ],
-                            'constraints' => [
-                                $this->passwordStrengthHelper->getConstraint()
-                            ],
+                            'constraints' => $this->passwordStrengthHelper->getConstraints(),
                             'required' => false,
                             'first_options'  => ['label' => 'label.password'],
                             'second_options' => ['label' => 'label.repeat_password']

@@ -74,9 +74,7 @@ class ProfileType extends AbstractType {
                                     'class' => 'password-field'
                                 ],
                             ],
-                            'constraints' => [
-                                $this->passwordStrengthHelper->getConstraint()
-                            ],
+                            'constraints' => $this->passwordStrengthHelper->getConstraints(),
                             'required' => true,
                             'first_options'  => ['label' => 'label.password'],
                             'second_options' => ['label' => 'label.repeat_password']
@@ -182,9 +180,7 @@ class ProfileType extends AbstractType {
                                     'class' => 'password-field'
                                 ],
                             ],
-                            'constraints' => [
-                                $this->passwordStrengthHelper->getConstraint()
-                            ],
+                            'constraints' => $this->passwordStrengthHelper->getConstraints(),
                             'required' => false,
                             'first_options'  => ['label' => 'label.password'],
                             'second_options' => ['label' => 'label.repeat_password']

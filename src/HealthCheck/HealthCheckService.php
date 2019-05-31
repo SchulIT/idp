@@ -6,12 +6,10 @@ class HealthCheckService {
     /** @var HealthCheckInterface[] */
     private $checks;
 
-    public function __construct() {
-
-    }
-
-    public function addCheck(HealthCheckInterface $check) {
-        $this->checks[] = $check;
+    public function __construct(iterable $checks) {
+        foreach($checks as $check) {
+            $this->checks[] = $checks;
+        }
     }
 
     /**

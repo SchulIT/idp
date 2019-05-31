@@ -4,6 +4,7 @@ namespace App\Security;
 
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequirements;
 use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Constraints\NotCompromisedPassword;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -14,14 +15,17 @@ class PasswordStrengthHelper {
         $this->validator = $validator;
     }
 
-    public function getConstraint(): Constraint {
-        return new PasswordRequirements([
-            'minLength' => 8,
-            'requireLetters' => true,
-            'requireCaseDiff' => true,
-            'requireNumbers' => true,
-            'requireSpecialCharacter' => true
-        ]);
+    public function getConstraints() {
+        return [
+            new PasswordRequirements([
+                'minLength' => 8,
+                'requireLetters' => true,
+                'requireCaseDiff' => true,
+                'requireNumbers' => true,
+                'requireSpecialCharacter' => true
+            ]),
+            new NotCompromisedPassword()
+        ];
     }
 
     /**
@@ -29,7 +33,7 @@ class PasswordStrengthHelper {
      * @return ConstraintViolationListInterface
      */
     public function validatePassword(string $password): ConstraintViolationListInterface {
-        $constraint = $this->getConstraint();
-        return $this->validator->validate($password, $constraint);
+        $constraints = $this->getConstraints();
+        return $this->validator->validate($password, $constraints);
     }
 }

@@ -7,9 +7,11 @@ use App\Entity\ServiceAttributeUserTypeValue;
 use App\Entity\ServiceAttributeValue;
 use App\Entity\ServiceAttributeValueInterface;
 use App\Service\FriendlyAttributeResolver;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
-class TwigFilters extends \Twig_Extension {
+class TwigFilters extends AbstractExtension {
     private $translator;
     private $friendlyAttributeResolver;
 
@@ -20,8 +22,8 @@ class TwigFilters extends \Twig_Extension {
 
     public function getFilters() {
         return [
-            new \Twig_SimpleFilter('attributeSource', [ $this, 'attributeSource' ]),
-            new \Twig_SimpleFilter('attributeFriendlyName', [ $this, 'attributeFriendlyName'])
+            new TwigFunction('attributeSource', [ $this, 'attributeSource' ]),
+            new TwigFunction('attributeFriendlyName', [ $this, 'attributeFriendlyName'])
         ];
     }
 
