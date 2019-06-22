@@ -69,7 +69,8 @@ class ActiveDirectorySyncOptionController extends AbstractController {
         }
 
         return $this->render('ad_sync_options/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'option' => $syncOption
         ]);
     }
 

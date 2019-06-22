@@ -69,7 +69,8 @@ class ActiveDirectoryGradeSyncOptionController extends AbstractController {
         }
 
         return $this->render('ad_sync_options/grades/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'option' => $option
         ]);
     }
 

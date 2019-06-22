@@ -1,4 +1,4 @@
-{% use "bootstrap_4_horizontal_layout.html.twig" %}
+{% extends "@Common/form.html.twig" %}
 
 {% block form_label_errors %}{% endblock %}
 
@@ -41,38 +41,12 @@
     {% endfor %}
 {%- endblock choice_widget -%}
 
-{% block choice_widget_collapsed -%}
-    {{- parent() -}}
-
-    {% if multiple %}
-        <span class="form-text text-muted">{{ 'form.multiple_help'|trans }}</span>
-
-        <button type="button" class="btn btn-secondary btn-sm" onclick="$('#{{ id }} option').prop('selected', true);">
-            <i class="fa fa-check-square-o" aria-hidden="true"></i> {{ 'form.select_all'|trans }}
-        </button>
-
-        <button type="button" class="btn btn-secondary btn-sm" onclick="$('#{{ id }} option').prop('selected', false);">
-            <i class="fa fa-square-o" aria-hidden="true"></i> {{ 'form.unselect_all'|trans }}
-        </button>
-    {% endif %}
-{%- endblock choice_widget_collapsed %}
-
-{% block fieldset_row %}
-    <div class="contentbox">
-        {% if legend is defined and legend is not empty %}
-            <h4>{{ legend | trans({}, translation_domain) }}</h4>
-        {% endif %}
-
-        {{ form_widget(form) }}
-    </div>
-{% endblock %}
-
 {% block burgov_key_value_row_widget %}
     <div class="form-inline">
         {{ form_widget(form.key, { attr: { placeholder: form.key.vars.label }}) }}
         {{ form_widget(form.value, { attr: { placeholder: form.key.vars.label }}) }}
 
-        <button class="btn btn-danger btn-delete" type="button"><i class="fa fa-trash"></i></button>
+        <button class="btn btn-danger btn-delete" type="button"><i class="fas fa-trash"></i></button>
     </div>
 {% endblock %}
 

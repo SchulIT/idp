@@ -67,7 +67,8 @@ class ServiceAttributeController extends AbstractController {
         }
 
         return $this->render('service_attributes/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'attribute' => $attribute
         ]);
     }
 

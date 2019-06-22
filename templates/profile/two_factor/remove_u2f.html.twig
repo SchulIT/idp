@@ -2,6 +2,14 @@
 
 {% block title %}{{ 'two_factor.u2f.remove.label'|trans }}{% endblock %}
 
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('two_factor') }}">{{ 'two_factor.label'|trans }}</a></li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
+
 {% block content %}
     {{ form_start(form) }}
 
@@ -9,7 +17,7 @@
 
     <div class="buttons">
         <button type="submit" class="btn btn-sm btn-danger">
-            <i class="fa fa-trash"></i> {{ 'actions.remove'|trans }}
+            <i class="fas fa-trash"></i> {{ 'actions.remove'|trans }}
         </button>
 
         <a href="{{ path('two_factor') }}" class="btn btn-sm btn-secondary">

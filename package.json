@@ -11,8 +11,9 @@
         "build": "encore production"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.9.0",
         "bootstrap": "^4.1.0",
-        "font-awesome": "^4.7.0",
+        "bootstrap4-card-tables": "^1.1.1",
         "jquery": "^3.3.1",
         "node-sass": "^4.8.3",
         "popper.js": "^1.14.5",

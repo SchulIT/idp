@@ -80,7 +80,8 @@ class UserTypeController extends AbstractController {
         }
 
         return $this->render('user_types/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'type' => $userType
         ]);
     }
 

@@ -2,23 +2,34 @@
 
 {% block title %}{{ 'users.remove.label'|trans }}{% endblock %}
 
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('users') }}">{{ 'users.label'|trans }}</a></li>
+        <li class="breadcrumb-item">{{ requestedUser.username }}</li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
+
 {% block content %}
     {{ form_start(form) }}
 
-    <div class="contentbox">
-        <h4>{{ form.group_general.vars.legend|trans }}</h4>
+    <div class="card">
+        <div class="card-header">{{ form.group_general.vars.legend|trans }}</div>
 
-        <div class="bs-callout bs-callout-danger">
-            <h4><i class="fa fa-exclamation-triangle"></i> {{ 'caution'|trans }} <i class="fa fa-exclamation-triangle"></i></h4>
-            <p>{{ 'users.remove.help'|trans }}</p>
+        <div class="card-body">
+            <div class="bs-callout bs-callout-danger">
+                <h4><i class="fas fa-exclamation-triangle"></i> {{ 'caution'|trans }} <i class="fas fa-exclamation-triangle"></i></h4>
+                <p>{{ 'users.remove.help'|trans }}</p>
+            </div>
+
+            {{ form_row(form.group_general.confirm) }}
         </div>
-
-        {{ form_row(form.group_general.confirm) }}
     </div>
 
     <div class="buttons">
         <button type="submit" class="btn btn-sm btn-danger">
-            <i class="fa fa-trash"></i> {{ 'actions.remove'|trans }}
+            <i class="fas fa-trash"></i> {{ 'actions.remove'|trans }}
         </button>
 
         <a href="{{ path('users') }}" class="btn btn-sm btn-secondary">

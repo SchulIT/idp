@@ -86,7 +86,8 @@ class ServiceProviderController extends AbstractController {
         }
 
         return $this->render('service_providers/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'service_provider' => $serviceProvider
         ]);
     }
 

@@ -102,6 +102,7 @@ two_factor:
   disable: deaktivieren
   google:
     label: Google Authenticator (App)
+    disabled: Die Zwei-Faktor Authentifizierung mit der Google Authenticator App ist deaktiviert.
     backup:
       label: Backup-Codes
       info: Backup-Codes können genutzt werden, falls die Google Authenticator App nicht zu Hand ist.

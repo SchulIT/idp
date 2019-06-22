@@ -2,67 +2,71 @@
 
 {% block title %}{{ 'idp.details'|trans }}{% endblock %}
 
-{% block content %}
-    <div class="contentbox">
-        <h4>{{ 'idp.xml'|trans }}</h4>
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a></li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
 
-<pre>
-{{ idpXml }}
-</pre>
+{% block content %}
+    <div class="card">
+        <div class="card-header">{{ 'idp.xml'|trans }}</div>
+        <div class="card-body">
+            <pre>{{ idpXml }}</pre>
+        </div>
     </div>
 
-    <div class="contentbox">
-        <h4>{{ 'idp.details'|trans }}</h4>
+    <div class="card">
+        <div class="card-header">{{ 'idp.details'|trans }}</div>
 
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <tbody>
-                <tr>
-                    <td>{{ 'certificate_info.name'|trans }}</td>
-                    <td>{{ certificate.name }}</td>
-                </tr>
-                <tr>
-                    <td>{{ 'certificate_info.subject'|trans }}</td>
-                    <td>
-                        {% for key, value in certificate.subject %}
-                            {{ key }}={{ value }}{% if not loop.last %}<br />{% endif %}
-                        {% endfor %}
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ 'certificate_info.issuer'|trans }}</td>
-                    <td>
-                        {% for key, value in certificate.issuer %}
-                            {{ key }}={{ value }}{% if not loop.last %}<br />{% endif %}
-                        {% endfor %}
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ 'certificate_info.serial_number'|trans }}</td>
-                    <td>{{ certificate.serialNumberHex }}</td>
-                </tr>
-                <tr>
-                    <td>{{ 'certificate_info.sign_algorithm'|trans }}</td>
-                    <td>{{ certificate.signatureTypeLN }}</td>
-                </tr>
-                <tr>
-                    <td>{{ 'certificate_info.valid_from'|trans }}</td>
-                    <td>{{ certificate.validFrom_time_t|date('d/m/Y H:i:s') }}</td>
-                </tr>
-                <tr>
-                    <td>{{ 'certificate_info.valid_until'|trans }}</td>
-                    <td>{{ certificate.validTo_time_t|date('d/m/Y H:i:s') }}</td>
-                </tr>
-                <tr>
-                    <td>{{ 'idp.saml_login_url'|trans }}</td>
-                    <td>{{ loginUrl }}</td>
-                </tr>
-                <tr>
-                    <td>{{ 'idp.saml_logout_url'|trans }}</td>
-                    <td>N/A</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <table class="table table-striped">
+            <tbody>
+            <tr>
+                <td>{{ 'certificate_info.name'|trans }}</td>
+                <td>{{ certificate.name }}</td>
+            </tr>
+            <tr>
+                <td>{{ 'certificate_info.subject'|trans }}</td>
+                <td>
+                    {% for key, value in certificate.subject %}
+                        {{ key }}={{ value }}{% if not loop.last %}<br />{% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <td>{{ 'certificate_info.issuer'|trans }}</td>
+                <td>
+                    {% for key, value in certificate.issuer %}
+                        {{ key }}={{ value }}{% if not loop.last %}<br />{% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <td>{{ 'certificate_info.serial_number'|trans }}</td>
+                <td>{{ certificate.serialNumberHex }}</td>
+            </tr>
+            <tr>
+                <td>{{ 'certificate_info.sign_algorithm'|trans }}</td>
+                <td>{{ certificate.signatureTypeLN }}</td>
+            </tr>
+            <tr>
+                <td>{{ 'certificate_info.valid_from'|trans }}</td>
+                <td>{{ certificate.validFrom_time_t|date('d/m/Y H:i:s') }}</td>
+            </tr>
+            <tr>
+                <td>{{ 'certificate_info.valid_until'|trans }}</td>
+                <td>{{ certificate.validTo_time_t|date('d/m/Y H:i:s') }}</td>
+            </tr>
+            <tr>
+                <td>{{ 'idp.saml_login_url'|trans }}</td>
+                <td>{{ loginUrl }}</td>
+            </tr>
+            <tr>
+                <td>{{ 'idp.saml_logout_url'|trans }}</td>
+                <td>N/A</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 {% endblock %}

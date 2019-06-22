@@ -2,16 +2,30 @@
 
 {% block title %}{{ 'ad_sync_options.grades.edit.label'|trans }}{% endblock %}
 
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('ad_sync_options') }}">{{ 'ad_sync_options.label'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('ad_grades_sync_options') }}">{{ 'ad_sync_options.grades.label'|trans }}</a></li>
+        <li class="breadcrumb-item">{{ option.grade }}</li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
+
 {% block content %}
     {{ form_start(form) }}
 
-    <div class="contentbox">
-        {{ form_widget(form) }}
+    <div class="card">
+        <div class="card-header">{{ 'label.general'|trans }}</div>
+
+        <div class="card-body">
+            {{ form_widget(form) }}
+        </div>
     </div>
 
     <div class="buttons">
         <button type="submit" class="btn btn-sm btn-primary">
-            <i class="fa fa-save"></i> {{ 'actions.save'|trans }}
+            <i class="fas fa-save"></i> {{ 'actions.save'|trans }}
         </button>
 
         <a href="{{ path('ad_sync_options') }}" class="btn btn-sm btn-secondary">

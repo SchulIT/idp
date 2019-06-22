@@ -2,6 +2,15 @@
 
 {% block title %}{{ 'users.edit.label'|trans }}{% endblock %}
 
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('users') }}">{{ 'users.label'|trans }}</a></li>
+        <li class="breadcrumb-item">{{ requestedUser.username }}</li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
+
 {% block content %}
     {{ form_start(form) }}
 
@@ -9,7 +18,7 @@
 
     <div class="buttons">
         <button type="submit" class="btn btn-sm btn-primary">
-            <i class="fa fa-save"></i> {{ 'actions.save'|trans }}
+            <i class="fas fa-save"></i> {{ 'actions.save'|trans }}
         </button>
 
         <a href="{{ path('users') }}" class="btn btn-sm btn-secondary">

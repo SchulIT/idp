@@ -2,24 +2,34 @@
 
 {% block title %}{{ 'service_providers.token.label'|trans }}{% endblock %}
 
-{% block content %}
-    <div class="contentbox">
-        <h4>{{ 'service_providers.token.label'|trans }}</h4>
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('service_providers') }}">{{ 'service_providers.label'|trans }}</a></li>
+        <li class="breadcrumb-item">{{ service_provider.name }}</li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
 
-        {% if service_provider.token is null %}
-            <p>{{ 'service_providers.token.none'|trans }}</p>
-        {% else %}
-            <input type="text" class="form-control" readonly="readonly" value="{{ service_provider.token }}" />
-        {% endif %}
+{% block content %}
+    <div class="card">
+        <div class="card-header">{{ 'service_providers.token.label'|trans }}</div>
+        <div class="card-body">
+            {% if service_provider.token is null %}
+                <p class="card-text">{{ 'service_providers.token.none'|trans }}</p>
+            {% else %}
+                <input type="text" class="form-control" readonly="readonly" value="{{ service_provider.token }}" />
+            {% endif %}
+        </div>
     </div>
 
     <div class="buttons">
         <a href="{{ path('service_provider_token_regenerate', { id: service_provider.id }) }}" class="btn btn-sm btn-danger">
-            <i class="fa fa-refresh"></i> {{ 'service_providers.token.regenerate.label'|trans }}
+            <i class="fas fa-refresh"></i> {{ 'service_providers.token.regenerate.label'|trans }}
         </a>
 
         <a href="{{ path('service_providers') }}" class="btn btn-sm btn-primary">
-            <i class="fa fa-arrow-left"></i> {{ 'actions.back'|trans }}
+            <i class="fas fa-arrow-left"></i> {{ 'actions.back'|trans }}
         </a>
     </div>
 

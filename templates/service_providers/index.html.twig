@@ -2,59 +2,64 @@
 
 {% block title %}{{ 'service_providers.label'|trans }}{% endblock %}
 
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a></li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
+
 {% block content %}
-    <div class="contentbox">
-        <div class="table-responsive">
-            <table class="table table-striped table-hover">
-                <colgroup>
-                    <col />
-                    <col class="column-md" />
-                    <col class="column-320" />
-                </colgroup>
+    <div class="card">
+        <table class="table table-striped table-hover">
+            <colgroup>
+                <col />
+                <col class="column-md" />
+                <col class="column-320" />
+            </colgroup>
 
-                <thead>
+            <thead>
+            <tr>
+                <th>{{ 'label.name'|trans }}</th>
+                <th>{{ 'label.url'|trans }}</th>
+                <th>{{ 'actions.label'|trans }}</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for service in service_providers %}
                 <tr>
-                    <th>{{ 'label.name'|trans }}</th>
-                    <th>{{ 'label.url'|trans }}</th>
-                    <th>{{ 'actions.label'|trans }}</th>
+                    <td>
+                        {{ service.name }}
+                        <p><small>{{ service.description }}</small></p>
+                    </td>
+                    <td>{{ service.url }}</td>
+                    <td>
+                        <a href="{{ path('service_provider_certificate', { id: service.id }) }}" class="btn btn-sm btn-primary">
+                            {{ 'service_providers.certificate_info'|trans }}
+                        </a>
+
+                        <a href="{{ path('service_provider_token', { id: service.id }) }}" class="btn btn-sm btn-primary">
+                            {{ 'service_providers.token.label'|trans }}
+                        </a>
+
+                        <a href="{{ path('edit_service_provider', { id: service.id }) }}" class="btn btn-sm btn-primary">
+                            {{ 'actions.edit'|trans }}
+                        </a>
+
+                        <a href="{{ path('remove_service_provider', { id: service.id }) }}" class="btn btn-sm btn-danger">
+                            {{ 'actions.remove'|trans }}
+                        </a>
+                    </td>
                 </tr>
-                </thead>
-
-                <tbody>
-                {% for service in service_providers %}
-                    <tr>
-                        <td>
-                            {{ service.name }}
-                            <p><small>{{ service.description }}</small></p>
-                        </td>
-                        <td>{{ service.url }}</td>
-                        <td>
-                            <a href="{{ path('service_provider_certificate', { id: service.id }) }}" class="btn btn-sm btn-primary">
-                                {{ 'service_providers.certificate_info'|trans }}
-                            </a>
-
-                            <a href="{{ path('service_provider_token', { id: service.id }) }}" class="btn btn-sm btn-primary">
-                                {{ 'service_providers.token.label'|trans }}
-                            </a>
-
-                            <a href="{{ path('edit_service_provider', { id: service.id }) }}" class="btn btn-sm btn-primary">
-                                {{ 'actions.edit'|trans }}
-                            </a>
-
-                            <a href="{{ path('remove_service_provider', { id: service.id }) }}" class="btn btn-sm btn-danger">
-                                {{ 'actions.remove'|trans }}
-                            </a>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 
     <div class="buttons">
         <a href="{{ path('add_service_provider') }}" class="btn btn-sm btn-primary">
-            <i class="fa fa-plus"></i> {{ 'service_providers.add.label'|trans }}
+            <i class="fas fa-plus"></i> {{ 'service_providers.add.label'|trans }}
         </a>
     </div>
 {% endblock%}

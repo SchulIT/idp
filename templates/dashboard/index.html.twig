@@ -1,49 +1,54 @@
 {% extends "main.html.twig" %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}{{ 'dashboard.label'|trans }}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
 
 {% block content %}
-    <div class="contentbox">
-        <h2>{{ 'dashboard.welcome'|trans({ '%firstname%': app.user.firstname, '%lastname%': app.user.lastname }) }}</h2>
-    </div>
+    <h2 class="mb-3">{{ 'dashboard.welcome'|trans({ '%firstname%': app.user.firstname, '%lastname%': app.user.lastname }) }}</h2>
 
-    <div class="row">
+    <div class="card-deck mb-3">
         {% for service in services %}
-            <div class="col-md-3 col-sm-6 col-xs-12 widget link-widget">
-                <a href="{{ service.url }}" target="_blank" title="{{ service.description }}" class="content">
-                    {{ service.name }}
+            <div class="card">
+                <a class="card-body" href="{{ service.url }}" target="_blank" title="{{ service.description|e }}">
+                    <h5 class="card-title">{{ service.name }}</h5>
+                    <h6 class="card-subtitle text-muted">{{ service.description }}</h6>
                 </a>
             </div>
+
+            {% if loop.index % 4 == 0 %}
+            </div>
+            <div class="card-deck mb-3">
+            {% endif %}
         {% endfor %}
     </div>
 
-    <div class="row widgetrow">
-        <div class="col-md-6">
-            <div class="contentbox">
-                <h4>{{ 'dashboard.data'|trans }}</h4>
+    <div class="row">
+        <div class="col-md-4 pl-0">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-id-card"></i> {{ 'dashboard.data'|trans }}</h5>
 
-                <div class="row no-padding">
-                    <div class="col-md-3 col-sm-4 col-xs-4"><p>{{ 'label.username'|trans }}</p></div>
-                    <div class="col-md-9 col-sm-8 col-xs-8"><p>{{ app.user.username }}</p></div>
-                </div>
+                    <div class="card-text mb-3">
+                        <p>
+                            <span class="text-muted">{{ 'label.username'|trans }}</span> {{ app.user.username }}
+                        </p>
+                        <p>
+                            <span class="text-muted">{{ 'label.firstname'|trans }}</span> {{ app.user.firstname}}
+                        </p>
+                        <p>
+                            <span class="text-muted">{{ 'label.lastname'|trans }}</span> {{ app.user.lastname }}
+                        </p>
+                        <p>
+                            <span class="text-muted">{{ 'label.email'|trans }}</span> {{ app.user.email }}
+                        </p>
+                    </div>
 
-                <div class="row no-padding">
-                    <div class="col-md-3 col-sm-4 col-xs-4"><p>{{ 'label.firstname'|trans }}</p></div>
-                    <div class="col-md-9 col-sm-8 col-xs-8"><p>{{ app.user.firstname }}</p></div>
-                </div>
-
-                <div class="row no-padding">
-                    <div class="col-md-3 col-sm-4 col-xs-4"><p>{{ 'label.lastname'|trans }}</p></div>
-                    <div class="col-md-9 col-sm-8 col-xs-8"><p>{{ app.user.lastname }}</p></div>
-                </div>
-
-                <div class="row no-padding">
-                    <div class="col-md-3 col-sm-4 col-xs-4"><p>{{ 'label.email'|trans }}</p></div>
-                    <div class="col-md-9 col-sm-8 col-xs-8"><p>{{ app.user.email }}</p></div>
-                </div>
-
-                <div class="row">
-                    <a href="{{ path('profile') }}" class="btn btn-primary btn-sm">{{ 'profile.label'|trans }}</a>
+                    <a href="{{ path('profile') }}" class="btn btn-sm btn-primary">{{ 'profile.label'|trans }}</a>
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@
 {% block content %}
     <div class="text-center">
         <div>
-            <i class="fa fa-shield fa-3x d-block text-secondary"></i>
+            <i class="fas fa-shield fa-3x d-block text-secondary"></i>
             <h4>{{ 'two_factor.u2f.auth.label'|trans }}</h4>
 
             <p>{{ 'two_factor.u2f.auth.message'|trans }}</p>
@@ -24,15 +24,15 @@
             {% endif %}
 
             <div id="u2fsuccess" style="display: none;">
-                <i class="fa fa-info-circle"></i> {{ 'two_factor.u2f.auth.success'|trans }}
+                <i class="fas fa-info-circle"></i> {{ 'two_factor.u2f.auth.success'|trans }}
             </div>
 
             <div id="u2fbutton">
-                <i class="fa fa-spinner fa-spin"></i> {{ 'two_factor.u2f.enable.press'|trans }}
+                <i class="fas fa-spinner fa-spin"></i> {{ 'two_factor.u2f.enable.press'|trans }}
             </div>
 
             <div id="u2ferrorContainer" style="display: none;">
-                <i class="fa fa-exclamation-triangle text-danger"></i> <span id="u2ferror"></span>
+                <i class="fas fa-exclamation-triangle text-danger"></i> <span id="u2ferror"></span>
                 <div class="retry-button">
                     <button type="button" class="btn btn-primary btn-block" id="u2fretry">
                         {{ 'two_factor.u2f.auth.retry'|trans }}
@@ -48,7 +48,7 @@
         <div class="switch-method">
             <strong>{{ 'two_factor.u2f.auth.switch.label'|trans }}</strong>
             <ul class="list-unstyled">
-                <li><i class="fa fa-mobile-phone"></i> <a href="?preferProvider=google">{{ 'two_factor.u2f.auth.switch.link'|trans }}</a></li>
+                <li><i class="fas fa-mobile-phone"></i> <a href="?preferProvider=google">{{ 'two_factor.u2f.auth.switch.link'|trans }}</a></li>
             </ul>
         </div>
     {% endif %}

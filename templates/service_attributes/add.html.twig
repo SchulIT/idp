@@ -2,6 +2,14 @@
 
 {% block title %}{{ 'service_attributes.add.label'|trans }}{% endblock %}
 
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('attributes') }}">{{ 'service_attributes.label'|trans }}</a></li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
+
 {% block content %}
     {{ form_start(form) }}
 
@@ -9,33 +17,35 @@
 
     {{ form_row(form.group_general) }}
 
-    <div class="contentbox">
-        <h4>{{ 'label.options'|trans }}</h4>
+    <div class="card">
+        <div class="card-header">{{ 'label.options'|trans }}</div>
 
-        {{ form_row(form.group_select.isMultipleChoice ) }}
+        <div class="card-body">
+            {{ form_row(form.group_select.isMultipleChoice ) }}
 
-        <div class="form-group">
-            {{ form_label(form.group_select.options) }}
+            <div class="form-group">
+                {{ form_label(form.group_select.options) }}
 
-            <div class="col-md-10">
-                <ul class="options list-unstyled" data-prototype="{{ form_widget(form.group_select.options.vars.prototype)|e('html_attr') }}">
-                    {% for option in form.group_select.options %}
-                        <li>{{ form_widget(option) }}</li>
-                    {% endfor %}
-                </ul>
+                <div class="col-md-10">
+                    <ul class="options list-unstyled" data-prototype="{{ form_widget(form.group_select.options.vars.prototype)|e('html_attr') }}">
+                        {% for option in form.group_select.options %}
+                            <li>{{ form_widget(option) }}</li>
+                        {% endfor %}
+                    </ul>
 
-                <a href="#" class="btn btn-primary btn-sm btn-add-option"><i class="fa fa-plus"></i></a>
+                    <a href="#" class="btn btn-primary btn-sm btn-add-option"><i class="fas fa-plus"></i></a>
 
-                {{ form_errors(form.group_select.options) }}
+                    {{ form_errors(form.group_select.options) }}
+                </div>
+
+                <!-- {{ form_row(form.group_select.options) }} -->
             </div>
-
-            <!-- {{ form_row(form.group_select.options) }} -->
         </div>
     </div>
 
     <div class="buttons">
         <button type="submit" class="btn btn-sm btn-primary">
-            <i class="fa fa-plus"></i> {{ 'actions.add'|trans }}
+            <i class="fas fa-plus"></i> {{ 'actions.add'|trans }}
         </button>
 
         <a href="{{ path('attributes') }}" class="btn btn-sm btn-secondary">

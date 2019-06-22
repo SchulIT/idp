@@ -80,7 +80,8 @@ class UserRoleController extends AbstractController {
         }
 
         return $this->render('user_roles/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'role' => $role
         ]);
     }
 

@@ -68,7 +68,8 @@ class ApplicationController extends AbstractController {
         }
 
         return $this->render('applications/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'application' => $application
         ]);
     }
 

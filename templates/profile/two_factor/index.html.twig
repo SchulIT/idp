@@ -2,18 +2,14 @@
 
 {% block title %}{{ 'two_factor.label'|trans }}{% endblock %}
 
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a></li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
+
 {% block content %}
-    {% if isGoogleEnabled or isU2fEnabled %}
-        <div class="bs-callout bs-callout-success">
-            <h4>{{ 'two_factor.status.label'|trans }}</h4>
-            <p>{{ 'two_factor.status.enabled'|trans }}</p>
-        </div>
-    {% else %}
-        <div class="bs-callout bs-callout-info">
-            <h4>{{ 'two_factor.status.label'|trans }}</h4>
-            <p>{{ 'two_factor.status.disabled'|trans }}</p>
-        </div>
-    {% endif %}
 
     {% if isTrustedDevice %}
         <div class="bs-callout bs-callout-info">
@@ -22,74 +18,85 @@
         </div>
     {% endif %}
 
-    <div class="contentbox">
-        <h4>
-            {{ 'two_factor.google.label'|trans }}
+    <div class="card-deck">
+        <div class="card {% if isGoogleEnabled %}border-success{% else %}border-danger{% endif %}">
+            <div class="card-header text-white {% if isGoogleEnabled %}bg-success{% else %}bg-danger{% endif %}">
+                {{ 'two_factor.google.label'|trans }}
 
-            {% if isGoogleEnabled %}
-                <span class="badge badge-success"><i class="fa fa-check"></i> {{ 'two_factor.enabled'|trans }}</span>
-            {% else %}
-                <span class="badge badge-danger"><i class="fa fa-times"></i> {{ 'two_factor.disabled'|trans }}</span>
-            {% endif %}
-        </h4>
+                {% if isGoogleEnabled %}
+                    <span class="badge badge-success"><i class="fas fa-check"></i> {{ 'two_factor.enabled'|trans }}</span>
+                {% else %}
+                    <span class="badge badge-danger"><i class="fas fa-times"></i> {{ 'two_factor.disabled'|trans }}</span>
+                {% endif %}
+            </div>
 
-        {% if isGoogleEnabled %}
-            <h5>{{ 'two_factor.google.backup.label'|trans }}</h5>
-            <p>
-                {{ 'two_factor.google.backup.info'|trans }}
-            </p>
+            <div class="card-body">
+                {% if isGoogleEnabled %}
+                <h5 class="card-title">{{ 'two_factor.google.backup.label'|trans }}</h5>
+                <p class="card-text">
+                    {{ 'two_factor.google.backup.info'|trans }}
+                </p>
 
-            <ul>
-                {% for code in backupCodes %}
-                    <li>{{ code }}</li>
-                {% endfor %}
-            </ul>
+                <ul>
+                    {% for code in backupCodes %}
+                        <li>{{ code }}</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    <p class="card-text">{{ 'two_factor.google.disabled'|trans }}</p>
+                {% endif %}
+            </div>
 
-            <div class="clearfix">
-                <form action="{{ path('disable_google_two_factor') }}" method="post" class="pull-left form-inline">
+            <div class="card-footer clearfix">
+                {% if isGoogleEnabled %}
+                <form action="{{ path('disable_google_two_factor') }}" method="post" class="float-left form-inline">
                     <input type="hidden" name="_csrf_token" value="{{ csrfToken.value }}" />
 
                     <button type="submit" class="btn btn-danger btn-sm">
-                        <i class="fa fa-times"></i> {{ 'two_factor.disable'|trans }}
+                        <i class="fas fa-times"></i> {{ 'two_factor.disable'|trans }}
                     </button>
                 </form>
 
-                <form action="{{ path('regenerate_backup_codes') }}" method="post" class="pull-left form-inline" style="margin-left: 10px">
+                <form action="{{ path('regenerate_backup_codes') }}" method="post" class="float-left form-inline" style="margin-left: 10px">
                     <input type="hidden" name="_csrf_token" value="{{ csrfToken.value }}" />
 
                     <button type="submit" class="btn btn-primary btn-sm">
-                        <i class="fa fa-refresh"></i> {{ 'two_factor.google.backup.regenerate'|trans }}
+                        <i class="fas fa-refresh"></i> {{ 'two_factor.google.backup.regenerate'|trans }}
                     </button>
                 </form>
+                {% else %}
+                    <a href="{{ path('enable_google_two_factor') }}" class="btn btn-success btn-sm">
+                        <i class="fas fa-check"></i> {{ 'two_factor.enable'|trans }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card {% if isU2fEnabled %}border-success{% else %}border-danger{% endif %}">
+            <div class="card-header text-white {% if isU2fEnabled %}bg-success{% else %}bg-danger{% endif %}">
+                {{ 'two_factor.u2f.label'|trans }}
+
+                {% if isU2fEnabled %}
+                    <span class="badge badge-success"><i class="fas fa-check"></i> {{ 'two_factor.enabled'|trans }}</span>
+                {% else %}
+                    <span class="badge badge-danger"><i class="fas fa-times"></i> {{ 'two_factor.disabled'|trans }}</span>
+                {% endif %}
             </div>
 
-        {% else %}
-            <a href="{{ path('enable_google_two_factor') }}" class="btn btn-success btn-sm">
-                <i class="fa fa-check"></i> {{ 'two_factor.enable'|trans }}
-            </a>
-        {% endif %}
-    </div>
+            <div class="card-body">
+                <ul>
+                    {% for key in u2fKeys %}
+                    <li>{{ key.name }} <a href="{{ path('remove_u2f_device', { id: key.id }) }}" class="btn btn-sm btn-danger" title="{{ 'two_factor.u2f.remove.label'|trans }}"><i class="fas fa-trash"></i> </a> </li>
+                    {% endfor %}
+                </ul>
+            </div>
 
-    <div class="contentbox">
-        <h4>
-            {{ 'two_factor.u2f.label'|trans }}
-
-            {% if isU2fEnabled %}
-                <span class="badge badge-success"><i class="fa fa-check"></i> {{ 'two_factor.enabled'|trans }}</span>
-            {% else %}
-                <span class="badge badge-danger"><i class="fa fa-times"></i> {{ 'two_factor.disabled'|trans }}</span>
-            {% endif %}
-        </h4>
-
-        <ul>
-            {% for key in u2fKeys %}
-            <li>{{ key.name }} <a href="{{ path('remove_u2f_device', { id: key.id }) }}" class="btn btn-sm btn-danger" title="{{ 'two_factor.u2f.remove.label'|trans }}"><i class="fa fa-trash"></i> </a> </li>
-            {% endfor %}
-        </ul>
-
-        <a href="{{ path('club_base_register_u2f') }}" class="btn btn-primary btn-sm">
-            <i class="fa fa-plus"></i> {{ 'two_factor.u2f.enable.label'|trans }}
-        </a>
+            <div class="card-footer">
+                <a href="{{ path('club_base_register_u2f') }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus"></i> {{ 'two_factor.u2f.enable.label'|trans }}
+                </a>
+            </div>
+        </div>
     </div>
 
 {% endblock %}
