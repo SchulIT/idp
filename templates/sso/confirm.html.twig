@@ -49,13 +49,13 @@
     <hr />
 
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 pl-0">
             {% block redirect %}{% endblock %}
         </div>
         <div class="col-md-4">
             {% block confirm %}{% endblock %}
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 pr-0">
             <a href="{{ path('dashboard') }}" class="btn btn-secondary btn-block">{{ 'actions.cancel'|trans }}</a>
         </div>
     </div>
