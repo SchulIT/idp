@@ -31,10 +31,10 @@
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 pl-0">
             <button class="btn btn-primary btn-block" type="submit">{{ 'label.signin'|trans }}</button>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 pr-0">
             <a href="{{ path('forgot_password') }}" class="btn btn-secondary btn-block" role="button">{{ 'auth.lost_pw'|trans }}</a>
         </div>
     </div>
