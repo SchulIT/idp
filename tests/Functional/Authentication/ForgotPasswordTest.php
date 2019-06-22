@@ -7,6 +7,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ForgotPasswordTest extends WebTestCase {
@@ -132,8 +133,8 @@ class ForgotPasswordTest extends WebTestCase {
          */
         $button = $crawler->filter('button[type=submit]')->first();
         $form = $button->form();
-        $form['_password']->setValue('Test1234$');
-        $form['_repeat_password']->setValue('Test1234$');
+        $form['_password']->setValue('auUTthtyP59wK-JC7szZ6Wbec');
+        $form['_repeat_password']->setValue('auUTthtyP59wK-JC7szZ6Wbec');
 
         $this->client->submit($form);
         $crawler = $this->client->followRedirect();
@@ -156,9 +157,11 @@ class ForgotPasswordTest extends WebTestCase {
 
         $this->assertNotNull($user);
         $this->assertNotEquals('foo', $user->getPassword());
-        $this->assertTrue(
-            password_verify( 'Test1234$', $user->getPassword())
-        );
+
+        /** @var UserPasswordEncoderInterface $encoder */
+        $encoder = $this->client->getContainer()->get('password_encoder');
+
+        $this->assertTrue($encoder->isPasswordValid($user, 'auUTthtyP59wK-JC7szZ6Wbec'));
     }
 
 }
