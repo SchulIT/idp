@@ -11,10 +11,11 @@
         "@fortawesome/fontawesome-free": "^5.9.0",
         "@symfony/webpack-encore": "^0.27.0",
         "bootstrap": "^4.1.0",
+        "bootstrap.native": "^2.0.26",
+        "bootstrap.native-loader": "^2.0.0",
         "bootstrap4-card-tables": "^1.1.1",
-        "jquery": "^3.3.1",
         "node-sass": "^4.8.3",
-        "popper.js": "^1.14.5",
-        "sass-loader": "^7.0.1"
+        "sass-loader": "^7.0.1",
+        "uglify-js": "^3.6.0"
     }
 }

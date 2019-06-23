@@ -23,9 +23,18 @@ Encore
     .enableSassLoader()
 
     // uncomment for legacy applications that require $/jQuery as a global variable
-    .autoProvidejQuery()
+    //.autoProvidejQuery()
 
     .disableSingleRuntimeChunk()
+
+    .addLoader(
+        {
+            test: /bootstrap\.native/,
+            use: {
+                loader: 'bootstrap.native-loader'
+            }
+        }
+    )
 ;
 
 module.exports = Encore.getWebpackConfig();

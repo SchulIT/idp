@@ -1,48 +1,62 @@
-+(function($) {
-    'use strict';
-
+document.addEventListener('DOMContentLoaded', function() {
     function deleteOption() {
-        var $this = $(this);
-        $this.closest('.form-inline').remove();
+        this.closest('.form-inline').remove();
     }
 
-    function addOption($collectionHolder) {
+    function htmlToElement(html) {
+        let template = document.createElement('template');
+        html = html.trim();
+
+        template.innerHTML = html;
+        return template.content.firstChild;
+    }
+
+    function addOption(collectionHolder) {
         // Get the data-prototype explained earlier
-        var prototype = $collectionHolder.data('prototype');
+        let prototype = collectionHolder.getAttribute('data-prototype');
 
         // get the new index
-        var index = $collectionHolder.data('index');
+        let index = collectionHolder.getAttribute('data-index');
 
         // Replace '__name__' in the prototype's HTML to
         // instead be a number based on how many items we have
-        var newForm = prototype.replace(/__name__/g, index);
+        let newFormHtml = prototype.replace(/__name__/g, index);
 
         // increase the index with one for the next item
-        $collectionHolder.data('index', index + 1);
+        collectionHolder.setAttribute('index', index + 1);
 
         // Display the form in the page in an li
-        var $newFormLi = $('<li></li>').append(newForm);
-        $collectionHolder.append($newFormLi);
+        let newForm = htmlToElement(newFormHtml);
 
-        $newFormLi.find('.btn-delete').click(deleteOption);
+        collectionHolder.appendChild(newForm);
+
+        newForm.querySelectorAll('.btn-delete').forEach(function(el) {
+            el.addEventListener('click', deleteOption);
+        });
     }
 
-    $(document).ready(function() {
-        // Get the ul that holds the collection of tags
-        var $collectionHolder = $('ul.options');
+    function onButtonAddClick(event) {
+        // prevent the link from creating a "#" on the URL
+        event.preventDefault();
 
-        $collectionHolder.find('.btn-delete').click(deleteOption);
+        // add a new tag form (see next code block)
+        addOption(collectionHolder);
+    }
 
-        // count the current form inputs we have (e.g. 2), use that as the new
-        // index when inserting a new item (e.g. 2)
-        $collectionHolder.data('index', $collectionHolder.find(':input').length);
+    // Get the ul that holds the collection of tags
+    let collectionHolder = document.querySelector('.options');
 
-        $('a.btn-add-option').on('click', function(e) {
-            // prevent the link from creating a "#" on the URL
-            e.preventDefault();
-
-            // add a new tag form (see next code block)
-            addOption($collectionHolder);
-        });
+    collectionHolder.querySelectorAll('.btn-delete').forEach(function (el) {
+        el.addEventListener('click', deleteOption);
     });
-})(jQuery);
+
+    // count the current form inputs we have (e.g. 2), use that as the new
+    // index when inserting a new item (e.g. 2)
+    collectionHolder.setAttribute('data-index', collectionHolder.querySelectorAll('input').length);
+
+    let button = collectionHolder.closest('.card').querySelector('a.btn-add-option');
+
+    button.removeEventListener('click', onButtonAddClick, false);
+    button.addEventListener('click', onButtonAddClick);
+
+});
