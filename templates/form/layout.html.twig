@@ -42,11 +42,15 @@
 {%- endblock choice_widget -%}
 
 {% block burgov_key_value_row_widget %}
-    <div class="form-inline">
-        {{ form_widget(form.key, { attr: { placeholder: form.key.vars.label }}) }}
-        {{ form_widget(form.value, { attr: { placeholder: form.key.vars.label }}) }}
+    <div class="form-inline mb-1">
+        <div class="input-group">
+            {{ form_widget(form.key, { attr: { placeholder: form.key.vars.label }}) }}
+            {{ form_widget(form.value, { attr: { placeholder: form.value.vars.label }}) }}
 
-        <button class="btn btn-danger btn-delete" type="button"><i class="fas fa-trash"></i></button>
+            <div class="input-group-append">
+                <button class="btn btn-danger btn-delete" type="button"><i class="fas fa-trash"></i></button>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
