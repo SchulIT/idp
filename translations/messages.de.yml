@@ -29,7 +29,7 @@ label:
   ou: Active Directory Organisatationseinheit
   value: Wert
   user_roles: Benutzerrollen
-  is_multiple_choice: Mehrfach-Auswhl möglich (nur Auswahlfeld)
+  is_multiple_choice: Mehrfach-Auswahl möglich (nur Auswahlfeld)
   options: Optionen (nur Auswahlfeld)
   attributes: Attribute
   key: Schlüssel
