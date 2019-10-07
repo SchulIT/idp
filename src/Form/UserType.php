@@ -152,9 +152,7 @@ class UserType extends AbstractType {
                                     'class' => 'password-field'
                                 ],
                             ],
-                            'constraints' => [
-                                $this->passwordStrengthHelper->getConstraints(),
-                            ],
+                            'constraints' => $this->passwordStrengthHelper->getConstraints(),
                             'required' => true,
                             'first_options'  => ['label' => 'label.password'],
                             'second_options' => ['label' => 'label.repeat_password']
