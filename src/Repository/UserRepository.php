@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class UserRepository implements UserRepositoryInterface {
@@ -94,6 +95,28 @@ class UserRepository implements UserRepositoryInterface {
         return $result[0];
     }
 
+    private function createDefaultQueryBuilder(): QueryBuilder {
+        return $this->em
+            ->createQueryBuilder()
+            ->select(['u', 'a', 'r', 't'])
+            ->from(User::class, 'u')
+            ->leftJoin('u.attributes', 'a')
+            ->leftJoin('u.userRoles', 'r')
+            ->leftJoin('u.type', 't');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function findOneByEmail(string $email): ?User {
+        return $this->createDefaultQueryBuilder()
+            ->where('u.email = :email')
+            ->setParameter('email', $email)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function persist(User $user) {
         $this->em->persist($user);
         $this->em->flush();
@@ -145,4 +168,6 @@ class UserRepository implements UserRepositoryInterface {
 
         return $paginator;
     }
+
+
 }

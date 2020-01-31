@@ -18,6 +18,7 @@ label:
   firstname: Vorname
   lastname: Nachname
   email: E-Mail Adresse
+  repeat_email: E-Mail Adresse wiederholen
   is_active: ist aktiv
   user_type: Benutzer-Typ
   password: Passwort
@@ -370,3 +371,27 @@ attributes:
     services: Dienste
     id: Benutzer-ID
     roles: Benutzerrollen
+
+codes:
+  label: Registrierungscodes
+  empty: Aktuell sind keine Registrierungsocdes hinterlegt.
+  redeemed: eingelöst
+  confirmed: Benutzer aktiv
+  add:
+    label: Neuer Registrierungscode
+    success: Registrierungscode erfolgreich hinzugefügt
+    help:
+      must_complete_if_null: Wenn dieses Feld nicht ausgefüllt ist, muss der Benutzer das bei der Registrierung angeben.
+  edit:
+    label: Registrierungscode bearbeiten
+    success: Registrierungscode erfolgreich aktualisiert
+    error:
+      already_redeemed:
+        header: Code bereits eingelöst
+        message: Bereits eingelöste Registrierungscodes können nicht mehr bearbeitet werden.
+        button: Erzeugten Benutzer ansehen
+  remove:
+    label: Registrierungscode entfernen
+    confirm: 'Soll der Registrierungscode "%code%" wirklich gelöscht werden?'
+    success: Registrierungscode erfolgreich gelöscht
+

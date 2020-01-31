@@ -1,0 +1,35 @@
+{% extends "auth/main.html.twig" %}
+
+{# we have to use the non-horizontal bootstrap theme #}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}{{ 'register.label'|trans({}, 'security') }}{% endblock %}
+
+{% block content %}
+
+    <div class="text-center">
+        <i class="fas fa-user-check fa-3x d-block text-secondary"></i>
+        <h4>{{ 'register.complete.label'|trans({}, 'security') }}</h4>
+
+        <p>{{ 'register.complete.message'|trans({}, 'security') }}</p>
+    </div>
+
+    <hr />
+
+    {% include 'auth/errors.html.twig' %}
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <div class="row">
+        <div class="col-md-6 pl-0">
+            <button class="btn btn-primary btn-block" type="submit">{{ 'register.complete.button'|trans({}, 'security') }}</button>
+        </div>
+        <div class="col-md-6 pr-0">
+            <a href="{{ path('login') }}" class="btn btn-secondary btn-block" role="button">{{ 'actions.cancel'|trans }}</a>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+
+{% endblock %}

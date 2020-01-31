@@ -46,6 +46,10 @@ class Builder {
             $menu->addChild('users.label', [
                 'route' => 'users'
             ]);
+
+            $menu->addChild('codes.label', [
+                'route' => 'registration_codes'
+            ]);
         }
 
         if($this->authorizationChecker->isGranted('ROLE_SUPER_ADMIN')) {

@@ -1,0 +1,52 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'codes.edit.label'|trans }}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('registration_codes') }}">{{ 'codes.label'|trans }}</a></li>
+        <li class="breadcrumb-item">{{ code.code }}</li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+    {% if code.wasRedeemed %}
+        <div class="bs-callout bs-callout-info">
+            <h4>{{ 'codes.edit.error.already_redeemed.header'|trans }}</h4>
+            <p>
+                {{ 'codes.edit.error.already_redeemed.message'|trans }}
+            </p>
+            {% if code.redeemingUser is not null %}
+                <p>
+                    <a href="{{ path('edit_user', { id: code.redeemingUser.id }) }}" class="btn btn-primary btn-sm">{{ 'codes.edit.error.already_redeemed.button'|trans }}</a>
+                </p>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {{ form_start(form) }}
+
+    {{ form_widget(form, { 'disabled': 'disabled' }) }}
+
+    <div class="buttons">
+        {% if not code.wasRedeemed %}
+            <button type="submit" class="btn btn-sm btn-primary">
+                <i class="fas fa-save"></i> {{ 'actions.save'|trans }}
+            </button>
+
+            <a href="{{ path('registration_codes') }}" class="btn btn-sm btn-secondary">
+                {{ 'actions.cancel'|trans }}
+            </a>
+        {% else %}
+            <a href="{{ path('registration_codes') }}" class="btn btn-sm btn-secondary">
+                {{ 'actions.back'|trans }}
+            </a>
+        {% endif  %}
+
+    </div>
+    {{ form_end(form) }}
+
+
+{% endblock %}

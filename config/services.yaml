@@ -88,6 +88,12 @@ services:
       arguments:
         $from: "%env(MAILER_FROM)%"
 
+    # Registration
+    App\Security\Registration\RegistrationCodeManager:
+        arguments:
+            $from: "%env(MAILER_FROM)%"
+            $domainBlacklist: "%env(REGISTRATION_DOMAIN_BLACKLIST)%"
+
     # Controllers
     App\Controller\IdpController:
         bind:

@@ -22,6 +22,12 @@ interface UserRepositoryInterface {
     public function findOneByUsername(string $username): ?User;
 
     /**
+     * @param string $email
+     * @return User|null
+     */
+    public function findOneByEmail(string $email): ?User;
+
+    /**
      * @param int $offset
      * @param int|null $limit
      * @return User[]

@@ -1,0 +1,36 @@
+{% extends "auth/main.html.twig" %}
+
+{% block title %}{{ 'register.label'|trans({}, 'security') }}{% endblock %}
+
+{% block content %}
+
+    <div class="text-center">
+        <i class="fas fa-qrcode fa-3x d-block text-secondary"></i>
+        <h4>{{ 'register.redeem.label'|trans({}, 'security') }}</h4>
+
+        <p>{{ 'register.redeem.message'|trans({}, 'security') }}</p>
+    </div>
+
+    <hr />
+
+    {% include 'auth/errors.html.twig' %}
+
+    <form class="form-signin" role="form" method="post">
+        <div class="form-group">
+            <label for="code" class="control-label">{{ 'label.code'|trans }}</label>
+            <input type="text" id="code" name="_code" class="form-control" required="required" autofocus />
+        </div>
+
+        <input type="hidden" name="{{ csrf_token_key }}" value="{{ csrf_token(csrf_token_id) }}" />
+
+        <div class="row">
+            <div class="col-md-6 pl-0">
+                <button class="btn btn-primary btn-block" type="submit">{{ 'register.redeem.button'|trans({}, 'security') }}</button>
+            </div>
+            <div class="col-md-6 pr-0">
+                <a href="{{ path('login') }}" class="btn btn-secondary btn-block" role="button">{{ 'actions.cancel'|trans }}</a>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

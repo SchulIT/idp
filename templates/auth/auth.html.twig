@@ -38,6 +38,14 @@
             <a href="{{ path('forgot_password') }}" class="btn btn-secondary btn-block" role="button">{{ 'auth.lost_pw'|trans }}</a>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-12 p-0">
+            <a href="{{ path('redeem_registration_code') }}" class="btn btn-primary btn-block" role="button">
+                {{ 'register.redeem.label'|trans({}, 'security') }}
+            </a>
+        </div>
+    </div>
 </form>
 
 {% endblock %}

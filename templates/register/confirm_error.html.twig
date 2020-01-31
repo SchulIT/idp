@@ -1,0 +1,24 @@
+{% extends "auth/main.html.twig" %}
+
+{% block title %}{{ 'register.label'|trans({}, 'security') }}{% endblock %}
+
+{% block content %}
+
+    <div class="text-center">
+        <i class="fas fa-exclamation-circle fa-3x d-block text-secondary"></i>
+        <h4>{{ 'register.confirmed.label'|trans({}, 'security') }}</h4>
+
+        <p>{{ 'register.confirmed.error.message'|trans({}, 'security') }}</p>
+    </div>
+
+    <hr />
+
+    {% include 'auth/errors.html.twig' %}
+
+    <p>
+        <a href="{{ path('redeem_registration_code') }}" class="btn btn-primary btn-block">
+            {{ 'register.confirmed.error.button'|trans({}, 'security') }}
+        </a>
+    </p>
+
+{% endblock %}

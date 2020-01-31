@@ -21,7 +21,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\DiscriminatorColumn(name="class", type="string")
  * @ORM\DiscriminatorMap({"user" = "User", "ad" = "ActiveDirectoryUser"})
  * @ORM\Table(options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"})
- * @UniqueEntity(fields={"email", "username"})
+ * @UniqueEntity(fields={"email"})
+ * @UniqueEntity(fields={"username"})
  */
 class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInterface, BackupCodeInterface, U2FTwoFactorInterface, PreferredProviderInterface {
 

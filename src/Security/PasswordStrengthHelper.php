@@ -23,8 +23,8 @@ class PasswordStrengthHelper {
                 'requireCaseDiff' => true,
                 'requireNumbers' => true,
                 'requireSpecialCharacter' => true
-            ]),
-            new NotCompromisedPassword()
+            ])/*,
+            new NotCompromisedPassword()*/
         ];
     }
 

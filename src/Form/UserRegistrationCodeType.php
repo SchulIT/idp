@@ -1,0 +1,106 @@
+<?php
+
+namespace App\Form;
+
+use App\Entity\UserRegistrationCode;
+use App\Entity\UserType as UserTypeEntity;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
+
+class UserRegistrationCodeType extends AbstractType {
+    public function buildForm(FormBuilderInterface $builder, array $options) {
+        $builder
+            ->add('group_general', FieldsetType::class, [
+                'legend' => 'label.general',
+                'fields' => function(FormBuilderInterface $builder) {
+                    $this->addFields($builder);
+                }
+            ]);
+
+        $builder
+            ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
+                $form = $event->getForm();
+                /** @var UserRegistrationCode|null $code */
+                $code = $event->getData();
+
+                if($code !== null && $code->wasRedeemed()) {
+                    $this->addFields($form->get('group_general'), true);
+                }
+            });
+    }
+
+    /**
+     * @param FormInterface|FormBuilderInterface $builder
+     * @param bool $readonly
+     */
+    private function addFields($builder, bool $readonly = false) {
+        $builder
+            ->add('code', TextType::class, [
+                'label' => 'label.code',
+                'attr' => [
+                    'readonly' => $readonly
+                ]
+            ])
+            ->add('username', TextType::class, [
+                'label' => 'label.username',
+                'attr' => [
+                    'readonly' => $readonly
+                ]
+            ])
+            ->add('firstname', TextType::class, [
+                'label' => 'label.firstname',
+                'required' => false,
+                'help' => 'codes.add.help.must_complete_if_null',
+                'attr' => [
+                    'readonly' => $readonly
+                ]
+            ])
+            ->add('lastname', TextType::class, [
+                'label' => 'label.lastname',
+                'required' => false,
+                'help' => 'codes.add.help.must_complete_if_null',
+                'attr' => [
+                    'readonly' => $readonly
+                ]
+            ])
+            ->add('email', EmailType::class, [
+                'label' => 'label.email',
+                'required' => false,
+                'help' => 'codes.add.help.must_complete_if_null',
+                'attr' => [
+                    'readonly' => $readonly
+                ]
+            ])
+            ->add('grade', TextType::class, [
+                'label' => 'label.grade',
+                'required' => false,
+                'attr' => [
+                    'readonly' => $readonly
+                ]
+            ])
+            ->add('type', EntityType::class, [
+                'label' => 'label.user_type',
+                'class' => UserTypeEntity::class,
+                'choice_label' => function(UserTypeEntity $type) {
+                    return $type->getName();
+                },
+                'attr' => [
+                    'readonly' => $readonly
+                ]
+            ])
+            ->add('internalId', TextType::class, [
+                'label' => 'label.internal_id',
+                'required' => false,
+                'attr' => [
+                    'readonly' => $readonly
+                ]
+            ])
+        ;
+    }
+}

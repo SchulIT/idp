@@ -57,6 +57,10 @@ security:
             anonymous: ~
             pattern: ^/login$
 
+        register:
+            anonymous: ~
+            pattern: ^/register
+
         forgot_password:
             anonymous: ~
             pattern: ^/forgot_pw
