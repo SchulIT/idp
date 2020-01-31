@@ -34,7 +34,7 @@ scheb_two_factor:
     # By default the bundle only reacts to Symfony's username+password authentication. If you want to enable
     # two-factor authentication for other authentication methods, add their security token classes.
     security_tokens:
-        - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
+        - Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken
 
     # A list of IP addresses, which will not trigger two-factor authentication
     #ip_whitelist:

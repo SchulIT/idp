@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
@@ -182,14 +181,6 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator {
 
             throw new CustomUserMessageAuthenticationException('unknown_error');
         }
-    }
-
-    /*
-     * It is important to implement this method because (as of now, Dec 2018), the TwoFactorBundle
-     * only works with UsernamePasswordToken
-     */
-    public function createAuthenticatedToken(UserInterface $user, $providerKey) {
-        return new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
     }
 
 }
