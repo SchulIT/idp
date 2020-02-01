@@ -18,8 +18,9 @@ security:
         strategy: unanimous
 
     access_control:
-        - { path: ^/exchange, roles: ROLE_SERVICEPROVIDER }
+        - { path: ^/exchange, roles: ROLE_IDPEXCHANGE }
         - { path: ^/api, roles: ROLE_API }
+        - { path: ^/api/attributes, roles: ROLE_ATTRIBUTEREADER }
         - { path: ^/users, roles: ROLE_ADMIN }
         - { path: ^/admin, roles: ROLE_SUPER_ADMIN }
         - { path: ^/login/two_factor, roles: IS_AUTHENTICATED_2FA_IN_PROGRESS }
@@ -44,7 +45,7 @@ security:
             stateless: true
             guard:
                 authenticators:
-                    - App\Security\ServiceProviderAuthenticator
+                    - App\Security\ApplicationAuthenticator
 
         api:
             pattern: ^/api

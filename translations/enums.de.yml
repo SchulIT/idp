@@ -1,0 +1,7 @@
+label:
+  application_scope: Zugriffsbereich
+
+application_scope:
+  api: Allgemeine API
+  idp_exchange: IdP Exchange
+  read_attributes: Attribute auslesen

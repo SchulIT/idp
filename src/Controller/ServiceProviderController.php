@@ -115,39 +115,4 @@ class ServiceProviderController extends AbstractController {
             'service_provider' => $serviceProvider
         ]);
     }
-
-    /**
-     * @Route("/{id}/token", name="service_provider_token")
-     */
-    public function token(ServiceProvider $serviceProvider) {
-        return $this->render('service_providers/token.html.twig', [
-            'service_provider' => $serviceProvider
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/token/regenerate", name="service_provider_token_regenerate")
-     */
-    public function regenerateToken(ServiceProvider $serviceProvider, Request $request, TranslatorInterface $translator, ServiceProviderTokenGenerator $serviceProviderTokenGenerator) {
-        $form = $this->createForm(ConfirmType::class, [], [
-            'message' => $translator->trans('service_providers.token.regenerate.confirm', [
-                '%name%' => $serviceProvider->getName()
-            ]),
-            'label' => 'service_providers.token.regenerate.label'
-        ]);
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()) {
-            $serviceProvider->setToken($serviceProviderTokenGenerator->generateToken());
-            $this->repository->persist($serviceProvider);
-
-            $this->addFlash('success', 'service_providers.token.regenerate.success');
-            return $this->redirectToRoute('service_providers');
-        }
-
-        return $this->render('service_providers/regenerate_token.html.twig', [
-            'form' => $form->createView(),
-            'service_provider' => $serviceProvider
-        ]);
-    }
 }

@@ -1,0 +1,5 @@
+fervo_enum:
+  enums:
+    App\Entity\ApplicationScope:
+      doctrine_type: application_scope
+      form_type: application_scope

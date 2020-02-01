@@ -4,8 +4,57 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f2acf9583ae86e37fb6ab7286b2c57f5",
+    "content-hash": "3b8b12bbe2418a7a4ca034c6a26c539b",
     "packages": [
+        {
+            "name": "acelaya/doctrine-enum-type",
+            "version": "v2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/acelaya/doctrine-enum-type.git",
+                "reference": "4db8de01d8044446c6e5ec4958e082a2be65000c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/acelaya/doctrine-enum-type/zipball/4db8de01d8044446c6e5ec4958e082a2be65000c",
+                "reference": "4db8de01d8044446c6e5ec4958e082a2be65000c",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "^2.6",
+                "myclabs/php-enum": "^1.4",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "infection/infection": "^0.15.0",
+                "phpstan/phpstan": "^0.12.0",
+                "phpunit/phpunit": "^8.0",
+                "shlinkio/php-coding-standard": "~2.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Acelaya\\Doctrine\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alejandro Celaya",
+                    "email": "alejandro@alejandrocelaya.com"
+                }
+            ],
+            "description": "A custom Doctrine type that maps column values to enum objects using myclabs/php-enum",
+            "keywords": [
+                "doctrine",
+                "enum",
+                "type"
+            ],
+            "time": "2019-12-14T10:50:45+00:00"
+        },
         {
             "name": "antishov/doctrine-extensions-bundle",
             "version": "v1.4.2",
@@ -1656,6 +1705,54 @@
             ],
             "description": "A php library to manipulate Swagger specifications",
             "time": "2018-07-27T06:40:00+00:00"
+        },
+        {
+            "name": "fervo/enum-bundle",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/frostieDE/EnumBundle.git",
+                "reference": "91e236d1be3b2c268a911a8e06779b80df24f0eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/frostieDE/EnumBundle/zipball/91e236d1be3b2c268a911a8e06779b80df24f0eb",
+                "reference": "91e236d1be3b2c268a911a8e06779b80df24f0eb",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "^2.4",
+                "doctrine/doctrine-bundle": "^1.2|^2.0",
+                "myclabs/php-enum": "^1.3",
+                "php": "^7.1",
+                "symfony/form": "^3.4|^4.0|^5.0",
+                "symfony/framework-bundle": "^3.4|^4.0|^5.0",
+                "symfony/translation": "^3.4|^4.0|^5.0"
+            },
+            "suggest": {
+                "jms/serializer-bundle": "If you want to serialize data using JMS Serializer",
+                "sensio/framework-extra-bundle": "If you wan to use ParamConverter",
+                "twig/twig": "If you want to use enum in your Twig templates"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Fervo\\EnumBundle\\": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A library to integrate enums into the Symfony framework",
+            "support": {
+                "source": "https://github.com/frostieDE/EnumBundle/tree/master"
+            },
+            "time": "2020-01-05T14:44:15+00:00"
         },
         {
             "name": "fightbulc/moment",
@@ -10007,7 +10104,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "fervo/enum-bundle": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

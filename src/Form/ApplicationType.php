@@ -2,7 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\ServiceProvider;
+use Doctrine\ORM\EntityRepository;
+use FervoEnumBundle\Generated\Form\ApplicationScopeType;
 use SchoolIT\CommonBundle\Form\FieldsetType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,6 +20,19 @@ class ApplicationType extends AbstractType {
                     $builder
                         ->add('name', TextType::class, [
                             'label' => 'label.name'
+                        ])
+                        ->add('scope', ApplicationScopeType::class, [
+                            'label' => 'label.application_scope'
+                        ])
+                        ->add('service', EntityType::class, [
+                            'class' => ServiceProvider::class,
+                            'query_builder' => function(EntityRepository $repository) {
+                                return $repository->createQueryBuilder('s')
+                                    ->orderBy('s.name', 'asc');
+                            },
+                            'choice_label' => 'name',
+                            'label' => 'label.service',
+                            'required' => false
                         ])
                         ->add('description', TextType::class, [
                             'label' => 'label.description'

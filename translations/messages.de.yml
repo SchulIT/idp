@@ -10,6 +10,7 @@ label:
   user_edit_enabled: Benutzer können dieses Attribut ändern
   saml_attribute_name: SAML Attribut-Name
   type: Typ
+  service: Dienst
   services: Dienste
   id: ID
   internal_id: Interne ID

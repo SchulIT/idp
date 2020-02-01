@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity()
@@ -28,6 +29,20 @@ class Application implements UserInterface {
      * @Assert\NotBlank()
      */
     private $name;
+
+    /**
+     * @ORM\Column(type="application_scope")
+     * @Assert\NotNull()
+     * @var ApplicationScope
+     */
+    private $scope;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ServiceProvider")
+     * @ORM\JoinColumn(onDelete="CASCADE")
+     * @var ServiceProvider|null
+     */
+    private $service = null;
 
     /**
      * @var string
@@ -67,6 +82,38 @@ class Application implements UserInterface {
      */
     public function setName($name): Application {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return ApplicationScope|null
+     */
+    public function getScope(): ?ApplicationScope {
+        return $this->scope;
+    }
+
+    /**
+     * @param ApplicationScope|null $scope
+     * @return Application
+     */
+    public function setScope(?ApplicationScope $scope): Application {
+        $this->scope = $scope;
+        return $this;
+    }
+
+    /**
+     * @return ServiceProvider|null
+     */
+    public function getService(): ?ServiceProvider {
+        return $this->service;
+    }
+
+    /**
+     * @param ServiceProvider|null $service
+     * @return Application
+     */
+    public function setService(?ServiceProvider $service): Application {
+        $this->service = $service;
         return $this;
     }
 
@@ -122,6 +169,14 @@ class Application implements UserInterface {
      * @return mixed
      */
     public function getRoles() {
+        if($this->getScope()->equals(ApplicationScope::IdpExchange())) {
+            return [ 'ROLE_IDPEXCHANGE' ];
+        }
+
+        if($this->getScope()->equals(ApplicationScope::ReadAttributes())) {
+            return [ 'ROLE_ATTRIBUTEREADER' ];
+        }
+
         return [
             'ROLE_API'
         ];
@@ -152,4 +207,17 @@ class Application implements UserInterface {
      * @return mixed
      */
     public function eraseCredentials() { }
+
+    /**
+     * @Assert\Callback()
+     */
+    public function validateService(ExecutionContextInterface $context, $payload) {
+        if($this->getScope()->equals(ApplicationScope::ReadAttributes()) || $this->getScope()->equals(ApplicationScope::IdpExchange())) {
+            if($this->getService() === null) {
+                $context->buildViolation('This value should not be blank.')
+                    ->atPath('service')
+                    ->addViolation();
+            }
+        }
+    }
 }

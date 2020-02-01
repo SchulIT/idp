@@ -7,13 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
  */
-class ServiceProvider implements UserInterface {
+class ServiceProvider {
     /**
      * @ORM\GeneratedValue()
      * @ORM\Id()
@@ -68,12 +67,6 @@ class ServiceProvider implements UserInterface {
      * @Serializer\Exclude()
      */
     private $attributes;
-
-    /**
-     * @ORM\Column(type="string", length=128, unique=true, nullable=true)
-     * @Serializer\Exclude()
-     */
-    private $token = null;
 
     public function __construct() {
         $this->attributes = new ArrayCollection();
@@ -188,46 +181,4 @@ class ServiceProvider implements UserInterface {
     public function getAttributes(): Collection {
         return $this->attributes;
     }
-
-    public function getToken() {
-        return $this->token;
-    }
-
-    /**
-     * @param string $token
-     * @return ServiceProvider
-     */
-    public function setToken(string $token): ServiceProvider {
-        $this->token = $token;
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getRoles() {
-        return ['ROLE_SERVICEPROVIDER'];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getPassword() { }
-
-    /**
-     * @inheritDoc
-     */
-    public function getSalt() {  }
-
-    /**
-     * @inheritDoc
-     */
-    public function getUsername() {
-        return $this->getEntityId();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function eraseCredentials() { }
 }

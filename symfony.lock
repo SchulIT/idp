@@ -1,4 +1,7 @@
 {
+    "acelaya/doctrine-enum-type": {
+        "version": "v2.3.0"
+    },
     "antishov/doctrine-extensions-bundle": {
         "version": "1.4",
         "recipe": {
@@ -121,6 +124,9 @@
     },
     "exsyst/swagger": {
         "version": "v0.4.1"
+    },
+    "fervo/enum-bundle": {
+        "version": "2.0.x-dev"
     },
     "fightbulc/moment": {
         "version": "1.26.10"

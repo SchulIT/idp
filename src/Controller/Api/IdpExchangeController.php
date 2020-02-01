@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Application;
 use App\Service\IdpExchangeService;
 use JMS\Serializer\Exception\Exception;
 use JMS\Serializer\SerializerInterface;
@@ -57,11 +58,14 @@ class IdpExchangeController extends AbstractApiController {
      * @Route("/users", name="idp_exchange_users", methods={"POST"})
      */
     public function users(Request $request) {
+        /** @var Application $application */
+        $application = $this->getUser();
+
         $json = $request->getContent();
         /** @var UsersRequest $exchangeRequest */
         $exchangeRequest = $this->parseAndValidateRequestOrThrowError($json, UsersRequest::class);
 
-        $response = $this->service->getUsers($exchangeRequest);
+        $response = $this->service->getUsers($exchangeRequest, $application->getService()->getEntityId());
         return $this->returnJson($response);
     }
 
@@ -69,11 +73,14 @@ class IdpExchangeController extends AbstractApiController {
      * @Route("/user", name="idp_exchange_user", methods={"POST"})
      */
     public function user(Request $request) {
+        /** @var Application $application */
+        $application = $this->getUser();
+
         $json = $request->getContent();
         /** @var UserRequest $exchangeRequest */
         $exchangeRequest = $this->parseAndValidateRequestOrThrowError($json, UserRequest::class);
 
-        $response = $this->service->getUser($exchangeRequest);
+        $response = $this->service->getUser($exchangeRequest, $application->getService()->getEntityId());
         return $this->returnJson($response);
     }
 

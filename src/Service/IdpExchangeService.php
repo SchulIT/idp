@@ -2,11 +2,10 @@
 
 namespace App\Service;
 
-use App\Entity\ServiceProvider;
 use App\Entity\User;
 use App\Repository\UserRepositoryInterface;
 use App\Saml\AttributeValueProvider;
-use App\Security\Authentication\Token\ServiceProviderToken;
+use SchoolIT\CommonBundle\Saml\ClaimTypes as ExtendedClaimTypes;
 use SchoolIT\IdpExchange\Request\UpdatedUsersRequest;
 use SchoolIT\IdpExchange\Request\UserRequest;
 use SchoolIT\IdpExchange\Request\UsersRequest;
@@ -14,19 +13,14 @@ use SchoolIT\IdpExchange\Response\Builder\UpdatedUsersResponseBuilder;
 use SchoolIT\IdpExchange\Response\Builder\UserResponseBuilder;
 use SchoolIT\IdpExchange\Response\Builder\UsersResponseBuilder;
 use SchoolIT\IdpExchange\Response\UpdatedUsersResponse;
-use SchoolIT\CommonBundle\Saml\ClaimTypes as ExtendedClaimTypes;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class IdpExchangeService {
     private $userRepository;
     private $attributeValueProvider;
 
-    private $tokenStorage;
-
-    public function __construct(UserRepositoryInterface $userRepository, AttributeValueProvider $attributeValueProvider, TokenStorageInterface $tokenStorage) {
+    public function __construct(UserRepositoryInterface $userRepository, AttributeValueProvider $attributeValueProvider) {
         $this->userRepository = $userRepository;
         $this->attributeValueProvider = $attributeValueProvider;
-        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -45,11 +39,10 @@ class IdpExchangeService {
         return $builder->build();
     }
 
-    public function getUsers(UsersRequest $request) {
+    public function getUsers(UsersRequest $request, string $entityId) {
         $users = $this->userRepository->findUsersByUsernames($request->usernames);
 
         $builder = new UsersResponseBuilder();
-        $entityId = $this->getEntityId();
 
         foreach($users as $user) {
             $builder->addUser($this->buildUserResponse($user, $entityId));
@@ -58,29 +51,13 @@ class IdpExchangeService {
         return $builder->build();
     }
 
-    public function getUser(UserRequest $request) {
+    public function getUser(UserRequest $request, string $entityId) {
         $user = $this->userRepository->findOneByUsername($request->username);
 
-        return $this->buildUserResponse($user, $this->getEntityId());
+        return $this->buildUserResponse($user, $entityId);
     }
 
-    private function getEntityId(): ?string {
-        $token = $this->tokenStorage->getToken();
-
-        if($token === null) {
-            return null;
-        }
-
-        $serviceProvider = $token->getUser();
-
-        if($serviceProvider === null || !$serviceProvider instanceof ServiceProvider) {
-            return null;
-        }
-
-        return $serviceProvider->getEntityId();
-    }
-
-    private function buildUserResponse(User $user = null, ?string $entityId = null) {
+    private function buildUserResponse(User $user = null, string $entityId = null) {
         $builder = new UserResponseBuilder();
 
         if($user !== null) {
