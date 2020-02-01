@@ -53,9 +53,9 @@ services:
       tags:
         - { name: knp_menu.menu_builder, method: mainMenu, alias: mainMenu }
 
-    App\Menu\Voter:
-      tags:
-        - { name: knp_menu.voter }
+    SchoolIT\CommonBundle\Menu\Voter:
+        tags:
+            - { name: knp_menu.voter }
 
     # Two factor
     Scheb\TwoFactorBundle\Security\TwoFactor\Trusted\TrustedDeviceManager:

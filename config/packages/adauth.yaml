@@ -1,8 +1,11 @@
 parameters:
   env(ADAUTH_URL): ''
+  env(ADAUTH_PEERNAME): ''
+  env(ADAUTH_FINGERPRINT): ''
 
 adauth:
   url: '%env(ADAUTH_URL)%'
   tls:
-    serialnumber: '%env(ADAUTH_SERIAL)%'
+    peer_name: '%env(ADAUTH_PEERNAME)%'
+    peer_fingerprint: '%env(ADAUTH_FINGERPRINT)%'
     ca_certificate_file: '%kernel.project_dir%/certs/ca.crt'
