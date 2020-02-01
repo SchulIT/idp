@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\User;
+use App\Entity\UserType;
 use App\Repository\UserRepositoryInterface;
 use App\Repository\UserTypeRepositoryInterface;
 use Symfony\Component\Console\Command\Command;
@@ -90,15 +91,13 @@ class AddUserCommand extends Command {
         $isAdmin = $io->askQuestion($question);
 
         $userTypes = $this->userTypeRepository->findAll();
-        $choices = [ ];
-        foreach($userTypes as $userType) {
-            $choices[$userType->getId()] = $userType->getAlias();
-        }
+        $choices = array_map(function(UserType $type) {
+            return $type->getAlias();
+        }, $userTypes);
 
-        $question = new ChoiceQuestion('Select user type', $choices);
-        $selectedUserType = $io->askQuestion($question);
-
-        $userType = $userTypes[array_search($selectedUserType, $choices)];
+        $question = new ChoiceQuestion('Select user type', $choices, 0);
+        $selectedUserTypeAlias = $io->askQuestion($question);
+        $userType = $userTypes[array_search($selectedUserTypeAlias, $choices)];
 
         $user = (new User())
             ->setUsername($username)
