@@ -93,7 +93,8 @@ class UserController extends AbstractApiController {
 
     /**
      * Imports users. Note: this procedure adds non-existing users and updates existing ones. Users are identified by
-     * their username.
+     * their username. Also note that passwords cannot be imported (neither in plaintext or hashed). Imported users must
+     * use the "lost password" functionality.
      *
      * @Route("/import", methods={"POST"})
      *

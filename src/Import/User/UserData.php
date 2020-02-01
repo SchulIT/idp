@@ -49,14 +49,14 @@ class UserData {
     private $attributes = [ ];
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getUsername() {
         return $this->username;
     }
 
     /**
-     * @param mixed $username
+     * @param string $username
      * @return UserData
      */
     public function setUsername($username) {
@@ -65,14 +65,14 @@ class UserData {
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getFirstname() {
         return $this->firstname;
     }
 
     /**
-     * @param mixed $firstname
+     * @param string $firstname
      * @return UserData
      */
     public function setFirstname($firstname) {
@@ -81,14 +81,14 @@ class UserData {
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getEmail() {
         return $this->email;
     }
 
     /**
-     * @param mixed $email
+     * @param string $email
      * @return UserData
      */
     public function setEmail($email) {
@@ -97,14 +97,14 @@ class UserData {
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getLastname() {
         return $this->lastname;
     }
 
     /**
-     * @param mixed $lastname
+     * @param string $lastname
      * @return UserData
      */
     public function setLastname($lastname) {
@@ -113,14 +113,14 @@ class UserData {
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getType() {
         return $this->type;
     }
 
     /**
-     * @param mixed $type
+     * @param int $type
      * @return UserData
      */
     public function setType($type) {
