@@ -69,3 +69,10 @@
         {{- parent() -}}
     {% endif %}
 {% endblock %}
+
+{% block readonly_text_widget %}
+    <input id="{{ form.vars.id }}" readonly class="form-control-plaintext" value="{{ form.vars.data }}">
+
+    {% set help = attr.help %}
+    {{ block('form_help') }}
+{% endblock %}

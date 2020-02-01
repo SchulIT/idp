@@ -32,13 +32,11 @@ class AttributesType extends FieldsetType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $attributeValues = $options['attribute_values'];
+        $onlyUserEditable = $options['only_user_editable'];
 
         foreach($this->serviceAttributeRepository->findAll() as $attribute) {
-            if($attribute->isUserEditEnabled() !== true && isset($options['only_user_editable']) && $options['only_user_editable'] === true) {
-                continue;
-            }
-
             $type = $attribute->getType() === ServiceAttribute::TYPE_TEXT ? TextType::class : ChoiceType::class;
+
             $options = [
                 'label' => $attribute->getLabel(),
                 'attr' => [
@@ -46,17 +44,18 @@ class AttributesType extends FieldsetType {
                 ],
                 'required' => false,
                 'mapped' => false,
+                'disabled' => $attribute->isUserEditEnabled() !== true && $onlyUserEditable === true,
                 'data' => $attributeValues[$attribute->getName()] ?? null
             ];
 
             if($type === ChoiceType::class) {
-                $choices = [ ];
+                $choices = [];
 
-                foreach($attribute->getOptions() as $key => $value) {
+                foreach ($attribute->getOptions() as $key => $value) {
                     $choices[$value] = $key;
                 }
 
-                if($attribute->isMultipleChoice()) {
+                if ($attribute->isMultipleChoice()) {
                     $options['multiple'] = true;
                 } else {
                     array_unshift($choices, [
@@ -67,9 +66,11 @@ class AttributesType extends FieldsetType {
 
                 $options['choices'] = $choices;
 
-                if(count($choices) < static::EXPANDED_THRESHOLD) {
+                if (count($choices) < static::EXPANDED_THRESHOLD) {
                     $options['expanded'] = true;
                 }
+            } else if($type === TextType::class && $options['disabled']) {
+                $type = ReadonlyTextType::class;
             }
 
             $builder
