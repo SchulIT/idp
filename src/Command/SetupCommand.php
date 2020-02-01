@@ -31,14 +31,17 @@ class SetupCommand extends Command {
     public function execute(InputInterface $input, OutputInterface $output) {
         $io = new SymfonyStyle($input, $output);
 
+        $output->write('Add default user type...');
         $this->addDefaultUserType();
-        $io->success('Add default user type');
+        $output->writeln('<fg=green>OK</>');
 
+        $output->write('Create sessions table...');
         $this->setupSessions();
-        $io->success('Create sessions table');
+        $output->writeln('<fg=green>OK</>');
 
+        $output->write('Create remember me table...');
         $this->setupRememberMe();
-        $io->success('Create remember me table');
+        $output->writeln('<fg=green>OK</>');
 
         $io->success('Setup completed');
     }
@@ -48,6 +51,15 @@ class SetupCommand extends Command {
             ->setName('User')
             ->setAlias('user')
             ->setEduPerson(['member']);
+
+        $userTypes = $this->userTypeRepository->findAll();
+
+        foreach($userTypes as $type) {
+            if($type->getAlias() === $userType->getAlias()) {
+                // Type already added
+                return;
+            }
+        }
 
         $this->userTypeRepository->persist($userType);
     }
