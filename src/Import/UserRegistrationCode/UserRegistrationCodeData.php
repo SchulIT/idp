@@ -6,6 +6,60 @@ use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class UserRegistrationCodeData {
+
+    /**
+     * @Serializer\Type("string")
+     * @Assert\NotBlank()
+     * @var string
+     */
+    private $code;
+
+    /**
+     * @Serializer\Type("string")
+     * @Assert\NotBlank(allowNull=true)
+     * @var string|null
+     */
+    private $firstname;
+
+    /**
+     * @Serializer\Type("string")
+     * @Assert\NotBlank(allowNull=true)
+     * @var string|null
+     */
+    private $lastname;
+
+    /**
+     * @Serializer\Type("string")
+     * @Assert\Email()
+     * @var string|null
+     */
+    private $email;
+
+    /**
+     * @Serializer\Type("string")
+     * @Assert\NotBlank(allowNull=true)
+     * @var string|null
+     */
+    private $grade;
+
+    /**
+     * @Serializer\Type("int")
+     */
+    private $type;
+
+    /**
+     * @Serializer\Type("string")
+     * @Assert\NotBlank(allowNull=true)
+     * @var string|null
+     */
+    private $internalId;
+
+    /**
+     * @Serializer\Type("array<string, string>")
+     * @var string[]
+     */
+    private $attributes = [ ];
+
     /**
      * @return string
      */
@@ -133,56 +187,4 @@ class UserRegistrationCodeData {
         $this->attributes = $attributes;
         return $this;
     }
-    /**
-     * @Serializer\Type("string")
-     * @Assert\NotBlank()
-     * @var string
-     */
-    private $code;
-
-    /**
-     * @Serializer\Type("string")
-     * @Assert\NotBlank(allowNull=true)
-     * @var string|null
-     */
-    private $firstname;
-
-    /**
-     * @Serializer\Type("string")
-     * @Assert\NotBlank(allowNull=true)
-     * @var string|null
-     */
-    private $lastname;
-
-    /**
-     * @Serializer\Type("string")
-     * @Assert\Email()
-     * @var string|null
-     */
-    private $email;
-
-    /**
-     * @Serializer\Type("string")
-     * @Assert\NotBlank(allowNull=true)
-     * @var string|null
-     */
-    private $grade;
-
-    /**
-     * @Serializer\Type("int")
-     */
-    private $type;
-
-    /**
-     * @Serializer\Type("string")
-     * @Assert\NotBlank(allowNull=true)
-     * @var string|null
-     */
-    private $internalId;
-
-    /**
-     * @Serializer\Type("array<string, string>")
-     * @var string[]
-     */
-    private $attributes = [ ];
 }

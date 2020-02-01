@@ -2,7 +2,6 @@
 
 namespace App\Import\User;
 
-use App\Entity\ServiceAttribute;
 use App\Entity\User;
 use App\Entity\UserType;
 use App\Import\AbstractImporter;
@@ -43,25 +42,25 @@ class UserImporter extends AbstractImporter {
             foreach($userImportData->getUsers() as $userData) {
                 $user = $this->entityManager->getRepository(User::class)
                     ->findOneBy([
-                        'username' => $userData->username
+                        'username' => $userData->getUsername()
                     ]);
 
                 if($user === null) {
                     $user = (new User())
-                        ->setUsername($userData->username);
+                        ->setUsername($userData->getUsername());
                 }
 
-                $user->setFirstname($userData->firstname);
-                $user->setLastname($userData->lastname);
-                $user->setEmail($userData->email);
+                $user->setFirstname($userData->getFirstname());
+                $user->setLastname($userData->getLastname());
+                $user->setEmail($userData->getEmail());
 
                 foreach($types as $type) {
-                    if($type->getAlias() === $userData->type) {
+                    if($type->getAlias() === $userData->getType()) {
                         $user->setType($type);
                     }
                 }
 
-                $this->attributePersister->persistUserAttributes($userData->attributes, $user);
+                $this->attributePersister->persistUserAttributes($userData->getAttributes(), $user);
                 $this->entityManager->persist($user);
             }
 
