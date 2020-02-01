@@ -114,7 +114,7 @@ class RegistrationCodeManager {
             ->setType($code->getType())
             ->setGrade($code->getGrade())
             ->setInternalId($code->getInternalId())
-            ->setIsActive(false);
+            ->setIsEmailConfirmationPending(true);
         $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
 
         $code->setRedeemingUser($user);
@@ -157,7 +157,7 @@ class RegistrationCodeManager {
 
         if($code->getConfirmedAt() === null) {
             $user = $code->getRedeemingUser();
-            $user->setIsActive(true);
+            $user->setIsEmailConfirmationPending(false);
 
             $code->setConfirmedAt(new \DateTime());
 

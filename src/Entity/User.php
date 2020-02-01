@@ -94,6 +94,12 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     private $isActive = true;
 
     /**
+     * @ORM\Column(type="boolean")
+     * @var bool
+     */
+    private $isEmailConfirmationPending = false;
+
+    /**
      * @ORM\ManyToMany(targetEntity="ServiceProvider")
      * @ORM\JoinTable(
      *  joinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id", onDelete="CASCADE")},
@@ -308,6 +314,22 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
      */
     public function setIsActive($active) {
         $this->isActive = $active;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEmailConfirmationPending(): bool {
+        return $this->isEmailConfirmationPending;
+    }
+
+    /**
+     * @param bool $isEmailConfirmationPending
+     * @return User
+     */
+    public function setIsEmailConfirmationPending(bool $isEmailConfirmationPending): User {
+        $this->isEmailConfirmationPending = $isEmailConfirmationPending;
         return $this;
     }
 
