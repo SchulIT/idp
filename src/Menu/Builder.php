@@ -96,7 +96,7 @@ class Builder {
             ]);
 
             $menu->addChild('api.doc', [
-                'uri' => '/doc/api'
+                'uri' => '/docs/api'
             ]);
         }
 
