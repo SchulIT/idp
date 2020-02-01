@@ -59,8 +59,18 @@
     </div>
 
     <div class="buttons">
-        <a href="{{ path('add_user_type') }}" class="btn btn-sm btn-primary">
-            <i class="fas fa-plus"></i> {{ 'user_types.add.label'|trans }}
-        </a>
+        <form action="{{ path('setup_user_types') }}" method="post">
+            <a href="{{ path('add_user_type') }}" class="btn btn-sm btn-primary">
+                <i class="fas fa-plus"></i> {{ 'user_types.add.label'|trans }}
+            </a>
+
+            <input type="hidden" name="{{ csrf_token_key }}" value="{{ csrf_token(csrf_token_id) }}">
+
+            {% if can_setup %}
+            <button type="submit" class="btn btn-secondary btn-sm">
+                {{ 'user_types.setup.label'|trans }}
+            </button>
+            {% endif %}
+        </form>
     </div>
 {% endblock%}

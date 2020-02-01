@@ -216,6 +216,9 @@ user_types:
     confirm: Soll der Benutzertyp "%name%" wirklich gelöscht werden?
     help: Alle Attribute und Synchronisationsregeln, die diesen Benutzertypen betreffen, werden gelöscht.
     error: Benutzertyp kann nicht gelöscht werden, da es Benutzer mit diesem Benutzertyp gibt.
+  setup:
+    label: Standard-Benutzertypen anlegen
+    success: Standard-Benutzertypen erfolgreich angelegt
 
 ad_sync_options:
   label: AD Synchronisationsregeln

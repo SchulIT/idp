@@ -7,6 +7,7 @@ use App\Form\AttributeDataTrait;
 use App\Form\UserTypeType;
 use App\Repository\UserTypeRepositoryInterface;
 use App\Service\AttributePersister;
+use App\Setup\UserTypesSetup;
 use SchoolIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,9 @@ class UserTypeController extends AbstractController {
 
     use AttributeDataTrait;
 
+    private const CSRF_TOKEN_ID = 'setup.user_types';
+    private const CSRF_TOKEN_KEY = '_csrf_token';
+
     private $repository;
 
     public function __construct(UserTypeRepositoryInterface $repository) {
@@ -29,13 +33,30 @@ class UserTypeController extends AbstractController {
     /**
      * @Route("", name="user_types")
      */
-    public function index() {
+    public function index(UserTypesSetup $setup) {
         $userTypes = $this->repository
             ->findAll();
 
         return $this->render('user_types/index.html.twig', [
-            'user_types' => $userTypes
+            'user_types' => $userTypes,
+            'csrf_token_id'=> static::CSRF_TOKEN_ID,
+            'csrf_token_key' => static::CSRF_TOKEN_KEY,
+            'can_setup' => $setup->canSetup()
         ]);
+    }
+
+    /**
+     * @Route("/setup", name="setup_user_types", methods={"POST"})
+     */
+    public function setupDefaultUserTypes(Request $request, UserTypesSetup $setup, TranslatorInterface $translator) {
+        if($this->isCsrfTokenValid(static::CSRF_TOKEN_ID, $request->request->get(static::CSRF_TOKEN_KEY)) !== true) {
+            $this->addFlash('error', $translator->trans('Invalid CSRF token.', [], 'security'));
+        } else {
+            $setup->setupDefaultUserTypes();
+            $this->addFlash('success', 'user_types.setup.success');
+        }
+
+        return $this->redirectToRoute('user_types');
     }
 
     /**
