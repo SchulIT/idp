@@ -86,7 +86,7 @@
         </table>
     </div>
 
-    {% include 'includes/pagination.html.twig' with {
+    {% include '@Common/includes/pagination.html.twig' with {
         currentFilters: { type: types.currentType },
         currentPage: page,
         paginationPath: 'registration_codes',

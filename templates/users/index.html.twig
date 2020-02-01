@@ -124,7 +124,7 @@
         </table>
     </div>
 
-    {% include 'includes/pagination.html.twig' with {
+    {% include '@Common/includes/pagination.html.twig' with {
         currentFilters: { q: q, type: type },
         currentPage: page,
         paginationPath: 'users',
