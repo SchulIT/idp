@@ -13,7 +13,13 @@
 {% block content %}
     {{ form_start(form) }}
 
-    {{ form_widget(form) }}
+    <div class="card border-danger">
+        <div class="card-header bg-danger text-white">{{ form.group_general.vars.legend|trans }}</div>
+
+        <div class="card-body">
+            {{ form_widget(form.group_general.confirm) }}
+        </div>
+    </div>
 
     <div class="buttons">
         <button type="submit" class="btn btn-sm btn-danger">
