@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\UserRegistrationCode;
 use App\Entity\UserType as UserTypeEntity;
 use App\Service\AttributeResolver;
+use SchoolIT\CommonBundle\Form\FieldsetType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;

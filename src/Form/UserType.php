@@ -10,6 +10,7 @@ use App\Entity\UserType as UserTypeEntity;
 use App\Security\PasswordStrengthHelper;
 use App\Service\AttributeResolver;
 use Doctrine\ORM\EntityRepository;
+use SchoolIT\CommonBundle\Form\FieldsetType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;

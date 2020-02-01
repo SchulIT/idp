@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\ServiceProvider;
 use Burgov\Bundle\KeyValueFormBundle\Form\Type\KeyValueType;
 use Doctrine\ORM\EntityRepository;
+use SchoolIT\CommonBundle\Form\FieldsetType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;

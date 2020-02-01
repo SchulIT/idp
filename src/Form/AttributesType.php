@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\ServiceAttribute;
 use App\Repository\ServiceAttributeRepositoryInterface;
+use SchoolIT\CommonBundle\Form\FieldsetType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
