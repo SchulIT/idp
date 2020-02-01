@@ -7,7 +7,8 @@ use App\Entity\PasswordResetToken;
 use App\Entity\User;
 use Psr\Log\NullLogger;
 use Psr\Log\Test\LoggerInterfaceTest;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 class ForgotPasswordManager {
     private $from;
@@ -17,7 +18,7 @@ class ForgotPasswordManager {
     private $translator;
     private $logger;
 
-    public function __construct(string $from, PasswordManager $passwordManager, \Swift_Mailer $mailer, \Twig_Environment $twig, TranslatorInterface $translator, LoggerInterfaceTest $logger = null) {
+    public function __construct(string $from, PasswordManager $passwordManager, \Swift_Mailer $mailer, Environment $twig, TranslatorInterface $translator, LoggerInterfaceTest $logger = null) {
         $this->from = $from;
         $this->passwordManager = $passwordManager;
         $this->mailer = $mailer;
