@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as Serializer;
@@ -20,7 +21,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="class", type="string")
  * @ORM\DiscriminatorMap({"user" = "User", "ad" = "ActiveDirectoryUser"})
- * @ORM\Table(options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"})
  * @UniqueEntity(fields={"email"})
  * @UniqueEntity(fields={"username"})
  */
@@ -84,12 +84,12 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     private $roles = [ 'ROLE_USER' ];
 
     /**
-     * @ORM\Column(type="string", name="internal_id", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $internalId;
 
     /**
-     * @ORM\Column(type="boolean", name="is_active")
+     * @ORM\Column(type="boolean")
      */
     private $isActive = true;
 
@@ -102,8 +102,8 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     /**
      * @ORM\ManyToMany(targetEntity="ServiceProvider")
      * @ORM\JoinTable(
-     *  joinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id", onDelete="CASCADE")},
-     *  inverseJoinColumns={@ORM\JoinColumn(name="service", referencedColumnName="id", onDelete="CASCADE")}
+     *  joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
+     *  inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
      * )
      */
     private $enabledServices;
@@ -119,7 +119,7 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     private $userRoles;
 
     /**
-     * @ORM\Column(type="string", name="google_authenticator_secret", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      * @Serializer\Exclude()
      */
     private $googleAuthenticatorSecret;
@@ -151,7 +151,7 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\U2fKey", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="U2fKey", mappedBy="user")
      * @Serializer\Exclude()
      */
     private $u2fKeys;
@@ -348,23 +348,23 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getEnabledServices() {
+    public function getEnabledServices(): Collection {
         return $this->enabledServices;
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getAttributes() {
+    public function getAttributes(): Collection {
         return $this->attributes;
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getUserRoles() {
+    public function getUserRoles(): Collection {
         return $this->userRoles;
     }
 
@@ -517,9 +517,9 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getU2FKeys() {
+    public function getU2FKeys(): Collection {
         return $this->u2fKeys;
     }
 

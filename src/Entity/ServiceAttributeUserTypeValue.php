@@ -6,20 +6,19 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"})
  */
 class ServiceAttributeUserTypeValue implements ServiceAttributeValueInterface {
     /**
      * @ORM\Id()
      * @ORM\ManyToOne(targetEntity="ServiceAttribute")
-     * @ORM\JoinColumn(name="attribute", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $attribute;
 
     /**
      * @ORM\Id()
      * @ORM\ManyToOne(targetEntity="UserType", inversedBy="attributes")
-     * @ORM\JoinColumn(name="user_type", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $userType;
 

@@ -3,13 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"})
  */
 class UserRole {
     /**
@@ -35,8 +35,8 @@ class UserRole {
     /**
      * @ORM\ManyToMany(targetEntity="User", mappedBy="userRoles")
      * @ORM\JoinTable(
-     *   joinColumns={@ORM\JoinColumn(name="role", referencedColumnName="id", onDelete="CASCADE")},
-     *   inverseJoinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id", onDelete="CASCADE")}
+     *   joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
+     *   inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
      * )
      * @Serializer\Exclude()
      */
@@ -45,8 +45,8 @@ class UserRole {
     /**
      * @ORM\ManyToMany(targetEntity="ServiceProvider")
      * @ORM\JoinTable(
-     *   joinColumns={@ORM\JoinColumn(name="role", referencedColumnName="id", onDelete="CASCADE")},
-     *   inverseJoinColumns={@ORM\JoinColumn(name="service", referencedColumnName="id", onDelete="CASCADE")}
+     *   joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
+     *   inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
      * )
      * @Serializer\Exclude()
      */
@@ -104,9 +104,9 @@ class UserRole {
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getUsers() {
+    public function getUsers(): Collection {
         return $this->users;
     }
 
@@ -125,16 +125,16 @@ class UserRole {
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getEnabledServices() {
+    public function getEnabledServices(): Collection {
         return $this->enabledServices;
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getAttributes() {
+    public function getAttributes(): Collection {
         return $this->attributes;
     }
 

@@ -44,8 +44,8 @@ class U2fKey implements TwoFactorKeyInterface {
     public $counter;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="u2fKeys")
-     * @ORM\JoinColumn(referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="u2fKeys")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $user;
 

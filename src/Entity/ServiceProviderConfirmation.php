@@ -13,14 +13,14 @@ class ServiceProviderConfirmation {
     /**
      * @ORM\Id()
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="user", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $user;
 
     /**
      * @ORM\Id()
      * @ORM\ManyToOne(targetEntity="ServiceProvider")
-     * @ORM\JoinColumn(name="service_provider", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $serviceProvider;
 

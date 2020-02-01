@@ -7,20 +7,19 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"})
  */
 class ServiceAttributeValue implements ServiceAttributeValueInterface {
     /**
      * @ORM\Id()
      * @ORM\ManyToOne(targetEntity="ServiceAttribute")
-     * @ORM\JoinColumn(name="attribute", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $attribute;
 
     /**
      * @ORM\Id()
      * @ORM\ManyToOne(targetEntity="User", inversedBy="attributes")
-     * @ORM\JoinColumn(name="user", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $user;
 

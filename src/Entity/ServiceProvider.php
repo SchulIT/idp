@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Validator\X509Certificate;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -11,7 +12,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"})
  */
 class ServiceProvider implements UserInterface {
     /**
@@ -22,7 +22,7 @@ class ServiceProvider implements UserInterface {
     private $id;
 
     /**
-     * @ORM\Column(type="string", name="entity_id", length=191, unique=true)
+     * @ORM\Column(type="string", length=191, unique=true)
      * @Assert\NotBlank()
      */
     private $entityId;
@@ -183,9 +183,9 @@ class ServiceProvider implements UserInterface {
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getAttributes() {
+    public function getAttributes(): Collection {
         return $this->attributes;
     }
 

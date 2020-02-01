@@ -304,7 +304,7 @@ class UserRegistrationCode {
     /**
      * @return Collection
      */
-    public function getAttributes() {
+    public function getAttributes(): Collection {
         return $this->attributes;
     }
 

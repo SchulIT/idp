@@ -8,7 +8,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"})
  * @UniqueEntity(fields={"source"})
  */
 class ActiveDirectorySyncOption implements ActiveDirectorySyncOptionInterface {
@@ -33,7 +32,7 @@ class ActiveDirectorySyncOption implements ActiveDirectorySyncOptionInterface {
     private $description;
 
     /**
-     * @ORM\Column(type="string", unique=true, name="source_group")
+     * @ORM\Column(type="string", unique=true)
      * @Assert\NotBlank()
      */
     private $source;
@@ -45,7 +44,7 @@ class ActiveDirectorySyncOption implements ActiveDirectorySyncOptionInterface {
 
     /**
      * @ORM\ManyToOne(targetEntity="UserType", inversedBy="syncOptions")
-     * @ORM\JoinColumn(name="user_type", referencedColumnName="id")
+     * @ORM\JoinColumn()
      */
     private $userType;
 

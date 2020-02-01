@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Burgov\Bundle\KeyValueFormBundle\KeyValueContainer;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -11,7 +12,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"})
  * @UniqueEntity(fields={"name"})
  */
 class ServiceAttribute {
@@ -44,7 +44,7 @@ class ServiceAttribute {
     private $description;
 
     /**
-     * @ORM\Column(type="boolean", name="is_user_edit_enabled")
+     * @ORM\Column(type="boolean")
      * @Serializer\Exclude()
      */
     private $isUserEditEnabled = true;
@@ -63,7 +63,7 @@ class ServiceAttribute {
     private $type;
 
     /**
-     * @ORM\Column(type="boolean", name="is_multiple_choice")
+     * @ORM\Column(type="boolean")
      */
     private $isMultipleChoice = false;
 
@@ -75,8 +75,8 @@ class ServiceAttribute {
     /**
      * @ORM\ManyToMany(targetEntity="ServiceProvider", inversedBy="attributes")
      * @ORM\JoinTable(
-     *  joinColumns={@ORM\JoinColumn(name="service", referencedColumnName="id", onDelete="CASCADE")},
-     *  inverseJoinColumns={@ORM\JoinColumn(name="attribute", referencedColumnName="id", onDelete="CASCADE")}
+     *  joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
+     *  inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
      * )
      * @Serializer\Exclude()
      */
@@ -249,9 +249,9 @@ class ServiceAttribute {
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getServices() {
+    public function getServices(): Collection {
         return $this->services;
     }
 

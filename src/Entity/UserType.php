@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -10,7 +11,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"})
  * @UniqueEntity(fields={"alias"})
  */
 class UserType {
@@ -50,8 +50,8 @@ class UserType {
     /**
      * @ORM\ManyToMany(targetEntity="ServiceProvider")
      * @ORM\JoinTable(
-     *  joinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id")},
-     *  inverseJoinColumns={@ORM\JoinColumn(name="service", referencedColumnName="id")}
+     *  joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
+     *  inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
      * )
      * @Serializer\Exclude()
      */
@@ -160,9 +160,9 @@ class UserType {
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getUsers() {
+    public function getUsers(): Collection {
         return $this->users;
     }
 
@@ -181,23 +181,23 @@ class UserType {
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getEnabledServices() {
+    public function getEnabledServices(): Collection {
         return $this->enabledServices;
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getAttributes() {
+    public function getAttributes(): Collection {
         return $this->attributes;
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getSyncOptions() {
+    public function getSyncOptions(): Collection {
         return $this->syncOptions;
     }
 

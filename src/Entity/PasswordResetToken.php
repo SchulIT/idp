@@ -22,7 +22,7 @@ class PasswordResetToken {
     private $token;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn()
      */
     private $user;
