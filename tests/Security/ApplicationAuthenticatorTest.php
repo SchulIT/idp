@@ -3,6 +3,7 @@
 namespace App\Tests\Security;
 
 use App\Entity\Application;
+use App\Entity\ApplicationScope;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -29,7 +30,8 @@ class ApplicationAuthenticatorTest extends WebTestCase {
             ->setName('Test app')
             ->setDescription('Just a test app')
             ->setLastActivity(new \DateTime())
-            ->setApiKey('api-key');
+            ->setApiKey('api-key')
+            ->setScope(ApplicationScope::Api());
 
         $this->em->persist($this->application);
         $this->em->flush();
@@ -54,7 +56,8 @@ class ApplicationAuthenticatorTest extends WebTestCase {
 
     public function testAuthenticateValidApplication() {
         $this->client->request('GET', '/api', [], [], [
-            'HTTP_X_TOKEN' => 'api-key'
+            'HTTP_X_TOKEN' => 'api-key',
+            'Accept' => 'application/json'
         ]);
 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
