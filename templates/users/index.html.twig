@@ -83,7 +83,17 @@
             <tbody>
             {% for user in users %}
                 <tr>
-                    <td>{{ user.username }}</td>
+                    <td>
+                        {{ user.username }}
+
+                        {% if not user.active %}
+                            <span class="badge badge-danger">{{ 'label.not_active'|trans }}</span>
+                        {% endif %}
+
+                        {% if user.emailConfirmationPending %}
+                            <span class="badge badge-warning">{{ 'label.pending_email_confirmation'|trans }}</span>
+                        {% endif %}
+                    </td>
                     <td>{{ user.firstname }}</td>
                     <td>{{ user.lastname }}</td>
                     <td>{{ user.type.name }}</td>

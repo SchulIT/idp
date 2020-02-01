@@ -48,6 +48,8 @@ label:
   enabled_from: aktiviert von
   enabled_until: aktiviert bis
   not_specified: nicht festgelegt
+  not_active: nicht aktiv
+  pending_email_confirmation: E-Mail-Bestätigung ausstehend
 
 auth:
   login: Anmelden
