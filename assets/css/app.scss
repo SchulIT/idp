@@ -39,3 +39,9 @@ form {
     font-size: 90% !important;
   }
 }
+
+.card {
+  > .table {
+    border-top: 0;
+  }
+}

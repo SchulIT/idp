@@ -11,12 +11,12 @@
 
 {% block content %}
     <div class="card">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover table-bordered">
             <colgroup>
-                <col class="column-lg" />
-                <col class="column-lg" />
                 <col />
                 <col class="column-lg" />
+                <col />
+                <col class="column-md" />
             </colgroup>
 
             <thead>
@@ -45,12 +45,12 @@
                         </ul>
                     </td>
                     <td>
-                        <a href="{{ path('edit_attribute', { id: attribute.id }) }}" class="btn btn-sm btn-primary">
-                            {{ 'actions.edit'|trans }}
+                        <a href="{{ path('edit_attribute', { id: attribute.id }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
+                            <i class="fa fa-edit"></i>
                         </a>
 
-                        <a href="{{ path('remove_attribute', { id: attribute.id }) }}" class="btn btn-sm btn-danger">
-                            {{ 'actions.remove'|trans }}
+                        <a href="{{ path('remove_attribute', { id: attribute.id }) }}" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
+                            <i class="fa fa-trash"></i>
                         </a>
                     </td>
                 </tr>
