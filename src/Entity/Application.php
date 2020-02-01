@@ -173,10 +173,6 @@ class Application implements UserInterface {
             return [ 'ROLE_IDPEXCHANGE' ];
         }
 
-        if($this->getScope()->equals(ApplicationScope::ReadAttributes())) {
-            return [ 'ROLE_ATTRIBUTEREADER' ];
-        }
-
         return [
             'ROLE_API'
         ];
@@ -212,7 +208,7 @@ class Application implements UserInterface {
      * @Assert\Callback()
      */
     public function validateService(ExecutionContextInterface $context, $payload) {
-        if($this->getScope()->equals(ApplicationScope::ReadAttributes()) || $this->getScope()->equals(ApplicationScope::IdpExchange())) {
+        if($this->getScope()->equals(ApplicationScope::IdpExchange())) {
             if($this->getService() === null) {
                 $context->buildViolation('This value should not be blank.')
                     ->atPath('service')
