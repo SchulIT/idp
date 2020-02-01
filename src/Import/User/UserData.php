@@ -2,7 +2,6 @@
 
 namespace App\Import\User;
 
-use App\Validator\BcryptPassword;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -12,13 +11,6 @@ class UserData {
      * @Assert\NotBlank()
      */
     public $username;
-
-    /**
-     * @Serializer\Type("string")
-     * @Assert\NotBlank()
-     * @BcryptPassword()
-     */
-    public $password;
 
     /**
      * @Serializer\Type("string")
