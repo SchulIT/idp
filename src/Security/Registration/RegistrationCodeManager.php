@@ -7,6 +7,7 @@ use App\Entity\UserRegistrationCode;
 use App\Repository\UserRegistrationCodeRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use App\Service\AttributePersister;
+use App\Service\AttributeResolver;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -24,6 +25,7 @@ class RegistrationCodeManager {
     private $codeRepository;
     private $userRepository;
     private $attributePersister;
+    private $attributeResolver;
     private $passwordEncoder;
     private $session;
     private $translator;
@@ -31,7 +33,7 @@ class RegistrationCodeManager {
     private $twig;
 
     public function __construct(string $from, string $domainBlacklist, UserRegistrationCodeRepositoryInterface $codeRepository,
-                                UserRepositoryInterface $userRepository, AttributePersister $attributePersister,
+                                UserRepositoryInterface $userRepository, AttributePersister $attributePersister, AttributeResolver $attributeResolver,
                                 UserPasswordEncoderInterface $passwordEncoder, SessionInterface $session,
                                 TranslatorInterface $translator, \Swift_Mailer $mailer, Environment $twig) {
         $this->from = $from;
@@ -39,6 +41,7 @@ class RegistrationCodeManager {
         $this->codeRepository = $codeRepository;
         $this->userRepository = $userRepository;
         $this->attributePersister = $attributePersister;
+        $this->attributeResolver = $attributeResolver;
         $this->passwordEncoder = $passwordEncoder;
         $this->session = $session;
         $this->translator = $translator;
@@ -112,13 +115,13 @@ class RegistrationCodeManager {
             ->setGrade($code->getGrade())
             ->setInternalId($code->getInternalId())
             ->setIsActive(false);
-        $this->attributePersister->persistUserAttributes($code->getAttributes(), $user);
         $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
 
         $code->setRedeemingUser($user);
 
         $this->userRepository->persist($user);
         $this->codeRepository->persist($code);
+        $this->attributePersister->persistUserAttributes($this->attributeResolver->getAttributesForUserRegistrationCode($code), $user);
 
         // Send email
         $content = $this->twig

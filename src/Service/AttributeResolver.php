@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\ServiceAttributeValue;
 use App\Entity\ServiceAttributeValueInterface;
 use App\Entity\User;
+use App\Entity\UserRegistrationCode;
 use App\Entity\UserRole;
 use App\Entity\UserType;
 use App\Repository\ServiceAttributeValueRepositoryInterface;
@@ -93,13 +94,7 @@ class AttributeResolver {
         /** @var ServiceAttributeValue[] $userAttributeValues */
         $userAttributeValues = $this->attributeValueRepository->getAttributeValuesForUser($user);
 
-        $attributeValues = [ ];
-
-        foreach($userAttributeValues as $attribute) {
-            $attributeValues[$attribute->getAttribute()->getName()] = $attribute->getValue();
-        }
-
-        return $attributeValues;
+        return $this->transformValuesToSimpleArray($userAttributeValues);
     }
 
     /**
@@ -111,16 +106,10 @@ class AttributeResolver {
             return [ ];
         }
 
-        /** @var ServiceAttributeValue[] $userAttributeValues */
-        $userAttributeValues = $this->attributeValueRepository->getAttributeValuesForUserType($userType);
+        /** @var ServiceAttributeValue[] $userTypeAttributeValues */
+        $userTypeAttributeValues = $this->attributeValueRepository->getAttributeValuesForUserType($userType);
 
-        $attributeValues = [ ];
-
-        foreach($userAttributeValues as $attribute) {
-            $attributeValues[$attribute->getAttribute()->getName()] = $attribute->getValue();
-        }
-
-        return $attributeValues;
+        return $this->transformValuesToSimpleArray($userTypeAttributeValues);
     }
 
     /**
@@ -132,12 +121,31 @@ class AttributeResolver {
             return [ ];
         }
 
-        /** @var ServiceAttributeValue[] $userAttributeValues */
-        $userAttributeValues = $this->attributeValueRepository->getAttributeValuesForUserRole($userRole);
+        /** @var ServiceAttributeValue[] $userRoleAttributeValues */
+        $userRoleAttributeValues = $this->attributeValueRepository->getAttributeValuesForUserRole($userRole);
 
+        return $this->transformValuesToSimpleArray($userRoleAttributeValues);
+    }
+
+    /**
+     * @param UserRole $userRole
+     * @return mixed[]
+     */
+    public function getAttributesForUserRegistrationCode(UserRegistrationCode $code) {
+        if($code === null) {
+            return [ ];
+        }
+
+        /** @var ServiceAttributeValue[] $registrationCodeValues */
+        $registrationCodeValues = $this->attributeValueRepository->getAttributeValuesForUserRegistrationCode($code);
+
+        return $this->transformValuesToSimpleArray($registrationCodeValues);
+    }
+
+    private function transformValuesToSimpleArray(array $values) {
         $attributeValues = [ ];
 
-        foreach($userAttributeValues as $attribute) {
+        foreach($values as $attribute) {
             $attributeValues[$attribute->getAttribute()->getName()] = $attribute->getValue();
         }
 

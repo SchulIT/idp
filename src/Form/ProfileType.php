@@ -81,54 +81,11 @@ class ProfileType extends AbstractType {
                         ]);
                 }
             ])
-            ->add('group_attributes', FieldsetType::class, [
+            ->add('group_attributes', AttributesType::class, [
                 'legend' => 'label.attributes',
                 'mapped' => false,
-                'fields' => function(FormBuilderInterface $builder) use(&$user) {
-                    $attributeValues = $this->userAttributeResolver->getAttributeValuesForUser($user);
-
-                    foreach($this->serviceAttributeRepository->findAll() as $attribute) {
-                        if($attribute->isUserEditEnabled() !== true) {
-                            continue;
-                        }
-
-                        $type = $attribute->getType() === ServiceAttribute::TYPE_TEXT ? TextType::class : ChoiceType::class;
-                        $options = [
-                            'label' => $attribute->getLabel(),
-                            'attr' => [
-                                'help' => $attribute->getDescription()
-                            ],
-                            'required' => false,
-                            'mapped' => false,
-                            'data' => $attributeValues[$attribute->getName()] ?? null
-                        ];
-
-                        if($type === ChoiceType::class) {
-                            $choices = [ ];
-
-                            foreach($attribute->getOptions() as $key => $value) {
-                                $choices[$value] = $key;
-                            }
-
-                            $options['choices'] = $choices;
-
-                            if($attribute->isMultipleChoice()) {
-                                $options['multiple'] = true;
-
-                                if(count($choices) < static::EXPANDED_THRESHOLD) {
-                                    $options['expanded'] = true;
-                                }
-                            }
-
-                            $options['constraints'] = [
-                                new Choice(array_values($choices))
-                            ];
-                        }
-
-                        $builder
-                            ->add($attribute->getName(), $type, $options);
-                    }
-                }
+                'only_user_editable' => true,
+                'attribute_values' => $this->userAttributeResolver->getAttributeValuesForUser($user)
             ]);
 
         $builder

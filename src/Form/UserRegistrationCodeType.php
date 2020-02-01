@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\UserRegistrationCode;
 use App\Entity\UserType as UserTypeEntity;
+use App\Service\AttributeResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -14,13 +15,28 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 
 class UserRegistrationCodeType extends AbstractType {
+
+    use AttributeDataTrait;
+
+    private $userAttributeResolver;
+
+    public function __construct(AttributeResolver $userAttributeResolver) {
+        $this->userAttributeResolver = $userAttributeResolver;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options) {
+        $code = $options['data'];
+
         $builder
             ->add('group_general', FieldsetType::class, [
                 'legend' => 'label.general',
                 'fields' => function(FormBuilderInterface $builder) {
                     $this->addFields($builder);
                 }
+            ])
+            ->add('group_attributes', AttributesType::class, [
+                'legend' => 'label.attributes',
+                'attribute_values' => $this->userAttributeResolver->getAttributesForUserRegistrationCode($code)
             ]);
 
         $builder

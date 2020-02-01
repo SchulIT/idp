@@ -3,10 +3,12 @@
 namespace App\Service;
 
 use App\Entity\ServiceAttribute;
+use App\Entity\ServiceAttributeUserRegistrationCodeValue;
 use App\Entity\ServiceAttributeUserRoleValue;
 use App\Entity\ServiceAttributeUserTypeValue;
 use App\Entity\ServiceAttributeValue;
 use App\Entity\User;
+use App\Entity\UserRegistrationCode;
 use App\Entity\UserRole;
 use App\Entity\UserType;
 use App\Repository\ServiceAttributeRepositoryInterface;
@@ -128,5 +130,24 @@ class AttributePersister {
         );
 
         $this->persist($values, $currentUserAttributes, $factory);
+    }
+
+    public function persistUserRegistrationCodeAttributes(array $values, UserRegistrationCode $code) {
+        $factory = function() use ($code) {
+            $value = (new ServiceAttributeUserRegistrationCodeValue())
+                ->setRegistrationCode($code);
+            $code->getAttributes()->add($value);
+
+            return $value;
+        };
+
+        $currentRegistrationCodeAttributes = $this->makeArrayWithKeys(
+            $code->getAttributes()->toArray(),
+            function(ServiceAttributeUserRegistrationCodeValue $attributeValue) {
+                return $attributeValue->getAttribute()->getName();
+            }
+        );
+
+        $this->persist($values, $currentRegistrationCodeAttributes, $factory);
     }
 }

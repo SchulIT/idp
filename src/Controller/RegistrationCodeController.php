@@ -3,9 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\UserRegistrationCode;
+use App\Form\AttributeDataTrait;
 use App\Form\UserRegistrationCodeType;
 use App\Repository\UserRegistrationCodeRepositoryInterface;
-use App\Repository\UserTypeRepositoryInterface;
+use App\Service\AttributePersister;
 use App\View\Filter\UserTypeFilter;
 use SchoolIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,6 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
  * @Route("/admin/registration_codes")
  */
 class RegistrationCodeController extends AbstractController {
+
+    use AttributeDataTrait;
 
     private const CodesPerPage = 25;
 
@@ -69,12 +72,16 @@ class RegistrationCodeController extends AbstractController {
     /**
      * @Route("/edit/{id}", name="edit_registration_code")
      */
-    public function edit(UserRegistrationCode $code, Request $request) {
+    public function edit(UserRegistrationCode $code, Request $request, AttributePersister $attributePersister) {
         $form = $this->createForm(UserRegistrationCodeType::class, $code);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
             $this->repository->persist($code);
+
+            $attributeData = $this->getAttributeData($form);
+            $attributePersister->persistUserRegistrationCodeAttributes($attributeData, $code);
+
             $this->addFlash('success', 'codes.edit.success');
 
             return $this->redirectToRoute('registration_codes');

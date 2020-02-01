@@ -2,8 +2,11 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -102,10 +105,10 @@ class UserRegistrationCode {
     private $internalId;
 
     /**
-     * @ORM\Column(type="json_array")
-     * @var string[]
+     * @ORM\OneToMany(targetEntity="ServiceAttributeUserRegistrationCodeValue", mappedBy="registrationCode")
+     * @Serializer\Exclude()
      */
-    private $attributes = [ ];
+    private $attributes;
 
     /**
      * @ORM\Column(type="string", length=128, unique=true, nullable=true)
@@ -120,10 +123,14 @@ class UserRegistrationCode {
      */
     private $tokenCreatedAt = null;
 
+    public function __construct() {
+        $this->attributes = new ArrayCollection();
+    }
+
     /**
-     * @return int
+     * @return int|null
      */
-    public function getId(): int {
+    public function getId(): ?int {
         return $this->id;
     }
 
@@ -295,9 +302,9 @@ class UserRegistrationCode {
     }
 
     /**
-     * @return string[]
+     * @return Collection
      */
-    public function getAttributes(): array {
+    public function getAttributes() {
         return $this->attributes;
     }
 

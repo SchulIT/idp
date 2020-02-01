@@ -2,15 +2,15 @@
 
 namespace App\Repository;
 
+use App\Entity\ServiceAttributeUserRegistrationCodeValue;
 use App\Entity\ServiceAttributeUserRoleValue;
 use App\Entity\ServiceAttributeUserTypeValue;
 use App\Entity\ServiceAttributeValue;
 use App\Entity\User;
+use App\Entity\UserRegistrationCode;
 use App\Entity\UserRole;
 use App\Entity\UserType;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 
 class ServiceAttributeValueRepository implements ServiceAttributeValueRepositoryInterface, TransactionalRepositoryInterface {
 
@@ -89,6 +89,21 @@ class ServiceAttributeValueRepository implements ServiceAttributeValueRepository
             ->leftJoin('v.attribute', 'a')
             ->where('v.userRole = :role')
             ->setParameter('role', $userRole->getId());
+
+        return $query->getQuery()->getResult();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAttributeValuesForUserRegistrationCode(UserRegistrationCode $code) {
+        $query = $this->em
+            ->createQueryBuilder()
+            ->select(['v', 'a'])
+            ->from(ServiceAttributeUserRegistrationCodeValue::class, 'v')
+            ->leftJoin('v.attribute', 'a')
+            ->where('v.registrationCode = :code')
+            ->setParameter('code', $code->getId());
 
         return $query->getQuery()->getResult();
     }
