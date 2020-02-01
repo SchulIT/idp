@@ -94,6 +94,10 @@ class Builder {
             $menu->addChild('mails.label', [
                 'route' => 'admin_mails'
             ]);
+
+            $menu->addChild('api.doc', [
+                'uri' => '/doc/api'
+            ]);
         }
 
         return $menu;

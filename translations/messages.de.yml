@@ -401,3 +401,5 @@ codes:
     confirm: 'Soll der Registrierungscode "%code%" wirklich gelöscht werden?'
     success: Registrierungscode erfolgreich gelöscht
 
+api:
+  doc: API-Dokumentation
