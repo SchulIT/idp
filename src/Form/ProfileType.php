@@ -143,17 +143,22 @@ class ProfileType extends AbstractType {
                         ->add('username', TextType::class, [
                             'disabled' => true,
                             'label' => 'label.username',
-                            'attr' => [ 'help' => 'info.attribute_must_changed_in_ad' ]
+                            'attr' => [ 'help' => 'info.attribute_must_change_in_ad' ]
                         ])
                         ->add('firstname', TextType::class, [
                             'disabled' => true,
                             'label' => 'label.firstname',
-                            'attr' => [ 'help' => 'info.attribute_must_changed_in_ad' ]
+                            'attr' => [ 'help' => 'info.attribute_must_change_in_ad' ]
                         ])
                         ->add('lastname', TextType::class, [
                             'disabled' => true,
                             'label' => 'label.lastname',
-                            'attr' => [ 'help' => 'info.attribute_must_changed_in_ad' ]
+                            'attr' => [ 'help' => 'info.attribute_must_change_in_ad' ]
+                        ])
+                        ->add('email', EmailType::class, [
+                            'disabled' => true,
+                            'label' => 'label.email',
+                            'attr' => [ 'help' => 'info.attribute_must_change_in_ad' ]
                         ]);
                 }
             });
