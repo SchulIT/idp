@@ -71,7 +71,13 @@
 {% endblock %}
 
 {% block readonly_text_widget %}
+    {% if form.vars.data is not empty %}
     <input id="{{ form.vars.id }}" readonly class="form-control-plaintext" value="{{ form.vars.data }}">
+    {% else %}
+        <div class="form-control-plaintext">
+            <span class="badge badge-secondary">{{ 'label.not_specified'|trans}}</span>
+        </div>
+    {% endif %}
 
     {% set help = attr.help %}
     {{ block('form_help') }}
