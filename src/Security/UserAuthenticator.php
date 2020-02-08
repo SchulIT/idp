@@ -153,6 +153,8 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator {
                 return null;
             }
 
+            dump($response);
+
             if($this->userCreator->canCreateUser($response)) {
                 $user = $this->userCreator->createUser($response, $adUser);
 
@@ -173,6 +175,8 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator {
 
             throw new CustomUserMessageAuthenticationException('server_unavailable');
         } catch(\Exception $e) {
+            dump($e);
+
             $this->logger->critical(
                 'Authentication failed', [
                     'exception' => $e

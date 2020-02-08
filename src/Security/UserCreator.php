@@ -97,6 +97,7 @@ class UserCreator {
         $user->setGrade($this->getGrade($response));
         $user->setSamAccountName($response->getUsername());
         $user->setType($this->getTargetUserType($response));
+        $user->setEmail($response->getEmail());
 
         return $user;
     }

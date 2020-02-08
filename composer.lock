@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce301924c7bde563a935cd645ab7e7fd",
+    "content-hash": "a38784dbf984cfe124e37594d03c73f5",
     "packages": [
         {
             "name": "acelaya/doctrine-enum-type",
@@ -3473,16 +3473,16 @@
         },
         {
             "name": "myclabs/php-enum",
-            "version": "1.7.2",
+            "version": "1.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/php-enum.git",
-                "reference": "45f01adf6922df6082bcda36619deb466e826acf"
+                "reference": "c3f3b36602748871098069f4f2f8224ca34df899"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/php-enum/zipball/45f01adf6922df6082bcda36619deb466e826acf",
-                "reference": "45f01adf6922df6082bcda36619deb466e826acf",
+                "url": "https://api.github.com/repos/myclabs/php-enum/zipball/c3f3b36602748871098069f4f2f8224ca34df899",
+                "reference": "c3f3b36602748871098069f4f2f8224ca34df899",
                 "shasum": ""
             },
             "require": {
@@ -3490,8 +3490,9 @@
                 "php": ">=7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.35|^5.7|^6.0",
-                "squizlabs/php_codesniffer": "1.*"
+                "phpunit/phpunit": "^7",
+                "squizlabs/php_codesniffer": "1.*",
+                "vimeo/psalm": "^3.8"
             },
             "type": "library",
             "autoload": {
@@ -3514,7 +3515,7 @@
             "keywords": [
                 "enum"
             ],
-            "time": "2019-08-19T13:53:00+00:00"
+            "time": "2020-02-07T08:35:07+00:00"
         },
         {
             "name": "nelmio/api-doc-bundle",
@@ -4341,16 +4342,16 @@
         },
         {
             "name": "scheb/two-factor-bundle",
-            "version": "v3.27.0",
+            "version": "v3.28.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scheb/two-factor-bundle.git",
-                "reference": "4a88e84973f91a3a5266b5c5203a0a20e616a876"
+                "reference": "bb5ffd69dee08bfa5ec73da09f4c24805932dd1d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scheb/two-factor-bundle/zipball/4a88e84973f91a3a5266b5c5203a0a20e616a876",
-                "reference": "4a88e84973f91a3a5266b5c5203a0a20e616a876",
+                "url": "https://api.github.com/repos/scheb/two-factor-bundle/zipball/bb5ffd69dee08bfa5ec73da09f4c24805932dd1d",
+                "reference": "bb5ffd69dee08bfa5ec73da09f4c24805932dd1d",
                 "shasum": ""
             },
             "require": {
@@ -4402,20 +4403,20 @@
                 "two-factor",
                 "two-step"
             ],
-            "time": "2020-01-12T14:01:32+00:00"
+            "time": "2020-02-02T19:52:10+00:00"
         },
         {
             "name": "schoolit/adauth",
-            "version": "2.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchulIT/adauth.git",
-                "reference": "d9afd88bf6f5c09ebfc7c7075386e08c1d5474a3"
+                "reference": "2e2f8ed1d227dce5d01fdf7c5a3eac1aea5c45e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchulIT/adauth/zipball/d9afd88bf6f5c09ebfc7c7075386e08c1d5474a3",
-                "reference": "d9afd88bf6f5c09ebfc7c7075386e08c1d5474a3",
+                "url": "https://api.github.com/repos/SchulIT/adauth/zipball/2e2f8ed1d227dce5d01fdf7c5a3eac1aea5c45e5",
+                "reference": "2e2f8ed1d227dce5d01fdf7c5a3eac1aea5c45e5",
                 "shasum": ""
             },
             "require": {
@@ -4436,7 +4437,6 @@
                     "AdAuth\\": "./src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -4447,26 +4447,30 @@
                 }
             ],
             "description": "Client library for AD Auth Server",
-            "time": "2020-02-01T21:26:24+00:00"
+            "support": {
+                "source": "https://github.com/SchulIT/adauth/tree/master",
+                "issues": "https://github.com/SchulIT/adauth/issues"
+            },
+            "time": "2020-02-08T19:56:43+00:00"
         },
         {
             "name": "schoolit/adauth-bundle",
-            "version": "2.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchulIT/adauth-bundle.git",
-                "reference": "9ae04996f6392e16864534a2d34f5b4ef4a9dc70"
+                "reference": "e0de4576266bdf8d45cc03bd7950cd6762786e63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchulIT/adauth-bundle/zipball/9ae04996f6392e16864534a2d34f5b4ef4a9dc70",
-                "reference": "9ae04996f6392e16864534a2d34f5b4ef4a9dc70",
+                "url": "https://api.github.com/repos/SchulIT/adauth-bundle/zipball/e0de4576266bdf8d45cc03bd7950cd6762786e63",
+                "reference": "e0de4576266bdf8d45cc03bd7950cd6762786e63",
                 "shasum": ""
             },
             "require": {
                 "ext-iconv": "*",
                 "php": "^7.2",
-                "schoolit/adauth": "^2.0",
+                "schoolit/adauth": "dev-master",
                 "symfony/framework-bundle": "^4.0",
                 "symfony/yaml": "^4.0"
             },
@@ -4476,11 +4480,14 @@
                     "AdAuthBundle\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
-            "time": "2020-02-01T22:12:37+00:00"
+            "support": {
+                "source": "https://github.com/SchulIT/adauth-bundle/tree/master",
+                "issues": "https://github.com/SchulIT/adauth-bundle/issues"
+            },
+            "time": "2020-02-08T20:06:58+00:00"
         },
         {
             "name": "schoolit/common-bundle",
@@ -10754,9 +10761,10 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
-        "fervo/enum-bundle": 20
+        "fervo/enum-bundle": 20,
+        "schoolit/adauth-bundle": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

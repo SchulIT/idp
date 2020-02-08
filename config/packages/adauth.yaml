@@ -1,10 +1,5 @@
-parameters:
-  env(ADAUTH_URL): ''
-  env(ADAUTH_PEERNAME): ''
-  env(ADAUTH_FINGERPRINT): ''
-
 adauth:
-  url: '%env(ADAUTH_URL)%'
+  url: '%env(resolve:ADAUTH_URL)%'
   tls:
     peer_name: '%env(ADAUTH_PEERNAME)%'
     peer_fingerprint: '%env(ADAUTH_FINGERPRINT)%'
