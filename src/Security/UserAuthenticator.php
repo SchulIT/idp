@@ -153,8 +153,6 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator {
                 return null;
             }
 
-            dump($response);
-
             if($this->userCreator->canCreateUser($response)) {
                 $user = $this->userCreator->createUser($response, $adUser);
 

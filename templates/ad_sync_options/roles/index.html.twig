@@ -1,10 +1,11 @@
 {% extends "main.html.twig" %}
 
-{% block title %}{{ 'ad_sync_options.label'|trans }}{% endblock %}
+{% block title %}{{ 'ad_sync_options.roles.label'|trans }}{% endblock %}
 
 {% block breadcrumb %}
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('ad_sync_options') }}">{{ 'ad_sync_options.label'|trans }}</a></li>
         <li class="breadcrumb-item">{{ block('title') }}</li>
     </ol>
 {% endblock %}
@@ -14,16 +15,14 @@
         <table class="table table-striped table-hover table-bordered">
             <colgroup>
                 <col />
-                <col class="column-280" />
                 <col class="column-lg" />
                 <col class="column-md" />
             </colgroup>
 
             <thead>
             <tr>
-                <th>{{ 'label.name'|trans }}</th>
+                <th>{{ 'label.user_role'|trans }}</th>
                 <th>{{ 'label.source'|trans }}</th>
-                <th>{{ 'label.user_type'|trans }}</th>
                 <th>{{ 'actions.label'|trans }}</th>
             </tr>
             </thead>
@@ -32,21 +31,18 @@
             {% for option in sync_options %}
                 <tr>
                     <td>
-                        {{ option.name }}
-
-                        <p><small>{{ option.description }}</small></p>
+                        {{ option.userRole.name }}
                     </td>
                     <td>
                         <span class="badge badge-primary">{% if option.sourceType == 'ou' %}{{ 'label.ou'|trans }}{% else %}{{ 'label.ad_group'|trans }}{% endif %}</span>
                         {{ option.source }}
                     </td>
-                    <td>{{ option.userType.name }}</td>
                     <td>
-                        <a href="{{ path('edit_ad_sync_option', { id: option.id }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
+                        <a href="{{ path('edit_ad_role_sync_options', { id: option.id }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
                             <i class="fa fa-edit"></i>
                         </a>
 
-                        <a href="{{ path('remove_ad_sync_option', { id: option.id }) }}" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
+                        <a href="{{ path('remove_ad_role_sync_options', { id: option.id }) }}" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
                             <i class="fa fa-trash"></i>
                         </a>
                     </td>
@@ -57,16 +53,12 @@
     </div>
 
     <div class="buttons">
-        <a href="{{ path('add_ad_sync_option') }}" class="btn btn-sm btn-primary">
-            <i class="fas fa-plus"></i> {{ 'ad_sync_options.add.label'|trans }}
+        <a href="{{ path('add_ad_roles_sync_options') }}" class="btn btn-sm btn-primary">
+            <i class="fas fa-plus"></i> {{ 'ad_sync_options.grades.add.label'|trans }}
         </a>
 
-        <a href="{{ path('ad_grades_sync_options') }}" class="btn btn-sm btn-secondary">
-            <i class="fas fa-graduation-cap"></i> {{ 'ad_sync_options.grades.label'|trans }}
-        </a>
-
-        <a href="{{ path('ad_roles_sync_options') }}" class="btn btn-sm btn-secondary">
-            <i class="fas fa-graduation-cap"></i> {{ 'ad_sync_options.roles.label'|trans }}
+        <a href="{{ path('ad_sync_options') }}" class="btn btn-sm btn-secondary">
+            <i class="fas fa-arrow-left"></i> {{ 'actions.back'|trans }}
         </a>
     </div>
 {% endblock%}

@@ -51,6 +51,7 @@ label:
   not_specified: nicht festgelegt
   not_active: nicht aktiv
   pending_email_confirmation: E-Mail-Bestätigung ausstehend
+  user_role: Benutzerrolle
 
 auth:
   login: Anmelden
@@ -247,6 +248,19 @@ ad_sync_options:
       confirm: Soll die Synchronisationsregel für die Klasse "%grade%" wirklich gelöscht werden?
       success: Regel erfolgreich gelöscht
       help: Nach Abschluss dieser Aktion gibt es möglicherweise Probleme bei der korrekten Zuweisung der Klasse bei der Auto-Synchronisation mit dem Active Directory.
+  roles:
+    label: Synchronisationsregeln für Benutzerrollen
+    add:
+      label: Neue Synchronisationsregel
+      success: Regel erfolgreich angelegt
+    edit:
+      label: Synchronisationsregel bearbeiten
+      success: Regel erfolgreich aktualisiert
+    remove:
+      label: Synchronisationsregel löschen
+      confirm: Soll die Synchronisationsregel für die Rolle "%role%" wirklich gelöscht werden?
+      success: Regel erfolgreich gelöscht
+      help: Nach Abschluss dieser Aktion gibt es möglicherweise Probleme bei der korrekten Zuweisung der Benutzerrollen bei der Auto-Synchronisation mit dem Active Directory.
 
 service_providers:
   label: Service Provider

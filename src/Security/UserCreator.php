@@ -5,10 +5,12 @@ namespace App\Security;
 use AdAuth\Response\AuthenticationResponse;
 use App\ActiveDirectory\OptionResolver;
 use App\Entity\ActiveDirectoryGradeSyncOption;
+use App\Entity\ActiveDirectoryRoleSyncOption;
 use App\Entity\ActiveDirectorySyncOption;
 use App\Entity\ActiveDirectoryUser;
 use App\Entity\UserType;
 use App\Repository\ActiveDirectoryGradeSyncOptionRepositoryInterface;
+use App\Repository\ActiveDirectoryRoleSyncOptionRepositoryInterface;
 use App\Repository\ActiveDirectorySyncOptionRepositoryInterface;
 use Doctrine\ORM\EntityManager;
 
@@ -22,6 +24,9 @@ class UserCreator {
     /** @var ActiveDirectoryGradeSyncOption[] */
     private $gradeSyncOptions = null;
 
+    /** @var ActiveDirectoryRoleSyncOption[] */
+    private $roleSyncOptions = null;
+
     /** @var OptionResolver */
     private $optionsResolver;
 
@@ -31,13 +36,18 @@ class UserCreator {
     /** @var ActiveDirectoryGradeSyncOptionRepositoryInterface  */
     private $gradeSyncOptionRepository;
 
+    /** @var ActiveDirectoryRoleSyncOptionRepositoryInterface */
+    private $roleSyncOptionRepository;
+
     /**
      * @param EntityManager $entityManager
      */
     public function __construct(ActiveDirectorySyncOptionRepositoryInterface $syncOptionRepository,
-                                ActiveDirectoryGradeSyncOptionRepositoryInterface $gradeSyncOptionRepository, OptionResolver $optionResolver) {
+                                ActiveDirectoryGradeSyncOptionRepositoryInterface $gradeSyncOptionRepository,
+                                ActiveDirectoryRoleSyncOptionRepositoryInterface $roleSyncOptionRepository, OptionResolver $optionResolver) {
         $this->syncOptionRepository = $syncOptionRepository;
         $this->gradeSyncOptionRepository = $gradeSyncOptionRepository;
+        $this->roleSyncOptionRepository = $roleSyncOptionRepository;
         $this->optionsResolver = $optionResolver;
     }
 
@@ -49,6 +59,11 @@ class UserCreator {
 
         if ($this->gradeSyncOptions === null) {
             $this->gradeSyncOptions = $this->gradeSyncOptionRepository
+                ->findAll();
+        }
+
+        if($this->roleSyncOptions === null) {
+            $this->roleSyncOptions = $this->roleSyncOptionRepository
                 ->findAll();
         }
     }
@@ -98,6 +113,23 @@ class UserCreator {
         $user->setSamAccountName($response->getUsername());
         $user->setType($this->getTargetUserType($response));
         $user->setEmail($response->getEmail());
+
+        // Set roles
+
+        /** @var ActiveDirectoryRoleSyncOption[] $options */
+        $options = $this->optionsResolver->getAllOptions(
+            $this->roleSyncOptions,
+            $response->getOu(),
+            $response->getGroups()
+        );
+
+        foreach($options as $option) {
+            $role = $option->getUserRole();
+
+            if($user->getUserRoles()->contains($role) !== true) {
+                $user->addUserRole($role);
+            }
+        }
 
         return $user;
     }
