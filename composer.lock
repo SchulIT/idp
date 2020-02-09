@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a38784dbf984cfe124e37594d03c73f5",
+    "content-hash": "5950edb7f1e58c544d04d962657339cc",
     "packages": [
         {
             "name": "acelaya/doctrine-enum-type",
@@ -4411,12 +4411,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchulIT/adauth.git",
-                "reference": "2e2f8ed1d227dce5d01fdf7c5a3eac1aea5c45e5"
+                "reference": "7a93593797c9f93eb45213aaec0b1003a7c42e33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchulIT/adauth/zipball/2e2f8ed1d227dce5d01fdf7c5a3eac1aea5c45e5",
-                "reference": "2e2f8ed1d227dce5d01fdf7c5a3eac1aea5c45e5",
+                "url": "https://api.github.com/repos/SchulIT/adauth/zipball/7a93593797c9f93eb45213aaec0b1003a7c42e33",
+                "reference": "7a93593797c9f93eb45213aaec0b1003a7c42e33",
                 "shasum": ""
             },
             "require": {
@@ -4451,7 +4451,7 @@
                 "source": "https://github.com/SchulIT/adauth/tree/master",
                 "issues": "https://github.com/SchulIT/adauth/issues"
             },
-            "time": "2020-02-08T19:56:43+00:00"
+            "time": "2020-02-08T21:41:14+00:00"
         },
         {
             "name": "schoolit/adauth-bundle",
@@ -4542,16 +4542,16 @@
         },
         {
             "name": "schoolit/idp-exchange-models",
-            "version": "1.0.4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchulIT/idp-exchange-models.git",
-                "reference": "f017d9b14c2a5d1e4c51eb24a1303fcf317682b6"
+                "reference": "262f01740782b43443cc202c78afa9370921fb22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchulIT/idp-exchange-models/zipball/f017d9b14c2a5d1e4c51eb24a1303fcf317682b6",
-                "reference": "f017d9b14c2a5d1e4c51eb24a1303fcf317682b6",
+                "url": "https://api.github.com/repos/SchulIT/idp-exchange-models/zipball/262f01740782b43443cc202c78afa9370921fb22",
+                "reference": "262f01740782b43443cc202c78afa9370921fb22",
                 "shasum": ""
             },
             "require": {
@@ -4578,7 +4578,7 @@
                     "email": "marcelmarnitz@googlemail.com"
                 }
             ],
-            "time": "2020-01-04T21:54:19+00:00"
+            "time": "2020-01-04T22:11:50+00:00"
         },
         {
             "name": "schoolit/lightsaml-idp-bundle",
@@ -10764,9 +10764,10 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "fervo/enum-bundle": 20,
-        "schoolit/adauth-bundle": 20
+        "schoolit/adauth-bundle": 20,
+        "schoolit/idp-exchange-models": 20
     },
-    "prefer-stable": false,
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^7.3",
