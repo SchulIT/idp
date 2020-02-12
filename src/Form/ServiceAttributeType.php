@@ -95,7 +95,8 @@ class ServiceAttributeType extends AbstractType {
                                 'service_attributes.types.select' => 'select'
                             ],
                             'label' => 'label.type',
-                            'disabled' => true
+                            'disabled' => true,
+                            'data' => $attribute->getType()
                         ]);
                 }
             });
