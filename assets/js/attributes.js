@@ -16,14 +16,14 @@ document.addEventListener('DOMContentLoaded', function() {
         let prototype = collectionHolder.getAttribute('data-prototype');
 
         // get the new index
-        let index = collectionHolder.getAttribute('data-index');
+        let index = parseInt(collectionHolder.getAttribute('data-index'));
 
         // Replace '__name__' in the prototype's HTML to
         // instead be a number based on how many items we have
         let newFormHtml = prototype.replace(/__name__/g, index);
 
         // increase the index with one for the next item
-        collectionHolder.setAttribute('index', index + 1);
+        collectionHolder.setAttribute('data-index', index + 1);
 
         // Display the form in the page in an li
         let newForm = htmlToElement(newFormHtml);
