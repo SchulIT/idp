@@ -108,7 +108,7 @@ class UserController extends AbstractController {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            if($form->get('group_password') !== null) {
+            if($form->has('group_password')) {
                 $password = $form->get('group_password')->get('password')->getData();
 
                 if (!empty($password) && !$user instanceof ActiveDirectoryUser) {
