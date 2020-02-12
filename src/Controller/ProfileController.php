@@ -29,10 +29,12 @@ class ProfileController extends AbstractController {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $password = $form->get('group_password')->get('password')->getData();
+            if($form->get('group_password') !== null) {
+                $password = $form->get('group_password')->get('password')->getData();
 
-            if(!empty($password) && !$user instanceof ActiveDirectoryUser) {
-                $user->setPassword($passwordEncoder->encodePassword($user, $password));
+                if (!empty($password) && !$user instanceof ActiveDirectoryUser) {
+                    $user->setPassword($passwordEncoder->encodePassword($user, $password));
+                }
             }
 
             $em->persist($user);
