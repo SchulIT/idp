@@ -21,7 +21,7 @@
         "rollerworks/password-strength-bundle": "^2.0",
         "scheb/two-factor-bundle": "^3.3",
         "schoolit/adauth-bundle": "dev-master",
-        "schoolit/common-bundle": "^2.0",
+        "schoolit/common-bundle": "dev-master",
         "schoolit/idp-exchange-models": "dev-master",
         "schoolit/lightsaml-idp-bundle": "^1.0",
         "sensio/framework-extra-bundle": "^5.1",
@@ -118,6 +118,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/schulit/adauth-bundle"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/schulit/common-bundle"
         }
     ]
 }
