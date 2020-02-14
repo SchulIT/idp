@@ -359,6 +359,7 @@ applications:
     label: Anwendung löschen
     confirm: Soll die Anwendung "%name%" wirklich gelöscht werden?
     success: Anwendung erfolgreich gelöscht
+    help: Die Anwendung kann anschließend nicht mehr auf die API-Endpunkte zugreifen.
 
 caution: Achtung
 

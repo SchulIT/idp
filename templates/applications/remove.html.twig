@@ -1,0 +1,42 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'applications.remove.label'|trans }}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('applications') }}">{{ 'applications.label'|trans }}</a></li>
+        <li class="breadcrumb-item">{{ application.name }}</li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+
+    <div class="card border-danger">
+        <div class="card-header bg-danger text-white">{{ form.group_general.vars.legend|trans }}</div>
+
+        <div class="card-body">
+            <div class="bs-callout bs-callout-danger">
+                <h4><i class="fas fa-exclamation-triangle"></i> {{ 'caution'|trans }} <i class="fas fa-exclamation-triangle"></i></h4>
+                <p>{{ 'applications.remove.help'|trans }}</p>
+            </div>
+
+            {{ form_widget(form.group_general.confirm) }}
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button type="submit" class="btn btn-sm btn-danger">
+            <i class="fas fa-trash"></i> {{ 'actions.remove'|trans }}
+        </button>
+
+        <a href="{{ path('applications') }}" class="btn btn-sm btn-secondary">
+            {{ 'actions.cancel'|trans }}
+        </a>
+    </div>
+    {{ form_end(form) }}
+
+
+{% endblock %}
