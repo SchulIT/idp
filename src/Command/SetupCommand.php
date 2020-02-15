@@ -9,17 +9,20 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
 
 class SetupCommand extends Command {
 
     private $dbalConnection;
     private $userTypeRepository;
+    private $pdoSessionHandler;
 
-    public function __construct(Connection $connection, UserTypeRepositoryInterface $userTypeRepository, ?string $name = null) {
+    public function __construct(Connection $connection, UserTypeRepositoryInterface $userTypeRepository, PdoSessionHandler $pdoSessionHandler, ?string $name = null) {
         parent::__construct($name);
 
         $this->dbalConnection = $connection;
         $this->userTypeRepository = $userTypeRepository;
+        $this->pdoSessionHandler = $pdoSessionHandler;
     }
 
     public function configure() {
@@ -79,15 +82,11 @@ SQL;
     }
 
     private function setupSessions() {
-        $sql = <<<SQL
-CREATE TABLE IF NOT EXISTS `sessions` (
-    `sess_id` VARCHAR(128) NOT NULL PRIMARY KEY,
-    `sess_data` BLOB NOT NULL,
-    `sess_time` INTEGER UNSIGNED NOT NULL,
-    `sess_lifetime` MEDIUMINT NOT NULL
-) COLLATE utf8_bin, ENGINE = InnoDB;
-SQL;
+        $sql = "SHOW TABLES LIKE 'sessions';";
+        $row = $this->dbalConnection->executeQuery($sql);
 
-        $this->dbalConnection->exec($sql);
+        if($row->fetch() === false) {
+            $this->pdoSessionHandler->createTable();
+        }
     }
 }
