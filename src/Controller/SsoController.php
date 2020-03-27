@@ -37,6 +37,10 @@ class SsoController extends AbstractController {
                          SsoIdpSendResponseProfileBuilderFactory $sendResponseBuilder,
                          CsrfTokenManagerInterface $tokenManager, ServiceProviderRepositoryInterface $serviceProviderRepository,
                          BuildContainer $buildContainer) {
+        if($requestStorage->has() !== true) {
+            return $this->redirectToRoute('dashboard');
+        }
+
         $requestStorage->load();
 
         $context = $receiveBuilder->buildContext();
