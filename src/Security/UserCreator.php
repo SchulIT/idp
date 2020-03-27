@@ -113,6 +113,7 @@ class UserCreator {
         $user->setSamAccountName($response->getUsername());
         $user->setType($this->getTargetUserType($response));
         $user->setEmail($response->getEmail());
+        $user->setInternalId($response->getUniqueId());
 
         // Set roles
 

@@ -1,6 +1,8 @@
 $enable-shadows: true;
 $enable-gradients: true;
 
+// Import SCSS from custom
+@import "custom/*.scss";
 
 // Import Bootstrap
 @import '../../node_modules/bootstrap/scss/bootstrap';
@@ -12,11 +14,15 @@ $enable-gradients: true;
 @import '../../node_modules/@fortawesome/fontawesome-free/scss/brands';
 
 // Import SchoolIT design
+@import '../../vendor/schoolit/common-bundle/Resources/assets/css/variables.scss';
 @import '../../vendor/schoolit/common-bundle/Resources/assets/css/layout.scss';
 @import '../../vendor/schoolit/common-bundle/Resources/assets/css/additions.scss';
 
 // Import Bootstrap 4 Card Tables
 @import '../../node_modules/bootstrap4-card-tables/src/bootstrap4-card-tables';
+
+// Import SCSS from overrides
+@import "overrides/*.scss";
 
 small, .small {
   font-size: 90% !important;
@@ -37,11 +43,5 @@ table {
 form {
   .invalid-feedback {
     font-size: 90% !important;
-  }
-}
-
-.card {
-  > .table {
-    border-top: 0;
   }
 }

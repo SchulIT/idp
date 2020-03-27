@@ -1,22 +1,43 @@
-header {
-  text-align:center !important;
+$enable-shadows: true;
+$enable-gradients: true;
 
-  #logo {
-    margin:0 auto !important;
-    width:450px;
-    text-align:left;
+// Import SCSS from custom
+@import "custom/*.scss";
+
+// Import Bootstrap
+@import '../../node_modules/bootstrap/scss/bootstrap';
+
+// Import FontAwesome
+@import '../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
+@import '../../node_modules/@fortawesome/fontawesome-free/scss/solid';
+@import '../../node_modules/@fortawesome/fontawesome-free/scss/regular';
+@import '../../node_modules/@fortawesome/fontawesome-free/scss/brands';
+
+@import '../../vendor/schoolit/common-bundle/Resources/assets/css/variables.scss';
+
+// Import SCSS from overrides
+@import "overrides/*.scss";
+
+body,html {
+  height: 100%;
+  background: $background;
+  font: normal 90% "Helvetica Neue", "Segoe UI", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+footer {
+  .logo {
+    max-height:80px;
   }
-}
 
-.container {
-  max-width:450px;
-  margin:0 auto;
-  padding-left:0px;
-  padding-right:0px;
-}
+  > div {
+    margin: 0 auto !important;
+    padding: 30px !important;
+    width: 50%;
+  }
 
-.card.card-signin {
-  margin-bottom: 40px;
+  p {
+    margin: 6px 0;
+  }
 }
 
 .form-signin {
@@ -49,4 +70,5 @@ header {
     padding-top:1px;
   }
 }
+
 

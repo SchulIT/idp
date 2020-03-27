@@ -10,52 +10,62 @@
 {% endblock %}
 
 {% block content %}
-    <div class="card">
-        <table class="table table-striped table-hover table-bordered">
-            <colgroup>
-                <col />
-                <col class="column-md" />
-                <col class="column-200" />
-            </colgroup>
+    <div class="container-fluid px-0">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="card">
+                    <table class="table table-striped table-hover table-bordered">
+                        <colgroup>
+                            <col />
+                            <col class="column-md" />
+                            <col class="column-200" />
+                        </colgroup>
 
-            <thead>
-            <tr>
-                <th>{{ 'label.name'|trans }}</th>
-                <th>{{ 'label.url'|trans }}</th>
-                <th>{{ 'actions.label'|trans }}</th>
-            </tr>
-            </thead>
+                        <thead>
+                        <tr>
+                            <th>{{ 'label.name'|trans }}</th>
+                            <th>{{ 'label.url'|trans }}</th>
+                            <th>{{ 'actions.label'|trans }}</th>
+                        </tr>
+                        </thead>
 
-            <tbody>
-            {% for service in service_providers %}
-                <tr>
-                    <td>
-                        {{ service.name }}
-                        <p><small>{{ service.description }}</small></p>
-                    </td>
-                    <td>{{ service.url }}</td>
-                    <td>
-                        <a href="{{ path('service_provider_certificate', { id: service.id }) }}" class="btn btn-sm btn-primary" title="{{ 'service_providers.certificate_info'|trans }}">
-                            <i class="fa fa-info-circle"></i>
+                        <tbody>
+                        {% for service in service_providers %}
+                            <tr>
+                                <td>
+                                    {{ service.name }}
+                                    <p><small>{{ service.description }}</small></p>
+                                </td>
+                                <td>{{ service.url }}</td>
+                                <td>
+                                    <a href="{{ path('service_provider_certificate', { id: service.id }) }}" class="btn btn-sm btn-primary" title="{{ 'service_providers.certificate_info'|trans }}">
+                                        <i class="fa fa-info-circle"></i>
+                                    </a>
+
+                                    <a href="{{ path('edit_service_provider', { id: service.id }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+
+                                    <a href="{{ path('remove_service_provider', { id: service.id }) }}" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="list-group list-group-flush">
+                        <a href="{{ path('add_service_provider') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-plus"></i> {{ 'service_providers.add.label'|trans }}
                         </a>
-
-                        <a href="{{ path('edit_service_provider', { id: service.id }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
-                            <i class="fa fa-edit"></i>
-                        </a>
-
-                        <a href="{{ path('remove_service_provider', { id: service.id }) }}" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
-                            <i class="fa fa-trash"></i>
-                        </a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    <div class="buttons">
-        <a href="{{ path('add_service_provider') }}" class="btn btn-sm btn-primary">
-            <i class="fas fa-plus"></i> {{ 'service_providers.add.label'|trans }}
-        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock%}

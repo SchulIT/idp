@@ -9,12 +9,13 @@
 {% endblock %}
 
 {% block content %}
+
     <h2 class="mb-3">{{ 'dashboard.welcome'|trans({ '%firstname%': app.user.firstname, '%lastname%': app.user.lastname }) }}</h2>
 
     <div class="card-deck mb-3">
         {% for service in services %}
             <div class="card">
-                <a class="card-body" href="{{ service.url }}" target="_blank" title="{{ service.description|e }}">
+                <a class="card-body" href="{{ service.url }}" target="_blank">
                     <h5 class="card-title">{{ service.name }}</h5>
                     <h6 class="card-subtitle text-muted">{{ service.description }}</h6>
                 </a>
@@ -26,29 +27,30 @@
             {% endif %}
         {% endfor %}
     </div>
+    <div class="container-fluid px-0">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-id-card"></i> {{ 'dashboard.data'|trans }}</h5>
 
-    <div class="row">
-        <div class="col-md-4 pl-0">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-id-card"></i> {{ 'dashboard.data'|trans }}</h5>
+                        <div class="card-text mb-3">
+                            <p>
+                                <span class="text-muted">{{ 'label.username'|trans }}</span> {{ app.user.username }}
+                            </p>
+                            <p>
+                                <span class="text-muted">{{ 'label.firstname'|trans }}</span> {{ app.user.firstname}}
+                            </p>
+                            <p>
+                                <span class="text-muted">{{ 'label.lastname'|trans }}</span> {{ app.user.lastname }}
+                            </p>
+                            <p>
+                                <span class="text-muted">{{ 'label.email'|trans }}</span> {{ app.user.email }}
+                            </p>
+                        </div>
 
-                    <div class="card-text mb-3">
-                        <p>
-                            <span class="text-muted">{{ 'label.username'|trans }}</span> {{ app.user.username }}
-                        </p>
-                        <p>
-                            <span class="text-muted">{{ 'label.firstname'|trans }}</span> {{ app.user.firstname}}
-                        </p>
-                        <p>
-                            <span class="text-muted">{{ 'label.lastname'|trans }}</span> {{ app.user.lastname }}
-                        </p>
-                        <p>
-                            <span class="text-muted">{{ 'label.email'|trans }}</span> {{ app.user.email }}
-                        </p>
+                        <a href="{{ path('profile') }}" class="btn btn-sm btn-primary">{{ 'profile.label'|trans }}</a>
                     </div>
-
-                    <a href="{{ path('profile') }}" class="btn btn-sm btn-primary">{{ 'profile.label'|trans }}</a>
                 </div>
             </div>
         </div>

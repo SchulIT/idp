@@ -30,20 +30,22 @@
 
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
 
-    <div class="row">
-        <div class="col-md-6 pl-0">
-            <button class="btn btn-primary btn-block" type="submit">{{ 'label.signin'|trans }}</button>
+    <div class="container-fluid px-0">
+        <div class="row">
+            <div class="col-md-6">
+                <button class="btn btn-primary btn-block" type="submit">{{ 'label.signin'|trans }}</button>
+            </div>
+            <div class="col-md-6">
+                <a href="{{ path('forgot_password') }}" class="btn btn-secondary btn-block" role="button">{{ 'auth.lost_pw'|trans }}</a>
+            </div>
         </div>
-        <div class="col-md-6 pr-0">
-            <a href="{{ path('forgot_password') }}" class="btn btn-secondary btn-block" role="button">{{ 'auth.lost_pw'|trans }}</a>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-12 p-0">
-            <a href="{{ path('redeem_registration_code') }}" class="btn btn-primary btn-block" role="button">
-                {{ 'register.redeem.label'|trans({}, 'security') }}
-            </a>
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{{ path('redeem_registration_code') }}" class="btn btn-primary btn-block" role="button">
+                    {{ 'register.redeem.label'|trans({}, 'security') }}
+                </a>
+            </div>
         </div>
     </div>
 </form>

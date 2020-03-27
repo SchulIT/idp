@@ -1,5 +1,68 @@
 {% extends '@Common/main.html.twig' %}
 
+{% block menu %}
+    {{ knp_menu_render(mainMenu, {'currentClass': 'active' }) }}
+
+    {{ knp_menu_render('adminMenu', {'currentClass': 'active' }) }}
+    {{ knp_menu_render('servicesMenu', {'currentClass': 'active' }) }}
+    {{ knp_menu_render('userMenu', {'currentClass': 'active' }) }}
+{% endblock %}
+
+{% block submenu %}
+    {{ knp_menu_render(mainMenu, {'currentClass': 'active', 'template': '@Common/submenu.html.twig' }) }}
+
+    {{ knp_menu_render('adminMenu', {'currentClass': 'active', 'template': '@Common/submenu.html.twig' }) }}
+    {{ knp_menu_render('servicesMenu', {'currentClass': 'active', 'template': '@Common/submenu.html.twig' }) }}
+    {{ knp_menu_render('userMenu', {'currentClass': 'active', 'template': '@Common/submenu.html.twig' }) }}
+{% endblock %}
+
+{% block container %}
+    <div class="d-none d-md-block">
+        {% block breadcrumb %}{% endblock %}
+    </div>
+
+    {% for msg in app.session.flashbag.get('error') %}
+        <div class="bs-callout bs-callout-danger">
+            <h4>{{ 'error.label'|trans }}</h4>
+            <p>{{ msg|trans }}</p>
+        </div>
+    {% endfor %}
+
+    {% for msg in app.session.flashbag.get('info') %}
+        <div class="bs-callout bs-callout-info">
+            <h4>{{ 'info.label'|trans }}</h4>
+            <p>{{ msg|trans }}</p>
+        </div>
+    {% endfor %}
+
+    {% for msg in app.session.flashbag.get('success') %}
+        <div class="bs-callout bs-callout-success">
+            <h4>{{ 'success.label'|trans }}</h4>
+            <p>{{ msg|trans }}</p>
+        </div>
+    {% endfor %}
+
+    {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+        <div class="bs-callout bs-callout-warning">
+            <h4>{{ 'profile.switch.active.title'|trans }}</h4>
+
+            <p>
+                {{ 'profile.switch.active.message'|trans({'%user%': app.user|user}) }}
+            </p>
+
+            <a href="?_switch_user=_exit" class="btn btn-primary btn-sm">
+                <i class="fa fa-sign-out-alt"></i> {{ 'profile.switch.exit'|trans }}
+            </a>
+        </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+
+    <div class="d-show d-md-none">
+        {{ block('breadcrumb') }}
+    </div>
+{% endblock %}
+
 {% block css %}
     <link rel="stylesheet" href="{{ preload(asset('build/app.css')) }}" type="text/css" />
 {% endblock %}

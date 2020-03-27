@@ -15,6 +15,7 @@
         "bootstrap.native-loader": "^2.0.0",
         "bootstrap4-card-tables": "^1.1.1",
         "node-sass": "^4.8.3",
+        "node-sass-glob-importer": "^5.3.2",
         "sass-loader": "^7.0.1",
         "uglify-js": "^3.6.0"
     }

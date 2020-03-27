@@ -51,7 +51,10 @@ services:
     # Menu
     App\Menu\Builder:
       tags:
-        - { name: knp_menu.menu_builder, method: mainMenu, alias: mainMenu }
+          - { name: knp_menu.menu_builder, method: mainMenu, alias: mainMenu }
+          - { name: knp_menu.menu_builder, method: userMenu, alias: userMenu }
+          - { name: knp_menu.menu_builder, method: adminMenu, alias: adminMenu }
+          - { name: knp_menu.menu_builder, method: servicesMenu, alias: servicesMenu }
 
     SchoolIT\CommonBundle\Menu\Voter:
         tags:
