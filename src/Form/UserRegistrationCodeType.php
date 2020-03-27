@@ -47,7 +47,9 @@ class UserRegistrationCodeType extends AbstractType {
                 $code = $event->getData();
 
                 if($code !== null && $code->wasRedeemed()) {
-                    $this->addFields($form->get('group_general'), true);
+                    $this->addFields($form->get('group_general'), true, false);
+                } else if($code !== null && $code->getId() !== null) {
+                    $this->addFields($form->get('group_general'), false, false);
                 }
             });
     }
@@ -55,10 +57,13 @@ class UserRegistrationCodeType extends AbstractType {
     /**
      * @param FormInterface|FormBuilderInterface $builder
      * @param bool $readonly
+     * @param bool $showGenerator Whether or not to display a code generator button
      */
-    private function addFields($builder, bool $readonly = false) {
+    private function addFields($builder, bool $readonly = false, bool $showGenerator = true) {
+        $codeType = $showGenerator === true ? CodeGeneratorType::class : TextType::class;
+
         $builder
-            ->add('code', TextType::class, [
+            ->add('code', $codeType, [
                 'label' => 'label.code',
                 'attr' => [
                     'readonly' => $readonly

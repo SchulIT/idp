@@ -15,6 +15,7 @@ Encore
     .addEntry('signin', './assets/js/signin.js')
     .addEntry('sso', './assets/js/sso.js')
     .addEntry('attributes', './assets/js/attributes.js')
+    .addEntry('code-generator', './assets/js/code-generator.js')
 
     // uncomment to define the assets of the project
     // .addEntry('js/app', './assets/js/app.js')

@@ -82,3 +82,15 @@
     {% set help = attr.help %}
     {{ block('form_help') }}
 {% endblock %}
+
+{% block code_generator_widget %}
+    <div class="input-group">
+        {{ block('form_widget_simple') }}
+
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" data-trigger="generate-code" data-target="#{{ form.vars.id }}">
+                <i class="fa fa-random"></i>
+            </button>
+        </div>
+    </div>
+{% endblock %}
