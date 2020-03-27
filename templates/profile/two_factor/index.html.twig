@@ -18,6 +18,18 @@
         </div>
     {% endif %}
 
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title"><i class="fa fa-info-circle"></i> {{ 'info.label'|trans }}</h5>
+
+            <p>{{ 'two_factor.google.help'|trans }}</p>
+
+            <a href="{{ 'two_factor.google.url.href'|trans }}" class="btn btn-primary btn-sm">
+                <i class="fas fa-external-link-alt"></i> {{ 'two_factor.google.url.label'|trans }}
+            </a>
+        </div>
+    </div>
+
     <div class="card-deck">
         <div class="card {% if isGoogleEnabled %}border-success{% else %}border-danger{% endif %}">
             <div class="card-header text-white {% if isGoogleEnabled %}bg-success{% else %}bg-danger{% endif %}">
@@ -49,7 +61,7 @@
 
             <div class="card-footer clearfix">
                 {% if isGoogleEnabled %}
-                <form action="{{ path('disable_google_two_factor') }}" method="post" class="float-left form-inline">
+                <form action="{{ path('disable_google_two_factor') }}" method="post" class="float-left form-inline mr-1">
                     <input type="hidden" name="_csrf_token" value="{{ csrfToken.value }}" />
 
                     <button type="submit" class="btn btn-danger btn-sm">
@@ -57,7 +69,7 @@
                     </button>
                 </form>
 
-                <form action="{{ path('regenerate_backup_codes') }}" method="post" class="float-left form-inline" style="margin-left: 10px">
+                <form action="{{ path('regenerate_backup_codes') }}" method="post" class="float-left form-inline ml-0 mr-1" style="margin-left: 10px">
                     <input type="hidden" name="_csrf_token" value="{{ csrfToken.value }}" />
 
                     <button type="submit" class="btn btn-primary btn-sm">
@@ -69,6 +81,14 @@
                         <i class="fas fa-check"></i> {{ 'two_factor.enable'|trans }}
                     </a>
                 {% endif %}
+
+                <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2" class="btn btn-outline-secondary btn-sm" target="_blank">
+                    <i class="fab fa-android"></i> Play Store
+                </a>
+
+                <a href="http://appstore.com/googleauthenticator" class="btn btn-outline-secondary btn-sm" target="_blank">
+                    <i class="fab fa-apple"></i> App Store
+                </a>
             </div>
         </div>
 

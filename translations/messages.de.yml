@@ -107,6 +107,10 @@ two_factor:
   disable: deaktivieren
   google:
     label: Google Authenticator (App)
+    help: Mithilfe des Zwei-Faktor-Authentifizierung kann das eigene Konto weiter abgesichert werden. Zum Anmelden wird dann nicht nur das Passwort sondern auch ein Code (der zweite Faktor) benötigt, der durch eine App (bspw. Google Authenticator) erzeugt wird.
+    url:
+      label: Weitere Informationen beim Bundesamt für Sicherheit (BSI)
+      href: "https://www.bsi-fuer-buerger.de/BSIFB/DE/DigitaleGesellschaft/OnlineBanking/Zwei_Faktor_Authentisierung/Zwei-Faktor-Authentisierung_node.html"
     disabled: Die Zwei-Faktor Authentifizierung mit der Google Authenticator App ist deaktiviert.
     backup:
       label: Backup-Codes
@@ -192,6 +196,7 @@ management:
 
 user_roles:
   label: Benutzerrollen
+  help: Jeder Benutzer kann mehreren Benutzergruppen zugeordnet werden. Jeder Benutzerrolle können Dienste und Rollen zugewiesen werden, welche für alle Mitglieder der Benutzergruppe automatisch freigeschaltet ist.
   add:
     label: Neue Rolle
     success: Rolle erfolgreich angelegt
@@ -206,6 +211,7 @@ user_roles:
 
 user_types:
   label: Benutzertypen
+  help: Jeder Benutzer ist genau einem Benutzertypen zugeordnet. Jedem Benutzertypen können Dienste und Rollen zugewiesen werden, welche für alle Mitglieder der Benutzergruppe automatisch freigeschaltet ist.
   add:
     label: Neuer Benutzertyp
     success: Benutzertyp erfolgreich angelegt
@@ -224,6 +230,7 @@ user_types:
 
 ad_sync_options:
   label: AD Synchronisationsregeln
+  help: Falls das System an ein AD angebunden ist, kann über Synchronisierungsregeln festgelegt werden, welchem Benutzertypen ein Benutzer zugeordnet werden soll.
   add:
     label: Neue AD Synchronisationsregel
     success: Synchronisationsregel erfolgreich angelegt
@@ -237,6 +244,7 @@ ad_sync_options:
     help: Nach Abschluss dieser Aktion gibt es möglicherweise Probleme bei der korrekten Zuweisung von Benutzerrollen und -typen bei der Auto-Synchronisation mit dem Active Directory.
   grades:
     label: Synchronisationsregeln für Klassen
+    help: Hier kann über Regeln festgelegt werden, wie das Klassen-Attribut von Schülerinnen und Schülern basierend auf AD OUs oder Gruppenmitgliedschaften festgelegt werden soll.
     add:
       label: Neue Synchronisationsregel
       success: Regel erfolgreich angelegt
@@ -250,6 +258,7 @@ ad_sync_options:
       help: Nach Abschluss dieser Aktion gibt es möglicherweise Probleme bei der korrekten Zuweisung der Klasse bei der Auto-Synchronisation mit dem Active Directory.
   roles:
     label: Synchronisationsregeln für Benutzerrollen
+    help: Hier kann über Regeln festgelegt werden, welchen Benutzerrollen ein Benutzer basierend auf AD OUs oder Gruppenmitgliedschaften zugewiesen werden soll.
     add:
       label: Neue Synchronisationsregel
       success: Regel erfolgreich angelegt
@@ -263,25 +272,26 @@ ad_sync_options:
       help: Nach Abschluss dieser Aktion gibt es möglicherweise Probleme bei der korrekten Zuweisung der Benutzerrollen bei der Auto-Synchronisation mit dem Active Directory.
 
 service_providers:
-  label: Service Provider
+  label: Dienste
+  help: Dienste sind Anwendungen (Service Provider), an denen sich ein Benutzer mithilfe dieses Sigle-Sign-Ons anmelden kann.
   add:
-    label: Neuer Service Provider
-    success: Service Provider erfolgreich angelegt
+    label: Neuer Dienst
+    success: Dienst erfolgreich angelegt
   edit:
-    label: Service Provider bearbeiten
-    success: Service Provider erfolgreich aktualisiert
+    label: Dienst bearbeiten
+    success: Dienst erfolgreich aktualisiert
   remove:
-    label: Service Provider löschen
-    success: Service Provider erfolgreich gelöscht
-    confirm: Soll der Service Provider "%name%" wirklich gelöscht werden?
-    help: Benutzer können sich anschließend nicht weiter an dem Service Provider anmelden. Attribute des Service Providers werden ebenfalls gelöscht.
+    label: Dienst löschen
+    success: Dienst erfolgreich gelöscht
+    confirm: Soll der Dienst "%name%" wirklich gelöscht werden?
+    help: Benutzer können sich anschließend nicht weiter an dem Dienst anmelden. Attribute des Dienst werden ebenfalls gelöscht.
   certificate_info: Zertifikat-Informationen
   token:
     label: Token anzeigen
     none: "Aktuell ist kein Token erstellt. Zum Erstellen des Tokens, auf den Button \"Token neu generieren\" klicken."
     regenerate:
       label: Token neu generieren
-      help: Das Token muss anschließend in der Konfiguration des Service Providers aktualisiert werden.
+      help: Das Token muss anschließend in der Konfiguration des Dienst aktualisiert werden.
       confirm: Soll das Token wirklich neu generiert werden?
       success: Token erfolgreich generiert
       submit: neu generieren
@@ -297,6 +307,7 @@ certificate_info:
 
 service_attributes:
   label: Attribute
+  help: Mithilfe von Attributen können Eigenschaften der Benutzer festgelegt werden. Wird ein Attribut einem Dienst zugeordnet, so erhält der Dienst bei der Anmeldung eines Benutzers den entsprechenden Attributswert. Einige Dienste benötigen bestimmte Attribute, um zu funktionieren.
   add:
     label: Neues Attribut
     success: Attribut erfolgreich hinzugefügt
@@ -349,6 +360,7 @@ filter:
 
 applications:
   label: Anwendungen
+  help: Hier können API-Keys für externe Anwendungen erzeugt werden. Diese können auf die API-Schnittstelle des Sigle-Sign-On zugreifen.
   add:
     label: Neue Anwendung
     success: Anwendung erfolgreich hinzugefügt
