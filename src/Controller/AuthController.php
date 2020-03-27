@@ -20,6 +20,8 @@ class AuthController extends AbstractController {
         return $this->render('auth/auth.html.twig', [
             'last_username' => $lastUsername,
             'error'         => $error,
+            'supportsForgotPassword' => true,
+            'supportsRememberMe' => true
         ]);
     }
 

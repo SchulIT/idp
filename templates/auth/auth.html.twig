@@ -1,53 +1,11 @@
-{% extends "auth/main.html.twig" %}
+{% extends "@Common/auth/auth.html.twig" %}
 
-{% block content %}
-
-<form class="form-signin" role="form" action="{{ path('login_check') }}" method="post">
-
-    {% include 'auth/errors.html.twig' %}
-
-    {% if error %}
-        <div class="bs-callout bs-callout-danger">
-            <h4>{{ 'error.label'|trans }}</h4>
-            <p>{{ error.messageKey|trans(error.messageData, 'security') }}</p>
-        </div>
-    {% endif %}
-
-    <div class="form-group">
-        <label for="username" class="control-label">{{ 'label.username'|trans }}</label>
-        <input type="text" id="username" name="_username" class="form-control" value="{{ last_username }}" required="required" autofocus />
-    </div>
-    <div class="form-group">
-        <label for="password" class="control-label">{{ 'label.password'|trans }}</label>
-        <input type="password" id="password" name="_password" class="form-control" required="required" />
-    </div>
-
-    <div class="checkbox">
-        <label>
-            <input type="checkbox" name="_remember_me" value="true" /> {{ 'auth.remember_me'|trans }}
-        </label>
-    </div>
-
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
-
-    <div class="container-fluid px-0">
-        <div class="row">
-            <div class="col-md-6">
-                <button class="btn btn-primary btn-block" type="submit">{{ 'label.signin'|trans }}</button>
-            </div>
-            <div class="col-md-6">
-                <a href="{{ path('forgot_password') }}" class="btn btn-secondary btn-block" role="button">{{ 'auth.lost_pw'|trans }}</a>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <a href="{{ path('redeem_registration_code') }}" class="btn btn-primary btn-block" role="button">
-                    {{ 'register.redeem.label'|trans({}, 'security') }}
-                </a>
-            </div>
+{% block buttons %}
+    <div class="row">
+        <div class="col-md-12">
+            <a href="{{ path('redeem_registration_code') }}" class="btn btn-primary btn-block" role="button">
+                {{ 'register.redeem.label'|trans({}, 'security') }}
+            </a>
         </div>
     </div>
-</form>
-
 {% endblock %}
