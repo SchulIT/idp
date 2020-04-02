@@ -4,6 +4,7 @@ namespace App\Menu;
 
 use App\Entity\ServiceProvider;
 use App\Entity\User;
+use App\Service\UserServiceProviderResolver;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -15,12 +16,15 @@ class Builder {
     private $authorizationChecker;
     private $translator;
     private $tokenStorage;
+    private $userServiceProviderResolver;
 
-    public function __construct(FactoryInterface $factory, AuthorizationCheckerInterface $authorizationChecker, TranslatorInterface $translator, TokenStorageInterface $tokenStorage) {
+    public function __construct(FactoryInterface $factory, AuthorizationCheckerInterface $authorizationChecker,
+                                TranslatorInterface $translator, TokenStorageInterface $tokenStorage, UserServiceProviderResolver $userServiceProviderResolver) {
         $this->factory = $factory;
         $this->authorizationChecker = $authorizationChecker;
         $this->translator = $translator;
         $this->tokenStorage = $tokenStorage;
+        $this->userServiceProviderResolver = $userServiceProviderResolver;
     }
 
     public function mainMenu(): ItemInterface {
@@ -171,8 +175,8 @@ class Builder {
                 ->setExtra('pull-right', true)
                 ->setAttribute('title', $this->translator->trans('services.label'));
 
-            /** @var ServiceProvider $service */
-            foreach ($user->getEnabledServices() as $service) {
+            $services = $this->userServiceProviderResolver->getServices($user);
+            foreach ($services as $service) {
                 $menu->addChild($service->getName(), [
                     'uri' => $service->getUrl()
                 ])
