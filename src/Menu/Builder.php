@@ -135,17 +135,10 @@ class Builder {
 
         $displayName = $user->getUsername();
 
-        $userMenu = $menu->addChild('user', [
+        $menu->addChild('user', [
             'label' => $displayName
         ])
-            ->setAttribute('icon', 'fa fa-user')
-            ->setExtra('menu', 'user')
-            ->setExtra('menu-container', '#submenu')
-            ->setExtra('pull-right', true);
-
-        $userMenu->addChild('profile.label', [
-            'route' => 'profile'
-        ]);
+            ->setAttribute('icon', 'fa fa-user');
 
         $menu->addChild('label.logout', [
             'route' => 'logout',

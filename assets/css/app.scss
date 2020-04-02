@@ -45,3 +45,14 @@ form {
     font-size: 90% !important;
   }
 }
+
+header {
+  .navbar {
+    .navbar-nav {
+      .navbar-text {
+        color: $white;
+        padding: $navbar-padding-y+$nav-link-padding-y $nav-link-padding-x;
+      }
+    }
+  }
+}
