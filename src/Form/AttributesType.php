@@ -50,9 +50,20 @@ class AttributesType extends FieldsetType {
 
             if($type === ChoiceType::class) {
                 $choices = [];
+                $values = $attributeValues[$attribute->getName()] ?? [ ];
+
+                if(!is_array($values)) {
+                    $values = [ $values ];
+                }
 
                 foreach ($attribute->getOptions() as $key => $value) {
-                    $choices[$value] = $key;
+                    if($onlyUserEditable === false || in_array($key, $values)) {
+                        $choices[$value] = $key;
+                    }
+                }
+
+                if(count($choices) === 0) {
+                    continue;
                 }
 
                 if ($attribute->isMultipleChoice()) {
