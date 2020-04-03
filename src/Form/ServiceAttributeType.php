@@ -32,7 +32,10 @@ class ServiceAttributeType extends AbstractType {
                     ])
                     ->add('isUserEditEnabled', CheckboxType::class, [
                         'label' => 'label.user_edit_enabled',
-                        'required' => false
+                        'required' => false,
+                        'label_attr' => [
+                            'class' => 'checkbox-custom'
+                        ]
                     ])
                     ->add('samlAttributeName', TextType::class, [
                         'label' => 'label.saml_attribute_name'
@@ -42,7 +45,11 @@ class ServiceAttributeType extends AbstractType {
                             'service_attributes.types.text' => 'text',
                             'service_attributes.types.select' => 'select'
                         ],
-                        'label' => 'label.type'
+                        'label' => 'label.type',
+                        'label_attr' => [
+                            'class' => 'radio-custom'
+                        ],
+                        'expanded' => true
                     ])
                     ->add('services', EntityType::class, [
                         'class' => ServiceProvider::class,
@@ -53,7 +60,11 @@ class ServiceAttributeType extends AbstractType {
                         'choice_label' => 'name',
                         'label' => 'label.services',
                         'multiple' => true,
-                        'required' => false
+                        'required' => false,
+                        'expanded' => true,
+                        'label_attr' => [
+                            'class' => 'checkbox-custom'
+                        ]
                     ]);
             }
         ])
@@ -66,7 +77,10 @@ class ServiceAttributeType extends AbstractType {
                     $builder
                         ->add('isMultipleChoice', CheckboxType::class, [
                             'label' => 'label.is_multiple_choice',
-                            'required' => false
+                            'required' => false,
+                            'label_attr' => [
+                                'class' => 'checkbox-custom'
+                            ]
                         ])
                         ->add('options', KeyValueType::class, [
                             'value_type' => TextType::class,

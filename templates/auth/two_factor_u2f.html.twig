@@ -9,7 +9,7 @@
             <p>{{ 'two_factor.u2f.auth.message'|trans }}</p>
         </div>
 
-        <hr />
+        <hr >
 
         {% if authenticationError %}
             <div class="bs-callout bs-callout-danger">
@@ -39,12 +39,12 @@
                     </button>
                 </div>
             </div>
-            <p class="widget"><input id="_auth_code" type="hidden" autocomplete="off" name="_auth_code" /></p>
+            <p class="widget"><input id="_auth_code" type="hidden" autocomplete="off" name="_auth_code" ></p>
         </form>
     </div>
 
     {% if app.user.isGoogleAuthenticatorEnabled %}
-        <hr />
+        <hr >
         <div class="switch-method">
             <strong>{{ 'two_factor.u2f.auth.switch.label'|trans }}</strong>
             <ul class="list-unstyled">

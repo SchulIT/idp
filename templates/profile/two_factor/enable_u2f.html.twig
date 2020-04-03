@@ -20,11 +20,11 @@
                     <div class="form-group row">
                         <label class="col-form-label col-sm-2 required" for="keyName">{{ 'two_factor.u2f.key_name'|trans }}</label>
                         <div class="col-sm-10">
-                            <input type="text" name="keyName" id="keyName" class="form-control" required/>
+                            <input type="text" name="keyName" id="keyName" class="form-control" required>
                         </div>
                     </div>
 
-                    <input class="btn btn-primary btn-sm" type="button" value="{{ 'two_factor.u2f.enable.action'|trans }}" onclick="u2fauth.register()" />
+                    <input class="btn btn-primary btn-sm" type="button" value="{{ 'two_factor.u2f.enable.action'|trans }}" onclick="u2fauth.register()" >
                     <a href="{{ path('two_factor') }}" class="btn btn-secondary btn-sm">
                         {{ 'actions.cancel'|trans }}
                     </a>
@@ -32,7 +32,7 @@
                 <div id="u2fbutton" style="display: none;">
                     <i class="fas fa-spinner fa-spin"></i> {{ 'two_factor.u2f.enable.press'|trans }}
                 </div>
-                <input type="hidden" name="_auth_code" id="_auth_code" />
+                <input type="hidden" name="_auth_code" id="_auth_code" >
                 <div id="u2ferrorContainer" style="display: none;">
                     <i class="fas fa-exclamation-triangle text-danger"></i> <span id="u2ferror"></span>
 

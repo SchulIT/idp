@@ -22,7 +22,11 @@ class ApplicationType extends AbstractType {
                             'label' => 'label.name'
                         ])
                         ->add('scope', ApplicationScopeType::class, [
-                            'label' => 'label.application_scope'
+                            'label' => 'label.application_scope',
+                            'expanded' => true,
+                            'label_attr' => [
+                                'class' => 'radio-custom'
+                            ]
                         ])
                         ->add('service', EntityType::class, [
                             'class' => ServiceProvider::class,
@@ -32,7 +36,12 @@ class ApplicationType extends AbstractType {
                             },
                             'choice_label' => 'name',
                             'label' => 'label.service',
-                            'required' => false
+                            'required' => false,
+                            'label_attr' => [
+                                'class' => 'checkbox-custom'
+                            ],
+                            'multiple' => true,
+                            'expanded' => true
                         ])
                         ->add('description', TextType::class, [
                             'label' => 'label.description'

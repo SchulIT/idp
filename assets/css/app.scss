@@ -21,6 +21,10 @@ $enable-gradients: true;
 // Import Bootstrap 4 Card Tables
 @import '../../node_modules/bootstrap4-card-tables/src/bootstrap4-card-tables';
 
+// Import choices.js
+@import '../../node_modules/choices.js/src/styles/choices';
+@import '../../vendor/schoolit/common-bundle/Resources/assets/css/choices-fixes.scss';
+
 // Import SCSS from overrides
 @import "overrides/*.scss";
 

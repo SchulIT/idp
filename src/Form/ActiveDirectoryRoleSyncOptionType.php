@@ -25,7 +25,11 @@ class ActiveDirectoryRoleSyncOptionType extends AbstractType {
                 'choices' => [
                     'label.ad_group' => ActiveDirectorySyncSourceType::GROUP,
                     'label.ou' => ActiveDirectorySyncSourceType::OU
-                ]
+                ],
+                'label_attr' => [
+                    'class' => 'radio-custom'
+                ],
+                'expanded' => true
             ])
             ->add('source', TextType::class, [
                 'label' => 'label.value'

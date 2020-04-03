@@ -25,7 +25,7 @@
                 <td>{{ 'certificate_info.subject'|trans }}</td>
                 <td>
                     {% for key, value in certificate.subject %}
-                        {{ key }}={{ value }}{% if not loop.last %}<br />{% endif %}
+                        {{ key }}={{ value }}{% if not loop.last %}<br >{% endif %}
                     {% endfor %}
                 </td>
             </tr>
@@ -33,7 +33,7 @@
                 <td>{{ 'certificate_info.issuer'|trans }}</td>
                 <td>
                     {% for key, value in certificate.issuer %}
-                        {{ key }}={{ value }}{% if not loop.last %}<br />{% endif %}
+                        {{ key }}={{ value }}{% if not loop.last %}<br >{% endif %}
                     {% endfor %}
                 </td>
             </tr>

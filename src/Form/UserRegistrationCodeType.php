@@ -114,6 +114,10 @@ class UserRegistrationCodeType extends AbstractType {
                 },
                 'attr' => [
                     'readonly' => $readonly
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'radio-custom'
                 ]
             ])
             ->add('internalId', TextType::class, [

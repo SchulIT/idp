@@ -79,6 +79,9 @@ class AttributesType extends FieldsetType {
 
                 if (count($choices) < static::EXPANDED_THRESHOLD) {
                     $options['expanded'] = true;
+                    $options['label_attr'] = [
+                        'class' => $attribute->isMultipleChoice() ? 'checkbox-custom' : 'radio-custom'
+                    ];
                 }
             } else if($type === TextType::class && $options['disabled']) {
                 $type = ReadonlyTextType::class;

@@ -43,7 +43,11 @@ class UserRoleType extends AbstractType {
                             'choice_label' => 'name',
                             'label' => 'label.services',
                             'multiple' => true,
-                            'required' => false
+                            'required' => false,
+                            'expanded' => true,
+                            'label_attr' => [
+                                'class' => 'checkbox-custom'
+                            ]
                         ]);
                 }
             ])

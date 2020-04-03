@@ -8,7 +8,7 @@
         <p>{{ 'two_factor.google.auth.message'|trans }}</p>
     </div>
 
-    <hr />
+    <hr >
 
     {% if authenticationError %}
         <div class="bs-callout bs-callout-danger">
@@ -20,7 +20,7 @@
     <form class="form-signin" method="post" action="{{ path('2fa_login_check') }}">
         <div class="form-group">
             <label class="control-label" for="auth_code">{{ "scheb_two_factor.auth_code"|trans }}</label>
-            <input type="text" id="auth_code" name="_auth_code" class="form-control" autocomplete="off" required="required" autofocus />
+            <input type="text" id="auth_code" name="_auth_code" class="form-control" autocomplete="off" required="required" autofocus >
         </div>
 
         {% if isCsrfProtectionEnabled %}
@@ -42,7 +42,7 @@
     </form>
 
     {% if app.user.isU2FAuthEnabled %}
-        <hr />
+        <hr >
         <div class="switch-method">
             <strong>{{ 'two_factor.google.auth.switch.label'|trans }}</strong>
             <ul class="list-unstyled">

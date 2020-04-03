@@ -25,7 +25,11 @@ class ActiveDirectorySyncOptionType extends AbstractType {
                 'choices' => [
                     'label.ad_group' => ActiveDirectorySyncSourceType::GROUP,
                     'label.ou' => ActiveDirectorySyncSourceType::OU
-                ]
+                ],
+                'label_attr' => [
+                    'class' => 'radio-custom'
+                ],
+                'expanded' => true
             ])
             ->add('source', TextType::class, [
                 'label' => 'label.value'
@@ -33,7 +37,10 @@ class ActiveDirectorySyncOptionType extends AbstractType {
             ->add('userType', EntityType::class, [
                 'class' => UserTypeEntity::class,
                 'label' => 'label.user_type',
-                'choice_label' => 'name'
+                'choice_label' => 'name',
+                'attr' => [
+                    'data-choice' => 'true'
+                ]
             ]);
     }
 }

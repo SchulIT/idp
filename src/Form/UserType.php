@@ -15,6 +15,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -66,13 +67,20 @@ class UserType extends AbstractType {
                         ])
                         ->add('isActive', CheckboxType::class, [
                             'label' => 'label.is_active',
-                            'required' => false
+                            'required' => false,
+                            'label_attr' => [
+                                'class' => 'checkbox-custom'
+                            ]
                         ])
                         ->add('enabledFrom', DateType::class, [
                             'label' => 'label.enabled_from',
+                            'widget' => 'single_text',
+                            'required' => false
                         ])
                         ->add('enabledUntil', DateType::class, [
-                            'label' => 'label.enabled_until'
+                            'label' => 'label.enabled_until',
+                            'widget' => 'single_text',
+                            'required' => false
                         ])
                         ->add('email', EmailType::class, [
                             'label' => 'label.email'
@@ -88,7 +96,11 @@ class UserType extends AbstractType {
                                     ->orderBy('t.name', 'asc');
                             },
                             'choice_label' => 'name',
-                            'label' => 'label.user_type'
+                            'label' => 'label.user_type',
+                            'expanded' => true,
+                            'label_attr' => [
+                                'class' => 'radio-custom'
+                            ]
                         ])
                         ->add('userRoles', EntityType::class, [
                             'class' => UserRole::class,
@@ -99,7 +111,11 @@ class UserType extends AbstractType {
                             'choice_label' => 'name',
                             'label' => 'label.user_roles',
                             'multiple' => true,
-                            'required' => false
+                            'required' => false,
+                            'expanded' => true,
+                            'label_attr' => [
+                                'class' => 'checkbox-custom'
+                            ]
                         ])
                         ->add('enabledServices', EntityType::class, [
                             'class' => ServiceProvider::class,
@@ -110,7 +126,11 @@ class UserType extends AbstractType {
                             'choice_label' => 'name',
                             'label' => 'label.services',
                             'multiple' => true,
-                            'required' => false
+                            'required' => false,
+                            'expanded' => true,
+                            'label_attr' => [
+                                'class' => 'checkbox-custom'
+                            ]
                         ]);
                 }
             ])
@@ -126,7 +146,10 @@ class UserType extends AbstractType {
                             ],
                             'multiple' => true,
                             'expanded' => true,
-                            'label' => 'label.roles'
+                            'label' => 'label.roles',
+                            'label_attr' => [
+                                'class' => 'checkbox-custom'
+                            ]
                         ]);
                 }
             ])

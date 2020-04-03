@@ -9,11 +9,11 @@
         <p>{{ 'sso.denied.message'|trans({'%username%': app.user.username, '%service%': service.name}) }}</p>
     </div>
 
-    <hr />
+    <hr >
 
     <p>{{ 'sso.denied.help'|trans }}</p>
 
-    <hr />
+    <hr >
 
     <a href="{{ path('dashboard') }}" class="btn btn-primary btn-block">{{ 'dashboard.link'|trans }}</a>
 {% endblock %}

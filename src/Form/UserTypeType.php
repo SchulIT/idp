@@ -53,7 +53,10 @@ class UserTypeType extends AbstractType {
                             'label' => 'label.edu_person',
                             'multiple' => true,
                             'expanded' => true,
-                            'choices' => $this->getEduPersonAffliations()
+                            'choices' => $this->getEduPersonAffliations(),
+                            'label_attr' => [
+                                'class' => 'checkbox-custom'
+                            ]
                         ])
                         ->add('enabledServices', EntityType::class, [
                             'class' => ServiceProvider::class,
@@ -64,15 +67,25 @@ class UserTypeType extends AbstractType {
                             'choice_label' => 'name',
                             'label' => 'label.services',
                             'multiple' => true,
-                            'required' => false
+                            'required' => false,
+                            'expanded' => true,
+                            'label_attr' => [
+                                'class' => 'checkbox-custom'
+                            ]
                         ])
                         ->add('canChangeName', CheckboxType::class, [
                             'required' => false,
-                            'label' => 'label.can_change.name'
+                            'label' => 'label.can_change.name',
+                            'label_attr' => [
+                                'class' => 'checkbox-custom'
+                            ]
                         ])
                         ->add('canChangeEmail', CheckboxType::class, [
                             'required' => false,
-                            'label' => 'label.can_change.email'
+                            'label' => 'label.can_change.email',
+                            'label_attr' => [
+                                'class' => 'checkbox-custom'
+                            ]
                         ]);
                 }
             ])
