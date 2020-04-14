@@ -25,7 +25,7 @@ app.swagger_ui:
   methods: GET
   defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
 
-r_u2f:
+club_base_register_u2f:
   defaults: { _controller: R\U2FTwoFactorBundle\Controller\RegisterController::u2fAction }
   path: /two_factor/u2f/u2f_register
 
