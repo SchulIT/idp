@@ -6,7 +6,9 @@ use AdAuth\AdAuthInterface;
 use AdAuth\Credentials;
 use AdAuth\Response\AuthenticationResponse;
 use AdAuth\SocketException;
+use App\Entity\ActiveDirectoryUpnSuffix;
 use App\Entity\ActiveDirectoryUser;
+use App\Repository\ActiveDirectoryUpnSuffixRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -36,6 +38,7 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator {
     private $adAuth;
     private $userCreator;
     private $userRepository;
+    private $upnSuffixRepository;
 
     private $loginRoute;
     private $checkRoute;
@@ -44,7 +47,7 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator {
 
     public function __construct($isActiveDirectoryEnabled, $loginRoute, $checkRoute, UserPasswordEncoderInterface $encoder, UserRepositoryInterface $userRepository,
                                 AdAuthInterface $adAuth, UserCreator $userCreator, RouterInterface $router, CsrfTokenManagerInterface $csrfTokenManager,
-                                LoggerInterface $logger = null) {
+                                ActiveDirectoryUpnSuffixRepositoryInterface $upnSuffixRepository, LoggerInterface $logger = null) {
         $this->isActiveDirectoryEnabled = $isActiveDirectoryEnabled;
         $this->encoder = $encoder;
         $this->userRepository = $userRepository;
@@ -54,6 +57,7 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator {
         $this->checkRoute = $checkRoute;
         $this->router = $router;
         $this->csrfTokenManager = $csrfTokenManager;
+        $this->upnSuffixRepository = $upnSuffixRepository;
 
         $this->logger = $logger ?? new NullLogger();
     }
@@ -141,6 +145,17 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator {
             return $adUser;
         }
 
+        $upnSuffix = substr($credentials->getUsername(), strpos($credentials->getUsername(), '@') + 1);
+        $upnSuffixes = array_map(function(ActiveDirectoryUpnSuffix $suffix) { return $suffix->getSuffix(); }, $this->upnSuffixRepository->findAll());
+
+        dump($upnSuffix);
+        dump($upnSuffixes);
+
+        if(count($upnSuffixes) > 0 && !in_array($upnSuffix, $upnSuffixes)) {
+            $this->logger->debug(sprintf('UPN-Suffix "%s" is not enabled for AD sync.', $upnSuffix));
+            return $adUser;
+        }
+
         try {
             /** @var AuthenticationResponse $response */
             $response = $this->adAuth->authenticate($credentials);
@@ -173,8 +188,6 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator {
 
             throw new CustomUserMessageAuthenticationException('server_unavailable');
         } catch(\Exception $e) {
-            dump($e);
-
             $this->logger->critical(
                 'Authentication failed', [
                     'exception' => $e

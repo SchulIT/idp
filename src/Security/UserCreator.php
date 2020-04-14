@@ -12,7 +12,8 @@ use App\Entity\UserType;
 use App\Repository\ActiveDirectoryGradeSyncOptionRepositoryInterface;
 use App\Repository\ActiveDirectoryRoleSyncOptionRepositoryInterface;
 use App\Repository\ActiveDirectorySyncOptionRepositoryInterface;
-use Doctrine\ORM\EntityManager;
+use App\Repository\UserRepositoryInterface;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Helper which creates users after successful Active Directory authentication.
@@ -39,16 +40,17 @@ class UserCreator {
     /** @var ActiveDirectoryRoleSyncOptionRepositoryInterface */
     private $roleSyncOptionRepository;
 
-    /**
-     * @param EntityManager $entityManager
-     */
+    /** @var UserRepositoryInterface */
+    private $userRepository;
+
     public function __construct(ActiveDirectorySyncOptionRepositoryInterface $syncOptionRepository,
                                 ActiveDirectoryGradeSyncOptionRepositoryInterface $gradeSyncOptionRepository,
-                                ActiveDirectoryRoleSyncOptionRepositoryInterface $roleSyncOptionRepository, OptionResolver $optionResolver) {
+                                ActiveDirectoryRoleSyncOptionRepositoryInterface $roleSyncOptionRepository, OptionResolver $optionResolver, UserRepositoryInterface $userRepository) {
         $this->syncOptionRepository = $syncOptionRepository;
         $this->gradeSyncOptionRepository = $gradeSyncOptionRepository;
         $this->roleSyncOptionRepository = $roleSyncOptionRepository;
         $this->optionsResolver = $optionResolver;
+        $this->userRepository = $userRepository;
     }
 
     private function initialise() {
@@ -97,20 +99,27 @@ class UserCreator {
 
     /**
      * @param AuthenticationResponse $response
+     * @param ActiveDirectoryUser|null $user Already existing AD user
      * @return ActiveDirectoryUser
      */
-    public function createUser(AuthenticationResponse $response, ActiveDirectoryUser $user = null) {
+    public function createUser(AuthenticationResponse $response, ?ActiveDirectoryUser $user = null) {
         $this->initialise();
 
         if ($user === null) {
-            $user = new ActiveDirectoryUser();
+            // Try to find already existing user by GUID (because username has changed)
+            $user = $this->userRepository->findActiveDirectoryUserByObjectGuid($response->getGuid());
+
+            if($user === null) {
+                $user = new ActiveDirectoryUser();
+                $user->setObjectGuid(Uuid::fromString($response->getGuid()));
+            }
         }
 
-        $user->setUsername($response->getUsername());
+        $user->setUsername(mb_strtolower($response->getUserPrincipalName()));
         $user->setFirstname($response->getFirstname());
         $user->setLastname($response->getLastname());
         $user->setGrade($this->getGrade($response));
-        $user->setSamAccountName($response->getUsername());
+        $user->setUserPrincipalName(mb_strtolower($response->getUserPrincipalName()));
         $user->setType($this->getTargetUserType($response));
         $user->setEmail($response->getEmail());
         $user->setInternalId($response->getUniqueId());

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\ActiveDirectoryUser;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
@@ -170,4 +171,11 @@ class UserRepository implements UserRepositoryInterface {
     }
 
 
+    /**
+     * @inheritDoc
+     */
+    public function findActiveDirectoryUserByObjectGuid(string $guid): ?ActiveDirectoryUser {
+        return $this->em->getRepository(ActiveDirectoryUser::class)
+            ->findOneBy(['objectGuid' => $guid]);
+    }
 }

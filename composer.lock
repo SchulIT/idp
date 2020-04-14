@@ -4606,12 +4606,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchulIT/adauth.git",
-                "reference": "7a93593797c9f93eb45213aaec0b1003a7c42e33"
+                "reference": "e88f82aec9d6c23611fefda9fa2094d0606c2df3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchulIT/adauth/zipball/7a93593797c9f93eb45213aaec0b1003a7c42e33",
-                "reference": "7a93593797c9f93eb45213aaec0b1003a7c42e33",
+                "url": "https://api.github.com/repos/SchulIT/adauth/zipball/e88f82aec9d6c23611fefda9fa2094d0606c2df3",
+                "reference": "e88f82aec9d6c23611fefda9fa2094d0606c2df3",
                 "shasum": ""
             },
             "require": {
@@ -4646,7 +4646,7 @@
                 "source": "https://github.com/SchulIT/adauth/tree/master",
                 "issues": "https://github.com/SchulIT/adauth/issues"
             },
-            "time": "2020-02-08T21:41:14+00:00"
+            "time": "2020-04-14T13:19:48+00:00"
         },
         {
             "name": "schoolit/adauth-bundle",

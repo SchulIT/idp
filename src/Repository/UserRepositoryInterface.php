@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\ActiveDirectoryUser;
 use App\Entity\User;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
@@ -20,6 +21,12 @@ interface UserRepositoryInterface {
     public function findUsersUpdatedAfter(\DateTime $dateTime, array $usernames = [ ]);
 
     public function findOneByUsername(string $username): ?User;
+
+    /**
+     * @param string $guid
+     * @return User|null
+     */
+    public function findActiveDirectoryUserByObjectGuid(string $guid): ?ActiveDirectoryUser;
 
     /**
      * @param string $email
