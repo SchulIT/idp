@@ -373,6 +373,7 @@ search:
 filter:
   label: filtern
   all_types: Alle Benutzertypen
+  reset: zurücksetzen
 
 applications:
   label: Anwendungen

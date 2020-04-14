@@ -15,13 +15,13 @@ class UserTypeFilter {
 
     public function handle($userType, ?UserType $defaultType = null) {
         $types = ArrayUtils::createArrayWithKeys($this->userTypeRepository->findAll(), function(UserType $type) {
-            return $type->getId();
+            return (string)$type->getUuid();
         });
 
         if($userType === null || is_numeric($userType)) {
             $type = $defaultType;
         } else {
-            $type = $types[(int)$userType] ?? $defaultType;
+            $type = $types[$userType] ?? $defaultType;
         }
 
         return new UserTypeFilterView($types, $type);

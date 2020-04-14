@@ -101,30 +101,15 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <form method="get" class="mb-3">
-                            <div class="input-group">
-                                <select name="type" class="form-control" data-choice="true">
+                        <form method="get">
+                            <div class="form-group">
+                                <select name="type" class="form-control" data-choice="true" data-trigger="submit">
                                     <option value="">{{ 'filter.all_types'|trans }}</option>
                                     {% for t in types %}
-                                        <option value="{{ t.uuid }}" {% if type == t.id %}selected{% endif %}>{{ t.name }}</option>
+                                        <option value="{{ t.uuid }}" {% if type == t.uuid %}selected{% endif %}>{{ t.name }}</option>
                                     {% endfor %}
                                 </select>
-                                <span class="input-group-append">
-                                    <button class="btn btn-outline-primary" title="{{ 'filter.label'|trans }}">
-                                        <i class="fas fa-filter"></i>
-                                    </button>
-                                </span>
                             </div>
-
-                            {% if q is not empty %}
-                                <input type="hidden" name="q" value="{{ q }}" >
-                            {% endif %}
-                        </form>
-
-                        <form method="get">
-                            {% if type is not empty %}
-                                <input type="hidden" name="type" value="{{ type }}" >
-                            {% endif %}
 
                             <div class="input-group">
                                 <input type="text" value="{{ q }}" name="q" class="form-control" >
@@ -133,15 +118,13 @@
                                     <button class="btn btn-outline-primary" type="submit" title="{{ 'search.label'|trans }}">
                                         <i class="fas fa-search"></i>
                                     </button>
-
-                                    {% if q is not empty %}
-                                        <a href="{{ path('users') }}" class="btn btn-secondary btn-sm">
-                                            {{ 'search.close'|trans }}
-                                        </a>
-                                    {% endif %}
                                 </span>
                             </div>
                         </form>
+                    </div>
+
+                    <div class="card-footer">
+                        <a href="{{ path('users') }}" class="btn btn-primary btn-sm">{{ 'filter.reset'|trans }}</a>
                     </div>
                 </div>
             </div>

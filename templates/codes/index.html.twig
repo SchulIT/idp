@@ -90,20 +90,19 @@
                 <div class="card">
                     <div class="card-body">
                         <form method="get">
-                            <div class="input-group">
-                                <select name="type" class="form-control" data-choice="true">
+                            <div class="form-group mb-0">
+                                <select name="type" class="form-control" data-choice="true" data-trigger="submit">
                                     <option value="">{{ 'filter.all_types'|trans }}</option>
                                     {% for t in types.types %}
                                         <option value="{{ t.uuid }}" {% if types.currentType is not null and types.currentType.id == t.id %}selected{% endif %}>{{ t.name }}</option>
                                     {% endfor %}
                                 </select>
-                                <span class="input-group-append">
-                                    <button class="btn btn-outline-primary" title="{{ 'filter.label'|trans }}">
-                                        <i class="fas fa-filter"></i>
-                                    </button>
-                                </span>
                             </div>
                         </form>
+                    </div>
+
+                    <div class="card-footer">
+                        <a href="{{ path('registration_codes') }}" class="btn btn-primary btn-sm">{{ 'filter.reset'|trans }}</a>
                     </div>
                 </div>
             </div>
