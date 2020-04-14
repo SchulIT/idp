@@ -7,18 +7,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
  */
 class ServiceProvider {
-    /**
-     * @ORM\GeneratedValue()
-     * @ORM\Id()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+
+    use IdTrait;
+    use UuidTrait;
 
     /**
      * @ORM\Column(type="string", length=191, unique=true)
@@ -69,14 +67,8 @@ class ServiceProvider {
     private $attributes;
 
     public function __construct() {
+        $this->uuid = Uuid::uuid4();
         $this->attributes = new ArrayCollection();
-    }
-
-    /**
-     * @return int
-     */
-    public function getId() {
-        return $this->id;
     }
 
     /**

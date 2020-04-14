@@ -36,7 +36,7 @@ class ServiceProviderController extends AbstractController {
     }
 
     /**
-     * @Route("/{id}/certificate", name="service_provider_certificate")
+     * @Route("/{uuid}/certificate", name="service_provider_certificate")
      */
     public function certificateInfo(ServiceProvider $serviceProvider) {
 
@@ -72,7 +72,7 @@ class ServiceProviderController extends AbstractController {
     }
 
     /**
-     * @Route("/{id}/edit", name="edit_service_provider")
+     * @Route("/{uuid}/edit", name="edit_service_provider")
      */
     public function edit(Request $request, ServiceProvider $serviceProvider) {
         $form = $this->createForm(ServiceProviderType::class, $serviceProvider);
@@ -92,7 +92,7 @@ class ServiceProviderController extends AbstractController {
     }
 
     /**
-     * @Route("/{id}/remove", name="remove_service_provider")
+     * @Route("/{uuid}/remove", name="remove_service_provider")
      */
     public function remove(ServiceProvider $serviceProvider, Request $request, TranslatorInterface $translator) {
         $form = $this->createForm(ConfirmType::class, [], [

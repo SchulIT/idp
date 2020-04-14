@@ -40,11 +40,11 @@
                                     {{ app.apiKey }}
                                 </td>
                                 <td class="align-middle">
-                                    <a href="{{ path('edit_application', { id: app.id }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
+                                    <a href="{{ path('edit_application', { uuid: app.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
                                         <i class="fa fa-edit"></i>
                                     </a>
 
-                                    <a href="{{ path('remove_application', { id: app.id }) }}" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
+                                    <a href="{{ path('remove_application', { uuid: app.uuid }) }}" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
                                         <i class="fa fa-trash"></i>
                                     </a>
                                 </td>

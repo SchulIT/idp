@@ -41,11 +41,11 @@
                                     {{ option.source }}
                                 </td>
                                 <td class="align-middle">
-                                    <a href="{{ path('edit_ad_grades_sync_options', { id: option.id }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
+                                    <a href="{{ path('edit_ad_grades_sync_options', { uuid: option.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
                                         <i class="fa fa-edit"></i>
                                     </a>
 
-                                    <a href="{{ path('remove_ad_grades_sync_options', { id: option.id }) }}" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
+                                    <a href="{{ path('remove_ad_grades_sync_options', { uuid: option.uuid }) }}" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
                                         <i class="fa fa-trash"></i>
                                     </a>
                                 </td>

@@ -53,7 +53,7 @@ class ServiceAttributeController extends AbstractController {
     }
 
     /**
-     * @Route("/admin/attributes/{id}/edit", name="edit_attribute")
+     * @Route("/admin/attributes/{uuid}/edit", name="edit_attribute")
      */
     public function edit(Request $request, ServiceAttribute $attribute) {
         $form = $this->createForm(ServiceAttributeType::class, $attribute);
@@ -73,7 +73,7 @@ class ServiceAttributeController extends AbstractController {
     }
 
     /**
-     * @Route("/admin/attributes/{id}/remove", name="remove_attribute")
+     * @Route("/admin/attributes/{uuid}/remove", name="remove_attribute")
      */
     public function remove(ServiceAttribute $attribute, Request $request, TranslatorInterface $translator) {
         $form = $this->createForm(ConfirmType::class, [], [

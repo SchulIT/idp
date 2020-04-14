@@ -55,7 +55,7 @@ class ActiveDirectoryRoleSyncOptionController extends AbstractController {
     }
 
     /**
-     * @Route("/{id}/edit", name="edit_ad_role_sync_options")
+     * @Route("/{uuid}/edit", name="edit_ad_role_sync_options")
      */
     public function edit(Request $request, ActiveDirectoryRoleSyncOption $option) {
         $form = $this->createForm(ActiveDirectoryRoleSyncOptionType::class, $option);
@@ -75,7 +75,7 @@ class ActiveDirectoryRoleSyncOptionController extends AbstractController {
     }
 
     /**
-     * @Route("/{id}/remove", name="remove_ad_role_sync_options")
+     * @Route("/{uuid}/remove", name="remove_ad_role_sync_options")
      */
     public function remove(ActiveDirectoryRoleSyncOption $option, Request $request, TranslatorInterface $translator) {
         $form = $this->createForm(ConfirmType::class, [], [

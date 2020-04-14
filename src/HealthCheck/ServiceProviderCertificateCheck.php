@@ -28,7 +28,7 @@ class ServiceProviderCertificateCheck extends AbstractCertificateHealthCheck {
                 if($result->getType()->equals(HealthCheckResultType::Fine()) !== true) {
                     $result->setRoute('edit_service_provider');
                     $result->setRouteParameter([
-                        'id' => $serviceProvider->getId()
+                        'uuid' => $serviceProvider->getUuid()
                     ]);
                 }
             } catch(\Exception $e) {

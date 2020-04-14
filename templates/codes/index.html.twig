@@ -55,11 +55,11 @@
                                 <td class="align-middle">{{ code.type.name }}</td>
                                 <td class="align-middle">{{ code.email }}</td>
                                 <td class="align-middle">
-                                    <a href="{{ path('edit_registration_code', { id: code.id }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
+                                    <a href="{{ path('edit_registration_code', { uuid: code.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
                                         <i class="fa fa-edit"></i>
                                     </a>
 
-                                    <a href="{{ path('remove_registration_code', { id: code.id }) }}" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
+                                    <a href="{{ path('remove_registration_code', { uuid: code.uuid }) }}" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
                                         <i class="fa fa-trash"></i>
                                     </a>
                                 </td>
@@ -94,7 +94,7 @@
                                 <select name="type" class="form-control" data-choice="true">
                                     <option value="">{{ 'filter.all_types'|trans }}</option>
                                     {% for t in types.types %}
-                                        <option value="{{ t.id }}" {% if types.currentType is not null and types.currentType.id == t.id %}selected{% endif %}>{{ t.name }}</option>
+                                        <option value="{{ t.uuid }}" {% if types.currentType is not null and types.currentType.id == t.id %}selected{% endif %}>{{ t.name }}</option>
                                     {% endfor %}
                                 </select>
                                 <span class="input-group-append">

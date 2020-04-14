@@ -63,7 +63,7 @@ class UserRoleController extends AbstractController {
     }
 
     /**
-     * @Route("/{id}/edit", name="edit_role")
+     * @Route("/{uuid}/edit", name="edit_role")
      */
     public function edit(Request $request, UserRole $role, AttributePersister $attributePersister) {
         $form = $this->createForm(UserRoleType::class, $role);
@@ -86,7 +86,7 @@ class UserRoleController extends AbstractController {
     }
 
     /**
-     * @Route("/{id}/remove", name="remove_role")
+     * @Route("/{uuid}/remove", name="remove_role")
      */
     public function remove(UserRole $role, Request $request, TranslatorInterface $translator) {
         $form = $this->createForm(ConfirmType::class, [ ], [

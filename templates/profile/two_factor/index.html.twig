@@ -106,7 +106,7 @@
             <div class="card-body">
                 <ul>
                     {% for key in u2fKeys %}
-                    <li>{{ key.name }} <a href="{{ path('remove_u2f_device', { id: key.id }) }}" class="btn btn-sm btn-danger" title="{{ 'two_factor.u2f.remove.label'|trans }}"><i class="fas fa-trash"></i> </a> </li>
+                    <li>{{ key.name }} <a href="{{ path('remove_u2f_device', { uuid: key.uuid }) }}" class="btn btn-sm btn-danger" title="{{ 'two_factor.u2f.remove.label'|trans }}"><i class="fas fa-trash"></i> </a> </li>
                     {% endfor %}
                 </ul>
             </div>

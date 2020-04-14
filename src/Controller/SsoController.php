@@ -118,7 +118,7 @@ class SsoController extends AbstractController {
     }
 
     /**
-     * @Route("/idp/saml/confirm/{id}", name="confirm_redirect")
+     * @Route("/idp/saml/confirm/{uuid}", name="confirm_redirect")
      */
     public function confirm(Request $request, ServiceProvider $serviceProvider, AttributeValueProvider $attributeValueProvider, CsrfTokenManagerInterface $tokenManager) {
         $type = $request->request->get('type');

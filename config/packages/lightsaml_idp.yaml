@@ -1,3 +1,4 @@
 lightsaml_idp:
     idp_saml_path: idp_saml
     sp_entity_store: App\Saml\ServiceProviderEntityStore
+    logger: "monolog.logger"

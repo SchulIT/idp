@@ -61,7 +61,7 @@ class UserController extends AbstractController {
     }
 
     /**
-     * @Route("/users/{id}/attributes", name="show_attributes")
+     * @Route("/users/{uuid}/attributes", name="show_attributes")
      */
     public function showAttributes(User $user, AttributeResolver $resolver, AttributeValueProvider $provider) {
         $attributes = $resolver->getDetailedResultingAttributeValuesForUser($user);
@@ -101,7 +101,7 @@ class UserController extends AbstractController {
     }
 
     /**
-     * @Route("/users/{id}/edit", name="edit_user")
+     * @Route("/users/{uuid}/edit", name="edit_user")
      */
     public function edit(Request $request, User $user, AttributePersister $attributePersister, UserPasswordEncoderInterface $passwordEncoder) {
         $form = $this->createForm(UserType::class, $user);
@@ -132,7 +132,7 @@ class UserController extends AbstractController {
     }
 
     /**
-     * @Route("/users/{id}/remove", name="remove_user")
+     * @Route("/users/{uuid}/remove", name="remove_user")
      */
     public function remove(User $user, Request $request, TranslatorInterface $translator) {
         if($this->getUser() instanceof User && $this->getUser()->getId() === $user->getId()) {

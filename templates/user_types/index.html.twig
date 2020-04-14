@@ -43,11 +43,11 @@
                                     {% for service in type.enabledServices %}<span title="{{ service.description|e }}">{{ service.name }}</span>{% if not loop.last %}, {% endif %}{% endfor %}
                                 </td>
                                 <td class="align-middle">
-                                    <a href="{{ path('edit_user_type', { id: type.id }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
+                                    <a href="{{ path('edit_user_type', { uuid: type.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
                                         <i class="fa fa-edit"></i>
                                     </a>
 
-                                    <a href="{{ path('remove_user_type', { id: type.id }) }}" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
+                                    <a href="{{ path('remove_user_type', { uuid: type.uuid }) }}" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
                                         <i class="fa fa-trash"></i>
                                     </a>
                                 </td>

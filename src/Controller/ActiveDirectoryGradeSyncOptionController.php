@@ -55,7 +55,7 @@ class ActiveDirectoryGradeSyncOptionController extends AbstractController {
     }
 
     /**
-     * @Route("/{id}/edit", name="edit_ad_grades_sync_options")
+     * @Route("/{uuid}/edit", name="edit_ad_grades_sync_options")
      */
     public function edit(Request $request, ActiveDirectoryGradeSyncOption $option) {
         $form = $this->createForm(ActiveDirectoryGradeSyncOptionType::class, $option);
@@ -75,7 +75,7 @@ class ActiveDirectoryGradeSyncOptionController extends AbstractController {
     }
 
     /**
-     * @Route("/{id}/remove", name="remove_ad_grades_sync_options")
+     * @Route("/{uuid}/remove", name="remove_ad_grades_sync_options")
      */
     public function remove(ActiveDirectoryGradeSyncOption $option, Request $request, TranslatorInterface $translator) {
         $form = $this->createForm(ConfirmType::class, [], [

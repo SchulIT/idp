@@ -56,7 +56,7 @@ class ApplicationController extends AbstractController {
     }
 
     /**
-     * @Route("/{id}/edit", name="edit_application")
+     * @Route("/{uuid}/edit", name="edit_application")
      */
     public function edit(Application $application, Request $request) {
         $form = $this->createForm(ApplicationType::class, $application);
@@ -76,7 +76,7 @@ class ApplicationController extends AbstractController {
     }
 
     /**
-     * @Route("/{id}/remove", name="remove_application")
+     * @Route("/{uuid}/remove", name="remove_application")
      */
     public function remove(Application $application, Request $request) {
         $form = $this->createForm(ConfirmType::class, null, [

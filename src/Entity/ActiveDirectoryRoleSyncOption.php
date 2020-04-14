@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -10,12 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ActiveDirectoryRoleSyncOption implements ActiveDirectorySyncOptionInterface {
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use IdTrait;
+    use UuidTrait;
 
     /**
      * @ORM\Column(type="string")
@@ -46,11 +43,8 @@ class ActiveDirectoryRoleSyncOption implements ActiveDirectorySyncOptionInterfac
      */
     private $userRole;
 
-    /**
-     * @return int
-     */
-    public function getId() {
-        return $this->id;
+    public function __construct() {
+        $this->uuid = Uuid::uuid4();
     }
 
     /**

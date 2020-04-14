@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as Serializer;
 use R\U2FTwoFactorBundle\Model\U2F\TwoFactorInterface as U2FTwoFactorInterface;
+use Ramsey\Uuid\Uuid;
 use Scheb\TwoFactorBundle\Model\BackupCodeInterface;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface as GoogleTwoFactorInterface;
 use Scheb\TwoFactorBundle\Model\PreferredProviderInterface;
@@ -26,12 +27,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInterface, BackupCodeInterface, U2FTwoFactorInterface, PreferredProviderInterface {
 
-    /**
-     * @ORM\GeneratedValue()
-     * @ORM\Id()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use IdTrait;
+    use UuidTrait;
 
     /**
      * @ORM\Column(type="string", length=64, unique=true)
@@ -167,17 +164,12 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     private $enabledUntil;
 
     public function __construct() {
+        $this->uuid = Uuid::uuid4();
+
         $this->enabledServices = new ArrayCollection();
         $this->attributes = new ArrayCollection();
         $this->userRoles = new ArrayCollection();
         $this->u2fKeys = new ArrayCollection();
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getId() {
-        return $this->id;
     }
 
     /**
@@ -512,7 +504,7 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     /**
      * @inheritDoc
      */
-    public function isU2FAuthEnabled() {
+    public function isU2FAuthEnabled(): bool {
         return count($this->u2fKeys) > 0;
     }
 
@@ -526,14 +518,14 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     /**
      * @inheritDoc
      */
-    public function addU2FKey($key) {
+    public function addU2FKey($key): void {
         $this->u2fKeys->add($key);
     }
 
     /**
      * @inheritDoc
      */
-    public function removeU2FKey($key) {
+    public function removeU2FKey($key): void {
         $this->u2fKeys->removeElement($key);
     }
 

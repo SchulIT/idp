@@ -38,15 +38,15 @@
                                 </td>
                                 <td class="align-middle">{{ service.url }}</td>
                                 <td class="align-middle">
-                                    <a href="{{ path('service_provider_certificate', { id: service.id }) }}" class="btn btn-sm btn-primary" title="{{ 'service_providers.certificate_info'|trans }}">
+                                    <a href="{{ path('service_provider_certificate', { uuid: service.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'service_providers.certificate_info'|trans }}">
                                         <i class="fa fa-info-circle"></i>
                                     </a>
 
-                                    <a href="{{ path('edit_service_provider', { id: service.id }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
+                                    <a href="{{ path('edit_service_provider', { uuid: service.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
                                         <i class="fa fa-edit"></i>
                                     </a>
 
-                                    <a href="{{ path('remove_service_provider', { id: service.id }) }}" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
+                                    <a href="{{ path('remove_service_provider', { uuid: service.uuid }) }}" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
                                         <i class="fa fa-trash"></i>
                                     </a>
                                 </td>

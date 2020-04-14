@@ -84,7 +84,7 @@ class UserTypeController extends AbstractController {
     }
 
     /**
-     * @Route("/{id}/edit", name="edit_user_type")
+     * @Route("/{uuid}/edit", name="edit_user_type")
      */
     public function edit(Request $request, UserType $userType, AttributePersister $attributePersister) {
         $form = $this->createForm(UserTypeType::class, $userType);
@@ -107,7 +107,7 @@ class UserTypeController extends AbstractController {
     }
 
     /**
-     * @Route("/{id}/remove", name="remove_user_type")
+     * @Route("/{uuid}/remove", name="remove_user_type")
      */
     public function remove(UserType $userType, Request $request, UserTypeRepositoryInterface $userTypeRepository, TranslatorInterface $translator) {
         if($userTypeRepository->countUsersOfUserType($userType) > 0) {

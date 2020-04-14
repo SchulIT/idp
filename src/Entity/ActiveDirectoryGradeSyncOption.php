@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,12 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ActiveDirectoryGradeSyncOption implements ActiveDirectorySyncOptionInterface {
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use IdTrait;
+    use UuidTrait;
 
     /**
      * @ORM\Column(type="string", length=32)
@@ -38,11 +35,8 @@ class ActiveDirectoryGradeSyncOption implements ActiveDirectorySyncOptionInterfa
      */
     private $sourceType = ActiveDirectorySyncSourceType::OU;
 
-    /**
-     * @return int
-     */
-    public function getId() {
-        return $this->id;
+    public function __construct() {
+        $this->uuid = Uuid::uuid4();
     }
 
     /**

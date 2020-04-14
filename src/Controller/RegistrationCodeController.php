@@ -70,7 +70,7 @@ class RegistrationCodeController extends AbstractController {
     }
 
     /**
-     * @Route("/edit/{id}", name="edit_registration_code")
+     * @Route("/{uuid}/edit", name="edit_registration_code")
      */
     public function edit(UserRegistrationCode $code, Request $request, AttributePersister $attributePersister) {
         $form = $this->createForm(UserRegistrationCodeType::class, $code);
@@ -94,7 +94,7 @@ class RegistrationCodeController extends AbstractController {
     }
 
     /**
-     * @Route("/remove/{id}", name="remove_registration_code")
+     * @Route("/{uuid}/remove", name="remove_registration_code")
      */
     public function remove(UserRegistrationCode $code, Request $request) {
         $form = $this->createForm(ConfirmType::class, [], [

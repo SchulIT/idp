@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block confirm %}
-    <form action="{{ path('confirm_redirect', { id: service.id })}}" method="post">
+    <form action="{{ path('confirm_redirect', { uuid: service.uuid })}}" method="post">
         <input type="hidden" name="type" value="post" >
         <input type="hidden" name="destination" value="{{ destination }}" >
         {% for name, value in data %}

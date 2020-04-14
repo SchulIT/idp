@@ -55,7 +55,7 @@ class ActiveDirectorySyncOptionController extends AbstractController {
     }
 
     /**
-     * @Route("/{id}/edit", name="edit_ad_sync_option")
+     * @Route("/{uuid}/edit", name="edit_ad_sync_option")
      */
     public function edit(Request $request, ActiveDirectorySyncOption $syncOption) {
         $form = $this->createForm(ActiveDirectorySyncOptionType::class, $syncOption);
@@ -75,7 +75,7 @@ class ActiveDirectorySyncOptionController extends AbstractController {
     }
 
     /**
-     * @Route("/{id}/remove", name="remove_ad_sync_option")
+     * @Route("/{uuid}/remove", name="remove_ad_sync_option")
      */
     public function remove(ActiveDirectorySyncOption $syncOption, Request $request, TranslatorInterface $translator) {
         $form = $this->createForm(ConfirmType::class, [], [

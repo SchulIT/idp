@@ -63,15 +63,15 @@
                                 </td>
                                 <td>{{ user.email }}</td>
                                 <td>
-                                    <a href="{{ path('edit_user', { id: user.id }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
+                                    <a href="{{ path('edit_user', { uuid: user.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
                                         <i class="fa fa-edit"></i>
                                     </a>
 
-                                    <a href="{{ path('show_attributes', { id: user.id }) }}" class="btn btn-sm btn-primary" title="{{ 'users.attributes.label'|trans }}">
+                                    <a href="{{ path('show_attributes', { uuid: user.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'users.attributes.label'|trans }}">
                                         <i class="fa fa-user-tag"></i>
                                     </a>
 
-                                    <a href="{{ path('remove_user', { id: user.id }) }}" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
+                                    <a href="{{ path('remove_user', { uuid: user.uuid }) }}" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
                                         <i class="fa fa-trash"></i>
                                     </a>
                                 </td>
@@ -106,7 +106,7 @@
                                 <select name="type" class="form-control" data-choice="true">
                                     <option value="">{{ 'filter.all_types'|trans }}</option>
                                     {% for t in types %}
-                                        <option value="{{ t.id }}" {% if type == t.id %}selected{% endif %}>{{ t.name }}</option>
+                                        <option value="{{ t.uuid }}" {% if type == t.id %}selected{% endif %}>{{ t.name }}</option>
                                     {% endfor %}
                                 </select>
                                 <span class="input-group-append">

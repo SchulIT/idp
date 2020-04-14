@@ -20,7 +20,7 @@
             </p>
             {% if code.redeemingUser is not null %}
                 <p>
-                    <a href="{{ path('edit_user', { id: code.redeemingUser.id }) }}" class="btn btn-primary btn-sm">{{ 'codes.edit.error.already_redeemed.button'|trans }}</a>
+                    <a href="{{ path('edit_user', { uuid: code.redeemingUser.uuid }) }}" class="btn btn-primary btn-sm">{{ 'codes.edit.error.already_redeemed.button'|trans }}</a>
                 </p>
             {% endif %}
         </div>

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use R\U2FTwoFactorBundle\Model\U2F\TwoFactorKeyInterface;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @ORM\Entity()
@@ -11,12 +12,8 @@ use R\U2FTwoFactorBundle\Model\U2F\TwoFactorKeyInterface;
  */
 class U2fKey implements TwoFactorKeyInterface {
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use IdTrait;
+    use UuidTrait;
 
     /**
      * @ORM\Column(type="string")
@@ -49,11 +46,8 @@ class U2fKey implements TwoFactorKeyInterface {
      */
     private $user;
 
-    /**
-     * @return int
-     */
-    public function getId() {
-        return $this->id;
+    public function __construct() {
+        $this->uuid = Uuid::uuid4();
     }
 
     /**

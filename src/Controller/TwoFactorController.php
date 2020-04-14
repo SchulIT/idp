@@ -161,7 +161,7 @@ class TwoFactorController extends AbstractController {
     }
 
     /**
-     * @Route("/u2f/{id}/remove", name="remove_u2f_device")
+     * @Route("/u2f/{uuid}/remove", name="remove_u2f_device")
      */
     public function removeU2FDevice(U2fKey $key, Request $request, TranslatorInterface $translator, U2fKeyRepositoryInterface $repository) {
         $this->denyAccessUnlessGranted(U2fKeyVoter::REMOVE, $key);
