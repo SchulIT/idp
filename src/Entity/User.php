@@ -32,6 +32,8 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
 
     /**
      * @ORM\Column(type="string", length=64, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Email()
      * @ORM\OrderBy()
      * @Assert\Length(max="64", min="4")
      */
