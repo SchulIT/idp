@@ -43,17 +43,15 @@ class UserType extends AbstractType {
                 'legend' => 'label.general',
                 'fields' => function(FormBuilderInterface $builder) {
                     $builder
-                        ->add('id', TextType::class, [
+                        ->add('uuid', TextType::class, [
                             'disabled' => true,
-                            'label' => 'label.id'
+                            'label' => 'label.uuid',
+                            'help' => 'label.uuid_help'
                         ])
                         ->add('internalId', TextType::class, [
                             'disabled' => true,
-                            'label' => 'label.internal_id'
-                        ])
-                        ->add('samAccountName', TextType::class, [
-                            'disabled' => true,
-                            'label' => 'label.samAccountName'
+                            'label' => 'label.internal_id',
+                            'help' => 'label.internal_id_help'
                         ])
                         ->add('username', EmailType::class, [
                             'disabled' => true,
@@ -210,10 +208,7 @@ class UserType extends AbstractType {
                         ]);
                 }
 
-                if(!$user instanceof ActiveDirectoryUser) {
-                    $form->get('group_general')
-                        ->remove('samAccountName');
-                } else {
+                if($user instanceof ActiveDirectoryUser) {
                     $form->remove('group_password');
                     $form->get('group_general')
                         ->add('username', TextType::class, [

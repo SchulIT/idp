@@ -12,9 +12,10 @@ label:
   type: Typ
   service: Dienst
   services: Dienste
-  id: ID
+  uuid: UUID
+  uuid_help: Die UUID ist eine globale eindeutige ID für den Benutzer. Sie wird genutzt, damit Dienste den Benutzer wiederfinden, falls sich der Benutzername geändert hat.
   internal_id: Interne ID
-  samAccountName: sAMAccountName
+  internal_id_help: Diese ID wird genutzt, um Benutzer in anderen Diensten als Lehrkraft oder Lernender wiederzuerkennen.
   username: Anmelde-E-Mail Adresse
   firstname: Vorname
   lastname: Nachname
