@@ -41,7 +41,10 @@ class ProfileType extends AbstractType {
                     $builder
                         ->add('username', TextType::class, [
                             'disabled' => true,
-                            'label' => 'label.username'
+                            'label' => 'label.username',
+                            'attr' => [
+                                'autocomplete' => 'off'
+                            ]
                         ])
                         ->add('firstname', TextType::class, [
                             'label' => 'label.firstname'
@@ -50,7 +53,10 @@ class ProfileType extends AbstractType {
                             'label' => 'label.lastname'
                         ])
                         ->add('email', EmailType::class, [
-                            'label' => 'label.email'
+                            'label' => 'label.email',
+                            'attr' => [
+                                'autocomplete' => 'off'
+                            ]
                         ]);
                 }
             ])
@@ -64,7 +70,8 @@ class ProfileType extends AbstractType {
                             'invalid_message' => 'The password fields must match.',
                             'options' => [
                                 'attr' => [
-                                    'class' => 'password-field'
+                                    'class' => 'password-field',
+                                    'autocomplete' => 'off'
                                 ],
                             ],
                             'constraints' => $this->passwordStrengthHelper->getConstraints(),

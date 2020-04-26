@@ -17,6 +17,9 @@ $enable-gradients: true;
 @import '../../vendor/schoolit/common-bundle/Resources/assets/css/variables.scss';
 @import '../../vendor/schoolit/common-bundle/Resources/assets/css/layout.scss';
 @import '../../vendor/schoolit/common-bundle/Resources/assets/css/additions.scss';
+@import '../../node_modules/bootstrap-darkmode/darktheme';
+@import '../../vendor/schoolit/common-bundle/Resources/assets/css/dark/variables.scss';
+@import '../../vendor/schoolit/common-bundle/Resources/assets/css/dark/layout';
 
 // Import Bootstrap 4 Card Tables
 @import '../../node_modules/bootstrap4-card-tables/src/bootstrap4-card-tables';
@@ -24,6 +27,7 @@ $enable-gradients: true;
 // Import choices.js
 @import '../../node_modules/choices.js/src/styles/choices';
 @import '../../vendor/schoolit/common-bundle/Resources/assets/css/choices-fixes.scss';
+@import '../../vendor/schoolit/common-bundle/Resources/assets/css/dark/choices';
 
 // Import SCSS from overrides
 @import "overrides/*.scss";

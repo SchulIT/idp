@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Service\UserServiceProviderResolver;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
+use SchoolIT\CommonBundle\DarkMode\DarkModeManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -17,14 +18,17 @@ class Builder {
     private $translator;
     private $tokenStorage;
     private $userServiceProviderResolver;
+    private $darkModeManager;
 
     public function __construct(FactoryInterface $factory, AuthorizationCheckerInterface $authorizationChecker,
-                                TranslatorInterface $translator, TokenStorageInterface $tokenStorage, UserServiceProviderResolver $userServiceProviderResolver) {
+                                TranslatorInterface $translator, TokenStorageInterface $tokenStorage,
+                                UserServiceProviderResolver $userServiceProviderResolver, DarkModeManagerInterface $darkModeManager) {
         $this->factory = $factory;
         $this->authorizationChecker = $authorizationChecker;
         $this->translator = $translator;
         $this->tokenStorage = $tokenStorage;
         $this->userServiceProviderResolver = $userServiceProviderResolver;
+        $this->darkModeManager = $darkModeManager;
     }
 
     public function mainMenu(): ItemInterface {
@@ -132,6 +136,21 @@ class Builder {
         if($user === null || !$user instanceof User) {
             return $menu;
         }
+
+        $label = 'dark_mode.enable';
+        $icon = 'far fa-moon';
+
+        if($this->darkModeManager->isDarkModeEnabled()) {
+            $label = 'dark_mode.disable';
+            $icon = 'far fa-sun';
+        }
+
+        $menu->addChild($label, [
+            'route' => 'toggle_darkmode',
+            'label' => ''
+        ])
+            ->setAttribute('icon', $icon)
+            ->setAttribute('title', $this->translator->trans($label));
 
         $displayName = $user->getUsername();
 

@@ -125,3 +125,7 @@ services:
         arguments:
             $checks: !tagged 'app.health_check'
 
+
+    # Dark mode
+    SchoolIT\CommonBundle\DarkMode\DarkModeManagerInterface:
+        class: App\DarkMode\DarkModeManager

@@ -165,6 +165,12 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
      */
     private $enabledUntil;
 
+    /**
+     * @ORM\Column(type="json")
+     * @var array
+     */
+    private $data = [ ];
+
     public function __construct() {
         $this->uuid = Uuid::uuid4();
 
@@ -574,5 +580,13 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     public function setEnabledUntil(?\DateTime$enabledUntil): User {
         $this->enabledUntil = $enabledUntil;
         return $this;
+    }
+
+    public function getData(string $key, $default = null) {
+        return $this->data[$key] ?? $default;
+    }
+
+    public function setData(string $key, $value): void {
+        $this->data[$key] = $value;
     }
 }
