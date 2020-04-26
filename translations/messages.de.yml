@@ -171,6 +171,10 @@ user_menu:
 
 users:
   label: Benutzer
+  type:
+    label: Art
+    ad: Aus Active Directory synchronisiert
+    cloud: Nur Online
   add:
     label: Neuer Benutzer
     success: Benutzer erfolgreich angelegt
