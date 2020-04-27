@@ -4690,12 +4690,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchulIT/common-bundle.git",
-                "reference": "8ca0a66d020a0c1643e23617e88fc2b44e24cd8d"
+                "reference": "461fb12f0fb13e77ba4107bb110c6442834456b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchulIT/common-bundle/zipball/8ca0a66d020a0c1643e23617e88fc2b44e24cd8d",
-                "reference": "8ca0a66d020a0c1643e23617e88fc2b44e24cd8d",
+                "url": "https://api.github.com/repos/SchulIT/common-bundle/zipball/461fb12f0fb13e77ba4107bb110c6442834456b2",
+                "reference": "461fb12f0fb13e77ba4107bb110c6442834456b2",
                 "shasum": ""
             },
             "require": {
@@ -4735,7 +4735,7 @@
                 "source": "https://github.com/SchulIT/common-bundle/tree/master",
                 "issues": "https://github.com/SchulIT/common-bundle/issues"
             },
-            "time": "2020-04-26T13:32:56+00:00"
+            "time": "2020-04-27T20:55:27+00:00"
         },
         {
             "name": "schoolit/idp-exchange-models",
