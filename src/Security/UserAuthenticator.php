@@ -168,8 +168,10 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator {
                 return null;
             }
 
-            if($this->userCreator->canCreateUser($response)) {
-                $user = $this->userCreator->createUser($response, $adUser);
+            $info = $this->transformResponse($response);
+
+            if($this->userCreator->canCreateUser($info)) {
+                $user = $this->userCreator->createUser($info, $adUser);
 
                 $user->setPassword($this->encoder->encodePassword($user, $credentials->getPassword()));
 
@@ -198,4 +200,16 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator {
         }
     }
 
+    private function transformResponse(AuthenticationResponse $response): ActiveDirectoryUserInformation {
+        return (new ActiveDirectoryUserInformation())
+            ->setUsername($response->getUsername())
+            ->setUserPrincipalName($response->getUserPrincipalName())
+            ->setFirstname($response->getFirstname())
+            ->setLastname($response->getLastname())
+            ->setEmail($response->getEmail())
+            ->setGuid($response->getGuid())
+            ->setUniqueId($response->getUniqueId())
+            ->setOu($response->getOu())
+            ->setGroups($response->getGroups());
+    }
 }

@@ -178,4 +178,19 @@ class UserRepository implements UserRepositoryInterface {
         return $this->em->getRepository(ActiveDirectoryUser::class)
             ->findOneBy(['objectGuid' => $guid]);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function findAllActiveDirectoryUsersObjectGuid(): array {
+        return array_map(function(array $item) {
+            return $item['objectGuid'];
+        },
+            $this->em->createQueryBuilder()
+                ->select('u.objectGuid')
+                ->from(ActiveDirectoryUser::class, 'u')
+                ->getQuery()
+                ->getScalarResult()
+        );
+    }
 }

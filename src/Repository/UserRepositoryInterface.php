@@ -29,6 +29,11 @@ interface UserRepositoryInterface {
     public function findActiveDirectoryUserByObjectGuid(string $guid): ?ActiveDirectoryUser;
 
     /**
+     * @return string[]
+     */
+    public function findAllActiveDirectoryUsersObjectGuid(): array;
+
+    /**
      * @param string $email
      * @return User|null
      */

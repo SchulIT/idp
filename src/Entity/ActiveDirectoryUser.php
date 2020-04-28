@@ -9,6 +9,7 @@ use Ramsey\Uuid\UuidInterface;
  * @ORM\Entity()
  */
 class ActiveDirectoryUser extends User {
+
     /**
      * @ORM\Column(type="string")
      * @var string
@@ -21,6 +22,18 @@ class ActiveDirectoryUser extends User {
      * @var UuidInterface
      */
     private $objectGuid;
+
+    /**
+     * @ORM\Column(type="string")
+     * @var string
+     */
+    private $ou;
+
+    /**
+     * @ORM\Column(type="json")
+     * @var string[]
+     */
+    private $groups = [ ];
 
     /**
      * @return string
@@ -51,6 +64,38 @@ class ActiveDirectoryUser extends User {
      */
     public function setObjectGuid(UuidInterface $objectGuid): ActiveDirectoryUser {
         $this->objectGuid = $objectGuid;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOu(): string {
+        return $this->ou;
+    }
+
+    /**
+     * @param string $ou
+     * @return ActiveDirectoryUser
+     */
+    public function setOu(string $ou): ActiveDirectoryUser {
+        $this->ou = $ou;
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getGroups(): array {
+        return $this->groups;
+    }
+
+    /**
+     * @param string[] $groups
+     * @return ActiveDirectoryUser
+     */
+    public function setGroups(array $groups): ActiveDirectoryUser {
+        $this->groups = $groups;
         return $this;
     }
 }

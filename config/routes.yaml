@@ -23,7 +23,12 @@ logout:
 app.swagger_ui:
   path: /docs/api
   methods: GET
-  defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+  defaults: { _controller: nelmio_api_doc.controller.swagger_ui, area: default }
+
+app.swagger_ui.ad_connect:
+  path: /docs/api/ad_connect
+  methods: GET
+  defaults: { _controller: nelmio_api_doc.controller.swagger_ui, area: ad_connect }
 
 club_base_register_u2f:
   defaults: { _controller: R\U2FTwoFactorBundle\Controller\RegisterController::u2fAction }

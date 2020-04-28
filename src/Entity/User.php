@@ -52,7 +52,7 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     private $lastname;
 
     /**
-     * @ORM\Column(type="string", length=62)
+     * @ORM\Column(type="string", length=62, nullable=true)
      * @Serializer\Exclude()
      */
     private $password;

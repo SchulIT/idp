@@ -4,3 +4,4 @@ label:
 application_scope:
   api: Allgemeine API
   idp_exchange: IdP Exchange
+  ad_connect: AD Connect

@@ -2,7 +2,6 @@
 
 namespace App\Security;
 
-use AdAuth\Response\AuthenticationResponse;
 use App\ActiveDirectory\OptionResolver;
 use App\Entity\ActiveDirectoryGradeSyncOption;
 use App\Entity\ActiveDirectoryRoleSyncOption;
@@ -73,19 +72,19 @@ class UserCreator {
     /**
      * Determines whether the user can be imported from Active Directory.
      *
-     * @param AuthenticationResponse $response
+     * @param ActiveDirectoryUserInformation $response
      * @return bool
      */
-    public function canCreateUser(AuthenticationResponse $response) {
+    public function canCreateUser(ActiveDirectoryUserInformation $response) {
         $this->initialise();
         return $this->getTargetUserType($response) !== null;
     }
 
     /**
-     * @param AuthenticationResponse $response
+     * @param ActiveDirectoryUserInformation $response
      * @return UserType
      */
-    private function getTargetUserType(AuthenticationResponse $response) {
+    private function getTargetUserType(ActiveDirectoryUserInformation $response) {
         /** @var ActiveDirectorySyncOption $option */
         $option = $this->optionsResolver
             ->getOption($this->syncOptions, $response->getOu(), $response->getGroups());
@@ -98,11 +97,11 @@ class UserCreator {
     }
 
     /**
-     * @param AuthenticationResponse $response
+     * @param ActiveDirectoryUserInformation $response
      * @param ActiveDirectoryUser|null $user Already existing AD user
      * @return ActiveDirectoryUser
      */
-    public function createUser(AuthenticationResponse $response, ?ActiveDirectoryUser $user = null) {
+    public function createUser(ActiveDirectoryUserInformation $response, ?ActiveDirectoryUser $user = null) {
         $this->initialise();
 
         if ($user === null) {
@@ -123,6 +122,9 @@ class UserCreator {
         $user->setType($this->getTargetUserType($response));
         $user->setEmail($response->getEmail());
         $user->setInternalId($response->getUniqueId());
+
+        $user->setOu($response->getOu());
+        $user->setGroups($response->getGroups());
 
         // Set roles
 
@@ -145,10 +147,10 @@ class UserCreator {
     }
 
     /**
-     * @param AuthenticationResponse $response
+     * @param ActiveDirectoryUserInformation $response
      * @return string|null
      */
-    private function getGrade(AuthenticationResponse $response) {
+    private function getGrade(ActiveDirectoryUserInformation $response) {
         /** @var ActiveDirectoryGradeSyncOption $option */
         $option = $this->optionsResolver
             ->getOption($this->gradeSyncOptions, $response->getOu(), $response->getGroups());

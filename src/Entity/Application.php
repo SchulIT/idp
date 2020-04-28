@@ -166,6 +166,10 @@ class Application implements UserInterface {
             return [ 'ROLE_IDPEXCHANGE' ];
         }
 
+        if($this->scope->equals(ApplicationScope::AdConnect())) {
+            return [ 'ROLE_ADCONNECT' ];
+        }
+
         return [
             'ROLE_API'
         ];

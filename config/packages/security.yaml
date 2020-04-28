@@ -19,6 +19,7 @@ security:
 
     access_control:
         - { path: ^/exchange, roles: ROLE_IDPEXCHANGE }
+        - { path: ^/api/ad_connect, roles: ROLE_ADCONNECT }
         - { path: ^/api, roles: ROLE_API }
         - { path: ^/docs/api, roles: ROLE_SUPER_ADMIN }
         - { path: ^/users, roles: ROLE_ADMIN }
