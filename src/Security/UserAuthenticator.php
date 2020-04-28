@@ -148,9 +148,6 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator {
         $upnSuffix = substr($credentials->getUsername(), strpos($credentials->getUsername(), '@') + 1);
         $upnSuffixes = array_map(function(ActiveDirectoryUpnSuffix $suffix) { return $suffix->getSuffix(); }, $this->upnSuffixRepository->findAll());
 
-        dump($upnSuffix);
-        dump($upnSuffixes);
-
         if(count($upnSuffixes) > 0 && !in_array($upnSuffix, $upnSuffixes)) {
             $this->logger->debug(sprintf('UPN-Suffix "%s" is not enabled for AD sync.', $upnSuffix));
             return $adUser;
