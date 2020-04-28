@@ -6,11 +6,13 @@ use App\Entity\ActiveDirectoryUser;
 use App\Entity\User;
 use App\Form\AttributeDataTrait;
 use App\Form\UserType;
+use App\Entity\UserType as UserTypeEntity;
 use App\Repository\UserRepositoryInterface;
 use App\Repository\UserTypeRepositoryInterface;
 use App\Saml\AttributeValueProvider;
 use App\Service\AttributePersister;
 use App\Service\AttributeResolver;
+use App\Utils\ArrayUtils;
 use SchoolIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,10 +41,15 @@ class UserController extends AbstractController {
     public function index(Request $request) {
         $q = $request->query->get('q', null);
         $type = $request->query->get('type', null);
+        $page = $request->query->getInt('page', 1);
 
-        $types = $this->typeRepository->findAll();
+        $types = ArrayUtils::createArrayWithKeys(
+            $this->typeRepository->findAll(),
+            function(UserTypeEntity $type) {
+                return (string)$type->getUuid();
+            });
 
-        $paginator = $this->repository->getPaginatedUsers(static::USERS_PER_PAGE, $page, $type, $q);
+        $paginator = $this->repository->getPaginatedUsers(static::USERS_PER_PAGE, $page, $types[$type] ?? null, $q);
 
         $pages = 1;
 
