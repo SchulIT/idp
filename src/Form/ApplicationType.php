@@ -38,9 +38,9 @@ class ApplicationType extends AbstractType {
                             'label' => 'label.service',
                             'required' => false,
                             'label_attr' => [
-                                'class' => 'checkbox-custom'
+                                'class' => 'radio-custom'
                             ],
-                            'multiple' => true,
+                            'multiple' => false,
                             'expanded' => true
                         ])
                         ->add('description', TextType::class, [
