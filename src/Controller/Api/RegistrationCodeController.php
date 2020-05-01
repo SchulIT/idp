@@ -2,8 +2,8 @@
 
 namespace App\Controller\Api;
 
-use App\Entity\UserRegistrationCode as RegistrationCodeEntity;
-use App\Repository\UserRegistrationCodeRepositoryInterface;
+use App\Entity\RegistrationCode as RegistrationCodeEntity;
+use App\Repository\RegistrationCodeRepositoryInterface;
 use App\Repository\UserTypeRepositoryInterface;
 use App\Request\RegistrationCode;
 use App\Response\ErrorResponse;
@@ -26,7 +26,7 @@ class RegistrationCodeController extends AbstractApiController {
     private $userTypeRepository;
     private $registrationCodeRepository;
 
-    public function __construct(ValidatorInterface $validator, UserTypeRepositoryInterface $userTypeRepository, UserRegistrationCodeRepositoryInterface $registrationCodeRepository, SerializerInterface $serializer) {
+    public function __construct(ValidatorInterface $validator, UserTypeRepositoryInterface $userTypeRepository, RegistrationCodeRepositoryInterface $registrationCodeRepository, SerializerInterface $serializer) {
         parent::__construct($serializer);
 
         $this->validator = $validator;

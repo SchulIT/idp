@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\UserRegistrationCode;
+use App\Entity\RegistrationCode;
 use App\Form\AttributeDataTrait;
-use App\Form\UserRegistrationCodeType;
-use App\Repository\UserRegistrationCodeRepositoryInterface;
+use App\Form\RegistrationCodeType;
+use App\Repository\RegistrationCodeRepositoryInterface;
 use App\Service\AttributePersister;
 use App\View\Filter\UserTypeFilter;
 use SchoolIT\CommonBundle\Form\ConfirmType;
@@ -24,7 +24,7 @@ class RegistrationCodeController extends AbstractController {
 
     private $repository;
 
-    public function __construct(UserRegistrationCodeRepositoryInterface $repository) {
+    public function __construct(RegistrationCodeRepositoryInterface $repository) {
         $this->repository = $repository;
     }
 
@@ -53,8 +53,8 @@ class RegistrationCodeController extends AbstractController {
      * @Route("/add", name="add_registration_code")
      */
     public function add(Request $request) {
-        $code = new UserRegistrationCode();
-        $form = $this->createForm(UserRegistrationCodeType::class, $code);
+        $code = new RegistrationCode();
+        $form = $this->createForm(RegistrationCodeType::class, $code);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
@@ -72,15 +72,15 @@ class RegistrationCodeController extends AbstractController {
     /**
      * @Route("/{uuid}/edit", name="edit_registration_code")
      */
-    public function edit(UserRegistrationCode $code, Request $request, AttributePersister $attributePersister) {
-        $form = $this->createForm(UserRegistrationCodeType::class, $code);
+    public function edit(RegistrationCode $code, Request $request, AttributePersister $attributePersister) {
+        $form = $this->createForm(RegistrationCodeType::class, $code);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
             $this->repository->persist($code);
 
             $attributeData = $this->getAttributeData($form);
-            $attributePersister->persistUserRegistrationCodeAttributes($attributeData, $code);
+            $attributePersister->persistRegistrationCodeAttributes($attributeData, $code);
 
             $this->addFlash('success', 'codes.edit.success');
 
@@ -96,7 +96,7 @@ class RegistrationCodeController extends AbstractController {
     /**
      * @Route("/{uuid}/remove", name="remove_registration_code")
      */
-    public function remove(UserRegistrationCode $code, Request $request) {
+    public function remove(RegistrationCode $code, Request $request) {
         $form = $this->createForm(ConfirmType::class, [], [
             'message' => 'codes.remove.confirm',
             'message_parameters' => [

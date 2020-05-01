@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"username"})
  * @UniqueEntity(fields={"token"})
  */
-class UserRegistrationCode {
+class RegistrationCode {
 
     use IdTrait;
     use UuidTrait;
@@ -109,7 +109,7 @@ class UserRegistrationCode {
     private $internalId;
 
     /**
-     * @ORM\OneToMany(targetEntity="ServiceAttributeUserRegistrationCodeValue", mappedBy="registrationCode")
+     * @ORM\OneToMany(targetEntity="ServiceAttributeRegistrationCodeValue", mappedBy="registrationCode")
      * @Serializer\Exclude()
      */
     private $attributes;
@@ -143,9 +143,9 @@ class UserRegistrationCode {
 
     /**
      * @param string|null $code
-     * @return UserRegistrationCode
+     * @return RegistrationCode
      */
-    public function setCode(?string $code): UserRegistrationCode {
+    public function setCode(?string $code): RegistrationCode {
         $this->code = $code;
         return $this;
     }
@@ -166,9 +166,9 @@ class UserRegistrationCode {
 
     /**
      * @param User|null $redeemingUser
-     * @return UserRegistrationCode
+     * @return RegistrationCode
      */
-    public function setRedeemingUser(?User $redeemingUser): UserRegistrationCode {
+    public function setRedeemingUser(?User $redeemingUser): RegistrationCode {
         $this->redeemingUser = $redeemingUser;
         return $this;
     }
@@ -182,9 +182,9 @@ class UserRegistrationCode {
 
     /**
      * @param \DateTime|null $confirmedAt
-     * @return UserRegistrationCode
+     * @return RegistrationCode
      */
-    public function setConfirmedAt(?\DateTime $confirmedAt): UserRegistrationCode {
+    public function setConfirmedAt(?\DateTime $confirmedAt): RegistrationCode {
         $this->confirmedAt = $confirmedAt;
         return $this;
     }
@@ -198,9 +198,9 @@ class UserRegistrationCode {
 
     /**
      * @param string|null $username
-     * @return UserRegistrationCode
+     * @return RegistrationCode
      */
-    public function setUsername(?string $username): UserRegistrationCode {
+    public function setUsername(?string $username): RegistrationCode {
         $this->username = $username;
         return $this;
     }
@@ -214,9 +214,9 @@ class UserRegistrationCode {
 
     /**
      * @param string|null $firstname
-     * @return UserRegistrationCode
+     * @return RegistrationCode
      */
-    public function setFirstname(?string $firstname): UserRegistrationCode {
+    public function setFirstname(?string $firstname): RegistrationCode {
         $this->firstname = $firstname;
         return $this;
     }
@@ -230,9 +230,9 @@ class UserRegistrationCode {
 
     /**
      * @param string|null $lastname
-     * @return UserRegistrationCode
+     * @return RegistrationCode
      */
-    public function setLastname(?string $lastname): UserRegistrationCode {
+    public function setLastname(?string $lastname): RegistrationCode {
         $this->lastname = $lastname;
         return $this;
     }
@@ -246,9 +246,9 @@ class UserRegistrationCode {
 
     /**
      * @param string|null $email
-     * @return UserRegistrationCode
+     * @return RegistrationCode
      */
-    public function setEmail(?string $email): UserRegistrationCode {
+    public function setEmail(?string $email): RegistrationCode {
         $this->email = $email;
         return $this;
     }
@@ -262,9 +262,9 @@ class UserRegistrationCode {
 
     /**
      * @param string|null $grade
-     * @return UserRegistrationCode
+     * @return RegistrationCode
      */
-    public function setGrade(?string $grade): UserRegistrationCode {
+    public function setGrade(?string $grade): RegistrationCode {
         $this->grade = $grade;
         return $this;
     }
@@ -278,7 +278,7 @@ class UserRegistrationCode {
 
     /**
      * @param UserType $type
-     * @return UserRegistrationCode
+     * @return RegistrationCode
      */
     public function setType(UserType $type) {
         $this->type = $type;
@@ -294,9 +294,9 @@ class UserRegistrationCode {
 
     /**
      * @param string|null $internalId
-     * @return UserRegistrationCode
+     * @return RegistrationCode
      */
-    public function setInternalId(?string $internalId): UserRegistrationCode {
+    public function setInternalId(?string $internalId): RegistrationCode {
         $this->internalId = $internalId;
         return $this;
     }
@@ -310,9 +310,9 @@ class UserRegistrationCode {
 
     /**
      * @param string[] $attributes
-     * @return UserRegistrationCode
+     * @return RegistrationCode
      */
-    public function setAttributes(array $attributes): UserRegistrationCode {
+    public function setAttributes(array $attributes): RegistrationCode {
         $this->attributes = $attributes;
         return $this;
     }
@@ -335,9 +335,9 @@ class UserRegistrationCode {
 
     /**
      * @param string|null $token
-     * @return UserRegistrationCode
+     * @return RegistrationCode
      */
-    public function setToken(?string $token): UserRegistrationCode {
+    public function setToken(?string $token): RegistrationCode {
         $this->token = $token;
         return $this;
     }

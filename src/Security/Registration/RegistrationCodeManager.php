@@ -3,8 +3,8 @@
 namespace App\Security\Registration;
 
 use App\Entity\User;
-use App\Entity\UserRegistrationCode;
-use App\Repository\UserRegistrationCodeRepositoryInterface;
+use App\Entity\RegistrationCode;
+use App\Repository\RegistrationCodeRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use App\Service\AttributePersister;
 use App\Service\AttributeResolver;
@@ -32,7 +32,7 @@ class RegistrationCodeManager {
     private $mailer;
     private $twig;
 
-    public function __construct(string $from, string $domainBlacklist, UserRegistrationCodeRepositoryInterface $codeRepository,
+    public function __construct(string $from, string $domainBlacklist, RegistrationCodeRepositoryInterface $codeRepository,
                                 UserRepositoryInterface $userRepository, AttributePersister $attributePersister, AttributeResolver $attributeResolver,
                                 UserPasswordEncoderInterface $passwordEncoder, SessionInterface $session,
                                 TranslatorInterface $translator, \Swift_Mailer $mailer, Environment $twig) {
@@ -69,9 +69,9 @@ class RegistrationCodeManager {
     }
 
     /**
-     * @return UserRegistrationCode
+     * @return RegistrationCode
      */
-    public function getLastRedeemedCode(): ?UserRegistrationCode {
+    public function getLastRedeemedCode(): ?RegistrationCode {
         if($this->session->get(static::RegistrationSessionKey) === null) {
             return null;
         }
@@ -87,18 +87,18 @@ class RegistrationCodeManager {
         return $code;
     }
 
-    public function mustComplete(UserRegistrationCode $code): bool {
+    public function mustComplete(RegistrationCode $code): bool {
         return empty($code->getFirstname()) || empty($code->getLastname()) || empty($code->getEmail());
     }
 
     /**
-     * @param UserRegistrationCode $code
+     * @param RegistrationCode $code
      * @param User $user
      * @param string $password
      * @throws EmailAlreadyExistsException
      * @throws EmailDomainNotAllowedException
      */
-    public function complete(UserRegistrationCode $code, User $user, string $password): void {
+    public function complete(RegistrationCode $code, User $user, string $password): void {
         // First check: is domain blacklisted?
         if($this->isDomainBlacklisted($user->getEmail())) {
             throw new EmailDomainNotAllowedException();
@@ -121,7 +121,7 @@ class RegistrationCodeManager {
 
         $this->userRepository->persist($user);
         $this->codeRepository->persist($code);
-        $this->attributePersister->persistUserAttributes($this->attributeResolver->getAttributesForUserRegistrationCode($code), $user);
+        $this->attributePersister->persistUserAttributes($this->attributeResolver->getAttributesForRegistrationCode($code), $user);
 
         // Send email
         $content = $this->twig

@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Entity\ServiceAttributeValue;
 use App\Entity\ServiceAttributeValueInterface;
 use App\Entity\User;
-use App\Entity\UserRegistrationCode;
+use App\Entity\RegistrationCode;
 use App\Entity\UserRole;
 use App\Entity\UserType;
 use App\Repository\ServiceAttributeValueRepositoryInterface;
@@ -131,13 +131,13 @@ class AttributeResolver {
      * @param UserRole $userRole
      * @return mixed[]
      */
-    public function getAttributesForUserRegistrationCode(UserRegistrationCode $code) {
+    public function getAttributesForRegistrationCode(RegistrationCode $code) {
         if($code === null) {
             return [ ];
         }
 
         /** @var ServiceAttributeValue[] $registrationCodeValues */
-        $registrationCodeValues = $this->attributeValueRepository->getAttributeValuesForUserRegistrationCode($code);
+        $registrationCodeValues = $this->attributeValueRepository->getAttributeValuesForRegistrationCode($code);
 
         return $this->transformValuesToSimpleArray($registrationCodeValues);
     }

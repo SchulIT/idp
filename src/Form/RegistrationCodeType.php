@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\UserRegistrationCode;
+use App\Entity\RegistrationCode;
 use App\Entity\UserType as UserTypeEntity;
 use App\Service\AttributeResolver;
 use SchoolIT\CommonBundle\Form\FieldsetType;
@@ -15,7 +15,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 
-class UserRegistrationCodeType extends AbstractType {
+class RegistrationCodeType extends AbstractType {
 
     use AttributeDataTrait;
 
@@ -37,13 +37,13 @@ class UserRegistrationCodeType extends AbstractType {
             ])
             ->add('group_attributes', AttributesType::class, [
                 'legend' => 'label.attributes',
-                'attribute_values' => $this->userAttributeResolver->getAttributesForUserRegistrationCode($code)
+                'attribute_values' => $this->userAttributeResolver->getAttributesForRegistrationCode($code)
             ]);
 
         $builder
             ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
                 $form = $event->getForm();
-                /** @var UserRegistrationCode|null $code */
+                /** @var RegistrationCode|null $code */
                 $code = $event->getData();
 
                 if($code !== null && $code->wasRedeemed()) {

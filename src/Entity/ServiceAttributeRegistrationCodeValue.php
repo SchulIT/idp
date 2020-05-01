@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity()
  */
-class ServiceAttributeUserRegistrationCodeValue implements ServiceAttributeValueInterface {
+class ServiceAttributeRegistrationCodeValue implements ServiceAttributeValueInterface {
     /**
      * @ORM\Id()
      * @ORM\ManyToOne(targetEntity="ServiceAttribute")
@@ -17,7 +17,7 @@ class ServiceAttributeUserRegistrationCodeValue implements ServiceAttributeValue
 
     /**
      * @ORM\Id()
-     * @ORM\ManyToOne(targetEntity="UserRegistrationCode", inversedBy="attributes")
+     * @ORM\ManyToOne(targetEntity="RegistrationCode", inversedBy="attributes")
      * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $registrationCode;
@@ -36,7 +36,7 @@ class ServiceAttributeUserRegistrationCodeValue implements ServiceAttributeValue
 
     /**
      * @param ServiceAttribute $attribute
-     * @return ServiceAttributeUserRegistrationCodeValue
+     * @return ServiceAttributeRegistrationCodeValue
      */
     public function setAttribute(ServiceAttribute $attribute) {
         $this->attribute = $attribute;
@@ -44,17 +44,17 @@ class ServiceAttributeUserRegistrationCodeValue implements ServiceAttributeValue
     }
 
     /**
-     * @return UserRegistrationCode
+     * @return RegistrationCode
      */
     public function getRegistrationCode() {
         return $this->registrationCode;
     }
 
     /**
-     * @param UserRegistrationCode $registrationCode
-     * @return ServiceAttributeUserRegistrationCodeValue
+     * @param RegistrationCode $registrationCode
+     * @return ServiceAttributeRegistrationCodeValue
      */
-    public function setRegistrationCode(UserRegistrationCode $registrationCode) {
+    public function setRegistrationCode(RegistrationCode $registrationCode) {
         $this->registrationCode = $registrationCode;
         return $this;
     }

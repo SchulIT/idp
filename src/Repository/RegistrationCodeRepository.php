@@ -3,13 +3,13 @@
 namespace App\Repository;
 
 use App\Entity\User;
-use App\Entity\UserRegistrationCode;
+use App\Entity\RegistrationCode;
 use App\Entity\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
-class UserRegistrationCodeRepository implements UserRegistrationCodeRepositoryInterface {
+class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface {
 
     private $em;
 
@@ -20,11 +20,11 @@ class UserRegistrationCodeRepository implements UserRegistrationCodeRepositoryIn
     private function createDefaultQueryBuilder(): QueryBuilder {
         return $this->em->createQueryBuilder()
             ->select(['c', 't'])
-            ->from(UserRegistrationCode::class, 'c')
+            ->from(RegistrationCode::class, 'c')
             ->leftJoin('c.type', 't');
     }
 
-    public function findOneByCode(string $code): ?UserRegistrationCode {
+    public function findOneByCode(string $code): ?RegistrationCode {
         return $this->createDefaultQueryBuilder()
             ->where('c.code = :code')
             ->setParameter('code', $code)
@@ -33,7 +33,7 @@ class UserRegistrationCodeRepository implements UserRegistrationCodeRepositoryIn
             ->getOneOrNullResult();
     }
 
-    public function findOneByToken(string $token): ?UserRegistrationCode {
+    public function findOneByToken(string $token): ?RegistrationCode {
         return $this->createDefaultQueryBuilder()
             ->where('c.token = :token')
             ->setParameter('token', $token)
@@ -48,12 +48,12 @@ class UserRegistrationCodeRepository implements UserRegistrationCodeRepositoryIn
             ->getResult();
     }
 
-    public function persist(UserRegistrationCode $code): void {
+    public function persist(RegistrationCode $code): void {
         $this->em->persist($code);
         $this->em->flush();
     }
 
-    public function remove(UserRegistrationCode $code): void {
+    public function remove(RegistrationCode $code): void {
         $this->em->remove($code);
         $this->em->flush();;
     }
@@ -94,7 +94,7 @@ class UserRegistrationCodeRepository implements UserRegistrationCodeRepositoryIn
 
     public function resetTokens(\DateTime $dateTime): void {
         $this->em->createQueryBuilder()
-            ->update(UserRegistrationCode::class, 'u')
+            ->update(RegistrationCode::class, 'u')
             ->set('u.token', ':null')
             ->set('u.tokenCreatedAt', ':null')
             ->where('u.tokenCreatedAt < :threshold')
@@ -111,7 +111,7 @@ class UserRegistrationCodeRepository implements UserRegistrationCodeRepositoryIn
         $qb = $this->em
             ->createQueryBuilder()
             ->select('u.uuid')
-            ->from(UserRegistrationCode::class, 'u');
+            ->from(RegistrationCode::class, 'u');
 
         return array_map(function(array $item) {
             return $item['uuid'];

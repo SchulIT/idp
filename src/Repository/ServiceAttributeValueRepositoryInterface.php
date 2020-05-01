@@ -2,13 +2,13 @@
 
 namespace App\Repository;
 
-use App\Entity\ServiceAttributeUserRegistrationCodeValue;
+use App\Entity\ServiceAttributeRegistrationCodeValue;
 use App\Entity\ServiceAttributeUserRoleValue;
 use App\Entity\ServiceAttributeUserTypeValue;
 use App\Entity\ServiceAttributeValue;
 use App\Entity\ServiceAttributeValueInterface;
 use App\Entity\User;
-use App\Entity\UserRegistrationCode;
+use App\Entity\RegistrationCode;
 use App\Entity\UserRole;
 use App\Entity\UserType;
 
@@ -43,9 +43,9 @@ interface ServiceAttributeValueRepositoryInterface {
     public function getAttributeValuesForUserRole(UserRole $userRole);
 
     /**
-     * @param UserRegistrationCode $code
-     * @return ServiceAttributeUserRegistrationCodeValue[]
+     * @param RegistrationCode $code
+     * @return ServiceAttributeRegistrationCodeValue[]
      */
-    public function getAttributeValuesForUserRegistrationCode(UserRegistrationCode $code);
+    public function getAttributeValuesForRegistrationCode(RegistrationCode $code);
 
 }
