@@ -35,7 +35,7 @@ class UserVariable {
     }
 
     public function getStudentId() {
-        return $this->getUser()->getInternalId();
+        return $this->getUser()->getExternalId();
     }
 
     public function getFirstname() {

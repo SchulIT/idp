@@ -216,7 +216,7 @@ class RegistrationCodeController extends AbstractApiController {
         $code->setEmail($request->getEmail());
         $code->setGrade($request->getGrade());
         $code->setType($type);
-        $code->setInternalId($request->getInternalId());
+        $code->setExternalId($request->getExternalId());
         $code->setAttributes($request->getAttributes());
 
         return $code;

@@ -96,7 +96,7 @@ class ProfileType extends AbstractType {
                 if($user->getId() === null) {
                     $form->get('group_general')
                         ->remove('id')
-                        ->remove('internalId')
+                        ->remove('externalId')
                         ->add('username', TextType::class, [
                             'label' => 'label.username'
                         ]);

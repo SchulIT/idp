@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c07eac4124919df10b9bb969bbf5f0a",
+    "content-hash": "499851e60654e4ee4c04ce8bd51a753c",
     "packages": [
         {
             "name": "acelaya/doctrine-enum-type",
@@ -4690,12 +4690,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchulIT/common-bundle.git",
-                "reference": "461fb12f0fb13e77ba4107bb110c6442834456b2"
+                "reference": "7e4165a28fb7ea5200f97e3c540af99c23392607"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchulIT/common-bundle/zipball/461fb12f0fb13e77ba4107bb110c6442834456b2",
-                "reference": "461fb12f0fb13e77ba4107bb110c6442834456b2",
+                "url": "https://api.github.com/repos/SchulIT/common-bundle/zipball/7e4165a28fb7ea5200f97e3c540af99c23392607",
+                "reference": "7e4165a28fb7ea5200f97e3c540af99c23392607",
                 "shasum": ""
             },
             "require": {
@@ -4735,7 +4735,7 @@
                 "source": "https://github.com/SchulIT/common-bundle/tree/master",
                 "issues": "https://github.com/SchulIT/common-bundle/issues"
             },
-            "time": "2020-04-27T20:55:27+00:00"
+            "time": "2020-05-01T19:57:57+00:00"
         },
         {
             "name": "schoolit/idp-exchange-models",
@@ -10971,7 +10971,8 @@
     "platform": {
         "php": "^7.3",
         "ext-iconv": "*",
-        "ext-openssl": "*"
+        "ext-openssl": "*",
+        "ext-json": "*"
     },
     "platform-dev": []
 }

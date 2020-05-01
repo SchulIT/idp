@@ -113,7 +113,7 @@ class RegistrationCodeManager {
             ->setUsername($code->getUsername())
             ->setType($code->getType())
             ->setGrade($code->getGrade())
-            ->setInternalId($code->getInternalId())
+            ->setExternalId($code->getExternalId())
             ->setIsEmailConfirmationPending(true);
         $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
 

@@ -106,7 +106,7 @@ class RegistrationCode {
      * @Assert\NotBlank(allowNull=true)
      * @var string|null
      */
-    private $internalId;
+    private $externalId;
 
     /**
      * @ORM\OneToMany(targetEntity="ServiceAttributeRegistrationCodeValue", mappedBy="registrationCode")
@@ -288,16 +288,16 @@ class RegistrationCode {
     /**
      * @return string|null
      */
-    public function getInternalId(): ?string {
-        return $this->internalId;
+    public function getExternalId(): ?string {
+        return $this->externalId;
     }
 
     /**
-     * @param string|null $internalId
+     * @param string|null $externalId
      * @return RegistrationCode
      */
-    public function setInternalId(?string $internalId): RegistrationCode {
-        $this->internalId = $internalId;
+    public function setExternalId(?string $externalId): RegistrationCode {
+        $this->externalId = $externalId;
         return $this;
     }
 

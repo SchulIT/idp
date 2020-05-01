@@ -215,11 +215,11 @@ class UserRepository implements UserRepositoryInterface {
         }, $qb->getQuery()->getScalarResult());
     }
 
-    public function findOneByInternalId(string $internalId): ?User {
+    public function findOneByExternalId(string $externalId): ?User {
         return $this->em
             ->getRepository(User::class)
             ->findOneBy([
-                'internalId' => $internalId
+                'externalId' => $externalId
             ]);
     }
 

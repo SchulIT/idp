@@ -120,8 +120,8 @@ class RegistrationCodeType extends AbstractType {
                     'class' => 'radio-custom'
                 ]
             ])
-            ->add('internalId', TextType::class, [
-                'label' => 'label.internal_id',
+            ->add('externalId', TextType::class, [
+                'label' => 'label.external_id',
                 'required' => false,
                 'attr' => [
                     'readonly' => $readonly

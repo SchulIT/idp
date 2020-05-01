@@ -53,7 +53,7 @@ class AttributeValueProvider extends AbstractAttributeProvider {
         $attributes[ClaimTypes::SURNAME] = $user->getLastname();
         $attributes[ClaimTypes::GIVEN_NAME] = $user->getFirstname();
         $attributes[ClaimTypes::EMAIL_ADDRESS] = $user->getEmail();
-        $attributes[ExtendedClaimTypes::INTERNAL_ID] =  $user->getInternalId();
+        $attributes[ExtendedClaimTypes::EXTERNAL_ID] =  $user->getExternalId();
         $attributes[ExtendedClaimTypes::SERVICES] = $this->getServices($user);
         $attributes[ExtendedClaimTypes::GRADE] = $user->getGrade();
         $attributes[ExtendedClaimTypes::TYPE] = $user->getType()->getAlias();

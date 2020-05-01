@@ -19,7 +19,7 @@ class UserRequest {
      * @Serializer\Type("string")
      * @var string|null
      */
-    private $internalId;
+    private $externalId;
 
     /**
      * @Serializer\Type("string")
@@ -81,8 +81,8 @@ class UserRequest {
     /**
      * @return string|null
      */
-    public function getInternalId(): ?string {
-        return $this->internalId;
+    public function getExternalId(): ?string {
+        return $this->externalId;
     }
 
     /**

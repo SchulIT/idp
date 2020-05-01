@@ -91,7 +91,7 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private $internalId;
+    private $externalId;
 
     /**
      * @ORM\Column(type="boolean")
@@ -299,16 +299,16 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     /**
      * @return string|int
      */
-    public function getInternalId() {
-        return $this->internalId;
+    public function getExternalId() {
+        return $this->externalId;
     }
 
     /**
-     * @param string|int $internalId
+     * @param string|int $externalId
      * @return User
      */
-    public function setInternalId($internalId) {
-        $this->internalId = $internalId;
+    public function setExternalId($externalId) {
+        $this->externalId = $externalId;
         return $this;
     }
 

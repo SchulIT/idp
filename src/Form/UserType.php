@@ -48,10 +48,10 @@ class UserType extends AbstractType {
                             'label' => 'label.uuid',
                             'help' => 'label.uuid_help'
                         ])
-                        ->add('internalId', TextType::class, [
+                        ->add('externalId', TextType::class, [
                             'disabled' => true,
-                            'label' => 'label.internal_id',
-                            'help' => 'label.internal_id_help'
+                            'label' => 'label.external_id',
+                            'help' => 'label.external_id_help'
                         ])
                         ->add('username', EmailType::class, [
                             'disabled' => true,
@@ -186,7 +186,7 @@ class UserType extends AbstractType {
                 if($user->getId() === null) {
                     $form->get('group_general')
                         ->remove('id')
-                        ->remove('internalId')
+                        ->remove('externalId')
                         ->add('username', TextType::class, [
                             'label' => 'label.username'
                         ]);

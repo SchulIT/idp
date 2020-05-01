@@ -22,7 +22,7 @@ interface UserRepositoryInterface {
 
     public function findOneByUsername(string $username): ?User;
 
-    public function findOneByInternalId(string $internalId): ?User;
+    public function findOneByExternalId(string $externalId): ?User;
 
     public function findOneByUuid(string $uuid): ?User;
 

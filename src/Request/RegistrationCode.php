@@ -63,7 +63,7 @@ class RegistrationCode {
      * @Assert\NotBlank(allowNull=true)
      * @var string|null
      */
-    private $internalId;
+    private $externalId;
 
     /**
      * @Serializer\Type("array<string, string>")
@@ -123,8 +123,8 @@ class RegistrationCode {
     /**
      * @return string|null
      */
-    public function getInternalId(): ?string {
-        return $this->internalId;
+    public function getExternalId(): ?string {
+        return $this->externalId;
     }
 
     /**

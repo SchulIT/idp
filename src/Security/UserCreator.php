@@ -121,7 +121,7 @@ class UserCreator {
         $user->setUserPrincipalName(mb_strtolower($response->getUserPrincipalName()));
         $user->setType($this->getTargetUserType($response));
         $user->setEmail($response->getEmail());
-        $user->setInternalId($response->getUniqueId());
+        $user->setExternalId($response->getUniqueId());
 
         $user->setOu($response->getOu());
         $user->setGroups($response->getGroups());

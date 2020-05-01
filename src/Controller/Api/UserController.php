@@ -104,7 +104,7 @@ class UserController extends AbstractApiController {
      *     required=true,
      *     in="path",
      *     type="string",
-     *     description="Either the UUID of the user or the internal ID."
+     *     description="Either the UUID of the user or the external ID."
      * )
      */
     public function user($id) {
@@ -179,7 +179,7 @@ class UserController extends AbstractApiController {
      *     name="id",
      *     in="path",
      *     type="string",
-     *     description="Either the UUID of the user or the internal ID."
+     *     description="Either the UUID of the user or the external ID."
      * )
      * @SWG\Parameter(
      *     name="payload",
@@ -229,7 +229,7 @@ class UserController extends AbstractApiController {
      *     name="id",
      *     in="path",
      *     type="string",
-     *     description="Either the UUID of the user or the internal ID."
+     *     description="Either the UUID of the user or the external ID."
      * )
      * @SWG\Parameter(
      *     name="payload",
@@ -271,7 +271,7 @@ class UserController extends AbstractApiController {
      *     name="id",
      *     in="path",
      *     type="string",
-     *     description="Either the UUID of the user or the internal ID."
+     *     description="Either the UUID of the user or the external ID."
      * )
      * @SWG\Response(
      *     response=204,
@@ -315,7 +315,7 @@ class UserController extends AbstractApiController {
                 ->setFirstname($request->getFirstname())
                 ->setLastname($request->getLastname())
                 ->setEmail($request->getEmail())
-                ->setInternalId($request->getInternalId())
+                ->setExternalId($request->getExternalId())
                 ->setEnabledFrom($request->getEnabledFrom())
                 ->setEnabledUntil($request->getEnabledUntil())
                 ->setIsActive($request->isActive());
@@ -329,16 +329,16 @@ class UserController extends AbstractApiController {
         return $user;
     }
 
-    private function getUserOrThrowNotFound(string $uuidOrInternalId) {
-        if(Uuid::isValid($uuidOrInternalId)) {
-            $user = $this->userRepository->findOneByUuid($uuidOrInternalId);
+    private function getUserOrThrowNotFound(string $uuidOrExternalId) {
+        if(Uuid::isValid($uuidOrExternalId)) {
+            $user = $this->userRepository->findOneByUuid($uuidOrExternalId);
 
             if ($user !== null) {
                 return $user;
             }
         }
 
-        $user = $this->userRepository->findOneByInternalId($uuidOrInternalId);
+        $user = $this->userRepository->findOneByExternalId($uuidOrExternalId);
 
         if($user !== null) {
             return $user;
