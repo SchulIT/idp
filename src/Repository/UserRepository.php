@@ -193,4 +193,24 @@ class UserRepository implements UserRepositoryInterface {
                 ->getScalarResult()
         );
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function findAllUuids($offset = 0, $limit = null) {
+        $qb = $this->em
+            ->createQueryBuilder()
+            ->select('u.uuid')
+            ->from(User::class, 'u')
+            ->orderBy('u.username', 'asc')
+            ->setFirstResult($offset);
+
+        if($limit !== null) {
+            $qb->setMaxResults($limit);
+        }
+
+        return array_map(function(array $item) {
+            return $item['uuid'];
+        }, $qb->getQuery()->getScalarResult());
+    }
 }

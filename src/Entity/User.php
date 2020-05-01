@@ -13,6 +13,7 @@ use Scheb\TwoFactorBundle\Model\BackupCodeInterface;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface as GoogleTwoFactorInterface;
 use Scheb\TwoFactorBundle\Model\PreferredProviderInterface;
 use Scheb\TwoFactorBundle\Model\TrustedDeviceInterface;
+use Swagger\Annotations as SWG;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -73,6 +74,10 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     /**
      * @ORM\ManyToOne(targetEntity="UserType", inversedBy="users")
      * @ORM\JoinColumn()
+     * @Serializer\ReadOnly()
+     * @Serializer\Accessor(getter="getTypeString")
+     * @Serializer\Type("string")
+     * @SWG\Property(description="UUID of the usertype")
      */
     private $type;
 
@@ -94,6 +99,7 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serializer\Exclude()
      * @var bool
      */
     private $isEmailConfirmationPending = false;
@@ -104,16 +110,19 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
      *  joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
      *  inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
      * )
+     * @Serializer\Exclude()
      */
     private $enabledServices;
 
     /**
      * @ORM\OneToMany(targetEntity="ServiceAttributeValue", mappedBy="user")
+     * @Serializer\Exclude()
      */
     private $attributes;
 
     /**
      * @ORM\ManyToMany(targetEntity="UserRole", inversedBy="users")
+     * @Serializer\Exclude()
      */
     private $userRoles;
 
@@ -167,6 +176,7 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
 
     /**
      * @ORM\Column(type="json")
+     * @Serializer\Exclude()
      * @var array
      */
     private $data = [ ];
@@ -588,5 +598,9 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
 
     public function setData(string $key, $value): void {
         $this->data[$key] = $value;
+    }
+
+    public function getTypeString(): string {
+        return (string)$this->getType()->getUuid();
     }
 }

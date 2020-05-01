@@ -5,6 +5,7 @@
         "php": "^7.3",
         "ext-iconv": "*",
         "ext-openssl": "*",
+        "ext-json": "*",
         "acelaya/doctrine-enum-type": "^2.3",
         "antishov/doctrine-extensions-bundle": "^1.4",
         "burgov/key-value-form-bundle": "^1.4",

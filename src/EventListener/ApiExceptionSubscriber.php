@@ -32,7 +32,6 @@ class ApiExceptionSubscriber implements EventSubscriberInterface {
 
         $throwable = $event->getThrowable();
         $code = Response::HTTP_INTERNAL_SERVER_ERROR;
-        $message = new ErrorResponse('An unknown error occured.');
 
         // Case 1: general HttpException (Authorization/Authentication) or BadRequest
         if($throwable instanceof HttpException) {
@@ -48,7 +47,7 @@ class ApiExceptionSubscriber implements EventSubscriberInterface {
 
             $message = new ViolationListResponse($violations);
         } else { // Case 3: General error
-            $message = new ErrorResponse($throwable->getMessage());
+            $message = new ErrorResponse($throwable->getMessage(), get_class($throwable));
         }
 
         $validStatusCodes = array_keys(Response::$statusTexts);

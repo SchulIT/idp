@@ -46,6 +46,13 @@ interface UserRepositoryInterface {
      */
     public function findAll($offset = 0, $limit = null);
 
+    /**
+     * @param int $offset
+     * @param int|null $limit
+     * @return string[]
+     */
+    public function findAllUuids($offset = 0, $limit = null);
+
     public function persist(User $user);
 
     public function remove(User $user);

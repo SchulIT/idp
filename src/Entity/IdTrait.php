@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 trait IdTrait {
 
@@ -10,6 +11,7 @@ trait IdTrait {
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer", options={"unsigned": true})
+     * @Serializer\Exclude()
      * @var
      */
     private $id;

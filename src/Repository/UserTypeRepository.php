@@ -31,6 +31,20 @@ class UserTypeRepository implements UserTypeRepositoryInterface {
             ]);
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function findAllUuids() {
+        return array_map(function(array $item) {
+            return $item['uuid'];
+        },
+            $this->em->createQueryBuilder()
+            ->select('u.uuid')
+            ->from(UserType::class, 'u')
+            ->getQuery()
+            ->getScalarResult());
+    }
+
     public function persist(UserType $userType) {
         $this->em->persist($userType);
         $this->em->flush();
@@ -39,5 +53,10 @@ class UserTypeRepository implements UserTypeRepositoryInterface {
     public function remove(UserType $userType) {
         $this->em->remove($userType);
         $this->em->flush();
+    }
+
+    public function findOneByUuid(string $uuid): ?UserType {
+        return $this->em->getRepository(UserType::class)
+            ->findOneBy(['uuid' => $uuid]);
     }
 }

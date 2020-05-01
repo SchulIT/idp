@@ -4,13 +4,11 @@ namespace App\Response;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class ListActiveDirectoryUserResponse {
-
+class ListUserResponse {
     /**
      * List of objectGuids of all Active Directory users
-     *
-     * @Serializer\Type("array<string>")
      * @Serializer\SerializedName("users")
+     * @Serializer\Type("array<string>")
      * @var string[]
      */
     private $users = [ ];
