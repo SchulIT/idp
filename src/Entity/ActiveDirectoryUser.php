@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Ramsey\Uuid\UuidInterface;
 
 /**
@@ -12,6 +13,7 @@ class ActiveDirectoryUser extends User {
 
     /**
      * @ORM\Column(type="string")
+     * @Serializer\Exclude()
      * @var string
      */
     private $userPrincipalName;
@@ -19,18 +21,21 @@ class ActiveDirectoryUser extends User {
 
     /**
      * @ORM\Column(type="uuid", unique=true)
+     * @Serializer\Exclude()
      * @var UuidInterface
      */
     private $objectGuid;
 
     /**
      * @ORM\Column(type="string")
+     * @Serializer\Exclude()
      * @var string
      */
     private $ou;
 
     /**
      * @ORM\Column(type="json")
+     * @Serializer\Exclude()
      * @var string[]
      */
     private $groups = [ ];

@@ -7,6 +7,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Ramsey\Uuid\Uuid;
 
 class UserRepository implements UserRepositoryInterface {
 
@@ -212,5 +213,21 @@ class UserRepository implements UserRepositoryInterface {
         return array_map(function(array $item) {
             return $item['uuid'];
         }, $qb->getQuery()->getScalarResult());
+    }
+
+    public function findOneByInternalId(string $internalId): ?User {
+        return $this->em
+            ->getRepository(User::class)
+            ->findOneBy([
+                'internalId' => $internalId
+            ]);
+    }
+
+    public function findOneByUuid(string $uuid): ?User {
+        return $this->em
+            ->getRepository(User::class)
+            ->findOneBy([
+                'uuid' => $uuid
+            ]);
     }
 }

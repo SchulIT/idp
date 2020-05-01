@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\ActiveDirectoryUser;
 use App\Entity\User;
 use App\Repository\UserRepositoryInterface;
 use App\Repository\UserTypeRepositoryInterface;
@@ -15,9 +16,11 @@ use Exception;
 use JMS\Serializer\Exception\ValidationFailedException;
 use JMS\Serializer\SerializerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Ramsey\Uuid\Uuid;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Response\ErrorResponse;
@@ -85,7 +88,7 @@ class UserController extends AbstractApiController {
     /**
      * Returns a single user.
      *
-     * @Route("/{uuid}", methods={"GET"})
+     * @Route("/{id}", methods={"GET"})
      *
      * @SWG\Response(
      *     response=200,
@@ -97,14 +100,15 @@ class UserController extends AbstractApiController {
      *     description="Empty HTTP 404 response in case the user was not found."
      * )
      * @SWG\Parameter(
-     *     name="uuid",
+     *     name="id",
      *     required=true,
      *     in="path",
      *     type="string",
-     *     description="UUID of the user which should be returned."
+     *     description="Either the UUID of the user or the internal ID."
      * )
      */
-    public function user(User $user) {
+    public function user($id) {
+        $user = $this->getUserOrThrowNotFound($id);
         return $this->returnJson($user);
     }
 
@@ -169,12 +173,13 @@ class UserController extends AbstractApiController {
     /**
      * Updates an existing user. Note: property username cannot be updated using this endpoint (despite the property exists in the request).
      *
-     * @Route("/{uuid}", methods={"PATCH"})
+     * @Route("/{id}", methods={"PATCH"})
      *
      * @SWG\Parameter(
-     *     name="uuid",
+     *     name="id",
      *     in="path",
-     *     type="string"
+     *     type="string",
+     *     description="Either the UUID of the user or the internal ID."
      * )
      * @SWG\Parameter(
      *     name="payload",
@@ -200,7 +205,9 @@ class UserController extends AbstractApiController {
      *     @Model(type=ErrorResponse::class)
      * )
      */
-    public function update(User $user, UserRequest $request) {
+    public function update($id, UserRequest $request) {
+        $user = $this->getUserOrThrowNotFound($id);
+
         $user = $this->transformRequest($request, $user);
         $violations = $this->validator->validate($user);
 
@@ -216,12 +223,13 @@ class UserController extends AbstractApiController {
     /**
      * Updates a users attributes. Notice: only given attributes are updated.
      *
-     * @Route("/{uuid}/attributes", methods={"PATCH"})
+     * @Route("/{id}/attributes", methods={"PATCH"})
      *
      * @SWG\Parameter(
-     *     name="uuid",
+     *     name="id",
      *     in="path",
-     *     type="string"
+     *     type="string",
+     *     description="Either the UUID of the user or the internal ID."
      * )
      * @SWG\Parameter(
      *     name="payload",
@@ -247,7 +255,8 @@ class UserController extends AbstractApiController {
      *     @Model(type=App\Response\ErrorResponse::class)
      * )
      */
-    public function updateAttributes(User $user, UserAttributeRequest $request) {
+    public function updateAttributes($id, UserAttributeRequest $request) {
+        $user = $this->getUserOrThrowNotFound($id);
         $this->attributePersister->persistUserAttributes($request->getAttributes(), $user);
 
         return new Response(null, Response::HTTP_NO_CONTENT);
@@ -256,12 +265,13 @@ class UserController extends AbstractApiController {
     /**
      * Removes an existing user.
      *
-     * @Route("/{uuid}", methods={"DELETE"})
+     * @Route("/{id}", methods={"DELETE"})
      *
      * @SWG\Parameter(
-     *     name="uuid",
+     *     name="id",
      *     in="path",
-     *     type="string"
+     *     type="string",
+     *     description="Either the UUID of the user or the internal ID."
      * )
      * @SWG\Response(
      *     response=204,
@@ -277,7 +287,8 @@ class UserController extends AbstractApiController {
      *     @Model(type=ErrorResponse::class)
      * )
      */
-    public function remove(User $user) {
+    public function remove($id) {
+        $user = $this->getUserOrThrowNotFound($id);
         $this->userRepository->remove($user);
         return new Response(null, Response::HTTP_NO_CONTENT);
     }
@@ -296,21 +307,43 @@ class UserController extends AbstractApiController {
         }
 
         if($user === null) {
-            $user = (new User())
-                ->setUsername($request->getUsername());
+            $user = (new User());
+        }
+
+        if(!$user instanceof ActiveDirectoryUser) {
+            $user
+                ->setFirstname($request->getFirstname())
+                ->setLastname($request->getLastname())
+                ->setEmail($request->getEmail())
+                ->setInternalId($request->getInternalId())
+                ->setEnabledFrom($request->getEnabledFrom())
+                ->setEnabledUntil($request->getEnabledUntil())
+                ->setIsActive($request->isActive());
         }
 
         $user
+            ->setUsername($request->getUsername())
             ->setType($type)
-            ->setGrade($request->getGrade())
-            ->setEnabledFrom($request->getEnabledFrom())
-            ->setEnabledUntil($request->getEnabledUntil())
-            ->setInternalId($request->getInternalId())
-            ->setEmail($request->getEmail())
-            ->setFirstname($request->getFirstname())
-            ->setLastname($request->getLastname())
-            ->setIsActive($request->isActive());
+            ->setGrade($request->getGrade());
 
         return $user;
+    }
+
+    private function getUserOrThrowNotFound(string $uuidOrInternalId) {
+        if(Uuid::isValid($uuidOrInternalId)) {
+            $user = $this->userRepository->findOneByUuid($uuidOrInternalId);
+
+            if ($user !== null) {
+                return $user;
+            }
+        }
+
+        $user = $this->userRepository->findOneByInternalId($uuidOrInternalId);
+
+        if($user !== null) {
+            return $user;
+        }
+
+        throw new NotFoundHttpException();
     }
 }
