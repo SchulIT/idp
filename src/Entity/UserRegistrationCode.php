@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as Serializer;
 use Ramsey\Uuid\Uuid;
+use Swagger\Annotations as SWG;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -33,6 +34,7 @@ class UserRegistrationCode {
     /**
      * @ORM\Column(type="datetime", nullable= true)
      * @Gedmo\Timestampable(on="change", field="redeemingUser")
+     * @Serializer\Exclude()
      * @var \DateTime|null
      */
     private $redeemedAt = null;
@@ -42,12 +44,14 @@ class UserRegistrationCode {
      *
      * @ORM\OneToOne(targetEntity="User")
      * @ORM\JoinColumn(onDelete="CASCADE")
+     * @Serializer\Exclude()
      * @var User|null
      */
     private $redeemingUser = null;
 
     /**
      * @ORM\Column(type="datetime", nullable= true)
+     * @Serializer\Exclude()
      * @var \DateTime|null
      */
     private $confirmedAt;
@@ -90,6 +94,10 @@ class UserRegistrationCode {
     /**
      * @ORM\ManyToOne(targetEntity="UserType")
      * @ORM\JoinColumn()
+     * @Serializer\ReadOnly()
+     * @Serializer\Accessor(getter="getTypeString")
+     * @Serializer\Type("string")
+     * @SWG\Property(description="UUID of the usertype")
      */
     private $type;
 
@@ -108,6 +116,7 @@ class UserRegistrationCode {
 
     /**
      * @ORM\Column(type="string", length=128, unique=true, nullable=true)
+     * @Serializer\Exclude()
      * @var string|null
      */
     private $token = null;
@@ -115,6 +124,7 @@ class UserRegistrationCode {
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Gedmo\Timestampable(on="change", field="token")
+     * @Serializer\Exclude()
      * @var \DateTime|null
      */
     private $tokenCreatedAt = null;
@@ -339,4 +349,7 @@ class UserRegistrationCode {
         return $this->tokenCreatedAt;
     }
 
+    public function getTypeString(): string {
+        return (string)$this->getType()->getUuid();
+    }
 }

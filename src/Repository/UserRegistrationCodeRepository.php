@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\UserRegistrationCode;
 use App\Entity\UserType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -101,5 +102,19 @@ class UserRegistrationCodeRepository implements UserRegistrationCodeRepositoryIn
             ->setParameter('null', null)
             ->getQuery()
             ->execute();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function findAllUuids(): array {
+        $qb = $this->em
+            ->createQueryBuilder()
+            ->select('u.uuid')
+            ->from(UserRegistrationCode::class, 'u');
+
+        return array_map(function(array $item) {
+            return $item['uuid'];
+        }, $qb->getQuery()->getScalarResult());
     }
 }

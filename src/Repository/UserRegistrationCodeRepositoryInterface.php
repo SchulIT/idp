@@ -13,6 +13,11 @@ interface UserRegistrationCodeRepositoryInterface extends TransactionalRepositor
 
     public function findAll();
 
+    /**
+     * @return string[]
+     */
+    public function findAllUuids(): array;
+
     public function persist(UserRegistrationCode $code): void;
 
     public function remove(UserRegistrationCode $code): void;
