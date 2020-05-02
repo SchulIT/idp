@@ -421,7 +421,7 @@ attributes:
     email_address: E-Mail Adresse
     type: Benutzertyp
     grade: Klasse
-    internal_id: Interne ID
+    external_id: Externe ID
     services: Dienste
     id: Benutzer-ID
     roles: Benutzerrollen

@@ -32,7 +32,7 @@ class FriendlyAttributeResolver {
             ClaimTypes::GIVEN_NAME => 'attributes.friendly.givenname',
             ClaimTypes::SURNAME => 'attributes.friendly.surname',
             CommonClaimTypes::GRADE => 'attributes.friendly.grade',
-            CommonClaimTypes::INTERNAL_ID => 'attributes.friendly.internal_id',
+            CommonClaimTypes::EXTERNAL_ID => 'attributes.friendly.external_id',
             CommonClaimTypes::ID => 'attributes.friendly.id',
             CommonClaimTypes::SERVICES => 'attributes.friendly.services',
             CommonClaimTypes::TYPE => 'attributes.friendly.type',
