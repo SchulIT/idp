@@ -1,6 +1,6 @@
 parameters:
     locale: 'de'
-    locales: [ 'de' ]
+    locales: [ 'de', 'en' ]
 
 framework:
     default_locale: '%locale%'
