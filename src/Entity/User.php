@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use JMS\Serializer\Annotation as Serializer;
 use R\U2FTwoFactorBundle\Model\U2F\TwoFactorInterface as U2FTwoFactorInterface;
 use Ramsey\Uuid\Uuid;
@@ -26,11 +27,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"email"})
  * @UniqueEntity(fields={"username"})
  * @Serializer\Discriminator(disabled=true)
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=true)
  */
 class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInterface, BackupCodeInterface, U2FTwoFactorInterface, PreferredProviderInterface {
 
     use IdTrait;
     use UuidTrait;
+    use SoftDeleteableEntity;
 
     /**
      * @ORM\Column(type="string", length=64, unique=true)

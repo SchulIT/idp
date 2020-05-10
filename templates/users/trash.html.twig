@@ -1,10 +1,11 @@
 {% extends "main.html.twig" %}
 
-{% block title %}{{ 'users.label'|trans }}{% endblock %}
+{% block title %}{{ 'users.trash.label'|trans }}{% endblock %}
 
 {% block breadcrumb %}
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('users') }}">{{ 'users.label'|trans }}</a> </li>
         <li class="breadcrumb-item">{{ block('title') }}</li>
     </ol>
 {% endblock %}
@@ -69,20 +70,16 @@
                                     {% endif %}
                                 </td>
                                 <td>
-                                    <form method="post" action="{{ path('remove_user', { uuid: user.uuid }) }}">
+                                    <form method="post" action="{{ path('restore_user', { uuid: user.uuid }) }}">
                                         <input type="hidden" name="{{ csrf_key }}" value="{{ csrf_token(csrf_id) }}">
 
-                                        <a href="{{ path('edit_user', { uuid: user.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-
-                                        <a href="{{ path('show_attributes', { uuid: user.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'users.attributes.label'|trans }}">
-                                            <i class="fa fa-user-tag"></i>
-                                        </a>
-
-                                        <button type="submit" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
-                                            <i class="fa fa-trash"></i>
+                                        <button type="submit" class="btn btn-primary btn-sm" title="{{ 'actions.restore'|trans }}">
+                                            <i class="fa fa-trash-restore"></i>
                                         </button>
+
+                                        <a href="{{ path('remove_user', { uuid: user.uuid }) }}" class="btn btn-sm btn-danger" title="{{ 'users.trash.remove'|trans }}">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
                                     </form>
                                 </td>
                             </tr>
@@ -103,11 +100,8 @@
             <div class="col-md-3">
                 <div class="card">
                     <div class="list-group list-group-flush">
-                        <a href="{{ path('add_user') }}" class="list-group-item list-group-item-action">
-                            <i class="fas fa-plus"></i> {{ 'users.add.label'|trans }}
-                        </a>
-                        <a href="{{ path('users_trash') }}" class="list-group-item list-group-item-action">
-                            <i class="fa fa-trash"></i> {{ 'users.trash.label'|trans }}
+                        <a href="{{ path('users') }}" class="list-group-item list-group-item-action">
+                            <i class="fa fa-arrow-left"></i> {{ 'actions.back'|trans }}
                         </a>
                     </div>
                 </div>
@@ -138,6 +132,14 @@
 
                     <div class="card-footer">
                         <a href="{{ path('users') }}" class="btn btn-primary btn-sm">{{ 'filter.reset'|trans }}</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fa fa-info-circle"></i> {{ 'info.label'|trans }}</h5>
+
+                        <p>{{ 'users.trash.info'|trans }}</p>
                     </div>
                 </div>
             </div>

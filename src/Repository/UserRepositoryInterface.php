@@ -46,9 +46,10 @@ interface UserRepositoryInterface {
     /**
      * @param int $offset
      * @param int|null $limit
+     * @param bool $deleted Whether or not to return deleted users
      * @return User[]
      */
-    public function findAll($offset = 0, $limit = null);
+    public function findAll($offset = 0, $limit = null, bool $deleted = false);
 
     /**
      * @param int $offset
@@ -61,5 +62,5 @@ interface UserRepositoryInterface {
 
     public function remove(User $user);
 
-    public function getPaginatedUsers($itemsPerPage, &$page, $type = null, $query = null): Paginator;
+    public function getPaginatedUsers($itemsPerPage, &$page, $type = null, $query = null, bool $deleted = false): Paginator;
 }

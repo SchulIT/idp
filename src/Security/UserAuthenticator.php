@@ -8,6 +8,7 @@ use AdAuth\Response\AuthenticationResponse;
 use AdAuth\SocketException;
 use App\Entity\ActiveDirectoryUpnSuffix;
 use App\Entity\ActiveDirectoryUser;
+use App\Entity\User;
 use App\Repository\ActiveDirectoryUpnSuffixRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;
@@ -126,7 +127,8 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator {
      * @inheritDoc
      */
     public function checkCredentials($credentials, UserInterface $user) {
-        return $this->encoder->isPasswordValid($user, $credentials['password']);
+        return $this->encoder->isPasswordValid($user, $credentials['password'])
+            && ((!$user instanceof User) || $user->isDeleted() === false);          // Important: check if user was deleted
     }
 
     /**

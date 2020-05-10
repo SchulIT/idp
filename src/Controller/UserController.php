@@ -16,6 +16,7 @@ use App\Utils\ArrayUtils;
 use SchoolIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -27,6 +28,9 @@ class UserController extends AbstractController {
 
     const USERS_PER_PAGE = 25;
 
+    const CsrfTokenId = 'remove_user';
+    const CsrfTokenKey = '_csrf_token';
+
     private $repository;
     private $typeRepository;
 
@@ -35,10 +39,7 @@ class UserController extends AbstractController {
         $this->typeRepository = $typeRepository;
     }
 
-    /**
-     * @Route("/users", name="users")
-     */
-    public function index(Request $request) {
+    private function internalDisplay(Request $request, bool $deleted) {
         $q = $request->query->get('q', null);
         $type = $request->query->get('type', null);
         $page = $request->query->getInt('page', 1);
@@ -49,7 +50,7 @@ class UserController extends AbstractController {
                 return (string)$type->getUuid();
             });
 
-        $paginator = $this->repository->getPaginatedUsers(static::USERS_PER_PAGE, $page, $types[$type] ?? null, $q);
+        $paginator = $this->repository->getPaginatedUsers(static::USERS_PER_PAGE, $page, $types[$type] ?? null, $q, $deleted);
 
         $pages = 1;
 
@@ -57,14 +58,32 @@ class UserController extends AbstractController {
             $pages = ceil((float)$paginator->count() / static::USERS_PER_PAGE);
         }
 
-        return $this->render('users/index.html.twig', [
+        $template = $deleted ? 'users/trash.html.twig' : 'users/index.html.twig';
+
+        return $this->render($template, [
             'users' => $paginator->getIterator(),
             'page' => $page,
             'pages' => $pages,
             'q' => $q,
             'types' => $types,
-            'type' => $type
+            'type' => $type,
+            'csrf_id' => static::CsrfTokenId,
+            'csrf_key' => static::CsrfTokenKey
         ]);
+    }
+
+    /**
+     * @Route("/users", name="users")
+     */
+    public function index(Request $request) {
+        return $this->internalDisplay($request, false);
+    }
+
+    /**
+     * @Route("/users/trash", name="users_trash")
+     */
+    public function trash(Request $request) {
+        return $this->internalDisplay($request, true);
     }
 
     /**
@@ -111,6 +130,10 @@ class UserController extends AbstractController {
      * @Route("/users/{uuid}/edit", name="edit_user")
      */
     public function edit(Request $request, User $user, AttributePersister $attributePersister, UserPasswordEncoderInterface $passwordEncoder) {
+        if($user->isDeleted()) {
+            throw new NotFoundHttpException();
+        }
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -147,6 +170,17 @@ class UserController extends AbstractController {
             return $this->redirectToRoute('users');
         }
 
+        if($user->isDeleted() === false) {
+            if($request->isMethod('POST') && $this->isCsrfTokenValid(static::CsrfTokenId, $request->request->get(static::CsrfTokenKey))) {
+                $this->addFlash('success', 'users.remove.trash.success');
+                $this->repository->remove($user);
+                return $this->redirectToRoute('users');
+            } else {
+                $this->addFlash('error', 'users.remove.trash.error');
+                return $this->redirectToRoute('users');
+            }
+        }
+
         $form = $this->createForm(ConfirmType::class, [], [
             'message' => $translator->trans('users.remove.confirm', [
                 '%username%' => $user->getUsername(),
@@ -168,5 +202,25 @@ class UserController extends AbstractController {
             'form' => $form->createView(),
             'requestedUser' => $user
         ]);
+    }
+
+    /**
+     * @Route("/users/{uuid}/restore", name="restore_user", methods={"POST"})
+     */
+    public function restore(User $user, Request $request) {
+        if($this->getUser() instanceof User && $this->getUser()->getId() === $user->getId()) {
+            $this->addFlash('error', 'users.restore.error.self');
+            return $this->redirectToRoute('users');
+        }
+
+        if($request->isMethod('POST') && $this->isCsrfTokenValid(static::CsrfTokenId, $request->request->get(static::CsrfTokenKey))) {
+            $this->addFlash('success', 'users.trash.restore.success');
+            $user->setDeletedAt(null);
+            $this->repository->persist($user);
+            return $this->redirectToRoute('users_trash');
+        }
+
+        $this->addFlash('error', 'users.trash.restore.error');
+        return $this->redirectToRoute('users_trash');
     }
 }

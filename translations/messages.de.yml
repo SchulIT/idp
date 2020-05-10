@@ -182,12 +182,23 @@ users:
     label: Benutzer bearbeiten
     success: Benutzer erfolgreich aktualisiert
   remove:
-    label: Benutzer löschen
+    label: Benutzer endgültig löschen
     success: Benutzer erfolgreich gelöscht
     confirm: Soll der Benutzer "%lastname%, %firstname% (%username%)" wirklich gelöscht werden?
     help: Nach Abschluss dieser Aktion kann sich der Benutzer nicht weiter anmelden. Wurde der Benutzer aus dem Active Directory importiert und existiert eine Synchronisationsregel, wird der Benutzer anschließend erneut angelegt. Aktive Sitzungen des Benutzers werden erst nach deren Ablauf ungültig.
     error:
       self: Der aktuelle Benutzer kann nicht durch sich selbst gelöscht werden.
+    trash:
+      success: Benutzer zum Löschen vorgemerkt. Innerhalb der nächsten 30 Tage kann der Benutzer wiederhergestellt werden.
+      error: Die Anfrage war fehlerhaft. Der Benutzer wurde nicht zum Löschen vorgemerkt. Bitte erneut probieren.
+  trash:
+    label: Gelöschte Benutzer
+    info: Gelöschte Benutzer können innerhalb von 30 Tagen wiederhergestellt werden bevor sie dann endgültig gelöscht werden.
+    remove: endgültig löschen
+    restore:
+      success: Benutzer erfolgreich wiederhergestellt
+      error: Die Anfrage war fehlerhaft. Der Benutzer wurde nicht wiederhergestellt. Bitte erneut probieren.
+
   attributes:
     label: Attribute
     header: Attribute für Benutzer "%username%"
@@ -349,6 +360,7 @@ actions:
   add: hinzufügen
   edit: bearbeiten
   remove: löschen
+  restore: wiederherstellen
   save: speichern
   cancel: abbrechen
   back: zurück

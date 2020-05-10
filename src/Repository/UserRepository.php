@@ -17,13 +17,19 @@ class UserRepository implements UserRepositoryInterface {
         $this->em = $objectManager;
     }
 
-    public function findAll($offset = 0, $limit = null) {
+    public function findAll($offset = 0, $limit = null, bool $deleted = false) {
         $qb = $this->em
             ->createQueryBuilder()
             ->select('u')
             ->from(User::class, 'u')
             ->orderBy('u.username', 'asc')
             ->setFirstResult($offset);
+
+        if($deleted === true) {
+            $qb->where($qb->expr()->isNotNull('u.deletedAt'));
+        } else {
+            $qb->where($qb->expr()->isNull('u.deletedAt'));
+        }
 
         if($limit !== null) {
             $qb->setMaxResults($limit);
@@ -129,7 +135,7 @@ class UserRepository implements UserRepositoryInterface {
         $this->em->flush();
     }
 
-    public function getPaginatedUsers($itemsPerPage, &$page, $type = null, $query = null): Paginator {
+    public function getPaginatedUsers($itemsPerPage, &$page, $type = null, $query = null, bool $deleted = false): Paginator {
         $qb = $this->em
             ->createQueryBuilder()
             ->select('u')
@@ -155,6 +161,12 @@ class UserRepository implements UserRepositoryInterface {
                     'u.type = :type'
                 )
                 ->setParameter('type', $type);
+        }
+
+        if($deleted === true) {
+            $qb->andWhere($qb->expr()->isNotNull('u.deletedAt'));
+        } else {
+            $qb->andWhere($qb->expr()->isNull('u.deletedAt'));
         }
 
         if(!is_numeric($page) || $page < 1) {

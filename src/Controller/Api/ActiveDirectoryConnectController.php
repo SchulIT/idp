@@ -76,6 +76,7 @@ class ActiveDirectoryConnectController extends AbstractApiController {
 
         if($this->userCreator->canCreateUser($userInfo)) {
             $user = $this->userCreator->createUser($userInfo);
+            $user->setDeletedAt(null); // Adds ability to restore users from Active Directory Connect
             $this->repository->persist($user);
 
             return new Response(null, Response::HTTP_CREATED);
