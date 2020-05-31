@@ -10,7 +10,42 @@
 
 {% block content %}
 
-    <h2 class="mb-3">{{ 'dashboard.welcome'|trans({ '%firstname%': app.user.firstname, '%lastname%': app.user.lastname }) }}</h2>
+    <div class="card">
+        <div class="card-body d-flex flex-wrap">
+            <div class="align-self-center text-center user-icon rounded-circle mr-3 bg-primary text-white" style="width: 50px; height: 50px;">
+                <div class="d-flex align-items-center text-center h-100">
+                    <i class="far fa-user fa-2x mx-auto"></i>
+                </div>
+            </div>
+            <div class="align-self-center mr-auto">
+                <h3 class="mb-1">{{ app.user.firstname }} {{ app.user.lastname }}</h3>
+                <p class="text-muted">
+                    {{ app.user.username }}
+                </p>
+            </div>
+            <div class="align-self-center mr-3 d-none d-md-block">
+                <h6 class="mb-1">
+                    <i class="fa fa-shield-alt"></i> {{ 'two_factor.label'|trans }}
+                </h6>
+
+                {% if app.user.u2FAuthEnabled or app.user.googleAuthenticatorEnabled %}
+                    <span class="badge badge-success">
+                        <i class="fa fa-check"></i> {{ 'two_factor.enabled'|trans }}
+                    </span>
+                {% else %}
+                    <span class="badge badge-danger">
+                        <i class="fa fa-times"></i> {{ 'two_factor.disabled'|trans }}
+                    </span>
+                {% endif %}
+            </div>
+
+            <div class="align-self-center">
+                <a href="{{ path('profile') }}" class="btn btn-outline-primary btn-sm my-2">
+                    {{ 'profile.label'|trans }}
+                </a>
+            </div>
+        </div>
+    </div>
 
     <div class="card-deck mb-3">
         {% for service in services %}
@@ -26,33 +61,5 @@
             <div class="card-deck mb-3">
             {% endif %}
         {% endfor %}
-    </div>
-    <div class="container-fluid px-0">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-id-card"></i> {{ 'dashboard.data'|trans }}</h5>
-
-                        <div class="card-text mb-3">
-                            <p>
-                                <span class="text-muted">{{ 'label.username'|trans }}</span> {{ app.user.username }}
-                            </p>
-                            <p>
-                                <span class="text-muted">{{ 'label.firstname'|trans }}</span> {{ app.user.firstname}}
-                            </p>
-                            <p>
-                                <span class="text-muted">{{ 'label.lastname'|trans }}</span> {{ app.user.lastname }}
-                            </p>
-                            <p>
-                                <span class="text-muted">{{ 'label.email'|trans }}</span> {{ app.user.email }}
-                            </p>
-                        </div>
-
-                        <a href="{{ path('profile') }}" class="btn btn-sm btn-primary">{{ 'profile.label'|trans }}</a>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 {% endblock %}
