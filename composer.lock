@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "65fe4cebd0914c45f8d410e5eda7eba4",
+    "content-hash": "4a19750e02ae162f6051016aead1d095",
     "packages": [
         {
             "name": "acelaya/doctrine-enum-type",
@@ -127,6 +127,74 @@
                 "tree"
             ],
             "time": "2019-12-03T19:50:27+00:00"
+        },
+        {
+            "name": "anyx/login-gate-bundle",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/anyx/LoginGateBundle.git",
+                "reference": "b12f8a9bdc225264c87cffc93c75a91548464efa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/anyx/LoginGateBundle/zipball/b12f8a9bdc225264c87cffc93c75a91548464efa",
+                "reference": "b12f8a9bdc225264c87cffc93c75a91548464efa",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "staffim/rest-client": "^2.0",
+                "symfony/config": "^3.3|^4.0|^5.0",
+                "symfony/dependency-injection": "^3.3|^4.0|^5.0",
+                "symfony/security-bundle": "^3.3|^4.0|^5.0"
+            },
+            "require-dev": {
+                "doctrine/doctrine-fixtures-bundle": "^3.3",
+                "doctrine/mongodb-odm": "~2.0",
+                "doctrine/mongodb-odm-bundle": "~4.0",
+                "escapestudios/symfony2-coding-standard": "3.x-dev",
+                "ext-ctype": "*",
+                "ext-iconv": "*",
+                "friendsofphp/php-cs-fixer": "^2.11",
+                "php": "^7.2.5",
+                "phpmd/phpmd": "@stable",
+                "phpunit/phpunit": "^8.5",
+                "symfony/browser-kit": "^5.0",
+                "symfony/dotenv": "5.0.*",
+                "symfony/flex": "^1.3.1",
+                "symfony/framework-bundle": "5.0.*",
+                "symfony/monolog-bundle": "^3.5",
+                "symfony/orm-pack": "^1.0",
+                "symfony/security-bundle": "5.0.*",
+                "symfony/twig-pack": "^1.0",
+                "symfony/yaml": "5.0.*"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Anyx\\LoginGateBundle\\": "",
+                    "OrmApp\\": "Tests\\OrmApp\\src",
+                    "MongoApp\\": "Tests\\MongoApp\\src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksandr Klimenkov",
+                    "email": "alx.devel@gmail.com"
+                }
+            ],
+            "description": "Checking brute force attacks on site",
+            "homepage": "https://github.com/anyx/LoginGateBundle",
+            "keywords": [
+                "brute-force",
+                "security"
+            ],
+            "time": "2020-05-28T12:49:54+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -5182,6 +5250,49 @@
                 "google authenticator"
             ],
             "time": "2018-07-18T22:08:02+00:00"
+        },
+        {
+            "name": "staffim/rest-client",
+            "version": "2.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/staffim/rest-client.git",
+                "reference": "de0b157c363b93ad9e6414c897ce18623cac56ae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/staffim/rest-client/zipball/de0b157c363b93ad9e6414c897ce18623cac56ae",
+                "reference": "de0b157c363b93ad9e6414c897ce18623cac56ae",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.1",
+                "symfony/framework-bundle": "~3.4|~4.0|~5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Staffim\\RestClient\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vyacheslav Salakhutdinov",
+                    "email": "megazoll@gmail.com"
+                }
+            ],
+            "keywords": [
+                "client",
+                "rest",
+                "symfony",
+                "test"
+            ],
+            "time": "2020-02-28T21:58:00+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

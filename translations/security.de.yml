@@ -5,6 +5,11 @@ unknown_error: Ein unbekannter Fehler ist bei der Anmeldung aufgetreten. Bitte d
 account_disabled: Der Benutzeraccount ist derzeit deaktiviert.
 email_confirmation_pending: Die E-Mail Adresse muss noch bestätigt werden. Vorher ist keine Anmeldung möglich.
 
+too_many_attempts:
+  label: Anmeldung gesperrt
+  message: Aufgrund zu vieler fehlgeschlagener Anmeldeversuche ist die Anmeldung kurzzeitig gesperrt.
+  retry: erneut versuchen
+
 forgot_pw:
   username_empty: Benutzername darf nicht leer sein.
   success: E-Mail zum Zurücksetzen des Passwortes wurde verschickt.

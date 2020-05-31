@@ -1,0 +1,17 @@
+{% extends "@Common/auth/main.html.twig" %}
+
+
+{% block content %}
+
+    <div class="text-center">
+        <i class="fas fa-shield-alt fa-3x d-block text-secondary"></i>
+        <h4>{{ 'too_many_attempts.label'|trans({}, 'security') }}</h4>
+
+        <p>{{ 'too_many_attempts.message'|trans({}, 'security') }}</p>
+    </div>
+
+    <a href="{{ path('login') }}" class="btn btn-primary btn-block">
+        {{ 'too_many_attempts.retry'|trans({}, 'security') }}
+    </a>
+
+{% endblock %}

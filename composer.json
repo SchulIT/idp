@@ -8,6 +8,7 @@
         "ext-openssl": "*",
         "acelaya/doctrine-enum-type": "^2.3",
         "antishov/doctrine-extensions-bundle": "^1.4",
+        "anyx/login-gate-bundle": "^2.0",
         "burgov/key-value-form-bundle": "^1.4",
         "endroid/qr-code-bundle": "^3.2",
         "fervo/enum-bundle": "dev-master",

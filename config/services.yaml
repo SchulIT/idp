@@ -130,3 +130,6 @@ services:
     App\ParamConverter\JsonBodyConverter:
         arguments:
             $prefix: 'App\Request'
+
+
+    Anyx\LoginGateBundle\Service\BruteForceChecker: "@anyx.login_gate.brute_force_checker"
