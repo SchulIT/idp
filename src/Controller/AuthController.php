@@ -13,9 +13,6 @@ class AuthController extends AbstractController {
      * @Route("/login", name="login")
      */
     public function login(AuthenticationUtils $authUtils, BruteForceChecker $bruteForceChecker, Request $request) {
-        dump($request->get('_username'));
-        dump($request->request->get('_username'));
-
         if($bruteForceChecker->canLogin($request) === false) {
             return $this->render('auth/too_many_attempts.html.twig', [
 
