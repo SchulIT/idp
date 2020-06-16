@@ -41,7 +41,7 @@ class UserType extends AbstractType {
         $builder
             ->add('group_general', FieldsetType::class, [
                 'legend' => 'label.general',
-                'fields' => function(FormBuilderInterface $builder) {
+                'fields' => function(FormBuilderInterface $builder) use($user) {
                     $builder
                         ->add('uuid', TextType::class, [
                             'disabled' => true,
@@ -49,7 +49,7 @@ class UserType extends AbstractType {
                             'help' => 'label.uuid_help'
                         ])
                         ->add('externalId', TextType::class, [
-                            'disabled' => true,
+                            'disabled' => $user instanceof ActiveDirectoryUser,
                             'label' => 'label.external_id',
                             'help' => 'label.external_id_help'
                         ])
