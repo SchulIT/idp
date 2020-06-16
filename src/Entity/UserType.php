@@ -80,6 +80,13 @@ class UserType {
      */
     private $canChangeEmail = true;
 
+    /**
+     * @ORM\Column(type="boolean")
+     * @Serializer\Exclude()
+     * @var bool
+     */
+    private $canLinkStudents = false;
+
     public function __construct() {
         $this->uuid = Uuid::uuid4();
 
@@ -224,6 +231,22 @@ class UserType {
      */
     public function setCanChangeEmail($canChangeEmail) {
         $this->canChangeEmail = $canChangeEmail;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCanLinkStudents(): bool {
+        return $this->canLinkStudents;
+    }
+
+    /**
+     * @param bool $canLinkStudents
+     * @return UserType
+     */
+    public function setCanLinkStudents(bool $canLinkStudents): UserType {
+        $this->canLinkStudents = $canLinkStudents;
         return $this;
     }
 }

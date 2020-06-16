@@ -1,0 +1,52 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'link.student.label'|trans }}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a> </li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title"><i class="fa fa-info-circle"></i> {{ 'info.label'|trans }}</h5>
+
+            <p>{{ 'link.student.info'|trans }}</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">{{ 'link.student.title'|trans }}</div>
+
+        <ul class="list-group list-group-flush">
+            {% for link in links %}
+            <li class="list-group-item">
+                {{ link|user }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            {{ block('title') }}
+        </div>
+
+        <div class="card-body">
+            {{ form_start(form) }}
+
+            {{ form_widget(form) }}
+
+            <button type="submit" class="btn btn-primary btn-sm">
+                {{ 'link.student.button'|trans }}
+            </button>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}

@@ -17,34 +17,47 @@
                     <i class="far fa-user fa-2x mx-auto"></i>
                 </div>
             </div>
-            <div class="align-self-center mr-auto">
-                <h3 class="mb-1">{{ app.user.firstname }} {{ app.user.lastname }}</h3>
+            <div class="align-self-center pr-5 mr-auto">
+                <h3 class="mb-1">
+                    {{ app.user.firstname }} {{ app.user.lastname }}
+                </h3>
                 <p class="text-muted">
                     {{ app.user.username }}
+
+                    <i class="fa fa-users"></i> {{ app.user.type.name }}
                 </p>
             </div>
-            <div class="align-self-center mr-3 d-none d-md-block">
-                <h6 class="mb-1">
-                    <i class="fa fa-shield-alt"></i> {{ 'two_factor.label'|trans }}
-                </h6>
-
-                {% if app.user.u2FAuthEnabled or app.user.googleAuthenticatorEnabled %}
-                    <span class="badge badge-success">
-                        <i class="fa fa-check"></i> {{ 'two_factor.enabled'|trans }}
-                    </span>
-                {% else %}
-                    <span class="badge badge-danger">
-                        <i class="fa fa-times"></i> {{ 'two_factor.disabled'|trans }}
-                    </span>
-                {% endif %}
-            </div>
-
             <div class="align-self-center">
                 <a href="{{ path('profile') }}" class="btn btn-outline-primary btn-sm my-2">
                     {{ 'profile.label'|trans }}
                 </a>
             </div>
         </div>
+
+        {% if is_granted('link-student') %}
+            <div class="card-footer">
+                <div class="d-flex align-items-center">
+                    <span class="mr-auto">
+                        <strong class="mr-1">
+                            <i class="fa fa-link"></i> {{ 'label.students'|trans({'%count%': links|length }) }}:
+                        </strong>
+
+                        <span class="text-muted">
+                            {% if links is empty %}
+
+                            {% endif %}
+                            {% for link in links %}
+                                {{ link.firstname }} {{ link.lastname }}{% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        </span>
+                    </span>
+
+                    <a href="{{ path('link_student') }}" class="btn btn-outline-primary btn-sm">
+                        <i class="fa fa-link"></i> {{ 'link.student.label'|trans }}
+                    </a>
+                </div>
+            </div>
+        {% endif %}
     </div>
 
     <div class="card-deck mb-3">

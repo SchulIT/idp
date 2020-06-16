@@ -86,6 +86,13 @@ class UserTypeType extends AbstractType {
                             'label_attr' => [
                                 'class' => 'checkbox-custom'
                             ]
+                        ])
+                        ->add('canLinkStudents', CheckboxType::class, [
+                            'required' => false,
+                            'label' => 'label.can_link_students',
+                            'label_attr' => [
+                                'class' => 'checkbox-custom'
+                            ]
                         ]);
                 }
             ])

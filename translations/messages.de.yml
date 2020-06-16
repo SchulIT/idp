@@ -46,6 +46,7 @@ label:
     name_hint: Der Administrator erlaubt eine Änderung des Namens nicht.
     email: Benutzer kann E-Mail Adresse ändern
     email_hint: Der Administrator erlaubt eine Änderung der E-Mail Adresse nicht.
+  can_link_students: Benutzer kann mit Accounts von Lernenden verknüpfen
   api_key: API-Key
   enabled_from: aktiviert von
   enabled_until: aktiviert bis
@@ -54,6 +55,7 @@ label:
   pending_email_confirmation: E-Mail-Bestätigung ausstehend
   user_role: Benutzerrolle
   suffix: Suffix
+  students: '{0} Lernende|{1} Lernender|]1,Inf[ Lernende'
 
 auth:
   login: Anmelden
@@ -165,6 +167,7 @@ dashboard:
   services: Meine Dienste
   open: öffnen
   link: Zur Übersicht
+
 
 user_menu:
   label: Benutzer-Verwaltung
@@ -460,6 +463,21 @@ codes:
     label: Registrierungscode entfernen
     confirm: 'Soll der Registrierungscode "%code%" wirklich gelöscht werden?'
     success: Registrierungscode erfolgreich gelöscht
+
+link:
+  student:
+    label: Lernenden verknüpfen
+    info: Um als Elternteil auf die Daten des Kindes zugreifen zu können, muss man sich als Elternteil einmalig mit dem Account des Kindes verknüpfen. Dazu muss das Kind einmalig seine Anmeldedaten eintragen.
+    title: Verknüpfungen
+    none: Keine Verknüpfungen
+    button: verknüpfen
+    success: Verknüpfung erfolgreich eingerichtet
+    error:
+      socket: Der Authentifizierungsserver ist aktuell nicht verfügbar. Bitte später erneut probieren.
+      authentication: Anmelde-E-Mail-Adresse und/oder Passwort sind ungültig.
+      not_found: Der Lernende wurde nicht gefunden. Bitte beim Administrator melden.
+      no_student: Der Benutzer ist kein Lernender. Es wurde keine Verknüpfung vorgenommen.
+
 
 api:
   doc: API-Dokumentation
