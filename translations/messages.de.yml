@@ -469,6 +469,10 @@ codes:
     label: Registrierungscode entfernen
     confirm: 'Soll der Registrierungscode "%code%" wirklich gelöscht werden?'
     success: Registrierungscode erfolgreich gelöscht
+  remove_redeemed:
+    label: Eingelöste Codes entfernen
+    confirm: 'Sollen wirklich alle eingelösten Codes aus dem System entfernt werden?'
+    success: Alle eingelösten Codes aus dem System entfernt
 
 link:
   student:

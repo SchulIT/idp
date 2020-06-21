@@ -24,5 +24,7 @@ interface RegistrationCodeRepositoryInterface extends TransactionalRepositoryInt
 
     public function resetTokens(\DateTime $dateTime): void;
 
+    public function removeRedeemed(): void;
+
     public function getPaginatedUsers(int $itemsPerPage, int &$page, UserType $type = null): Paginator;
 }

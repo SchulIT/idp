@@ -50,6 +50,26 @@ class RegistrationCodeController extends AbstractController {
     }
 
     /**
+     * @Route("/remove/redeemed", name="remove_redeemed_codes")
+     */
+    public function removeRedeemed(Request $request) {
+        $form = $this->createForm(ConfirmType::class, null, [
+            'message' => 'codes.remove_redeemed.confirm'
+        ]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $this->repository->removeRedeemed();
+            $this->addFlash('success', 'codes.remove_redeemed.success');
+            return $this->redirectToRoute('registration_codes');
+        }
+
+        return $this->render('codes/remove_redeemed.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
      * @Route("/add", name="add_registration_code")
      */
     public function add(Request $request) {

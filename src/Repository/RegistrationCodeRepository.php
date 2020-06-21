@@ -117,4 +117,13 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
             return $item['uuid'];
         }, $qb->getQuery()->getScalarResult());
     }
+
+    public function removeRedeemed(): void {
+        $qb = $this->em->createQueryBuilder();
+        $qb
+            ->delete(RegistrationCode::class, 'r')
+            ->where($qb->expr()->isNotNull('r.redeemedAt'))
+            ->getQuery()
+            ->execute();
+    }
 }
