@@ -4,15 +4,28 @@
 
 {% block content %}
 
-    <div class="text-center">
-        <i class="fas fa-envelope-open-text fa-3x d-block text-secondary"></i>
-        <h4>{{ 'register.completed.label'|trans({}, 'security') }}</h4>
+    {% if confirmation_sent %}
+        <div class="text-center">
+            <i class="fas fa-envelope-open-text fa-3x d-block text-secondary"></i>
+            <h4>{{ 'register.completed.confirmation.label'|trans({}, 'security') }}</h4>
 
-        <p>{{ 'register.completed.message'|trans({}, 'security') }}</p>
-    </div>
+            <p>{{ 'register.completed.confirmation.message'|trans({}, 'security') }}</p>
+        </div>
 
-    <hr >
+        <hr >
 
-    <p>{{ 'register.completed.help'|trans({}, 'security') }}</p>
+        <p>{{ 'register.completed.confirmation.help'|trans({}, 'security') }}</p>
+    {% else %}
+        <div class="text-center">
+            <i class="fas fa-user-check fa-3x d-block text-secondary"></i>
+            <h4>{{ 'register.completed.no_confirmation.label'|trans({}, 'security') }}</h4>
+
+            <p>{{ 'register.completed.no_confirmation.message'|trans({}, 'security') }}</p>
+        </div>
+
+        <a href="{{ path('login') }}" class="btn btn-block btn-primary">
+            {{ 'auth.login'|trans }}
+        </a>
+    {% endif %}
 
 {% endblock %}

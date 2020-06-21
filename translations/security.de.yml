@@ -38,15 +38,19 @@ register:
     message: Das Benutzerprofil ist unvollständig. Bitte die fehlenden Angaben ergänzen.
     button: Registrierung abschließen
     success: Benutzerprofil erfolgreich vervollständigt.
-    fake_data: Es wurde ein zufälliger Vor- und Nachname generiert. Falls gewünscht, kann dieser durch den realen Vor- und Nachnamen ersetzt werden.
-    email_help: Die Angabe der E-Mail-Adresse ist freiwillig. Wenn eine reale E-Mail-Adresse angegeben wird, kann das Passwort eigenständig zurückgesetzt werden. Anderenfalls ist dies nur über den Administrator möglich.
+    caution: Bitte die Anmelde-E-Mail-Adresse notieren.
+    email_help: Die Angabe der E-Mail-Adresse ist freiwillig. Wenn eine E-Mail-Adresse angegeben wird, kann das Passwort eigenständig zurückgesetzt werden. Anderenfalls ist dies nur über den Administrator möglich.
     error:
       email_aready_used: Die E-Mail Adresse wird bereits verwendet. Bitte eine andere E-Mail Adresse verwenden.
       domain_blacklisted: E-Mail Adressen mit der angegebenen Domain (hinter dem @-Zeichen) sind nicht erlaubt.
   completed:
-    label: Bestätigung versendet
-    message: Es wurde eine E-Mail an die angegebene Adresse versendet. Bitte den Bestätigungslink in der E-Mail anklicken, um die Registrierung abzuschließen.
-    help: Falls eine falsche E-Mail Adresse eingetragen wurde oder die E-Mail nicht angekommen ist, muss der Administrator informiert werden.
+    no_confirmation:
+      label: Registrierung erfolgreich
+      message: Die eingegebe Anmelde-E-Mail-Adresse und das zugehörige Passwort können nun zur Anmeldung genutzt werden.
+    confirmation:
+      label: Bestätigung versendet
+      message: Es wurde eine E-Mail an die angegebene Adresse versendet. Bitte den Bestätigungslink in der E-Mail anklicken, um die Registrierung abzuschließen.
+      help: Falls eine falsche E-Mail Adresse eingetragen wurde oder die E-Mail nicht angekommen ist, muss der Administrator informiert werden.
   confirmed:
     label: E-Mail Adresse bestätigen
     message: Die E-Mail Adresse wurde bestätigt.

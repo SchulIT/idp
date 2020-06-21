@@ -58,9 +58,10 @@ label:
   user_role: Benutzerrolle
   suffix: Suffix
   students: '{0} Lernende|{1} Lernender|]1,Inf[ Lernende'
-  populate_fake_personal_data:
-    label: Zufällige persönliche Daten erzeugen
-    help: Wenn diese Option aktiv ist, wird dem Benutzer ein zufälliger Vor- und Nachname sowie E-Mail-Adresse generiert.
+  user: Benutzer
+
+help:
+  voluntary: Diese Angabe ist freiwillig.
 
 auth:
   login: Anmelden
@@ -455,7 +456,7 @@ codes:
     label: Neuer Registrierungscode
     success: Registrierungscode erfolgreich hinzugefügt
     help:
-      must_complete_if_null: Wenn dieses Feld nicht ausgefüllt ist, muss der Benutzer das bei der Registrierung angeben.
+      can_complete_if_null: Wenn dieses Feld nicht ausgefüllt ist, kann der Benutzer das bei der Registrierung angeben (Angabe ist freiwillig).
   edit:
     label: Registrierungscode bearbeiten
     success: Registrierungscode erfolgreich aktualisiert

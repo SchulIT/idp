@@ -47,13 +47,16 @@ class ProfileType extends AbstractType {
                             ]
                         ])
                         ->add('firstname', TextType::class, [
-                            'label' => 'label.firstname'
+                            'label' => 'label.firstname',
+                            'required' => false
                         ])
                         ->add('lastname', TextType::class, [
-                            'label' => 'label.lastname'
+                            'label' => 'label.lastname',
+                            'required' => false
                         ])
                         ->add('email', EmailType::class, [
                             'label' => 'label.email',
+                            'required' => false,
                             'attr' => [
                                 'autocomplete' => 'off'
                             ]

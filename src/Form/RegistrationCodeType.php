@@ -87,7 +87,7 @@ class RegistrationCodeType extends AbstractType {
             ->add('firstname', TextType::class, [
                 'label' => 'label.firstname',
                 'required' => false,
-                'help' => 'codes.add.help.must_complete_if_null',
+                'help' => 'codes.add.help.can_complete_if_null',
                 'attr' => [
                     'readonly' => $readonly
                 ]
@@ -95,7 +95,7 @@ class RegistrationCodeType extends AbstractType {
             ->add('lastname', TextType::class, [
                 'label' => 'label.lastname',
                 'required' => false,
-                'help' => 'codes.add.help.must_complete_if_null',
+                'help' => 'codes.add.help.can_complete_if_null',
                 'attr' => [
                     'readonly' => $readonly
                 ]
@@ -103,17 +103,9 @@ class RegistrationCodeType extends AbstractType {
             ->add('email', EmailType::class, [
                 'label' => 'label.email',
                 'required' => false,
-                'help' => 'codes.add.help.must_complete_if_null',
+                'help' => 'codes.add.help.can_complete_if_null',
                 'attr' => [
                     'readonly' => $readonly
-                ]
-            ])
-            ->add('populateFakePersonalData', CheckboxType::class, [
-                'label' => 'label.populate_fake_personal_data.label',
-                'help' => 'label.populate_fake_personal_data.help',
-                'required' => false,
-                'label_attr' => [
-                    'class' => 'checkbox-custom'
                 ]
             ])
             ->add('grade', TextType::class, [

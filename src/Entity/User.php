@@ -45,14 +45,16 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     private $username;
 
     /**
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\NotBlank(allowNull=true)
+     * @var string|null
      */
     private $firstname;
 
     /**
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\NotBlank(allowNull=true)
+     * @var string|null
      */
     private $lastname;
 
@@ -63,14 +65,16 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     private $password;
 
     /**
-     * @ORM\Column(type="text", unique=true)
+     * @ORM\Column(type="text", unique=true, nullable=true)
+     * @Assert\NotBlank(allowNull=true)
      * @Assert\Email()
-     * @Assert\NotBlank()
+     * @var string|null
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @var string|null
      */
     private $grade;
 
@@ -210,14 +214,14 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getFirstname() {
         return $this->firstname;
     }
 
     /**
-     * @param string $firstname
+     * @param string|null $firstname
      * @return User
      */
     public function setFirstname($firstname) {
@@ -226,14 +230,14 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getLastname() {
         return $this->lastname;
     }
 
     /**
-     * @param string $lastname
+     * @param string|null $lastname
      * @return User
      */
     public function setLastname($lastname) {
@@ -251,7 +255,7 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     }
 
     /**
-     * @param string $email
+     * @param string|null $email
      * @return User
      */
     public function setEmail($email) {
@@ -260,7 +264,7 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getEmail() {
         return $this->email;

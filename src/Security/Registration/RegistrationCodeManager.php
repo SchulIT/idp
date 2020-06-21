@@ -8,10 +8,12 @@ use App\Repository\RegistrationCodeRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use App\Service\AttributePersister;
 use App\Service\AttributeResolver;
+use DateTime;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
+use function Symfony\Component\String\u;
 
 class RegistrationCodeManager {
 
@@ -100,12 +102,12 @@ class RegistrationCodeManager {
      */
     public function complete(RegistrationCode $code, User $user, string $password): void {
         // First check: is domain blacklisted?
-        if($this->isDomainBlacklisted($user->getEmail())) {
+        if($user->getEmail() !== null && $this->isDomainBlacklisted($user->getEmail())) {
             throw new EmailDomainNotAllowedException();
         }
 
         // Second check: is address already in use?
-        if($this->userRepository->findOneByEmail($user->getEmail()) !== null) {
+        if($user->getEmail() !== null && $this->userRepository->findOneByEmail($user->getEmail()) !== null) {
             throw new EmailAlreadyExistsException();
         }
 
@@ -117,31 +119,37 @@ class RegistrationCodeManager {
             ->setType($code->getType())
             ->setGrade($code->getGrade())
             ->setExternalId($code->getExternalId())
-            ->setIsEmailConfirmationPending(true);
+            ->setIsEmailConfirmationPending($user->getEmail() !== null);
         $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
 
         $code->setRedeemingUser($user);
+
+        if($user->getEmail() === null) {
+            $code->setConfirmedAt(new DateTime());
+        }
 
         $this->userRepository->persist($user);
         $this->codeRepository->persist($code);
         $this->attributePersister->persistUserAttributes($this->attributeResolver->getAttributesForRegistrationCode($code), $user);
 
-        // Send email
-        $content = $this->twig
-            ->render('mail/registration.twig', [
-                'token' => $code->getToken(),
-                'firstname' => $user->getFirstname(),
-                'lastname'=> $user->getLastname(),
-                'expiry_date' => (new \DateTime())->modify(sprintf('+%s', static::DefaultTokenLifetime))
-            ]);
+        if($user->getEmail() !== null) {
+            // Send email
+            $content = $this->twig
+                ->render('mail/registration.twig', [
+                    'token' => $code->getToken(),
+                    'firstname' => $user->getFirstname(),
+                    'lastname' => $user->getLastname(),
+                    'expiry_date' => (new \DateTime())->modify(sprintf('+%s', static::DefaultTokenLifetime))
+                ]);
 
-        $message = (new \Swift_Message())
-            ->setSubject($this->translator->trans('registration.title', [], 'mail'))
-            ->setTo($user->getEmail())
-            ->setFrom($this->from)
-            ->setBody($content);
+            $message = (new \Swift_Message())
+                ->setSubject($this->translator->trans('registration.title', [], 'mail'))
+                ->setTo($user->getEmail())
+                ->setFrom($this->from)
+                ->setBody($content);
 
-        $this->mailer->send($message);
+            $this->mailer->send($message);
+        }
     }
 
     /**

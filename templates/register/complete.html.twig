@@ -16,14 +16,11 @@
 
     <hr >
 
-    {% include 'auth/errors.html.twig' %}
+    {% include '@Common/auth/errors.html.twig' %}
 
-    {% if code.populateFakePersonalData %}
-        <div class="bs-callout bs-callout-info">
-            <h4>{{ 'info.label'|trans }}</h4>
-            <p>{{ 'register.complete.fake_data'|trans({}, 'security') }}</p>
-        </div>
-    {% endif %}
+    <div class="alert alert-danger">
+        <i class="fa fa-exclamation-triangle"></i> {{ 'register.complete.caution'|trans({}, 'security') }}
+    </div>
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
