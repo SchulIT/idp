@@ -26,7 +26,8 @@ class UserProfileCompleteType extends AbstractType {
         parent::configureOptions($resolver);
 
         $resolver->setDefault('username_suffix', null)
-            ->setDefault('can_edit_username', false);
+            ->setDefault('can_edit_username', false)
+            ->setDefault('fake_data_populated', false);
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
@@ -54,7 +55,8 @@ class UserProfileCompleteType extends AbstractType {
                 'type' => EmailType::class,
                 'invalid_message' => $this->translator->trans('register.email.not_match', [], 'security'),
                 'first_options' => [
-                    'label' => 'label.email'
+                    'label' => 'label.email',
+                    'help' => $options['fake_data_populated'] ? $this->translator->trans('register.complete.email_help', [], 'security') : null,
                 ],
                 'second_options' => [
                     'label' => 'label.repeat_email'

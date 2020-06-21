@@ -18,6 +18,13 @@
 
     {% include 'auth/errors.html.twig' %}
 
+    {% if code.populateFakePersonalData %}
+        <div class="bs-callout bs-callout-info">
+            <h4>{{ 'info.label'|trans }}</h4>
+            <p>{{ 'register.complete.fake_data'|trans({}, 'security') }}</p>
+        </div>
+    {% endif %}
+
     {{ form_start(form) }}
     {{ form_widget(form) }}
 

@@ -8,6 +8,7 @@ use App\Service\AttributeResolver;
 use SchoolIT\CommonBundle\Form\FieldsetType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -105,6 +106,14 @@ class RegistrationCodeType extends AbstractType {
                 'help' => 'codes.add.help.must_complete_if_null',
                 'attr' => [
                     'readonly' => $readonly
+                ]
+            ])
+            ->add('populateFakePersonalData', CheckboxType::class, [
+                'label' => 'label.populate_fake_personal_data.label',
+                'help' => 'label.populate_fake_personal_data.help',
+                'required' => false,
+                'label_attr' => [
+                    'class' => 'checkbox-custom'
                 ]
             ])
             ->add('grade', TextType::class, [

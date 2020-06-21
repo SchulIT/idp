@@ -10,6 +10,7 @@ use App\Security\Registration\EmailAlreadyExistsException;
 use App\Security\Registration\EmailDomainNotAllowedException;
 use App\Security\Registration\RegistrationCodeManager;
 use App\Security\Registration\TokenNotFoundException;
+use Faker\Generator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,7 +64,7 @@ class RegistrationController extends AbstractController {
     /**
      * @Route("/complete", name="complete_registration_code")
      */
-    public function complete(Request $request): Response {
+    public function complete(Request $request, Generator $generator): Response {
         $code = $this->manager->getLastRedeemedCode();
 
         if($code === null) {
@@ -77,9 +78,16 @@ class RegistrationController extends AbstractController {
             ->setLastname($code->getLastname())
             ->setEmail($code->getEmail());
 
+        if($code->isPopulateFakePersonalData()) {
+            $user->setFirstname($generator->firstName);
+            $user->setLastname($generator->lastName);
+            $user->setEmail($generator->safeEmail);
+        }
+
         $form = $this->createForm(UserProfileCompleteType::class, $user, [
             'username_suffix' => $code->getUsernameSuffix(),
-            'can_edit_username' => $code->getUsername() === null
+            'can_edit_username' => $code->getUsername() === null,
+            'fake_data_populated' => $code->isPopulateFakePersonalData()
         ]);
         $form->handleRequest($request);
 
@@ -98,7 +106,8 @@ class RegistrationController extends AbstractController {
         }
 
         return $this->render('register/complete.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'code' => $code
         ]);
     }
 

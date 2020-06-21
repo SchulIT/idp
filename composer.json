@@ -13,6 +13,7 @@
         "endroid/qr-code-bundle": "^3.2",
         "fervo/enum-bundle": "dev-master",
         "frostiede/composer-dependency-list-bundle": "^1.0",
+        "fzaninotto/faker": "^1.9",
         "jms/serializer-bundle": "^3.0",
         "knplabs/knp-menu-bundle": "^3.0",
         "lightsaml/lightsaml-idp": "^1.0",

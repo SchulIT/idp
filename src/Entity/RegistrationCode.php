@@ -85,6 +85,12 @@ class RegistrationCode {
     private $lastname;
 
     /**
+     * @ORM\Column(type="boolean")
+     * @var bool
+     */
+    private $populateFakePersonalData = false;
+
+    /**
      * @ORM\Column(type="string", nullable=true)
      * @Assert\Email()
      * @var string|null
@@ -374,5 +380,19 @@ class RegistrationCode {
 
     public function getTypeString(): string {
         return (string)$this->getType()->getUuid();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPopulateFakePersonalData(): bool {
+        return $this->populateFakePersonalData;
+    }
+
+    /**
+     * @param bool $populateFakePersonalData
+     */
+    public function setPopulateFakePersonalData(bool $populateFakePersonalData): void {
+        $this->populateFakePersonalData = $populateFakePersonalData;
     }
 }

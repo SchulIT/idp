@@ -9,23 +9,30 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PasswordStrengthHelper {
+    private $environment;
     private $validator;
 
-    public function __construct(ValidatorInterface $validator) {
+    public function __construct(string $environment, ValidatorInterface $validator) {
+        $this->environment = $environment;
         $this->validator = $validator;
     }
 
     public function getConstraints() {
-        return [
+        $constraints = [
             new PasswordRequirements([
                 'minLength' => 8,
                 'requireLetters' => true,
                 'requireCaseDiff' => true,
                 'requireNumbers' => true,
                 'requireSpecialCharacter' => true
-            ])/*,
-            new NotCompromisedPassword()*/
+            ])
         ];
+
+        if($this->environment === 'prod') {
+            $constraints[] = new NotCompromisedPassword();
+        }
+
+        return $constraints;
     }
 
     /**

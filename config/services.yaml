@@ -131,5 +131,15 @@ services:
         arguments:
             $prefix: 'App\Request'
 
+    # Password helper
+    App\Security\PasswordStrengthHelper:
+        arguments:
+            $environment: '%kernel.environment%'
+
+    # Faker
+    Faker\Generator:
+        factory: ['Faker\Factory','create']
+        arguments: ['de_DE']
+
 
     Anyx\LoginGateBundle\Service\BruteForceChecker: "@anyx.login_gate.brute_force_checker"
