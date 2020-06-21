@@ -177,7 +177,7 @@ class LoginTest extends WebTestCase {
         $link = $crawler->filter('a[role=button]')->first()->link();
         $crawler = $this->client->click($link);
 
-        $this->assertEquals('http://localhost/login', $crawler->getUri(), 'Tests if we land on the login page after cancelling two factor authentication');
+        $this->assertEquals('http://localhost/logout/success', $crawler->getUri(), 'Tests if we land on the login page after cancelling two factor authentication');
     }
 
     private static function getRoles(array $roles) {

@@ -10,7 +10,7 @@ interface ActiveDirectorySyncOptionInterface {
     public function getSource();
 
     /**
-     * @return string
+     * @return ActiveDirectorySyncSourceType
      */
-    public function getSourceType();
+    public function getSourceType(): ActiveDirectorySyncSourceType;
 }

@@ -11,9 +11,13 @@ too_many_attempts:
   retry: erneut versuchen
 
 forgot_pw:
-  username_empty: Benutzername darf nicht leer sein.
-  cannot_change: Der Benutzer ist aus dem Active Directory synchronisiert und kann daher sein Passwort nicht ändern.
-  success: Sofern die Anmelde-E-Mail-Adresse existiert, wurde eine E-Mail zum Zurücksetzen des Passwortes an die hinterlegte E-Mail-Adresse verschickt.
+  request:
+    username_empty: Benutzername darf nicht leer sein.
+    cannot_change: Der Benutzer ist aus dem Active Directory synchronisiert und kann daher sein Passwort nicht ändern.
+    success: Sofern die Anmelde-E-Mail-Adresse existiert, wurde eine E-Mail zum Zurücksetzen des Passwortes an die hinterlegte E-Mail-Adresse verschickt.
+  change:
+    success: Das Passwort wurde erfolgreich geändert.
+    password_error: Die beiden Passwörter stimmen nicht überein.
 
 password:
   requirements: Mindestens 8 Zeichen, sowohl Groß- als auch Kleinbuchstaben, mindestens eine Ziffer und mindestens ein Sonderzeichen.

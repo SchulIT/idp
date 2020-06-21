@@ -12,10 +12,10 @@ use PHPUnit\Framework\TestCase;
 class OptionsResolverTest extends TestCase {
     public function testResolveGradeByGroup() {
         $options = [
-            (new ActiveDirectoryGradeSyncOption())->setSource('5A')->setSourceType(ActiveDirectorySyncSourceType::Group)->setGrade('5A'),
-            (new ActiveDirectoryGradeSyncOption())->setSource('6A')->setSourceType(ActiveDirectorySyncSourceType::Group)->setGrade('6A'),
-            (new ActiveDirectoryGradeSyncOption())->setSource('7A')->setSourceType(ActiveDirectorySyncSourceType::Group)->setGrade('7A'),
-            (new ActiveDirectoryGradeSyncOption())->setSource('8A')->setSourceType(ActiveDirectorySyncSourceType::Group)->setGrade('8A')
+            (new ActiveDirectoryGradeSyncOption())->setSource('5A')->setSourceType(ActiveDirectorySyncSourceType::Group())->setGrade('5A'),
+            (new ActiveDirectoryGradeSyncOption())->setSource('6A')->setSourceType(ActiveDirectorySyncSourceType::Group())->setGrade('6A'),
+            (new ActiveDirectoryGradeSyncOption())->setSource('7A')->setSourceType(ActiveDirectorySyncSourceType::Group())->setGrade('7A'),
+            (new ActiveDirectoryGradeSyncOption())->setSource('8A')->setSourceType(ActiveDirectorySyncSourceType::Group())->setGrade('8A')
         ];
 
         $optionResolver = new OptionResolver();
@@ -27,10 +27,10 @@ class OptionsResolverTest extends TestCase {
 
     public function testResolveGradeByOU() {
         $options = [
-            (new ActiveDirectoryGradeSyncOption())->setSource('OU=5A,DC=test,DC=lokal')->setSourceType(ActiveDirectorySyncSourceType::Ou)->setGrade('5A'),
-            (new ActiveDirectoryGradeSyncOption())->setSource('OU=6A,DC=test,DC=lokal')->setSourceType(ActiveDirectorySyncSourceType::Ou)->setGrade('6A'),
-            (new ActiveDirectoryGradeSyncOption())->setSource('OU=7A,DC=test,DC=lokal')->setSourceType(ActiveDirectorySyncSourceType::Ou)->setGrade('7A'),
-            (new ActiveDirectoryGradeSyncOption())->setSource('OU=8A,DC=test,DC=lokal')->setSourceType(ActiveDirectorySyncSourceType::Ou)->setGrade('8A')
+            (new ActiveDirectoryGradeSyncOption())->setSource('OU=5A,DC=test,DC=lokal')->setSourceType(ActiveDirectorySyncSourceType::Ou())->setGrade('5A'),
+            (new ActiveDirectoryGradeSyncOption())->setSource('OU=6A,DC=test,DC=lokal')->setSourceType(ActiveDirectorySyncSourceType::Ou())->setGrade('6A'),
+            (new ActiveDirectoryGradeSyncOption())->setSource('OU=7A,DC=test,DC=lokal')->setSourceType(ActiveDirectorySyncSourceType::Ou())->setGrade('7A'),
+            (new ActiveDirectoryGradeSyncOption())->setSource('OU=8A,DC=test,DC=lokal')->setSourceType(ActiveDirectorySyncSourceType::Ou())->setGrade('8A')
         ];
 
         $optionResolver = new OptionResolver();
@@ -51,9 +51,9 @@ class OptionsResolverTest extends TestCase {
             ->setName('Foo');
 
         $options = [
-            (new ActiveDirectorySyncOption())->setSource('Teachers')->setSourceType(ActiveDirectorySyncSourceType::Group)->setUserType($userTypeTeacher),
-            (new ActiveDirectorySyncOption())->setSource('Students')->setSourceType(ActiveDirectorySyncSourceType::Group)->setUserType($userTypeStudent),
-            (new ActiveDirectorySyncOption())->setSource('Foo')->setSourceType(ActiveDirectorySyncSourceType::Group)->setUserType($userTypeFoo)
+            (new ActiveDirectorySyncOption())->setSource('Teachers')->setSourceType(ActiveDirectorySyncSourceType::Group())->setUserType($userTypeTeacher),
+            (new ActiveDirectorySyncOption())->setSource('Students')->setSourceType(ActiveDirectorySyncSourceType::Group())->setUserType($userTypeStudent),
+            (new ActiveDirectorySyncOption())->setSource('Foo')->setSourceType(ActiveDirectorySyncSourceType::Group())->setUserType($userTypeFoo)
         ];
 
         $optionResolver = new OptionResolver();
@@ -75,9 +75,9 @@ class OptionsResolverTest extends TestCase {
             ->setName('Foo');
 
         $options = [
-            (new ActiveDirectorySyncOption())->setSource('OU=Teachers,DC=test,DC=lokal')->setSourceType(ActiveDirectorySyncSourceType::Ou)->setUserType($userTypeTeacher),
-            (new ActiveDirectorySyncOption())->setSource('OU=Students,DC=test,DC=lokal')->setSourceType(ActiveDirectorySyncSourceType::Ou)->setUserType($userTypeStudent),
-            (new ActiveDirectorySyncOption())->setSource('OU=Foo,DC=test,DC=lokal')->setSourceType(ActiveDirectorySyncSourceType::Ou)->setUserType($userTypeFoo)
+            (new ActiveDirectorySyncOption())->setSource('OU=Teachers,DC=test,DC=lokal')->setSourceType(ActiveDirectorySyncSourceType::Ou())->setUserType($userTypeTeacher),
+            (new ActiveDirectorySyncOption())->setSource('OU=Students,DC=test,DC=lokal')->setSourceType(ActiveDirectorySyncSourceType::Ou())->setUserType($userTypeStudent),
+            (new ActiveDirectorySyncOption())->setSource('OU=Foo,DC=test,DC=lokal')->setSourceType(ActiveDirectorySyncSourceType::Ou())->setUserType($userTypeFoo)
         ];
 
         $optionResolver = new OptionResolver();

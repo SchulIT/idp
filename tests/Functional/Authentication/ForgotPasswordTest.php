@@ -32,7 +32,6 @@ class ForgotPasswordTest extends WebTestCase {
 
         $this->translator = $this->client->getContainer()
             ->get('translator');
-        $this->translator->setLocale('de');
 
         $this->user = (new User())
             ->setUsername('testuser')
@@ -108,7 +107,7 @@ class ForgotPasswordTest extends WebTestCase {
         );
 
         $this->assertSame(
-            $this->translator->trans('forgot_pw.request.success'),
+            $this->translator->trans('forgot_pw.request.success', [], 'security'),
             $crawler->filter('div.bs-callout.bs-callout-success > p')->first()->html()
         );
 

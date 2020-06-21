@@ -16,7 +16,7 @@ class PasswordStrengthHelperTest extends TestCase {
         ];
 
         $validator = Validation::createValidator();
-        $helper = new PasswordStrengthHelper($validator);
+        $helper = new PasswordStrengthHelper('test', $validator);
 
         foreach($invalidPasswords as $invalidPassword) {
             $violations = $helper->validatePassword($invalidPassword);
