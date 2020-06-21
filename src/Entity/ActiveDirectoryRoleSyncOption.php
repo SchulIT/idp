@@ -39,7 +39,7 @@ class ActiveDirectoryRoleSyncOption implements ActiveDirectorySyncOptionInterfac
 
     /**
      * @ORM\ManyToOne(targetEntity="UserRole")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $userRole;
 

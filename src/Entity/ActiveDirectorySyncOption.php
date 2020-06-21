@@ -41,7 +41,7 @@ class ActiveDirectorySyncOption implements ActiveDirectorySyncOptionInterface {
 
     /**
      * @ORM\ManyToOne(targetEntity="UserType", inversedBy="syncOptions")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $userType;
 

@@ -34,7 +34,7 @@ class UserType {
 
     /**
      * @var string[]
-     * @ORM\Column(type="json_array")
+     * @ORM\Column(type="json")
      * @Assert\Count(min="1")
      * @Serializer\Type("array<string>")
      */

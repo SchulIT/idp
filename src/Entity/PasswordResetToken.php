@@ -20,7 +20,7 @@ class PasswordResetToken {
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $user;
 

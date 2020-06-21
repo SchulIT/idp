@@ -58,7 +58,7 @@ class RegistrationCode {
 
     /**
      * @ORM\Column(type="string", unique=true)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(allowNull=true)
      * @var string
      */
     private $username;
@@ -93,7 +93,7 @@ class RegistrationCode {
 
     /**
      * @ORM\ManyToOne(targetEntity="UserType")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn(onDelete="SET NULL")
      * @Serializer\ReadOnly()
      * @Serializer\Accessor(getter="getTypeString")
      * @Serializer\Type("string")

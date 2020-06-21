@@ -19,8 +19,9 @@ class ServiceProvider {
     use UuidTrait;
 
     /**
-     * @ORM\Column(type="string", length=191, unique=true)
+     * @ORM\Column(type="string", unique=true)
      * @Assert\NotBlank()
+     * @Assert\Length(max="128")
      */
     private $entityId;
 

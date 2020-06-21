@@ -36,11 +36,11 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     use SoftDeleteableEntity;
 
     /**
-     * @ORM\Column(type="string", length=64, unique=true)
+     * @ORM\Column(type="string", unique=true)
      * @Assert\NotBlank()
      * @Assert\Email()
      * @ORM\OrderBy()
-     * @Assert\Length(max="64", min="4")
+     * @Assert\Length(max="128", min="4")
      */
     private $username;
 
@@ -63,10 +63,9 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     private $password;
 
     /**
-     * @ORM\Column(type="string", unique=true, length=191)
+     * @ORM\Column(type="text", unique=true)
      * @Assert\Email()
      * @Assert\NotBlank()
-     * @Assert\Length(max="191")
      */
     private $email;
 
@@ -77,7 +76,7 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
 
     /**
      * @ORM\ManyToOne(targetEntity="UserType", inversedBy="users")
-     * @ORM\JoinColumn()
+     * @ORM\JoinColumn(onDelete="SET NULL")
      * @Serializer\ReadOnly()
      * @Serializer\Accessor(getter="getTypeString")
      * @Serializer\Type("string")
@@ -86,7 +85,7 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     private $type;
 
     /**
-     * @ORM\Column(type="json_array")
+     * @ORM\Column(type="json")
      * @Serializer\Exclude()
      */
     private $roles = [ 'ROLE_USER' ];
@@ -137,7 +136,7 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     private $googleAuthenticatorSecret;
 
     /**
-     * @ORM\Column(type="json_array")
+     * @ORM\Column(type="json")
      * @Serializer\Exclude()
      */
     private $backupCodes = [ ];
