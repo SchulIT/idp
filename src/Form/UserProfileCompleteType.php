@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserProfileCompleteType extends AbstractType {
@@ -21,9 +22,29 @@ class UserProfileCompleteType extends AbstractType {
         $this->translator = $translator;
     }
 
+    public function configureOptions(OptionsResolver $resolver) {
+        parent::configureOptions($resolver);
+
+        $resolver->setDefault('username_suffix', null)
+            ->setDefault('can_edit_username', false);
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder
-            ->add('firstname', TextType::class, [
+        if($options['username_suffix'] !== null) {
+            $builder
+                ->add('username', TextSuffixType::class, [
+                    'label' => 'label.username',
+                    'suffix' => $options['username_suffix']
+                ]);
+        } else {
+            $builder
+                ->add('username', TextType::class, [
+                    'label' => 'label.username',
+                    'disabled' => $options['can_edit_username'] === false
+                ]);
+        }
+
+        $builder->add('firstname', TextType::class, [
                 'label' => 'label.firstname'
             ])
             ->add('lastname', TextType::class, [

@@ -41,7 +41,14 @@
                         {% for code in codes %}
                             <tr>
                                 <td class="align-middle">
-                                    {{ code.username }}
+                                    {%- if code.username is not empty -%}
+                                        {{ code.username }}
+                                    {%- else -%}
+                                        {{ 'label.username_empty'|trans }}
+                                    {%- endif -%}
+                                    {%- if code.usernameSuffix is not empty -%}
+                                        {{ code.usernameSuffix }}
+                                    {%- endif -%}
 
                                     {% if code.confirmedAt is not null %}
                                         <span class="badge badge-success">{{ 'codes.confirmed'|trans }}</span>

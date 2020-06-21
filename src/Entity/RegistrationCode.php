@@ -57,11 +57,18 @@ class RegistrationCode {
     private $confirmedAt;
 
     /**
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="string", unique=true, nullable=true)
      * @Assert\NotBlank(allowNull=true)
      * @var string
      */
     private $username;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\NotBlank(allowNull=true)
+     * @var string|null
+     */
+    private $usernameSuffix;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -202,6 +209,22 @@ class RegistrationCode {
      */
     public function setUsername(?string $username): RegistrationCode {
         $this->username = $username;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getUsernameSuffix(): ?string {
+        return $this->usernameSuffix;
+    }
+
+    /**
+     * @param string|null $usernameSuffix
+     * @return RegistrationCode
+     */
+    public function setUsernameSuffix(?string $usernameSuffix): RegistrationCode {
+        $this->usernameSuffix = $usernameSuffix;
         return $this;
     }
 

@@ -17,6 +17,8 @@ label:
   external_id: Externe ID
   external_id_help: Diese ID wird genutzt, um Benutzer in anderen Diensten als Lehrkraft oder Lernender wiederzuerkennen.
   username: Anmelde-E-Mail Adresse
+  username_suffix: Suffix für E-Mail-Adresse
+  username_empty: '*'
   firstname: Vorname
   lastname: Nachname
   email: E-Mail Adresse

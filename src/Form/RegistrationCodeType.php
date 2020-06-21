@@ -71,6 +71,14 @@ class RegistrationCodeType extends AbstractType {
             ])
             ->add('username', TextType::class, [
                 'label' => 'label.username',
+                'required' => false,
+                'attr' => [
+                    'readonly' => $readonly
+                ]
+            ])
+            ->add('usernameSuffix', TextType::class, [
+                'label' => 'label.username_suffix',
+                'required' => false,
                 'attr' => [
                     'readonly' => $readonly
                 ]

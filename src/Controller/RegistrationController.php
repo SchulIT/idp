@@ -72,11 +72,15 @@ class RegistrationController extends AbstractController {
         }
 
         $user = (new User())
+            ->setUsername($code->getUsername())
             ->setFirstname($code->getFirstname())
             ->setLastname($code->getLastname())
             ->setEmail($code->getEmail());
 
-        $form = $this->createForm(UserProfileCompleteType::class, $user);
+        $form = $this->createForm(UserProfileCompleteType::class, $user, [
+            'username_suffix' => $code->getUsernameSuffix(),
+            'can_edit_username' => $code->getUsername() === null
+        ]);
         $form->handleRequest($request);
 
         if($this->manager->mustComplete($code) === false || ($form->isSubmitted() && $form->isValid())) {

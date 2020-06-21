@@ -88,7 +88,7 @@ class RegistrationCodeManager {
     }
 
     public function mustComplete(RegistrationCode $code): bool {
-        return empty($code->getFirstname()) || empty($code->getLastname()) || empty($code->getEmail());
+        return empty($code->getUsername()) || empty($code->getFirstname()) || empty($code->getLastname()) || empty($code->getEmail());
     }
 
     /**
@@ -109,8 +109,11 @@ class RegistrationCodeManager {
             throw new EmailAlreadyExistsException();
         }
 
+        if($code->getUsername() !== null) {
+            $user->setUsername($code->getUsername());
+        }
+
         $user
-            ->setUsername($code->getUsername())
             ->setType($code->getType())
             ->setGrade($code->getGrade())
             ->setExternalId($code->getExternalId())
