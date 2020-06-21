@@ -12,7 +12,7 @@
 
     <hr >
 
-    {% include 'auth/errors.html.twig' %}
+    {% include '@Common/auth/errors.html.twig' %}
 
     {% if violations is not null and violations.count() > 0 %}
         <div class="bs-callout bs-callout-danger">

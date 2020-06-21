@@ -31,7 +31,11 @@ class ForgotPasswordManager {
         return $user instanceof User && !$user instanceof ActiveDirectoryUser && $user->getEmail() !== null;
     }
 
-    public function resetPassword(User $user) {
+    public function resetPassword(?User $user) {
+        if($user === null) {
+            return;
+        }
+
         if($this->canResetPassword($user) !== true) {
             return;
         }

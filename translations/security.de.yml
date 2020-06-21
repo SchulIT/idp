@@ -12,7 +12,8 @@ too_many_attempts:
 
 forgot_pw:
   username_empty: Benutzername darf nicht leer sein.
-  success: E-Mail zum Zurücksetzen des Passwortes wurde verschickt.
+  cannot_change: Der Benutzer ist aus dem Active Directory synchronisiert und kann daher sein Passwort nicht ändern.
+  success: Sofern die Anmelde-E-Mail-Adresse existiert, wurde eine E-Mail zum Zurücksetzen des Passwortes an die hinterlegte E-Mail-Adresse verschickt.
 
 password:
   requirements: Mindestens 8 Zeichen, sowohl Groß- als auch Kleinbuchstaben, mindestens eine Ziffer und mindestens ein Sonderzeichen.

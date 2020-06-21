@@ -54,13 +54,14 @@ class ForgotPasswordController extends AbstractController {
 
             if($this->isCsrfTokenFromRequestValid($request) !== true) {
                 $this->addFlash('error', $this->getCsrfTokenMessage());
-            } else if ($user === null) {
+            } else if ($username === null) {
                 $this->addFlash('error', 'forgot_pw.username_empty');
-            } else if($this->manager->canResetPassword($user) !== true) {
-                $this->addFlash('error', 'forgot_pw.request.cannot_change');
+            } else if($user !== null && $this->manager->canResetPassword($user) !== true) {
+                $this->addFlash('error', 'forgot_pw.cannot_change');
+                return $this->redirectToRoute('login');
             } else {
                 $this->manager->resetPassword($user);
-                $this->addFlash('success', 'forgot_pw.request.success');
+                $this->addFlash('success', 'forgot_pw.success');
 
                 return $this->redirectToRoute('login');
             }
