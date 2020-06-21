@@ -1,0 +1,16 @@
+{% extends "@Common/auth/main.html.twig" %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+    <div class="text-center">
+        <i class="fas fa-sign-out-alt fa-3x d-block text-secondary"></i>
+        <h4>{{ 'logout.success'|trans }}</h4>
+
+        <p>{{ 'logout.info'|trans }}</p>
+    </div>
+
+    <div class="container-fluid px-0">
+        <a href="/" class="btn btn-primary btn-block" type="submit">{{ 'logout.login'|trans }}</a>
+    </div>
+{% endblock %}

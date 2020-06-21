@@ -481,3 +481,6 @@ link:
 
 api:
   doc: API-Dokumentation
+
+logout:
+  info: Bitte nun den Browser schließen.
