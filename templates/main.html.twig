@@ -23,6 +23,17 @@
         {% block breadcrumb %}{% endblock %}
     </div>
 
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
+        {% for check in health_check() %}
+            <div class="alert {% if check.type.value == 'error' %}alert-danger{% elseif check.type.value == 'warning'%}alert-warning{% elseif check.type.value == 'fine'%}alert-success{% endif%} d-flex align-items-center">
+                <p class="mb-0 mr-auto"><i class="fa fa-exclamation-triangle"></i> <strong>{{ check.title|trans }}</strong> {{ check.message|trans(check.messageParameter) }}</p>
+                {% if check.route is not empty %}
+                    <a href="{{ path(check.route, check.routeParameter) }}" class="btn btn-outline-primary btn-sm">{{ 'health_check.fix'|trans }}</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% endif %}
+
     {% for msg in app.session.flashbag.get('error') %}
         <div class="bs-callout bs-callout-danger">
             <h4>{{ 'error.label'|trans }}</h4>

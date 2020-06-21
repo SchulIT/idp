@@ -23,7 +23,7 @@ class ServiceProviderCertificateCheck extends AbstractCertificateHealthCheck {
                 $certificate = $serviceProvider->getCertificate();
 
                 $result = $this->checkCertificate($certificate);
-                $result->addMessageParameter('service_provider', $serviceProvider->getName());
+                $result->addMessageParameter('%service_provider%', $serviceProvider->getName());
 
                 if($result->getType()->equals(HealthCheckResultType::Fine()) !== true) {
                     $result->setRoute('edit_service_provider');

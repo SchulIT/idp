@@ -484,3 +484,17 @@ api:
 
 logout:
   info: Bitte nun den Browser schließen.
+
+health_check:
+  error: Zertifikatfehler
+  fix: Fehler beheben
+  idp_certificate:
+    empty: Das Zertifikat des Identity Providers wurde nicht gefunden. Bitte ein Zertifikat erstellen.
+    expires_soon: Das Zertifikat des Identidy Providers läuft in naher Zukunft ab. Bitte erneuern.
+    expired: Das Zertifikat des Identity Providers ist abgelaufen. Bitte erneuern.
+    fine: Das Zertifikat des Identity Providers ist gültig. Keine Aktion erforderlich.
+  sp_certificate:
+    empty: 'Das Zertifikat des Dienstes "%service_provider%" wurde nicht gefunden. Bitte ein Zertifikat angeben.'
+    expires_soon: 'Das Zertifikat des Dienstes "%service_provider%" läuft bald ab. Bitte erneuern.'
+    expired: 'Das Zertifikat des Dienstes "%service_provider%" ist abgelaufen. Bitte erneuern.'
+    fine: 'Das Zertifikat des Dienstes "%service_provider%" ist gültig. Keine Aktion erforderlich.'

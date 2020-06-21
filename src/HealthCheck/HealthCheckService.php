@@ -8,7 +8,7 @@ class HealthCheckService {
 
     public function __construct(iterable $checks) {
         foreach($checks as $check) {
-            $this->checks[] = $checks;
+            $this->checks[] = $check;
         }
     }
 

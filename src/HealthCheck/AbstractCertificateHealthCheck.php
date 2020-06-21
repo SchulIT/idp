@@ -28,7 +28,6 @@ abstract class AbstractCertificateHealthCheck implements HealthCheckInterface {
         if($cert === false) {
             // Error
             $error = openssl_error_string();
-
             return new HealthCheckResult(
                 HealthCheckResultType::Error(),
                 'health_check.error',
@@ -42,7 +41,7 @@ abstract class AbstractCertificateHealthCheck implements HealthCheckInterface {
         $certificateInfo = openssl_x509_parse($certificate);
         openssl_x509_free($cert);
 
-        $validTo = (new \DateTime())->setTimestamp($certificateInfo['validTo']);
+        $validTo = (new \DateTime())->setTimestamp($certificateInfo['validTo_time_t']);
 
         if($validTo < $now) {
             return new HealthCheckResult(

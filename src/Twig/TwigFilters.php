@@ -7,6 +7,7 @@ use App\Entity\ServiceAttributeUserTypeValue;
 use App\Entity\ServiceAttributeValue;
 use App\Entity\ServiceAttributeValueInterface;
 use App\Service\FriendlyAttributeResolver;
+use DateTime;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -24,8 +25,13 @@ class TwigFilters extends AbstractExtension {
     public function getFilters() {
         return [
             new TwigFilter('attributeSource', [ $this, 'attributeSource' ]),
-            new TwigFilter('attributeFriendlyName', [ $this, 'attributeFriendlyName'])
+            new TwigFilter('attributeFriendlyName', [ $this, 'attributeFriendlyName']),
+            new TwigFilter('from_timestamp', [ $this, 'getDateTimeFromTimestamp'])
         ];
+    }
+
+    public function getDateTimeFromTimestamp(int $timestamp): DateTime {
+        return (new DateTime())->setTimestamp($timestamp);
     }
 
     public function attributeFriendlyName($attribute) {
