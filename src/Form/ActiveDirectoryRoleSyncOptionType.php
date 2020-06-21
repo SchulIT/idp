@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\ActiveDirectorySyncSourceType;
 use App\Entity\UserRole;
+use FervoEnumBundle\Generated\Form\ActiveDirectorySyncSourceTypeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -20,12 +21,8 @@ class ActiveDirectoryRoleSyncOptionType extends AbstractType {
             ->add('description', TextareaType::class, [
                 'label' => 'label.description'
             ])
-            ->add('sourceType', ChoiceType::class, [
+            ->add('sourceType', ActiveDirectorySyncSourceTypeType::class, [
                 'label' => 'label.source',
-                'choices' => [
-                    'label.ad_group' => ActiveDirectorySyncSourceType::GROUP,
-                    'label.ou' => ActiveDirectorySyncSourceType::OU
-                ],
                 'label_attr' => [
                     'class' => 'radio-custom'
                 ],

@@ -21,8 +21,8 @@ class OptionResolver {
      */
     public function getOption(array $options, $ou, array $groups) {
         foreach($options as $option) {
-            $isOuMembership = $option->getSourceType() === ActiveDirectorySyncSourceType::OU && $this->checkForOuMembership($option, $ou);
-            $isGroupsMembership = $option->getSourceType() === ActiveDirectorySyncSourceType::GROUP && $this->checkForGroupMembership($option, $groups);
+            $isOuMembership = $option->getSourceType() === ActiveDirectorySyncSourceType::Ou && $this->checkForOuMembership($option, $ou);
+            $isGroupsMembership = $option->getSourceType() === ActiveDirectorySyncSourceType::Group && $this->checkForGroupMembership($option, $groups);
 
             if($isOuMembership || $isGroupsMembership) {
                 return $option;
@@ -45,8 +45,8 @@ class OptionResolver {
         $result = [ ];
 
         foreach($options as $option) {
-            $isOuMembership = $option->getSourceType() === ActiveDirectorySyncSourceType::OU && $this->checkForOuMembership($option, $ou);
-            $isGroupsMembership = $option->getSourceType() === ActiveDirectorySyncSourceType::GROUP && $this->checkForGroupMembership($option, $groups);
+            $isOuMembership = $option->getSourceType() === ActiveDirectorySyncSourceType::Ou && $this->checkForOuMembership($option, $ou);
+            $isGroupsMembership = $option->getSourceType() === ActiveDirectorySyncSourceType::Group && $this->checkForGroupMembership($option, $groups);
 
             if($isOuMembership || $isGroupsMembership) {
                 $result[] = $option;

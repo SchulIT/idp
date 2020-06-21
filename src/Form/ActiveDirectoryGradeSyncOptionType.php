@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\ActiveDirectorySyncSourceType;
+use FervoEnumBundle\Generated\Form\ActiveDirectorySyncSourceTypeType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -14,12 +15,8 @@ class ActiveDirectoryGradeSyncOptionType extends AbstractType {
             ->add('grade', TextType::class, [
                 'label' => 'label.grade'
             ])
-            ->add('sourceType', ChoiceType::class, [
+            ->add('sourceType', ActiveDirectorySyncSourceTypeType::class, [
                 'label' => 'label.source',
-                'choices' => [
-                    'label.ad_group' => ActiveDirectorySyncSourceType::GROUP,
-                    'label.ou' => ActiveDirectorySyncSourceType::OU
-                ],
                 'label_attr' => [
                     'class' => 'radio-custom'
                 ],

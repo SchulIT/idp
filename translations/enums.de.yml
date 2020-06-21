@@ -1,7 +1,17 @@
 label:
   application_scope: Zugriffsbereich
+  source: Active Directory Quelle
+  type: Typ
 
 application_scope:
   api: Allgemeine API
   idp_exchange: IdP Exchange
   ad_connect: AD Connect
+
+ad_source_type:
+  ou: Organisationseinheit
+  group: Gruppe
+
+service_attribute_type:
+  text: Text
+  select: Auswahlfeld

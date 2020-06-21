@@ -31,12 +31,13 @@ class ActiveDirectoryGradeSyncOption implements ActiveDirectorySyncOptionInterfa
     private $source;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="ad_source_type")
      */
-    private $sourceType = ActiveDirectorySyncSourceType::OU;
+    private $sourceType;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
+        $this->sourceType = ActiveDirectorySyncSourceType::Ou();
     }
 
     /**
@@ -72,17 +73,17 @@ class ActiveDirectoryGradeSyncOption implements ActiveDirectorySyncOptionInterfa
     }
 
     /**
-     * @return string
+     * @return ActiveDirectorySyncSourceType
      */
-    public function getSourceType() {
+    public function getSourceType(): ActiveDirectorySyncSourceType {
         return $this->sourceType;
     }
 
     /**
-     * @param string $sourceType
+     * @param ActiveDirectorySyncSourceType $sourceType
      * @return ActiveDirectoryGradeSyncOption
      */
-    public function setSourceType($sourceType) {
+    public function setSourceType(ActiveDirectorySyncSourceType $sourceType) {
         $this->sourceType = $sourceType;
         return $this;
     }

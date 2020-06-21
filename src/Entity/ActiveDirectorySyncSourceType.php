@@ -2,7 +2,13 @@
 
 namespace App\Entity;
 
-class ActiveDirectorySyncSourceType {
-    const GROUP = 'group';
-    const OU = 'ou';
+use MyCLabs\Enum\Enum;
+
+/**
+ * @method static ActiveDirectorySyncSourceType Group()
+ * @method static ActiveDirectorySyncSourceType Ou()
+ */
+class ActiveDirectorySyncSourceType extends Enum {
+    const Group = 'group';
+    const Ou = 'ou';
 }

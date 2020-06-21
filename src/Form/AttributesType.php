@@ -35,7 +35,7 @@ class AttributesType extends FieldsetType {
         $onlyUserEditable = $options['only_user_editable'];
 
         foreach($this->serviceAttributeRepository->findAll() as $attribute) {
-            $type = $attribute->getType() === ServiceAttribute::TYPE_TEXT ? TextType::class : ChoiceType::class;
+            $type = $attribute->getType()->equals(\App\Entity\ServiceAttributeType::Text()) ? TextType::class : ChoiceType::class;
 
             $options = [
                 'label' => $attribute->getLabel(),

@@ -35,9 +35,9 @@ class ActiveDirectorySyncOption implements ActiveDirectorySyncOptionInterface {
     private $source;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="ad_source_type", nullable=false)
      */
-    private $sourceType = ActiveDirectorySyncSourceType::OU;
+    private $sourceType;
 
     /**
      * @ORM\ManyToOne(targetEntity="UserType", inversedBy="syncOptions")
@@ -47,6 +47,7 @@ class ActiveDirectorySyncOption implements ActiveDirectorySyncOptionInterface {
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
+        $this->sourceType = ActiveDirectorySyncSourceType::Ou();
     }
 
     /**
@@ -98,17 +99,17 @@ class ActiveDirectorySyncOption implements ActiveDirectorySyncOptionInterface {
     }
 
     /**
-     * @return string
+     * @return ActiveDirectorySyncSourceType
      */
-    public function getSourceType() {
+    public function getSourceType(): ActiveDirectorySyncSourceType {
         return $this->sourceType;
     }
 
     /**
-     * @param string $sourceType
+     * @param ActiveDirectorySyncSourceType $sourceType
      * @return ActiveDirectorySyncOption
      */
-    public function setSourceType($sourceType) {
+    public function setSourceType(ActiveDirectorySyncSourceType $sourceType) {
         $this->sourceType = $sourceType;
         return $this;
     }

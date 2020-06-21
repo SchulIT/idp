@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\ServiceProvider;
 use Burgov\Bundle\KeyValueFormBundle\Form\Type\KeyValueType;
 use Doctrine\ORM\EntityRepository;
+use FervoEnumBundle\Generated\Form\ServiceAttributeTypeType;
 use SchoolIT\CommonBundle\Form\FieldsetType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -40,11 +41,7 @@ class ServiceAttributeType extends AbstractType {
                     ->add('samlAttributeName', TextType::class, [
                         'label' => 'label.saml_attribute_name'
                     ])
-                    ->add('type', ChoiceType::class, [
-                        'choices' => [
-                            'service_attributes.types.text' => 'text',
-                            'service_attributes.types.select' => 'select'
-                        ],
+                    ->add('type', ServiceAttributeTypeType::class, [
                         'label' => 'label.type',
                         'label_attr' => [
                             'class' => 'radio-custom'
@@ -103,11 +100,7 @@ class ServiceAttributeType extends AbstractType {
 
                 if($attribute->getId() !== null) {
                     $form->get('group_general')
-                        ->add('type', ChoiceType::class, [
-                            'choices' => [
-                                'service_attributes.types.text' => 'text',
-                                'service_attributes.types.select' => 'select'
-                            ],
+                        ->add('type', ServiceAttributeTypeType::class, [
                             'label' => 'label.type',
                             'disabled' => true,
                             'data' => $attribute->getType()

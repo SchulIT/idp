@@ -16,8 +16,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"name"})
  */
 class ServiceAttribute {
-    const TYPE_TEXT = 'text';
-    const TYPE_SELECT = 'select';
 
     use IdTrait;
     use UuidTrait;
@@ -53,7 +51,7 @@ class ServiceAttribute {
     private $samlAttributeName;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="service_attribute_type")
      * @Assert\NotBlank()
      * @Assert\Choice(choices={"text", "select"})
      */
@@ -82,6 +80,7 @@ class ServiceAttribute {
     public function __construct() {
         $this->uuid = Uuid::uuid4();
         $this->services = new ArrayCollection();
+        $this->type = ServiceAttributeType::Text();
     }
 
     /**
@@ -165,17 +164,17 @@ class ServiceAttribute {
     }
 
     /**
-     * @return string
+     * @return ServiceAttributeType
      */
     public function getType() {
         return $this->type;
     }
 
     /**
-     * @param string $type
+     * @param ServiceAttributeType $type
      * @return ServiceAttribute
      */
-    public function setType($type) {
+    public function setType(ServiceAttributeType $type) {
         $this->type = $type;
         return $this;
     }

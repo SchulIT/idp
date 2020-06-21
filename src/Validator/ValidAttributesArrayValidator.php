@@ -3,6 +3,7 @@
 namespace App\Validator;
 
 use App\Entity\ServiceAttribute;
+use App\Entity\ServiceAttributeType;
 use App\Repository\ServiceAttributeRepositoryInterface;
 use App\Utils\ArrayUtils;
 use Symfony\Component\Validator\Constraint;
@@ -44,14 +45,14 @@ class ValidAttributesArrayValidator extends ConstraintValidator {
 
             $attribute = $attributes[$attributeName];
 
-            if($attribute->getType() === ServiceAttribute::TYPE_TEXT && $attributeValue !== null &&  !is_scalar($attributeValue)) {
+            if($attribute->getType()->equals(ServiceAttributeType::Text()) && $attributeValue !== null &&  !is_scalar($attributeValue)) {
                 $this->context
                     ->buildViolation($constraint->messageInvalidValue)
                     ->setParameter('{{ name }}', $attributeName)
                     ->setParameter('{{ type }}', 'string')
                     ->setParameter('{{ given }}', gettype($attributeValue))
                     ->addViolation();
-            } else if($attribute->getType() === ServiceAttribute::TYPE_SELECT) {
+            } else if($attribute->getType()->equals(ServiceAttributeType::Select())) {
                 if(!is_array($attributeValue)) {
                     $this->context
                         ->buildViolation($constraint->messageInvalidValue)
