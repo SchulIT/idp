@@ -5,6 +5,10 @@
 
 {% block title %}{{ 'register.label'|trans({}, 'security') }}{% endblock %}
 
+{% block javascript %}
+    <script src="{{ asset('build/app.js') }}"></script>
+{% endblock %}
+
 {% block content %}
 
     <div class="text-center">
@@ -30,11 +34,19 @@
     {{ form_widget(form.agreePrivacyPolicy) }}
     </div>
 
-    <a href="{{ path('register_privacy_policy') }}" class="btn btn-outline-primary btn-sm" target="_blank">
+    <a href="{{ path('register_privacy_policy') }}" class="btn btn-outline-primary btn-sm mb-2" target="_blank">
         <i class="fas fa-external-link-alt"></i> {{ 'privacy_policy.show'|trans }}
     </a>
 
-    {{ form_widget(form) }}
+    <div class="d-block mb-2">
+        <a href="#voluntary" data-toggle="collapse" class="btn btn-outline-primary btn-sm" role="button">
+            <i class="fas fa-plus"></i> {{ 'register.complete.voluntary'|trans({}, 'security') }}
+        </a>
+    </div>
+
+    <div id="voluntary" class="collapse">
+        {{ form_widget(form) }}
+    </div>
 
     <div class="container-fluid px-0">
         <div class="row">
