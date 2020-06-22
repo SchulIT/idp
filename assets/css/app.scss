@@ -21,6 +21,11 @@ $enable-gradients: true;
 @import '../../vendor/schoolit/common-bundle/Resources/assets/css/dark/variables.scss';
 @import '../../vendor/schoolit/common-bundle/Resources/assets/css/dark/layout';
 
+// Import editor
+@import '../../node_modules/easymde/src/css/easymde.css';
+@import '../../node_modules/codemirror/lib/codemirror.css';
+@import '../../vendor/schoolit/common-bundle/Resources/assets/css/dark/editor';
+
 // Import Bootstrap 4 Card Tables
 @import '../../node_modules/bootstrap4-card-tables/src/bootstrap4-card-tables';
 
@@ -65,3 +70,22 @@ header {
   }
 }
 
+// Editor fixes
+.CodeMirror {
+  font-size: 110%;
+
+  .editor-preview {
+    font-size: 100%;
+    font-family: $font-family-base;
+  }
+}
+
+.editor-toolbar {
+  .fa-header {
+    @extend .fa-heading;
+  }
+
+  .fa-picture-o {
+    @extend .fa-image;
+  }
+}

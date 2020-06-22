@@ -1,0 +1,40 @@
+{% extends "main.html.twig" %}
+
+{% block post_javascript %}
+    <script src="{{ asset('build/editor.js') }}"></script>
+{% endblock %}
+
+{% block title %}{{ 'privacy_policy.label'|trans }}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a></li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+
+    {{ form_start(form) }}
+
+    <div class="card">
+        <div class="card-header">{{ 'label.general'|trans }}</div>
+
+        <div class="card-body">
+            {{ form_widget(form) }}
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button type="submit" class="btn btn-primary btn-sm">
+            <i class="fa fa-save"></i> {{ 'actions.save'|trans }}
+        </button>
+
+        <button type="submit" class="btn btn-primary btn-sm" name="submit-change" title="{{ 'privacy_policy.submit_change.help'|trans }}">
+            <i class="fa fa-save"></i> {{ 'privacy_policy.submit_change.label'|trans }}
+        </button>
+    </div>
+
+    {{ form_end(form) }}
+
+{% endblock %}

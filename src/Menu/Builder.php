@@ -60,6 +60,16 @@ class Builder {
                 'route' => 'registration_codes'
             ])
                 ->setAttribute('icon', 'fas fa-qrcode');
+
+            $menu->addChild('privacy_policy.label', [
+                'route' => 'edit_privacy_policy'
+            ])
+                ->setAttribute('icon', 'fas fa-user-shield');
+        } else {
+            $menu->addChild('privacy_policy.label', [
+                'route' => 'show_privacy_policy'
+            ])
+                ->setAttribute('icon', 'fas fa-user-shield');
         }
 
         return $menu;

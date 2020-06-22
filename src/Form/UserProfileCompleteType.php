@@ -4,12 +4,14 @@ namespace App\Form;
 
 use App\Security\PasswordStrengthHelper;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserProfileCompleteType extends AbstractType {
@@ -60,6 +62,17 @@ class UserProfileCompleteType extends AbstractType {
                     'help' => $this->translator->trans('password.requirements', [], 'security')
                 ],
                 'second_options' => ['label' => 'label.repeat_password']
+            ])
+            ->add('agreePrivacyPolicy', CheckboxType::class, [
+                'required' => true,
+                'label' => 'privacy_policy.accept',
+                'constraints' => [
+                    new IsTrue()
+                ],
+                'mapped' => false,
+                'label_attr' => [
+                    'class' => 'checkbox-custom'
+                ]
             ])
             ->add('firstname', TextType::class, [
                 'label' => 'label.firstname',

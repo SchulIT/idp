@@ -23,6 +23,17 @@
     </div>
 
     {{ form_start(form) }}
+
+    {{ form_widget(form.username) }}
+    {{ form_widget(form.password) }}
+    <div class="form-group">
+    {{ form_widget(form.agreePrivacyPolicy) }}
+    </div>
+
+    <a href="{{ path('register_privacy_policy') }}" class="btn btn-outline-primary btn-sm" target="_blank">
+        <i class="fas fa-external-link-alt"></i> {{ 'privacy_policy.show'|trans }}
+    </a>
+
     {{ form_widget(form) }}
 
     <div class="container-fluid px-0">

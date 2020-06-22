@@ -15,6 +15,7 @@
         "frostiede/composer-dependency-list-bundle": "^1.0",
         "jms/serializer-bundle": "^3.0",
         "knplabs/knp-menu-bundle": "^3.0",
+        "league/commonmark": "^1.4",
         "lightsaml/lightsaml-idp": "^1.0",
         "lightsaml/symfony-bridge": "^1.1",
         "myclabs/php-enum": "^1.7",

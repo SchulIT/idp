@@ -215,6 +215,9 @@
     "lcobucci/jwt": {
         "version": "3.2.2"
     },
+    "league/commonmark": {
+        "version": "1.4.3"
+    },
     "lightsaml/lightsaml": {
         "version": "1.4.0"
     },

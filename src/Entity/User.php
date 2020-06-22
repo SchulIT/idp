@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -187,6 +188,12 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
      * @var array
      */
     private $data = [ ];
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @var DateTime|null
+     */
+    private $privacyPolicyConfirmedAt = null;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
@@ -605,6 +612,22 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
 
     public function setData(string $key, $value): void {
         $this->data[$key] = $value;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getPrivacyPolicyConfirmedAt(): ?DateTime {
+        return $this->privacyPolicyConfirmedAt;
+    }
+
+    /**
+     * @param DateTime|null $privacyPolicyConfirmedAt
+     * @return User
+     */
+    public function setPrivacyPolicyConfirmedAt(?DateTime $privacyPolicyConfirmedAt): User {
+        $this->privacyPolicyConfirmedAt = $privacyPolicyConfirmedAt;
+        return $this;
     }
 
     public function getTypeString(): string {

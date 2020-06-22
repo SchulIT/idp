@@ -12,6 +12,7 @@ Encore
     // .enableVersioning(Encore.isProduction())
 
     .addEntry('app', './assets/js/app.js')
+    .addEntry('editor', './assets/js/editor.js')
     .addStyleEntry('signin', './vendor/schoolit/common-bundle/Resources/assets/css/signin.scss')
     .addStyleEntry('simple', './vendor/schoolit/common-bundle/Resources/assets/css/simple.scss')
     .addEntry('attributes', './assets/js/attributes.js')

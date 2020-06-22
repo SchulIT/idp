@@ -1,0 +1,11 @@
+{% extends "@Common/simple/main.html.twig" %}
+
+{% block title %}{{ 'privacy_policy.label'|trans }}{% endblock %}
+
+{% block content %}
+    {{ policy.content|markdown }}
+
+    <hr>
+
+    {{ 'privacy_policy.last_change'|trans({'%date%': policy.changedAt|format_datetime }) }}
+{% endblock %}

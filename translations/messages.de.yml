@@ -59,6 +59,7 @@ label:
   suffix: Suffix
   students: '{0} Lernende|{1} Lernender|]1,Inf[ Lernende'
   user: Benutzer
+  content: Inhalt
 
 help:
   voluntary: Diese Angabe ist freiwillig.
@@ -508,3 +509,18 @@ health_check:
     expires_soon: 'Das Zertifikat des Dienstes "%service_provider%" läuft bald ab. Bitte erneuern.'
     expired: 'Das Zertifikat des Dienstes "%service_provider%" ist abgelaufen. Bitte erneuern.'
     fine: 'Das Zertifikat des Dienstes "%service_provider%" ist gültig. Keine Aktion erforderlich.'
+
+privacy_policy:
+  label: Datenschutzerklärung
+  success: Datenschutzerkärung erfolgreich aktualisiert
+  accept: Datenschutzerklärung akzeptieren
+  show: Datenschutzerklärung anzeigen
+  last_change: 'Zuletzt aktualisiert: %date%'
+  missing: Aktuell gibt es keine Datenschutzerklärung.
+  update:
+    label: Datenschutzerklärung geändert
+    info: Die Datenschutzerklärung wurde geändert, sodass sie erneut bestätigt werden muss. Falls die neue Datenschutzerklärung nicht bestätigt wird, erfolgt eine Abmeldung.
+  submit_change:
+    label: Größere Änderung speichern
+    help: Wenn dieser Button verwendet wird, wird der Zeitstempel der Änderung gespeichert. Nutzer werden außerdem aufgefordert, die neue Datenschutzerklärung erneut zu bestätigen.
+  
