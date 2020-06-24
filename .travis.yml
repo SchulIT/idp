@@ -1,23 +1,23 @@
-dist: xenial
+dist: bionic
 language: php
+
 php:
     - '7.4'
-
-allow_failures:
-    - php: 'nightly'
-    - php: '8.0'
 
 services:
     - mysql
 
+before_install:
+    - php -i
+
 install:
     - cp .env.test.dist .env.test
-    - composer install
+    - COMPOSER_MEMORY_LIMIT=-1 travis_retry composer install --prefer-dist --no-interaction
 
 script:
-    - mkdir -p builds/logs
-    - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+    - vendor/bin/phpstan analyze ./src --level 5 --memory-limit 1G
+    - vendor/bin/phpunit --coverage-clover clover.xml
 
 after_script:
     - wget https://scrutinizer-ci.com/ocular.phar
-    - php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
+    - php ocular.phar code-coverage:upload --format=php-clover clover.xml
