@@ -117,5 +117,7 @@ class AddUserCommand extends Command {
         $this->userRepository->persist($user);
 
         $io->success('User successfully added');
+
+        return 0;
     }
 }

@@ -27,7 +27,7 @@ class UserVariable {
 
         $user = $token->getUser();
 
-        if($user === null || !$user instanceof User) {
+        if(!$user instanceof User) {
             return null;
         }
 

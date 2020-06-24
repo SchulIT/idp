@@ -68,8 +68,10 @@ class ServiceAttributeRegistrationCodeValue implements ServiceAttributeValueInte
 
     /**
      * @param string|string[]|int $value
+     * @return ServiceAttributeRegistrationCodeValue
      */
-    public function setValue($value) {
+    public function setValue($value): ServiceAttributeRegistrationCodeValue {
         $this->value = $value;
+        return $this;
     }
 }

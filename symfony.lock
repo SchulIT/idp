@@ -275,6 +275,15 @@
     "phpspec/prophecy": {
         "version": "1.8.0"
     },
+    "phpstan/phpstan": {
+        "version": "0.12.30"
+    },
+    "phpstan/phpstan-doctrine": {
+        "version": "0.12.17"
+    },
+    "phpstan/phpstan-symfony": {
+        "version": "0.12.6"
+    },
     "phpunit/php-code-coverage": {
         "version": "6.0.7"
     },
@@ -303,6 +312,9 @@
         "version": "1.0.1"
     },
     "psr/container": {
+        "version": "1.0.0"
+    },
+    "psr/event-dispatcher": {
         "version": "1.0.0"
     },
     "psr/link": {

@@ -65,7 +65,7 @@ class AttributeValueProvider extends AbstractAttributeProvider {
     }
 
     /**
-     * @param $entityId
+     * @param string $entityId
      * @return ServiceAttribute[]
      */
     private function getRequestedAttributes($entityId) {
@@ -92,7 +92,7 @@ class AttributeValueProvider extends AbstractAttributeProvider {
     /**
      * Returns a list of attributes for the given user and the given entityId (of the requested service provider).
      *
-     * @param $entityId
+     * @param string $entityId
      * @param User $user
      * @return string[]
      */
@@ -113,7 +113,7 @@ class AttributeValueProvider extends AbstractAttributeProvider {
 
     /**
      * @param UserInterface $user
-     * @param $entityId
+     * @param string $entityId
      * @return Attribute[]
      */
     public function getValuesForUser(UserInterface $user, $entityId) {

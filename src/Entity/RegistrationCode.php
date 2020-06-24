@@ -121,6 +121,7 @@ class RegistrationCode implements GroupSequenceProviderInterface {
     /**
      * @ORM\OneToMany(targetEntity="ServiceAttributeRegistrationCodeValue", mappedBy="registrationCode")
      * @Serializer\Exclude()
+     * @var Collection<ServiceAttributeRegistrationCodeValue>
      */
     private $attributes;
 
@@ -334,13 +335,12 @@ class RegistrationCode implements GroupSequenceProviderInterface {
         return $this->attributes;
     }
 
-    /**
-     * @param string[] $attributes
-     * @return RegistrationCode
-     */
-    public function setAttributes(array $attributes): RegistrationCode {
-        $this->attributes = $attributes;
-        return $this;
+    public function addAttribute(ServiceAttributeRegistrationCodeValue $attributeValue): void {
+        $this->attributes->add($attributeValue);
+    }
+
+    public function removeAttribute(ServiceAttributeRegistrationCodeValue $attributeValue): void {
+        $this->attributes->removeElement($attributeValue);
     }
 
     /**

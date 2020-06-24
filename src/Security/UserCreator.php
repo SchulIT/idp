@@ -82,10 +82,10 @@ class UserCreator {
 
     /**
      * @param ActiveDirectoryUserInformation $response
-     * @return UserType
+     * @return UserType|null
      */
     private function getTargetUserType(ActiveDirectoryUserInformation $response) {
-        /** @var ActiveDirectorySyncOption $option */
+        /** @var ActiveDirectorySyncOption|null $option */
         $option = $this->optionsResolver
             ->getOption($this->syncOptions, $response->getOu(), $response->getGroups());
 
@@ -151,7 +151,7 @@ class UserCreator {
      * @return string|null
      */
     private function getGrade(ActiveDirectoryUserInformation $response) {
-        /** @var ActiveDirectoryGradeSyncOption $option */
+        /** @var ActiveDirectoryGradeSyncOption|null $option */
         $option = $this->optionsResolver
             ->getOption($this->gradeSyncOptions, $response->getOu(), $response->getGroups());
 

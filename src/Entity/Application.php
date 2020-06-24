@@ -179,7 +179,7 @@ class Application implements UserInterface {
      * @return string
      */
     public function getPassword() {
-        return null;
+        return '';
     }
 
     /**

@@ -3,12 +3,16 @@
 namespace App\Controller\Api;
 
 use App\Entity\RegistrationCode as RegistrationCodeEntity;
+use App\Entity\ServiceAttribute;
+use App\Entity\ServiceAttributeRegistrationCodeValue;
 use App\Repository\RegistrationCodeRepositoryInterface;
+use App\Repository\ServiceAttributeRepositoryInterface;
 use App\Repository\UserTypeRepositoryInterface;
 use App\Request\RegistrationCode;
 use App\Response\ErrorResponse;
 use App\Response\RegistrationCodeList;
 use App\Rest\ValidationFailedException;
+use App\Utils\ArrayUtils;
 use Exception;
 use JMS\Serializer\SerializerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -25,13 +29,17 @@ class RegistrationCodeController extends AbstractApiController {
     private $validator;
     private $userTypeRepository;
     private $registrationCodeRepository;
+    private $attributeRepository;
 
-    public function __construct(ValidatorInterface $validator, UserTypeRepositoryInterface $userTypeRepository, RegistrationCodeRepositoryInterface $registrationCodeRepository, SerializerInterface $serializer) {
+    public function __construct(ValidatorInterface $validator, UserTypeRepositoryInterface $userTypeRepository,
+                                RegistrationCodeRepositoryInterface $registrationCodeRepository, ServiceAttributeRepositoryInterface $attributeRepository,
+                                SerializerInterface $serializer) {
         parent::__construct($serializer);
 
         $this->validator = $validator;
         $this->userTypeRepository = $userTypeRepository;
         $this->registrationCodeRepository = $registrationCodeRepository;
+        $this->attributeRepository = $attributeRepository;
     }
 
     /**
@@ -217,7 +225,27 @@ class RegistrationCodeController extends AbstractApiController {
         $code->setGrade($request->getGrade());
         $code->setType($type);
         $code->setExternalId($request->getExternalId());
-        $code->setAttributes($request->getAttributes());
+
+        $attributes = ArrayUtils::createArrayWithKeys(
+            $this->attributeRepository->findAll(),
+            function(ServiceAttribute $attribute) {
+                return $attribute->getName();
+            });
+
+        foreach($request->getAttributes() as $attributeName => $attributeValue) {
+            $attribute = $attribute[$attributeName] ?? null;
+
+            if($attribute === null) {
+                continue;
+            }
+
+            $value = (new ServiceAttributeRegistrationCodeValue())
+                ->setAttribute($attribute)
+                ->setRegistrationCode($code)
+                ->setValue($attributeValue);
+
+            $code->addAttribute($value);
+        }
 
         return $code;
     }

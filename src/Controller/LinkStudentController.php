@@ -50,6 +50,7 @@ class LinkStudentController extends AbstractController {
                     'password' => $form->get('password')->getData(),
                     'csrf_token' => $csrfToken->getValue()
                 ];
+                /** @var User $student */
                 $student = $authenticator->getUser($credentials, $userProvider);
 
                 $linkStudentsHelper->link($user, $student);

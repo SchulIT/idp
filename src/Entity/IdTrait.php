@@ -12,7 +12,7 @@ trait IdTrait {
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer", options={"unsigned": true})
      * @Serializer\Exclude()
-     * @var
+     * @var int|null
      */
     private $id;
 

@@ -198,7 +198,7 @@ class ServiceAttribute {
     /**
      * Set the options.
      *
-     * @param array|KeyValueContainer|\Traversable $data Something that can be converted to an array.
+     * @param array|KeyValueContainer|\Traversable $options Something that can be converted to an array.
      */
     public function setOptions($options)
     {
@@ -208,7 +208,7 @@ class ServiceAttribute {
     /**
      * Extract an array out of $data or throw an exception if not possible.
      *
-     * @param array|KeyValueContainer|\Traversable $data Something that can be converted to an array.
+     * @param mixed $data Something that can be converted to an array.
      *
      * @return array Native array representation of $data
      *

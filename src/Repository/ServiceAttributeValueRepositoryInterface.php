@@ -19,7 +19,7 @@ interface ServiceAttributeValueRepositoryInterface {
     public function persist($attributeValue);
 
     /**
-     * @param ServiceAttributeValueInterface
+     * @param ServiceAttributeValueInterface $attributeValue
      * @return mixed
      */
     public function remove($attributeValue);

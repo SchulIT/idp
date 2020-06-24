@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
@@ -57,7 +58,7 @@ class PasswordResetToken {
     }
 
     /**
-     * @param mixed $user
+     * @param User $user
      * @return PasswordResetToken
      */
     public function setUser(User $user): PasswordResetToken {
@@ -66,7 +67,7 @@ class PasswordResetToken {
     }
 
     /**
-     * @return mixed
+     * @return DateTime
      */
     public function getExpiresAt(): \DateTime {
         return $this->expiresAt;

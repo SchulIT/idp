@@ -143,7 +143,7 @@ class Builder {
 
         $user = $this->tokenStorage->getToken()->getUser();
 
-        if($user === null || !$user instanceof User) {
+        if(!$user instanceof User) {
             return $menu;
         }
 

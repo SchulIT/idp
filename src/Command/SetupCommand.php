@@ -47,6 +47,8 @@ class SetupCommand extends Command {
         $output->writeln('<fg=green>OK</>');
 
         $io->success('Setup completed');
+
+        return 0;
     }
 
     private function addDefaultUserType() {

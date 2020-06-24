@@ -38,7 +38,7 @@ class HandleSamlRequestListener implements EventSubscriberInterface {
             return;
         }
 
-        /** @var TokenInterface $token */
+        /** @var TokenInterface|null $token */
         $token = $this->tokenStorage->getToken();
 
         if($token === null || !$token->isAuthenticated() || $token instanceof AnonymousToken || $token instanceof TwoFactorToken || $route === 'idp_saml') {

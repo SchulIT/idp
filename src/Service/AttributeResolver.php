@@ -102,10 +102,6 @@ class AttributeResolver {
      * @return mixed[]
      */
     public function getAttributesForType(UserType $userType) {
-        if($userType === null) {
-            return [ ];
-        }
-
         /** @var ServiceAttributeValue[] $userTypeAttributeValues */
         $userTypeAttributeValues = $this->attributeValueRepository->getAttributeValuesForUserType($userType);
 
@@ -117,10 +113,6 @@ class AttributeResolver {
      * @return mixed[]
      */
     public function getAttributesForRole(UserRole $userRole) {
-        if($userRole === null) {
-            return [ ];
-        }
-
         /** @var ServiceAttributeValue[] $userRoleAttributeValues */
         $userRoleAttributeValues = $this->attributeValueRepository->getAttributeValuesForUserRole($userRole);
 
@@ -128,14 +120,10 @@ class AttributeResolver {
     }
 
     /**
-     * @param UserRole $userRole
+     * @param RegistrationCode $code
      * @return mixed[]
      */
     public function getAttributesForRegistrationCode(RegistrationCode $code) {
-        if($code === null) {
-            return [ ];
-        }
-
         /** @var ServiceAttributeValue[] $registrationCodeValues */
         $registrationCodeValues = $this->attributeValueRepository->getAttributeValuesForRegistrationCode($code);
 

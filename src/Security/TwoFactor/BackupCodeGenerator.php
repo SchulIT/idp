@@ -5,7 +5,7 @@ namespace App\Security\TwoFactor;
 class BackupCodeGenerator {
 
     protected function generateCode() {
-        $code = random_int(100000,999999);
+        $code = (string)random_int(100000,999999);
         $string = str_pad($code, 6, "0");
         return $string;
     }

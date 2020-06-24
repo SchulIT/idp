@@ -51,6 +51,7 @@ class UserRequest {
      * @Assert\NotBlank()
      * @Assert\Uuid()
      * @ValidUserTypeUuid()
+     * @var string
      */
     private $type;
 
@@ -114,7 +115,7 @@ class UserRequest {
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getType() {
         return $this->type;

@@ -71,7 +71,7 @@ class ValidAttributesArrayValidator extends ConstraintValidator {
                                 ->setParameter('{{ name }}', $attributeName)
                                 ->setParameter('{{ valid }}', json_encode($validValues))
                                 ->setParameter('{{ given }}', $arrayValue)
-                                ->setParameter('{{ pos }}', $i)
+                                ->setParameter('{{ pos }}', (string)$i)
                                 ->addViolation();
                         }
 

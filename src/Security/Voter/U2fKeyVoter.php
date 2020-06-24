@@ -37,10 +37,6 @@ class U2fKeyVoter extends Voter {
             return false;
         }
 
-        if($key->getUser() === null) {
-            return false;
-        }
-
         return $key->getUser()->getId() === $user->getId();
     }
 }
