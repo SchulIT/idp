@@ -39,6 +39,7 @@ register:
     button: Registrierung abschließen
     success: Benutzerprofil erfolgreich vervollständigt.
     caution: Bitte die Anmelde-E-Mail-Adresse notieren.
+    caution_email: Bei der Anmelde-E-Mail-Adresse handelt es sich nicht um ein echtes E-Mail-Postfach.
     email_help: Die Angabe der E-Mail-Adresse ist freiwillig. Wenn eine E-Mail-Adresse angegeben wird, kann das Passwort eigenständig zurückgesetzt werden. Anderenfalls ist dies nur über den Administrator möglich.
     voluntary: Freiwillige Angaben anzeigen
     error:

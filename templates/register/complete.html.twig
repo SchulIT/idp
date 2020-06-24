@@ -22,8 +22,14 @@
 
     {% include '@Common/auth/errors.html.twig' %}
 
-    <div class="alert alert-danger">
-        <i class="fa fa-exclamation-triangle"></i> {{ 'register.complete.caution'|trans({}, 'security') }}
+    <div class="alert alert-danger d-flex align-items-center">
+        <i class="fa fa-exclamation-triangle mr-2"></i>
+        <p class="mb-0">{{ 'register.complete.caution'|trans({}, 'security') }}</p>
+    </div>
+
+    <div class="alert alert-danger d-flex align-items-center">
+        <i class="fa fa-exclamation-triangle mr-2"></i>
+        <p class="mb-0">{{ 'register.complete.caution_email'|trans({}, 'security') }}</p>
     </div>
 
     {{ form_start(form) }}

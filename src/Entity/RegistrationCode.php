@@ -11,14 +11,17 @@ use Ramsey\Uuid\Uuid;
 use Swagger\Annotations as SWG;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\GroupSequence;
+use Symfony\Component\Validator\GroupSequenceProviderInterface;
 
 /**
  * @ORM\Entity()
  * @UniqueEntity(fields={"code"})
  * @UniqueEntity(fields={"username"})
  * @UniqueEntity(fields={"token"})
+ * @Assert\GroupSequenceProvider
  */
-class RegistrationCode {
+class RegistrationCode implements GroupSequenceProviderInterface {
 
     use IdTrait;
     use UuidTrait;
@@ -58,14 +61,14 @@ class RegistrationCode {
 
     /**
      * @ORM\Column(type="string", unique=true, nullable=true)
-     * @Assert\NotBlank(allowNull=true)
+     * @Assert\NotBlank(groups={"provide_username"})
      * @var string
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\NotBlank(allowNull=true)
+     * @Assert\NotBlank(groups={"provide_suffix"})
      * @var string|null
      */
     private $usernameSuffix;
@@ -375,5 +378,15 @@ class RegistrationCode {
     public function getTypeString(): string {
         return (string)$this->getType()->getUuid();
     }
-    
+
+    /**
+     * @inheritDoc
+     */
+    public function getGroupSequence() {
+        if($this->usernameSuffix === null) {
+            return [ 'Default', 'provide_username' ];
+        }
+
+        return ['Default', 'provide_suffix'];
+    }
 }
