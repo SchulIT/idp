@@ -66,8 +66,9 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     private $password;
 
     /**
-     * @ORM\Column(type="text", unique=true, nullable=true)
+     * @ORM\Column(type="string", unique=true, nullable=true)
      * @Assert\NotBlank(allowNull=true)
+     * @Assert\Length(max="191")
      * @Assert\Email()
      * @var string|null
      */
