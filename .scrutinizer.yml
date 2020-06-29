@@ -1,7 +1,7 @@
 build:
     dependencies:
         override:
-            - COMPOSER_MEMORY_LIMIT=-1 composer install --prefer-dist --no-interaction --no-scripts
+            - COMPOSER_MEMORY_LIMIT=-1 composer install --prefer-dist --no-interaction --no-scripts --ignore-platform-reqs
 
     environment:
         php:
