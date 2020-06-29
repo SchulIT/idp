@@ -19,5 +19,8 @@ $application->run(new \Symfony\Component\Console\Input\ArrayInput([
 $application->run(new \Symfony\Component\Console\Input\ArrayInput([
     'command' => 'doctrine:schema:create'
 ]));
+$application->run(new \Symfony\Component\Console\Input\ArrayInput([
+    'command' => 'app:setup'
+]));
 
 $kernel->shutdown();
