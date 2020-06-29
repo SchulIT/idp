@@ -4939,12 +4939,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchulIT/adauth.git",
-                "reference": "e88f82aec9d6c23611fefda9fa2094d0606c2df3"
+                "reference": "9869c1dfd9ed831b5814b23a00623d948ceb0ab1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchulIT/adauth/zipball/e88f82aec9d6c23611fefda9fa2094d0606c2df3",
-                "reference": "e88f82aec9d6c23611fefda9fa2094d0606c2df3",
+                "url": "https://api.github.com/repos/SchulIT/adauth/zipball/9869c1dfd9ed831b5814b23a00623d948ceb0ab1",
+                "reference": "9869c1dfd9ed831b5814b23a00623d948ceb0ab1",
                 "shasum": ""
             },
             "require": {
@@ -4979,7 +4979,7 @@
                 "source": "https://github.com/SchulIT/adauth/tree/master",
                 "issues": "https://github.com/SchulIT/adauth/issues"
             },
-            "time": "2020-04-14T13:19:48+00:00"
+            "time": "2020-06-29T19:44:07+00:00"
         },
         {
             "name": "schoolit/adauth-bundle",
@@ -4987,20 +4987,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchulIT/adauth-bundle.git",
-                "reference": "e0de4576266bdf8d45cc03bd7950cd6762786e63"
+                "reference": "8110ee40125586499ce58b03fc8ae5f8dbc99099"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchulIT/adauth-bundle/zipball/e0de4576266bdf8d45cc03bd7950cd6762786e63",
-                "reference": "e0de4576266bdf8d45cc03bd7950cd6762786e63",
+                "url": "https://api.github.com/repos/SchulIT/adauth-bundle/zipball/8110ee40125586499ce58b03fc8ae5f8dbc99099",
+                "reference": "8110ee40125586499ce58b03fc8ae5f8dbc99099",
                 "shasum": ""
             },
             "require": {
                 "ext-iconv": "*",
-                "php": "^7.2",
+                "php": "^7.4",
                 "schoolit/adauth": "dev-master",
-                "symfony/framework-bundle": "^4.0",
-                "symfony/yaml": "^4.0"
+                "symfony/console": "^4.4",
+                "symfony/framework-bundle": "^4.4",
+                "symfony/yaml": "^4.4"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -5015,7 +5016,7 @@
                 "source": "https://github.com/SchulIT/adauth-bundle/tree/master",
                 "issues": "https://github.com/SchulIT/adauth-bundle/issues"
             },
-            "time": "2020-02-08T20:06:58+00:00"
+            "time": "2020-06-29T19:44:43+00:00"
         },
         {
             "name": "schoolit/common-bundle",
