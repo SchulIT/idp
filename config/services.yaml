@@ -123,8 +123,10 @@ services:
 
     SchoolIT\CommonBundle\Command\CreateCertificateCommand:
         arguments:
-            $keyFile: '%idp_cert_key%'
-            $certFile: '%idp_cert_file%'
+            $types:
+                saml:
+                    keyFile: '%idp_cert_key%'
+                    certFile: '%idp_cert_file%'
 
     # Health Check
     App\HealthCheck\IdentityProviderCertificateCheck:
