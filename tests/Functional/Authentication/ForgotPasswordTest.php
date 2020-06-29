@@ -57,7 +57,7 @@ class ForgotPasswordTest extends WebTestCase {
          * STEP 1: Navigate to /forgot_pw and fill out the form
          */
         $crawler = $this->client->request('GET', '/forgot_pw');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the forgot pw page');
 
         $button = $crawler->filter('button[type=submit]')->first();
         $form = $button->form();
@@ -115,8 +115,7 @@ class ForgotPasswordTest extends WebTestCase {
          * STEP 4: Navigate to /forgot_pw/{token}
          */
         $crawler = $this->client->request('GET', '/forgot_pw/' . $token->getToken());
-
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the /forgot_pw/{token} page');
 
         /*
          * STEP 5A: Fill out the form with two non-identical passwords

@@ -83,6 +83,7 @@ class LoginTest extends WebTestCase {
 
         $crawler = $this->client->request('GET', '/dashboard');
         $this->assertEquals('http://localhost/login', $crawler->getUri(), 'Tests whether we land at the login page');
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the login page');
 
         $button = $crawler->filter('button[type=submit]')->first();
         $form = $button->form();
@@ -92,6 +93,7 @@ class LoginTest extends WebTestCase {
 
         $crawler = $this->client->submit($form);
         $this->assertEquals('http://localhost/dashboard', $crawler->getUri(), 'Tests whether we land on the dashboard after successful login');
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the dashboard');
 
         $tokenStorage = $this->client->getContainer()->get('security.token_storage');
 
@@ -110,6 +112,7 @@ class LoginTest extends WebTestCase {
 
         $crawler = $this->client->request('GET', '/dashboard');
         $this->assertEquals('http://localhost/login', $crawler->getUri(), 'Tests whether we land at the login page');
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the login page');
 
         $button = $crawler->filter('button[type=submit]')->first();
         $form = $button->form();
@@ -119,6 +122,7 @@ class LoginTest extends WebTestCase {
 
         $crawler = $this->client->submit($form);
         $this->assertEquals('http://localhost/login/two_factor', $crawler->getUri(), 'Tests whether we land on the two factor page');
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the two factor page');
 
         $tokenStorage = $this->client->getContainer()->get('security.token_storage');
         $this->assertNotNull($tokenStorage->getToken());
@@ -129,6 +133,7 @@ class LoginTest extends WebTestCase {
 
         $this->client->request('GET', '/dashboard');
         $this->assertEquals('http://localhost/login/two_factor', $crawler->getUri(), 'Tests whether we land on the two factor page if we are partially authenticated and browsing to a secured page');
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the two factor page (2)');
 
         $authenticator = new GoogleAuthenticator();
         $code = $authenticator->getCode($this->twoFactorUser->getGoogleAuthenticatorSecret());
@@ -141,6 +146,7 @@ class LoginTest extends WebTestCase {
         $crawler = $this->client->submit($form);
 
         $this->assertEquals('http://localhost/dashboard', $crawler->getUri(), 'Tests whether we land on the dashboard after login');
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the dashboard');
 
         $tokenStorage = $this->client->getContainer()->get('security.token_storage');
         $this->assertNotNull($tokenStorage->getToken());
@@ -157,6 +163,7 @@ class LoginTest extends WebTestCase {
 
         $crawler = $this->client->request('GET', '/dashboard');
         $this->assertEquals('http://localhost/login', $crawler->getUri(), 'Tests whether we land at the login page');
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the login page');
 
         $button = $crawler->filter('button[type=submit]')->first();
         $form = $button->form();
@@ -166,6 +173,7 @@ class LoginTest extends WebTestCase {
 
         $crawler = $this->client->submit($form);
         $this->assertEquals('http://localhost/login/two_factor', $crawler->getUri(), 'Tests whether we land on the two factor page');
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the two factor page');
 
         $tokenStorage = $this->client->getContainer()->get('security.token_storage');
         $this->assertNotNull($tokenStorage->getToken());
@@ -177,7 +185,8 @@ class LoginTest extends WebTestCase {
         $link = $crawler->filter('a[role=button]')->first()->link();
         $crawler = $this->client->click($link);
 
-        $this->assertEquals('http://localhost/logout/success', $crawler->getUri(), 'Tests if we land on the login page after cancelling two factor authentication');
+        $this->assertEquals('http://localhost/logout/success', $crawler->getUri(), 'Tests if we land on the logout page after cancelling two factor authentication');
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the logout page');
     }
 
     private static function getRoles(array $roles) {
