@@ -11,7 +11,6 @@ before_install:
     - php -i
 
 install:
-    - cp .env.test.dist .env.test
     - COMPOSER_MEMORY_LIMIT=-1 travis_retry composer install --prefer-dist --no-interaction
 
 script:
