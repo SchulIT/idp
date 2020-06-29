@@ -9,9 +9,12 @@ services:
 
 before_install:
     - php -i
+    - nvm install 10
 
 install:
     - COMPOSER_MEMORY_LIMIT=-1 travis_retry composer install --prefer-dist --no-interaction
+    - yarn install
+    - yarn encore dev
 
 script:
     - vendor/bin/phpstan analyze ./src --level 5 --memory-limit 1G
