@@ -74,7 +74,10 @@ class IdpExchangeService {
 
                 $values = $attribute->getAllAttributeValues();
 
-                if (count($values) > 1) {
+                if($values === null) {
+                    $builder
+                        ->addValueAttribute($attribute->getName(), null);
+                } else if (count($values) > 1) {
                     $builder
                         ->addValuesAttribute($attribute->getName(), $values);
                 } else {
