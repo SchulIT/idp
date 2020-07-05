@@ -1,8 +1,8 @@
 require('../css/app.scss');
 
 let bsn = require('bootstrap.native');
-require('../../vendor/schoolit/common-bundle/Resources/assets/js/polyfill');
-require('../../vendor/schoolit/common-bundle/Resources/assets/js/menu');
+require('../../vendor/schulit/common-bundle/Resources/assets/js/polyfill');
+require('../../vendor/schulit/common-bundle/Resources/assets/js/menu');
 
 import Choices from "choices.js";
 
