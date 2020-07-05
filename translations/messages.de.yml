@@ -477,7 +477,7 @@ codes:
 
 link:
   student:
-    label: Lernenden verknüpfen
+    label: Lernende verknüpfen
     info: Um als Elternteil auf die Daten des Kindes zugreifen zu können, muss man sich als Elternteil einmalig mit dem Account des Kindes verknüpfen. Dazu muss das Kind einmalig seine Anmeldedaten eintragen.
     title: Verknüpfungen
     none: Keine Verknüpfungen
