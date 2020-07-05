@@ -7,6 +7,7 @@ use App\Response\Violation;
 use App\Response\ViolationListResponse;
 use App\Rest\ValidationFailedException;
 use JMS\Serializer\SerializerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
@@ -18,9 +19,11 @@ class ApiExceptionSubscriber implements EventSubscriberInterface {
     private const JsonContentType = 'application/json';
 
     private $serializer;
+    private $logger;
 
-    public function __construct(SerializerInterface $serializer) {
+    public function __construct(SerializerInterface $serializer, LoggerInterface $logger) {
         $this->serializer = $serializer;
+        $this->logger = $logger;
     }
 
     public function onKernelException(ExceptionEvent $event) {
@@ -48,6 +51,10 @@ class ApiExceptionSubscriber implements EventSubscriberInterface {
             $message = new ViolationListResponse($violations);
         } else { // Case 3: General error
             $message = new ErrorResponse($throwable->getMessage(), get_class($throwable));
+
+            $this->logger->error($throwable->getMessage(), [
+                'e' => $throwable
+            ]);
         }
 
         $validStatusCodes = array_keys(Response::$statusTexts);
