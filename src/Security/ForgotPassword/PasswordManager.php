@@ -6,7 +6,7 @@ use App\Entity\PasswordResetToken;
 use App\Entity\User;
 use App\Repository\PasswordResetTokenRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
-use SchoolIT\CommonBundle\Helper\DateHelper;
+use SchulIT\CommonBundle\Helper\DateHelper;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class PasswordManager {

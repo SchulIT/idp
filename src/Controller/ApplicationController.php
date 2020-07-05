@@ -6,7 +6,7 @@ use App\Entity\Application;
 use App\Form\ApplicationType;
 use App\Repository\ApplicationRepositoryInterface;
 use App\Service\ApplicationKeyGenerator;
-use SchoolIT\CommonBundle\Form\ConfirmType;
+use SchulIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;

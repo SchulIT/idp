@@ -5,14 +5,14 @@ namespace App\Service;
 use App\Entity\User;
 use App\Repository\UserRepositoryInterface;
 use App\Saml\AttributeValueProvider;
-use SchoolIT\CommonBundle\Saml\ClaimTypes as ExtendedClaimTypes;
-use SchoolIT\IdpExchange\Request\UpdatedUsersRequest;
-use SchoolIT\IdpExchange\Request\UserRequest;
-use SchoolIT\IdpExchange\Request\UsersRequest;
-use SchoolIT\IdpExchange\Response\Builder\UpdatedUsersResponseBuilder;
-use SchoolIT\IdpExchange\Response\Builder\UserResponseBuilder;
-use SchoolIT\IdpExchange\Response\Builder\UsersResponseBuilder;
-use SchoolIT\IdpExchange\Response\UpdatedUsersResponse;
+use SchulIT\CommonBundle\Saml\ClaimTypes as ExtendedClaimTypes;
+use SchulIT\IdpExchange\Request\UpdatedUsersRequest;
+use SchulIT\IdpExchange\Request\UserRequest;
+use SchulIT\IdpExchange\Request\UsersRequest;
+use SchulIT\IdpExchange\Response\Builder\UpdatedUsersResponseBuilder;
+use SchulIT\IdpExchange\Response\Builder\UserResponseBuilder;
+use SchulIT\IdpExchange\Response\Builder\UsersResponseBuilder;
+use SchulIT\IdpExchange\Response\UpdatedUsersResponse;
 
 class IdpExchangeService {
     private $userRepository;

@@ -6,7 +6,7 @@ use App\Entity\ServiceProvider;
 use Burgov\Bundle\KeyValueFormBundle\Form\Type\KeyValueType;
 use Doctrine\ORM\EntityRepository;
 use FervoEnumBundle\Generated\Form\ServiceAttributeTypeType;
-use SchoolIT\CommonBundle\Form\FieldsetType;
+use SchulIT\CommonBundle\Form\FieldsetType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;

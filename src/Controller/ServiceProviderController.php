@@ -6,7 +6,7 @@ use App\Entity\ServiceProvider;
 use App\Form\ServiceProviderType;
 use App\Repository\ServiceProviderRepositoryInterface;
 use App\Service\ServiceProviderTokenGenerator;
-use SchoolIT\CommonBundle\Form\ConfirmType;
+use SchulIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;

@@ -7,7 +7,7 @@ use App\Form\AttributeDataTrait;
 use App\Form\UserRoleType;
 use App\Repository\UserRoleRepositoryInterface;
 use App\Service\AttributePersister;
-use SchoolIT\CommonBundle\Form\ConfirmType;
+use SchulIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;

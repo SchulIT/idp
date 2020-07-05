@@ -8,7 +8,7 @@ use App\Form\RegistrationCodeType;
 use App\Repository\RegistrationCodeRepositoryInterface;
 use App\Service\AttributePersister;
 use App\View\Filter\UserTypeFilter;
-use SchoolIT\CommonBundle\Form\ConfirmType;
+use SchulIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;

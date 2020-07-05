@@ -13,7 +13,7 @@ use App\Saml\AttributeValueProvider;
 use App\Service\AttributePersister;
 use App\Service\AttributeResolver;
 use App\Utils\ArrayUtils;
-use SchoolIT\CommonBundle\Form\ConfirmType;
+use SchulIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

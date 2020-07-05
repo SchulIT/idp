@@ -7,7 +7,7 @@ use App\Entity\User;
 use App\Service\UserServiceProviderResolver;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
-use SchoolIT\CommonBundle\DarkMode\DarkModeManagerInterface;
+use SchulIT\CommonBundle\DarkMode\DarkModeManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;

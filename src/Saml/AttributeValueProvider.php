@@ -12,8 +12,8 @@ use App\Service\UserServiceProviderResolver;
 use App\Traits\ArrayTrait;
 use LightSaml\ClaimTypes;
 use LightSaml\Model\Assertion\Attribute;
-use SchoolIT\CommonBundle\Saml\ClaimTypes as ExtendedClaimTypes;
-use SchoolIT\LightSamlIdpBundle\Provider\Attribute\AbstractAttributeProvider;
+use SchulIT\CommonBundle\Saml\ClaimTypes as ExtendedClaimTypes;
+use SchulIT\LightSamlIdpBundle\Provider\Attribute\AbstractAttributeProvider;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 

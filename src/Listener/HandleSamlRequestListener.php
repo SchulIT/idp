@@ -3,7 +3,7 @@
 namespace App\Listener;
 
 use Scheb\TwoFactorBundle\Security\Authentication\Token\TwoFactorToken;
-use SchoolIT\LightSamlIdpBundle\RequestStorage\RequestStorageInterface;
+use SchulIT\LightSamlIdpBundle\RequestStorage\RequestStorageInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;

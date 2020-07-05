@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Entity\ServiceAttribute;
 use App\Repository\ServiceAttributeRepository;
 use LightSaml\ClaimTypes;
-use SchoolIT\CommonBundle\Saml\ClaimTypes as CommonClaimTypes;
+use SchulIT\CommonBundle\Saml\ClaimTypes as CommonClaimTypes;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class FriendlyAttributeResolver {

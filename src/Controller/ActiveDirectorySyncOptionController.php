@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\ActiveDirectorySyncOption;
 use App\Form\ActiveDirectorySyncOptionType;
 use App\Repository\ActiveDirectorySyncOptionRepositoryInterface;
-use SchoolIT\CommonBundle\Form\ConfirmType;
+use SchulIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;

@@ -6,7 +6,7 @@ use App\Entity\ActiveDirectoryUser;
 use App\Entity\User;
 use App\Security\PasswordStrengthHelper;
 use App\Service\AttributeResolver;
-use SchoolIT\CommonBundle\Form\FieldsetType;
+use SchulIT\CommonBundle\Form\FieldsetType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;

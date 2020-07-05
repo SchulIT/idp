@@ -7,7 +7,7 @@ twig:
     form_themes:
       - form/layout.html.twig
     globals:
-      config: '@SchoolIT\CommonBundle\Twig\ConfigVariable'
+      config: '@SchulIT\CommonBundle\Twig\ConfigVariable'
       user: '@App\Twig\UserVariable'
       profile_url: "profile"
       health_check: '@App\HealthCheck\HealthCheckService'
