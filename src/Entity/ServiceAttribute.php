@@ -52,8 +52,8 @@ class ServiceAttribute {
 
     /**
      * @ORM\Column(type="service_attribute_type")
-     * @Assert\NotBlank()
-     * @Assert\Choice(choices={"text", "select"})
+     * @Assert\NotNull()
+     * @var ServiceAttributeType|null
      */
     private $type;
 
