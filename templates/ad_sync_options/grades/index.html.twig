@@ -15,44 +15,46 @@
         <div class="row">
             <div class="col-md-9">
                 <div class="card">
-                    <table class="table table-striped table-hover table-bordered">
-                        <colgroup>
-                            <col class="column-lg">
-                            <col>
-                            <col class="column-md">
-                        </colgroup>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-bordered card-table">
+                            <colgroup>
+                                <col class="column-lg">
+                                <col>
+                                <col class="column-md">
+                            </colgroup>
 
-                        <thead>
-                        <tr>
-                            <th>{{ 'label.grade'|trans }}</th>
-                            <th>{{ 'label.source'|trans }}</th>
-                            <th>{{ 'actions.label'|trans }}</th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-                        {% for option in sync_options %}
+                            <thead>
                             <tr>
-                                <td class="align-middle">
-                                    {{ option.grade }}
-                                </td>
-                                <td class="align-middle">
-                                    <span class="badge badge-primary">{% if option.sourceType == 'ou' %}{{ 'label.ou'|trans }}{% else %}{{ 'label.ad_group'|trans }}{% endif %}</span><br>
-                                    {{ option.source }}
-                                </td>
-                                <td class="align-middle">
-                                    <a href="{{ path('edit_ad_grades_sync_options', { uuid: option.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
-
-                                    <a href="{{ path('remove_ad_grades_sync_options', { uuid: option.uuid }) }}" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                </td>
+                                <th>{{ 'label.grade'|trans }}</th>
+                                <th>{{ 'label.source'|trans }}</th>
+                                <th>{{ 'actions.label'|trans }}</th>
                             </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                            </thead>
+
+                            <tbody>
+                            {% for option in sync_options %}
+                                <tr>
+                                    <td class="align-middle">
+                                        {{ option.grade }}
+                                    </td>
+                                    <td class="align-middle">
+                                        <span class="badge badge-primary">{% if option.sourceType == 'ou' %}{{ 'label.ou'|trans }}{% else %}{{ 'label.ad_group'|trans }}{% endif %}</span><br>
+                                        {{ option.source }}
+                                    </td>
+                                    <td class="align-middle">
+                                        <a href="{{ path('edit_ad_grades_sync_options', { uuid: option.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+
+                                        <a href="{{ path('remove_ad_grades_sync_options', { uuid: option.uuid }) }}" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
