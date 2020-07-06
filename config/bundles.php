@@ -29,4 +29,5 @@ return [
     Fervo\EnumBundle\FervoEnumBundle::class => ['all' => true],
     Anyx\LoginGateBundle\LoginGateBundle::class => ['all' => true],
     AdAuthBundle\AdAuthBundle::class => ['all' => true],
+    Shapecode\Bundle\CronBundle\ShapecodeCronBundle::class => ['all' => true],
 ];

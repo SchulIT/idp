@@ -164,3 +164,10 @@ services:
             $environment: "@League\\CommonMark\\EnvironmentInterface"
 
     Anyx\LoginGateBundle\Service\BruteForceChecker: "@anyx.login_gate.brute_force_checker"
+
+    # COMMANDS
+    SchulIT\CommonBundle\Command\SendMailsCommand:
+        arguments:
+            $messageLimit: '%env(int:MAILER_LIMIT)%'
+        tags:
+            - { name: shapecode_cron.cron_job, expression: '*\/2 * * * *' }
