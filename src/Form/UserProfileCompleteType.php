@@ -53,7 +53,8 @@ class UserProfileCompleteType extends AbstractType {
                 'invalid_message' => 'The password fields must match.',
                 'options' => [
                     'attr' => [
-                        'class' => 'password-field'
+                        'class' => 'password-field',
+                        'autocomplete' => 'new-password'
                     ],
                 ],
                 'constraints' => $this->passwordStrengthHelper->getConstraints(),

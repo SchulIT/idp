@@ -74,7 +74,7 @@ class ProfileType extends AbstractType {
                             'options' => [
                                 'attr' => [
                                     'class' => 'password-field',
-                                    'autocomplete' => 'off'
+                                    'autocomplete' => 'new-password'
                                 ],
                             ],
                             'constraints' => $this->passwordStrengthHelper->getConstraints(),
@@ -137,7 +137,8 @@ class ProfileType extends AbstractType {
                             'invalid_message' => 'The password fields must match.',
                             'options' => [
                                 'attr' => [
-                                    'class' => 'password-field'
+                                    'class' => 'password-field',
+                                    'autocomplete' => 'new-password'
                                 ],
                             ],
                             'constraints' => $this->passwordStrengthHelper->getConstraints(),
