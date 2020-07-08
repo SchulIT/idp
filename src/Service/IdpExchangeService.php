@@ -72,6 +72,7 @@ class IdpExchangeService {
                     continue;
                 }
 
+                /** @var string[]|null $values */
                 $values = $attribute->getAllAttributeValues();
 
                 if($values === null) {
