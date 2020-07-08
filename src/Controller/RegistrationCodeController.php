@@ -153,47 +153,51 @@ class RegistrationCodeController extends AbstractController {
         $data = new ImportRegistrationCodeData();
         $flow->bind($data);
 
-        try {
-            $form = $flow->createForm();
+        $form = null;
 
-            if($flow->isValid($form)) {
-                $flow->saveCurrentStepData($form);
+        $form = $flow->createForm();
 
-                if($flow->nextStep()) {
+        if ($flow->isValid($form)) {
+            $flow->saveCurrentStepData($form);
+
+            if ($flow->nextStep()) {
+                try {
                     $form = $flow->createForm();
-                } else {
-                    try {
-                        foreach ($data->getCodes() as $code) {
-                            $this->repository->persist($code);
-                        }
-
-                        $this->addFlash('success', 'import.codes.success');
-                        return $this->redirectToRoute('registration_codes');
-                    } catch (Exception $e) {
-                        $logger->error('Error persisting imported registration codes.', [
-                            'exception' => $e
-                        ]);
+                } catch(RecordInvalidException $e) {
+                    $flow->reset();
+                    $form->addError(new FormError($translator->trans('import.error.invalid_record', [
+                        '%field%' => $e->getField(),
+                        '%offset%' => $e->getIndex()
+                    ])));
+                } catch (LeagueException $e) {
+                    $logger->error('Error parsing CSV file.', [
+                        'exception' => $e
+                    ]);
+                    $flow->reset();
+                    $form->addError(new FormError('import.error.csv'));
+                } catch (Exception $e) {
+                    $logger->error('Error parsing CSV file.', [
+                        'exception' => $e
+                    ]);
+                    $flow->reset();
+                    $form->addError(new FormError('import.error.unknown'));
+                }
+            } else {
+                try {
+                    foreach ($data->getCodes() as $code) {
+                        $this->repository->persist($code);
                     }
+
+                    $this->addFlash('success', 'import.codes.success');
+                    return $this->redirectToRoute('registration_codes');
+                } catch (Exception $e) {
+                    $form->addError(new FormError('import.error.unknown'));
+
+                    $logger->error('Error persisting imported registration codes.', [
+                        'exception' => $e
+                    ]);
                 }
             }
-        } catch(RecordInvalidException $e) {
-            $flow->reset();
-            $form->addError(new FormError($translator->trans('import.error.invalid_record', [
-                '%field%' => $e->getField(),
-                '%offset%' => $e->getIndex()
-            ])));
-        } catch (LeagueException $e) {
-            $flow->reset();
-            $logger->error('Error parsing CSV file.', [
-                'e' => $e
-            ]);
-            $form->addError(new FormError('import.error.csv'));
-        } catch (Exception $e) {
-            $logger->error('Error parsing CSV file.', [
-                'e' => $e
-            ]);
-            $flow->reset();
-            $form->addError(new FormError('import.error.unknown'));
         }
 
         return $this->render('codes/import.html.twig', [

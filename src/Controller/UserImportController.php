@@ -22,49 +22,51 @@ class UserImportController extends AbstractController {
      */
     public function start(ImportUsersFlow $flow, UserRepositoryInterface $userRepository, TranslatorInterface $translator, LoggerInterface $logger) {
         $data = new ImportUserData();
-
         $flow->bind($data);
+        $form = $flow->createForm();
 
-        try {
-            $form = $flow->createForm();
+        if ($flow->isValid($form)) {
+            $flow->saveCurrentStepData($form);
 
-            if ($flow->isValid($form)) {
-                $flow->saveCurrentStepData($form);
-
-                if ($flow->nextStep()) {
+            if ($flow->nextStep()) {
+                try {
                     $form = $flow->createForm();
-                } else {
-                    try {
-                        foreach ($data->getUsers() as $user) {
-                            $userRepository->persist($user);
-                        }
-
-                        $this->addFlash('success', 'import.users.success');
-
-                        return $this->redirectToRoute('users');
-                    } catch (Exception $e) {
-
+                } catch(RecordInvalidException $e) {
+                    $flow->reset();
+                    $form->addError(new FormError($translator->trans('import.error.invalid_record', [
+                        '%field%' => $e->getField(),
+                        '%offset%' => $e->getIndex()
+                    ])));
+                } catch (LeagueException $e) {
+                    $flow->reset();
+                    $logger->error('Error parsing CSV file.', [
+                        'exception' => $e
+                    ]);
+                    $form->addError(new FormError('import.users.error.csv'));
+                } catch (Exception $e) {
+                    $logger->error('Error parsing CSV file.', [
+                        'exception' => $e
+                    ]);
+                    $flow->reset();
+                    $form->addError(new FormError('import.users.error.unknown'));
+                }
+            } else {
+                try {
+                    foreach ($data->getUsers() as $user) {
+                        $userRepository->persist($user);
                     }
+
+                    $this->addFlash('success', 'import.users.success');
+
+                    return $this->redirectToRoute('users');
+                } catch (Exception $e) {
+                    $form->addError(new FormError('import.error.unknown'));
+
+                    $logger->error('Error persisting imported registration codes.', [
+                        'exception' => $e
+                    ]);
                 }
             }
-        } catch(RecordInvalidException $e) {
-            $flow->reset();
-            $form->addError(new FormError($translator->trans('import.users.error.invalid_record', [
-                '%field%' => $e->getField(),
-                '%offset%' => $e->getIndex()
-            ])));
-        } catch (LeagueException $e) {
-            $flow->reset();
-            $logger->error('Error parsing CSV file.', [
-                'e' => $e
-            ]);
-            $form->addError(new FormError('import.users.error.csv'));
-        } catch (Exception $e) {
-            $logger->error('Error parsing CSV file.', [
-                'e' => $e
-            ]);
-            $flow->reset();
-            $form->addError(new FormError('import.users.error.unknown'));
         }
 
         return $this->render('users/import.html.twig', [
