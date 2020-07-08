@@ -55,6 +55,7 @@ label:
   not_specified: nicht festgelegt
   not_active: nicht aktiv
   pending_email_confirmation: E-Mail-Bestätigung ausstehend
+  not_provisioned: Bereitstellung ausstehend
   user_role: Benutzerrolle
   suffix: Suffix
   students: '{0} Lernende|{1} Lernender|]1,Inf[ Lernende'

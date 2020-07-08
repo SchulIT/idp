@@ -51,6 +51,10 @@
                                         {% if user.emailConfirmationPending %}
                                             <span class="badge badge-warning">{{ 'label.pending_email_confirmation'|trans }}</span>
                                         {% endif %}
+
+                                        {% if not user.isProvisioned %}
+                                            <span class="badge badge-warning">{{ 'label.not_provisioned'|trans }}</span>
+                                        {% endif %}
                                     </td>
                                     <td>{{ user.firstname }}</td>
                                     <td>{{ user.lastname }}</td>

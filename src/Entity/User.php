@@ -198,6 +198,12 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
      */
     private $privacyPolicyConfirmedAt = null;
 
+    /**
+     * @ORM\Column(type="boolean")
+     * @var bool
+     */
+    private $isProvisioned = true;
+
     public function __construct() {
         $this->uuid = Uuid::uuid4();
 
@@ -630,6 +636,22 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
      */
     public function setPrivacyPolicyConfirmedAt(?DateTime $privacyPolicyConfirmedAt): User {
         $this->privacyPolicyConfirmedAt = $privacyPolicyConfirmedAt;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isProvisioned(): bool {
+        return $this->isProvisioned;
+    }
+
+    /**
+     * @param bool $isProvisioned
+     * @return User
+     */
+    public function setIsProvisioned(bool $isProvisioned): User {
+        $this->isProvisioned = $isProvisioned;
         return $this;
     }
 

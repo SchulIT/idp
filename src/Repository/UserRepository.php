@@ -242,4 +242,19 @@ class UserRepository implements UserRepositoryInterface {
                 'uuid' => $uuid
             ]);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function findNextNonProvisionedUsers(int $limit): array {
+        return $this->em
+            ->createQueryBuilder()
+            ->select('u')
+            ->from(User::class, 'u')
+            ->orderBy('u.createdAt', 'asc')
+            ->where('u.isProvisioned = false')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -58,6 +58,12 @@ interface UserRepositoryInterface {
      */
     public function findAllUuids($offset = 0, $limit = null);
 
+    /**
+     * @param int $limit
+     * @return User[]
+     */
+    public function findNextNonProvisionedUsers(int $limit): array;
+
     public function persist(User $user);
 
     public function remove(User $user);

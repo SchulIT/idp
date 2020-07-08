@@ -107,7 +107,12 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator {
         }
 
         try {
+            /** @var User $user */
             $user = $userProvider->loadUserByUsername($credentials['username']);
+
+            if($user->isProvisioned() === false) {
+                throw new CustomUserMessageAuthenticationException('not_provisioned');
+            }
 
             if($user instanceof ActiveDirectoryUser) {
                 $user = $this->authenticateUsingActiveDirectory(new Credentials($credentials['username'], $credentials['password']), $user);

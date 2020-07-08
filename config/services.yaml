@@ -172,6 +172,10 @@ services:
         tags:
             - { name: shapecode_cron.cron_job, expression: '*\/2 * * * *' }
 
+    App\Command\ProvisionUserCommand:
+        arguments:
+            $numberOfUsers: '%env(PROVISIONING_LIMIT)%'
+
     # FORM FLOW
     Craue\FormFlowBundle\Storage\UserSessionStorageKeyGenerator: ~
 
