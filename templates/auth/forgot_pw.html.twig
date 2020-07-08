@@ -16,7 +16,7 @@
     <form class="form-signin" role="form" action="{{ path('forgot_password') }}" method="post">
         <div class="form-group">
             <label for="username" class="control-label">{{ 'label.username'|trans }}</label>
-            <input type="text" id="username" name="_username" class="form-control" required="required" autofocus >
+            <input type="email" id="username" name="_username" class="form-control" required="required" autofocus >
         </div>
 
         <input type="hidden" name="_csrf_token" value="{{ csrf_token(csrfTokenId) }}" >

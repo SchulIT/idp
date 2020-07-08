@@ -187,7 +187,7 @@ class UserType extends AbstractType {
                     $form->get('group_general')
                         ->remove('id')
                         ->remove('externalId')
-                        ->add('username', TextType::class, [
+                        ->add('username', EmailType::class, [
                             'label' => 'label.username'
                         ]);
                 } else {
@@ -211,7 +211,7 @@ class UserType extends AbstractType {
                 if($user instanceof ActiveDirectoryUser) {
                     $form->remove('group_password');
                     $form->get('group_general')
-                        ->add('username', TextType::class, [
+                        ->add('username', EmailType::class, [
                             'disabled' => true,
                             'label' => 'label.username',
                             'attr' => [ 'help' => 'info.attribute_must_change_in_ad' ]

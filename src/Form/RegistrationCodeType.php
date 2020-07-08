@@ -70,7 +70,7 @@ class RegistrationCodeType extends AbstractType {
                     'readonly' => $readonly
                 ]
             ])
-            ->add('username', TextType::class, [
+            ->add('username', EmailType::class, [
                 'label' => 'label.username',
                 'required' => false,
                 'attr' => [
