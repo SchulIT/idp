@@ -8,6 +8,7 @@ use App\Form\ImportRegistrationCodesFlow;
 use App\Form\RegistrationCodeType;
 use App\Import\ImportRegistrationCodeData;
 use App\Import\RecordInvalidException;
+use App\Import\RegistrationCsvImportHelper;
 use App\Repository\RegistrationCodeRepositoryInterface;
 use App\Service\AttributePersister;
 use App\View\Filter\UserTypeFilter;
@@ -149,7 +150,7 @@ class RegistrationCodeController extends AbstractController {
     /**
      * @Route("/import", name="import_registration_codes")
      */
-    public function import(ImportRegistrationCodesFlow $flow, TranslatorInterface $translator, LoggerInterface $logger) {
+    public function import(ImportRegistrationCodesFlow $flow, RegistrationCsvImportHelper $helper, TranslatorInterface $translator, LoggerInterface $logger) {
         $data = new ImportRegistrationCodeData();
         $flow->bind($data);
 
@@ -202,7 +203,9 @@ class RegistrationCodeController extends AbstractController {
 
         return $this->render('codes/import.html.twig', [
             'form' => $form->createView(),
-            'flow' => $flow
+            'flow' => $flow,
+            'headers' => $helper->getHeaders(),
+            'required' => $helper->getRequiredHeaders()
         ]);
     }
 

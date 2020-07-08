@@ -24,6 +24,25 @@ class RegistrationCsvImportHelper {
         $this->codeRepository = $codeRepository;
     }
 
+    public function getHeaders() {
+        return [
+            static::CodeHeader,
+            static::UsernameHeader,
+            static::SuffixHeader,
+            static::FirstnameHeader,
+            static::LastnameHeader,
+            static::EmailAddressHeader,
+            static::GradeHeader,
+            static::IdHeader,
+        ];
+    }
+
+    public function getRequiredHeaders() {
+        return [
+            static::CodeHeader
+        ];
+    }
+
     /**
      * Loads users from a given CSV file into a list of user objects
      *
@@ -98,4 +117,5 @@ class RegistrationCsvImportHelper {
 
         return $codes;
     }
+
 }

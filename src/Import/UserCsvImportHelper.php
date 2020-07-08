@@ -22,6 +22,24 @@ class UserCsvImportHelper {
         $this->userRepository = $userRepository;
     }
 
+    public function getHeaders() {
+        return [
+            static::EmailAddressHeader,
+            static::PasswordHeader,
+            static::FirstnameHeader,
+            static::LastnameHeader,
+            static::GradeHeader,
+            static::IdHeader
+        ];
+    }
+
+    public function getRequiredHeaders() {
+        return [
+            static::EmailAddressHeader,
+            static::PasswordHeader
+        ];
+    }
+
     /**
      * Loads users from a given CSV file into a list of user objects
      *

@@ -4,7 +4,7 @@ namespace App\Tests\Security;
 use App\Entity\User;
 use App\Security\UserChecker;
 use PHPUnit\Framework\TestCase;
-use SchoolIT\CommonBundle\Helper\DateHelper;
+use SchulIT\CommonBundle\Helper\DateHelper;
 
 class UserCheckerTest extends TestCase {
 

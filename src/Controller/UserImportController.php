@@ -20,7 +20,7 @@ class UserImportController extends AbstractController {
     /**
      * @Route("/users/import", name="import_users")
      */
-    public function start(ImportUsersFlow $flow, UserRepositoryInterface $userRepository, TranslatorInterface $translator, LoggerInterface $logger) {
+    public function start(ImportUsersFlow $flow, UserRepositoryInterface $userRepository, UserCsvImportHelper $helper, TranslatorInterface $translator, LoggerInterface $logger) {
         $data = new ImportUserData();
         $flow->bind($data);
         $form = $flow->createForm();
@@ -71,7 +71,9 @@ class UserImportController extends AbstractController {
 
         return $this->render('users/import.html.twig', [
             'form' => $form->createView(),
-            'flow' => $flow
+            'flow' => $flow,
+            'headers' => $helper->getHeaders(),
+            'required' => $helper->getRequiredHeaders()
         ]);
     }
 }

@@ -532,6 +532,12 @@ import:
     invalid_record: 'Das Feld %field% (Zeile %offset%) ist ungültig.'
     csv: Fehler beim Laden der CSV-Datei.
     unknown: Ein unbekannter Fehler ist aufgetreten. Bitte im Log nachsehen.
+  format:
+    label: Format
+    help: Spaltennamen müssen übereinstimmen. Die Reihenfolge der Spalten muss nicht identisch sein.
+  required:
+    label: Erforderliche Spalten
+    help: Alle anderen Spalten sind nicht erforderlich.
   users:
     label: Benutzer importieren
     success: Benutzer erfolgreich importiert

@@ -8,7 +8,7 @@ use App\Repository\PasswordResetTokenRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use App\Security\ForgotPassword\PasswordManager;
 use PHPUnit\Framework\TestCase;
-use SchoolIT\CommonBundle\Helper\DateHelper;
+use SchulIT\CommonBundle\Helper\DateHelper;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class PasswordManagerTest extends TestCase {

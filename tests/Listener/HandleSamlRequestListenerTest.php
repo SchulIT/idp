@@ -5,7 +5,7 @@ namespace App\Tests\Listener;
 use App\Listener\HandleSamlRequestListener;
 use PHPUnit\Framework\TestCase;
 use Scheb\TwoFactorBundle\Security\Authentication\Token\TwoFactorToken;
-use SchoolIT\LightSamlIdpBundle\RequestStorage\RequestStorageInterface;
+use SchulIT\LightSamlIdpBundle\RequestStorage\RequestStorageInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
