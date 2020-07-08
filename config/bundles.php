@@ -30,4 +30,5 @@ return [
     Anyx\LoginGateBundle\LoginGateBundle::class => ['all' => true],
     AdAuthBundle\AdAuthBundle::class => ['all' => true],
     Shapecode\Bundle\CronBundle\ShapecodeCronBundle::class => ['all' => true],
+    Craue\FormFlowBundle\CraueFormFlowBundle::class => ['all' => true],
 ];

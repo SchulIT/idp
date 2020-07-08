@@ -171,3 +171,22 @@ services:
             $messageLimit: '%env(int:MAILER_LIMIT)%'
         tags:
             - { name: shapecode_cron.cron_job, expression: '*\/2 * * * *' }
+
+    # FORM FLOW
+    Craue\FormFlowBundle\Storage\UserSessionStorageKeyGenerator: ~
+
+    Craue\FormFlowBundle\Storage\DoctrineStorage:
+        arguments:
+            $storageKeyGenerator: '@Craue\FormFlowBundle\Storage\UserSessionStorageKeyGenerator'
+
+    Craue\FormFlowBundle\Storage\DataManager:
+        arguments:
+            $storage: '@Craue\FormFlowBundle\Storage\DoctrineStorage'
+
+    craue.form.flow:
+        class: '%craue.form.flow.class%'
+        calls:
+            - [ setDataManager, [ '@Craue\FormFlowBundle\Storage\DataManager']]
+            - [ setFormFactory, [ '@form.factory']]
+            - [ setRequestStack, [ '@request_stack']]
+            - [ setEventDispatcher, [ '@event_dispatcher']]

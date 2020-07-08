@@ -4,14 +4,22 @@ namespace App\Controller;
 
 use App\Entity\RegistrationCode;
 use App\Form\AttributeDataTrait;
+use App\Form\ImportRegistrationCodesFlow;
 use App\Form\RegistrationCodeType;
+use App\Import\ImportRegistrationCodeData;
+use App\Import\RecordInvalidException;
 use App\Repository\RegistrationCodeRepositoryInterface;
 use App\Service\AttributePersister;
 use App\View\Filter\UserTypeFilter;
+use Exception;
+use League\Csv\Exception as LeagueException;
+use Psr\Log\LoggerInterface;
 use SchulIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/admin/registration_codes")
@@ -141,8 +149,57 @@ class RegistrationCodeController extends AbstractController {
     /**
      * @Route("/import", name="import_registration_codes")
      */
-    public function import() {
+    public function import(ImportRegistrationCodesFlow $flow, TranslatorInterface $translator, LoggerInterface $logger) {
+        $data = new ImportRegistrationCodeData();
+        $flow->bind($data);
 
+        try {
+            $form = $flow->createForm();
+
+            if($flow->isValid($form)) {
+                $flow->saveCurrentStepData($form);
+
+                if($flow->nextStep()) {
+                    $form = $flow->createForm();
+                } else {
+                    try {
+                        foreach ($data->getCodes() as $code) {
+                            $this->repository->persist($code);
+                        }
+
+                        $this->addFlash('success', 'import.codes.success');
+                        return $this->redirectToRoute('registration_codes');
+                    } catch (Exception $e) {
+                        $logger->error('Error persisting imported registration codes.', [
+                            'exception' => $e
+                        ]);
+                    }
+                }
+            }
+        } catch(RecordInvalidException $e) {
+            $flow->reset();
+            $form->addError(new FormError($translator->trans('import.error.invalid_record', [
+                '%field%' => $e->getField(),
+                '%offset%' => $e->getIndex()
+            ])));
+        } catch (LeagueException $e) {
+            $flow->reset();
+            $logger->error('Error parsing CSV file.', [
+                'e' => $e
+            ]);
+            $form->addError(new FormError('import.error.csv'));
+        } catch (Exception $e) {
+            $logger->error('Error parsing CSV file.', [
+                'e' => $e
+            ]);
+            $flow->reset();
+            $form->addError(new FormError('import.error.unknown'));
+        }
+
+        return $this->render('codes/import.html.twig', [
+            'form' => $form->createView(),
+            'flow' => $flow
+        ]);
     }
 
 

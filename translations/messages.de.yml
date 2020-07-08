@@ -60,6 +60,8 @@ label:
   students: '{0} Lernende|{1} Lernender|]1,Inf[ Lernende'
   user: Benutzer
   content: Inhalt
+  file: Datei
+  delimiter: Trennzeichen
 
 help:
   voluntary: Diese Angabe ist freiwillig.
@@ -523,4 +525,28 @@ privacy_policy:
   submit_change:
     label: Größere Änderung speichern
     help: Wenn dieser Button verwendet wird, wird der Zeitstempel der Änderung gespeichert. Nutzer werden außerdem aufgefordert, die neue Datenschutzerklärung erneut zu bestätigen.
-  
+
+import:
+  label: Import
+  error:
+    invalid_record: 'Das Feld %field% (Zeile %offset%) ist ungültig.'
+    csv: Fehler beim Laden der CSV-Datei.
+    unknown: Ein unbekannter Fehler ist aufgetreten.
+  users:
+    label: Benutzer importieren
+    success: Benutzer erfolgreich importiert
+    step_one:
+      label: Datei hochladen
+    step_two:
+      label: Daten prüfen
+      add: Benutzer hinzufügen
+      edit: Benutzer aktualisieren
+  codes:
+    label: Registrierungscodes importieren
+    success: Registrierungscodes erfolgreich importiert
+    step_one:
+      label: Datei hochladen
+    step_two:
+      label: Daten prüfen
+      add: Registrierungscode hinzufügen
+      edit: Registrierungscode aktualisieren

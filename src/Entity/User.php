@@ -87,6 +87,8 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
      * @Serializer\Accessor(getter="getTypeString")
      * @Serializer\Type("string")
      * @SWG\Property(description="UUID of the usertype")
+     * @Assert\NotNull()
+     * @var UserType|null
      */
     private $type;
 
