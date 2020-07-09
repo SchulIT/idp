@@ -19,16 +19,19 @@ class Builder {
     private $tokenStorage;
     private $userServiceProviderResolver;
     private $darkModeManager;
+    private $adAuthEnabled;
 
     public function __construct(FactoryInterface $factory, AuthorizationCheckerInterface $authorizationChecker,
                                 TranslatorInterface $translator, TokenStorageInterface $tokenStorage,
-                                UserServiceProviderResolver $userServiceProviderResolver, DarkModeManagerInterface $darkModeManager) {
+                                UserServiceProviderResolver $userServiceProviderResolver, DarkModeManagerInterface $darkModeManager,
+                                bool $adAuthEnabled) {
         $this->factory = $factory;
         $this->authorizationChecker = $authorizationChecker;
         $this->translator = $translator;
         $this->tokenStorage = $tokenStorage;
         $this->userServiceProviderResolver = $userServiceProviderResolver;
         $this->darkModeManager = $darkModeManager;
+        $this->adAuthEnabled = $adAuthEnabled;
     }
 
     public function mainMenu(): ItemInterface {
@@ -101,10 +104,12 @@ class Builder {
             ])
                 ->setAttribute('icon', 'fas fa-user-tag');
 
-            $menu->addChild('ad_sync_options.label', [
-                'route' => 'ad_sync_options'
-            ])
-                ->setAttribute('icon', 'fas fa-sync');
+            if($this->adAuthEnabled === true) {
+                $menu->addChild('ad_sync_options.label', [
+                    'route' => 'ad_sync_options'
+                ])
+                    ->setAttribute('icon', 'fas fa-sync');
+            }
 
             $menu->addChild('service_providers.label', [
                 'route' => 'service_providers'
