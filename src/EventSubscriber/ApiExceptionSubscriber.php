@@ -66,7 +66,7 @@ class ApiExceptionSubscriber implements EventSubscriberInterface {
         }
 
         $response = new Response(
-            $message !== null ? $this->serializer->serialize($message, 'json') : null,
+            $this->serializer->serialize($message, 'json'),
             $code
         );
 
