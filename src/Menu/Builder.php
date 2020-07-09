@@ -93,39 +93,48 @@ class Builder {
         if($this->authorizationChecker->isGranted('ROLE_SUPER_ADMIN')) {
             $menu->addChild('user_types.label', [
                 'route' => 'user_types'
-            ]);
+            ])
+                ->setAttribute('icon', 'fas fa-user-cog');
 
             $menu->addChild('user_roles.label', [
                 'route' => 'user_roles'
-            ]);
+            ])
+                ->setAttribute('icon', 'fas fa-user-tag');
 
             $menu->addChild('ad_sync_options.label', [
                 'route' => 'ad_sync_options'
-            ]);
+            ])
+                ->setAttribute('icon', 'fas fa-sync');
 
             $menu->addChild('service_providers.label', [
                 'route' => 'service_providers'
-            ]);
+            ])
+                ->setAttribute('icon', 'fa fa-th');
 
             $menu->addChild('service_attributes.label', [
                 'route' => 'attributes'
-            ]);
+            ])
+                ->setAttribute('icon', 'far fa-list-alt');
 
             $menu->addChild('idp.details', [
                 'route' => 'idp_details'
-            ]);
+            ])
+                ->setAttribute('icon', 'fas fa-info-circle');
 
             $menu->addChild('applications.label', [
                 'route' => 'applications'
-            ]);
+            ])
+                ->setAttribute('icon', 'fas fa-key');
 
             $menu->addChild('logs.label', [
                 'route' => 'admin_logs'
-            ]);
+            ])
+                ->setAttribute('icon', 'fas fa-clipboard-list');
 
             $menu->addChild('mails.label', [
                 'route' => 'admin_mails'
-            ]);
+            ])
+                ->setAttribute('icon', 'far fa-envelope');
 
             $menu->addChild('api.doc', [
                 'uri' => '/docs/api'
