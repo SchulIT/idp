@@ -2,6 +2,7 @@
 
 namespace App\Request;
 
+use App\Validator\UniqueUsername;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -27,6 +28,7 @@ class ActiveDirectoryUserRequest {
      * @Serializer\SerializedName("user_principal_name")
      * @Serializer\Type("string")
      * @Assert\NotBlank()
+     * @UniqueUsername(type="ad")
      * @var string
      */
     private $userPrincipalName;
