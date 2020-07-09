@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listener;
+namespace App\EventSubscriber;
 
 use App\Entity\U2fKey;
 use App\Entity\User;
@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class U2FRegistrationListener implements EventSubscriberInterface {
+class U2FRegistrationSubscriber implements EventSubscriberInterface {
 
     private $repository;
     private $urlGenerator;

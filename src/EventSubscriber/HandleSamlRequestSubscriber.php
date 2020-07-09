@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listener;
+namespace App\EventSubscriber;
 
 use Scheb\TwoFactorBundle\Security\Authentication\Token\TwoFactorToken;
 use SchulIT\LightSamlIdpBundle\RequestStorage\RequestStorageInterface;
@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  * Listener which checks whether there is a SAMLRequest pending from before login. If so, the listener redirects to the
  * SSO controller in order to send the SAMLResponse (and redirect the user to the requested service).
  */
-class HandleSamlRequestListener implements EventSubscriberInterface {
+class HandleSamlRequestSubscriber implements EventSubscriberInterface {
 
     private $urlGenerator;
     private $tokenStorage;

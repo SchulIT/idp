@@ -2,7 +2,7 @@
 
 namespace App\Tests\Listener;
 
-use App\Listener\HandleSamlRequestListener;
+use App\EventSubscriber\HandleSamlRequestSubscriber;
 use PHPUnit\Framework\TestCase;
 use Scheb\TwoFactorBundle\Security\Authentication\Token\TwoFactorToken;
 use SchulIT\LightSamlIdpBundle\RequestStorage\RequestStorageInterface;
@@ -27,7 +27,7 @@ class HandleSamlRequestListenerTest extends TestCase {
         $tokenStorage = $this->createMock(TokenStorageInterface::class);
         $requestStorage = $this->createMock(RequestStorageInterface::class);
         $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
-        $listener = new HandleSamlRequestListener($tokenStorage, $requestStorage, $urlGenerator);
+        $listener = new HandleSamlRequestSubscriber($tokenStorage, $requestStorage, $urlGenerator);
         $listener->onKernelRequest($event);
 
         $this->assertNull($event->getResponse());
@@ -49,7 +49,7 @@ class HandleSamlRequestListenerTest extends TestCase {
             ->willReturn(false);
         $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
 
-        $listener = new HandleSamlRequestListener($tokenStorage, $requestStorage, $urlGenerator);
+        $listener = new HandleSamlRequestSubscriber($tokenStorage, $requestStorage, $urlGenerator);
         $listener->onKernelRequest($event);
 
         $this->assertNull($event->getResponse());
@@ -73,7 +73,7 @@ class HandleSamlRequestListenerTest extends TestCase {
         $urlGenerator->method('generate')
             ->willReturn('/saml/sso');
 
-        $listener = new HandleSamlRequestListener($tokenStorage, $requestStorage, $urlGenerator);
+        $listener = new HandleSamlRequestSubscriber($tokenStorage, $requestStorage, $urlGenerator);
         $listener->onKernelRequest($event);
 
         $response = $event->getResponse();
@@ -101,7 +101,7 @@ class HandleSamlRequestListenerTest extends TestCase {
         $urlGenerator->method('generate')
             ->willReturn('/saml/sso');
 
-        $listener = new HandleSamlRequestListener($tokenStorage, $requestStorage, $urlGenerator);
+        $listener = new HandleSamlRequestSubscriber($tokenStorage, $requestStorage, $urlGenerator);
         $listener->onKernelRequest($event);
 
         $this->assertNull($event->getResponse());
@@ -125,7 +125,7 @@ class HandleSamlRequestListenerTest extends TestCase {
         $urlGenerator->method('generate')
             ->willReturn('/saml/sso');
 
-        $listener = new HandleSamlRequestListener($tokenStorage, $requestStorage, $urlGenerator);
+        $listener = new HandleSamlRequestSubscriber($tokenStorage, $requestStorage, $urlGenerator);
         $listener->onKernelRequest($event);
 
         $this->assertNull($event->getResponse());
@@ -150,7 +150,7 @@ class HandleSamlRequestListenerTest extends TestCase {
         $urlGenerator->method('generate')
             ->willReturn('/saml/sso');
 
-        $listener = new HandleSamlRequestListener($tokenStorage, $requestStorage, $urlGenerator);
+        $listener = new HandleSamlRequestSubscriber($tokenStorage, $requestStorage, $urlGenerator);
         $listener->onKernelRequest($event);
 
         $this->assertNull($event->getResponse());
