@@ -126,6 +126,11 @@ class Builder {
             ])
                 ->setAttribute('icon', 'fas fa-key');
 
+            $menu->addChild('cron.label', [
+                'route' => 'admin_cronjobs'
+            ])
+                ->setAttribute('icon', 'fas fa-history');
+
             $menu->addChild('logs.label', [
                 'route' => 'admin_logs'
             ])
