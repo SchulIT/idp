@@ -39,7 +39,7 @@ class ApiExceptionSubscriber implements EventSubscriberInterface {
         // Case 1: general HttpException (Authorization/Authentication) or BadRequest
         if($throwable instanceof HttpException) {
             $code = $throwable->getStatusCode();
-            $message = null;
+            $message = new ErrorResponse($throwable->getMessage(), get_class($throwable));
         } else if($throwable instanceof ValidationFailedException) { // Case 2: validation failed
             $code = Response::HTTP_BAD_REQUEST;
 
@@ -50,7 +50,10 @@ class ApiExceptionSubscriber implements EventSubscriberInterface {
 
             $message = new ViolationListResponse($violations);
         } else { // Case 3: General error
-            $message = new ErrorResponse($throwable->getMessage(), get_class($throwable));
+            $message = new ErrorResponse(
+                'An unknown error occured.',
+                get_class($throwable)
+            );
 
             $this->logger->error($throwable->getMessage(), [
                 'e' => $throwable
