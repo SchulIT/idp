@@ -7,6 +7,8 @@ email_confirmation_pending: Die E-Mail Adresse muss noch bestätigt werden. Vorh
 
 not_provisioned: Der Benutzeraccount wird noch bereitgestellt. Bitte später erneut probieren.
 
+helpdesk: 'E-Mail-Adresse bei Problemen: %mail%'
+
 too_many_attempts:
   label: Anmeldung gesperrt
   message: Aufgrund zu vieler fehlgeschlagener Anmeldeversuche ist die Anmeldung kurzzeitig gesperrt.
