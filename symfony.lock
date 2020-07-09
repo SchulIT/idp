@@ -137,14 +137,14 @@
     "exsyst/swagger": {
         "version": "v0.4.1"
     },
-    "fervo/enum-bundle": {
-        "version": "2.0.x-dev"
-    },
     "frostiede/composer-dependency-list": {
         "version": "1.0.0"
     },
     "frostiede/composer-dependency-list-bundle": {
         "version": "1.0.0"
+    },
+    "frostiede/enum-bundle": {
+        "version": "3.0.0"
     },
     "gedmo/doctrine-extensions": {
         "version": "v2.4.39"
