@@ -35,8 +35,7 @@ class UserCsvImportHelper {
 
     public function getRequiredHeaders() {
         return [
-            static::EmailAddressHeader,
-            static::PasswordHeader
+            static::EmailAddressHeader
         ];
     }
 
@@ -76,13 +75,14 @@ class UserCsvImportHelper {
             }
 
             if($user === null) {
-                if(empty($password)) {
-                    throw new RecordInvalidException($offset, self::PasswordHeader);
-                }
-
                 $user = new User();
                 $user->setUsername($email);
                 $user->setEmail($email);
+
+                if(!empty($password)) {
+                    $user->setPassword($password);
+                    $user->setIsProvisioned(false);
+                }
             }
 
             if(!empty($id)) {
@@ -95,10 +95,6 @@ class UserCsvImportHelper {
 
             if(!empty($lastname)) {
                 $user->setLastname($lastname);
-            }
-
-            if(!empty($password) && empty($user->getPassword())) {
-                $user->setPassword($password);
             }
 
             if(!empty($grade)) {
