@@ -108,7 +108,7 @@ services:
     App\Security\Registration\RegistrationCodeManager:
         arguments:
             $from: "%env(MAILER_FROM)%"
-            $domainBlacklist: "%env(REGISTRATION_DOMAIN_BLACKLIST)%"
+            $domainBlocklist: "%env(REGISTRATION_DOMAIN_BLOCKLIST)%"
 
     # Controllers
     App\Controller\IdpController:

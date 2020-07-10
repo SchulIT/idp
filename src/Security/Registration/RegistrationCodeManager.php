@@ -22,7 +22,7 @@ class RegistrationCodeManager {
     private const RegistrationSessionKey = 'registration_code';
 
     private $from;
-    private $domainBlacklist;
+    private $domainBlocklist;
 
     private $codeRepository;
     private $userRepository;
@@ -34,12 +34,12 @@ class RegistrationCodeManager {
     private $mailer;
     private $twig;
 
-    public function __construct(string $from, string $domainBlacklist, RegistrationCodeRepositoryInterface $codeRepository,
+    public function __construct(string $from, string $domainBlocklist, RegistrationCodeRepositoryInterface $codeRepository,
                                 UserRepositoryInterface $userRepository, AttributePersister $attributePersister, AttributeResolver $attributeResolver,
                                 UserPasswordEncoderInterface $passwordEncoder, SessionInterface $session,
                                 TranslatorInterface $translator, \Swift_Mailer $mailer, Environment $twig) {
         $this->from = $from;
-        $this->domainBlacklist = $domainBlacklist;
+        $this->domainBlocklist = $domainBlocklist;
         $this->codeRepository = $codeRepository;
         $this->userRepository = $userRepository;
         $this->attributePersister = $attributePersister;
@@ -102,7 +102,7 @@ class RegistrationCodeManager {
      */
     public function complete(RegistrationCode $code, User $user, string $password): void {
         // First check: is domain blacklisted?
-        if($user->getEmail() !== null && $this->isDomainBlacklisted($user->getEmail())) {
+        if($user->getEmail() !== null && $this->isDomainBlocked($user->getEmail())) {
             throw new EmailDomainNotAllowedException();
         }
 
@@ -191,9 +191,9 @@ class RegistrationCodeManager {
         $this->codeRepository->resetTokens($threshold);
     }
 
-    private function isDomainBlacklisted(string $email) {
+    private function isDomainBlocked(string $email) {
         // Assume we got a valid address because Symfony has already validated the email address for us earlier in the form
-        $domains = explode(';', $this->domainBlacklist);
+        $domains = explode(';', $this->domainBlocklist);
         $emailParts = explode('@', $email);
         $domain = array_pop($emailParts);
 
