@@ -308,6 +308,11 @@ class UserController extends AbstractApiController {
 
         if($user === null) {
             $user = (new User());
+
+            if(!empty($request->getPassword())) {
+                $user->setPassword($request->getPassword());
+                $user->setIsProvisioned(false);
+            }
         }
 
         if(!$user instanceof ActiveDirectoryUser) {

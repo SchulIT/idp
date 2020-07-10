@@ -17,6 +17,13 @@ class UserRequest {
 
     /**
      * @Serializer\Type("string")
+     * @Assert\NotBlank(allowNull=true)
+     * @var string|null
+     */
+    private $password;
+
+    /**
+     * @Serializer\Type("string")
      * @var string|null
      */
     private $externalId;
@@ -77,6 +84,13 @@ class UserRequest {
      */
     public function getUsername() {
         return $this->username;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPassword(): ?string {
+        return $this->password;
     }
 
     /**
