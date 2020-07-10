@@ -14,20 +14,24 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AddUserCommand extends Command {
 
     private $userTypeRepository;
     private $userRepository;
     private $passwordEncoder;
+    private $validator;
 
     public function __construct(UserTypeRepositoryInterface $userTypeRepository, UserRepositoryInterface $userRepository,
-                                UserPasswordEncoderInterface $passwordEncoder, $name = null)
+                                UserPasswordEncoderInterface $passwordEncoder, ValidatorInterface $validator, $name = null)
     {
         parent::__construct($name);
         $this->userTypeRepository = $userTypeRepository;
         $this->userRepository = $userRepository;
         $this->passwordEncoder = $passwordEncoder;
+        $this->validator = $validator;
     }
 
     public function configure() {
@@ -42,6 +46,10 @@ class AddUserCommand extends Command {
         $username = $io->ask('Username', null, function($username) {
             if(empty($username)) {
                 throw new \RuntimeException('Username must not be empty');
+            }
+
+            if($this->validator->validate($username, new Email())->count() > 0) {
+                throw new \RuntimeException('Username must be an email address.');
             }
 
             return $username;
