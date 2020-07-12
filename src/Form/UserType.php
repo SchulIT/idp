@@ -51,17 +51,20 @@ class UserType extends AbstractType {
                         ->add('externalId', TextType::class, [
                             'disabled' => $user instanceof ActiveDirectoryUser,
                             'label' => 'label.external_id',
-                            'help' => 'label.external_id_help'
+                            'help' => 'label.external_id_help',
+                            'required' => false
                         ])
                         ->add('username', EmailType::class, [
                             'disabled' => true,
                             'label' => 'label.username'
                         ])
                         ->add('firstname', TextType::class, [
-                            'label' => 'label.firstname'
+                            'label' => 'label.firstname',
+                            'required' => false
                         ])
                         ->add('lastname', TextType::class, [
-                            'label' => 'label.lastname'
+                            'label' => 'label.lastname',
+                            'required' => false
                         ])
                         ->add('isActive', CheckboxType::class, [
                             'label' => 'label.is_active',
