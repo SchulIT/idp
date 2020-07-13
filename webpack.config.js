@@ -26,6 +26,7 @@ Encore
     .enableSassLoader(function(options) {
         options.importer = GlobImporter();
     })
+    .enablePostCssLoader()
 
     // uncomment for legacy applications that require $/jQuery as a global variable
     //.autoProvidejQuery()
