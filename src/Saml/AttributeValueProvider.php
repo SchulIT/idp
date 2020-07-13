@@ -150,8 +150,10 @@ class AttributeValueProvider extends AbstractAttributeProvider {
                 'url' => $service->getUrl(),
                 'name' => $service->getName(),
                 'description' => $service->getDescription()
-            ]);
+            ], JSON_HEX_AMP | JSON_HEX_TAG );
         }
+
+        dump($attributeValue);
 
         return $attributeValue;
     }
