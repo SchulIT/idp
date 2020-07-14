@@ -15,8 +15,6 @@ class CronUserProvider implements UserProviderInterface {
     public function __construct(string $username, string $password) {
         $this->username = $username;
         $this->password = $password;
-
-        dump($password);
     }
 
     public function loadUserByUsername($username) {
