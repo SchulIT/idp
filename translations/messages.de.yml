@@ -28,7 +28,7 @@ label:
   password: Passwort
   repeat_password: Passwort wiederholen
   signin: Anmelden
-  edu_person: eduPersonAffliation
+  edu_person: eduPersonAffiliation
   source: Quelle
   ad_group: Active Directory Gruppe
   ou: Active Directory Organisatationseinheit
