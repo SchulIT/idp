@@ -80,7 +80,8 @@ class RegistrationController extends AbstractController {
             ->setUsername($code->getUsername())
             ->setFirstname($code->getFirstname())
             ->setLastname($code->getLastname())
-            ->setEmail($code->getEmail());
+            ->setEmail($code->getEmail())
+            ->setType($code->getType());
 
         $form = $this->createForm(UserProfileCompleteType::class, $user, [
             'username_suffix' => $code->getUsernameSuffix(),
