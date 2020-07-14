@@ -197,3 +197,9 @@ services:
             - [ setFormFactory, [ '@form.factory']]
             - [ setRequestStack, [ '@request_stack']]
             - [ setEventDispatcher, [ '@event_dispatcher']]
+
+    # Security
+    App\Security\CronUserProvider:
+        arguments:
+            $username: 'cron'
+            $password: '%env(CRON_PASSWORD)%'

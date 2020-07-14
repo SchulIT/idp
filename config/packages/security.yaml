@@ -2,6 +2,7 @@ security:
     encoders:
         App\Entity\User:
           algorithm: bcrypt
+        Symfony\Component\Security\Core\User\User: 'auto'
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
@@ -9,6 +10,8 @@ security:
             entity:
                 class: App:User
                 property: username
+        cron:
+            id: App\Security\CronUserProvider
 
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER,
@@ -18,6 +21,7 @@ security:
         strategy: unanimous
 
     access_control:
+        - { path: ^/cron, roles: ROLE_CRON }
         - { path: ^/exchange, roles: ROLE_IDPEXCHANGE }
         - { path: ^/api/ad_connect, roles: ROLE_ADCONNECT }
         - { path: ^/api, roles: ROLE_API }
@@ -33,6 +37,13 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        cron:
+            pattern: ^/cron
+            provider: cron
+            stateless: true
+            http_basic:
+                realm: Cronjob
+
         metadata:
             pattern: ^/metadata$
             security: false
@@ -47,6 +58,7 @@ security:
             guard:
                 authenticators:
                     - App\Security\ApplicationAuthenticator
+            provider: database
 
         api:
             pattern: ^/api
@@ -54,6 +66,7 @@ security:
             guard:
                 authenticators:
                     - App\Security\ApplicationAuthenticator
+            provider: database
 
         login:
             anonymous: ~
