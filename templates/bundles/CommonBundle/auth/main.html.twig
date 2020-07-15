@@ -1,0 +1,15 @@
+{% extends "@!Common/auth/main.html.twig" %}
+
+{% block container %}
+    <div class="card mb-4">
+        <div class="card-body">
+            {% block content %}{% endblock %}
+        </div>
+
+        {% if helpdesk_mail is defined and helpdesk_mail is not empty %}
+            <div class="card-footer">
+                <i class="fas fa-question-circle"></i> {{ 'helpdesk'|trans({'%mail%': helpdesk_mail}, 'security') }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
