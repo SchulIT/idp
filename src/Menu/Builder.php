@@ -41,38 +41,38 @@ class Builder {
         $menu->addChild('dashboard.label', [
             'route' => 'dashboard'
         ])
-            ->setAttribute('icon', 'fa fa-home');
+            ->setExtra('icon', 'fa fa-home');
 
         $menu->addChild('profile.label', [
             'route' => 'profile'
         ])
-            ->setAttribute('icon', 'fas fa-user');
+            ->setExtra('icon', 'fas fa-user');
 
         $menu->addChild('two_factor.label', [
             'route' => 'two_factor'
         ])
-            ->setAttribute('icon', 'fas fa-shield-alt');
+            ->setExtra('icon', 'fas fa-shield-alt');
 
         if($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
             $menu->addChild('users.label', [
                 'route' => 'users'
             ])
-                ->setAttribute('icon', 'fas fa-users');
+                ->setExtra('icon', 'fas fa-users');
 
             $menu->addChild('codes.label', [
                 'route' => 'registration_codes'
             ])
-                ->setAttribute('icon', 'fas fa-qrcode');
+                ->setExtra('icon', 'fas fa-qrcode');
 
             $menu->addChild('privacy_policy.label', [
                 'route' => 'edit_privacy_policy'
             ])
-                ->setAttribute('icon', 'fas fa-user-shield');
+                ->setExtra('icon', 'fas fa-user-shield');
         } else {
             $menu->addChild('privacy_policy.label', [
                 'route' => 'show_privacy_policy'
             ])
-                ->setAttribute('icon', 'fas fa-user-shield');
+                ->setExtra('icon', 'fas fa-user-shield');
         }
 
         return $menu;
@@ -87,7 +87,7 @@ class Builder {
         $menu = $root->addChild('admin', [
             'label' => ''
         ])
-            ->setAttribute('icon', 'fa fa-cogs')
+            ->setExtra('icon', 'fa fa-cogs')
             ->setAttribute('title', $this->translator->trans('management.label'))
             ->setExtra('menu', 'admin')
             ->setExtra('menu-container', '#submenu')
@@ -97,54 +97,54 @@ class Builder {
             $menu->addChild('user_types.label', [
                 'route' => 'user_types'
             ])
-                ->setAttribute('icon', 'fas fa-user-cog');
+                ->setExtra('icon', 'fas fa-user-cog');
 
             $menu->addChild('user_roles.label', [
                 'route' => 'user_roles'
             ])
-                ->setAttribute('icon', 'fas fa-user-tag');
+                ->setExtra('icon', 'fas fa-user-tag');
 
             if($this->adAuthEnabled === true) {
                 $menu->addChild('ad_sync_options.label', [
                     'route' => 'ad_sync_options'
                 ])
-                    ->setAttribute('icon', 'fas fa-sync');
+                    ->setExtra('icon', 'fas fa-sync');
             }
 
             $menu->addChild('service_providers.label', [
                 'route' => 'service_providers'
             ])
-                ->setAttribute('icon', 'fa fa-th');
+                ->setExtra('icon', 'fa fa-th');
 
             $menu->addChild('service_attributes.label', [
                 'route' => 'attributes'
             ])
-                ->setAttribute('icon', 'far fa-list-alt');
+                ->setExtra('icon', 'far fa-list-alt');
 
             $menu->addChild('idp.details', [
                 'route' => 'idp_details'
             ])
-                ->setAttribute('icon', 'fas fa-info-circle');
+                ->setExtra('icon', 'fas fa-info-circle');
 
             $menu->addChild('applications.label', [
                 'route' => 'applications'
             ])
-                ->setAttribute('icon', 'fas fa-key');
+                ->setExtra('icon', 'fas fa-key');
 
             $menu->addChild('cron.label', [
                 'route' => 'admin_cronjobs'
             ])
-                ->setAttribute('icon', 'fas fa-history');
+                ->setExtra('icon', 'fas fa-history');
 
             $menu->addChild('logs.label', [
                 'route' => 'admin_logs'
             ])
-                ->setAttribute('icon', 'fas fa-clipboard-list');
+                ->setExtra('icon', 'fas fa-clipboard-list');
 
             $menu->addChild('mails.label', [
                 'route' => 'admin_mails'
             ])
-                ->setAttribute('icon', 'far fa-envelope');
+                ->setExtra('icon', 'far fa-envelope');
 
             $menu->addChild('api.doc', [
                 'uri' => '/docs/api'
@@ -178,7 +178,7 @@ class Builder {
             'route' => 'toggle_darkmode',
             'label' => ''
         ])
-            ->setAttribute('icon', $icon)
+            ->setExtra('icon', $icon)
             ->setAttribute('title', $this->translator->trans($label));
 
         $displayName = $user->getUsername();
@@ -186,13 +186,13 @@ class Builder {
         $menu->addChild('user', [
             'label' => $displayName
         ])
-            ->setAttribute('icon', 'fa fa-user');
+            ->setExtra('icon', 'fa fa-user');
 
         $menu->addChild('label.logout', [
             'route' => 'logout',
             'label' => ''
         ])
-            ->setAttribute('icon', 'fas fa-sign-out-alt')
+            ->setExtra('icon', 'fas fa-sign-out-alt')
             ->setAttribute('title', $this->translator->trans('auth.logout'));
 
         return $menu;
@@ -211,7 +211,7 @@ class Builder {
             $menu = $root->addChild('services', [
                 'label' => ''
             ])
-                ->setAttribute('icon', 'fa fa-th')
+                ->setExtra('icon', 'fa fa-th')
                 ->setExtra('menu', 'services')
                 ->setExtra('pull-right', true)
                 ->setAttribute('title', $this->translator->trans('services.label'));
@@ -222,7 +222,7 @@ class Builder {
                     'uri' => $service->getUrl()
                 ])
                     ->setAttribute('title', $service->getDescription())
-                    ->setAttribute('target', '_blank');
+                    ->setLinkAttribute('target', '_blank');
             }
         }
 
