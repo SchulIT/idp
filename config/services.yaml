@@ -203,3 +203,6 @@ services:
         arguments:
             $username: 'cron'
             $password: '%env(CRON_PASSWORD)%'
+
+    Symfony\Component\Security\Core\User\UserProviderInterface:
+        alias: 'security.user.provider.concrete.database'
