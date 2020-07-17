@@ -76,6 +76,10 @@ security:
             anonymous: ~
             pattern: ^/logout/success$
 
+        confirm_email:
+            anonymous: ~
+            pattern: ^/confirm/
+
         register:
             anonymous: ~
             pattern: ^/register

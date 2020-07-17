@@ -557,3 +557,16 @@ import:
       label: Daten prüfen
       add: Registrierungscode hinzufügen
       edit: Registrierungscode aktualisieren
+
+email_confirmation:
+  label: Bestätigung der E-Mail-Adresse
+  sent: Es wurde eine E-Mail an die angegebene Adresse versendet. Bitte den Bestätigungslink in der E-Mail anklicken, um die Änderung der E-Mail-Adresse abzuschließen.
+  pending: Die neue E-Mail-Adresse wurde noch nicht bestätigt. Bitte den Bestätigungslink in der E-Mail anklicken, um die Änderung der E-Mail-Adresse abzuschließen.
+  error:
+    label: Fehler
+    not_found: Das Token wurde nicht gefunden.
+  success:
+    label: E-Mail-Adresse bestätigt
+    message: Die E-Mail-Adresse wurde erfolgreich bestätigt.
+  close: Dieses Fenster kann nun geschlossen werden.
+  dashboard: Zur Übersicht

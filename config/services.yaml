@@ -206,3 +206,7 @@ services:
 
     Symfony\Component\Security\Core\User\UserProviderInterface:
         alias: 'security.user.provider.concrete.database'
+
+    App\Security\EmailConfirmation\ConfirmationManager:
+        arguments:
+            $from: "%env(MAILER_FROM)%"

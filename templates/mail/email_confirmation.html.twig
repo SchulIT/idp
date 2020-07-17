@@ -1,0 +1,9 @@
+{{ 'greeting'|trans({}, 'mail') }}
+
+{{ 'email.message'|trans({'%link%': url('confirm_email', { token: token })}, 'mail') }}
+{{ 'email.expiry'|trans({'%date%': expiry_date|format_datetime}, 'mail') }}
+
+{{ 'farewell'|trans({}, 'mail') }}
+
+-----
+{{ 'notice'|trans({}, 'mail') }}

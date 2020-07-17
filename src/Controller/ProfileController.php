@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\ActiveDirectoryUser;
+use App\Entity\User;
 use App\Form\AttributeDataTrait;
 use App\Form\ProfileType;
+use App\Security\EmailConfirmation\ConfirmationManager;
 use App\Service\AttributePersister;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,7 +24,9 @@ class ProfileController extends AbstractController {
     /**
      * @Route("", name="profile")
      */
-    public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder, AttributePersister $attributePersister, EntityManagerInterface $em) {
+    public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder, AttributePersister $attributePersister,
+                          EntityManagerInterface $em, ConfirmationManager $confirmationManager) {
+        /** @var User $user */
         $user = $this->getUser();
 
         $form = $this->createForm(ProfileType::class, $user);
@@ -37,6 +41,16 @@ class ProfileController extends AbstractController {
                 }
             }
 
+            if($form->has('group_email')) {
+                $email = $form->get('group_email')->get('email')->getData();
+
+                if(empty($email)) {
+                    $user->setEmail(null);
+                } else if($user->getEmail() !== $email) {
+                    $confirmationManager->newConfirmation($user, $email);
+                }
+            }
+
             $em->persist($user);
             $em->flush();
 
@@ -45,6 +59,10 @@ class ProfileController extends AbstractController {
 
             $this->addFlash('success', 'profile.success');
             return $this->redirectToRoute('profile');
+        }
+
+        if($confirmationManager->hasConfirmation($user)) {
+            $this->addFlash('success', 'email_confirmation.sent');
         }
 
         return $this->render('profile/index.html.twig', [

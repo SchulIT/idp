@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ProfileType extends AbstractType {
@@ -53,12 +54,24 @@ class ProfileType extends AbstractType {
                         ->add('lastname', TextType::class, [
                             'label' => 'label.lastname',
                             'required' => false
-                        ])
-                        ->add('email', EmailType::class, [
-                            'label' => 'label.email',
+                        ]);
+                }
+            ])
+            ->add('group_email', FieldsetType::class, [
+                'legend' => 'label.email',
+                'fields' => function(FormBuilderInterface $builder) {
+                    $builder
+                        ->add('email', RepeatedType::class, [
+                            'mapped' => false,
+                            'type' => EmailType::class,
+                            'invalid_message' => 'The email fields must match.',
+                            'constraints' => new Email(),
                             'required' => false,
-                            'attr' => [
-                                'autocomplete' => 'off'
+                            'first_options' => [
+                                'label' => 'label.email'
+                            ],
+                            'second_options' => [
+                                'label' => 'label.repeat_email'
                             ]
                         ]);
                 }
@@ -92,6 +105,16 @@ class ProfileType extends AbstractType {
             ]);
 
         $builder
+            ->addEventListener(FormEvents::POST_SET_DATA, function(FormEvent $event) {
+                $user = $event->getData();
+                $form = $event->getForm();
+
+                if($form->has('group_email')) {
+                    $form->get('group_email')
+                        ->get('email')
+                        ->setData($user->getEmail());
+                }
+            })
             ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
                 $user = $event->getData();
                 $form = $event->getForm();
@@ -120,8 +143,8 @@ class ProfileType extends AbstractType {
                     }
 
                     if($user->getType()->canChangeEmail() !== true) {
-                        $form->get('group_general')
-                            ->add('email', EmailType::class, [
+                        $form->remove('group_email');
+                        $form->add('email', EmailType::class, [
                                 'label' => 'label.email',
                                 'disabled' => true,
                                 'required' => false,
@@ -151,6 +174,7 @@ class ProfileType extends AbstractType {
 
                 if($user instanceof ActiveDirectoryUser) {
                     $form->remove('group_password');
+                    $form->remove('group_email');
                     $form->get('group_general')
                         ->add('username', TextType::class, [
                             'disabled' => true,

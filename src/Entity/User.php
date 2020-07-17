@@ -25,7 +25,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="class", type="string")
  * @ORM\DiscriminatorMap({"user" = "User", "ad" = "ActiveDirectoryUser"})
- * @UniqueEntity(fields={"email"})
  * @UniqueEntity(fields={"username"})
  * @Serializer\Discriminator(disabled=true)
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=true)
@@ -66,7 +65,7 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     private $password;
 
     /**
-     * @ORM\Column(type="string", unique=true, nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      * @Assert\NotBlank(allowNull=true)
      * @Assert\Length(max="191")
      * @Assert\Email()

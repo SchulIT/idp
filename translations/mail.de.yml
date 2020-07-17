@@ -12,3 +12,8 @@ registration:
   title: Registrierung abschließen
   message: Klicken Sie auf den folgenden Link %link%, um die Registrierung abzuschließen. Falls Sie keine Registrierung angestoßen haben, können Sie diese E-Mail ignorieren.
   expiry: Bitte beachten Sie, dass der Link nur bis %date% gültig ist.
+
+email:
+  title: E-Mail-Adresse bestätigen
+  message: Klicken Sie auf den folgenden Link %link%, um die E-Mail-Adresse zu bestätigen. Falls Sie die Änderung der E-Mail-Adresse nicht angestoßen haben, können Sie diese E-Mail ignorieren.
+  expiry: Bitte beachten sie, dass der Link nur bis %date% gültig ist.
