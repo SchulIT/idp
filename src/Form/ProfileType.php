@@ -124,6 +124,7 @@ class ProfileType extends AbstractType {
                             ->add('email', EmailType::class, [
                                 'label' => 'label.email',
                                 'disabled' => true,
+                                'required' => false,
                                 'attr' => [
                                     'help' => $this->translator->trans('label.can_change.email_hint')
                                 ]
