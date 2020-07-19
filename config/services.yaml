@@ -153,7 +153,7 @@ services:
     # Password helper
     App\Security\PasswordStrengthHelper:
         arguments:
-            $environment: '%kernel.environment%'
+            $enableCompromisedCheck: '%env(bool:ENABLE_PASSWORD_COMPROMISED_CHECK)%'
 
     # Markdown
     League\CommonMark\EnvironmentInterface:

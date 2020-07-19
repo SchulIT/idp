@@ -9,9 +9,11 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PasswordStrengthHelper {
+    private $enableCompromisedCheck;
     private $validator;
 
-    public function __construct(ValidatorInterface $validator) {
+    public function __construct(bool $enableCompromisedCheck, ValidatorInterface $validator) {
+        $this->enableCompromisedCheck = $enableCompromisedCheck;
         $this->validator = $validator;
     }
 
@@ -23,10 +25,13 @@ class PasswordStrengthHelper {
                 'requireCaseDiff' => true,
                 'requireNumbers' => true,
                 'requireSpecialCharacter' => true
-            ]),
-            new NotCompromisedPassword()
+            ])
         ];
 
+        if($this->enableCompromisedCheck) {
+            $constraints[] = new NotCompromisedPassword();
+        }
+        
         return $constraints;
     }
 
