@@ -159,6 +159,13 @@ class UserType extends AbstractType {
                 'legend' => 'label.password',
                 'fields' => function(FormBuilderInterface $builder) {
                     $builder
+                        ->add('mustChangePassword', CheckboxType::class, [
+                            'label' => 'label.must_change_password',
+                            'required' => false,
+                            'label_attr' => [
+                                'class' => 'checkbox-custom'
+                            ]
+                        ])
                         ->add('password', RepeatedType::class, [
                             'mapped' => false,
                             'type' => PasswordType::class,

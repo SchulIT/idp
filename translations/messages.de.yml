@@ -63,6 +63,7 @@ label:
   content: Inhalt
   file: Datei
   delimiter: Trennzeichen
+  must_change_password: Benutzer muss Passwort ändern
 
 help:
   voluntary: Diese Angabe ist freiwillig.
@@ -108,6 +109,9 @@ profile:
   label: Konto-Einstellungen
   change_password: Passwort ändern
   success: Konto-Einstellungen erfolgreich geändert
+  must_change_password:
+    label: Passwortänderung erforderlich
+    message: Bitte ein persönliches Passwort auswählen. Anschließend können die Online-Dienste genutzt werden.
 
 two_factor:
   label: Zwei-Faktor Authentifizierung

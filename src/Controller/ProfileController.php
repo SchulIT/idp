@@ -38,6 +38,7 @@ class ProfileController extends AbstractController {
 
                 if (!empty($password) && !$user instanceof ActiveDirectoryUser) {
                     $user->setPassword($passwordEncoder->encodePassword($user, $password));
+                    $user->setMustChangePassword(false);
                 }
             }
 
@@ -66,7 +67,8 @@ class ProfileController extends AbstractController {
         }
 
         return $this->render('profile/index.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'user' => $user
         ]);
     }
 }

@@ -203,6 +203,12 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
      */
     private $isProvisioned = true;
 
+    /**
+     * @ORM\Column(type="boolean")
+     * @var bool
+     */
+    private $mustChangePassword = false;
+
     public function __construct() {
         $this->uuid = Uuid::uuid4();
 
@@ -651,6 +657,22 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
      */
     public function setIsProvisioned(bool $isProvisioned): User {
         $this->isProvisioned = $isProvisioned;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMustChangePassword(): bool {
+        return $this->mustChangePassword;
+    }
+
+    /**
+     * @param bool $mustChangePassword
+     * @return User
+     */
+    public function setMustChangePassword(bool $mustChangePassword): User {
+        $this->mustChangePassword = $mustChangePassword;
         return $this;
     }
 

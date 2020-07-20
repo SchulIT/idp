@@ -10,6 +10,14 @@
 {% endblock %}
 
 {% block content %}
+
+    {% if user.mustChangePassword %}
+        <div class="bs-callout bs-callout-danger">
+            <h4><i class="fas fa-key"></i> {{ 'profile.must_change_password.label'|trans }}</h4>
+            <p>{{ 'profile.must_change_password.message'|trans }}</p>
+        </div>
+    {% endif %}
+
     {{ form_start(form) }}
 
     {{ form_widget(form) }}
