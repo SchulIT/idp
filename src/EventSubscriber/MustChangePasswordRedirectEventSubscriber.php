@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class MustChangePasswordRedirectEventSubscriber implements EventSubscriberInterface {
 
-    private const RedirectRoute = 'profile';
+    private const RedirectRoute = 'change_password';
 
     private $urlGenerator;
     private $tokenStorage;

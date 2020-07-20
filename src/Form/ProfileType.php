@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -36,66 +37,33 @@ class ProfileType extends AbstractType {
         $user = $options['data'];
 
         $builder
-            ->add('group_general', FieldsetType::class, [
-                'legend' => 'label.general',
-                'fields' => function(FormBuilderInterface $builder) {
-                    $builder
-                        ->add('username', TextType::class, [
-                            'disabled' => true,
-                            'label' => 'label.username',
-                            'attr' => [
-                                'autocomplete' => 'off'
-                            ]
-                        ])
-                        ->add('firstname', TextType::class, [
-                            'label' => 'label.firstname',
-                            'required' => false
-                        ])
-                        ->add('lastname', TextType::class, [
-                            'label' => 'label.lastname',
-                            'required' => false
-                        ]);
-                }
+            ->add('username', TextType::class, [
+                'disabled' => true,
+                'label' => 'label.username',
+                'attr' => [
+                    'autocomplete' => 'off'
+                ]
             ])
-            ->add('group_email', FieldsetType::class, [
-                'legend' => 'label.email',
-                'fields' => function(FormBuilderInterface $builder) {
-                    $builder
-                        ->add('email', RepeatedType::class, [
-                            'mapped' => false,
-                            'type' => EmailType::class,
-                            'invalid_message' => 'The email fields must match.',
-                            'constraints' => new Email(),
-                            'required' => false,
-                            'first_options' => [
-                                'label' => 'label.email'
-                            ],
-                            'second_options' => [
-                                'label' => 'label.repeat_email'
-                            ]
-                        ]);
-                }
+            ->add('firstname', TextType::class, [
+                'label' => 'label.firstname',
+                'required' => false
             ])
-            ->add('group_password', FieldsetType::class, [
-                'legend' => 'label.password',
-                'fields' => function(FormBuilderInterface $builder) {
-                    $builder
-                        ->add('password', RepeatedType::class, [
-                            'mapped' => false,
-                            'type' => PasswordType::class,
-                            'invalid_message' => 'The password fields must match.',
-                            'options' => [
-                                'attr' => [
-                                    'class' => 'password-field',
-                                    'autocomplete' => 'new-password'
-                                ],
-                            ],
-                            'constraints' => $this->passwordStrengthHelper->getConstraints(),
-                            'required' => true,
-                            'first_options'  => ['label' => 'label.password'],
-                            'second_options' => ['label' => 'label.repeat_password']
-                        ]);
-                }
+            ->add('lastname', TextType::class, [
+                'label' => 'label.lastname',
+                'required' => false
+            ])
+            ->add('email', RepeatedType::class, [
+                'mapped' => false,
+                'type' => EmailType::class,
+                'invalid_message' => 'The email fields must match.',
+                'constraints' => new Email(),
+                'required' => false,
+                'first_options' => [
+                    'label' => 'label.email'
+                ],
+                'second_options' => [
+                    'label' => 'label.repeat_email'
+                ]
             ])
             ->add('group_attributes', AttributesType::class, [
                 'legend' => 'label.attributes',
@@ -153,23 +121,6 @@ class ProfileType extends AbstractType {
                                 ]
                             ]);
                     }
-
-                    $form->get('group_password')
-                        ->add('password', RepeatedType::class, [
-                            'mapped' => false,
-                            'type' => PasswordType::class,
-                            'invalid_message' => 'The password fields must match.',
-                            'options' => [
-                                'attr' => [
-                                    'class' => 'password-field',
-                                    'autocomplete' => 'new-password'
-                                ],
-                            ],
-                            'constraints' => $this->passwordStrengthHelper->getConstraints(),
-                            'required' => false,
-                            'first_options'  => ['label' => 'label.password'],
-                            'second_options' => ['label' => 'label.repeat_password']
-                        ]);
                 }
 
                 if($user instanceof ActiveDirectoryUser) {

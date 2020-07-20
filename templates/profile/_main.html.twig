@@ -1,0 +1,32 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'profile.label'|trans }}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a></li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+
+    {% block before_card %}{% endblock %}
+
+    <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link {% block profile_active %}{% endblock %}" href="{{ path('profile')}}">{{ 'profile.label'|trans }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% block password_active %}{% endblock %}" href="{{ path('change_password') }}">{{ 'profile.change_password.label'|trans }}</a>
+                </li>
+            </ul>
+        </div>
+
+        {% block card_body %}{% endblock %}
+    </div>
+
+    {% block profile_content %}{% endblock %}
+{% endblock %}

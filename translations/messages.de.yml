@@ -64,6 +64,7 @@ label:
   file: Datei
   delimiter: Trennzeichen
   must_change_password: Benutzer muss Passwort ändern
+  current_password: Aktuelles Passwort
 
 help:
   voluntary: Diese Angabe ist freiwillig.
@@ -107,7 +108,9 @@ services:
 
 profile:
   label: Konto-Einstellungen
-  change_password: Passwort ändern
+  change_password:
+    label: Passwort ändern
+    success: Das Passwort wurde erfolgreich geändert.
   success: Konto-Einstellungen erfolgreich geändert
   must_change_password:
     label: Passwortänderung erforderlich

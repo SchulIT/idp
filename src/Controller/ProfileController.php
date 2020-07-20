@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\ActiveDirectoryUser;
 use App\Entity\User;
 use App\Form\AttributeDataTrait;
+use App\Form\PasswordChangeType;
 use App\Form\ProfileType;
 use App\Security\EmailConfirmation\ConfirmationManager;
 use App\Service\AttributePersister;
@@ -24,8 +25,7 @@ class ProfileController extends AbstractController {
     /**
      * @Route("", name="profile")
      */
-    public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder, AttributePersister $attributePersister,
-                          EntityManagerInterface $em, ConfirmationManager $confirmationManager) {
+    public function index(Request $request, AttributePersister $attributePersister, EntityManagerInterface $em, ConfirmationManager $confirmationManager) {
         /** @var User $user */
         $user = $this->getUser();
 
@@ -33,15 +33,6 @@ class ProfileController extends AbstractController {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            if($form->has('group_password')) {
-                $password = $form->get('group_password')->get('password')->getData();
-
-                if (!empty($password) && !$user instanceof ActiveDirectoryUser) {
-                    $user->setPassword($passwordEncoder->encodePassword($user, $password));
-                    $user->setMustChangePassword(false);
-                }
-            }
-
             if($form->has('group_email')) {
                 $email = $form->get('group_email')->get('email')->getData();
 
@@ -69,6 +60,35 @@ class ProfileController extends AbstractController {
         return $this->render('profile/index.html.twig', [
             'form' => $form->createView(),
             'user' => $user
+        ]);
+    }
+
+    /**
+     * @Route("/password", name="change_password")
+     */
+    public function changePassword(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder) {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $form = $this->createForm(PasswordChangeType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid() && !$user instanceof ActiveDirectoryUser) {
+            $password = $form->get('newPassword')->getData();
+            $user->setPassword($passwordEncoder->encodePassword($user, $password));
+            $user->setMustChangePassword(false);
+
+            $em->persist($user);
+            $em->flush();
+
+            $this->addFlash('success', 'profile.change_password.success');
+            return $this->redirectToRoute('change_password');
+        }
+
+        return $this->render('profile/change_password.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user,
+            'can_change_password' => !$user instanceof ActiveDirectoryUser
         ]);
     }
 }

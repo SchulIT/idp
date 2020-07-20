@@ -85,12 +85,13 @@ class MustChangePasswordRedirectEventSubscriberTest extends WebTestCase {
         $form['_password']->setValue('Test1234$');
 
         $crawler = $this->client->submit($form);
-        $this->assertEquals('http://localhost/profile', $crawler->getUri(), 'Tests whether we land on the profile page after successful login');
+        $this->assertEquals('http://localhost/profile/password', $crawler->getUri(), 'Tests whether we land on the password change page after successful login');
 
         $button = $crawler->filter('button[type=submit]')->first();
         $form = $button->form();
-        $form['profile[group_password][password][first]']->setValue('Test23456$');
-        $form['profile[group_password][password][second]']->setValue('Test23456$');
+        $form['password_change[currentPassword]']->setValue('Test1234$');
+        $form['password_change[newPassword][first]']->setValue('Test23456$');
+        $form['password_change[newPassword][second]']->setValue('Test23456$');
 
         $crawler = $this->client->submit($form);
         $crawler = $this->client->request('GET', '/dashboard');
