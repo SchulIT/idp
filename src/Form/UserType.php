@@ -84,7 +84,8 @@ class UserType extends AbstractType {
                             'required' => false
                         ])
                         ->add('email', EmailType::class, [
-                            'label' => 'label.email'
+                            'label' => 'label.email',
+                            'required' => false
                         ])
                         ->add('grade', TextType::class, [
                             'label' => 'label.grade',
