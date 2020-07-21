@@ -77,9 +77,8 @@ class ProfileType extends AbstractType {
                 $user = $event->getData();
                 $form = $event->getForm();
 
-                if($form->has('group_email')) {
-                    $form->get('group_email')
-                        ->get('email')
+                if($form->has('email')) {
+                    $form->get('email')
                         ->setData($user->getEmail());
                 }
             })
@@ -88,7 +87,7 @@ class ProfileType extends AbstractType {
                 $form = $event->getForm();
 
                 if($user->getId() === null) {
-                    $form->get('group_general')
+                    $form
                         ->remove('id')
                         ->remove('externalId')
                         ->add('username', TextType::class, [
@@ -96,7 +95,7 @@ class ProfileType extends AbstractType {
                         ]);
                 } else {
                     if($user->getType()->canChangeName() !== true) {
-                        $form->get('group_general')
+                        $form
                             ->add('firstname', TextType::class, [
                                 'label' => 'label.firstname',
                                 'disabled' => true
@@ -111,7 +110,7 @@ class ProfileType extends AbstractType {
                     }
 
                     if($user->getType()->canChangeEmail() !== true) {
-                        $form->remove('group_email');
+                        $form->remove('email');
                         $form->add('email', EmailType::class, [
                                 'label' => 'label.email',
                                 'disabled' => true,
@@ -124,9 +123,8 @@ class ProfileType extends AbstractType {
                 }
 
                 if($user instanceof ActiveDirectoryUser) {
-                    $form->remove('group_password');
-                    $form->remove('group_email');
-                    $form->get('group_general')
+                    $form->remove('email');
+                    $form
                         ->add('username', TextType::class, [
                             'disabled' => true,
                             'label' => 'label.username',
