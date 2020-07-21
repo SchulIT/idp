@@ -47,6 +47,13 @@ class MustChangePasswordRedirectEventSubscriberTest extends WebTestCase {
         $this->em->flush();
     }
 
+    public function tearDown() {
+        $this->em->close();
+        $this->em = $this->user = null;
+
+        parent::tearDown();
+    }
+
     public function testMustNotChangePassword() {
         $this->user->setMustChangePassword(false);
         $this->em->persist($this->user);
