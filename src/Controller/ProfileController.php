@@ -64,7 +64,7 @@ class ProfileController extends AbstractController {
     }
 
     /**
-     * @Route("/password", name="change_password")
+     * @Route("/password", name="profile_password")
      */
     public function changePassword(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder) {
         /** @var User $user */
