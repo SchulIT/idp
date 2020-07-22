@@ -230,7 +230,7 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
      * @return User
      */
     public function setUsername($username) {
-        $this->username = $username;
+        $this->username = mb_strtolower($username);
         return $this;
     }
 
