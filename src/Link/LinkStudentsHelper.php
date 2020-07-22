@@ -29,7 +29,11 @@ class LinkStudentsHelper {
             throw new NotAStudentException();
         }
 
-        $ids = explode(',', $currentUser->getExternalId());
+        $ids = [ ];
+        if(!empty($currentUser->getExternalId())) {
+            $ids = explode(',', $currentUser->getExternalId());
+        }
+
         $ids[] = $student->getExternalId();
         $currentUser->setExternalId(implode(',', $ids));
 
