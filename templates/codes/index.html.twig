@@ -23,6 +23,7 @@
                                 <col class="column-lg" >
                                 <col class="column-md" >
                                 <col >
+                                <col>
                                 <col class="column-md" >
                             </colgroup>
 
@@ -34,6 +35,7 @@
                                 <th>{{ 'label.lastname'|trans }}</th>
                                 <th>{{ 'label.user_type'|trans }}</th>
                                 <th>{{ 'label.email'|trans }}</th>
+                                <th>{{ 'label.user'|trans }}</th>
                                 <th>{{ 'actions.label'|trans }}</th>
                             </tr>
                             </thead>
@@ -62,6 +64,13 @@
                                     <td class="align-middle">{{ code.lastname }}</td>
                                     <td class="align-middle">{{ code.type.name }}</td>
                                     <td class="align-middle">{{ code.email }}</td>
+                                    <td class="align-middle">
+                                        {% if code.redeemingUser is not null %}
+                                            <a href="{{ path('edit_user', { uuid: code.redeemingUser.uuid.toString }) }}">
+                                                {{ code.redeemingUser|user }}
+                                            </a>
+                                        {% endif %}
+                                    </td>
                                     <td class="align-middle">
                                         <a href="{{ path('edit_registration_code', { uuid: code.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
                                             <i class="fa fa-edit"></i>
