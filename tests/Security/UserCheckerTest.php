@@ -2,6 +2,7 @@
 namespace App\Tests\Security;
 
 use App\Entity\User;
+use App\Security\EmailConfirmation\ConfirmationManager;
 use App\Security\UserChecker;
 use PHPUnit\Framework\TestCase;
 use SchulIT\CommonBundle\Helper\DateHelper;
@@ -10,7 +11,7 @@ class UserCheckerTest extends TestCase {
 
     public function testGrantActiveUser() {
         $dateHelper = new DateHelper();
-        $userChecker = new UserChecker($dateHelper);
+        $userChecker = new UserChecker($dateHelper, $this->createMock(ConfirmationManager::class));
 
         $user = (new User())
             ->setIsActive(true)
@@ -26,7 +27,7 @@ class UserCheckerTest extends TestCase {
      */
     public function testDoNotGrantNonActiveUser() {
         $dateHelper = new DateHelper();
-        $userChecker = new UserChecker($dateHelper);
+        $userChecker = new UserChecker($dateHelper, $this->createMock(ConfirmationManager::class));
 
         $user = (new User())
             ->setIsActive(false)
@@ -44,7 +45,7 @@ class UserCheckerTest extends TestCase {
      */
     public function testDoNotGrandActiveUserWithTimeWindowFutureEnabled() {
         $dateHelper = new DateHelper(new \DateTime('2018-08-01'));
-        $userChecker = new UserChecker($dateHelper);
+        $userChecker = new UserChecker($dateHelper, $this->createMock(ConfirmationManager::class));
 
         $user = (new User())
             ->setIsActive(true)
@@ -62,7 +63,7 @@ class UserCheckerTest extends TestCase {
      */
     public function testDoNotGrandActiveUserWithTimeWindowPastEnabled() {
         $dateHelper = new DateHelper(new \DateTime('2018-08-01'));
-        $userChecker = new UserChecker($dateHelper);
+        $userChecker = new UserChecker($dateHelper, $this->createMock(ConfirmationManager::class));
 
         $user = (new User())
             ->setIsActive(true)
@@ -74,7 +75,7 @@ class UserCheckerTest extends TestCase {
 
     public function testGrandActiveUserWithTimeWindow() {
         $dateHelper = new DateHelper(new \DateTime('2018-08-01'));
-        $userChecker = new UserChecker($dateHelper);
+        $userChecker = new UserChecker($dateHelper, $this->createMock(ConfirmationManager::class));
 
         $user = (new User())
             ->setIsActive(true)
