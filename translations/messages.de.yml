@@ -222,6 +222,10 @@ users:
       success: Benutzer erfolgreich wiederhergestellt
       error: Die Anfrage war fehlerhaft. Der Benutzer wurde nicht wiederhergestellt. Bitte erneut probieren.
 
+  statistics:
+    label: Statistiken
+    total: Gesamt
+
   attributes:
     label: Attribute
     header: Attribute für Benutzer "%username%"

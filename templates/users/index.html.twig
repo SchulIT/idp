@@ -166,6 +166,30 @@
                         <a href="{{ path('users') }}" class="btn btn-primary btn-sm">{{ 'filter.reset'|trans }}</a>
                     </div>
                 </div>
+
+                <div class="card">
+                    <div class="card-header">{{ 'users.statistics.label'|trans }}</div>
+
+                    <table class="table table-bordered card-table">
+                        <colgroup>
+                            <col>
+                            <col class="column-sm">
+                        </colgroup>
+
+                        <tbody>
+                        {% for statistic in statistics %}
+                            <tr>
+                                <td class="align-middle">{{ statistic.type.name }}</td>
+                                <td class="align-middle text-right">{{ statistic.count }}</td>
+                            </tr>
+                        {% endfor %}
+                            <tr class="font-weight-bold">
+                                <td class="align-middle">{{ 'users.statistics.total'|trans }}</th>
+                                <td class="align-middle text-right">{{ count }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

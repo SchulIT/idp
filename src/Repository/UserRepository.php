@@ -4,11 +4,10 @@ namespace App\Repository;
 
 use App\Entity\ActiveDirectoryUser;
 use App\Entity\User;
-use App\Entity\UserRole;
+use App\Entity\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Ramsey\Uuid\Uuid;
 
 class UserRepository implements UserRepositoryInterface {
 
@@ -277,5 +276,25 @@ class UserRepository implements UserRepositoryInterface {
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function countUsers(?UserType $userType = null): int {
+        $qb = $this->em->createQueryBuilder();
+
+        $qb
+            ->select('COUNT(u.id)')
+            ->from(User::class, 'u')
+            ->where($qb->expr()->isNull('u.deletedAt'));
+
+        if($userType !== null) {
+            $qb->andWhere('u.type = :type')
+                ->setParameter('type', $userType);
+        }
+
+        return $qb->getQuery()
+            ->getSingleScalarResult();
     }
 }

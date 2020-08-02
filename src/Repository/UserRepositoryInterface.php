@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\ActiveDirectoryUser;
 use App\Entity\User;
 use App\Entity\UserRole;
-use App\Form\UserType;
+use App\Entity\UserType;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
 interface UserRepositoryInterface {
@@ -65,6 +65,12 @@ interface UserRepositoryInterface {
      * @return User[]
      */
     public function findNextNonProvisionedUsers(int $limit): array;
+
+    /**
+     * @param UserType|null $userType
+     * @return int
+     */
+    public function countUsers(?UserType $userType = null): int;
 
     public function persist(User $user);
 
