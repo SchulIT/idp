@@ -87,6 +87,14 @@ class UserType extends AbstractType {
                             'label' => 'label.email',
                             'required' => false
                         ])
+                        ->add('isEmailConfirmationPending', CheckboxType::class, [
+                            'label' => 'label.email_confirmation_pending.label',
+                            'help' => 'label.email_confirmation_pending.help',
+                            'required' => false,
+                            'label_attr' => [
+                                'class' => 'checkbox-custom'
+                            ]
+                        ])
                         ->add('grade', TextType::class, [
                             'label' => 'label.grade',
                             'required' => false
@@ -199,10 +207,16 @@ class UserType extends AbstractType {
                     $form->get('group_general')
                         ->remove('id')
                         ->remove('externalId')
+                        ->remove('isEmailConfirmationPending')
                         ->add('username', EmailType::class, [
                             'label' => 'label.username'
                         ]);
                 } else {
+                    if($user->isEmailConfirmationPending() !== true) {
+                        $form->get('group_general')
+                            ->remove('isEmailConfirmationPending');
+                    }
+
                     $form->get('group_password')
                         ->add('password', RepeatedType::class, [
                             'mapped' => false,
@@ -224,6 +238,7 @@ class UserType extends AbstractType {
                 if($user instanceof ActiveDirectoryUser) {
                     $form->remove('group_password');
                     $form->get('group_general')
+                        ->remove('isEmailConfirmationPending')
                         ->add('username', EmailType::class, [
                             'disabled' => true,
                             'label' => 'label.username',
