@@ -409,6 +409,7 @@ search:
 filter:
   label: filtern
   all_types: Alle Benutzertypen
+  all_roles: Alle Benutzerrollen
   reset: zurücksetzen
 
 applications:

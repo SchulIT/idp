@@ -102,7 +102,11 @@
                 </div>
 
                 {% include '@Common/includes/pagination.html.twig' with {
-                    currentFilters: { q: q, type: type },
+                    currentFilters: {
+                        q: q,
+                        type: (typeFilter.currentType ? typeFilter.currentType.uuid : null),
+                        role: (roleFilter.currentRole ? roleFilter.currentRole.uuid : null)
+                    },
                     currentPage: page,
                     paginationPath: 'users',
                     lastPage: pages,
@@ -131,8 +135,17 @@
                             <div class="form-group">
                                 <select name="type" class="form-control" data-choice="true" data-trigger="submit">
                                     <option value="">{{ 'filter.all_types'|trans }}</option>
-                                    {% for t in types %}
-                                        <option value="{{ t.uuid }}" {% if type == t.uuid %}selected{% endif %}>{{ t.name }}</option>
+                                    {% for t in typeFilter.types %}
+                                        <option value="{{ t.uuid }}" {% if typeFilter.currentType is not null and typeFilter.currentType.id == t.id %}selected{% endif %}>{{ t.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <select name="role" class="form-control" data-choice="true" data-trigger="submit">
+                                    <option value="">{{ 'filter.all_roles'|trans }}</option>
+                                    {% for r in roleFilter.roles %}
+                                        <option value="{{ r.uuid }}" {% if roleFilter.currentRole is not null and roleFilter.currentRole.id == r.id %}selected{% endif %}>{{ r.name }}</option>
                                     {% endfor %}
                                 </select>
                             </div>

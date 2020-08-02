@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ActiveDirectoryUser;
 use App\Entity\User;
+use App\Entity\UserRole;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -135,43 +136,69 @@ class UserRepository implements UserRepositoryInterface {
         $this->em->flush();
     }
 
-    public function getPaginatedUsers($itemsPerPage, &$page, $type = null, $query = null, bool $deleted = false): Paginator {
+    /**
+     * @param int $itemsPerPage
+     * @param int $page
+     * @param null $type
+     * @param null $role
+     * @param null $query
+     * @param bool $deleted
+     * @return Paginator
+     */
+    public function getPaginatedUsers($itemsPerPage, &$page, $type = null, $role = null, $query = null, bool $deleted = false): Paginator {
         $qb = $this->em
             ->createQueryBuilder()
             ->select('u')
             ->from(User::class, 'u')
             ->orderBy('u.username', 'asc');
 
+        $qbInner = $this->em
+            ->createQueryBuilder()
+            ->select('uInner.id')
+            ->from(User::class, 'uInner')
+            ->leftJoin('uInner.userRoles', 'rInner');
+
         if(!empty($query)) {
-            $qb
+            $qbInner
                 ->andWhere(
                     $qb->expr()->orX(
-                        'u.username LIKE :query',
-                        'u.firstname LIKE :query',
-                        'u.lastname LIKE :query',
-                        'u.email LIKE :query'
+                        'uInner.username LIKE :query',
+                        'uInner.firstname LIKE :query',
+                        'uInner.lastname LIKE :query',
+                        'uInner.email LIKE :query'
                     )
-                )
-                ->setParameter('query', '%' . $query . '%');
+                );
+            $qb->setParameter('query', '%' . $query . '%');
         }
 
-        if(!empty($type)) {
-            $qb
+        if($type !== null) {
+            $qbInner
                 ->andWhere(
                     'u.type = :type'
-                )
-                ->setParameter('type', $type);
+                );
+            $qb->setParameter('type', $type);
+        }
+
+        if($role !== null) {
+            $qbInner->andWhere(
+                'rInner.id = :role'
+            );
+            $qb->setParameter('role', $role);
         }
 
         if($deleted === true) {
-            $qb->andWhere($qb->expr()->isNotNull('u.deletedAt'));
+            $qbInner->andWhere($qb->expr()->isNotNull('u.deletedAt'));
         } else {
-            $qb->andWhere($qb->expr()->isNull('u.deletedAt'));
+            $qbInner->andWhere($qb->expr()->isNull('u.deletedAt'));
         }
 
         if(!is_numeric($page) || $page < 1) {
             $page = 1;
         }
+
+        $qb->where(
+            $qb->expr()->in('u.id', $qbInner->getDQL())
+        );
 
         $offset = ($page - 1) * $itemsPerPage;
 

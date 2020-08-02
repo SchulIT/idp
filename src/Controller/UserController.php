@@ -13,6 +13,8 @@ use App\Saml\AttributeValueProvider;
 use App\Service\AttributePersister;
 use App\Service\AttributeResolver;
 use App\Utils\ArrayUtils;
+use App\View\Filter\UserRoleFilter;
+use App\View\Filter\UserTypeFilter;
 use SchulIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,18 +41,14 @@ class UserController extends AbstractController {
         $this->typeRepository = $typeRepository;
     }
 
-    private function internalDisplay(Request $request, bool $deleted) {
+    private function internalDisplay(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter, bool $deleted) {
         $q = $request->query->get('q', null);
-        $type = $request->query->get('type', null);
         $page = $request->query->getInt('page', 1);
 
-        $types = ArrayUtils::createArrayWithKeys(
-            $this->typeRepository->findAll(),
-            function(UserTypeEntity $type) {
-                return (string)$type->getUuid();
-            });
+        $typeFilterView = $typeFilter->handle($request->query->get('type'));
+        $roleFilterView = $roleFilter->handle($request->query->get('role'));
 
-        $paginator = $this->repository->getPaginatedUsers(static::USERS_PER_PAGE, $page, $types[$type] ?? null, $q, $deleted);
+        $paginator = $this->repository->getPaginatedUsers(static::USERS_PER_PAGE, $page, $typeFilterView->getCurrentType(), $roleFilterView->getCurrentRole(), $q, $deleted);
 
         $pages = 1;
 
@@ -65,8 +63,8 @@ class UserController extends AbstractController {
             'page' => $page,
             'pages' => $pages,
             'q' => $q,
-            'types' => $types,
-            'type' => $type,
+            'roleFilter' => $roleFilterView,
+            'typeFilter' => $typeFilterView,
             'csrf_id' => static::CsrfTokenId,
             'csrf_key' => static::CsrfTokenKey
         ]);
@@ -75,15 +73,15 @@ class UserController extends AbstractController {
     /**
      * @Route("/users", name="users")
      */
-    public function index(Request $request) {
-        return $this->internalDisplay($request, false);
+    public function index(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter) {
+        return $this->internalDisplay($request, $typeFilter, $roleFilter, false);
     }
 
     /**
      * @Route("/users/trash", name="users_trash")
      */
-    public function trash(Request $request) {
-        return $this->internalDisplay($request, true);
+    public function trash(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter) {
+        return $this->internalDisplay($request, $typeFilter, $roleFilter, true);
     }
 
     /**

@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\ActiveDirectoryUser;
 use App\Entity\User;
+use App\Entity\UserRole;
+use App\Form\UserType;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
 interface UserRepositoryInterface {
@@ -68,5 +70,14 @@ interface UserRepositoryInterface {
 
     public function remove(User $user);
 
-    public function getPaginatedUsers($itemsPerPage, &$page, $type = null, $query = null, bool $deleted = false): Paginator;
+    /**
+     * @param int $itemsPerPage
+     * @param int $page
+     * @param UserType|null $type
+     * @param UserRole|null $role
+     * @param string|null $query
+     * @param bool $deleted
+     * @return Paginator
+     */
+    public function getPaginatedUsers($itemsPerPage, &$page, $type = null, $role = null, $query = null, bool $deleted = false): Paginator;
 }
