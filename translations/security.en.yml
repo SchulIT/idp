@@ -3,7 +3,7 @@ server_unavailable: Authentication server is currently not available.
 not_allowed: This user is not allowed to login.
 unknown_error: An unknown error occured while authentication. Please contact the administrator.
 account_disabled: The user account is currently disabled.
-email_confirmation_pending: Logging in is not permitted until the email address has been confirmed.
+email_confirmation_pending: Logging in is not permitted until the email address has been confirmed. An confirmation email was sent to your email address.
 
 not_provisioned: Please wait until the account is fully provisioned. Check again later.
 

@@ -3,7 +3,7 @@ server_unavailable: Der Authentifizierungserver ist aktuell nicht erreichbar.
 not_allowed: Der Benutzer ist nicht berechtigt, sich anzumelden.
 unknown_error: Ein unbekannter Fehler ist bei der Anmeldung aufgetreten. Bitte den Administrator benachrichtigen.
 account_disabled: Der Benutzeraccount ist derzeit deaktiviert.
-email_confirmation_pending: Die E-Mail Adresse muss noch bestätigt werden. Vorher ist keine Anmeldung möglich.
+email_confirmation_pending: Die E-Mail Adresse muss noch bestätigt werden. Vorher ist keine Anmeldung möglich. Es wurde eine E-Mail mit einem Bestätigungslink an die hinterlegte E-Mail-Adresse versendet.
 
 not_provisioned: Der Benutzeraccount wird noch bereitgestellt. Bitte später erneut probieren.
 

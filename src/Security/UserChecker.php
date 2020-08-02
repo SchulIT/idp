@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Entity\User;
+use App\Security\EmailConfirmation\ConfirmationManager;
 use SchulIT\CommonBundle\Helper\DateHelper;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -10,9 +11,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class UserChecker implements UserCheckerInterface {
 
     private $dateHelper;
+    private $confirmationManager;
 
-    public function __construct(DateHelper $dateHelper) {
+    public function __construct(DateHelper $dateHelper, ConfirmationManager $confirmationManager) {
         $this->dateHelper = $dateHelper;
+        $this->confirmationManager = $confirmationManager;
     }
 
     /**
@@ -34,6 +37,10 @@ class UserChecker implements UserCheckerInterface {
         }
 
         if($user->isEmailConfirmationPending()) {
+            if($user->getEmail() !== null) {
+                $this->confirmationManager->newConfirmation($user, $user->getEmail());
+            }
+
             throw new EmailConfirmationPendingException();
         }
 
