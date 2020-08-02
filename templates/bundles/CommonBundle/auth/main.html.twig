@@ -6,9 +6,18 @@
             {% block content %}{% endblock %}
         </div>
 
-        {% if helpdesk_mail is defined and helpdesk_mail is not empty %}
+        {% if (helpdesk_mail is defined and helpdesk_mail is not empty) or (login_help is defined and login_help is not empty) %}
             <div class="card-footer">
-                <i class="fas fa-question-circle"></i> {{ 'helpdesk'|trans({'%mail%': helpdesk_mail}, 'security') }}
+                {% if login_help is defined and login_help is not empty %}
+                    <div class="d-block">
+                        <i class="fas fa-question-circle"></i> {{ login_help|raw }}
+                    </div>
+                {% endif %}
+                {% if helpdesk_mail is defined and helpdesk_mail is not empty %}
+                    <div class="d-block">
+                        <i class="fas fa-question-circle"></i> {{ 'helpdesk'|trans({'%mail%': helpdesk_mail}, 'security') }}
+                    </div>
+                {% endif %}
             </div>
         {% endif %}
     </div>
