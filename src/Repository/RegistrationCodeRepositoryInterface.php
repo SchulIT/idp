@@ -26,5 +26,5 @@ interface RegistrationCodeRepositoryInterface extends TransactionalRepositoryInt
 
     public function removeRedeemed(): void;
 
-    public function getPaginatedUsers(int $itemsPerPage, int &$page, UserType $type = null): Paginator;
+    public function getPaginatedUsers(int $itemsPerPage, int &$page, UserType $type = null, ?string $query = null): Paginator;
 }

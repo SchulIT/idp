@@ -42,9 +42,10 @@ class RegistrationCodeController extends AbstractController {
      */
     public function index(Request $request, UserTypeFilter $typeFilter) {
         $typeView = $typeFilter->handle($request->query->get('type'));
+        $query = $request->query->get('q');
         $page = $request->query->getInt('page');
 
-        $paginator = $this->repository->getPaginatedUsers(static::CodesPerPage, $page, $typeView->getCurrentType());
+        $paginator = $this->repository->getPaginatedUsers(static::CodesPerPage, $page, $typeView->getCurrentType(), $query);
         $pages = 1;
         if($paginator->count() > 0) {
             $pages = ceil((float)$paginator->count() / static::CodesPerPage);
@@ -54,7 +55,8 @@ class RegistrationCodeController extends AbstractController {
             'codes' => $paginator->getIterator(),
             'page' => $page,
             'pages' => $pages,
-            'types' => $typeView
+            'types' => $typeView,
+            'query' => $query
         ]);
     }
 

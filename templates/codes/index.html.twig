@@ -88,7 +88,7 @@
                 </div>
 
                 {% include '@Common/includes/pagination.html.twig' with {
-                    currentFilters: { type: types.currentType },
+                    currentFilters: { type: types.currentType, q: query },
                     currentPage: page,
                     paginationPath: 'registration_codes',
                     lastPage: pages,
@@ -114,13 +114,22 @@
                 <div class="card">
                     <div class="card-body">
                         <form method="get">
-                            <div class="form-group mb-0">
+                            <div class="form-group">
                                 <select name="type" class="form-control" data-choice="true" data-trigger="submit">
                                     <option value="">{{ 'filter.all_types'|trans }}</option>
                                     {% for t in types.types %}
                                         <option value="{{ t.uuid }}" {% if types.currentType is not null and types.currentType.id == t.id %}selected{% endif %}>{{ t.name }}</option>
                                     {% endfor %}
                                 </select>
+                            </div>
+
+                            <div class="form-group mb-0">
+                                <div class="input-group">
+                                    <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="{{ 'codes.query'|trans }}">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-outline-primary btn"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>

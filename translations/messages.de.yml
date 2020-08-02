@@ -471,6 +471,7 @@ codes:
   empty: Aktuell sind keine Registrierungsocdes hinterlegt.
   redeemed: eingelöst
   confirmed: Benutzer aktiv
+  query: Code suchen
   add:
     label: Neuer Registrierungscode
     success: Registrierungscode erfolgreich hinzugefügt

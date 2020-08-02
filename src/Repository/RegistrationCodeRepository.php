@@ -70,12 +70,17 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
         $this->em->rollback();;
     }
 
-    public function getPaginatedUsers(int $itemsPerPage, int &$page, UserType $type = null): Paginator {
+    public function getPaginatedUsers(int $itemsPerPage, int &$page, UserType $type = null, ?string $query = null): Paginator {
         $qb = $this->createDefaultQueryBuilder();
 
         if($type !== null) {
             $qb->where('c.type = :type')
                 ->setParameter('type', $type->getId());
+        }
+
+        if($query !== null) {
+            $qb->andWhere($qb->expr()->like('c.code', ':query'))
+                ->setParameter('query', '%' . $query . '%');
         }
 
         if(!is_numeric($page) || $page < 1) {
