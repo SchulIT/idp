@@ -137,13 +137,7 @@ class UserRepository implements UserRepositoryInterface {
     }
 
     /**
-     * @param int $itemsPerPage
-     * @param int $page
-     * @param null $type
-     * @param null $role
-     * @param null $query
-     * @param bool $deleted
-     * @return Paginator
+     * @inheritDoc
      */
     public function getPaginatedUsers($itemsPerPage, &$page, $type = null, $role = null, $query = null, bool $deleted = false): Paginator {
         $qb = $this->em
