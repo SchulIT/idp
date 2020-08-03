@@ -61,13 +61,6 @@ class KioskUserGuardAuthenticator extends AbstractFormLoginAuthenticator {
     /**
      * @inheritDoc
      */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception) {
-        return null;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey) {
         return new RedirectResponse($this->urlGenerator->generate('dashboard'));
     }
