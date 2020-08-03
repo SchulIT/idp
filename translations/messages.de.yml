@@ -68,6 +68,10 @@ label:
   email_confirmation_pending:
     label: E-Mail Bestätigung ausstehend
     help: Gibt an, ob eine E-Mail Bestätigung ausstehend ist. Durch Deaktivieren dieser Option werden ausstehende E-Mail Bestätigungen entfernt.
+  ip_addresses:
+    label: IP-Adressen
+    help: Einschränkung der IP-Adresse, sodass der Benutzer nur aus einem (oder mehreren) Netzwerken angemeldet wird. Mehrere IP-Adressen können mit Komma separiert werden.
+  select: auswählen
 
 help:
   voluntary: Diese Angabe ist freiwillig.
@@ -225,6 +229,21 @@ users:
   statistics:
     label: Statistiken
     total: Gesamt
+
+  kiosk:
+    label: Kiosk-Zugang
+    info: Benutzer mit Kiosk-Zugang können mittels einer URL angemeldet werden. Dies ist für Informations-Terminals hilfreich. Über die URL wird dann ein beliebiger Benutzer angemeldet.
+    add:
+      label: Neuer Kiosk-Zugang
+      success: Kiosk-Zugang erfolgreich angelegt
+    edit:
+      label: Kiosk-Zugang bearbeiten
+      success: Kiosk-Zugang erfolgreich aktualisiert
+    remove:
+      label: Kiosk-Zugang löschen
+      info: Eine automatische Anmeldung über die URL ist dann nicht mehr möglich. Der Benutzer %username% wird nicht gelöscht.
+      confirm: Soll der Kiosk-Zugang für %username% wirklich gelöscht werden?
+      success: Kiosk-Zugang erfolgreich gelöscht
 
   attributes:
     label: Attribute

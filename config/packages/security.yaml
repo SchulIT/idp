@@ -100,7 +100,10 @@ security:
                 check_path: 2fa_login_check
                 csrf_token_generator: security.csrf.token_manager
             guard:
+                entry_point: App\Security\KioskUserGuardAuthenticator
+
                 authenticators:
+                    - App\Security\KioskUserGuardAuthenticator
                     - App\Security\UserAuthenticator
             remember_me:
                 secret: '%env(APP_SECRET)%'

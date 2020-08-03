@@ -6,7 +6,9 @@ use Anyx\LoginGateBundle\Service\BruteForceChecker;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class AuthController extends AbstractController {
     /**
