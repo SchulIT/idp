@@ -8,6 +8,7 @@ use App\Form\AttributeDataTrait;
 use App\Form\PasswordChangeType;
 use App\Form\ProfileType;
 use App\Security\EmailConfirmation\ConfirmationManager;
+use App\Security\Voter\ProfileVoter;
 use App\Service\AttributePersister;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -67,6 +68,8 @@ class ProfileController extends AbstractController {
      * @Route("/password", name="profile_password")
      */
     public function changePassword(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder) {
+        $this->denyAccessUnlessGranted(ProfileVoter::CHANGE_PASSWORD);
+
         /** @var User $user */
         $user = $this->getUser();
 

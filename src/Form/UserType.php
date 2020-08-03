@@ -174,6 +174,13 @@ class UserType extends AbstractType {
                                 'class' => 'checkbox-custom'
                             ]
                         ])
+                        ->add('canChangePassword', CheckboxType::class, [
+                            'label' => 'label.can_change_password',
+                            'required' => false,
+                            'label_attr' => [
+                                'class' => 'checkbox-custom'
+                            ]
+                        ])
                         ->add('password', RepeatedType::class, [
                             'mapped' => false,
                             'type' => PasswordType::class,

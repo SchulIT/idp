@@ -4,9 +4,11 @@ namespace App\Menu;
 
 use App\Entity\ServiceProvider;
 use App\Entity\User;
+use App\Security\Voter\ProfileVoter;
 use App\Service\UserServiceProviderResolver;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
+use ProxyManager\Proxy\ValueHolderInterface;
 use SchulIT\CommonBundle\DarkMode\DarkModeManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -48,10 +50,13 @@ class Builder {
         ])
             ->setExtra('icon', 'fas fa-user');
 
-        $menu->addChild('two_factor.label', [
-            'route' => 'two_factor'
-        ])
-            ->setExtra('icon', 'fas fa-shield-alt');
+
+        if($this->authorizationChecker->isGranted(ProfileVoter::USE_2FA)) {
+            $menu->addChild('two_factor.label', [
+                'route' => 'two_factor'
+            ])
+                ->setExtra('icon', 'fas fa-shield-alt');
+        }
 
         if($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
             $menu->addChild('users.label', [

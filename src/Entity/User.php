@@ -209,6 +209,12 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
      */
     private $mustChangePassword = false;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default": 1 })
+     * @var bool
+     */
+    private $canChangePassword = true;
+
     public function __construct() {
         $this->uuid = Uuid::uuid4();
 
@@ -673,6 +679,22 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
      */
     public function setMustChangePassword(bool $mustChangePassword): User {
         $this->mustChangePassword = $mustChangePassword;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canChangePassword(): bool {
+        return $this->canChangePassword;
+    }
+
+    /**
+     * @param bool $canChangePassword
+     * @return User
+     */
+    public function setCanChangePassword(bool $canChangePassword): User {
+        $this->canChangePassword = $canChangePassword;
         return $this;
     }
 

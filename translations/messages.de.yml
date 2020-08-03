@@ -64,6 +64,7 @@ label:
   file: Datei
   delimiter: Trennzeichen
   must_change_password: Benutzer muss Passwort ändern
+  can_change_password: Benutzer kann Passwort ändern
   current_password: Aktuelles Passwort
   email_confirmation_pending:
     label: E-Mail Bestätigung ausstehend

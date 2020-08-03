@@ -8,6 +8,7 @@ use App\Form\EnableTwoFactorType;
 use App\Repository\U2fKeyRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use App\Security\TwoFactor\BackupCodeGenerator;
+use App\Security\Voter\ProfileVoter;
 use App\Security\Voter\U2fKeyVoter;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticator;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Trusted\TrustedDeviceManager;
@@ -39,6 +40,8 @@ class TwoFactorController extends AbstractController {
      */
     public function twoFactorAuthentication(Request $request, TrustedDeviceManager $trustedDeviceManager,
                                             FirewallMap $firewallMap, CsrfTokenManagerInterface $tokenManager) {
+        $this->denyAccessUnlessGranted(ProfileVoter::USE_2FA);
+
         /** @var User $user */
         $user = $this->getUser();
         $isGoogleEnabled = $user->isGoogleAuthenticatorEnabled();
@@ -65,6 +68,8 @@ class TwoFactorController extends AbstractController {
      * @Route("/google/enable", name="enable_google_two_factor")
      */
     public function enableGoogleTwoFactorAuthentication(Request $request, BackupCodeGenerator $backupCodeGenerator, GoogleAuthenticator $googleAuthenticator) {
+        $this->denyAccessUnlessGranted(ProfileVoter::USE_2FA);
+
         /** @var User $user */
         $user = $this->getUser();
 
@@ -115,6 +120,8 @@ class TwoFactorController extends AbstractController {
      * @Route("/google/codes/regenerate", name="regenerate_backup_codes", methods={"POST"})
      */
     public function regenerateBackupCodes(Request $request, BackupCodeGenerator $backupCodeGenerator) {
+        $this->denyAccessUnlessGranted(ProfileVoter::USE_2FA);
+
         $token = $request->request->get('_csrf_token');
 
         /** @var User $user */
@@ -141,6 +148,8 @@ class TwoFactorController extends AbstractController {
      * @Route("/google/disable", name="disable_google_two_factor", methods={"POST"})
      */
     public function disableGoogleTwoFactorAuthentication(Request $request) {
+        $this->denyAccessUnlessGranted(ProfileVoter::USE_2FA);
+
         $token = $request->request->get('_csrf_token');
 
         if(!$this->isCsrfTokenValid(static::TWO_FACTOR_EMAIL_CSRF_TOKEN, $token)) {
@@ -164,6 +173,8 @@ class TwoFactorController extends AbstractController {
      * @Route("/u2f/{uuid}/remove", name="remove_u2f_device")
      */
     public function removeU2FDevice(U2fKey $key, Request $request, TranslatorInterface $translator, U2fKeyRepositoryInterface $repository) {
+        $this->denyAccessUnlessGranted(ProfileVoter::USE_2FA);
+
         $this->denyAccessUnlessGranted(U2fKeyVoter::REMOVE, $key);
 
         $form = $this->createForm(ConfirmType::class, null, [
