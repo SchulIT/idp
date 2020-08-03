@@ -35,16 +35,25 @@ class KioskUserGuardAuthenticator extends AbstractFormLoginAuthenticator {
     public function getCredentials(Request $request) {
         $request->request->set('_remember_me', 'true'); // Force remember me
 
-        return $request->query->get('token');
+        return [
+            'token' => $request->query->get('token'),
+            'ip' => $request->getClientIp()
+        ];
     }
 
     /**
      * @inheritDoc
      */
     public function getUser($credentials, UserProviderInterface $userProvider) {
-        $user = $this->repository->findOneByToken($credentials);
+        $user = $this->repository->findOneByToken($credentials['token']);
 
         if($user === null) {
+            return null;
+        }
+
+        // Check IPs
+        $ips = explode(',', $user->getIpAddresses());
+        if(!in_array($credentials['ip'], $ips)) {
             return null;
         }
 
