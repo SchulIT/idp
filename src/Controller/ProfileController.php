@@ -85,7 +85,7 @@ class ProfileController extends AbstractController {
             $em->flush();
 
             $this->addFlash('success', 'profile.change_password.success');
-            return $this->redirectToRoute('change_password');
+            return $this->redirectToRoute('profile_password');
         }
 
         return $this->render('profile/change_password.html.twig', [
