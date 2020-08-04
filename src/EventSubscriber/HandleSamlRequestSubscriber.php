@@ -7,6 +7,7 @@ use SchulIT\LightSamlIdpBundle\RequestStorage\RequestStorageInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
@@ -29,7 +30,7 @@ class HandleSamlRequestSubscriber implements EventSubscriberInterface {
         $this->urlGenerator = $urlGenerator;
     }
 
-    public function onKernelRequest(GetResponseEvent $event) {
+    public function onRequest(RequestEvent $event) {
         $request = $event->getRequest();
         $route = $request->get('_route');
 
@@ -46,7 +47,7 @@ class HandleSamlRequestSubscriber implements EventSubscriberInterface {
             return;
         }
 
-        if($this->samlRequestStorage->has()) {
+        if($this->samlRequestStorage->has() && $event->hasResponse() === false) {
             $response = new RedirectResponse($this->urlGenerator->generate('idp_saml'));
             $event->setResponse($response);
         }
@@ -57,9 +58,7 @@ class HandleSamlRequestSubscriber implements EventSubscriberInterface {
      */
     public static function getSubscribedEvents() {
         return [
-            KernelEvents::REQUEST => [
-                [ 'onKernelRequest', 0]
-            ]
+            RequestEvent::class => ['onRequest', 10]
         ];
     }
 }

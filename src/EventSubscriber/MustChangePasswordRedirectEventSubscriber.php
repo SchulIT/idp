@@ -63,7 +63,7 @@ class MustChangePasswordRedirectEventSubscriber implements EventSubscriberInterf
      */
     public static function getSubscribedEvents() {
         return [
-            RequestEvent::class => 'onRequest'
+            RequestEvent::class => ['onRequest', -1]
         ];
     }
 }
