@@ -28,7 +28,7 @@ class HandleSamlRequestListenerTest extends TestCase {
         $requestStorage = $this->createMock(RequestStorageInterface::class);
         $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
         $listener = new HandleSamlRequestSubscriber($tokenStorage, $requestStorage, $urlGenerator);
-        $listener->onKernelRequest($event);
+        $listener->onRequest($event);
 
         $this->assertNull($event->getResponse());
     }
@@ -50,7 +50,7 @@ class HandleSamlRequestListenerTest extends TestCase {
         $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
 
         $listener = new HandleSamlRequestSubscriber($tokenStorage, $requestStorage, $urlGenerator);
-        $listener->onKernelRequest($event);
+        $listener->onRequest($event);
 
         $this->assertNull($event->getResponse());
     }
@@ -74,7 +74,7 @@ class HandleSamlRequestListenerTest extends TestCase {
             ->willReturn('/saml/sso');
 
         $listener = new HandleSamlRequestSubscriber($tokenStorage, $requestStorage, $urlGenerator);
-        $listener->onKernelRequest($event);
+        $listener->onRequest($event);
 
         $response = $event->getResponse();
 
@@ -102,7 +102,7 @@ class HandleSamlRequestListenerTest extends TestCase {
             ->willReturn('/saml/sso');
 
         $listener = new HandleSamlRequestSubscriber($tokenStorage, $requestStorage, $urlGenerator);
-        $listener->onKernelRequest($event);
+        $listener->onRequest($event);
 
         $this->assertNull($event->getResponse());
     }
@@ -126,7 +126,7 @@ class HandleSamlRequestListenerTest extends TestCase {
             ->willReturn('/saml/sso');
 
         $listener = new HandleSamlRequestSubscriber($tokenStorage, $requestStorage, $urlGenerator);
-        $listener->onKernelRequest($event);
+        $listener->onRequest($event);
 
         $this->assertNull($event->getResponse());
     }
@@ -151,7 +151,7 @@ class HandleSamlRequestListenerTest extends TestCase {
             ->willReturn('/saml/sso');
 
         $listener = new HandleSamlRequestSubscriber($tokenStorage, $requestStorage, $urlGenerator);
-        $listener->onKernelRequest($event);
+        $listener->onRequest($event);
 
         $this->assertNull($event->getResponse());
     }
