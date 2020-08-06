@@ -42,7 +42,7 @@ class MustAcceptPrivacyPolicyRequestListener implements EventSubscriberInterface
         $this->session = $session;
     }
 
-    public function onKernelRequest(RequestEvent $event) {
+    public function onRequest(RequestEvent $event) {
         if($event->isMasterRequest() === false) {
             return;
         }
@@ -110,7 +110,9 @@ class MustAcceptPrivacyPolicyRequestListener implements EventSubscriberInterface
             Response::HTTP_TEMPORARY_REDIRECT
         );
 
-        $event->setResponse($response);
+        if(!$event->hasResponse()) {
+            $event->setResponse($response);
+        }
     }
 
     /**
@@ -118,9 +120,7 @@ class MustAcceptPrivacyPolicyRequestListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents() {
         return [
-            KernelEvents::REQUEST => [
-                [ 'onKernelRequest', 0]
-            ]
+            RequestEvent::class => ['onRequest', 10]
         ];
     }
 }
