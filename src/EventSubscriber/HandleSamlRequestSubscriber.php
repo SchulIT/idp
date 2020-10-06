@@ -58,7 +58,7 @@ class HandleSamlRequestSubscriber implements EventSubscriberInterface {
      */
     public static function getSubscribedEvents() {
         return [
-            RequestEvent::class => ['onRequest', 10]
+            RequestEvent::class => ['onRequest', 5]
         ];
     }
 }
