@@ -76,6 +76,9 @@ label:
   icon:
     label: Icon
     help: Hier kann eine Font Awesome Icon Klasse eingetragen werden. Dabei handelt es sich um die CSS-Klasse, bspw. fab fa-facebook.
+  priority:
+    label: Priorität
+    help: Bei mehreren Benutzerrollen mit denselben Attributen gewinnt die Benutzerrolle mit der höchsten Priorität.
 
 help:
   voluntary: Diese Angabe ist freiwillig.

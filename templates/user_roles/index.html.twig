@@ -19,13 +19,15 @@
                             <colgroup>
                                 <col >
                                 <col >
-                                <col class="column-md" >
+                                <col class="column-md">
+                                <col class="column-md">
                             </colgroup>
 
                             <thead>
                             <tr>
                                 <th>{{ 'label.name'|trans }}</th>
                                 <th>{{ 'label.services'|trans }}</th>
+                                <th>{{ 'label.priority.label'|trans }}</th>
                                 <th>{{ 'actions.label'|trans }}</th>
                             </tr>
                             </thead>
@@ -39,6 +41,9 @@
                                     </td>
                                     <td class="align-middle">
                                         {% for service in role.enabledServices %}<span title="{{ service.description|e }}">{{ service.name }}</span>{% if not loop.last %}, {% endif %}{% endfor %}
+                                    </td>
+                                    <td>
+                                        {{ role.priority }}
                                     </td>
                                     <td class="align-middle">
                                         <a href="{{ path('edit_role', { uuid: role.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">

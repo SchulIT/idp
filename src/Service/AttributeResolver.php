@@ -45,11 +45,20 @@ class AttributeResolver {
 
         // USER ROLES
         /** @var UserRole[] $userRoles */
-        $userRoles = $user->getUserRoles();
+        $userRoles = $user->getUserRoles()->toArray();
+        usort($userRoles, function(UserRole $roleA, UserRole $roleB) {
+            return $roleB->getPriority() - $roleA->getPriority();
+        });
+
         foreach($userRoles as $role) {
             $roleValues = $this->attributeValueRepository->getAttributeValuesForUserRole($role);
             $roleValues = $this->makeArrayWithKeys($roleValues, $keyFunc);
-            $values = array_merge($values, $roleValues);
+
+            foreach($roleValues as $key => $value) {
+                if(array_key_exists($key, $values) === false) {
+                    $values[$key] = $value;
+                }
+            }
         }
 
         // USER

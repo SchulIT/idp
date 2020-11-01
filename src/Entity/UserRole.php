@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as Serializer;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -55,6 +56,13 @@ class UserRole {
      * @Serializer\Exclude()
      */
     private $attributes;
+
+    /**
+     * @ORM\Column(name="priority", type="integer")
+     * @Gedmo\SortablePosition()
+     * @var int
+     */
+    private $priority = 0;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
@@ -142,5 +150,21 @@ class UserRole {
      */
     public function removeEnabledService(ServiceProvider $serviceProvider) {
         $this->enabledServices->removeElement($serviceProvider);
+    }
+
+    /**
+     * @return int
+     */
+    public function getPriority(): int {
+        return $this->priority;
+    }
+
+    /**
+     * @param int $priority
+     * @return UserRole
+     */
+    public function setPriority(int $priority): UserRole {
+        $this->priority = $priority;
+        return $this;
     }
 }
