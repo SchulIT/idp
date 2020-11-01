@@ -68,7 +68,7 @@ class ServiceAttribute {
     private $options = [ ];
 
     /**
-     * @ORM\ManyToMany(targetEntity="ServiceProvider", inversedBy="attributes")
+     * @ORM\ManyToMany(targetEntity="SamlServiceProvider", inversedBy="attributes")
      * @ORM\JoinTable(
      *  joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
      *  inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
