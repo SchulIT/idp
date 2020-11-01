@@ -68,7 +68,12 @@
         {% for service in services %}
             <div class="card">
                 <a class="card-body" href="{{ service.url }}" target="_blank">
-                    <h5 class="card-title">{{ service.name }}</h5>
+                    <h5 class="card-title">
+                        {% if service.icon is not empty %}
+                            <i class="{{ service.icon }}"></i>
+                        {% endif %}
+                        {{ service.name }}
+                    </h5>
                     <h6 class="card-subtitle text-muted">{{ service.description }}</h6>
                 </a>
             </div>

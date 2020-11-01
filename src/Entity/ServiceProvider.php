@@ -37,6 +37,12 @@ class ServiceProvider {
      */
     private $url;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Assert\NotBlank(allowNull=true)
+     * @var string|null
+     */
+    private $icon;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
@@ -87,6 +93,22 @@ class ServiceProvider {
      */
     public function setUrl($url) {
         $this->url = $url;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getIcon(): ?string {
+        return $this->icon;
+    }
+
+    /**
+     * @param string|null $icon
+     * @return ServiceProvider
+     */
+    public function setIcon(?string $icon): ServiceProvider {
+        $this->icon = $icon;
         return $this;
     }
 

@@ -223,11 +223,15 @@ class Builder {
 
             $services = $this->userServiceProviderResolver->getServices($user);
             foreach ($services as $service) {
-                $menu->addChild($service->getName(), [
+                $item = $menu->addChild($service->getName(), [
                     'uri' => $service->getUrl()
                 ])
                     ->setAttribute('title', $service->getDescription())
                     ->setLinkAttribute('target', '_blank');
+
+                if(!empty($service->getIcon())) {
+                    $item->setExtra('icon', $service->getIcon());
+                }
             }
         }
 

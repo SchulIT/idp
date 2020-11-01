@@ -73,6 +73,9 @@ label:
     label: IP-Adressen
     help: Einschränkung der IP-Adresse, sodass der Benutzer nur aus einem (oder mehreren) Netzwerken angemeldet wird. Mehrere IP-Adressen können mit Komma separiert werden.
   select: auswählen
+  icon:
+    label: Icon
+    help: Hier kann eine Font Awesome Icon Klasse eingetragen werden. Dabei handelt es sich um die CSS-Klasse, bspw. fab fa-facebook.
 
 help:
   voluntary: Diese Angabe ist freiwillig.

@@ -149,7 +149,8 @@ class AttributeValueProvider extends AbstractAttributeProvider {
             $attributeValue[] = json_encode([
                 'url' => $service->getUrl(),
                 'name' => $service->getName(),
-                'description' => $service->getDescription()
+                'description' => $service->getDescription(),
+                'icon' => $service->getIcon()
             ], JSON_HEX_AMP | JSON_HEX_TAG);
         }
 

@@ -47,4 +47,18 @@ document.addEventListener('DOMContentLoaded', function() {
             itemSelectText: ''
         });
     });
+
+    let updateIcon = function(iconClass, target) {
+        target.innerHTML = '<i class="' + iconClass + '"></i>';
+    };
+
+    document.querySelectorAll('[data-trigger=icon]').forEach(function(el) {
+        let target = el.getAttribute('data-target');
+        let targetEl = document.querySelector(target);
+        updateIcon(el.value, targetEl);
+
+        el.addEventListener('keyup', function(event) {
+            updateIcon(el.value, targetEl);
+        });
+    });
 });

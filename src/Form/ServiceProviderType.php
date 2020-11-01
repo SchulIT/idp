@@ -24,6 +24,11 @@ class ServiceProviderType extends AbstractType {
             ->add('description', TextareaType::class, [
                 'label' => 'label.description'
             ])
+            ->add('icon', FontAwesomeIconPicker::class, [
+                'label' => 'label.icon.label',
+                'help' => 'label.icon.help',
+                'required' => false
+            ])
             ->add('acs', UrlType::class, [
                 'label' => 'label.acs'
             ])

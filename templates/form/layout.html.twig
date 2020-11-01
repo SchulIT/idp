@@ -108,3 +108,13 @@
 {%- block markdown_widget -%}
     {{ block('textarea_widget') }}
 {%- endblock -%}
+
+{% block icon_picker_widget %}
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="icon_{{ form.vars.id }}"> </span>
+        </div>
+
+        {{ block('form_widget_simple') }}
+    </div>
+{% endblock %}
