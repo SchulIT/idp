@@ -20,7 +20,7 @@
                                 <col >
                                 <col >
                                 <col class="column-md">
-                                <col class="column-md">
+                                <col class="column-180">
                             </colgroup>
 
                             <thead>
@@ -46,6 +46,10 @@
                                         {{ role.priority }}
                                     </td>
                                     <td class="align-middle">
+                                        <a href="{{ path('users') }}?role={{ role.uuid }}" class="btn btn-primary btn-sm" title="{{ 'users.label'|trans }}">
+                                            <i class="fa fa-users"></i>
+                                        </a>
+
                                         <a href="{{ path('edit_role', { uuid: role.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
                                             <i class="fa fa-edit"></i>
                                         </a>
