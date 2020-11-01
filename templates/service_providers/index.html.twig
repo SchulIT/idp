@@ -39,9 +39,11 @@
                                     </td>
                                     <td class="align-middle">{{ service.url }}</td>
                                     <td class="align-middle">
+                                        {% if service.certificate is defined %}
                                         <a href="{{ path('service_provider_certificate', { uuid: service.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'service_providers.certificate_info'|trans }}">
                                             <i class="fa fa-info-circle"></i>
                                         </a>
+                                        {% endif %}
 
                                         <a href="{{ path('edit_service_provider', { uuid: service.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
                                             <i class="fa fa-edit"></i>
@@ -63,7 +65,10 @@
                 <div class="card">
                     <div class="list-group list-group-flush">
                         <a href="{{ path('add_service_provider') }}" class="list-group-item list-group-item-action">
-                            <i class="fas fa-plus"></i> {{ 'service_providers.add.label'|trans }}
+                            <i class="fas fa-plus"></i> {{ 'service_providers.add.label.default'|trans }}
+                        </a>
+                        <a href="{{ path('add_service_provider') }}?type=saml" class="list-group-item list-group-item-action">
+                            <i class="fas fa-plus"></i> {{ 'service_providers.add.label.saml'|trans }}
                         </a>
                     </div>
                 </div>

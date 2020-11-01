@@ -2,6 +2,7 @@
 
 namespace App\Security\Voter;
 
+use App\Entity\SamlServiceProvider;
 use App\Entity\ServiceProvider;
 use App\Entity\User;
 use App\Service\UserServiceProviderResolver;
@@ -20,7 +21,7 @@ class ServiceProviderVoter extends Voter {
 
     protected function supports($attribute, $subject) {
         return $attribute === static::ENABLED
-            && $subject instanceof ServiceProvider;
+            && $subject instanceof SamlServiceProvider;
     }
 
     /**
@@ -30,6 +31,10 @@ class ServiceProviderVoter extends Voter {
      * @return bool
      */
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token) {
+        if(!$subject instanceof SamlServiceProvider) {
+            return true;
+        }
+
         $user = $token->getUser();
 
         if(!$user instanceof User) {
@@ -40,7 +45,7 @@ class ServiceProviderVoter extends Voter {
         $services = $this->userServiceProviderResolver->getServices($user);
 
         foreach($services as $service) {
-            if($service->getEntityId() === $subject->getEntityId()) {
+            if($service instanceof SamlServiceProvider && $service->getEntityId() === $subject->getEntityId()) {
                 return true;
             }
         }

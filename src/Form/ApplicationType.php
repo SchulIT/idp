@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\SamlServiceProvider;
 use App\Entity\ServiceProvider;
 use Doctrine\ORM\EntityRepository;
 use FervoEnumBundle\Generated\Form\ApplicationScopeType;
@@ -29,7 +30,7 @@ class ApplicationType extends AbstractType {
                             ]
                         ])
                         ->add('service', EntityType::class, [
-                            'class' => ServiceProvider::class,
+                            'class' => SamlServiceProvider::class,
                             'query_builder' => function(EntityRepository $repository) {
                                 return $repository->createQueryBuilder('s')
                                     ->orderBy('s.name', 'asc');

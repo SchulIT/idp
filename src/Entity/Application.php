@@ -34,9 +34,9 @@ class Application implements UserInterface {
     private $scope;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ServiceProvider")
+     * @ORM\ManyToOne(targetEntity="SamlServiceProvider")
      * @ORM\JoinColumn(onDelete="CASCADE")
-     * @var ServiceProvider|null
+     * @var SamlServiceProvider|null
      */
     private $service = null;
 
@@ -95,17 +95,17 @@ class Application implements UserInterface {
     }
 
     /**
-     * @return ServiceProvider|null
+     * @return SamlServiceProvider|null
      */
-    public function getService(): ?ServiceProvider {
+    public function getService(): ?SamlServiceProvider {
         return $this->service;
     }
 
     /**
-     * @param ServiceProvider|null $service
+     * @param SamlServiceProvider|null $service
      * @return Application
      */
-    public function setService(?ServiceProvider $service): Application {
+    public function setService(?SamlServiceProvider $service): Application {
         $this->service = $service;
         return $this;
     }

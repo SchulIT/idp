@@ -353,7 +353,9 @@ service_providers:
   label: Dienste
   help: Dienste sind Anwendungen (Service Provider), an denen sich ein Benutzer mithilfe dieses Sigle-Sign-Ons anmelden kann.
   add:
-    label: Neuer Dienst
+    label:
+      saml: Neuer Dienst (SAML)
+      default: Neuer Dienst
     success: Dienst erfolgreich angelegt
   edit:
     label: Dienst bearbeiten

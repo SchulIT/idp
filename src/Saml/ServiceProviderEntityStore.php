@@ -2,6 +2,7 @@
 
 namespace App\Saml;
 
+use App\Entity\SamlServiceProvider;
 use App\Entity\ServiceProvider;
 use App\Repository\ServiceProviderRepositoryInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -32,7 +33,7 @@ class ServiceProviderEntityStore implements EntityDescriptorStoreInterface {
         $provider = $this->repository
            ->findOneByEntityId($entityId);
 
-        if($provider === null) {
+        if($provider === null || !$provider instanceof SamlServiceProvider) {
             return null;
         }
 
@@ -57,7 +58,9 @@ class ServiceProviderEntityStore implements EntityDescriptorStoreInterface {
             ->findAll();
 
         foreach ($serviceProviders as $serviceProvider) {
-            $all[] = $this->getEntityDescriptor($serviceProvider);
+            if($serviceProvider instanceof SamlServiceProvider) {
+                $all[] = $this->getEntityDescriptor($serviceProvider);
+            }
         }
 
         return $all;
@@ -66,10 +69,10 @@ class ServiceProviderEntityStore implements EntityDescriptorStoreInterface {
     /**
      * Converts a ServiceProvider entity into an entity descriptor for further use within the LightSAML library
      *
-     * @param ServiceProvider $serviceProvider
+     * @param SamlServiceProvider $serviceProvider
      * @return EntityDescriptor
      */
-    public function getEntityDescriptor(ServiceProvider $serviceProvider) {
+    public function getEntityDescriptor(SamlServiceProvider $serviceProvider) {
         $entityDescriptor = new EntityDescriptor($serviceProvider->getEntityId());
         $spDescriptor = new SpSsoDescriptor();
 
@@ -89,11 +92,11 @@ class ServiceProviderEntityStore implements EntityDescriptorStoreInterface {
     }
 
     /**
-     * @param ServiceProvider $serviceProvider
+     * @param SamlServiceProvider $serviceProvider
      * @param string $use
      * @return KeyDescriptor
      */
-    private function getKeyDescriptor(ServiceProvider $serviceProvider, $use) {
+    private function getKeyDescriptor(SamlServiceProvider $serviceProvider, $use) {
         $keyDescriptor = new KeyDescriptor();
         $keyDescriptor->setUse($use);
         $certificate = new X509Certificate();

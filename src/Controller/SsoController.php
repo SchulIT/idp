@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\SamlServiceProvider;
 use App\Entity\ServiceProvider;
 use App\Repository\ServiceProviderRepositoryInterface;
 use App\Saml\AttributeValueProvider;
@@ -56,7 +57,7 @@ class SsoController extends AbstractController {
         $serviceProvider = $serviceProviderRepository
             ->findOneByEntityId($partyContext->getEntityId());
 
-        if($serviceProvider === null) {
+        if($serviceProvider === null || !$serviceProvider instanceof SamlServiceProvider) {
             throw new BadRequestHttpException('The issusing service provider does not exist.');
         }
 
@@ -120,7 +121,7 @@ class SsoController extends AbstractController {
     /**
      * @Route("/idp/saml/confirm/{uuid}", name="confirm_redirect")
      */
-    public function confirm(Request $request, ServiceProvider $serviceProvider, AttributeValueProvider $attributeValueProvider, CsrfTokenManagerInterface $tokenManager) {
+    public function confirm(Request $request, SamlServiceProvider $serviceProvider, AttributeValueProvider $attributeValueProvider, CsrfTokenManagerInterface $tokenManager) {
         $type = $request->request->get('type');
         $destination = $request->request->get('destination');
         $data = $request->request->get('data', [ ]);

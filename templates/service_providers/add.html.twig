@@ -1,6 +1,6 @@
 {% extends "main.html.twig" %}
 
-{% block title %}{{ 'service_providers.add.label'|trans }}{% endblock %}
+{% block title %}{% if type == "App\\Entity\\SamlServiceProvider" %}{{ 'service_providers.add.label.saml'|trans }}{% else %}{{ 'service_providers.add.label.default'|trans }}{% endif %}{% endblock %}
 
 {% block breadcrumb %}
     <ol class="breadcrumb">

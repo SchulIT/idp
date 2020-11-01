@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\ServiceProvider;
+use App\Entity\SamlServiceProvider;
 use App\Entity\ServiceProviderConfirmation;
 use App\Entity\User;
 use App\Repository\ServiceProviderConfirmationRepositoryInterface;
@@ -18,7 +18,7 @@ class ServiceProviderConfirmationService {
         $this->confirmationRepository = $confirmationRepository;
     }
 
-    public function needsConfirmation(User $user, ServiceProvider $serviceProvider) {
+    public function needsConfirmation(User $user, SamlServiceProvider $serviceProvider) {
         $confirmation = $this->confirmationRepository->findOneByUserAndServiceProvider($user, $serviceProvider);
 
         if($confirmation === null) {
@@ -34,7 +34,7 @@ class ServiceProviderConfirmationService {
         return $confirmedAttributes !== $currentAttributes;
     }
 
-    public function saveConfirmation(User $user, ServiceProvider $serviceProvider) {
+    public function saveConfirmation(User $user, SamlServiceProvider $serviceProvider) {
         $confirmation = $this->confirmationRepository->findOneByUserAndServiceProvider($user, $serviceProvider);
 
         if($confirmation === null) {

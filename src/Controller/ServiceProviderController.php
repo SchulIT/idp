@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\SamlServiceProvider;
 use App\Entity\ServiceProvider;
 use App\Form\ServiceProviderType;
 use App\Repository\ServiceProviderRepositoryInterface;
@@ -39,6 +40,9 @@ class ServiceProviderController extends AbstractController {
      * @Route("/{uuid}/certificate", name="service_provider_certificate")
      */
     public function certificateInfo(ServiceProvider $serviceProvider) {
+        if(!$serviceProvider instanceof SamlServiceProvider) {
+            return $this->redirectToRoute('service_providers');
+        }
 
         $cert = openssl_x509_read($serviceProvider->getCertificate());
         $certificateInfo = openssl_x509_parse($cert);
@@ -54,7 +58,11 @@ class ServiceProviderController extends AbstractController {
      * @Route("/add", name="add_service_provider")
      */
     public function add(Request $request) {
-        $serviceProvider = new ServiceProvider();
+        if($request->query->get('type', 'default') === 'saml') {
+            $serviceProvider = new SamlServiceProvider();
+        } else {
+            $serviceProvider = new ServiceProvider();
+        }
 
         $form = $this->createForm(ServiceProviderType::class, $serviceProvider);
         $form->handleRequest($request);
@@ -67,7 +75,8 @@ class ServiceProviderController extends AbstractController {
         }
 
         return $this->render('service_providers/add.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'type' => get_class($serviceProvider)
         ]);
     }
 

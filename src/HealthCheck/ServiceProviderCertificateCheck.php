@@ -2,6 +2,7 @@
 
 namespace App\HealthCheck;
 
+use App\Entity\SamlServiceProvider;
 use App\Repository\ServiceProviderRepositoryInterface;
 
 class ServiceProviderCertificateCheck extends AbstractCertificateHealthCheck {
@@ -19,6 +20,10 @@ class ServiceProviderCertificateCheck extends AbstractCertificateHealthCheck {
         $result = [ ];
 
         foreach($this->repository->findAll() as $serviceProvider) {
+            if(!$serviceProvider instanceof SamlServiceProvider) {
+                continue;
+            }
+
             try {
                 $certificate = $serviceProvider->getCertificate();
 
