@@ -60,7 +60,7 @@
                 </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-3 sticky-sidebar">
                 <form action="{{ path('setup_user_types') }}" method="post">
                     <input type="hidden" name="{{ csrf_token_key }}" value="{{ csrf_token(csrf_token_id) }}">
                     <div class="card">
