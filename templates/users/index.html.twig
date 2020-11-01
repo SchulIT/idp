@@ -104,8 +104,8 @@
                 {% include '@Common/includes/pagination.html.twig' with {
                     currentFilters: {
                         q: q,
-                        type: (typeFilter.currentType ? typeFilter.currentType.uuid : null),
-                        role: (roleFilter.currentRole ? roleFilter.currentRole.uuid : null)
+                        type: (typeFilter.currentType ? typeFilter.currentType.uuid.toString() : null),
+                        role: (roleFilter.currentRole ? roleFilter.currentRole.uuid.toString() : null)
                     },
                     currentPage: page,
                     paginationPath: 'users',

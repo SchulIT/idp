@@ -88,7 +88,10 @@
                 </div>
 
                 {% include '@Common/includes/pagination.html.twig' with {
-                    currentFilters: { type: types.currentType, q: query },
+                    currentFilters: {
+                        type: types.currentType ? types.currentType.uuid.toString() : null ,
+                        q: query
+                    },
                     currentPage: page,
                     paginationPath: 'registration_codes',
                     lastPage: pages,
