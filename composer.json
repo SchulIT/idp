@@ -13,7 +13,7 @@
         "craue/formflow-bundle": "^3.3",
         "doctrine/doctrine-migrations-bundle": "^3.0.0",
         "endroid/qr-code-bundle": "^3.2",
-        "frostiede/composer-dependency-list-bundle": "^1.0",
+        "frostiede/composer-dependency-list-bundle": "^2.0",
         "frostiede/enum-bundle": "^3.0.0",
         "jms/serializer-bundle": "^3.0",
         "knplabs/knp-menu-bundle": "^3.0",
