@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\SamlServiceProvider;
 use App\Entity\ServiceProvider;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -32,8 +33,8 @@ class ServiceProviderRepository implements ServiceProviderRepositoryInterface {
     /**
      * @inheritDoc
      */
-    public function findOneByEntityId(string $entityId): ?ServiceProvider {
-        return $this->em->getRepository(ServiceProvider::class)
+    public function findOneByEntityId(string $entityId): ?SamlServiceProvider {
+        return $this->em->getRepository(SamlServiceProvider::class)
             ->findOneBy(['entityId' => $entityId]);
     }
 

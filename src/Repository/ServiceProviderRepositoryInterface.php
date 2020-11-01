@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\SamlServiceProvider;
 use App\Entity\ServiceProvider;
 
 interface ServiceProviderRepositoryInterface {
@@ -23,9 +24,9 @@ interface ServiceProviderRepositoryInterface {
 
     /**
      * @param string $entityId
-     * @return ServiceProvider|null
+     * @return SamlServiceProvider|null
      */
-    public function findOneByEntityId(string $entityId): ?ServiceProvider;
+    public function findOneByEntityId(string $entityId): ?SamlServiceProvider;
 
 
 }
