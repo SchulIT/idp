@@ -47,6 +47,7 @@ class MustChangePasswordRedirectEventSubscriber implements EventSubscriberInterf
 
         if($currentRoute === static::RedirectRoute) {
             // Do not create redirect loops
+            $event->stopPropagation(); // prevent other events of redirecting
             return;
         }
 

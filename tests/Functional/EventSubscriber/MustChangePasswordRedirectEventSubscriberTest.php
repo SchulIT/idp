@@ -105,4 +105,27 @@ class MustChangePasswordRedirectEventSubscriberTest extends WebTestCase {
         $this->assertEquals('http://localhost/dashboard', $crawler->getUri(), 'Tests whether we land on the dashboard after successful password change');
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the dashboard');
     }
+
+    public function testMustChangePasswordPlusIncomingSamlRequest() {
+        $this->user->setMustChangePassword(true);
+        $this->em->persist($this->user);
+        $this->em->flush();
+
+        $this->client->restart();
+
+        $this->client->followRedirects(true);
+        $this->client->setMaxRedirects(10);
+
+        $crawler = $this->client->request('POST', '/idp/saml', [
+            'SAMLRequest' => 'testrequest'
+        ]);
+        $button = $crawler->filter('button[type=submit]')->first();
+        $form = $button->form();
+
+        $form['_username']->setValue('testuser');
+        $form['_password']->setValue('Test1234$');
+
+        $crawler = $this->client->submit($form);
+        $this->assertEquals('http://localhost/profile/password', $crawler->getUri(), 'Tests whether we land on the password change page after successful login');
+    }
 }

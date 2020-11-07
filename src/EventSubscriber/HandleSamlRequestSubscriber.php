@@ -42,6 +42,10 @@ class HandleSamlRequestSubscriber implements EventSubscriberInterface {
         /** @var TokenInterface|null $token */
         $token = $this->tokenStorage->getToken();
 
+        if($route === 'idp_saml') {
+            $event->stopPropagation(); // stop other events from possibly redirecting
+        }
+
         if($token === null || !$token->isAuthenticated() || $token instanceof AnonymousToken || $token instanceof TwoFactorToken || $route === 'idp_saml') {
             // prevent loops
             return;
@@ -58,7 +62,7 @@ class HandleSamlRequestSubscriber implements EventSubscriberInterface {
      */
     public static function getSubscribedEvents() {
         return [
-            RequestEvent::class => ['onRequest', 5]
+            RequestEvent::class => ['onRequest', -5]
         ];
     }
 }
