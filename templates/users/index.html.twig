@@ -92,6 +92,12 @@
                                             <button type="submit" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
                                                 <i class="fa fa-trash"></i>
                                             </button>
+
+                                            {% if is_granted('ROLE_ALLOWED_TO_SWITCH') %}
+                                                <a href="{{ path('dashboard') }}?_switch_user={{ user.username }}" class="btn btn-primary btn-sm" title="{{ 'profile.switch.label'|trans }}">
+                                                    <i class="fas fa-sign-in-alt"></i>
+                                                </a>
+                                            {% endif %}
                                         </form>
                                     </td>
                                 </tr>

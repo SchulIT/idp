@@ -60,7 +60,7 @@
             <h4>{{ 'profile.switch.active.title'|trans }}</h4>
 
             <p>
-                {{ 'profile.switch.active.message'|trans({'%user%': app.user|user}) }}
+                {{ 'profile.switch.active.message'|trans({'%user%': app.user|user})|raw }}
             </p>
 
             <a href="?_switch_user=_exit" class="btn btn-primary btn-sm">

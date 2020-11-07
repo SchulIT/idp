@@ -129,6 +129,12 @@ profile:
   must_change_password:
     label: Passwortänderung erforderlich
     message: Bitte ein persönliches Passwort auswählen. Anschließend können die Online-Dienste genutzt werden.
+  switch:
+    label: Benutzer wechseln
+    active:
+      title: Achtung, Benutzer wurde gewechselt!
+      message: "Für das System sieht es so aus, als wäre <strong>%user%</strong> angemeldet!"
+    exit: abmelden
 
 two_factor:
   label: Zwei-Faktor Authentifizierung

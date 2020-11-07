@@ -15,7 +15,7 @@ security:
 
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER,
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
+        ROLE_SUPER_ADMIN: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     access_decision_manager:
         strategy: unanimous
@@ -91,6 +91,7 @@ security:
         secured:
             pattern: ^/
             user_checker: App\Security\UserChecker
+            switch_user: true
             logout:
                 path: /logout
                 target: /logout/success
