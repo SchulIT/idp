@@ -17,7 +17,7 @@ too_many_attempts:
 forgot_pw:
   request:
     username_empty: Benutzername darf nicht leer sein.
-    cannot_change: Der Benutzer ist aus dem Active Directory synchronisiert und kann daher sein Passwort nicht ändern.
+    cannot_change: Das Passwort des Benutzeraccounts kann nicht zurückgesetzt werden. Bitte an den Administrator wenden.
     success: Sofern die Anmelde-E-Mail-Adresse existiert, wurde eine E-Mail zum Zurücksetzen des Passwortes an die hinterlegte E-Mail-Adresse verschickt.
   change:
     success: Das Passwort wurde erfolgreich geändert.
