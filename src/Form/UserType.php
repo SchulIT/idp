@@ -150,7 +150,7 @@ class UserType extends AbstractType {
                     $builder
                         ->add('roles', ChoiceType::class, [
                             'choices' => [
-                                'idp.roles.user' => 'ROLE_UESR',
+                                'idp.roles.user' => 'ROLE_USER',
                                 'idp.roles.admin' => 'ROLE_ADMIN',
                                 'idp.roles.super_admin' => 'ROLE_SUPER_ADMIN'
                             ],
