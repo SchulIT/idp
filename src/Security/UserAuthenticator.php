@@ -192,6 +192,11 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator {
             $this->logger
                 ->critical('Authentication server is not available');
 
+            // Fallback in case authentication server is not available
+            if($adUser !== null && $this->encoder->isPasswordValid($adUser, $credentials->getPassword())) {
+                return $adUser;
+            }
+
             throw new CustomUserMessageAuthenticationException('server_unavailable');
         } catch(\Exception $e) {
             $this->logger->critical(
