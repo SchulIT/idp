@@ -35,11 +35,12 @@ class RemoveDeletedUsers extends Command {
 
     public function execute(InputInterface $input, OutputInterface $output) {
         $style = new SymfonyStyle($input, $output);
-        $count = 0;
 
         $threshold = $this->dateHelper->getToday()->modify(static::Modifier);
         $count = $this->userRepository->removeDeletedUsers($threshold);
 
         $style->success(sprintf('Successfully removed %d user(s).', $count));
+
+        return 0;
     }
 }

@@ -50,6 +50,8 @@ class RemoveOrphanedParentsCommand extends Command {
 
         $this->userRepository->commit();
 
-        $style->success(sprintf('Successfully updated %d user(s)', $count));
+        $style->success(sprintf('Successfully removed %d user(s)', $count));
+
+        return 0;
     }
 }

@@ -47,5 +47,7 @@ class CleanupLinkedUsersCommand extends Command {
         $this->userRepository->commit();
 
         $style->success(sprintf('Successfully updated %d user(s)', $count));
+
+        return 0;
     }
 }
