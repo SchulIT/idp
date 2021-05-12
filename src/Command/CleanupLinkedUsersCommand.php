@@ -38,6 +38,10 @@ class CleanupLinkedUsersCommand extends Command {
         foreach($users as $user) {
             $externalIds = explode(',', $user->getExternalId());
             $existingIds = $this->userRepository->findAllExternalIdsByExternalIdList($externalIds);
+            $existingIds = array_unique(array_filter($existingIds, function($item) {
+                return !empty($item);
+            }));
+
             $user->setExternalId(implode(',', $existingIds));
 
             $this->userRepository->persist($user);
