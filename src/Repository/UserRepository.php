@@ -145,12 +145,12 @@ class UserRepository implements UserRepositoryInterface {
 
     public function persist(User $user) {
         $this->em->persist($user);
-        $this->isInTransaction && $this->em->flush();
+        $this->isInTransaction === false && $this->em->flush();
     }
 
     public function remove(User $user) {
         $this->em->remove($user);
-        $this->isInTransaction && $this->em->flush();
+        $this->isInTransaction === false && $this->em->flush();
     }
 
     /**
