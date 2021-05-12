@@ -68,6 +68,7 @@ class RegistrationCode implements GroupSequenceProviderInterface {
     /**
      * @ORM\Column(type="string", nullable=true)
      * @Assert\NotBlank(groups={"provide_suffix"})
+     * @Assert\Regex(pattern="~.*@.*\..+~")
      * @var string|null
      */
     private $usernameSuffix;
