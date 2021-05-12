@@ -11,7 +11,6 @@ use Ramsey\Uuid\Uuid;
 use Swagger\Annotations as SWG;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\GroupSequence;
 use Symfony\Component\Validator\GroupSequenceProviderInterface;
 
 /**
@@ -384,9 +383,9 @@ class RegistrationCode implements GroupSequenceProviderInterface {
      */
     public function getGroupSequence() {
         if($this->usernameSuffix === null) {
-            return [ 'Default', 'provide_username' ];
+            return [ 'RegistrationCode', 'provide_username' ];
         }
 
-        return ['Default', 'provide_suffix'];
+        return ['RegistrationCode', 'provide_suffix'];
     }
 }
