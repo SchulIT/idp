@@ -6,9 +6,15 @@ use App\Entity\ActiveDirectoryUser;
 use App\Entity\User;
 use App\Entity\UserRole;
 use App\Entity\UserType;
+use DateTime;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
 interface UserRepositoryInterface {
+
+    public function beginTransaction(): void;
+
+    public function commit(): void;
+
     /**
      * @param string[] $usernames
      * @return User[]
@@ -27,6 +33,15 @@ interface UserRepositoryInterface {
     public function findOneByExternalId(string $externalId): ?User;
 
     public function findOneByUuid(string $uuid): ?User;
+
+    /**
+     * Returns all external ids from the given $externalIds which are
+     * found in the database.
+     *
+     * @param string[] $externalIds
+     * @return string[]
+     */
+    public function findAllExternalIdsByExternalIdList(array $externalIds): array;
 
     /**
      * @param string $guid
@@ -86,4 +101,19 @@ interface UserRepositoryInterface {
      * @return Paginator
      */
     public function getPaginatedUsers($itemsPerPage, &$page, $type = null, $role = null, $query = null, bool $deleted = false): Paginator;
+
+    /**
+     * @param int $offset
+     * @param int $limit
+     * @return User[]
+     */
+    public function findAllLinkedUsers(int $offset, int $limit): array;
+
+    /**
+     * Removes deleted users which are deleted before $threshold.
+     *
+     * @param DateTime $threshold
+     * @return int Number of removed users.
+     */
+    public function removeDeletedUsers(DateTime $threshold): int;
 }

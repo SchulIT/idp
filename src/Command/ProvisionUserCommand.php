@@ -11,7 +11,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
- * @CronJob("*\/2 * * * * ")
+ * @CronJob("0 1 * * * ")
  */
 class ProvisionUserCommand extends Command {
 

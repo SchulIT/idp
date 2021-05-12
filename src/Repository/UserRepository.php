@@ -5,16 +5,34 @@ namespace App\Repository;
 use App\Entity\ActiveDirectoryUser;
 use App\Entity\User;
 use App\Entity\UserType;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class UserRepository implements UserRepositoryInterface {
 
     private $em;
+    private $isInTransaction = false;
 
     public function __construct(EntityManagerInterface $objectManager) {
         $this->em = $objectManager;
+    }
+
+    public function beginTransaction(): void {
+        $this->em->beginTransaction();
+        $this->isInTransaction = true;
+    }
+
+    public function commit(): void {
+        if(!$this->isInTransaction) {
+            return;
+        }
+
+        $this->em->flush();
+        $this->em->commit();
+        $this->isInTransaction = false;
     }
 
     public function findAll($offset = 0, $limit = null, bool $deleted = false) {
@@ -127,12 +145,12 @@ class UserRepository implements UserRepositoryInterface {
 
     public function persist(User $user) {
         $this->em->persist($user);
-        $this->em->flush();
+        $this->isInTransaction && $this->em->flush();
     }
 
     public function remove(User $user) {
         $this->em->remove($user);
-        $this->em->flush();
+        $this->isInTransaction && $this->em->flush();
     }
 
     /**
@@ -296,5 +314,51 @@ class UserRepository implements UserRepositoryInterface {
 
         return $qb->getQuery()
             ->getSingleScalarResult();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function findAllLinkedUsers(int $offset, int $limit): array {
+        $qb = $this->createDefaultQueryBuilder()
+            ->where('t.canLinkStudents = true');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function findAllExternalIdsByExternalIdList(array $externalIds): array {
+        if(count($externalIds) === 0) {
+            return [];
+        }
+
+        $qb = $this->em->createQueryBuilder();
+        $qb
+            ->select('u.externalId')
+            ->from(User::class, 'u')
+            ->where($qb->expr()->in('u.externalId', ':ids'))
+            ->setParameter('ids', $externalIds);
+
+        $result = $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
+
+        return array_map(function($row) {
+            return $row['externalId'];
+        }, $result);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function removeDeletedUsers(DateTime $threshold): int {
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->delete(User::class, 'u')
+            ->where($qb->expr()->isNotNull('u.deletedAt'))
+            ->andWhere('u.deletedAt < :threshold')
+            ->setParameter('threshold', $threshold);
+
+        return $qb->getQuery()->execute();
     }
 }
