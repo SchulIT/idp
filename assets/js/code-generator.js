@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let characters = 'ABCDEFGHKLMNOPQRSTUVWXYZ123456789';
     let blocks = 3;
     let characterPerBlock = 4;
     let crypto = window.crypto || window.msCrypto;
