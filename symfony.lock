@@ -191,12 +191,6 @@
     "league/csv": {
         "version": "9.6.0"
     },
-    "lightsaml/lightsaml": {
-        "version": "1.4.0"
-    },
-    "lightsaml/lightsaml-idp": {
-        "version": "1.0.1"
-    },
     "lightsaml2/lightsaml": {
         "version": "dev-master"
     },
@@ -466,9 +460,6 @@
         }
     },
     "symfony/css-selector": {
-        "version": "v4.0.8"
-    },
-    "symfony/debug": {
         "version": "v4.0.8"
     },
     "symfony/debug-bundle": {

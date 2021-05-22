@@ -6,7 +6,7 @@ use App\Entity\ServiceAttribute;
 use App\Repository\ServiceAttributeRepository;
 use LightSaml\ClaimTypes;
 use SchulIT\CommonBundle\Saml\ClaimTypes as CommonClaimTypes;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FriendlyAttributeResolver {
     private $map;
