@@ -9,8 +9,8 @@ use App\Saml\AttributeValueProvider;
 use App\Security\Voter\ServiceProviderVoter;
 use App\Service\ServiceProviderConfirmationService;
 use LightSaml\Binding\SamlPostResponse;
+use LightSaml\Build\Container\BuildContainerInterface;
 use LightSaml\Idp\Builder\Profile\WebBrowserSso\Idp\SsoIdpReceiveAuthnRequestProfileBuilder;
-use LightSaml\SymfonyBridgeBundle\Bridge\Container\BuildContainer;
 use SchulIT\LightSamlIdpBundle\Builder\Profile\WebBrowserSso\Idp\SsoIdpSendResponseProfileBuilderFactory;
 use SchulIT\LightSamlIdpBundle\RequestStorage\RequestStorageInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,7 +37,7 @@ class SsoController extends AbstractController {
                          SsoIdpReceiveAuthnRequestProfileBuilder $receiveBuilder,
                          SsoIdpSendResponseProfileBuilderFactory $sendResponseBuilder,
                          CsrfTokenManagerInterface $tokenManager, ServiceProviderRepositoryInterface $serviceProviderRepository,
-                         BuildContainer $buildContainer) {
+                         BuildContainerInterface $buildContainer) {
         if($requestStorage->has() !== true) {
             return $this->redirectToRoute('dashboard');
         }

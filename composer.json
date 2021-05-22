@@ -19,8 +19,9 @@
         "knplabs/knp-menu-bundle": "^3.0",
         "league/commonmark": "^1.4",
         "league/csv": "^9.6",
-        "lightsaml/lightsaml-idp": "^1.0",
-        "lightsaml/symfony-bridge": "^1.1",
+        "lightsaml2/lightsaml": "dev-master",
+        "lightsaml2/lightsaml-idp": "dev-master",
+        "lightsaml2/symfony-bridge": "dev-master",
         "myclabs/php-enum": "^1.7",
         "nelmio/api-doc-bundle": "^3.2",
         "r/u2f-two-factor-bundle": "^0.7.0",
@@ -116,6 +117,5 @@
             "allow-contrib": false
         }
     },
-    "minimum-stability": "stable",
     "prefer-stable": true
 }

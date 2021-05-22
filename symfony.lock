@@ -197,8 +197,14 @@
     "lightsaml/lightsaml-idp": {
         "version": "1.0.1"
     },
-    "lightsaml/symfony-bridge": {
-        "version": "1.1.0"
+    "lightsaml2/lightsaml": {
+        "version": "dev-master"
+    },
+    "lightsaml2/lightsaml-idp": {
+        "version": "dev-master"
+    },
+    "lightsaml2/symfony-bridge": {
+        "version": "dev-master"
     },
     "monolog/monolog": {
         "version": "1.23.0"

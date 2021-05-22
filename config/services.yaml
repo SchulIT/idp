@@ -84,14 +84,14 @@ services:
     # LightSAML overrides
     # Note: these services override existing services provided by LightSAML. This is necessary in order to properly
     # resolve attributes for a user.
-    lightsaml.provider.name_id:
+    LightSaml\Provider\NameID\NameIdProviderInterface:
         public: true
         class: App\Saml\NameIdProvider
         autowire: true
         arguments:
             $entityDescriptorProvider: "@lightsaml.own.entity_descriptor_provider"
 
-    lightsaml.provider.attribute_value:
+    LightSaml\Provider\Attribute\AttributeValueProviderInterface:
         public: true
         class: App\Saml\AttributeValueProvider
         autowire: true

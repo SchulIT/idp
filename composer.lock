@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe115d8dd78a851917476f107cd7055e",
+    "content-hash": "414e877793fd310ecff9acaa2223a0ec",
     "packages": [
         {
             "name": "acelaya/doctrine-enum-type",
@@ -3701,37 +3701,142 @@
             "time": "2016-11-18T15:07:59+00:00"
         },
         {
-            "name": "lightsaml/symfony-bridge",
-            "version": "1.3.0",
+            "name": "lightsaml2/lightsaml",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/lightSAML/SymfonyBridgeBundle.git",
-                "reference": "8d3120825032a7468e894d0ae68630f21cd6035b"
+                "url": "https://github.com/lightsaml2/lightSAML.git",
+                "reference": "788b6aa9c746b3f21fa604abfd4c7a0db1ffe754"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lightSAML/SymfonyBridgeBundle/zipball/8d3120825032a7468e894d0ae68630f21cd6035b",
-                "reference": "8d3120825032a7468e894d0ae68630f21cd6035b",
+                "url": "https://api.github.com/repos/lightsaml2/lightSAML/zipball/788b6aa9c746b3f21fa604abfd4c7a0db1ffe754",
+                "reference": "788b6aa9c746b3f21fa604abfd4c7a0db1ffe754",
                 "shasum": ""
             },
             "require": {
-                "lightsaml/lightsaml": "~1.1",
-                "php": ">=5.5.1",
-                "symfony/dependency-injection": "~2.7|~3.0|~4.0",
-                "symfony/framework-bundle": "~2.7|~3.0|~4.0",
-                "symfony/yaml": "~2.7|~3.0|~4.0"
+                "php": "^7.2|^8.0",
+                "robrichards/xmlseclibs": "^3.0",
+                "symfony/event-dispatcher": "^4.4|^5.0",
+                "symfony/http-foundation": "^4.4|^5.0"
             },
             "require-dev": {
-                "php-coveralls/php-coveralls": "~2.0",
-                "phpunit/phpunit": "^5.7",
-                "symfony/browser-kit": "~2.7|~3.0|~4.0",
-                "symfony/filesystem": "~2.7|~3.0|~4.0",
-                "symfony/finder": "~2.7|~3.0|~4.0",
-                "symfony/routing": "~2.7|~3.0|~4.0"
+                "monolog/monolog": "~1.3",
+                "phpunit/phpunit": "^8.0|^9.0",
+                "pimple/pimple": "~3.0",
+                "symfony/css-selector": "^4.4|^5.0",
+                "symfony/dom-crawler": "^4.4|^5.0"
             },
             "suggest": {
-                "lightsaml/lightsamp-idp": "If you will be using IDP LightSAML services"
+                "lightsaml2/sp-bundle": "Symfony 2 SP security bundle",
+                "lightsaml2/symfony-bridge": "Symfony 2 build container bridge"
             },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "LightSaml\\Tests\\": "tests/",
+                    "LightSaml\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Milos Tomic",
+                    "email": "tmilos@gmail.com",
+                    "homepage": "https://github.com/tmilos/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Light SAML 2.0 PHP library",
+            "homepage": "https://www.lightsaml.com/",
+            "keywords": [
+                "SAML 2.0",
+                "Single Logout",
+                "Single SignOn",
+                "library",
+                "lightSAML",
+                "php"
+            ],
+            "support": {
+                "docs": "http://www.lightsaml.com/LightSAML-Core/",
+                "issues": "https://github.com/lightsaml/lightsaml/issues",
+                "source": "https://github.com/lightSAML/lightSAML"
+            },
+            "time": "2021-05-13T13:52:22+00:00"
+        },
+        {
+            "name": "lightsaml2/lightsaml-idp",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lightsaml2/lightSAML-IDP.git",
+                "reference": "55eb1d1032fbdbbe5c255d6cc6949728d2ab6d61"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lightsaml2/lightSAML-IDP/zipball/55eb1d1032fbdbbe5c255d6cc6949728d2ab6d61",
+                "reference": "55eb1d1032fbdbbe5c255d6cc6949728d2ab6d61",
+                "shasum": ""
+            },
+            "require": {
+                "lightsaml2/lightsaml": "dev-master",
+                "php": "^7.0|^8.0",
+                "psr/log": "^1.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "LightSaml\\Idp\\Tests\\": "tests/",
+                    "LightSaml\\Idp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "description": "Light SAML2 IDP php library",
+            "support": {
+                "source": "https://github.com/lightsaml2/lightSAML-IDP/tree/master"
+            },
+            "time": "2021-05-13T13:53:19+00:00"
+        },
+        {
+            "name": "lightsaml2/symfony-bridge",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lightsaml2/SymfonyBridgeBundle.git",
+                "reference": "a54f3a943b27f946ffab0be382fe7af7814c9749"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lightsaml2/SymfonyBridgeBundle/zipball/a54f3a943b27f946ffab0be382fe7af7814c9749",
+                "reference": "a54f3a943b27f946ffab0be382fe7af7814c9749",
+                "shasum": ""
+            },
+            "require": {
+                "lightsaml2/lightsaml": "dev-master",
+                "php": "^7.2|^8.0",
+                "symfony/dependency-injection": "^4.4|^5.0",
+                "symfony/framework-bundle": "^4.4|^5.0",
+                "symfony/yaml": "^4.4|^5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.0",
+                "symfony/browser-kit": "^4.4|^5.0",
+                "symfony/filesystem": "^4.4|^5.0",
+                "symfony/finder": "^4.4|^5.0",
+                "symfony/routing": "^4.4|^5.0"
+            },
+            "default-branch": true,
             "type": "symfony-bundle",
             "autoload": {
                 "psr-0": {
@@ -3754,10 +3859,9 @@
             "description": "Light SAML Symfony bridge bundle",
             "homepage": "http://www.lightsaml.com",
             "support": {
-                "issues": "https://github.com/lightSAML/SymfonyBridgeBundle/issues",
-                "source": "https://github.com/lightSAML/SymfonyBridgeBundle/tree/master"
+                "source": "https://github.com/lightsaml2/SymfonyBridgeBundle/tree/master"
             },
-            "time": "2018-05-23T08:11:59+00:00"
+            "time": "2021-05-13T13:54:39+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -13520,7 +13624,11 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "lightsaml2/lightsaml": 20,
+        "lightsaml2/lightsaml-idp": 20,
+        "lightsaml2/symfony-bridge": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
