@@ -166,11 +166,6 @@ services:
 
     Anyx\LoginGateBundle\Service\BruteForceChecker: "@anyx.login_gate.brute_force_checker"
 
-    # COMMANDS
-    App\Command\ProvisionUserCommand:
-        arguments:
-            $numberOfUsers: '%env(PROVISIONING_LIMIT)%'
-
     # FORM FLOW
     Craue\FormFlowBundle\Storage\UserSessionStorageKeyGenerator: ~
 

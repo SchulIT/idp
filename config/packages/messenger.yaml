@@ -7,3 +7,4 @@ framework:
             provision: "%env(MESSENGER_TRANSPORT_DSN)%?queue_name=provision"
 
         routing:
+            'App\Message\MustProvisionUser': provision

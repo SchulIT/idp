@@ -6,6 +6,7 @@ use App\Form\ImportUsersFlow;
 use App\Import\ImportUserData;
 use App\Import\RecordInvalidException;
 use App\Import\UserCsvImportHelper;
+use App\Message\MustProvisionUser;
 use App\Repository\UserRepositoryInterface;
 use Exception;
 use Psr\Log\LoggerInterface;
@@ -54,6 +55,7 @@ class UserImportController extends AbstractController {
                 try {
                     foreach ($data->getUsers() as $user) {
                         $userRepository->persist($user);
+                        $this->dispatchMessage(new MustProvisionUser($user->getId()));
                     }
 
                     $this->addFlash('success', 'import.users.success');

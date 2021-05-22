@@ -285,6 +285,14 @@ class UserRepository implements UserRepositoryInterface {
             ]);
     }
 
+    public function findOneById(int $id): ?User {
+        return $this->em
+            ->getRepository(User::class)
+            ->findOneBy([
+                'id' => $id
+            ]);
+    }
+
     /**
      * @inheritDoc
      */

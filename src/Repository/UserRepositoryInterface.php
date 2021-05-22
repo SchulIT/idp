@@ -28,6 +28,8 @@ interface UserRepositoryInterface {
      */
     public function findUsersUpdatedAfter(\DateTime $dateTime, array $usernames = [ ]);
 
+    public function findOneById(int $id): ?User;
+
     public function findOneByUsername(string $username): ?User;
 
     public function findOneByExternalId(string $externalId): ?User;
