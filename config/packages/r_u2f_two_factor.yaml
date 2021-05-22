@@ -1,7 +1,0 @@
-parameters:
-  r_u2f_two_factor.registerTemplate: 'profile/two_factor/enable_u2f.html.twig' # Fix typo in bundle extension
-
-ru2_f_two_factor:
-  formTemplate: 'auth/two_factor_u2f.html.twig'
-  registerTemplate: 'profile/two_factor/enable_u2f.html.twig'
-  authCodeParameter: _auth_code

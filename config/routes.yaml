@@ -6,12 +6,14 @@ login_check:
   path: /login/check
 
 2fa_login:
-  path: /login/two_factor
+  path: /login/2fa
   defaults:
-    _controller: "scheb_two_factor.form_controller::form"
+    # "scheb_two_factor.form_controller" references the controller service provided by the bundle.
+    # You don't HAVE to use it, but - except you have very special requirements - it is recommended.
+    _controller: "scheb_two_factor.form_controller:form"
 
 2fa_login_check:
-  path: /login/two_factor/check
+  path: /login/2fa/check
 
 common:
     resource: "@CommonBundle/Controller"
@@ -29,10 +31,6 @@ app.swagger_ui.ad_connect:
   path: /docs/api/ad_connect
   methods: GET
   defaults: { _controller: nelmio_api_doc.controller.swagger_ui, area: ad_connect }
-
-club_base_register_u2f:
-  defaults: { _controller: R\U2FTwoFactorBundle\Controller\RegisterController::u2fAction }
-  path: /two_factor/u2f/u2f_register
 
 composer:
     resource: '@ComposerDependencyListBundle/Controller'

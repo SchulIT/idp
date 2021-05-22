@@ -27,7 +27,10 @@
         ]
     },
     "bacon/bacon-qr-code": {
-        "version": "1.0.3"
+        "version": "2.0.3"
+    },
+    "beberlei/assert": {
+        "version": "v3.3.1"
     },
     "behat/transliterator": {
         "version": "v1.3.0"
@@ -51,7 +54,7 @@
         }
     },
     "dasprid/enum": {
-        "version": "1.0.0"
+        "version": "1.0.3"
     },
     "doctrine/annotations": {
         "version": "1.0",
@@ -125,17 +128,14 @@
     "egulias/email-validator": {
         "version": "2.1.4"
     },
+    "endroid/installer": {
+        "version": "1.3.3"
+    },
     "endroid/qr-code": {
-        "version": "3.2.8"
+        "version": "4.1.4"
     },
     "endroid/qr-code-bundle": {
-        "version": "3.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "3.0",
-            "ref": "b9fcbe18b537c63bf61d3c3be8116a00a85c8e2e"
-        }
+        "version": "4.0.2"
     },
     "exsyst/swagger": {
         "version": "v0.4.1"
@@ -170,9 +170,6 @@
             "ref": "fe60ce509ef04a3f40da96e3979bc8d9b13b2372"
         }
     },
-    "khanamiryan/qrcode-detector-decoder": {
-        "version": "1.0.1"
-    },
     "knplabs/knp-menu": {
         "version": "2.3.0"
     },
@@ -182,8 +179,11 @@
     "laminas/laminas-zendframework-bridge": {
         "version": "1.0.4"
     },
+    "lcobucci/clock": {
+        "version": "2.0.0"
+    },
     "lcobucci/jwt": {
-        "version": "3.2.2"
+        "version": "4.0.3"
     },
     "league/commonmark": {
         "version": "1.4.3"
@@ -230,8 +230,8 @@
     "nikic/php-parser": {
         "version": "v4.0.1"
     },
-    "paragonie/random_compat": {
-        "version": "v9.99.99"
+    "paragonie/constant_time_encoding": {
+        "version": "v2.4.0"
     },
     "phar-io/manifest": {
         "version": "1.0.3"
@@ -305,9 +305,6 @@
     "psr/log": {
         "version": "1.0.2"
     },
-    "r/u2f-two-factor-bundle": {
-        "version": "0.6.2"
-    },
     "ramsey/collection": {
         "version": "1.0.1"
     },
@@ -335,8 +332,27 @@
     "rollerworks/password-strength-validator": {
         "version": "v1.1.3"
     },
-    "scheb/two-factor-bundle": {
-        "version": "v3.3.0"
+    "scheb/2fa-backup-code": {
+        "version": "v5.8.1"
+    },
+    "scheb/2fa-bundle": {
+        "version": "5.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "5.0",
+            "ref": "95d9da4bffdc29417c209141cae8292e40d6af19"
+        },
+        "files": [
+            "./config/packages/scheb_2fa.yaml",
+            "./config/routes/scheb_2fa.yaml"
+        ]
+    },
+    "scheb/2fa-google-authenticator": {
+        "version": "v5.8.1"
+    },
+    "scheb/2fa-trusted-device": {
+        "version": "v5.8.1"
     },
     "schoolit/lib-adauth": {
         "version": "1.0.0"
@@ -404,8 +420,8 @@
     "shapecode/cron-bundle": {
         "version": "4.0.2"
     },
-    "sonata-project/google-authenticator": {
-        "version": "1.1.0"
+    "spomky-labs/otphp": {
+        "version": "v10.0.1"
     },
     "staffim/rest-client": {
         "version": "2.0.4"
@@ -674,9 +690,6 @@
             "ref": "3db029c03e452b4a23f7fc45cec7c922c2247eb8"
         }
     },
-    "symfony/templating": {
-        "version": "v4.4.7"
-    },
     "symfony/translation": {
         "version": "3.3",
         "recipe": {
@@ -744,6 +757,9 @@
     "symfony/yaml": {
         "version": "v4.0.8"
     },
+    "thecodingmachine/safe": {
+        "version": "v1.3.3"
+    },
     "theseer/tokenizer": {
         "version": "1.1.0"
     },
@@ -752,9 +768,6 @@
     },
     "webmozart/assert": {
         "version": "1.3.0"
-    },
-    "yubico/u2flib-server": {
-        "version": "1.0.1"
     },
     "zendframework/zend-code": {
         "version": "3.3.0"

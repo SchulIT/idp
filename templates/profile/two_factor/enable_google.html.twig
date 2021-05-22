@@ -17,7 +17,7 @@
         <div class="card-body">
             <p>{{ 'two_factor.google.enable.step_one.info'|trans }}</p>
 
-            <img src="{{ qr_code_data_uri(qrContent, { size: 250 }) }}" >
+            <img src="{{ qr_code_data_uri(qrContent) }}" >
 
             <div class="form-group">
                 <label class="control-label col-md-2">

@@ -1,0 +1,17 @@
+# See the configuration reference at https://github.com/scheb/2fa/blob/master/doc/configuration.md
+scheb_two_factor:
+    trusted_device:
+        enabled: true
+        cookie_name: trusted_device
+        lifetime: 5184000
+        cookie_secure: true
+        cookie_same_site: "strict"
+    backup_codes:
+        enabled: true
+    google:
+        enabled: true
+        issuer: '%env(APP_NAME)%'
+        template: 'auth/two_factor_google.html.twig'
+    security_tokens:
+        - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
+        - Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken

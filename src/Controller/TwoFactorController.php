@@ -2,24 +2,22 @@
 
 namespace App\Controller;
 
-use App\Entity\U2fKey;
 use App\Entity\User;
 use App\Form\EnableTwoFactorType;
-use App\Repository\U2fKeyRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use App\Security\TwoFactor\BackupCodeGenerator;
 use App\Security\Voter\ProfileVoter;
-use App\Security\Voter\U2fKeyVoter;
-use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticator;
+use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticatorInterface;
+use Scheb\TwoFactorBundle\Security\TwoFactor\QrCode\QrCodeGenerator;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Trusted\TrustedDeviceManager;
-use SchulIT\CommonBundle\Form\ConfirmType;
+use Scheb\TwoFactorBundle\Security\TwoFactor\Trusted\TrustedDeviceManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/two_factor")
@@ -52,22 +50,19 @@ class TwoFactorController extends AbstractController {
 
         $isTrustedDevice = $trustedDeviceManager->isTrustedDevice($user, $firewallMap->getFirewallConfig($request)->getName());
 
-        $isU2fEnabled = $user->isU2FAuthEnabled();
-
         return $this->render('profile/two_factor/index.html.twig', [
             'isGoogleEnabled' => $isGoogleEnabled,
-            'isU2fEnabled' => $isU2fEnabled,
             'backupCodes' => $backupCodes,
             'csrfToken' => $csrfToken,
             'isTrustedDevice' => $isTrustedDevice,
-            'u2fKeys' => $user->getU2FKeys()
         ]);
     }
 
     /**
      * @Route("/google/enable", name="enable_google_two_factor")
      */
-    public function enableGoogleTwoFactorAuthentication(Request $request, BackupCodeGenerator $backupCodeGenerator, GoogleAuthenticator $googleAuthenticator) {
+    public function enableGoogleTwoFactorAuthentication(Request $request, BackupCodeGenerator $backupCodeGenerator,
+                                                        GoogleAuthenticatorInterface $googleAuthenticator) {
         $this->denyAccessUnlessGranted(ProfileVoter::USE_2FA);
 
         /** @var User $user */
@@ -167,33 +162,5 @@ class TwoFactorController extends AbstractController {
 
         $this->addFlash('success', 'two_factor.google.disable.success');
         return $this->redirectToRoute('two_factor');
-    }
-
-    /**
-     * @Route("/u2f/{uuid}/remove", name="remove_u2f_device")
-     */
-    public function removeU2FDevice(U2fKey $key, Request $request, TranslatorInterface $translator, U2fKeyRepositoryInterface $repository) {
-        $this->denyAccessUnlessGranted(ProfileVoter::USE_2FA);
-
-        $this->denyAccessUnlessGranted(U2fKeyVoter::REMOVE, $key);
-
-        $form = $this->createForm(ConfirmType::class, null, [
-            'header' => $translator->trans('two_factor.u2f.remove.label'),
-            'message' => $translator->trans('two_factor.u2f.remove.confirm', [
-                '%name%' => $key->getName()
-            ])
-        ]);
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()) {
-            $repository->remove($key);
-
-            $this->addFlash('success', 'two_factor.u2f.remove.success');
-            return $this->redirectToRoute('two_factor');
-        }
-
-        return $this->render('profile/two_factor/remove_u2f.html.twig', [
-            'form' => $form->createView()
-        ]);
     }
 }

@@ -14,7 +14,7 @@
     {% if isTrustedDevice %}
         <div class="bs-callout bs-callout-info">
             <h4>{{ 'info.label'|trans }}</h4>
-            <p>{{ 'scheb_two_factor.trusted'|trans }}</p>
+            <p>{{ 'trusted'|trans({}, 'SchebTwoFactorBundle') }}</p>
         </div>
     {% endif %}
 
@@ -88,32 +88,6 @@
 
                 <a href="http://appstore.com/googleauthenticator" class="btn btn-outline-secondary btn-sm" target="_blank">
                     <i class="fab fa-apple"></i> App Store
-                </a>
-            </div>
-        </div>
-
-        <div class="card {% if isU2fEnabled %}border-success{% else %}border-danger{% endif %}">
-            <div class="card-header text-white {% if isU2fEnabled %}bg-success{% else %}bg-danger{% endif %}">
-                {{ 'two_factor.u2f.label'|trans }}
-
-                {% if isU2fEnabled %}
-                    <span class="badge badge-success"><i class="fas fa-check"></i> {{ 'two_factor.enabled'|trans }}</span>
-                {% else %}
-                    <span class="badge badge-danger"><i class="fas fa-times"></i> {{ 'two_factor.disabled'|trans }}</span>
-                {% endif %}
-            </div>
-
-            <div class="card-body">
-                <ul>
-                    {% for key in u2fKeys %}
-                    <li>{{ key.name }} <a href="{{ path('remove_u2f_device', { uuid: key.uuid }) }}" class="btn btn-sm btn-danger" title="{{ 'two_factor.u2f.remove.label'|trans }}"><i class="fas fa-trash"></i> </a> </li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div class="card-footer">
-                <a href="{{ path('club_base_register_u2f') }}" class="btn btn-primary btn-sm">
-                    <i class="fas fa-plus"></i> {{ 'two_factor.u2f.enable.label'|trans }}
                 </a>
             </div>
         </div>

@@ -9,12 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use JMS\Serializer\Annotation as Serializer;
-use R\U2FTwoFactorBundle\Model\U2F\TwoFactorInterface as U2FTwoFactorInterface;
 use Ramsey\Uuid\Uuid;
-use Scheb\TwoFactorBundle\Model\BackupCodeInterface;
-use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface as GoogleTwoFactorInterface;
-use Scheb\TwoFactorBundle\Model\PreferredProviderInterface;
-use Scheb\TwoFactorBundle\Model\TrustedDeviceInterface;
+use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
 use Swagger\Annotations as SWG;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -29,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @Serializer\Discriminator(disabled=true)
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=true)
  */
-class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInterface, BackupCodeInterface, U2FTwoFactorInterface, PreferredProviderInterface {
+class User implements UserInterface, TwoFactorInterface {
 
     use IdTrait;
     use UuidTrait;
@@ -169,12 +165,6 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="U2fKey", mappedBy="user")
-     * @Serializer\Exclude()
-     */
-    private $u2fKeys;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $enabledFrom;
@@ -221,7 +211,6 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
         $this->enabledServices = new ArrayCollection();
         $this->attributes = new ArrayCollection();
         $this->userRoles = new ArrayCollection();
-        $this->u2fKeys = new ArrayCollection();
     }
 
     /**
@@ -551,47 +540,6 @@ class User implements UserInterface, GoogleTwoFactorInterface, TrustedDeviceInte
      */
     public function getUpdatedAt(): ?\DateTime {
         return $this->updatedAt;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function isU2FAuthEnabled(): bool {
-        return count($this->u2fKeys) > 0;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getU2FKeys(): Collection {
-        return $this->u2fKeys;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function addU2FKey($key): void {
-        $this->u2fKeys->add($key);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function removeU2FKey($key): void {
-        $this->u2fKeys->removeElement($key);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getPreferredTwoFactorProvider(): ?string {
-        if($this->isU2FAuthEnabled()) {
-            return 'u2f_two_factor';
-        } else if($this->isGoogleAuthenticatorEnabled()) {
-            return 'google';
-        }
-
-        return null;
     }
 
     /**
