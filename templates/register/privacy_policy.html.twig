@@ -3,7 +3,7 @@
 {% block title %}{{ 'privacy_policy.label'|trans }}{% endblock %}
 
 {% block content %}
-    {{ policy.content|markdown }}
+    {{ policy.content|markdown_to_html }}
 
     <hr>
 

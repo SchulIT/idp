@@ -763,6 +763,12 @@
     "theseer/tokenizer": {
         "version": "1.1.0"
     },
+    "twig/extra-bundle": {
+        "version": "v3.3.1"
+    },
+    "twig/markdown-extra": {
+        "version": "v3.3.1"
+    },
     "twig/twig": {
         "version": "v2.4.8"
     },

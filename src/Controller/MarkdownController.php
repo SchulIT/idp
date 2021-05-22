@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\MarkdownConverterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +17,7 @@ class MarkdownController extends AbstractController {
     /**
      * @Route("/xhr/markdown", name="markdown_preview")
      */
-    public function preview(Request $request, CommonMarkConverter $converter) {
+    public function preview(Request $request, MarkdownConverterInterface $converter) {
         $markdown = $request->getContent();
 
         return new Response($converter->convertToHtml($markdown));
