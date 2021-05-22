@@ -156,14 +156,18 @@ services:
             $enableCompromisedCheck: '%env(bool:ENABLE_PASSWORD_COMPROMISED_CHECK)%'
 
     # Markdown
+    League\CommonMark\Extension\CommonMarkCoreExtension: ~
+
     League\CommonMark\EnvironmentInterface:
         class: League\CommonMark\Environment
-        factory: [ 'League\CommonMark\Environment', createCommonMarkEnvironment ]
-
-    League\CommonMark\CommonMarkConverter:
-        class: League\CommonMark\CommonMarkConverter
         arguments:
             $config: "%commonmark.config%"
+        calls:
+            - [ addExtension, [ "@League\\CommonMark\\Extension\\CommonMarkCoreExtension" ] ]
+
+    League\CommonMark\MarkdownConverterInterface:
+        class: League\CommonMark\MarkdownConverter
+        arguments:
             $environment: "@League\\CommonMark\\EnvironmentInterface"
 
     Anyx\LoginGateBundle\Service\BruteForceChecker: "@anyx.login_gate.brute_force_checker"
