@@ -146,11 +146,6 @@ class Builder {
             ])
                 ->setExtra('icon', 'fas fa-clipboard-list');
 
-            $menu->addChild('mails.label', [
-                'route' => 'admin_mails'
-            ])
-                ->setExtra('icon', 'far fa-envelope');
-
             $menu->addChild('api.doc', [
                 'uri' => '/docs/api'
             ]);

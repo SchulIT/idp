@@ -99,15 +99,9 @@ services:
     LightSaml\SymfonyBridgeBundle\Bridge\Container\BuildContainer:
         alias: 'lightsaml.container.build'
 
-    # Forgot password
-    App\Security\ForgotPassword\ForgotPasswordManager:
-      arguments:
-        $from: "%env(MAILER_FROM)%"
-
     # Registration
     App\Security\Registration\RegistrationCodeManager:
         arguments:
-            $from: "%env(MAILER_FROM)%"
             $domainBlocklist: "%env(REGISTRATION_DOMAIN_BLOCKLIST)%"
 
     # Controllers
@@ -173,12 +167,6 @@ services:
     Anyx\LoginGateBundle\Service\BruteForceChecker: "@anyx.login_gate.brute_force_checker"
 
     # COMMANDS
-    SchulIT\CommonBundle\Command\SendMailsCommand:
-        arguments:
-            $messageLimit: '%env(int:MAILER_LIMIT)%'
-        tags:
-            - { name: shapecode_cron.cron_job, expression: '*\/2 * * * *' }
-
     App\Command\ProvisionUserCommand:
         arguments:
             $numberOfUsers: '%env(PROVISIONING_LIMIT)%'
@@ -210,7 +198,3 @@ services:
 
     Symfony\Component\Security\Core\User\UserProviderInterface:
         alias: 'security.user.provider.concrete.database'
-
-    App\Security\EmailConfirmation\ConfirmationManager:
-        arguments:
-            $from: "%env(MAILER_FROM)%"

@@ -2,6 +2,7 @@
 
 namespace App\Security\Registration;
 
+use App\Converter\UserStringConverter;
 use App\Entity\User;
 use App\Entity\RegistrationCode;
 use App\Repository\RegistrationCodeRepositoryInterface;
@@ -9,7 +10,10 @@ use App\Repository\UserRepositoryInterface;
 use App\Service\AttributePersister;
 use App\Service\AttributeResolver;
 use DateTime;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
@@ -21,7 +25,6 @@ class RegistrationCodeManager {
 
     private const RegistrationSessionKey = 'registration_code';
 
-    private $from;
     private $domainBlocklist;
 
     private $codeRepository;
@@ -32,13 +35,12 @@ class RegistrationCodeManager {
     private $session;
     private $translator;
     private $mailer;
-    private $twig;
+    private $userConverter;
 
-    public function __construct(string $from, string $domainBlocklist, RegistrationCodeRepositoryInterface $codeRepository,
+    public function __construct(string $domainBlocklist, RegistrationCodeRepositoryInterface $codeRepository,
                                 UserRepositoryInterface $userRepository, AttributePersister $attributePersister, AttributeResolver $attributeResolver,
                                 UserPasswordEncoderInterface $passwordEncoder, SessionInterface $session,
-                                TranslatorInterface $translator, \Swift_Mailer $mailer, Environment $twig) {
-        $this->from = $from;
+                                TranslatorInterface $translator, MailerInterface $mailer, UserStringConverter $userConverter) {
         $this->domainBlocklist = $domainBlocklist;
         $this->codeRepository = $codeRepository;
         $this->userRepository = $userRepository;
@@ -48,7 +50,7 @@ class RegistrationCodeManager {
         $this->session = $session;
         $this->translator = $translator;
         $this->mailer = $mailer;
-        $this->twig = $twig;
+        $this->userConverter = $userConverter;
     }
 
     /**
@@ -133,22 +135,16 @@ class RegistrationCodeManager {
         $this->attributePersister->persistUserAttributes($this->attributeResolver->getAttributesForRegistrationCode($code), $user);
 
         if($user->getEmail() !== null) {
-            // Send email
-            $content = $this->twig
-                ->render('mail/registration.twig', [
+            $email = (new TemplatedEmail())
+                ->to(new Address($user->getEmail(), $this->userConverter->convert($user)))
+                ->subject($this->translator->trans('registration.title', [], 'mail'))
+                ->textTemplate('mail/registration.txt.twig')
+                ->context([
                     'token' => $code->getToken(),
-                    'firstname' => $user->getFirstname(),
-                    'lastname' => $user->getLastname(),
                     'expiry_date' => (new \DateTime())->modify(sprintf('+%s', static::DefaultTokenLifetime))
                 ]);
 
-            $message = (new \Swift_Message())
-                ->setSubject($this->translator->trans('registration.title', [], 'mail'))
-                ->setTo($user->getEmail())
-                ->setFrom($this->from)
-                ->setBody($content);
-
-            $this->mailer->send($message);
+            $this->mailer->send($email);
         }
     }
 

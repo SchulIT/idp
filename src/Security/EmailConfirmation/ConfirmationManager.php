@@ -2,36 +2,36 @@
 
 namespace App\Security\EmailConfirmation;
 
+use App\Converter\UserStringConverter;
 use App\Entity\EmailConfirmation;
 use App\Entity\User;
 use App\Repository\EmailConfirmationRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use SchulIT\CommonBundle\Helper\DateHelper;
-use Swift_Mailer;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Twig\Environment;
 
 class ConfirmationManager {
 
     private const Lifetime = '+2 hours';
 
-    private $from;
     private $dateHelper;
     private $repository;
     private $userRepository;
     private $translator;
     private $mailer;
-    private $twig;
+    private $userConverter;
 
-    public function __construct(string $from, DateHelper $dateHelper, EmailConfirmationRepositoryInterface $repository, UserRepositoryInterface $userRepository,
-                                TranslatorInterface $translator, Swift_Mailer $mailer, Environment $twig) {
-        $this->from = $from;
+    public function __construct(DateHelper $dateHelper, EmailConfirmationRepositoryInterface $repository, UserRepositoryInterface $userRepository,
+                                TranslatorInterface $translator, MailerInterface $mailer, UserStringConverter $userConverter) {
         $this->dateHelper = $dateHelper;
         $this->repository = $repository;
         $this->userRepository = $userRepository;
         $this->translator = $translator;
         $this->mailer = $mailer;
-        $this->twig = $twig;
+        $this->userConverter = $userConverter;
     }
 
     public function hasConfirmation(User $user): bool {
@@ -55,22 +55,16 @@ class ConfirmationManager {
         }
 
         $this->repository->persist($confirmation);
-
-        $content = $this->twig
-            ->render('mail/email_confirmation.html.twig', [
+        $email = (new TemplatedEmail())
+            ->subject($this->translator->trans('registration.title', [], 'mail'))
+            ->to(new Address($user->getEmail(), $this->userConverter->convert($user)))
+            ->textTemplate('mail/email_confirmation.txt.twig')
+            ->context([
                 'token' => $confirmation->getToken(),
-                'firstname' => $user->getFirstname(),
-                'lastname' => $user->getLastname(),
                 'expiry_date' => $confirmation->getValidUntil()
             ]);
 
-        $message = (new \Swift_Message())
-            ->setSubject($this->translator->trans('registration.title', [], 'mail'))
-            ->setTo($user->getEmail())
-            ->setFrom($this->from)
-            ->setBody($content);
-
-        $this->mailer->send($message);
+        $this->mailer->send($email);
     }
 
     /**

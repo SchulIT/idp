@@ -2,28 +2,31 @@
 
 namespace App\Security\ForgotPassword;
 
+use App\Converter\UserStringConverter;
 use App\Entity\ActiveDirectoryUser;
 use App\Entity\PasswordResetToken;
 use App\Entity\User;
 use Psr\Log\NullLogger;
 use Psr\Log\Test\LoggerInterfaceTest;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 class ForgotPasswordManager {
-    private $from;
     private $passwordManager;
     private $mailer;
-    private $twig;
     private $translator;
+    private $userConverter;
     private $logger;
 
-    public function __construct(string $from, PasswordManager $passwordManager, \Swift_Mailer $mailer, Environment $twig, TranslatorInterface $translator, LoggerInterfaceTest $logger = null) {
-        $this->from = $from;
+    public function __construct(PasswordManager $passwordManager, MailerInterface $mailer, TranslatorInterface $translator,
+                                UserStringConverter $userConverter, LoggerInterfaceTest $logger = null) {
         $this->passwordManager = $passwordManager;
         $this->mailer = $mailer;
-        $this->twig = $twig;
         $this->translator = $translator;
+        $this->userConverter = $userConverter;
         $this->logger = $logger ?? new NullLogger();
     }
 
@@ -42,19 +45,16 @@ class ForgotPasswordManager {
 
         $token = $this->passwordManager->createPasswordToken($user);
 
-        $content = $this->twig
-            ->render('mail/reset_password.twig', [
+        $email = (new TemplatedEmail())
+            ->to(new Address($user->getEmail(), $this->userConverter->convert($user)))
+            ->subject($this->translator->trans('reset_password.title', [], 'mail'))
+            ->textTemplate('mail/reset_password.txt.twig')
+            ->context([
                 'token' => $token,
-                'user' => $user
+                'username' => $user->getUsername()
             ]);
 
-        $message = (new \Swift_Message())
-            ->setSubject($this->translator->trans('reset_password.title', [], 'mail'))
-            ->setTo($user->getEmail())
-            ->setFrom($this->from)
-            ->setBody($content);
-
-        $this->mailer->send($message);
+        $this->mailer->send($email);
     }
 
     public function updatePassword(PasswordResetToken $token, string $password) {

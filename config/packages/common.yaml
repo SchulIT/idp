@@ -12,3 +12,5 @@ common:
     logo_link: 'dashboard'
   locales: "%locales%"
   menu: mainMenu
+  disable:
+    mail: true
