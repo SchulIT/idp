@@ -5,6 +5,8 @@ framework:
 
         transports:
             provision: "%env(MESSENGER_TRANSPORT_DSN)%?queue_name=provision"
+            mail: "%env(MESSENGER_TRANSPORT_DSN)%?queue_name=mail"
 
         routing:
             'App\Message\MustProvisionUser': provision
+            'Symfony\Component\Mailer\Messenger\SendEmailMessage': mail
