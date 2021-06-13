@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Entity\ActiveDirectoryUser;
 use App\Entity\User;
 use App\Form\AttributeDataTrait;
+use App\Form\ResetPasswordType;
 use App\Form\UserType;
 use App\Entity\UserType as UserTypeEntity;
 use App\Repository\UserRepositoryInterface;
 use App\Repository\UserTypeRepositoryInterface;
 use App\Saml\AttributeValueProvider;
+use App\Security\ForgotPassword\ForgotPasswordManager;
 use App\Service\AttributePersister;
 use App\Service\AttributeResolver;
 use App\Utils\ArrayUtils;
@@ -233,5 +235,32 @@ class UserController extends AbstractController {
 
         $this->addFlash('error', 'users.trash.restore.error');
         return $this->redirectToRoute('users_trash');
+    }
+
+    /**
+     * @Route("/{uuid}/reset_password", name="reset_password")
+     */
+    public function resetPassword(Request $request, User $user, ForgotPasswordManager $manager) {
+        if($manager->canResetPassword($user, 'email@exmaple.com') === false) {
+            $this->addFlash('error', 'users.reset_pw.cannot_change');
+            return $this->redirectToRoute('users');
+        }
+
+        $form = $this->createForm(ResetPasswordType::class, [
+            'email' => $user->getEmail()
+        ]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $email = $form->get('email')->getData();
+            $manager->resetPassword($user, $email);
+            $this->addFlash('success', 'forgot_pw.request.success');
+            return $this->redirectToRoute('users');
+        }
+
+        return $this->render('users/reset_pw.html.twig', [
+            'user' => $user,
+            'form'=> $form->createView()
+        ]);
     }
 }

@@ -81,6 +81,10 @@
                                         <form method="post" action="{{ path('remove_user', { uuid: user.uuid }) }}">
                                             <input type="hidden" name="{{ csrf_key }}" value="{{ csrf_token(csrf_id) }}">
 
+                                            <a href="{{ path('reset_password', { uuid: user.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'users.reset_pw.label'|trans }}">
+                                                <i class="fa fa-key"></i>
+                                            </a>
+
                                             <a href="{{ path('edit_user', { uuid: user.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
                                                 <i class="fa fa-edit"></i>
                                             </a>

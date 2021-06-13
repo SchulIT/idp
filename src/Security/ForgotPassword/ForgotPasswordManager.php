@@ -30,23 +30,23 @@ class ForgotPasswordManager {
         $this->logger = $logger ?? new NullLogger();
     }
 
-    public function canResetPassword(User $user) {
-        return $user instanceof User && !$user instanceof ActiveDirectoryUser && $user->getEmail() !== null;
+    public function canResetPassword(User $user, ?string $email) {
+        return $user instanceof User && !$user instanceof ActiveDirectoryUser && $email !== null;
     }
 
-    public function resetPassword(?User $user) {
+    public function resetPassword(?User $user, ?string $email) {
         if($user === null) {
             return;
         }
 
-        if($this->canResetPassword($user) !== true) {
+        if($this->canResetPassword($user, $email) !== true) {
             return;
         }
 
         $token = $this->passwordManager->createPasswordToken($user);
 
         $email = (new TemplatedEmail())
-            ->to(new Address($user->getEmail(), $this->userConverter->convert($user)))
+            ->to(new Address($email, $this->userConverter->convert($user)))
             ->subject($this->translator->trans('reset_password.title', [], 'mail'))
             ->textTemplate('mail/reset_password.txt.twig')
             ->htmlTemplate('mail/reset_password.html.twig')

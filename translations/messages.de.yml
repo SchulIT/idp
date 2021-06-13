@@ -239,6 +239,13 @@ users:
       success: Benutzer erfolgreich wiederhergestellt
       error: Die Anfrage war fehlerhaft. Der Benutzer wurde nicht wiederhergestellt. Bitte erneut probieren.
 
+  reset_pw:
+    label: Passwort zurücksetzen
+    help: An diese E-Mail Adresse wird ein Link zum zurücksetzen des Passwortes versendet.
+    success: E-Mail mit einem Link zum zurücksetzen des Passwortes wurde erfolgreich versendet.
+    button: Link versenden
+    cannot_change: Das Passwort des Benutzers kann nicht geändert werden. Bei Active Directory-Benutzern muss das Passwort dort geändert.
+
   statistics:
     label: Statistiken
     total: Gesamt

@@ -1,0 +1,46 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'users.reset_pw.label'|trans }}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('users') }}">{{ 'users.label'|trans }}</a></li>
+        <li class="breadcrumb-item">{{ user.username }}</li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+
+    <div class="card">
+        <div class="card-header">{{ block('title') }}</div>
+
+        <div class="card-body">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-2">{{ 'label.user'|trans }}</label>
+                <div class="col-sm-10">
+                    <div class="form-control-plaintext">
+                        <i class="fas fa-user"></i> {{ user.username }}
+                    </div>
+                </div>
+            </div>
+
+            {{ form_row(form.email) }}
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button type="submit" class="btn btn-sm btn-danger">
+            <i class="fas fa-envelope-o"></i> {{ 'users.reset_pw.button'|trans }}
+        </button>
+
+        <a href="{{ path('users') }}" class="btn btn-sm btn-secondary">
+            {{ 'actions.cancel'|trans }}
+        </a>
+    </div>
+    {{ form_end(form) }}
+
+
+{% endblock %}
