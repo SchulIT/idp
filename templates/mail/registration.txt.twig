@@ -1,6 +1,6 @@
 {{ 'greeting'|trans({}, 'mail') }}
 
-{{ 'registration.message'|trans({'%link%': url('confirm_registration_code', { token: token })}, 'mail') }}
+{{ 'registration.link'|trans({'%link%': url('confirm_registration_code', { token: token })}, 'mail') }}
 {{ 'registration.expiry'|trans({'%date%': expiry_date|format_date()}, 'mail') }}
 
 {{ 'farewell'|trans({}, 'mail') }}

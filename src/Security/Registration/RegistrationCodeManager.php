@@ -139,7 +139,9 @@ class RegistrationCodeManager {
                 ->to(new Address($user->getEmail(), $this->userConverter->convert($user)))
                 ->subject($this->translator->trans('registration.title', [], 'mail'))
                 ->textTemplate('mail/registration.txt.twig')
+                ->htmlTemplate('mail/registration.html.twig')
                 ->context([
+                    'username' => $user->getUsername(),
                     'token' => $code->getToken(),
                     'expiry_date' => (new \DateTime())->modify(sprintf('+%s', static::DefaultTokenLifetime))
                 ]);

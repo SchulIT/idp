@@ -6,14 +6,19 @@ reset_password:
   title: Passwort zurücksetzen
   message: 'Es wurde eine Anfrage zum Zurücksetzen des Passwortes für den Benutzer %username% erstellt.'
   link: 'Klicken Sie auf den folgenden Link %link%, um das Passwort zurückzusetzen. Falls Sie das Passwort nicht ändern möchten, können Sie diese E-Mail ignorieren.'
+  button: Passwort zurücksetzen
   expiry: Bitte beachten Sie, dass der Link nur bis %date% gültig ist.
 
 registration:
   title: Registrierung abschließen
-  message: Klicken Sie auf den folgenden Link %link%, um die Registrierung abzuschließen. Falls Sie keine Registrierung angestoßen haben, können Sie diese E-Mail ignorieren.
+  message: Bitte schließen Sie die Registrierung für %username% ab, indem Sie auf den untenstehenden Button klicken. Falls Sie keine Registrierung angestoßen haben, können Sie diese E-Mail ignorieren.
+  link: Klicken Sie auf den folgenden Link %link%, um die Registrierung abzuschließen. Falls Sie keine Registrierung angestoßen haben, können Sie diese E-Mail ignorieren.
   expiry: Bitte beachten Sie, dass der Link nur bis %date% gültig ist.
+  button: Registrierung abschließen
 
 email:
   title: E-Mail-Adresse bestätigen
-  message: Klicken Sie auf den folgenden Link %link%, um die E-Mail-Adresse zu bestätigen. Falls Sie die Änderung der E-Mail-Adresse nicht angestoßen haben, können Sie diese E-Mail ignorieren.
+  message: Sie haben eine Änderung der E-Mail-Adresse von %username% vorgenommen. Diese müssen Sie nun bestätigen, indem Sie auf den untenstehenden Button klicken. Falls Sie die Änderung der E-Mail-Adresse nicht angestoßen haben, können Sie diese E-Mail ignorieren.
+  link: Klicken Sie auf den folgenden Link %link%, um die E-Mail-Adresse zu bestätigen. Falls Sie die Änderung der E-Mail-Adresse nicht angestoßen haben, können Sie diese E-Mail ignorieren.
   expiry: Bitte beachten sie, dass der Link nur bis %date% gültig ist.
+  button: E-Mail-Adresse bestätigen

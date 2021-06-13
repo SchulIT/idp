@@ -17,6 +17,7 @@ Encore
     .addStyleEntry('simple', './vendor/schulit/common-bundle/Resources/assets/css/simple.scss')
     .addEntry('attributes', './assets/js/attributes.js')
     .addEntry('code-generator', './assets/js/code-generator.js')
+    .addStyleEntry('email', './assets/css/email.scss')
 
     // uncomment to define the assets of the project
     // .addEntry('js/app', './assets/js/app.js')

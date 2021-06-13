@@ -49,6 +49,7 @@ class ForgotPasswordManager {
             ->to(new Address($user->getEmail(), $this->userConverter->convert($user)))
             ->subject($this->translator->trans('reset_password.title', [], 'mail'))
             ->textTemplate('mail/reset_password.txt.twig')
+            ->htmlTemplate('mail/reset_password.html.twig')
             ->context([
                 'token' => $token,
                 'username' => $user->getUsername()
