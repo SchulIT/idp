@@ -53,7 +53,7 @@ class ProfileController extends AbstractController {
         }
 
         if($confirmationManager->hasConfirmation($user)) {
-            $this->addFlash('success', 'email_confirmation.sent');
+            $this->addFlash('success', 'email_confirmation.pending');
         }
 
         return $this->render('profile/index.html.twig', [
