@@ -17,11 +17,16 @@
         <div class="card-header">
             <ul class="nav nav-pills">
                 <li class="nav-item">
-                    <a class="nav-link {% block profile_active %}{% endblock %}" href="{{ path('profile')}}">{{ 'profile.label'|trans }}</a>
+                    <a class="nav-link {% block profile_active %}{% endblock %}" href="{{ path('profile')}}"><i class="far fa-id-card"></i> {{ 'profile.label'|trans }}</a>
                 </li>
+                {% if is_granted('use_2fa') %}
+                <li class="nav-item">
+                    <a class="nav-link {% block twofa_active %}{% endblock %}" href="{{ path('two_factor') }}"><i class="fas fa-user-shield"></i> {{ 'two_factor.label'|trans }}</a>
+                </li>
+                {% endif %}
                 {% if is_granted('change_password') %}
                 <li class="nav-item">
-                    <a class="nav-link {% block password_active %}{% endblock %}" href="{{ path('profile_password') }}">{{ 'profile.change_password.label'|trans }}</a>
+                    <a class="nav-link {% block password_active %}{% endblock %}" href="{{ path('profile_password') }}"><i class="fas fa-key"></i> {{ 'profile.change_password.label'|trans }}</a>
                 </li>
                 {% endif %}
             </ul>

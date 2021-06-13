@@ -50,14 +50,6 @@ class Builder {
         ])
             ->setExtra('icon', 'fas fa-user');
 
-
-        if($this->authorizationChecker->isGranted(ProfileVoter::USE_2FA)) {
-            $menu->addChild('two_factor.label', [
-                'route' => 'two_factor'
-            ])
-                ->setExtra('icon', 'fas fa-shield-alt');
-        }
-
         if($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
             $menu->addChild('users.label', [
                 'route' => 'users'

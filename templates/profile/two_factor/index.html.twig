@@ -1,49 +1,43 @@
-{% extends "main.html.twig" %}
+{% extends "profile/_main.html.twig" %}
 
 {% block title %}{{ 'two_factor.label'|trans }}{% endblock %}
 
 {% block breadcrumb %}
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('profile') }}">{{ 'profile.label'|trans }}</a></li>
         <li class="breadcrumb-item">{{ block('title') }}</li>
     </ol>
 {% endblock %}
 
-{% block content %}
+{% block twofa_active %}active{% endblock %}
 
-    {% if isTrustedDevice %}
-        <div class="bs-callout bs-callout-info">
-            <h4>{{ 'info.label'|trans }}</h4>
-            <p>{{ 'trusted'|trans({}, 'SchebTwoFactorBundle') }}</p>
-        </div>
-    {% endif %}
+{% block card_body %}
+    <div class="card-body">
+        <h5 class="card-title"><i class="fa fa-info-circle"></i> {{ 'info.label'|trans }}</h5>
 
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title"><i class="fa fa-info-circle"></i> {{ 'info.label'|trans }}</h5>
+        <p>{{ 'two_factor.google.help'|trans }}</p>
 
-            <p>{{ 'two_factor.google.help'|trans }}</p>
-
-            <a href="{{ 'two_factor.google.url.href'|trans }}" class="btn btn-primary btn-sm">
-                <i class="fas fa-external-link-alt"></i> {{ 'two_factor.google.url.label'|trans }}
-            </a>
-        </div>
+        <a href="{{ 'two_factor.google.url.href'|trans }}" class="btn btn-primary btn-sm">
+            <i class="fas fa-external-link-alt"></i> {{ 'two_factor.google.url.label'|trans }}
+        </a>
     </div>
+{% endblock %}
 
-    <div class="card-deck">
-        <div class="card {% if isGoogleEnabled %}border-success{% else %}border-danger{% endif %}">
-            <div class="card-header text-white {% if isGoogleEnabled %}bg-success{% else %}bg-danger{% endif %}">
-                {{ 'two_factor.google.label'|trans }}
+{% block profile_content %}
+    <div class="card {% if isGoogleEnabled %}border-success{% else %}border-danger{% endif %}">
+        <div class="card-header text-white {% if isGoogleEnabled %}bg-success{% else %}bg-danger{% endif %}">
+            {{ 'two_factor.google.label'|trans }}
 
-                {% if isGoogleEnabled %}
-                    <span class="badge badge-success"><i class="fas fa-check"></i> {{ 'two_factor.enabled'|trans }}</span>
-                {% else %}
-                    <span class="badge badge-danger"><i class="fas fa-times"></i> {{ 'two_factor.disabled'|trans }}</span>
-                {% endif %}
-            </div>
+            {% if isGoogleEnabled %}
+                <span class="badge badge-success"><i class="fas fa-check"></i> {{ 'two_factor.enabled'|trans }}</span>
+            {% else %}
+                <span class="badge badge-danger"><i class="fas fa-times"></i> {{ 'two_factor.disabled'|trans }}</span>
+            {% endif %}
+        </div>
 
-            <div class="card-body">
-                {% if isGoogleEnabled %}
+        <div class="card-body">
+            {% if isGoogleEnabled %}
                 <h5 class="card-title">{{ 'two_factor.google.backup.label'|trans }}</h5>
                 <p class="card-text">
                     {{ 'two_factor.google.backup.info'|trans }}
@@ -54,13 +48,13 @@
                         <li>{{ code }}</li>
                     {% endfor %}
                 </ul>
-                {% else %}
-                    <p class="card-text">{{ 'two_factor.google.disabled'|trans }}</p>
-                {% endif %}
-            </div>
+            {% else %}
+                <p class="card-text">{{ 'two_factor.google.disabled'|trans }}</p>
+            {% endif %}
+        </div>
 
-            <div class="card-footer clearfix">
-                {% if isGoogleEnabled %}
+        <div class="card-footer clearfix">
+            {% if isGoogleEnabled %}
                 <form action="{{ path('disable_google_two_factor') }}" method="post" class="float-left form-inline mr-1">
                     <input type="hidden" name="_csrf_token" value="{{ csrfToken.value }}" >
 
@@ -76,21 +70,34 @@
                         <i class="fas fa-refresh"></i> {{ 'two_factor.google.backup.regenerate'|trans }}
                     </button>
                 </form>
-                {% else %}
-                    <a href="{{ path('enable_google_two_factor') }}" class="btn btn-success btn-sm">
-                        <i class="fas fa-check"></i> {{ 'two_factor.enable'|trans }}
-                    </a>
-                {% endif %}
-
-                <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2" class="btn btn-outline-secondary btn-sm" target="_blank">
-                    <i class="fab fa-android"></i> Play Store
+            {% else %}
+                <a href="{{ path('enable_google_two_factor') }}" class="btn btn-success btn-sm">
+                    <i class="fas fa-check"></i> {{ 'two_factor.enable'|trans }}
                 </a>
+            {% endif %}
 
-                <a href="http://appstore.com/googleauthenticator" class="btn btn-outline-secondary btn-sm" target="_blank">
-                    <i class="fab fa-apple"></i> App Store
-                </a>
-            </div>
+            <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2" class="btn btn-outline-secondary btn-sm" target="_blank">
+                <i class="fab fa-android"></i> Play Store
+            </a>
+
+            <a href="http://appstore.com/googleauthenticator" class="btn btn-outline-secondary btn-sm" target="_blank">
+                <i class="fab fa-apple"></i> App Store
+            </a>
         </div>
     </div>
-
 {% endblock %}
+
+{#
+{% block content %}
+
+
+
+    <div class="card">
+
+    </div>
+
+    <div class="card-deck">
+
+    </div>
+
+{% endblock %}#}

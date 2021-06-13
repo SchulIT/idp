@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 /**
- * @Route("/two_factor")
+ * @Route("/profile/two_factor")
  */
 class TwoFactorController extends AbstractController {
 
