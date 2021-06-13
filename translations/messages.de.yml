@@ -58,7 +58,7 @@ label:
   not_provisioned: Bereitstellung ausstehend
   user_role: Benutzerrolle
   suffix: Suffix
-  students: '{0} Lernende|{1} Lernender|]1,Inf[ Lernende'
+  students: '{0} Kinder|{1} Kind|]1,Inf[ Kinder'
   user: Benutzer
   content: Inhalt
   file: Datei
@@ -539,10 +539,10 @@ codes:
 
 link:
   student:
-    label: Lernende verknüpfen
+    label: Kind verknüpfen
     info: Um als Elternteil auf die Daten des Kindes zugreifen zu können, muss man sich als Elternteil einmalig mit dem Account des Kindes verknüpfen. Dazu muss das Kind einmalig seine Anmeldedaten eintragen.
     title: Verknüpfungen
-    none: Keine Verknüpfungen
+    none: Keine Kinder verknüpft
     button: verknüpfen
     success: Verknüpfung erfolgreich eingerichtet
     instruction: Das Kind muss einmalig die Anmeldedaten eintragen, um die Verknüpfung mit dem Account herzustellen.
