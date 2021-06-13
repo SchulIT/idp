@@ -238,7 +238,7 @@ class UserController extends AbstractController {
     }
 
     /**
-     * @Route("/{uuid}/reset_password", name="reset_password")
+     * @Route("/users/{uuid}/reset_password", name="reset_password")
      */
     public function resetPassword(Request $request, User $user, ForgotPasswordManager $manager) {
         if($manager->canResetPassword($user, 'email@exmaple.com') === false) {
