@@ -51,7 +51,8 @@ class ForgotPasswordManager {
             ->textTemplate('mail/reset_password.txt.twig')
             ->htmlTemplate('mail/reset_password.html.twig')
             ->context([
-                'token' => $token,
+                'token' => $token->getToken(),
+                'expiry_date' => $token->getExpiresAt(),
                 'username' => $user->getUsername()
             ]);
 
