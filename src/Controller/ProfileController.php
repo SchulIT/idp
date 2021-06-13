@@ -34,14 +34,12 @@ class ProfileController extends AbstractController {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            if($form->has('group_email')) {
-                $email = $form->get('group_email')->get('email')->getData();
+            $email = $form->get('email')->getData();
 
-                if(empty($email)) {
-                    $user->setEmail(null);
-                } else if($user->getEmail() !== $email) {
-                    $confirmationManager->newConfirmation($user, $email);
-                }
+            if(empty($email)) {
+                $user->setEmail(null);
+            } else if($user->getEmail() !== $email) {
+                $confirmationManager->newConfirmation($user, $email);
             }
 
             $em->persist($user);
