@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\SamlServiceProvider;
 use App\Entity\ServiceProvider;
+use App\Entity\User;
+use App\Link\LinkStudentsHelper;
 use App\Repository\ServiceProviderRepositoryInterface;
 use App\Saml\AttributeValueProvider;
 use App\Security\Voter\ServiceProviderVoter;
@@ -37,9 +39,20 @@ class SsoController extends AbstractController {
                          SsoIdpReceiveAuthnRequestProfileBuilder $receiveBuilder,
                          SsoIdpSendResponseProfileBuilderFactory $sendResponseBuilder,
                          CsrfTokenManagerInterface $tokenManager, ServiceProviderRepositoryInterface $serviceProviderRepository,
-                         BuildContainerInterface $buildContainer) {
+                         BuildContainerInterface $buildContainer, LinkStudentsHelper $linkStudentsHelper) {
         if($requestStorage->has() !== true) {
             return $this->redirectToRoute('dashboard');
+        }
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if($user->getType()->isCanLinkStudents() && count($linkStudentsHelper->getLinks($user)) === 0) {
+            $this->addFlash('error', 'sso.error.registration_incomplete');
+            $requestStorage->clear();
+            return $this->redirectToRoute('dashboard');
+
+
         }
 
         $requestStorage->load();

@@ -493,6 +493,8 @@ sso:
     title: Weiterleitung
     message: Die Anmeldung war erfolgreich. Falls die automatische Weiterleitung nicht funktioniert, bitte unten auf den Button klicken.
     submit: Zum Dienst
+  error:
+    registration_incomplete: Die Anmeldung am Dienst ist nicht möglich, da die Registrierung nicht abgeschlossen ist.
 
 attributes:
   friendly:
@@ -543,12 +545,17 @@ link:
     none: Keine Verknüpfungen
     button: verknüpfen
     success: Verknüpfung erfolgreich eingerichtet
+    instruction: Das Kind muss einmalig die Anmeldedaten eintragen, um die Verknüpfung mit dem Account herzustellen.
     error:
       socket: Der Authentifizierungsserver ist aktuell nicht verfügbar. Bitte später erneut probieren.
       authentication: Anmelde-E-Mail-Adresse und/oder Passwort sind ungültig.
       not_found: Der Lernende wurde nicht gefunden. Bitte beim Administrator melden.
       no_student: Der Benutzer ist kein Lernender. Es wurde keine Verknüpfung vorgenommen.
 
+registration:
+  complete:
+    label: Registrierung abschließen
+    message: Schließen Sie die Registrierung ab, indem Sie sich mit Ihrem Kind verknüpfen.
 
 api:
   doc: API-Dokumentation

@@ -91,3 +91,9 @@ header {
     @extend .fa-image;
   }
 }
+
+.no-icon {
+  &:before {
+    display:none;
+  }
+}
