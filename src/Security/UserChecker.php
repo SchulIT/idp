@@ -36,14 +36,6 @@ class UserChecker implements UserCheckerInterface {
             throw new AccountDisabledException();
         }
 
-        if($user->isEmailConfirmationPending()) {
-            if($user->getEmail() !== null) {
-                $this->confirmationManager->newConfirmation($user, $user->getEmail());
-            }
-
-            throw new EmailConfirmationPendingException();
-        }
-
         // Second check: does the user has a time window in which the account is active?
         if($user->getEnabledFrom() !== null || $user->getEnabledUntil() !== null) {
             $today = $this->dateHelper->getToday();

@@ -32,6 +32,12 @@ register:
     not_match: Die E-Mail Adressen stimmen nicht überein.
   redeem:
     label: Registrierungscode einlösen
+    new_account:
+      label: Neuer Elternaccount
+      message: Klicken Sie hier, wenn Sie einen neuen Elternaccount erstellen möchten.
+    existing_account:
+      label: Bestehender Elternaccount
+      message: Wenn Sie bereits einen Elternaccount besitzen, melden Sie sich bitte zunächst an und lösen den Code anschließend ein.
     message: Bitte den Registrierungscode eingeben, um fortzufahren.
     error:
       not_found: Der Registrierungscode ist nicht vorhanden.
@@ -45,7 +51,8 @@ register:
     caution: Bitte die Anmelde-E-Mail-Adresse notieren.
     caution_email: Bei der Anmelde-E-Mail-Adresse handelt es sich nicht um ein echtes E-Mail-Postfach.
     email_help: Die Angabe der E-Mail-Adresse ist freiwillig. Wenn eine E-Mail-Adresse angegeben wird, kann das Passwort eigenständig zurückgesetzt werden. Anderenfalls ist dies nur über den Administrator möglich.
-    voluntary: Freiwillige Angaben anzeigen
+    voluntary: Freiwillige Angaben
+    required: Erforderliche Angaben
     error:
       email_aready_used: Die E-Mail Adresse wird bereits verwendet. Bitte eine andere E-Mail Adresse verwenden.
       domain_blacklisted: E-Mail Adressen mit der angegebenen Domain (hinter dem @-Zeichen) sind nicht erlaubt.

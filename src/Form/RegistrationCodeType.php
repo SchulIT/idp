@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\RegistrationCode;
+use App\Entity\User;
 use App\Entity\UserType as UserTypeEntity;
 use App\Service\AttributeResolver;
+use Doctrine\ORM\EntityRepository;
 use SchulIT\CommonBundle\Form\FieldsetType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -18,124 +20,31 @@ use Symfony\Component\Form\FormInterface;
 
 class RegistrationCodeType extends AbstractType {
 
-    use AttributeDataTrait;
-
-    private $userAttributeResolver;
-
-    public function __construct(AttributeResolver $userAttributeResolver) {
-        $this->userAttributeResolver = $userAttributeResolver;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $code = $options['data'];
-
         $builder
-            ->add('group_general', FieldsetType::class, [
-                'legend' => 'label.general',
-                'fields' => function(FormBuilderInterface $builder) {
-                    $this->addFields($builder);
-                }
+            ->add('code', CodeGeneratorType::class, [
+                'label' => 'label.code'
             ])
-            ->add('group_attributes', AttributesType::class, [
-                'legend' => 'label.attributes',
-                'attribute_values' => $this->userAttributeResolver->getAttributesForRegistrationCode($code)
-            ]);
+            ->add('student', EntityType::class, [
+                'label' => 'label.student',
+                'class' => User::class,
+                'choice_label' => function(User $user) {
+                    if(!empty($user->getGrade())) {
+                        return sprintf('%s, %s (%s)', $user->getLastname(), $user->getFirstname(), $user->getGrade());
+                    }
 
-        $builder
-            ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
-                $form = $event->getForm();
-                /** @var RegistrationCode|null $code */
-                $code = $event->getData();
-
-                if($code !== null && $code->wasRedeemed()) {
-                    $this->addFields($form->get('group_general'), true, false);
-                } else if($code !== null && $code->getId() !== null) {
-                    $this->addFields($form->get('group_general'), false, false);
-                }
-            });
-    }
-
-    /**
-     * @param FormInterface|FormBuilderInterface $builder
-     * @param bool $readonly
-     * @param bool $showGenerator Whether or not to display a code generator button
-     */
-    private function addFields($builder, bool $readonly = false, bool $showGenerator = true) {
-        $codeType = $showGenerator === true ? CodeGeneratorType::class : TextType::class;
-
-        $builder
-            ->add('code', $codeType, [
-                'label' => 'label.code',
-                'attr' => [
-                    'readonly' => $readonly
-                ]
-            ])
-            ->add('username', EmailType::class, [
-                'label' => 'label.username',
-                'required' => false,
-                'attr' => [
-                    'readonly' => $readonly
-                ]
-            ])
-            ->add('usernameSuffix', TextType::class, [
-                'label' => 'label.username_suffix',
-                'required' => false,
-                'attr' => [
-                    'readonly' => $readonly
-                ]
-            ])
-            ->add('firstname', TextType::class, [
-                'label' => 'label.firstname',
-                'required' => false,
-                'help' => 'codes.add.help.can_complete_if_null',
-                'attr' => [
-                    'readonly' => $readonly
-                ]
-            ])
-            ->add('lastname', TextType::class, [
-                'label' => 'label.lastname',
-                'required' => false,
-                'help' => 'codes.add.help.can_complete_if_null',
-                'attr' => [
-                    'readonly' => $readonly
-                ]
-            ])
-            ->add('email', EmailType::class, [
-                'label' => 'label.email',
-                'required' => false,
-                'help' => 'codes.add.help.can_complete_if_null',
-                'attr' => [
-                    'readonly' => $readonly
-                ]
-            ])
-            ->add('grade', TextType::class, [
-                'label' => 'label.grade',
-                'required' => false,
-                'attr' => [
-                    'readonly' => $readonly
-                ]
-            ])
-            ->add('type', EntityType::class, [
-                'label' => 'label.user_type',
-                'class' => UserTypeEntity::class,
-                'choice_label' => function(UserTypeEntity $type) {
-                    return $type->getName();
+                    return sprintf('%s, %s (%s)', $user->getLastname(), $user->getFirstname(), $user->getUsername());
                 },
+                'query_builder' => function(EntityRepository $repository) {
+                    return $repository->createQueryBuilder('u')
+                        ->leftJoin('u.type', 't')
+                        ->where("t.alias = 'student'")
+                        ->orderBy('u.username', 'asc');
+                },
+                'placeholder' => 'label.select',
                 'attr' => [
-                    'readonly' => $readonly
-                ],
-                'expanded' => true,
-                'label_attr' => [
-                    'class' => 'radio-custom'
+                    'data-choice' => 'true'
                 ]
-            ])
-            ->add('externalId', TextType::class, [
-                'label' => 'label.external_id',
-                'required' => false,
-                'attr' => [
-                    'readonly' => $readonly
-                ]
-            ])
-        ;
+            ]);
     }
 }

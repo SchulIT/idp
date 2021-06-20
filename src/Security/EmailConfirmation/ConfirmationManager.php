@@ -42,17 +42,21 @@ class ConfirmationManager {
         $confirmation = $this->repository->findOneByUser($user);
 
         if($confirmation !== null && $confirmation->getValidUntil() <= $this->dateHelper->getNow()) {
-            $this->repository->remove($confirmation);
-        } else {
-            $confirmation = (new EmailConfirmation())
-                ->setUser($user)
-                ->setEmailAddress($email)
-                ->setValidUntil($this->dateHelper->getNow()->modify(static::Lifetime));
-
-            do {
-                $confirmation->setToken(bin2hex(openssl_random_pseudo_bytes(64)));
-            } while($this->repository->findOneByToken($confirmation->getToken()) !== null);
+            return;
         }
+
+        if($confirmation !== null) {
+            $this->repository->remove($confirmation);
+        }
+
+        $confirmation = (new EmailConfirmation())
+            ->setUser($user)
+            ->setEmailAddress($email)
+            ->setValidUntil($this->dateHelper->getNow()->modify(static::Lifetime));
+
+        do {
+            $confirmation->setToken(bin2hex(openssl_random_pseudo_bytes(64)));
+        } while($this->repository->findOneByToken($confirmation->getToken()) !== null);
 
         $this->repository->persist($confirmation);
         $email = (new TemplatedEmail())

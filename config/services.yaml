@@ -99,11 +99,6 @@ services:
     LightSaml\SymfonyBridgeBundle\Bridge\Container\BuildContainer:
         alias: 'lightsaml.container.build'
 
-    # Registration
-    App\Security\Registration\RegistrationCodeManager:
-        arguments:
-            $domainBlocklist: ""
-
     # Controllers
     App\Controller\IdpController:
         bind:

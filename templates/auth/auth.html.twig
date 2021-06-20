@@ -1,11 +1,32 @@
 {% extends "@Common/auth/auth.html.twig" %}
 
-{% block buttons %}
-    <div class="row">
-        <div class="col-md-12">
-            <a href="{{ path('redeem_registration_code') }}" class="btn btn-primary btn-block" role="button">
-                {{ 'register.redeem.label'|trans({}, 'security') }}
-            </a>
+{% block content %}
+    {{ parent() }}
+
+    <hr>
+
+    <form class="form-signin" method="post" action="{{ path('redeem_registration_code') }}">
+        <div class="form-group">
+            <label for="code" class="control-label">{{ 'label.code'|trans }}</label>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="fas fa-qrcode"></i>
+                    </span>
+                </div>
+                <input type="text" id="code" name="code" class="form-control" required>
+            </div>
         </div>
-    </div>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('registration') }}">
+
+        <div class="row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary btn-block">
+                    {{ 'register.redeem.label'|trans({}, 'security') }}
+                </button>
+            </div>
+        </div>
+    </form>
 {% endblock %}

@@ -18,23 +18,14 @@
                         <table class="table table-striped table-hover table-bordered card-table">
                             <colgroup>
                                 <col class="column-lg" >
-                                <col class="column-lg" >
-                                <col class="column-lg" >
-                                <col class="column-lg" >
-                                <col class="column-md" >
-                                <col >
                                 <col>
                                 <col class="column-md" >
                             </colgroup>
 
                             <thead>
                             <tr>
-                                <th>{{ 'label.username'|trans }}</th>
                                 <th>{{ 'label.code'|trans }}</th>
-                                <th>{{ 'label.firstname'|trans }}</th>
-                                <th>{{ 'label.lastname'|trans }}</th>
-                                <th>{{ 'label.user_type'|trans }}</th>
-                                <th>{{ 'label.email'|trans }}</th>
+                                <th>{{ 'label.student'|trans }}</th>
                                 <th>{{ 'label.user'|trans }}</th>
                                 <th>{{ 'actions.label'|trans }}</th>
                             </tr>
@@ -44,26 +35,15 @@
                             {% for code in codes %}
                                 <tr>
                                     <td class="align-middle">
-                                        {%- if code.username is not empty -%}
-                                            {{ code.username }}
-                                        {%- else -%}
-                                            {{ 'label.username_empty'|trans }}
-                                        {%- endif -%}
-                                        {%- if code.usernameSuffix is not empty -%}
-                                            {{ code.usernameSuffix }}
-                                        {%- endif -%}
+                                        {{ code.code }}
 
-                                        {% if code.confirmedAt is not null %}
-                                            <span class="badge badge-success">{{ 'codes.confirmed'|trans }}</span>
-                                        {% elseif code.wasRedeemed %}
-                                            <span class="badge badge-secondary">{{ 'codes.redeemed'|trans }}</span>
+                                        {% if code.redeemingUser is not null %}
+                                            <span class="badge badge-success">{{ 'codes.redeemed'|trans }}</span>
                                         {% endif %}
                                     </td>
-                                    <td class="align-middle">{{ code.code }}</td>
-                                    <td class="align-middle">{{ code.firstname }}</td>
-                                    <td class="align-middle">{{ code.lastname }}</td>
-                                    <td class="align-middle">{{ code.type.name }}</td>
-                                    <td class="align-middle">{{ code.email }}</td>
+                                    <td class="align-middle">
+                                        {{ code.student|user }}
+                                    </td>
                                     <td class="align-middle">
                                         {% if code.redeemingUser is not null %}
                                             <a href="{{ path('edit_user', { uuid: code.redeemingUser.uuid.toString }) }}">
@@ -89,7 +69,6 @@
 
                 {% include '@Common/includes/pagination.html.twig' with {
                     currentFilters: {
-                        type: types.currentType ? types.currentType.uuid.toString() : null ,
                         q: query
                     },
                     currentPage: page,
@@ -117,15 +96,6 @@
                 <div class="card">
                     <div class="card-body">
                         <form method="get">
-                            <div class="form-group">
-                                <select name="type" class="form-control" data-choice="true" data-trigger="submit">
-                                    <option value="">{{ 'filter.all_types'|trans }}</option>
-                                    {% for t in types.types %}
-                                        <option value="{{ t.uuid }}" {% if types.currentType is not null and types.currentType.id == t.id %}selected{% endif %}>{{ t.name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-
                             <div class="form-group mb-0">
                                 <div class="input-group">
                                     <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="{{ 'codes.query'|trans }}">

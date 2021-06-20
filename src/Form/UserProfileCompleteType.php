@@ -27,24 +27,15 @@ class UserProfileCompleteType extends AbstractType {
     public function configureOptions(OptionsResolver $resolver) {
         parent::configureOptions($resolver);
 
-        $resolver->setDefault('username_suffix', null)
-            ->setDefault('can_edit_username', false);
+        $resolver->setRequired('username_suffix');
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        if($options['username_suffix'] !== null) {
-            $builder
-                ->add('username', TextSuffixType::class, [
-                    'label' => 'label.username',
-                    'suffix' => $options['username_suffix']
-                ]);
-        } else {
-            $builder
-                ->add('username', TextType::class, [
-                    'label' => 'label.username',
-                    'disabled' => $options['can_edit_username'] === false
-                ]);
-        }
+        $builder
+            ->add('username', TextSuffixType::class, [
+                'label' => 'label.username',
+                'suffix' => $options['username_suffix']
+            ]);
 
         $builder
             ->add('password', RepeatedType::class, [

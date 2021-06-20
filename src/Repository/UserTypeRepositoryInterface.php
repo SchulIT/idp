@@ -7,6 +7,8 @@ use App\Entity\UserType;
 interface UserTypeRepositoryInterface {
     public function countUsersOfUserType(UserType $userType): int;
 
+    public function findOneByAlias(string $alias): ?UserType;
+
     public function findOneByUuid(string $uuid): ?UserType;
 
     /**

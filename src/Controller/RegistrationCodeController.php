@@ -40,12 +40,11 @@ class RegistrationCodeController extends AbstractController {
     /**
      * @Route("", name="registration_codes")
      */
-    public function index(Request $request, UserTypeFilter $typeFilter) {
-        $typeView = $typeFilter->handle($request->query->get('type'));
+    public function index(Request $request) {
         $query = $request->query->get('q');
         $page = $request->query->getInt('page');
 
-        $paginator = $this->repository->getPaginatedUsers(static::CodesPerPage, $page, $typeView->getCurrentType(), $query);
+        $paginator = $this->repository->getPaginatedUsers(static::CodesPerPage, $page, $query);
         $pages = 1;
         if($paginator->count() > 0) {
             $pages = ceil((float)$paginator->count() / static::CodesPerPage);
@@ -55,7 +54,6 @@ class RegistrationCodeController extends AbstractController {
             'codes' => $paginator->getIterator(),
             'page' => $page,
             'pages' => $pages,
-            'types' => $typeView,
             'query' => $query
         ]);
     }
@@ -104,6 +102,11 @@ class RegistrationCodeController extends AbstractController {
      * @Route("/{uuid}/edit", name="edit_registration_code")
      */
     public function edit(RegistrationCode $code, Request $request, AttributePersister $attributePersister) {
+        if($code->getRedeemingUser() !== null) {
+            $this->addFlash('error', 'codes.edit.error.already_redeemed.message');
+            return $this->redirectToRoute('registration_codes');
+        }
+
         $form = $this->createForm(RegistrationCodeType::class, $code);
         $form->handleRequest($request);
 

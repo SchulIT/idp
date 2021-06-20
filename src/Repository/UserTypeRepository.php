@@ -59,4 +59,9 @@ class UserTypeRepository implements UserTypeRepositoryInterface {
         return $this->em->getRepository(UserType::class)
             ->findOneBy(['uuid' => $uuid]);
     }
+
+    public function findOneByAlias(string $alias): ?UserType {
+        return $this->em->getRepository(UserType::class)
+            ->findOneBy(['alias' => $alias]);
+    }
 }

@@ -2,9 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\User;
 use App\Entity\RegistrationCode;
-use App\Entity\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -19,24 +17,15 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
 
     private function createDefaultQueryBuilder(): QueryBuilder {
         return $this->em->createQueryBuilder()
-            ->select(['c', 't'])
+            ->select(['c', 'u'])
             ->from(RegistrationCode::class, 'c')
-            ->leftJoin('c.type', 't');
+            ->leftJoin('c.student', 'u');
     }
 
     public function findOneByCode(string $code): ?RegistrationCode {
         return $this->createDefaultQueryBuilder()
             ->where('c.code = :code')
             ->setParameter('code', $code)
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
-    public function findOneByToken(string $token): ?RegistrationCode {
-        return $this->createDefaultQueryBuilder()
-            ->where('c.token = :token')
-            ->setParameter('token', $token)
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
@@ -70,13 +59,8 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
         $this->em->rollback();;
     }
 
-    public function getPaginatedUsers(int $itemsPerPage, int &$page, UserType $type = null, ?string $query = null): Paginator {
+    public function getPaginatedUsers(int $itemsPerPage, int &$page, ?string $query = null): Paginator {
         $qb = $this->createDefaultQueryBuilder();
-
-        if($type !== null) {
-            $qb->where('c.type = :type')
-                ->setParameter('type', $type->getId());
-        }
 
         if($query !== null) {
             $qb->andWhere($qb->expr()->like('c.code', ':query'))
@@ -95,18 +79,6 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
             ->setFirstResult($offset);
 
         return $paginator;
-    }
-
-    public function resetTokens(\DateTime $dateTime): void {
-        $this->em->createQueryBuilder()
-            ->update(RegistrationCode::class, 'u')
-            ->set('u.token', ':null')
-            ->set('u.tokenCreatedAt', ':null')
-            ->where('u.tokenCreatedAt < :threshold')
-            ->setParameter('threshold', $dateTime)
-            ->setParameter('null', null)
-            ->getQuery()
-            ->execute();
     }
 
     /**

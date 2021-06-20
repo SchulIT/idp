@@ -40,7 +40,7 @@ label:
   key: Schlüssel
   idp: Identity Provider
   roles: Rollen
-  code: Code
+  code: Registrierungscode
   alias: Alias
   grade: Klasse
   can_change:
@@ -60,6 +60,7 @@ label:
   suffix: Suffix
   students: '{0} Kinder|{1} Kind|]1,Inf[ Kinder'
   students_simple: Kinder
+  student: Kind
   user: Benutzer
   content: Inhalt
   file: Datei
@@ -541,17 +542,12 @@ codes:
 link:
   student:
     label: Kind verknüpfen
-    info: Um als Elternteil auf die Daten des Kindes zugreifen zu können, muss man sich als Elternteil einmalig mit dem Account des Kindes verknüpfen. Dazu muss das Kind einmalig seine Anmeldedaten eintragen.
+    info: Um als Elternteil auf die Daten des Kindes zugreifen zu können, müssen Sie den von der Schule erhaltenen Registrierungscode unten eingeben.
     title: Verknüpfungen
     none: Keine Kinder verknüpft
     button: verknüpfen
     success: Verknüpfung erfolgreich eingerichtet
     instruction: Das Kind muss einmalig die Anmeldedaten eintragen, um die Verknüpfung mit dem Account herzustellen.
-    error:
-      socket: Der Authentifizierungsserver ist aktuell nicht verfügbar. Bitte später erneut probieren.
-      authentication: Anmelde-E-Mail-Adresse und/oder Passwort sind ungültig.
-      not_found: Der Lernende wurde nicht gefunden. Bitte beim Administrator melden.
-      no_student: Der Benutzer ist kein Lernender. Es wurde keine Verknüpfung vorgenommen.
 
 registration:
   complete:

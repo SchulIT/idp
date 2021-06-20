@@ -6,6 +6,8 @@ use App\Entity\User;
 use App\Form\LinkStudentType;
 use App\Link\LinkStudentsHelper;
 use App\Link\NotAStudentException;
+use App\Repository\RegistrationCodeRepositoryInterface;
+use App\Repository\UserRepositoryInterface;
 use App\Security\UserAuthenticator;
 use App\Security\Voter\LinkStudentVoter;
 use App\Service\UserServiceProviderResolver;
@@ -54,8 +56,8 @@ class DashboardController extends AbstractController {
     /**
      * @Route("/link", name="link_student")
      */
-    public function index(UserAuthenticator $authenticator, UserProviderInterface $userProvider, CsrfTokenManagerInterface $tokenManager, Request $request,
-                          LinkStudentsHelper $linkStudentsHelper, TranslatorInterface $translator, LoggerInterface $logger) {
+    public function index(Request $request, UserRepositoryInterface $userRepository,
+                          RegistrationCodeRepositoryInterface $codeRepository, TranslatorInterface $translator) {
         $this->denyAccessUnlessGranted(LinkStudentVoter::LINK);
 
         /** @var User $user */
@@ -65,31 +67,18 @@ class DashboardController extends AbstractController {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $username = $form->get('username')->getData();
+            $code = $codeRepository->findOneByCode($form->get('code')->getData());
 
-            try {
-                $csrfToken = $tokenManager->getToken('authenticate');
-                $credentials = [
-                    'username' => $username,
-                    'password' => $form->get('password')->getData(),
-                    'csrf_token' => $csrfToken->getValue()
-                ];
-                /** @var User $student */
-                $student = $authenticator->getUser($credentials, $userProvider);
+            if($code !== null) {
+                $user->addLinkedStudent($code->getStudent());
+                $code->setRedeemingUser($user);
 
-                $linkStudentsHelper->link($user, $student);
+                $userRepository->persist($user);
+                $codeRepository->persist($code);
+
                 $this->addFlash('success', 'link.student.success');
-            } catch(NotAStudentException $e) {
-                $logger->info('Failed linking student - user is not a student.', [
-                    'username' => $username
-                ]);
-                $this->addFlash('error', 'link.student.error.no_student');
-            } catch (AuthenticationException $e) {
-                $logger->error('Failed linking student - authentication error.', [
-                    'exception' => $e,
-                    'username' => $username
-                ]);
-                $this->addFlash('error', $translator->trans($e->getMessage(), [], 'security'));
+            } else {
+                $this->addFlash('error', $translator->trans('register.redeem.error.not_found', [], 'security'));
             }
         }
 
