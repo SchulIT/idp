@@ -214,16 +214,10 @@ class UserRepository implements UserRepositoryInterface {
             $qb->setParameter('role', $role);
         }
 
-        if($grade === true) {
+        if($deleted === true) {
             $qbInner->andWhere($qb->expr()->isNotNull('u.deletedAt'));
         } else {
             $qbInner->andWhere($qb->expr()->isNull('u.deletedAt'));
-        }
-
-        if($deleted === true) {
-            $qbInner->andWhere('uInner.deletedAt IS NOT NULL');
-        } else {
-            $qbInner->andWhere('uInner.deletedAt IS NULL');
         }
 
         if(!is_numeric($page) || $page < 1) {

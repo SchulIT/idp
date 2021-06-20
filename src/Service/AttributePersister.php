@@ -131,23 +131,4 @@ class AttributePersister {
 
         $this->persist($values, $currentUserAttributes, $factory);
     }
-
-    public function persistRegistrationCodeAttributes(array $values, RegistrationCode $code) {
-        $factory = function() use ($code) {
-            $value = (new ServiceAttributeRegistrationCodeValue())
-                ->setRegistrationCode($code);
-            $code->getAttributes()->add($value);
-
-            return $value;
-        };
-
-        $currentRegistrationCodeAttributes = $this->makeArrayWithKeys(
-            $code->getAttributes()->toArray(),
-            function(ServiceAttributeRegistrationCodeValue $attributeValue) {
-                return $attributeValue->getAttribute()->getName();
-            }
-        );
-
-        $this->persist($values, $currentRegistrationCodeAttributes, $factory);
-    }
 }

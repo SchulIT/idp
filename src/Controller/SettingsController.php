@@ -34,7 +34,7 @@ class SettingsController extends AbstractController {
         $form = $this->createFormBuilder($settings)
             ->add('group_app', FieldsetType::class, [
                 'legend' => 'settings.general.label',
-                'fields' => function(FormBuilderInterface $builder) use($appSettings) {
+                'fields' => function(FormBuilderInterface $builder) {
                     $builder
                         ->add('helpdesk:mail', EmailType::class, [
                             'required' => false,

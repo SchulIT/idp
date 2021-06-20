@@ -56,7 +56,7 @@ final class Version20210620145757 extends AbstractMigration implements EntityMan
                     ->getResult();
 
                 foreach($targetUsers as $targetUser) {
-                    $sourceUser->addLinkedUser($targetUser);
+                    $sourceUser->addLinkedStudent($targetUser);
                 }
 
                 $sourceUser->setExternalId(null);

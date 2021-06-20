@@ -200,7 +200,7 @@ class RegistrationCodeController extends AbstractController {
     /**
      * @Route("/{uuid}/edit", name="edit_registration_code")
      */
-    public function edit(RegistrationCode $code, Request $request, AttributePersister $attributePersister) {
+    public function edit(RegistrationCode $code, Request $request) {
         if($code->getRedeemingUser() !== null) {
             $this->addFlash('error', 'codes.edit.error.already_redeemed.message');
             return $this->redirectToRoute('registration_codes');
@@ -211,9 +211,6 @@ class RegistrationCodeController extends AbstractController {
 
         if($form->isSubmitted() && $form->isValid()) {
             $this->repository->persist($code);
-
-            $attributeData = $this->getAttributeData($form);
-            $attributePersister->persistRegistrationCodeAttributes($attributeData, $code);
 
             $this->addFlash('success', 'codes.edit.success');
 
@@ -250,68 +247,5 @@ class RegistrationCodeController extends AbstractController {
             'form' => $form->createView()
         ]);
     }
-
-    /**
-     * @Route("/import", name="import_registration_codes")
-     */
-    public function import(ImportRegistrationCodesFlow $flow, RegistrationCsvImportHelper $helper, TranslatorInterface $translator, LoggerInterface $logger) {
-        $data = new ImportRegistrationCodeData();
-        $flow->bind($data);
-
-        $form = null;
-
-        $form = $flow->createForm();
-
-        if ($flow->isValid($form)) {
-            $flow->saveCurrentStepData($form);
-
-            if ($flow->nextStep()) {
-                try {
-                    $form = $flow->createForm();
-                } catch(RecordInvalidException $e) {
-                    $flow->reset();
-                    $form->addError(new FormError($translator->trans('import.error.invalid_record', [
-                        '%field%' => $e->getField(),
-                        '%offset%' => $e->getIndex()
-                    ])));
-                } catch (LeagueException $e) {
-                    $logger->error('Error parsing CSV file.', [
-                        'exception' => $e
-                    ]);
-                    $flow->reset();
-                    $form->addError(new FormError('import.error.csv'));
-                } catch (Exception $e) {
-                    $logger->error('Error parsing CSV file.', [
-                        'exception' => $e
-                    ]);
-                    $flow->reset();
-                    $form->addError(new FormError('import.error.unknown'));
-                }
-            } else {
-                try {
-                    foreach ($data->getCodes() as $code) {
-                        $this->repository->persist($code);
-                    }
-
-                    $this->addFlash('success', 'import.codes.success');
-                    return $this->redirectToRoute('registration_codes');
-                } catch (Exception $e) {
-                    $form->addError(new FormError('import.error.unknown'));
-
-                    $logger->error('Error persisting imported registration codes.', [
-                        'exception' => $e
-                    ]);
-                }
-            }
-        }
-
-        return $this->render('codes/import.html.twig', [
-            'form' => $form->createView(),
-            'flow' => $flow,
-            'headers' => $helper->getHeaders(),
-            'required' => $helper->getRequiredHeaders()
-        ]);
-    }
-
 
 }

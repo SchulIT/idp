@@ -75,10 +75,14 @@ class UserController extends AbstractApiController {
 
         if($offset === null || !is_numeric($offset) || $offset < 0) {
             $offset = 0;
+        } else {
+            $offset = (int)$offset;
         }
 
         if($limit !== null && (!is_numeric($limit) || $limit < 0)) {
             $limit = null;
+        } else {
+            $limit = (int)$limit;
         }
 
         $uuids = $userRepository->findAllUuids($offset, $limit);

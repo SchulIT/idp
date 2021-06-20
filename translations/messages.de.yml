@@ -179,25 +179,6 @@ two_factor:
       switch:
         label: Authenticator-App nicht zur Hand?
         link: Mit Sicherheitsschlüssel anmelden
-  u2f:
-    label: Sicherheitsschlüssel (U2F)
-    auth:
-      label: Sicherheitsschlüssel einstecken
-      message: Den Button auf dem Sicherheitsschlüssel drücken, um mit der Anmeldung fortzufahren. Falls der Sicherheitsschlüssel keinen Button hat, den Schlüssel einfach erneut einstecken.
-      retry: Erneut versuchen
-      success: Anmeldung erfolgreich. Bitte warten...
-      switch:
-        label: Sicherheitsschlüssel nicht zur Hand?
-        link: Mit Google Authenticator App anmelden
-    enable:
-      label: Neuer Sicherheitsschlüssel
-      action: Registrieren
-      press: Button auf dem Gerät drücken
-    remove:
-      label: Sicherheitsschlüssel löschen
-      confirm: Soll der Sicherheitsschlüssel "%name%" wirklich gelöscht werden? Der Schlüssel kann danach nicht weiter zum Anmelden genutzt werden.
-      success: Sicherheitsschlüssel erfolgreich gelöscht
-    key_name: Name des Schlüssels
 
 dashboard:
   label: Übersicht
@@ -615,15 +596,6 @@ import:
       label: Daten prüfen
       add: Benutzer hinzufügen
       edit: Benutzer aktualisieren
-  codes:
-    label: Registrierungscodes importieren
-    success: Registrierungscodes erfolgreich importiert
-    step_one:
-      label: Datei hochladen
-    step_two:
-      label: Daten prüfen
-      add: Registrierungscode hinzufügen
-      edit: Registrierungscode aktualisieren
 
 email_confirmation:
   label: Bestätigung der E-Mail-Adresse
