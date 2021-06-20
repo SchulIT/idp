@@ -43,8 +43,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.querySelectorAll('select[data-choice=true]').forEach(function(el) {
+        let removeItemButton = false;
+
+        if(el.getAttribute('multiple') !== null) {
+            removeItemButton = true;
+        }
+
         new Choices(el, {
-            itemSelectText: ''
+            itemSelectText: '',
+            removeItemButton: removeItemButton
         });
     });
 
