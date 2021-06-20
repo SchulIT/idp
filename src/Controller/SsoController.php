@@ -39,7 +39,7 @@ class SsoController extends AbstractController {
                          SsoIdpReceiveAuthnRequestProfileBuilder $receiveBuilder,
                          SsoIdpSendResponseProfileBuilderFactory $sendResponseBuilder,
                          CsrfTokenManagerInterface $tokenManager, ServiceProviderRepositoryInterface $serviceProviderRepository,
-                         BuildContainerInterface $buildContainer, LinkStudentsHelper $linkStudentsHelper) {
+                         BuildContainerInterface $buildContainer) {
         if($requestStorage->has() !== true) {
             return $this->redirectToRoute('dashboard');
         }
@@ -47,12 +47,10 @@ class SsoController extends AbstractController {
         /** @var User $user */
         $user = $this->getUser();
 
-        if($user->getType()->isCanLinkStudents() && count($linkStudentsHelper->getLinks($user)) === 0) {
+        if($user->getType()->isCanLinkStudents() && count($user->getLinkedStudents()) === 0) {
             $this->addFlash('error', 'sso.error.registration_incomplete');
             $requestStorage->clear();
             return $this->redirectToRoute('dashboard');
-
-
         }
 
         $requestStorage->load();
