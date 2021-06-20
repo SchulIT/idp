@@ -294,6 +294,10 @@ class UserType extends AbstractType {
 
                 if($user->getType()->isCanLinkStudents() !== true) {
                     $form->remove('group_links');
+                } else {
+                    $form->get('group_general')
+                        ->remove('externalId')
+                        ->remove('grade');
                 }
             });
     }
