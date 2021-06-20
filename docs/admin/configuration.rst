@@ -79,40 +79,10 @@ MAILER_FROM
 
 E-Mail-Adresse des Absenders von E-Mails aus der Anwendung heraus, bspw. ``noreply@schulit.de``.
 
-MAILER_LIMIT
-############
-
-Bei einigen Anbietern kann man nur eine bestimmte Anzahl an E-Mails pro Minute versenden (bspw. bei Office 365). Diese Anzahl
-hier eintragen. Bei unbegrenzter Anzahl kann ein hoher Wert (bspw. ``99999``) angegeben werden.
-
 CRON_PASSWORD
 #############
 
 Das Passwort für den Cronjob-Benutzer, welcher Cronjobs über eine HTTP-Anfrage ausführt. Siehe Cronjobs.
-
-REGISTRATION_DOMAIN_BLOCKLIST
-#############################
-
-Hier können Domänen angegeben werden, die nicht als Anmelde-E-Mail-Adresse bei der Selbstregistrierung genutzt werden
-dürfen. Mehrere Domänen werden mit einem Semikolon separiert. 
-
-.. warning:: Die Domänen müssen explizit und exakt angegeben werden. Wildcards (``*.example.com``) werden aktuell nicht unterstützt.
-
-PROVISIONING_LIMIT
-##################
-
-Wenn Benutzer über eine CSV-Datei importiert werden, werden die Passwörter zunächst als Klartext
-abgespeichert, da das Hashen der Kennwörter sehr viel Zeit in Anspruch nimmt. Das Hashen übernimmt
-eine Hintergrundaufgabe. Mit diesem Parameter wird angegeben, wie viele Benutzer die Aufgabe pro Durchlauf
-abarbeiten soll.
-
-Hinweis: Die meisten Webspace-Anbieter garantieren eine Skript-Laufzeit von maximal 30s. 
-
-HELPDESK_MAIL
-#############
-
-Hier kann eine E-Mail-Adresse angegeben werden, die unterhalb der Anmeldemaske als E-Mail-Adresse bei Problemen
-angezeigt wird. Wenn dieser Parameter leer ist, so wird die Information nicht angezeigt.
 
 DATABASE_URL
 ############

@@ -91,6 +91,11 @@ class Builder {
             ->setExtra('pull-right', true);
 
         if($this->authorizationChecker->isGranted('ROLE_SUPER_ADMIN')) {
+            $menu->addChild('settings.label', [
+                'route' => 'settings'
+            ])
+                ->setExtra('icon', 'fas fa-wrench');
+
             $menu->addChild('user_types.label', [
                 'route' => 'user_types'
             ])

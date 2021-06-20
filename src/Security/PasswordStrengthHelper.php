@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Settings\AppSettings;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequirements;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\NotCompromisedPassword;
@@ -9,11 +10,11 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PasswordStrengthHelper {
-    private $enableCompromisedCheck;
+    private $settings;
     private $validator;
 
-    public function __construct(bool $enableCompromisedCheck, ValidatorInterface $validator) {
-        $this->enableCompromisedCheck = $enableCompromisedCheck;
+    public function __construct(AppSettings $settings, ValidatorInterface $validator) {
+        $this->settings = $settings;
         $this->validator = $validator;
     }
 
@@ -28,7 +29,7 @@ class PasswordStrengthHelper {
             ])
         ];
 
-        if($this->enableCompromisedCheck) {
+        if($this->settings->isPasswordCompromisedCheckEnabled()) {
             $constraints[] = new NotCompromisedPassword();
         }
         

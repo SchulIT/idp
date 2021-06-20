@@ -635,3 +635,22 @@ email_confirmation:
     message: Die E-Mail-Adresse wurde erfolgreich bestätigt.
   close: Dieses Fenster kann nun geschlossen werden.
   dashboard: Zur Übersicht
+
+settings:
+  label: Einstellungen
+  success: Einstellungen wurden erfolgreich aktualisiert.
+  general:
+    label: Allgemeine Einstellungen
+  helpdesk:
+    mail:
+      label: E-Mail-Adresse für Hilfe
+      help: Diese E-Mail-Adresse wird auf der Anmeldeseite angezeigt. Benutzer können sich bei Schwierigkeiten an diese E-Mail-Adresse wenden.
+  security:
+    password_compromised_check:
+      label: Passwort-Check aktiv
+      help: Wenn dieser Check aktiv ist, werden Passwörter mithilfe der Datenbank von haveibeenpwned.com abgeglichen.
+  registration:
+    label: Eltern-Registrierung
+    suffix:
+      label: E-Mail Domäne für Benutzername
+      help: Gibt die E-Mail Domäne an, die Elternaccounts zugeordnet wird.

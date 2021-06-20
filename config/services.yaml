@@ -102,7 +102,7 @@ services:
     # Registration
     App\Security\Registration\RegistrationCodeManager:
         arguments:
-            $domainBlocklist: "%env(REGISTRATION_DOMAIN_BLOCKLIST)%"
+            $domainBlocklist: ""
 
     # Controllers
     App\Controller\IdpController:
@@ -143,11 +143,6 @@ services:
     App\ParamConverter\JsonBodyConverter:
         arguments:
             $prefix: 'App\Request'
-
-    # Password helper
-    App\Security\PasswordStrengthHelper:
-        arguments:
-            $enableCompromisedCheck: '%env(bool:ENABLE_PASSWORD_COMPROMISED_CHECK)%'
 
     # Markdown
     League\CommonMark\Extension\CommonMarkCoreExtension: ~

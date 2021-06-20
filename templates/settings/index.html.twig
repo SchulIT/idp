@@ -1,0 +1,17 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'settings.label'|trans }}{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+
+    {{ form_widget(form) }}
+
+    <div class="buttons">
+        <button type="submit" class="btn btn-primary btn-sm">
+            <i class="fas fa-save"></i> {{ 'actions.save'|trans }}
+        </button>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

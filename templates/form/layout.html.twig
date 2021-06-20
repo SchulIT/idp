@@ -105,6 +105,16 @@
     </div>
 {% endblock %}
 
+{% block text_prefix_widget %}
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">{{ form.vars.prefix }}</span>
+        </div>
+
+        {{ block('form_widget_simple') }}
+    </div>
+{% endblock %}
+
 {%- block markdown_widget -%}
     {{ block('textarea_widget') }}
 {%- endblock -%}
