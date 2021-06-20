@@ -99,10 +99,11 @@ interface UserRepositoryInterface {
      * @param UserType|null $type
      * @param UserRole|null $role
      * @param string|null $query
+     * @param string|null $grade
      * @param bool $deleted
      * @return Paginator
      */
-    public function getPaginatedUsers($itemsPerPage, &$page, $type = null, $role = null, $query = null, bool $deleted = false): Paginator;
+    public function getPaginatedUsers(int $itemsPerPage, int &$page, ?UserType $type = null, ?UserRole $role = null, ?string $query = null, ?string $grade = null, bool $deleted = false): Paginator;
 
     /**
      * Removes deleted users which are deleted before $threshold.
@@ -116,4 +117,9 @@ interface UserRepositoryInterface {
      * @return User[]
      */
     public function findParentUsersWithoutStudents(): array;
+
+    /**
+     * @return string[]
+     */
+    public function findGrades(): array;
 }

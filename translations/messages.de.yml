@@ -460,6 +460,7 @@ filter:
   label: filtern
   all_types: Alle Benutzertypen
   all_roles: Alle Benutzerrollen
+  all_grades: Alle Klassen
   reset: zurücksetzen
 
 applications:

@@ -46,11 +46,18 @@ class UserController extends AbstractController {
     private function internalDisplay(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter, bool $deleted) {
         $q = $request->query->get('q', null);
         $page = $request->query->getInt('page', 1);
+        $grade = $request->query->get('grade', null);
+
+        $grades = $this->repository->findGrades();
+
+        if(!in_array($grade, $grades)) {
+            $grade = null;
+        }
 
         $typeFilterView = $typeFilter->handle($request->query->get('type'));
         $roleFilterView = $roleFilter->handle($request->query->get('role'));
 
-        $paginator = $this->repository->getPaginatedUsers(static::USERS_PER_PAGE, $page, $typeFilterView->getCurrentType(), $roleFilterView->getCurrentRole(), $q, $deleted);
+        $paginator = $this->repository->getPaginatedUsers(static::USERS_PER_PAGE, $page, $typeFilterView->getCurrentType(), $roleFilterView->getCurrentRole(), $q, $grade, $deleted);
 
         $pages = 1;
 
@@ -75,6 +82,8 @@ class UserController extends AbstractController {
             'users' => $paginator->getIterator(),
             'page' => $page,
             'pages' => $pages,
+            'grade' => $grade,
+            'grades' => $grades,
             'q' => $q,
             'statistics' => $statistics,
             'count' => $this->repository->countUsers(),

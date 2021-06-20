@@ -123,6 +123,7 @@
                 {% include '@Common/includes/pagination.html.twig' with {
                     currentFilters: {
                         q: q,
+                        grade: grade,
                         type: (typeFilter.currentType ? typeFilter.currentType.uuid.toString() : null),
                         role: (roleFilter.currentRole ? roleFilter.currentRole.uuid.toString() : null)
                     },
@@ -168,6 +169,15 @@
                                     <option value="">{{ 'filter.all_roles'|trans }}</option>
                                     {% for r in roleFilter.roles %}
                                         <option value="{{ r.uuid }}" {% if roleFilter.currentRole is not null and roleFilter.currentRole.id == r.id %}selected{% endif %}>{{ r.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <select name="grade" class="form-control" data-choice="true" data-trigger="submit">
+                                    <option value="">{{ 'filter.all_grades'|trans }}</option>
+                                    {% for g in grades %}
+                                        <option value="{{ g }}" {% if grade is not null and g == grade %}selected{% endif %}>{{ g }}</option>
                                     {% endfor %}
                                 </select>
                             </div>

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ActiveDirectoryUser;
 use App\Entity\User;
+use App\Entity\UserRole;
 use App\Entity\UserType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -160,7 +161,7 @@ class UserRepository implements UserRepositoryInterface {
     /**
      * @inheritDoc
      */
-    public function getPaginatedUsers($itemsPerPage, &$page, $type = null, $role = null, $query = null, bool $deleted = false): Paginator {
+    public function getPaginatedUsers(int $itemsPerPage, int &$page, ?UserType $type = null, ?UserRole $role = null, ?string $query = null, ?string $grade = null, bool $deleted = false): Paginator {
         $qb = $this->em
             ->createQueryBuilder()
             ->select('u')
@@ -169,9 +170,21 @@ class UserRepository implements UserRepositoryInterface {
 
         $qbInner = $this->em
             ->createQueryBuilder()
-            ->select('uInner.id')
+            ->select('DISTINCT uInner.id')
             ->from(User::class, 'uInner')
-            ->leftJoin('uInner.userRoles', 'rInner');
+            ->leftJoin('uInner.userRoles', 'rInner')
+            ->leftJoin('uInner.linkedStudents', 'sInner');
+
+        if(!empty($grade)) {
+            $qbInner
+                ->andWhere(
+                    $qbInner->expr()->orX(
+                        'uInner.grade = :grade',
+                        'sInner.grade = :grade'
+                    )
+                );
+            $qb->setParameter('grade', $grade);
+        }
 
         if(!empty($query)) {
             $qbInner
@@ -201,10 +214,16 @@ class UserRepository implements UserRepositoryInterface {
             $qb->setParameter('role', $role);
         }
 
-        if($deleted === true) {
+        if($grade === true) {
             $qbInner->andWhere($qb->expr()->isNotNull('u.deletedAt'));
         } else {
             $qbInner->andWhere($qb->expr()->isNull('u.deletedAt'));
+        }
+
+        if($deleted === true) {
+            $qbInner->andWhere('uInner.deletedAt IS NOT NULL');
+        } else {
+            $qbInner->andWhere('uInner.deletedAt IS NULL');
         }
 
         if(!is_numeric($page) || $page < 1) {
@@ -380,5 +399,18 @@ class UserRepository implements UserRepositoryInterface {
         );
 
         return $qb->getQuery()->getResult();
+    }
+
+    public function findGrades(): array {
+        $result = $this->em->createQueryBuilder()
+            ->select('DISTINCT u.grade')
+            ->from(User::class, 'u')
+            ->orderBy('u.grade', 'asc')
+            ->getQuery()
+            ->getResult(Query::HYDRATE_ARRAY);
+
+        return array_map(function($row) {
+            return $row['grade'];
+        }, $result);
     }
 }
