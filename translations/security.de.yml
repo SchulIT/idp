@@ -56,19 +56,4 @@ register:
     error:
       email_aready_used: Die E-Mail Adresse wird bereits verwendet. Bitte eine andere E-Mail Adresse verwenden.
       domain_blacklisted: E-Mail Adressen mit der angegebenen Domain (hinter dem @-Zeichen) sind nicht erlaubt.
-  completed:
-    no_confirmation:
-      label: Registrierung erfolgreich
-      message: Die eingegebe Anmelde-E-Mail-Adresse und das zugehörige Passwort können nun zur Anmeldung genutzt werden.
-    confirmation:
-      label: Bestätigung versendet
-      message: Es wurde eine E-Mail an die angegebene Adresse versendet. Bitte den Bestätigungslink in der E-Mail anklicken, um die Registrierung abzuschließen.
-      help: Falls eine falsche E-Mail Adresse eingetragen wurde oder die E-Mail nicht angekommen ist, muss der Administrator informiert werden.
-  confirmed:
-    label: E-Mail Adresse bestätigen
-    message: Die E-Mail Adresse wurde bestätigt.
-    error:
-      message: Bei der Registrierung ist ein Fehler aufgetreten.
-      not_found: Der Bestätigungscode ist nicht vorhanden oder nicht mehr gültig.
-      email: Die verwendete E-Mail Adresse ist mittlerweile in Verwendung. Bitte eine andere E-Mail Adresse wählen.
-      button: Registrierung erneut beginnen
+  completed: Die Registrierung war erfolgreich.

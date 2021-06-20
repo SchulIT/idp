@@ -92,6 +92,8 @@ class RegistrationController extends AbstractController {
         if($form->isSubmitted() && $form->isValid()) {
             $manager->complete($code, $user, $form->get('password')->getData());
 
+            $this->addFlash('success', 'register.completed');
+
             return $authenticatorHandler
                 ->authenticateUserAndHandleSuccess(
                     $user,
