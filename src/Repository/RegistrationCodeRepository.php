@@ -99,7 +99,7 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
         $qb = $this->em->createQueryBuilder();
         $qb
             ->delete(RegistrationCode::class, 'r')
-            ->where($qb->expr()->isNotNull('r.redeemedAt'))
+            ->where($qb->expr()->isNotNull('r.redeemingUser'))
             ->getQuery()
             ->execute();
     }
