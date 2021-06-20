@@ -17,6 +17,7 @@ class UserTypesSetup {
      */
     private function getDefaultUserTypes() {
         return [
+            (new UserType())->setAlias('user')->setName('Benutzer')->setEduPerson(['member'])->setIsBuiltIn(true),
             (new UserType())->setAlias('student')->setName('Schülerin/Schüler')->setEduPerson(['student'])->setIsBuiltIn(true),
             (new UserType())->setAlias('parent')->setName('Elternteil')->setEduPerson(['affiliate'])->setIsBuiltIn(true),
             (new UserType())->setAlias('teacher')->setName('Lehrkraft')->setEduPerson(['faculty'])->setIsBuiltIn(true),

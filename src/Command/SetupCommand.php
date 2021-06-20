@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Entity\UserType;
 use App\Repository\UserTypeRepositoryInterface;
+use App\Setup\UserTypesSetup;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,14 +15,14 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
 class SetupCommand extends Command {
 
     private $dbalConnection;
-    private $userTypeRepository;
+    private $userTypeSetup;
     private $pdoSessionHandler;
 
-    public function __construct(Connection $connection, UserTypeRepositoryInterface $userTypeRepository, PdoSessionHandler $pdoSessionHandler, ?string $name = null) {
+    public function __construct(Connection $connection, UserTypesSetup $userTypeSetup, PdoSessionHandler $pdoSessionHandler, ?string $name = null) {
         parent::__construct($name);
 
         $this->dbalConnection = $connection;
-        $this->userTypeRepository = $userTypeRepository;
+        $this->userTypeSetup = $userTypeSetup;
         $this->pdoSessionHandler = $pdoSessionHandler;
     }
 
@@ -52,22 +53,7 @@ class SetupCommand extends Command {
     }
 
     private function addDefaultUserType() {
-        $userType = (new UserType())
-            ->setName('User')
-            ->setAlias('user')
-            ->setEduPerson(['member'])
-            ->setIsBuiltIn(true);
-
-        $userTypes = $this->userTypeRepository->findAll();
-
-        foreach($userTypes as $type) {
-            if($type->getAlias() === $userType->getAlias()) {
-                // Type already added
-                return;
-            }
-        }
-
-        $this->userTypeRepository->persist($userType);
+        $this->userTypeSetup->setupDefaultUserTypes();
     }
 
     private function setupRememberMe() {
