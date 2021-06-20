@@ -105,17 +105,15 @@ interface UserRepositoryInterface {
     public function getPaginatedUsers($itemsPerPage, &$page, $type = null, $role = null, $query = null, bool $deleted = false): Paginator;
 
     /**
-     * @param int $offset
-     * @param int $limit
-     * @return User[]
-     */
-    public function findAllLinkedUsers(int $offset, int $limit): array;
-
-    /**
      * Removes deleted users which are deleted before $threshold.
      *
      * @param DateTime $threshold
      * @return int Number of removed users.
      */
     public function removeDeletedUsers(DateTime $threshold): int;
+
+    /**
+     * @return User[]
+     */
+    public function findParentUsersWithoutStudents(): array;
 }

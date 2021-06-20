@@ -331,16 +331,6 @@ class UserRepository implements UserRepositoryInterface {
     /**
      * @inheritDoc
      */
-    public function findAllLinkedUsers(int $offset, int $limit): array {
-        $qb = $this->createDefaultQueryBuilder()
-            ->where('t.canLinkStudents = true');
-
-        return $qb->getQuery()->getResult();
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function findAllExternalIdsByExternalIdList(array $externalIds): array {
         if(count($externalIds) === 0) {
             return [];
@@ -372,5 +362,23 @@ class UserRepository implements UserRepositoryInterface {
             ->setParameter('threshold', $threshold);
 
         return $qb->getQuery()->execute();
+    }
+
+    public function findParentUsersWithoutStudents(): array {
+        $qbInner = $this->em->createQueryBuilder()
+            ->select('uInner.id')
+            ->from(User::class, 'uInner')
+            ->leftJoin('uInner.type', 'tInner')
+            ->leftJoin('uInner.linkedStudents', 'sInner')
+            ->where("tInner.alias = 'parent'")
+            ->andWhere('sInner.id IS NULL');
+
+        $qb = $this->createDefaultQueryBuilder();
+
+        $qb->where(
+            $qb->expr()->in('u.id', $qbInner->getDQL())
+        );
+
+        return $qb->getQuery()->getResult();
     }
 }

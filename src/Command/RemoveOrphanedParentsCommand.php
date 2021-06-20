@@ -3,7 +3,6 @@
 namespace App\Command;
 
 use App\Repository\UserRepositoryInterface;
-use DateTime;
 use SchulIT\CommonBundle\Helper\DateHelper;
 use Shapecode\Bundle\CronBundle\Annotation\CronJob;
 use Symfony\Component\Console\Command\Command;
@@ -35,14 +34,14 @@ class RemoveOrphanedParentsCommand extends Command {
     public function execute(InputInterface $input, OutputInterface $output) {
         $style = new SymfonyStyle($input, $output);
 
-        $users = $this->userRepository->findAllLinkedUsers(0, 1000000);
+        $users = $this->userRepository->findParentUsersWithoutStudents();
         $this->userRepository->beginTransaction();
 
         $count = 0;
         $threshold = $this->dateHelper->getToday()->modify(static::InactiveModifier);
 
         foreach($users as $user) {
-            if(empty($user->getExternalId()) && $user->getCreatedAt() < $threshold) {
+            if($user->getLinkedStudents()->count() === 0 && $user->getCreatedAt() < $threshold) {
                 $this->userRepository->remove($user);
                 $count++;
             }
