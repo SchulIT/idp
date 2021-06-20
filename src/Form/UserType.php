@@ -150,6 +150,7 @@ class UserType extends AbstractType {
                     $builder
                         ->add('linkedStudents', EntityType::class, [
                             'label' => 'label.students_simple',
+                            'required' => false,
                             'class' => User::class,
                             'choice_label' => function(User $user) {
                                 if(!empty($user->getGrade())) {
