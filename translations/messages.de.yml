@@ -523,6 +523,11 @@ codes:
     success: Registrierungscode erfolgreich hinzugefügt
     help:
       can_complete_if_null: Wenn dieses Feld nicht ausgefüllt ist, kann der Benutzer das bei der Registrierung angeben (Angabe ist freiwillig).
+  bulk:
+    label: Registrierungscodes für Klasse erzeugen
+    success: Registrierungscodes erfolgreich erzeugt
+  export:
+    label: Registrierungscodes exportieren (CSV)
   edit:
     label: Registrierungscode bearbeiten
     success: Registrierungscode erfolgreich aktualisiert

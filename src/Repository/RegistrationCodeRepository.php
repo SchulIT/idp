@@ -59,12 +59,17 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
         $this->em->rollback();;
     }
 
-    public function getPaginatedUsers(int $itemsPerPage, int &$page, ?string $query = null): Paginator {
+    public function getPaginatedUsers(int $itemsPerPage, int &$page, ?string $query = null, ?string $grade = null): Paginator {
         $qb = $this->createDefaultQueryBuilder();
 
         if($query !== null) {
             $qb->andWhere($qb->expr()->like('c.code', ':query'))
                 ->setParameter('query', '%' . $query . '%');
+        }
+
+        if($grade !== null) {
+            $qb->andWhere('u.grade = :grade')
+                ->setParameter('grade', $grade);
         }
 
         if(!is_numeric($page) || $page < 1) {
@@ -102,5 +107,16 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
             ->where($qb->expr()->isNotNull('r.redeemingUser'))
             ->getQuery()
             ->execute();
+    }
+
+    public function findByGrade(string $grade): array {
+        return $this->em->createQueryBuilder()
+            ->select(['c', 's'])
+            ->from(RegistrationCode::class, 'c')
+            ->leftJoin('c.student', 's')
+            ->where('s.grade = :grade')
+            ->setParameter('grade', $grade)
+            ->getQuery()
+            ->getResult();
     }
 }

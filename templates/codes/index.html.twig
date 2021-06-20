@@ -69,7 +69,8 @@
 
                 {% include '@Common/includes/pagination.html.twig' with {
                     currentFilters: {
-                        q: query
+                        q: query,
+                        grade: grade
                     },
                     currentPage: page,
                     paginationPath: 'registration_codes',
@@ -84,8 +85,14 @@
                         <a href="{{ path('add_registration_code') }}" class="list-group-item list-group-item-action">
                             <i class="fas fa-plus"></i> {{ 'codes.add.label'|trans }}
                         </a>
+                        <a href="{{ path('add_registration_code_bulk') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-plus"></i> {{ 'codes.bulk.label'|trans }}
+                        </a>
                         <a href="{{ path('import_registration_codes') }}" class="list-group-item list-group-item-action">
                             <i class="fa fa-upload"></i> {{ 'import.codes.label'|trans }}
+                        </a>
+                        <a href="{{ path('export_codes', { grade: grade }) }}" class="list-group-item list-group-item-action">
+                            <i class="fa fa-download"></i> {{ 'codes.export.label'|trans }}
                         </a>
                         <a href="{{ path('remove_redeemed_codes') }}" class="list-group-item list-group-item-action list-group-item-danger">
                             <i class="fas fa-trash"></i> {{ 'codes.remove_redeemed.label'|trans }}
@@ -96,6 +103,15 @@
                 <div class="card">
                     <div class="card-body">
                         <form method="get">
+                            <div class="form-group">
+                                <select name="grade" class="form-control" data-choice="true" data-trigger="submit">
+                                    <option value="">{{ 'filter.all_grades'|trans }}</option>
+                                    {% for g in grades %}
+                                        <option value="{{ g }}" {% if grade is not null and g == grade %}selected{% endif %}>{{ g }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
                             <div class="form-group mb-0">
                                 <div class="input-group">
                                     <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="{{ 'codes.query'|trans }}">

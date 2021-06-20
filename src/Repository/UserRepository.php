@@ -413,4 +413,15 @@ class UserRepository implements UserRepositoryInterface {
             return $row['grade'];
         }, $result);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function findStudentsByGrade(string $grade): array {
+        return $this->createDefaultQueryBuilder()
+            ->andWhere('u.grade = :grade')
+            ->setParameter('grade', $grade)
+            ->getQuery()
+            ->getResult();
+    }
 }

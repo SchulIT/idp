@@ -84,6 +84,12 @@ interface UserRepositoryInterface {
     public function findNextNonProvisionedUsers(int $limit): array;
 
     /**
+     * @param string $grade
+     * @return User[]
+     */
+    public function findStudentsByGrade(string $grade): array;
+
+    /**
      * @param UserType|null $userType
      * @return int
      */
