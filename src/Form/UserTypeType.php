@@ -13,6 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class UserTypeType extends AbstractType {
     use AttributeDataTrait;
@@ -99,6 +101,30 @@ class UserTypeType extends AbstractType {
             ->add('group_attributes', AttributesType::class, [
                 'legend' => 'label.attributes',
                 'attribute_values' => $this->userAttributeResolver->getAttributesForType($userType)
-            ]);
+            ])
+            ->addEventListener(FormEvents::POST_SET_DATA, function(FormEvent $formEvent) {
+                $form = $formEvent->getForm();
+                $type = $formEvent->getData();
+
+                if($type instanceof \App\Entity\UserType && $type->isBuiltIn()) {
+                    $form->get('group_general')
+                        ->add('alias', TextType::class, [
+                            'label' => 'label.alias',
+                            'disabled' => true,
+                            'data' => $type->getAlias()
+                        ])
+                        ->add('eduPerson', ChoiceType::class, [
+                            'label' => 'label.edu_person',
+                            'multiple' => true,
+                            'expanded' => true,
+                            'choices' => $this->getEduPersonAffliations(),
+                            'label_attr' => [
+                                'class' => 'checkbox-custom'
+                            ],
+                            'disabled' => true,
+                            'data' => $type->getEduPerson()
+                        ]);
+                }
+            });
     }
 }

@@ -87,6 +87,12 @@ class UserType {
      */
     private $canLinkStudents = false;
 
+    /**
+     * @ORM\Column(type="boolean")
+     * @var bool
+     */
+    private $isBuiltIn = false;
+
     public function __construct() {
         $this->uuid = Uuid::uuid4();
 
@@ -247,6 +253,22 @@ class UserType {
      */
     public function setCanLinkStudents(bool $canLinkStudents): UserType {
         $this->canLinkStudents = $canLinkStudents;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isBuiltIn(): bool {
+        return $this->isBuiltIn;
+    }
+
+    /**
+     * @param bool $isBuiltIn
+     * @return UserType
+     */
+    public function setIsBuiltIn(bool $isBuiltIn): UserType {
+        $this->isBuiltIn = $isBuiltIn;
         return $this;
     }
 }

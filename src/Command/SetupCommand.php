@@ -55,7 +55,8 @@ class SetupCommand extends Command {
         $userType = (new UserType())
             ->setName('User')
             ->setAlias('user')
-            ->setEduPerson(['member']);
+            ->setEduPerson(['member'])
+            ->setIsBuiltIn(true);
 
         $userTypes = $this->userTypeRepository->findAll();
 

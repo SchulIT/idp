@@ -6,6 +6,7 @@ use App\Entity\UserType;
 use App\Form\AttributeDataTrait;
 use App\Form\UserTypeType;
 use App\Repository\UserTypeRepositoryInterface;
+use App\Security\Voter\UserTypeVoter;
 use App\Service\AttributePersister;
 use App\Setup\UserTypesSetup;
 use SchulIT\CommonBundle\Form\ConfirmType;
@@ -110,6 +111,8 @@ class UserTypeController extends AbstractController {
      * @Route("/{uuid}/remove", name="remove_user_type")
      */
     public function remove(UserType $userType, Request $request, UserTypeRepositoryInterface $userTypeRepository, TranslatorInterface $translator) {
+        $this->denyAccessUnlessGranted(UserTypeVoter::REMOVE, $userType);
+
         if($userTypeRepository->countUsersOfUserType($userType) > 0) {
             $this->addFlash('error', $translator->trans('user_types.remove.error', [
                 '%name%' => $userType->getName()

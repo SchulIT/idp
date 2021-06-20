@@ -17,10 +17,10 @@ class UserTypesSetup {
      */
     private function getDefaultUserTypes() {
         return [
-            (new UserType())->setAlias('student')->setName('Schülerin/Schüler')->setEduPerson(['student']),
-            (new UserType())->setAlias('parent')->setName('Elternteil')->setEduPerson(['affiliate']),
-            (new UserType())->setAlias('teacher')->setName('Lehrkraft')->setEduPerson(['faculty']),
-            (new UserType())->setAlias('secretary')->setName('Sekretariat')->setEduPerson(['staff'])
+            (new UserType())->setAlias('student')->setName('Schülerin/Schüler')->setEduPerson(['student'])->setIsBuiltIn(true),
+            (new UserType())->setAlias('parent')->setName('Elternteil')->setEduPerson(['affiliate'])->setIsBuiltIn(true),
+            (new UserType())->setAlias('teacher')->setName('Lehrkraft')->setEduPerson(['faculty'])->setIsBuiltIn(true),
+            (new UserType())->setAlias('secretary')->setName('Sekretariat')->setEduPerson(['staff'])->setIsBuiltIn(true)
         ];
     }
 
