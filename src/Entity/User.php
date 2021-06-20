@@ -205,12 +205,23 @@ class User implements UserInterface, TwoFactorInterface {
      */
     private $canChangePassword = true;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="User")
+     * @ORM\JoinTable(name="user_links",
+     *     joinColumns={@ORM\JoinColumn(name="source_user_id", onDelete="CASCADE")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="target_user_id", onDelete="CASCADE")}
+     * )
+     * @var Collection<User>
+     */
+    private $linkedStudents;
+
     public function __construct() {
         $this->uuid = Uuid::uuid4();
 
         $this->enabledServices = new ArrayCollection();
         $this->attributes = new ArrayCollection();
         $this->userRoles = new ArrayCollection();
+        $this->linkedStudents = new ArrayCollection();
     }
 
     /**
@@ -319,14 +330,20 @@ class User implements UserInterface, TwoFactorInterface {
     }
 
     /**
-     * @return string|int
+     * @return string|null
      */
     public function getExternalId() {
+        if($this->linkedStudents->count() > 0) {
+            return implode(',', $this->linkedStudents->map(function(User $user) {
+                return $user->getExternalId();
+            })->toArray());
+        }
+
         return $this->externalId;
     }
 
     /**
-     * @param string|int $externalId
+     * @param string|null $externalId
      * @return User
      */
     public function setExternalId($externalId) {
@@ -644,6 +661,21 @@ class User implements UserInterface, TwoFactorInterface {
     public function setCanChangePassword(bool $canChangePassword): User {
         $this->canChangePassword = $canChangePassword;
         return $this;
+    }
+
+    public function addLinkedStudent(User $user): void {
+        $this->linkedStudents->add($user);
+    }
+
+    public function removeLinkedStudent(User $user): void {
+        $this->linkedStudents->removeElement($user);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getLinkedStudents(): Collection {
+        return $this->linkedStudents;
     }
 
     public function getTypeString(): string {

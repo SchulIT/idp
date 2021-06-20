@@ -59,6 +59,7 @@ label:
   user_role: Benutzerrolle
   suffix: Suffix
   students: '{0} Kinder|{1} Kind|]1,Inf[ Kinder'
+  students_simple: Kinder
   user: Benutzer
   content: Inhalt
   file: Datei

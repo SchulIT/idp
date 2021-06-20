@@ -193,3 +193,9 @@ services:
 
     Symfony\Component\Security\Core\User\UserProviderInterface:
         alias: 'security.user.provider.concrete.database'
+
+    # Migrations
+    Doctrine\Migrations\Version\DbalMigrationFactory: ~
+    App\Migrations\Factory\MigrationFactoryDecorator:
+        decorates: Doctrine\Migrations\Version\DbalMigrationFactory
+        arguments: [ '@App\Migrations\Factory\MigrationFactoryDecorator.inner', '@doctrine.orm.entity_manager' ]

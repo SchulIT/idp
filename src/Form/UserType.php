@@ -144,6 +144,34 @@ class UserType extends AbstractType {
                         ]);
                 }
             ])
+            ->add('group_links', FieldsetType::class, [
+                'legend' => 'label.students_simple',
+                'fields' => function(FormBuilderInterface $builder) {
+                    $builder
+                        ->add('linkedStudents', EntityType::class, [
+                            'label' => 'label.students_simple',
+                            'class' => User::class,
+                            'choice_label' => function(User $user) {
+                                if(!empty($user->getGrade())) {
+                                    return sprintf('%s, %s (%s)', $user->getLastname(), $user->getFirstname(), $user->getGrade());
+                                }
+
+                                return sprintf('%s, %s (%s)', $user->getLastname(), $user->getFirstname(), $user->getUsername());
+                            },
+                            'query_builder' => function(EntityRepository $repository) {
+                                return $repository->createQueryBuilder('u')
+                                    ->leftJoin('u.type', 't')
+                                    ->where("t.alias = 'student'")
+                                    ->orderBy('u.username', 'asc');
+                            },
+                            'multiple' => true,
+                            'by_reference' => false,
+                            'attr' => [
+                                'data-choice' => 'true'
+                            ]
+                        ]);
+                }
+            ])
             ->add('group_idp', FieldsetType::class, [
                 'legend' => 'label.idp',
                 'fields' => function(FormBuilderInterface $builder) {
@@ -261,6 +289,10 @@ class UserType extends AbstractType {
                             'label' => 'label.lastname',
                             'attr' => [ 'help' => 'info.attribute_must_change_in_ad' ]
                         ]);
+                }
+
+                if($user->getType()->isCanLinkStudents() !== true) {
+                    $form->remove('group_links');
                 }
             });
     }

@@ -30,13 +30,11 @@ class DashboardController extends AbstractController {
     /**
      * @Route("/dashboard", name="dashboard")
      */
-    public function dashboard(Request $request, UserServiceProviderResolver $resolver,
-                              LinkStudentsHelper $linkStudentsHelper) {
+    public function dashboard(Request $request, UserServiceProviderResolver $resolver) {
         /** @var User $user */
         $user = $this->getUser();
 
         $services = $resolver->getServicesForCurrentUser();
-        $linkedUsers = $linkStudentsHelper->getLinks($user);
 
         $form = null;
 
@@ -47,8 +45,8 @@ class DashboardController extends AbstractController {
 
         return $this->render('dashboard/index.html.twig', [
             'services' => $services,
-            'links' => $linkedUsers,
-            'links_required' => $user->getType()->isCanLinkStudents() && count($linkedUsers) === 0,
+            'students' => $user->getLinkedStudents(),
+            'links_required' => $user->getType()->isCanLinkStudents() && $user->getLinkedStudents()->count() === 0,
             'form' => $form !== null ? $form->createView() : null
         ]);
     }

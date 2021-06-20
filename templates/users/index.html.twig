@@ -15,7 +15,7 @@
             <div class="col-md-9">
                 <div class="card">
                     <div class="table-responsive">
-                        <table class="table table-striped table-hover table-bordered card-table">
+                        <table class="table table-hover table-bordered card-table">
                             <colgroup>
                                 <col>
                                 <col class="column-180">
@@ -40,7 +40,7 @@
 
                             <tbody>
                             {% for user in users %}
-                                <tr>
+                                <tr class="{% if loop.index0 % 2 == 0 %}odd{% endif %}">
                                     <td>
                                         {{ user.username }}
 
@@ -105,6 +105,15 @@
                                         </form>
                                     </td>
                                 </tr>
+                                {% if user.linkedStudents|length > 0 %}
+                                <tr class="{% if loop.index0 % 2 == 0 %}odd{% endif %}">
+                                    <td colspan="7">
+                                        {% for linked_user in user.linkedStudents %}
+                                            <i class="fas fa-user-graduate"></i> {{ linked_user|user }}
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                                {% endif %}
                             {% endfor %}
                             </tbody>
                         </table>

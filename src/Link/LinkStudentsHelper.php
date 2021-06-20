@@ -29,14 +29,7 @@ class LinkStudentsHelper {
             throw new NotAStudentException();
         }
 
-        $ids = [ ];
-        if(!empty($currentUser->getExternalId())) {
-            $ids = explode(',', $currentUser->getExternalId());
-        }
-
-        $ids[] = $student->getExternalId();
-        $currentUser->setExternalId(implode(',', $ids));
-
+        $currentUser->addLinkedUser($student);
         $this->repository->persist($currentUser);
     }
 

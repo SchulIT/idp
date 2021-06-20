@@ -10,7 +10,7 @@
 
 {% block content %}
 
-    {% if is_granted('link-student') and links is empty %}
+    {% if is_granted('link-student') and students is empty %}
         <div class="bs-callout bs-callout-warning">
             <h4 class="no-icon"><i class="fas fa-user-check"></i> {{ 'registration.complete.label'|trans }}</h4>
             <p>{{ 'registration.complete.message'|trans }}</p>
@@ -55,15 +55,15 @@
                 <div class="d-flex align-items-center">
                     <span class="mr-auto">
                         <strong class="mr-1">
-                            <i class="fa fa-link"></i> {{ 'label.students'|trans({'%count%': links|length }) }}:
+                            <i class="fa fa-link"></i> {{ 'label.students'|trans({'%count%': students|length }) }}:
                         </strong>
 
                         <span class="text-muted">
-                            {% if links is empty %}
+                            {% if students is empty %}
                                 {{ 'link.student.none'|trans }}
                             {% endif %}
-                            {% for link in links %}
-                                <i class="fas fa-user"></i> {{ link.firstname }} {{ link.lastname }} {%- if not link.grade is empty -%}({{ link.grade }}){%- endif -%}
+                            {% for link in students %}
+                                <i class="fas fa-user"></i> {{ link.firstname }} {{ link.lastname }} {% if not link.grade is empty -%}({{ link.grade }}){%- endif -%}
                             {% endfor %}
                         </span>
                     </span>
