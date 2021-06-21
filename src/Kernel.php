@@ -59,4 +59,12 @@ class Kernel extends BaseKernel
         $routes->import($confDir.'/{routes}/'.$this->environment.'/**/*'.self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir.'/{routes}'.self::CONFIG_EXTS, '/', 'glob');
     }
+
+    public function process(ContainerBuilder $container)
+    {
+        if (php_sapi_name() === 'cli') {
+            $container->removeDefinition('messenger.listener.dispatch_pcntl_signal_listener');
+            $container->removeDefinition('messenger.listener.stop_worker_on_sigterm_signal_listener');
+        }
+    }
 }
