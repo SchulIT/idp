@@ -11,6 +11,7 @@ use Psr\Log\Test\LoggerInterfaceTest;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
@@ -20,13 +21,15 @@ class ForgotPasswordManager {
     private $translator;
     private $userConverter;
     private $logger;
+    private $urlGenerator;
 
     public function __construct(PasswordManager $passwordManager, MailerInterface $mailer, TranslatorInterface $translator,
-                                UserStringConverter $userConverter, LoggerInterfaceTest $logger = null) {
+                                UserStringConverter $userConverter, UrlGeneratorInterface $urlGenerator, LoggerInterfaceTest $logger = null) {
         $this->passwordManager = $passwordManager;
         $this->mailer = $mailer;
         $this->translator = $translator;
         $this->userConverter = $userConverter;
+        $this->urlGenerator = $urlGenerator;
         $this->logger = $logger ?? new NullLogger();
     }
 
@@ -52,6 +55,12 @@ class ForgotPasswordManager {
             ->htmlTemplate('mail/reset_password.html.twig')
             ->context([
                 'token' => $token->getToken(),
+                'link' => $this->urlGenerator->generate(
+                    'change_password', [
+                        'token' => $token->getToken()
+                    ],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
                 'expiry_date' => $token->getExpiresAt(),
                 'username' => $user->getUsername()
             ]);

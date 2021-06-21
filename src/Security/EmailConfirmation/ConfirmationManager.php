@@ -11,6 +11,7 @@ use SchulIT\CommonBundle\Helper\DateHelper;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ConfirmationManager {
@@ -23,15 +24,17 @@ class ConfirmationManager {
     private $translator;
     private $mailer;
     private $userConverter;
+    private $urlGenerator;
 
     public function __construct(DateHelper $dateHelper, EmailConfirmationRepositoryInterface $repository, UserRepositoryInterface $userRepository,
-                                TranslatorInterface $translator, MailerInterface $mailer, UserStringConverter $userConverter) {
+                                TranslatorInterface $translator, MailerInterface $mailer, UserStringConverter $userConverter, UrlGeneratorInterface $urlGenerator) {
         $this->dateHelper = $dateHelper;
         $this->repository = $repository;
         $this->userRepository = $userRepository;
         $this->translator = $translator;
         $this->mailer = $mailer;
         $this->userConverter = $userConverter;
+        $this->urlGenerator = $urlGenerator;
     }
 
     public function hasConfirmation(User $user): bool {
@@ -67,6 +70,9 @@ class ConfirmationManager {
             ->context([
                 'username' => $user->getUsername(),
                 'token' => $confirmation->getToken(),
+                'link' => $this->urlGenerator->generate('confirm_email', [
+                    'token' => $confirmation->getToken()
+                ], UrlGeneratorInterface::ABSOLUTE_URL),
                 'expiry_date' => $confirmation->getValidUntil()
             ]);
 
