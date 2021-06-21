@@ -19,6 +19,7 @@
                             <colgroup>
                                 <col class="column-lg" >
                                 <col>
+                                <col class="column-md">
                                 <col class="column-md" >
                             </colgroup>
 
@@ -27,6 +28,7 @@
                                 <th>{{ 'label.code'|trans }}</th>
                                 <th>{{ 'label.student'|trans }}</th>
                                 <th>{{ 'label.user'|trans }}</th>
+                                <th>{{ 'label.enabled_from'|trans }}</th>
                                 <th>{{ 'actions.label'|trans }}</th>
                             </tr>
                             </thead>
@@ -49,6 +51,11 @@
                                             <a href="{{ path('edit_user', { uuid: code.redeemingUser.uuid.toString }) }}">
                                                 {{ code.redeemingUser|user }}
                                             </a>
+                                        {% endif %}
+                                    </td>
+                                    <td class="align-middle">
+                                        {% if code.validFrom is not null %}
+                                            {{ code.validFrom|format_date }}
                                         {% endif %}
                                     </td>
                                     <td class="align-middle">

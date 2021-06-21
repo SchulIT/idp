@@ -15,6 +15,7 @@ use App\Security\Registration\RegistrationCodeManager;
 use App\Security\Registration\TokenNotFoundException;
 use App\Security\UserAuthenticator;
 use App\Settings\RegistrationSettings;
+use SchulIT\CommonBundle\Helper\DateHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,7 +43,8 @@ class RegistrationController extends AbstractController {
     /**
      * @Route("/redeem", name="redeem_registration_code")
      */
-    public function redeem(Request $request, RegistrationCodeRepositoryInterface $codeRepository, RegistrationCodeManager $manager): Response {
+    public function redeem(Request $request, RegistrationCodeRepositoryInterface $codeRepository, RegistrationCodeManager $manager,
+                           DateHelper $dateHelper, TranslatorInterface $translator): Response {
         if(!$request->isMethod('POST')) {
             return $this->redirectToRoute('login');
         }
@@ -63,6 +65,13 @@ class RegistrationController extends AbstractController {
 
         if($manager->isRedeemed($code)) {
             $this->addFlash('error', 'register.redeem.error.already_redeemed');
+            return $this->redirectToRoute('login');
+        }
+
+        if($code->getValidFrom() !== null && $code->getValidFrom() > $dateHelper->getToday()) {
+            $this->addFlash('error', $translator->trans('register.redeem.error.not_yet_valid', [
+                '%date%' => $code->getValidFrom()->format($translator->trans('date.format'))
+            ], 'security'));
             return $this->redirectToRoute('login');
         }
 

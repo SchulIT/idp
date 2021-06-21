@@ -180,6 +180,7 @@ class RegistrationCodeController extends AbstractController {
             foreach($users as $user) {
                 $code = (new RegistrationCode())
                     ->setCode($codeGenerator->generateCode())
+                    ->setValidFrom($form->get('validFrom')->getData())
                     ->setStudent($user);
 
                 $this->repository->persist($code);

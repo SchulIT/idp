@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Ramsey\Uuid\Uuid;
@@ -42,6 +43,12 @@ class RegistrationCode {
      * @var User|null
      */
     private $redeemingUser = null;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     * @var DateTime|null
+     */
+    private $validFrom;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
@@ -92,6 +99,22 @@ class RegistrationCode {
      */
     public function setRedeemingUser(?User $redeemingUser): RegistrationCode {
         $this->redeemingUser = $redeemingUser;
+        return $this;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getValidFrom(): ?DateTime {
+        return $this->validFrom;
+    }
+
+    /**
+     * @param DateTime|null $validFrom
+     * @return RegistrationCode
+     */
+    public function setValidFrom(?DateTime $validFrom): RegistrationCode {
+        $this->validFrom = $validFrom;
         return $this;
     }
 }
