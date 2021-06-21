@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\DependencyInjection\Compiler\RemovePcntlEventSubscriberPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -60,11 +61,8 @@ class Kernel extends BaseKernel
         $routes->import($confDir.'/{routes}'.self::CONFIG_EXTS, '/', 'glob');
     }
 
-    public function process(ContainerBuilder $container)
+    public function build(ContainerBuilder $container)
     {
-        if (php_sapi_name() === 'cli') {
-            $container->removeDefinition('messenger.listener.dispatch_pcntl_signal_listener');
-            $container->removeDefinition('messenger.listener.stop_worker_on_sigterm_signal_listener');
-        }
+        $container->addCompilerPass(new RemovePcntlEventSubscriberPass());
     }
 }
