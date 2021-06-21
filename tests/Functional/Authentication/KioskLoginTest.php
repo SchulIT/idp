@@ -56,7 +56,7 @@ class KioskLoginTest extends WebTestCase {
         $this->em->flush();
     }
 
-    public function tearDown() {
+    public function tearDown(): void {
         $this->em->close();
         $this->em = $this->user = $this->kiosk = $this->userType = null;
 

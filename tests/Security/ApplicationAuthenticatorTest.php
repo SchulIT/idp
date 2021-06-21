@@ -37,7 +37,7 @@ class ApplicationAuthenticatorTest extends WebTestCase {
         $this->em->flush();
     }
 
-    public function tearDown() {
+    public function tearDown(): void {
         $this->em->remove($this->application);
         $this->em->flush();
 

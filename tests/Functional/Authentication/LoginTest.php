@@ -69,7 +69,7 @@ class LoginTest extends WebTestCase {
         $this->em->flush();
     }
 
-    public function tearDown() {
+    public function tearDown(): void {
         $this->em->close();
         $this->em = $this->user = $this->twoFactorUser = $this->userType = null;
 
