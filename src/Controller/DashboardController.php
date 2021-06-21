@@ -12,6 +12,7 @@ use App\Security\UserAuthenticator;
 use App\Security\Voter\LinkStudentVoter;
 use App\Service\UserServiceProviderResolver;
 use Psr\Log\LoggerInterface;
+use SchulIT\CommonBundle\Helper\DateHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -56,7 +57,7 @@ class DashboardController extends AbstractController {
     /**
      * @Route("/link", name="link_student")
      */
-    public function index(Request $request, UserRepositoryInterface $userRepository,
+    public function index(Request $request, UserRepositoryInterface $userRepository, DateHelper $dateHelper,
                           RegistrationCodeRepositoryInterface $codeRepository, TranslatorInterface $translator) {
         $this->denyAccessUnlessGranted(LinkStudentVoter::LINK);
 
@@ -70,13 +71,19 @@ class DashboardController extends AbstractController {
             $code = $codeRepository->findOneByCode($form->get('code')->getData());
 
             if($code !== null) {
-                $user->addLinkedStudent($code->getStudent());
-                $code->setRedeemingUser($user);
+                if($code->getValidFrom() !== null && $code->getValidFrom() > $dateHelper->getToday()) {
+                    $this->addFlash('error', $translator->trans('register.redeem.error.not_yet_valid', [
+                        '%date%' => $code->getValidFrom()->format($translator->trans('date.format'))
+                    ], 'security'));
+                } else {
+                    $user->addLinkedStudent($code->getStudent());
+                    $code->setRedeemingUser($user);
 
-                $userRepository->persist($user);
-                $codeRepository->persist($code);
+                    $userRepository->persist($user);
+                    $codeRepository->persist($code);
 
-                $this->addFlash('success', 'link.student.success');
+                    $this->addFlash('success', 'link.student.success');
+                }
             } else {
                 $this->addFlash('error', $translator->trans('register.redeem.error.not_found', [], 'security'));
             }
