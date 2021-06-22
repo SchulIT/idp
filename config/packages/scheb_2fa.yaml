@@ -14,4 +14,4 @@ scheb_two_factor:
         template: 'auth/two_factor_google.html.twig'
     security_tokens:
         - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
-        - Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken
+        - Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken

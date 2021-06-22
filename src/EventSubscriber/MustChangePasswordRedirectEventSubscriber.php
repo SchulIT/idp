@@ -23,7 +23,7 @@ class MustChangePasswordRedirectEventSubscriber implements EventSubscriberInterf
     }
 
     public function onRequest(RequestEvent $event) {
-        if($event->isMasterRequest() !== true) {
+        if($event->isMainRequest() !== true) {
             return;
         }
 

@@ -12,8 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -21,16 +20,16 @@ class AddUserCommand extends Command {
 
     private $userTypeRepository;
     private $userRepository;
-    private $passwordEncoder;
+    private $passwordHasher;
     private $validator;
 
     public function __construct(UserTypeRepositoryInterface $userTypeRepository, UserRepositoryInterface $userRepository,
-                                UserPasswordEncoderInterface $passwordEncoder, ValidatorInterface $validator, $name = null)
+                                UserPasswordHasherInterface $passwordHasher, ValidatorInterface $validator, $name = null)
     {
         parent::__construct($name);
         $this->userTypeRepository = $userTypeRepository;
         $this->userRepository = $userRepository;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->passwordHasher = $passwordHasher;
         $this->validator = $validator;
     }
 
@@ -118,7 +117,7 @@ class AddUserCommand extends Command {
             $user->setRoles(['ROLE_SUPER_ADMIN']);
         }
 
-        $encodedPassword = $this->passwordEncoder->encodePassword($user, $password);
+        $encodedPassword = $this->passwordHasher->encodePassword($user, $password);
 
         $user->setPassword($encodedPassword);
 

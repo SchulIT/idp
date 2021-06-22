@@ -8,22 +8,22 @@ use App\Repository\RegistrationCodeRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use App\Repository\UserTypeRepositoryInterface;
 use App\Security\EmailConfirmation\ConfirmationManager;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RegistrationCodeManager {
 
     private $codeRepository;
     private $userRepository;
-    private $passwordEncoder;
+    private $passwordHasher;
     private $typeRepository;
     private $confirmationManager;
 
     public function __construct(RegistrationCodeRepositoryInterface $codeRepository,
-                                UserRepositoryInterface $userRepository, UserPasswordEncoderInterface $passwordEncoder,
+                                UserRepositoryInterface $userRepository, UserPasswordHasherInterface $passwordHasher,
                                 UserTypeRepositoryInterface $typeRepository, ConfirmationManager $confirmationManager) {
         $this->codeRepository = $codeRepository;
         $this->userRepository = $userRepository;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->passwordHasher = $passwordHasher;
         $this->typeRepository = $typeRepository;
         $this->confirmationManager = $confirmationManager;
     }
@@ -55,7 +55,7 @@ class RegistrationCodeManager {
         $user
             ->setType($type)
             ->setIsEmailConfirmationPending($user->getEmail() !== null)
-            ->setPassword($this->passwordEncoder->encodePassword($user, $password));
+            ->setPassword($this->passwordHasher->encodePassword($user, $password));
 
         $user->addLinkedStudent($code->getStudent());
         $code->setRedeemingUser($user);

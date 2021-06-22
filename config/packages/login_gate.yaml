@@ -1,8 +1,0 @@
-login_gate:
-    storages: ['orm']
-    options:
-        max_count_attempts: 20
-        timeout: 600
-        watch_period: 3600
-    username_resolver: App\Security\UsernameResolver
-

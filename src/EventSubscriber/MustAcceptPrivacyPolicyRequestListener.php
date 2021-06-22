@@ -9,6 +9,7 @@ use DateTime;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -29,21 +30,20 @@ class MustAcceptPrivacyPolicyRequestListener implements EventSubscriberInterface
     private $privacyPolicyRepository;
     private $userRepository;
     private $csrfTokenManager;
-    private $session;
+    private $requestStack;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator, TokenStorageInterface $tokenStorage,
-                                PrivacyPolicyRepositoryInterface $privacyPolicyRepository, CsrfTokenManagerInterface $csrfTokenManager, UserRepositoryInterface $userRepository,
-                                SessionInterface $session) {
+    public function __construct(UrlGeneratorInterface $urlGenerator, TokenStorageInterface $tokenStorage, RequestStack $requestStack,
+                                PrivacyPolicyRepositoryInterface $privacyPolicyRepository, CsrfTokenManagerInterface $csrfTokenManager, UserRepositoryInterface $userRepository) {
         $this->urlGenerator = $urlGenerator;
         $this->tokenStorage = $tokenStorage;
         $this->privacyPolicyRepository = $privacyPolicyRepository;
         $this->userRepository = $userRepository;
         $this->csrfTokenManager = $csrfTokenManager;
-        $this->session = $session;
+        $this->requestStack = $requestStack;
     }
 
     public function onRequest(RequestEvent $event) {
-        if($event->isMasterRequest() === false) {
+        if($event->isMainRequest() === false) {
             return;
         }
 
@@ -63,6 +63,8 @@ class MustAcceptPrivacyPolicyRequestListener implements EventSubscriberInterface
             return;
         }
 
+        $session = $this->requestStack->getSession();
+
         if($currentRoute === static::AcceptPrivacyRoute) {
             if ($request->getMethod() === 'POST') {
                 $token = $request->request->get('_csrf_token');
@@ -70,7 +72,7 @@ class MustAcceptPrivacyPolicyRequestListener implements EventSubscriberInterface
                     $user->setPrivacyPolicyConfirmedAt(new DateTime());
                     $this->userRepository->persist($user);
 
-                    $uri = $this->session->has('privacy.referrer') ? $this->session->get('privacy.referrer') : $this->urlGenerator->generate(static::RedirectFallbackRoute);
+                    $uri = $session->has('privacy.referrer') ? $session->get('privacy.referrer') : $this->urlGenerator->generate(static::RedirectFallbackRoute);
 
                     if($uri === $this->urlGenerator->generate(static::AcceptPrivacyRoute)) {
                         $uri = $this->urlGenerator->generate(static::RedirectFallbackRoute);
@@ -103,7 +105,7 @@ class MustAcceptPrivacyPolicyRequestListener implements EventSubscriberInterface
             return;
         }
 
-        $this->session->set('privacy.referrer', $request->getPathInfo());
+        $session->set('privacy.referrer', $request->getPathInfo());
 
         $response = new RedirectResponse(
             $this->urlGenerator->generate(static::AcceptPrivacyRoute),

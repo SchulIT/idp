@@ -13,8 +13,8 @@ use App\Service\AttributePersister;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/profile")
@@ -65,7 +65,7 @@ class ProfileController extends AbstractController {
     /**
      * @Route("/password", name="profile_password")
      */
-    public function changePassword(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder) {
+    public function changePassword(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher) {
         $this->denyAccessUnlessGranted(ProfileVoter::CHANGE_PASSWORD);
 
         /** @var User $user */
@@ -76,7 +76,7 @@ class ProfileController extends AbstractController {
 
         if($form->isSubmitted() && $form->isValid() && !$user instanceof ActiveDirectoryUser) {
             $password = $form->get('newPassword')->getData();
-            $user->setPassword($passwordEncoder->encodePassword($user, $password));
+            $user->setPassword($passwordHasher->hashPassword($user, $password));
             $user->setMustChangePassword(false);
 
             $em->persist($user);

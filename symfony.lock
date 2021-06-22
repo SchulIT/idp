@@ -14,18 +14,6 @@
             "./config/packages/stof_doctrine_extensions.yaml"
         ]
     },
-    "anyx/login-gate-bundle": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "49f0e34d3f1059f8985e8e56e4b5e2b08e5fc79b"
-        },
-        "files": [
-            "./config/packages/login_gate.yaml"
-        ]
-    },
     "bacon/bacon-qr-code": {
         "version": "2.0.3"
     },
@@ -416,9 +404,6 @@
     },
     "spomky-labs/otphp": {
         "version": "v10.0.1"
-    },
-    "staffim/rest-client": {
-        "version": "2.0.4"
     },
     "symfony/amqp-messenger": {
         "version": "v5.2.7"

@@ -21,7 +21,6 @@ return [
     DAMA\DoctrineTestBundle\DAMADoctrineTestBundle::class => ['test' => true],
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
     Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
-    Anyx\LoginGateBundle\LoginGateBundle::class => ['all' => true],
     AdAuthBundle\AdAuthBundle::class => ['all' => true],
     Craue\FormFlowBundle\CraueFormFlowBundle::class => ['all' => true],
     Fervo\EnumBundle\FervoEnumBundle::class => ['all' => true],

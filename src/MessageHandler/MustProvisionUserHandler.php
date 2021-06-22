@@ -5,16 +5,16 @@ namespace App\MessageHandler;
 use App\Message\MustProvisionUser;
 use App\Repository\UserRepositoryInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class MustProvisionUserHandler implements MessageHandlerInterface {
 
     private $userRepository;
-    private $passwordEncoder;
+    private $passwordHasher;
 
-    public function __construct(UserRepositoryInterface $userRepository, UserPasswordEncoderInterface $passwordEncoder) {
+    public function __construct(UserRepositoryInterface $userRepository, UserPasswordHasherInterface $passwordHasher) {
         $this->userRepository = $userRepository;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->passwordHasher = $passwordHasher;
     }
 
     public function __invoke(MustProvisionUser $message) {
@@ -22,7 +22,7 @@ class MustProvisionUserHandler implements MessageHandlerInterface {
 
         if($user !== null) {
             $user->setPassword(
-                $this->passwordEncoder->encodePassword($user, $user->getPassword())
+                $this->passwordHasher->hashPassword($user, $user->getPassword())
             );
 
             $user->setIsProvisioned(true);

@@ -13,6 +13,7 @@ use Ramsey\Uuid\Uuid;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
 use Swagger\Annotations as SWG;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -25,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @Serializer\Discriminator(disabled=true)
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=true)
  */
-class User implements UserInterface, TwoFactorInterface {
+class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface {
 
     use IdTrait;
     use UuidTrait;
@@ -236,6 +237,10 @@ class User implements UserInterface, TwoFactorInterface {
      */
     public function getUsername() {
         return $this->username;
+    }
+
+    public function getUserIdentifier(): string {
+        return $this->getUsername();
     }
 
     /**
@@ -458,7 +463,7 @@ class User implements UserInterface, TwoFactorInterface {
     /**
      * @return string
      */
-    public function getPassword() {
+    public function getPassword(): string {
         return $this->password;
     }
 

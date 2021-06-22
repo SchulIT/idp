@@ -8,11 +8,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
-class ApplicationAuthenticator extends AbstractGuardAuthenticator {
+class ApplicationAuthenticator extends AbstractAuthenticator {
 
     public const HEADER_KEY = 'X-Token';
 
@@ -25,7 +26,7 @@ class ApplicationAuthenticator extends AbstractGuardAuthenticator {
     /**
      * @inheritDoc
      */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception) {
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response {
         return new JsonResponse([
             'success' => false,
             'message' => sprintf('Authentication failed: %s', $exception->getMessage())
@@ -35,61 +36,32 @@ class ApplicationAuthenticator extends AbstractGuardAuthenticator {
     /**
      * @inheritDoc
      */
-    public function start(Request $request, AuthenticationException $authException = null) {
-        return new JsonResponse([
-            'success' => false,
-            'message' => 'Authentication required'
-        ], Response::HTTP_UNAUTHORIZED);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function supports(Request $request) {
+    public function supports(Request $request): bool {
         return $request->headers->has(static::HEADER_KEY);
     }
 
     /**
      * @inheritDoc
      */
-    public function getCredentials(Request $request) {
-        return [
-            'token' => $request->headers->get(static::HEADER_KEY)
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getUser($credentials, UserProviderInterface $userProvider) {
-        $application = $this->repository->findOneByApiKey($credentials['token']);
+    public function authenticate(Request $request): PassportInterface {
+        $token = $request->headers->get(static::HEADER_KEY);
+        $application = $this->repository->findOneByApiKey($token);
 
         if($application === null) {
             throw new AuthenticationException('Invalid API key');
         }
 
-        return $application;
+        return new SelfValidatingPassport(
+            new UserBadge($token, function($token) {
+                return $this->repository->findOneByApiKey($token);
+            })
+        );
     }
 
     /**
      * @inheritDoc
      */
-    public function checkCredentials($credentials, UserInterface $user) {
-        // Credentials already checked in getUser()
-        return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey) {
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response {
         return null;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function supportsRememberMe() {
-        return false;
     }
 }

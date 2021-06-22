@@ -154,8 +154,6 @@ services:
         arguments:
             $environment: "@League\\CommonMark\\EnvironmentInterface"
 
-    Anyx\LoginGateBundle\Service\BruteForceChecker: "@anyx.login_gate.brute_force_checker"
-
     # FORM FLOW
     Craue\FormFlowBundle\Storage\UserSessionStorageKeyGenerator:
         arguments:

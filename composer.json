@@ -9,7 +9,6 @@
         "ext-xsl": "*",
         "acelaya/doctrine-enum-type": "^2.3",
         "antishov/doctrine-extensions-bundle": "^1.4",
-        "anyx/login-gate-bundle": "^2.0",
         "burgov/key-value-form-bundle": "^1.4",
         "craue/formflow-bundle": "^3.3",
         "doctrine/doctrine-migrations-bundle": "^3.0.0",

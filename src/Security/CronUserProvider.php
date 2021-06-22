@@ -2,8 +2,8 @@
 
 namespace App\Security;
 
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
-use Symfony\Component\Security\Core\User\User;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
+use Symfony\Component\Security\Core\User\InMemoryUser;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
@@ -17,25 +17,29 @@ class CronUserProvider implements UserProviderInterface {
         $this->password = $password;
     }
 
-    public function loadUserByUsername($username) {
-        if($username !== $this->username) {
-            throw new UsernameNotFoundException();
+    public function loadUserByIdentifier(string $identifier): UserInterface {
+        if($identifier !== $this->username) {
+            throw new UserNotFoundException();
         }
 
-        return new User($this->username, $this->password, [ 'ROLE_CRON' ]);
+        return new InMemoryUser($this->username, $this->password, [ 'ROLE_CRON']);
+    }
+
+    public function loadUserByUsername($username): UserInterface {
+        return $this->loadUserByIdentifier($username);
     }
 
     /**
      * @inheritDoc
      */
-    public function refreshUser(UserInterface $user) {
-        return $this->loadUserByUsername($this->username);
+    public function refreshUser(UserInterface $user): UserInterface {
+        return $this->loadUserByIdentifier($this->username);
     }
 
     /**
      * @inheritDoc
      */
-    public function supportsClass($class) {
-        return $class === User::class;
+    public function supportsClass($class): bool {
+        return $class === InMemoryUser::class;
     }
 }

@@ -196,6 +196,10 @@ class Application implements UserInterface {
         return $this->getName();
     }
 
+    public function getUserIdentifier(): string {
+        return $this->getName();
+    }
+
     /**
      * @return mixed
      */

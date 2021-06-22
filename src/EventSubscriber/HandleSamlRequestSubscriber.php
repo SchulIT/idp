@@ -34,7 +34,7 @@ class HandleSamlRequestSubscriber implements EventSubscriberInterface {
         $request = $event->getRequest();
         $route = $request->get('_route');
 
-        if(!$event->isMasterRequest()) {
+        if(!$event->isMainRequest()) {
             // prevent loops
             return;
         }

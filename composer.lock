@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "af0d27e378d1423363d46fa1196e35ff",
+    "content-hash": "5103797edb9307f2f2c4d31237dc2b51",
     "packages": [
         {
             "name": "acelaya/doctrine-enum-type",
@@ -148,78 +148,6 @@
                 "source": "https://github.com/antishov/StofDoctrineExtensionsBundle/tree/v1.4.3"
             },
             "time": "2020-12-10T20:46:02+00:00"
-        },
-        {
-            "name": "anyx/login-gate-bundle",
-            "version": "2.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/anyx/LoginGateBundle.git",
-                "reference": "629e82cb03863be7d2b6ef378c974a9611f2aa9c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/anyx/LoginGateBundle/zipball/629e82cb03863be7d2b6ef378c974a9611f2aa9c",
-                "reference": "629e82cb03863be7d2b6ef378c974a9611f2aa9c",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "staffim/rest-client": "^2.0",
-                "symfony/config": "^3.3|^4.0|^5.0",
-                "symfony/dependency-injection": "^3.3|^4.0|^5.0",
-                "symfony/security-bundle": "^3.3|^4.0|^5.0"
-            },
-            "require-dev": {
-                "doctrine/doctrine-fixtures-bundle": "^3.3",
-                "doctrine/mongodb-odm": "~2.0",
-                "doctrine/mongodb-odm-bundle": "~4.0",
-                "escapestudios/symfony2-coding-standard": "3.x-dev",
-                "ext-ctype": "*",
-                "ext-iconv": "*",
-                "friendsofphp/php-cs-fixer": "^2.11",
-                "php": "^7.2.5",
-                "phpmd/phpmd": "@stable",
-                "phpunit/phpunit": "^8.5",
-                "symfony/browser-kit": "^5.0",
-                "symfony/dotenv": "5.0.*",
-                "symfony/flex": "^1.3.1",
-                "symfony/framework-bundle": "5.0.*",
-                "symfony/monolog-bundle": "^3.5",
-                "symfony/orm-pack": "^1.0",
-                "symfony/security-bundle": "5.0.*",
-                "symfony/twig-pack": "^1.0",
-                "symfony/yaml": "5.0.*"
-            },
-            "type": "symfony-bundle",
-            "autoload": {
-                "psr-4": {
-                    "Anyx\\LoginGateBundle\\": "",
-                    "OrmApp\\": "Tests\\OrmApp\\src",
-                    "MongoApp\\": "Tests\\MongoApp\\src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Aleksandr Klimenkov",
-                    "email": "alx.devel@gmail.com"
-                }
-            ],
-            "description": "Checking brute force attacks on site",
-            "homepage": "https://github.com/anyx/LoginGateBundle",
-            "keywords": [
-                "brute-force",
-                "security"
-            ],
-            "support": {
-                "issues": "https://github.com/anyx/LoginGateBundle/issues",
-                "source": "https://github.com/anyx/LoginGateBundle/tree/2.0.3"
-            },
-            "time": "2020-10-14T11:12:25+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1030,31 +958,32 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "2.13.1",
+            "version": "2.13.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "c800380457948e65bbd30ba92cc17cda108bf8c9"
+                "reference": "8dd39d2ead4409ce652fd4f02621060f009ea5e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/c800380457948e65bbd30ba92cc17cda108bf8c9",
-                "reference": "c800380457948e65bbd30ba92cc17cda108bf8c9",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/8dd39d2ead4409ce652fd4f02621060f009ea5e4",
+                "reference": "8dd39d2ead4409ce652fd4f02621060f009ea5e4",
                 "shasum": ""
             },
             "require": {
-                "doctrine/cache": "^1.0",
+                "doctrine/cache": "^1.0|^2.0",
                 "doctrine/deprecations": "^0.5.3",
                 "doctrine/event-manager": "^1.0",
                 "ext-pdo": "*",
                 "php": "^7.1 || ^8"
             },
             "require-dev": {
-                "doctrine/coding-standard": "8.2.0",
+                "doctrine/coding-standard": "9.0.0",
                 "jetbrains/phpstorm-stubs": "2020.2",
                 "phpstan/phpstan": "0.12.81",
-                "phpunit/phpunit": "^7.5.20|^8.5|9.5.0",
+                "phpunit/phpunit": "^7.5.20|^8.5|9.5.5",
                 "squizlabs/php_codesniffer": "3.6.0",
+                "symfony/cache": "^4.4",
                 "symfony/console": "^2.0.5|^3.0|^4.0|^5.0",
                 "vimeo/psalm": "4.6.4"
             },
@@ -1117,7 +1046,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/2.13.1"
+                "source": "https://github.com/doctrine/dbal/tree/2.13.2"
             },
             "funding": [
                 {
@@ -1133,7 +1062,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-04-17T17:30:19+00:00"
+            "time": "2021-06-18T21:48:39+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -2667,22 +2596,21 @@
         },
         {
             "name": "gedmo/doctrine-extensions",
-            "version": "v3.0.5",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine-extensions/DoctrineExtensions.git",
-                "reference": "f956c3c4d0c0ffdc5dd879288073772e439b6c1a"
+                "reference": "0803fa56b13cf858951599027f451738078c49f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine-extensions/DoctrineExtensions/zipball/f956c3c4d0c0ffdc5dd879288073772e439b6c1a",
-                "reference": "f956c3c4d0c0ffdc5dd879288073772e439b6c1a",
+                "url": "https://api.github.com/repos/doctrine-extensions/DoctrineExtensions/zipball/0803fa56b13cf858951599027f451738078c49f8",
+                "reference": "0803fa56b13cf858951599027f451738078c49f8",
                 "shasum": ""
             },
             "require": {
                 "behat/transliterator": "~1.2",
-                "doctrine/annotations": "^1.2",
-                "doctrine/cache": "^1.0",
+                "doctrine/annotations": "^1.13",
                 "doctrine/collections": "^1.0",
                 "doctrine/common": "^2.13 || ^3.0",
                 "doctrine/event-manager": "^1.0",
@@ -2698,16 +2626,19 @@
             },
             "require-dev": {
                 "alcaeus/mongo-php-adapter": "^1.1",
+                "doctrine/cache": "^1.11 || ^2.0",
                 "doctrine/doctrine-bundle": "^2.3",
                 "doctrine/mongodb-odm": "^2.0",
                 "doctrine/orm": "^2.6.3",
                 "friendsofphp/php-cs-fixer": "^2.16",
                 "phpunit/phpunit": "^8.5",
+                "symfony/cache": "^4.4 || ^5.0",
                 "symfony/yaml": "^4.1"
             },
             "suggest": {
                 "doctrine/mongodb-odm": "to use the extensions with the MongoDB ODM",
-                "doctrine/orm": "to use the extensions with the ORM"
+                "doctrine/orm": "to use the extensions with the ORM",
+                "symfony/cache": "to cache parsed annotations"
             },
             "type": "library",
             "extra": {
@@ -2758,10 +2689,10 @@
             "support": {
                 "email": "gediminas.morkevicius@gmail.com",
                 "issues": "https://github.com/doctrine-extensions/DoctrineExtensions/issues",
-                "source": "https://github.com/doctrine-extensions/DoctrineExtensions/tree/v3.0.5",
+                "source": "https://github.com/doctrine-extensions/DoctrineExtensions/tree/v3.1.0",
                 "wiki": "https://github.com/Atlantic18/DoctrineExtensions/tree/main/doc"
             },
-            "time": "2021-04-23T09:16:01+00:00"
+            "time": "2021-06-22T11:23:22+00:00"
         },
         {
             "name": "jms/metadata",
@@ -5711,53 +5642,6 @@
                 "source": "https://github.com/Spomky-Labs/otphp/tree/v10.0.1"
             },
             "time": "2020-01-28T09:24:19+00:00"
-        },
-        {
-            "name": "staffim/rest-client",
-            "version": "2.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/staffim/rest-client.git",
-                "reference": "de0b157c363b93ad9e6414c897ce18623cac56ae"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/staffim/rest-client/zipball/de0b157c363b93ad9e6414c897ce18623cac56ae",
-                "reference": "de0b157c363b93ad9e6414c897ce18623cac56ae",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "php": ">=7.1",
-                "symfony/framework-bundle": "~3.4|~4.0|~5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Staffim\\RestClient\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Vyacheslav Salakhutdinov",
-                    "email": "megazoll@gmail.com"
-                }
-            ],
-            "keywords": [
-                "client",
-                "rest",
-                "symfony",
-                "test"
-            ],
-            "support": {
-                "issues": "https://github.com/staffim/rest-client/issues",
-                "source": "https://github.com/staffim/rest-client/tree/master"
-            },
-            "time": "2020-02-28T21:58:00+00:00"
         },
         {
             "name": "symfony/amqp-messenger",
@@ -13586,7 +13470,6 @@
                     "type": "github"
                 }
             ],
-            "abandoned": true,
             "time": "2020-11-30T07:30:19+00:00"
         },
         {

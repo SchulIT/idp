@@ -7,20 +7,20 @@ use App\Entity\User;
 use App\Repository\PasswordResetTokenRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use SchulIT\CommonBundle\Helper\DateHelper;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class PasswordManager {
     private const DefaultTokenLifetime = '2 hours';
 
     private $dateHelper;
-    private $passwordEncoder;
+    private $passwordHasher;
     private $userRepository;
     private $passwordResetTokenRepository;
     private $tokenLifetime;
 
-    public function __construct(DateHelper $dateHelper, UserPasswordEncoderInterface $passwordEncoder, UserRepositoryInterface $userRepository, PasswordResetTokenRepositoryInterface $passwordResetTokenRepository, $tokenLifetime = self::DefaultTokenLifetime) {
+    public function __construct(DateHelper $dateHelper, UserPasswordHasherInterface $passwordHasher, UserRepositoryInterface $userRepository, PasswordResetTokenRepositoryInterface $passwordResetTokenRepository, $tokenLifetime = self::DefaultTokenLifetime) {
         $this->dateHelper = $dateHelper;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->passwordHasher = $passwordHasher;
         $this->userRepository = $userRepository;
         $this->passwordResetTokenRepository = $passwordResetTokenRepository;
         $this->tokenLifetime = $tokenLifetime;
@@ -68,7 +68,7 @@ class PasswordManager {
     public function setPassword(PasswordResetToken $token, string $password) {
         $user = $token->getUser();
 
-        $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
+        $user->setPassword($this->passwordHasher->hashPassword($user, $password));
         $this->userRepository->persist($user);
 
         $this->removePasswordToken($token);
