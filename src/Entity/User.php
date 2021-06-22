@@ -206,7 +206,7 @@ class User implements UserInterface, TwoFactorInterface {
     private $canChangePassword = true;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="parents")
      * @ORM\JoinTable(name="user_links",
      *     joinColumns={@ORM\JoinColumn(name="source_user_id", onDelete="CASCADE")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="target_user_id", onDelete="CASCADE")}
@@ -215,6 +215,12 @@ class User implements UserInterface, TwoFactorInterface {
      */
     private $linkedStudents;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="linkedStudents")
+     * @var Collection<User>
+     */
+    private $parents;
+
     public function __construct() {
         $this->uuid = Uuid::uuid4();
 
@@ -222,6 +228,7 @@ class User implements UserInterface, TwoFactorInterface {
         $this->attributes = new ArrayCollection();
         $this->userRoles = new ArrayCollection();
         $this->linkedStudents = new ArrayCollection();
+        $this->parents = new ArrayCollection();
     }
 
     /**
@@ -676,6 +683,13 @@ class User implements UserInterface, TwoFactorInterface {
      */
     public function getLinkedStudents(): Collection {
         return $this->linkedStudents;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getParents(): Collection {
+        return $this->parents;
     }
 
     public function getTypeString(): string {

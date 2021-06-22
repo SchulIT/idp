@@ -81,6 +81,7 @@ label:
   priority:
     label: Priorität
     help: Bei mehreren Benutzerrollen mit denselben Attributen gewinnt die Benutzerrolle mit der höchsten Priorität.
+  parent: Eltern
 
 help:
   voluntary: Diese Angabe ist freiwillig.

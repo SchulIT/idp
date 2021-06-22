@@ -23,7 +23,7 @@
                                 <col class="column-180">
                                 <col class="column-180">
                                 <col class="column-sm">
-                                <col class="column-180">
+                                <col>
                             </colgroup>
 
                             <thead>
@@ -109,10 +109,19 @@
                                 <tr class="{% if loop.index0 % 2 == 0 %}odd{% endif %}">
                                     <td colspan="7">
                                         {% for linked_user in user.linkedStudents %}
-                                            <i class="fas fa-user-graduate"></i> {{ linked_user|user }}
+                                            <i class="fas fa-user-graduate" title="{{ 'label.student'|trans }}"></i> {{ linked_user|user }}
                                         {% endfor %}
                                     </td>
                                 </tr>
+                                {% endif %}
+                                {% if user.parents|length > 0 %}
+                                    <tr class="{% if loop.index0 % 2 == 0 %}odd{% endif %}">
+                                        <td colspan="7">
+                                            {% for parent_user in user.parents %}
+                                                <i class="fas fa-user-tie" title="{{ 'label.parent'|trans }}"></i> {{ parent_user|user }}
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
                                 {% endif %}
                             {% endfor %}
                             </tbody>
