@@ -337,20 +337,6 @@ ad_sync_options:
       confirm: Soll die Synchronisationsregel für die Rolle "%role%" wirklich gelöscht werden?
       success: Regel erfolgreich gelöscht
       help: Nach Abschluss dieser Aktion gibt es möglicherweise Probleme bei der korrekten Zuweisung der Benutzerrollen bei der Auto-Synchronisation mit dem Active Directory.
-  upn_suffixes:
-    label: UPN-Suffixe verwalten
-    help: Hier können UPN-Suffixe angegeben werden, bei denen eine Anmeldung an den Active Directory Authentication Server weitergeleitet werden sollen. Wenn keine Suffixe angegeben sind, werden alle nicht gefundenen Benutzer automatisch an den Authentication Server weitergeleitet (nicht empfohlen).
-    add:
-      label: Neuen Suffix hinzufügen
-      success: Suffix erfolgreich angelegt
-    edit:
-      label: Suffix bearbeiten
-      success: Suffix erfolgreich aktualisiert
-    remove:
-      label: Suffix löschen
-      confirm: Soll der Suffix "%suffix%" wirklich gelöscht werden?
-      success: Suffix erfolgreich gelöscht
-      help: Nach Abschluss dieser Aktion gibt es möglicherweise Probleme bei der Anmeldung einiger Benutzer.
 
 service_providers:
   label: Dienste
