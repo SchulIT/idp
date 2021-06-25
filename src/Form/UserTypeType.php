@@ -51,6 +51,11 @@ class UserTypeType extends AbstractType {
                         ->add('alias', TextType::class, [
                             'label' => 'label.alias'
                         ])
+                        ->add('icon', FontAwesomeIconPicker::class, [
+                            'label' => 'label.icon.label',
+                            'help' => 'label.icon.help',
+                            'required' => false
+                        ])
                         ->add('eduPerson', ChoiceType::class, [
                             'label' => 'label.edu_person',
                             'multiple' => true,

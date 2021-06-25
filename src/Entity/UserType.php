@@ -93,6 +93,12 @@ class UserType {
      */
     private $isBuiltIn = false;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @var string|null
+     */
+    private $icon;
+
     public function __construct() {
         $this->uuid = Uuid::uuid4();
 
@@ -269,6 +275,22 @@ class UserType {
      */
     public function setIsBuiltIn(bool $isBuiltIn): UserType {
         $this->isBuiltIn = $isBuiltIn;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getIcon(): ?string {
+        return $this->icon;
+    }
+
+    /**
+     * @param string|null $icon
+     * @return UserType
+     */
+    public function setIcon(?string $icon): UserType {
+        $this->icon = $icon;
         return $this;
     }
 }

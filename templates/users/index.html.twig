@@ -17,8 +17,8 @@
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered card-table">
                             <colgroup>
+                                <col class="column-sm">
                                 <col>
-                                <col class="column-180">
                                 <col class="column-180">
                                 <col class="column-180">
                                 <col class="column-180">
@@ -28,10 +28,10 @@
 
                             <thead>
                             <tr>
+                                <th></th>
                                 <th>{{ 'label.username'|trans }}</th>
                                 <th>{{ 'label.firstname'|trans }}</th>
                                 <th>{{ 'label.lastname'|trans }}</th>
-                                <th>{{ 'label.user_type'|trans }}</th>
                                 <th>{{ 'label.user_roles'|trans }}</th>
                                 <th>{{ 'users.type.label'|trans }}</th>
                                 <th> </th>
@@ -41,7 +41,14 @@
                             <tbody>
                             {% for user in users %}
                                 <tr class="{% if loop.index0 % 2 == 0 %}odd{% endif %}">
-                                    <td>
+                                    <td class="align-middle">
+                                        {% if user.type.icon is not empty %}
+                                            <i class="{{ user.type.icon }}" title="{{ user.type.name }}"></i>
+                                        {% else %}
+                                            <i class="fas fa-user" title="{{ user.type.name }}"></i>
+                                        {% endif %}
+                                    </td>
+                                    <td class="align-middle">
                                         {{ user.username }}
 
                                         {% if not user.active %}
@@ -60,24 +67,23 @@
                                             <span class="badge badge-warning">{{ 'label.must_change_password'|trans }}</span>
                                         {% endif %}
                                     </td>
-                                    <td>{{ user.firstname }}</td>
-                                    <td>{{ user.lastname }}</td>
-                                    <td>{{ user.type.name }}</td>
-                                    <td>
+                                    <td class="align-middle">{{ user.firstname }}</td>
+                                    <td class="align-middle">{{ user.lastname }}</td>
+                                    <td class="align-middle">
                                         <ul class="list-unstyled">
                                             {% for role in user.userRoles %}
                                                 <li title="{{ role.description }}">{{ role.name }}</li>
                                             {% endfor %}
                                         </ul>
                                     </td>
-                                    <td>
+                                    <td class="align-middle">
                                         {% if user.userPrincipalName is defined %}
                                             <i class="far fa-address-book" title="{{ 'users.type.ad'|trans }}"></i>
                                         {% else %}
                                             <i class="fa fa-cloud" title="{{ 'users.type.cloud'|trans }}"></i>
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="align-middle">
                                         <form method="post" action="{{ path('remove_user', { uuid: user.uuid }) }}">
                                             <input type="hidden" name="{{ csrf_key }}" value="{{ csrf_token(csrf_id) }}">
 
@@ -117,7 +123,8 @@
                                 </tr>
                                 {% if user.linkedStudents|length > 0 %}
                                 <tr class="{% if loop.index0 % 2 == 0 %}odd{% endif %}">
-                                    <td colspan="7">
+                                    <td></td>
+                                    <td colspan="6">
                                         {% for linked_user in user.linkedStudents %}
                                             <i class="fas fa-user-graduate" title="{{ 'label.student'|trans }}"></i> {{ linked_user|user }}
                                         {% endfor %}
@@ -126,7 +133,8 @@
                                 {% endif %}
                                 {% if user.parents|length > 0 %}
                                     <tr class="{% if loop.index0 % 2 == 0 %}odd{% endif %}">
-                                        <td colspan="7">
+                                        <td></td>
+                                        <td colspan="6">
                                             {% for parent_user in user.parents %}
                                                 <i class="fas fa-user-tie" title="{{ 'label.parent'|trans }}"></i> {{ parent_user|user }}
                                             {% endfor %}
