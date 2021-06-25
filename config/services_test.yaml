@@ -13,3 +13,9 @@ services:
     App\Tests\NoTranslator:
         decorates: translator
         arguments: ['@App\Tests\NoTranslator.inner']
+
+    App\Repository\UserRepositoryInterface:
+        class: App\Repository\UserRepository
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+        public: true

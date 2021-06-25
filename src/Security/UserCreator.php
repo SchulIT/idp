@@ -143,6 +143,13 @@ class UserCreator {
             }
         }
 
+        $existingUser = $this->userRepository->findOneByUsername($user->getUserPrincipalName());
+
+        // Convert user (if necessary)
+        if($existingUser !== null && !$existingUser instanceof ActiveDirectoryUser) {
+            $user = $this->userRepository->convertToActiveDirectory($existingUser, $user);
+        }
+
         return $user;
     }
 

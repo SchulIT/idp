@@ -128,4 +128,8 @@ interface UserRepositoryInterface {
      * @return string[]
      */
     public function findGrades(): array;
+
+    public function convertToActiveDirectory(User $user, ActiveDirectoryUser $activeDirectoryUser): ActiveDirectoryUser;
+
+    public function convertToUser(ActiveDirectoryUser $user): User;
 }

@@ -418,4 +418,36 @@ class UserRepository implements UserRepositoryInterface {
             ->getQuery()
             ->getResult();
     }
+
+    public function convertToActiveDirectory(User $user, ActiveDirectoryUser $activeDirectoryUser): ActiveDirectoryUser {
+        $dbal = $this->em->getConnection();
+        $dbal->update('user', [
+            'user_principal_name' => $activeDirectoryUser->getUserPrincipalName(),
+            'object_guid' => $activeDirectoryUser->getObjectGuid(),
+            'ou' => $activeDirectoryUser->getOu(),
+            'groups' => json_encode($activeDirectoryUser->getGroups()),
+            'class' => 'ad'
+        ], [
+            'id' => $user->getId()
+        ]);
+
+        $this->em->detach($user);
+        return $this->findOneById($user->getId());
+    }
+
+    public function convertToUser(ActiveDirectoryUser $user): User {
+        $dbal = $this->em->getConnection();
+        $dbal->update('user', [
+            'user_principal_name' => null,
+            'object_guid' => null,
+            'ou' => null,
+            'groups' => null,
+            'class' => 'user'
+        ], [
+            'id' => $user->getId()
+        ]);
+
+        $this->em->detach($user);
+        return $this->findOneById($user->getId());
+    }
 }
