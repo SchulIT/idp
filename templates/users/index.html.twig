@@ -34,7 +34,7 @@
                                 <th>{{ 'label.user_type'|trans }}</th>
                                 <th>{{ 'label.user_roles'|trans }}</th>
                                 <th>{{ 'users.type.label'|trans }}</th>
-                                <th>{{ 'actions.label'|trans }}</th>
+                                <th> </th>
                             </tr>
                             </thead>
 
@@ -81,27 +81,37 @@
                                         <form method="post" action="{{ path('remove_user', { uuid: user.uuid }) }}">
                                             <input type="hidden" name="{{ csrf_key }}" value="{{ csrf_token(csrf_id) }}">
 
-                                            <a href="{{ path('reset_password', { uuid: user.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'users.reset_pw.label'|trans }}">
-                                                <i class="fa fa-key"></i>
-                                            </a>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-toggle="dropdown">
+                                                    <i class="fas fa-ellipsis-v"></i>
+                                                </button>
 
-                                            <a href="{{ path('edit_user', { uuid: user.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'actions.edit'|trans }}">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="{{ path('edit_user', { uuid: user.uuid }) }}" class="dropdown-item">
+                                                        <i class="fa fa-edit"></i> {{ 'actions.edit'|trans }}
+                                                    </a>
 
-                                            <a href="{{ path('show_attributes', { uuid: user.uuid }) }}" class="btn btn-sm btn-primary" title="{{ 'users.attributes.label'|trans }}">
-                                                <i class="fa fa-user-tag"></i>
-                                            </a>
+                                                    <a href="{{ path('show_attributes', { uuid: user.uuid }) }}" class="dropdown-item">
+                                                        <i class="fa fa-user-tag"></i> {{ 'users.attributes.label'|trans }}
+                                                    </a>
 
-                                            <button type="submit" class="btn btn-sm btn-danger" title="{{ 'actions.remove'|trans }}">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
+                                                    <button type="submit" class="dropdown-item text-danger">
+                                                        <i class="fa fa-trash"></i> {{ 'actions.remove'|trans }}
+                                                    </button>
 
-                                            {% if is_granted('ROLE_ALLOWED_TO_SWITCH') %}
-                                                <a href="{{ path('dashboard') }}?_switch_user={{ user.username }}" class="btn btn-primary btn-sm" title="{{ 'profile.switch.label'|trans }}">
-                                                    <i class="fas fa-sign-in-alt"></i>
-                                                </a>
-                                            {% endif %}
+                                                    <div class="dropdown-divider"></div>
+
+                                                    <a href="{{ path('reset_password', { uuid: user.uuid }) }}" class="dropdown-item">
+                                                        <i class="fa fa-key"></i> {{ 'users.reset_pw.label'|trans }}
+                                                    </a>
+
+                                                    {% if is_granted('ROLE_ALLOWED_TO_SWITCH') %}
+                                                        <a href="{{ path('dashboard') }}?_switch_user={{ user.username }}" class="dropdown-item">
+                                                            <i class="fas fa-sign-in-alt"></i> {{ 'profile.switch.label'|trans }}
+                                                        </a>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
                                         </form>
                                     </td>
                                 </tr>
