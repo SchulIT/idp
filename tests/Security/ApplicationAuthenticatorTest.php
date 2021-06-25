@@ -5,7 +5,7 @@ namespace App\Tests\Security;
 use App\Entity\Application;
 use App\Entity\ApplicationScope;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ApplicationAuthenticatorTest extends WebTestCase {
@@ -13,7 +13,7 @@ class ApplicationAuthenticatorTest extends WebTestCase {
     /** @var EntityManagerInterface */
     private $em;
 
-    /** @var Client */
+    /** @var KernelBrowser */
     private $client;
 
     /** @var Application */
@@ -48,7 +48,11 @@ class ApplicationAuthenticatorTest extends WebTestCase {
     }
 
     public function testAuthenticateNoApiKey() {
-        $this->client->request('GET', '/api');
+        $this->client->request('GET', '/api', [], [], [
+            'HTTP_ACCEPT' => 'application/json'
+        ]);
+
+        $response = $this->client->getResponse();
 
         $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
         $this->assertEquals('application/json', $this->client->getResponse()->headers->get('Content-Type'));

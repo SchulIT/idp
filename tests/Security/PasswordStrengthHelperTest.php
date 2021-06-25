@@ -3,6 +3,7 @@
 namespace App\Tests\Security;
 
 use App\Security\PasswordStrengthHelper;
+use App\Settings\AppSettings;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Validation;
 
@@ -15,8 +16,12 @@ class PasswordStrengthHelperTest extends TestCase {
             'abcDEF123', // no special chars
         ];
 
+        $settings = $this->createMock(AppSettings::class);
+        $settings->method('isPasswordCompromisedCheckEnabled')
+            ->willReturn(true);
+
         $validator = Validation::createValidator();
-        $helper = new PasswordStrengthHelper(false, $validator);
+        $helper = new PasswordStrengthHelper($settings, $validator);
 
         foreach($invalidPasswords as $invalidPassword) {
             $violations = $helper->validatePassword($invalidPassword);

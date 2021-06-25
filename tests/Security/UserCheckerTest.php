@@ -2,6 +2,7 @@
 namespace App\Tests\Security;
 
 use App\Entity\User;
+use App\Security\AccountDisabledException;
 use App\Security\EmailConfirmation\ConfirmationManager;
 use App\Security\UserChecker;
 use PHPUnit\Framework\TestCase;
@@ -22,10 +23,8 @@ class UserCheckerTest extends TestCase {
         $this->addToAssertionCount(1);
     }
 
-    /**
-     * @expectedException App\Security\AccountDisabledException
-     */
     public function testDoNotGrantNonActiveUser() {
+        $this->expectException(AccountDisabledException::class);
         $dateHelper = new DateHelper();
         $userChecker = new UserChecker($dateHelper, $this->createMock(ConfirmationManager::class));
 
@@ -41,9 +40,10 @@ class UserCheckerTest extends TestCase {
      * Test whether a user is concidered non active as the enabled window
      * starts in the future
      *
-     * @expectedException App\Security\AccountDisabledException
+     *
      */
     public function testDoNotGrandActiveUserWithTimeWindowFutureEnabled() {
+        $this->expectException(AccountDisabledException::class);
         $dateHelper = new DateHelper(new \DateTime('2018-08-01'));
         $userChecker = new UserChecker($dateHelper, $this->createMock(ConfirmationManager::class));
 
@@ -59,9 +59,10 @@ class UserCheckerTest extends TestCase {
      * Test whether a user is concidered non active as the enabled window
      * starts in the future
      *
-     * @expectedException App\Security\AccountDisabledException
+     *
      */
     public function testDoNotGrandActiveUserWithTimeWindowPastEnabled() {
+        $this->expectException(AccountDisabledException::class);
         $dateHelper = new DateHelper(new \DateTime('2018-08-01'));
         $userChecker = new UserChecker($dateHelper, $this->createMock(ConfirmationManager::class));
 

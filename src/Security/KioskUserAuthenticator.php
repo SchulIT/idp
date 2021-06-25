@@ -61,7 +61,7 @@ class KioskUserAuthenticator extends AbstractLoginFormAuthenticator {
         return new SelfValidatingPassport(
             new UserBadge($user->getUser()->getUserIdentifier()),
             [
-                new ClientIpAddressBadge($user->getIpAddresses())
+                new ClientIpAddressBadge(explode(',', $user->getIpAddresses()))
             ]
         );
     }

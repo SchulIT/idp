@@ -5,17 +5,18 @@ namespace App\Tests\Functional\Authentication;
 use App\Entity\User;
 use App\Entity\UserType;
 use Doctrine\ORM\EntityManagerInterface;
-use Sonata\GoogleAuthenticator\GoogleAuthenticator;
-use Symfony\Bundle\FrameworkBundle\Client;
+use OTPHP\TOTP;
+use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticator;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Security\Core\Role\Role;
+use Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken;
 
 class LoginTest extends WebTestCase {
 
     /** @var EntityManagerInterface */
     private $em;
 
-    /** @var Client */
+    /** @var KernelBrowser */
     private $client;
 
     /** @var User */
@@ -101,8 +102,8 @@ class LoginTest extends WebTestCase {
 
         $token = $tokenStorage->getToken();
 
+        $this->assertInstanceOf(PostAuthenticationToken::class, $token);
         $this->assertEquals($this->user->getUsername(), $token->getUsername());
-        $this->assertEquals($this->user->getRoles(), $this->getRoles($token->getRoles()));
     }
 
     public function testLoginTwoFactor() {
@@ -121,7 +122,7 @@ class LoginTest extends WebTestCase {
         $form['_password']->setValue('Test1234$');
 
         $crawler = $this->client->submit($form);
-        $this->assertEquals('http://localhost/login/two_factor', $crawler->getUri(), 'Tests whether we land on the two factor page');
+        $this->assertEquals('http://localhost/login/2fa', $crawler->getUri(), 'Tests whether we land on the two factor page');
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the two factor page');
 
         $tokenStorage = $this->client->getContainer()->get('security.token_storage');
@@ -129,14 +130,13 @@ class LoginTest extends WebTestCase {
 
         $token = $tokenStorage->getToken();
         $this->assertEquals($this->twoFactorUser->getUsername(), $token->getUsername());
-        $this->assertEquals(0, count($token->getRoles()), 'Tests if we have 0 roles when being partially authenticated');
 
         $this->client->request('GET', '/dashboard');
-        $this->assertEquals('http://localhost/login/two_factor', $crawler->getUri(), 'Tests whether we land on the two factor page if we are partially authenticated and browsing to a secured page');
+        $this->assertEquals('http://localhost/login/2fa', $crawler->getUri(), 'Tests whether we land on the two factor page if we are partially authenticated and browsing to a secured page');
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the two factor page (2)');
 
-        $authenticator = new GoogleAuthenticator();
-        $code = $authenticator->getCode($this->twoFactorUser->getGoogleAuthenticatorSecret());
+
+        $code = TOTP::create($this->twoFactorUser->getGoogleAuthenticatorSecret())->now();
 
         $button = $this->client->getCrawler()->filter('button[type=submit]')->first();
         $form = $button->form();
@@ -152,8 +152,8 @@ class LoginTest extends WebTestCase {
         $this->assertNotNull($tokenStorage->getToken());
 
         $token = $tokenStorage->getToken();
+        $this->assertInstanceOf(PostAuthenticationToken::class, $token);
         $this->assertEquals($this->twoFactorUser->getUsername(), $token->getUsername());
-        $this->assertEquals($this->twoFactorUser->getRoles(), $this->getRoles($token->getRoles()), 'Tests if we have all roles we should have after login');
     }
 
     public function testCancelTwoFactorLogin() {
@@ -172,7 +172,7 @@ class LoginTest extends WebTestCase {
         $form['_password']->setValue('Test1234$');
 
         $crawler = $this->client->submit($form);
-        $this->assertEquals('http://localhost/login/two_factor', $crawler->getUri(), 'Tests whether we land on the two factor page');
+        $this->assertEquals('http://localhost/login/2fa', $crawler->getUri(), 'Tests whether we land on the two factor page');
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the two factor page');
 
         $tokenStorage = $this->client->getContainer()->get('security.token_storage');
@@ -187,11 +187,5 @@ class LoginTest extends WebTestCase {
 
         $this->assertEquals('http://localhost/logout/success', $crawler->getUri(), 'Tests if we land on the logout page after cancelling two factor authentication');
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the logout page');
-    }
-
-    private static function getRoles(array $roles) {
-        return array_map(function(Role $role) {
-            return $role->getRole();
-        }, $roles);
     }
 }

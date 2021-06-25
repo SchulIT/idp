@@ -51,7 +51,7 @@ class KioskLoginTest extends WebTestCase {
         $this->kiosk = (new KioskUser())
             ->setUser($this->user)
             ->setToken('abc')
-            ->setIpAddresses('127.0.0.1');
+            ->setIpAddresses('127.0.0.1,::1');
         $this->em->persist($this->kiosk);
         $this->em->flush();
     }
@@ -67,11 +67,12 @@ class KioskLoginTest extends WebTestCase {
         $this->client->restart();
         $this->client->followRedirects(true);
 
-        $this->kiosk->setIpAddresses('127.0.0.1');
+        $this->kiosk->setIpAddresses('127.0.0.1,::1');
         $this->em->persist($this->kiosk);
         $this->em->flush();
 
         $crawler = $this->client->request('GET', '/login/check?token=abc');
+        var_dump($this->client->getResponse()->getStatusCode());
         $this->assertEquals('http://localhost/dashboard', $crawler->getUri(), 'Tests whether we land at the dashboard page');
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the login page');
 

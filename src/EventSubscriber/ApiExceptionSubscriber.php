@@ -28,6 +28,7 @@ class ApiExceptionSubscriber implements EventSubscriberInterface {
 
     public function onKernelException(ExceptionEvent $event) {
         $request = $event->getRequest();
+        $acceptable = $request->getAcceptableContentTypes();
 
         if(!in_array(static::JsonContentType, $request->getAcceptableContentTypes())) {
             return;
@@ -67,7 +68,10 @@ class ApiExceptionSubscriber implements EventSubscriberInterface {
 
         $response = new Response(
             $this->serializer->serialize($message, 'json'),
-            $code
+            $code,
+            [
+                'Content-Type' => 'application/json'
+            ]
         );
 
         $event->setResponse($response);

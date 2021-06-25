@@ -9,12 +9,13 @@ use App\Repository\UserRepositoryInterface;
 use App\Security\ForgotPassword\PasswordManager;
 use PHPUnit\Framework\TestCase;
 use SchulIT\CommonBundle\Helper\DateHelper;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class PasswordManagerTest extends TestCase {
     public function testCreateTokenIfNotPresent() {
         $dateHelper = new DateHelper();
-        $userPasswordEncoder = $this->createMock(UserPasswordEncoderInterface::class);
+        $userPasswordEncoder = $this->createMock(UserPasswordHasherInterface::class);
         $userRepository = $this->createMock(UserRepositoryInterface::class);
         $passwordResetRepository = $this->createMock(PasswordResetTokenRepositoryInterface::class);
         $passwordResetRepository
@@ -41,7 +42,7 @@ class PasswordManagerTest extends TestCase {
             ->method('getNow')
             ->willReturn(new \DateTime('2019-02-14 10:00'));
 
-        $userPasswordEncoder = $this->createMock(UserPasswordEncoderInterface::class);
+        $userPasswordEncoder = $this->createMock(UserPasswordHasherInterface::class);
         $userRepository = $this->createMock(UserRepositoryInterface::class);
         $passwordResetRepository = $this->createMock(PasswordResetTokenRepositoryInterface::class);
         $passwordResetRepository
@@ -68,7 +69,7 @@ class PasswordManagerTest extends TestCase {
             ->method('getNow')
             ->willReturn(new \DateTime('2019-02-14 10:00'));
 
-        $userPasswordEncoder = $this->createMock(UserPasswordEncoderInterface::class);
+        $userPasswordEncoder = $this->createMock(UserPasswordHasherInterface::class);
         $userRepository = $this->createMock(UserRepositoryInterface::class);
         $passwordResetRepository = $this->createMock(PasswordResetTokenRepositoryInterface::class);
         $passwordResetRepository
@@ -94,13 +95,13 @@ class PasswordManagerTest extends TestCase {
             ->setUser($user);
 
         $dateHelper = new DateHelper();
-        $userPasswordEncoder = $this->createMock(UserPasswordEncoderInterface::class);
+        $userPasswordEncoder = $this->createMock(PasswordHasher::class);
         $userPasswordEncoder
-            ->method('encodePassword')
+            ->method('hashPassword')
             ->willReturn('new-encoded-password');
         $userPasswordEncoder
             ->expects($this->once())
-            ->method('encodePassword')
+            ->method('hashPassword')
             ->with($this->equalTo($user), $this->equalTo('new-password'));
         $userRepository = $this->createMock(UserRepositoryInterface::class);
         $passwordResetRepository = $this->createMock(PasswordResetTokenRepositoryInterface::class);

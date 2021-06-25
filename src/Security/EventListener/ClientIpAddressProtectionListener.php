@@ -31,6 +31,11 @@ class ClientIpAddressProtectionListener implements EventSubscriberInterface {
             return;
         }
 
+        if(count($badge->getValidIpAddresses()) === 0) {
+            $badge->markResolved();
+            return;
+        }
+
         if(!in_array($request->getClientIp(), $badge->getValidIpAddresses())) {
             throw new NonAllowedClientIpAddressException();
         }
@@ -42,6 +47,6 @@ class ClientIpAddressProtectionListener implements EventSubscriberInterface {
      * @inheritDoc
      */
     public static function getSubscribedEvents(): array {
-        return [CheckPassportEvent::class => ['checkPassport', 256]];
+        return [CheckPassportEvent::class => ['checkPassport', 512]];
     }
 }
