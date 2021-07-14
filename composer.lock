@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5103797edb9307f2f2c4d31237dc2b51",
+    "content-hash": "2726407a855ae1de11f58594c934fa69",
     "packages": [
         {
             "name": "acelaya/doctrine-enum-type",
@@ -5192,20 +5192,19 @@
         },
         {
             "name": "schulit/common-bundle",
-            "version": "1.2.3",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchulIT/common-bundle.git",
-                "reference": "f9804d14d5ea59b6b53bc697e5ae839cb6a3e607"
+                "reference": "6b27cd8667cb6c32e5cb6a1be72037b2ad8319b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchulIT/common-bundle/zipball/f9804d14d5ea59b6b53bc697e5ae839cb6a3e607",
-                "reference": "f9804d14d5ea59b6b53bc697e5ae839cb6a3e607",
+                "url": "https://api.github.com/repos/SchulIT/common-bundle/zipball/6b27cd8667cb6c32e5cb6a1be72037b2ad8319b1",
+                "reference": "6b27cd8667cb6c32e5cb6a1be72037b2ad8319b1",
                 "shasum": ""
             },
             "require": {
-                "doctrine/orm": "^2.6",
                 "ext-iconv": "*",
                 "ext-openssl": "*",
                 "frostiede/composer-dependency-list-bundle": "^2.0",
@@ -5222,12 +5221,15 @@
                 "twig/twig": "^2.5|^3.0"
             },
             "suggest": {
+                "doctrine/orm": "",
                 "knplabs/knp-menu-bundle": "",
                 "knplabs/knp-time-bundle": "",
                 "lightsaml/lightsaml": "",
                 "shapecode/cron-bundle": "",
-                "swiftmailer/swiftmailer": ""
+                "swiftmailer/swiftmailer": "",
+                "symfony/doctrine-messenger": ""
             },
+            "default-branch": true,
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
@@ -5240,9 +5242,9 @@
             ],
             "support": {
                 "issues": "https://github.com/SchulIT/common-bundle/issues",
-                "source": "https://github.com/SchulIT/common-bundle/tree/1.2.3"
+                "source": "https://github.com/SchulIT/common-bundle/tree/master"
             },
-            "time": "2021-05-13T16:07:17+00:00"
+            "time": "2021-06-27T12:22:18+00:00"
         },
         {
             "name": "schulit/idp-exchange-models",
@@ -14136,7 +14138,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "schulit/common-bundle": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

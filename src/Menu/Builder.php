@@ -143,6 +143,11 @@ class Builder {
             ])
                 ->setExtra('icon', 'fas fa-clipboard-list');
 
+            $menu->addChild('messenger.label', [
+                'route' => 'admin_messenger'
+            ])
+                ->setExtra('icon', 'fas fa-envelope-open-text');
+
             $menu->addChild('api.doc', [
                 'uri' => '/docs/api'
             ]);

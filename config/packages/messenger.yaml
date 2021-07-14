@@ -4,9 +4,8 @@ framework:
         # failure_transport: failed
 
         transports:
-            provision: "%env(MESSENGER_TRANSPORT_DSN)%?queue_name=provision"
-            mail: "%env(MESSENGER_TRANSPORT_DSN)%?queue_name=mail"
+            async: "%env(MESSENGER_TRANSPORT_DSN)%"
 
         routing:
-            'App\Message\MustProvisionUser': provision
-            'Symfony\Component\Mailer\Messenger\SendEmailMessage': mail
+            'App\Message\MustProvisionUser': async
+            'Symfony\Component\Mailer\Messenger\SendEmailMessage': async

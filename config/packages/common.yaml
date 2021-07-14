@@ -1,3 +1,4 @@
+
 parameters:
   project_url: https://github.com/schulit/idp
 
@@ -14,3 +15,6 @@ common:
   menu: mainMenu
   disable:
     mail: true
+    messenger: false
+  messenger:
+    transport: 'messenger.transport.async'
