@@ -4,6 +4,7 @@ let bsn = require('bootstrap.native');
 let bsCustomFileInput = require('bs-custom-file-input');
 require('../../vendor/schulit/common-bundle/Resources/assets/js/polyfill');
 require('../../vendor/schulit/common-bundle/Resources/assets/js/menu');
+require('../../vendor/schulit/common-bundle/Resources/assets/js/dropdown-polyfill');
 
 import Choices from "choices.js";
 
