@@ -7,10 +7,16 @@ use App\Entity\ServiceProvider;
 use App\Form\ServiceProviderType;
 use App\Repository\ServiceProviderRepositoryInterface;
 use App\Service\ServiceProviderTokenGenerator;
+use Exception;
+use LightSaml\Model\Metadata\EntityDescriptor;
 use SchulIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -122,6 +128,47 @@ class ServiceProviderController extends AbstractController {
         return $this->render('service_providers/remove.html.twig', [
             'form' => $form->createView(),
             'service_provider' => $serviceProvider
+        ]);
+    }
+
+    /**
+     * @Route("/metadata", name="load_xml_metadata")
+     * @throws TransportExceptionInterface
+     * @throws Exception
+     */
+    public function loadXml(Request $request, HttpClientInterface $httpClient) {
+        $url = $request->query->get('url');
+
+        if(empty($url)) {
+            throw new BadRequestException();
+        }
+
+        $response = $httpClient->request('GET', $url);
+        if($response->getStatusCode() < 200 || $response->getStatusCode() >= 300) {
+            throw new Exception(sprintf('Request was not successful. Got status %d', $response->getStatusCode()));
+        }
+
+        $xml = $response->getContent();
+        $descriptor = EntityDescriptor::loadXml($xml);
+        $certificate = null;
+        $acs = null;
+
+        foreach($descriptor->getAllSpKeyDescriptors() as $spKeyDescriptor) {
+            if($spKeyDescriptor->getUse() === 'encryption') {
+                $certificate = $spKeyDescriptor->getCertificate()->toPem();
+            }
+        }
+
+        $sspSsoDescriptor = $descriptor->getFirstSpSsoDescriptor();
+
+        if($sspSsoDescriptor !== null && $sspSsoDescriptor->getFirstAssertionConsumerService() !== null) {
+            $acs = $sspSsoDescriptor->getFirstAssertionConsumerService()->getLocation();
+        }
+
+        return new JsonResponse([
+            'entity_id' => $descriptor->getEntityID(),
+            'certificate' => $certificate,
+            'acs' => $acs
         ]);
     }
 }

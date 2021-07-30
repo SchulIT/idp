@@ -15,6 +15,9 @@ use Symfony\Component\Form\FormEvents;
 class ServiceProviderType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
+            ->add('url', UrlType::class, [
+                'label' => 'label.url'
+            ])
             ->add('entityId', UrlType::class, [
                 'label' => 'label.entity_id'
             ])
@@ -31,9 +34,6 @@ class ServiceProviderType extends AbstractType {
             ])
             ->add('acs', UrlType::class, [
                 'label' => 'label.acs'
-            ])
-            ->add('url', UrlType::class, [
-                'label' => 'label.url'
             ])
             ->add('certificate', TextareaType::class, [
                 'label' => 'label.certificate',

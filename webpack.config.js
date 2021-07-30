@@ -18,6 +18,7 @@ Encore
     .addEntry('attributes', './assets/js/attributes.js')
     .addEntry('code-generator', './assets/js/code-generator.js')
     .addStyleEntry('email', './assets/css/email.scss')
+    .addEntry('metadata', './assets/js/metadata.js')
 
     // uncomment to define the assets of the project
     // .addEntry('js/app', './assets/js/app.js')

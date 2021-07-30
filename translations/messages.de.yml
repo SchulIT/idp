@@ -82,6 +82,10 @@ label:
     label: Priorität
     help: Bei mehreren Benutzerrollen mit denselben Attributen gewinnt die Benutzerrolle mit der höchsten Priorität.
   parent: Eltern
+  metadata:
+    label: Metadaten-XML
+    download: Herunterladen
+    info: Mithilfe der Metadaten-XML können einige Felder automatisch ausgefüllt werden. Das Eintragen der URL dient nur dem Komfort. Die URL wird nicht gespeichert.
 
 help:
   voluntary: Diese Angabe ist freiwillig.
