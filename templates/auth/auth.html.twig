@@ -1,6 +1,15 @@
 {% extends "@Common/auth/auth.html.twig" %}
 
 {% block content %}
+
+    {% if loginSettings.loginMessage is not empty %}
+        <div class="bs-callout bs-callout-info mb-3">
+            <h4>{{ 'info.label'|trans }}</h4>
+
+            {{ loginSettings.loginMessage|markdown_to_html }}
+        </div>
+    {% endif %}
+
     {{ parent() }}
 
     <hr>

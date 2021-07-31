@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Settings\LoginSettings;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,7 +12,7 @@ class AuthController extends AbstractController {
     /**
      * @Route("/login", name="login")
      */
-    public function login(AuthenticationUtils $authUtils, Request $request) {
+    public function login(AuthenticationUtils $authUtils, LoginSettings $loginSettings) {
         // get the login error if there is one
         $error = $authUtils->getLastAuthenticationError();
 
@@ -22,7 +23,8 @@ class AuthController extends AbstractController {
             'last_username' => $lastUsername,
             'error'         => $error,
             'supportsForgotPassword' => true,
-            'supportsRememberMe' => true
+            'supportsRememberMe' => true,
+            'loginSettings' => $loginSettings
         ]);
     }
 

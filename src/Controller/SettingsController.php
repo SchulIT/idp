@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Form\MarkdownType;
 use App\Form\TextPrefixType;
 use App\Settings\AppSettings;
+use App\Settings\LoginSettings;
 use App\Settings\RegistrationSettings;
 use App\Settings\SettingsManager;
 use SchulIT\CommonBundle\Form\FieldsetType;
@@ -24,11 +26,13 @@ class SettingsController extends AbstractController {
     /**
      * @Route("", name="settings")
      */
-    public function index(Request $request, SettingsManager $settingsManager, AppSettings $appSettings, RegistrationSettings $registrationSettings) {
+    public function index(Request $request, SettingsManager $settingsManager, AppSettings $appSettings,
+                          LoginSettings $loginSettings, RegistrationSettings $registrationSettings) {
         $settings = [
             'helpdesk:mail' => $appSettings->getHelpdeskMail(),
             'security:password_compromised_check' => $appSettings->isPasswordCompromisedCheckEnabled(),
-            'registration:suffix' => $registrationSettings->getUsernameSuffix()
+            'login:message' => $loginSettings->getLoginMessage(),
+            'registration:suffix' => $registrationSettings->getUsernameSuffix(),
         ];
 
         $form = $this->createFormBuilder($settings)
@@ -52,6 +56,17 @@ class SettingsController extends AbstractController {
                             'label_attr' => [
                                 'class' => 'checkbox-custom'
                             ]
+                        ]);
+                }
+            ])
+            ->add('group_login', FieldsetType::class, [
+                'legend' => 'settings.login.label',
+                'fields' => function(FormBuilderInterface $builder) {
+                    $builder
+                        ->add('login:message', MarkdownType::class, [
+                            'required' => false,
+                            'label' => 'settings.login.message.label',
+                            'help' => 'settings.login.message.help'
                         ]);
                 }
             ])

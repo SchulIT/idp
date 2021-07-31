@@ -619,3 +619,9 @@ settings:
     suffix:
       label: E-Mail Domäne für Benutzername
       help: Gibt die E-Mail Domäne an, die Elternaccounts zugeordnet wird.
+
+  login:
+    label: Anmeldung
+    message:
+      label: Mitteilung auf der Login-Seite
+      help: Diese Mitteilung wird auf der Anmeldeseite angezeigt und kann genutzt werden, um wichtige Informationen zur Anmeldung zu kommunizieren.

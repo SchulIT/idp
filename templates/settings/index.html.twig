@@ -2,6 +2,10 @@
 
 {% block title %}{{ 'settings.label'|trans }}{% endblock %}
 
+{% block post_javascript %}
+    <script src="{{ asset('build/editor.js') }}"></script>
+{% endblock %}
+
 {% block content %}
     {{ form_start(form) }}
 
