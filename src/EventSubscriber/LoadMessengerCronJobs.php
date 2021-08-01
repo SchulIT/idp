@@ -9,8 +9,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class LoadMessengerCronJobs implements EventSubscriberInterface {
 
     public function onLoadJobs(LoadJobsEvent $event) {
-        $event->addJob(new CronJobMetadata('*/1 * * * *', 'messenger:consume', 'mail -vv --time-limit=20 --limit=25'));
-        $event->addJob(new CronJobMetadata('*/1 * * * *', 'messenger:consume', 'provision -vv --time-limit=20 --limit=25'));
+        $event->addJob(new CronJobMetadata('*/1 * * * *', 'messenger:consume', 'async -vv --time-limit=20 --limit=25'));
     }
 
     /**
