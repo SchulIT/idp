@@ -54,10 +54,6 @@ security:
             pattern: ^/metadata$
             security: false
 
-        composer:
-            security: false
-            pattern: ^/dependencies
-
         exchange:
             pattern: ^/exchange
             stateless: true
