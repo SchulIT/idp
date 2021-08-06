@@ -34,12 +34,14 @@ class CachePasswordListener implements EventSubscriberInterface {
             return;
         }
 
+        if($badge->isResolved()) {
+            return;
+        }
+
         $hasher = $badge->getHasher();
 
         $user->setPassword($hasher->hashPassword($user, $plaintextPassword));
         $this->userRepository->persist($user);
-
-        $badge->markResolved();
     }
 
     /**
