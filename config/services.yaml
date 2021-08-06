@@ -31,7 +31,6 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
-            - '../src/Migrations/'
             - '../src/Request/'
             - '../src/Response/'
 
