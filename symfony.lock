@@ -387,6 +387,9 @@
     "sebastian/resource-operations": {
         "version": "1.0.0"
     },
+    "sebastian/type": {
+        "version": "1.1.4"
+    },
     "sebastian/version": {
         "version": "2.0.1"
     },
@@ -611,13 +614,19 @@
         "version": "v5.3.2"
     },
     "symfony/phpunit-bridge": {
-        "version": "3.3",
+        "version": "5.3",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "3.3",
-            "ref": "179470cb6492db92dffee208cfdb436f175c93b4"
-        }
+            "version": "5.3",
+            "ref": "905679249e7b10f06c572917a9022a72cbfedc04"
+        },
+        "files": [
+            "./.env.test",
+            "./bin/phpunit",
+            "./phpunit.xml.dist",
+            "./tests/bootstrap.php"
+        ]
     },
     "symfony/polyfill-ctype": {
         "version": "v1.8.0"
