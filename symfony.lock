@@ -164,6 +164,9 @@
     "knplabs/knp-menu-bundle": {
         "version": "v2.2.1"
     },
+    "laminas/laminas-code": {
+        "version": "4.4.2"
+    },
     "lcobucci/clock": {
         "version": "2.0.0"
     },
@@ -508,13 +511,23 @@
         "version": "v4.0.8"
     },
     "symfony/framework-bundle": {
-        "version": "3.3",
+        "version": "5.3",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "3.3",
-            "ref": "8a2f7fa50a528f0aad1d7a87ae3730c981b367ce"
-        }
+            "version": "5.3",
+            "ref": "772b77cfb5017644547ef7f9364c54e4eb9a6c61"
+        },
+        "files": [
+            "./config/packages/cache.yaml",
+            "./config/packages/framework.yaml",
+            "./config/preload.php",
+            "./config/routes/framework.yaml",
+            "./config/services.yaml",
+            "./public/index.php",
+            "./src/Controller/.gitignore",
+            "./src/Kernel.php"
+        ]
     },
     "symfony/http-client": {
         "version": "v4.3.0"
@@ -650,6 +663,9 @@
             "version": "4.0",
             "ref": "cda8b550123383d25827705d05a42acf6819fe4e"
         }
+    },
+    "symfony/runtime": {
+        "version": "v5.3.4"
     },
     "symfony/security": {
         "version": "v4.0.8"
