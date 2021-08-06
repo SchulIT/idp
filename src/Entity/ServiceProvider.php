@@ -19,7 +19,6 @@ class ServiceProvider {
 
     /**
      * @ORM\Column(type="string")
-     * @ORM\OrderBy()
      * @Assert\NotBlank()
      */
     private $name;

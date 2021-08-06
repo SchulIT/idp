@@ -36,7 +36,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
      * @ORM\Column(type="string", unique=true)
      * @Assert\NotBlank()
      * @Assert\Email(mode="html5")
-     * @ORM\OrderBy()
      * @Assert\Length(max="128", min="4")
      */
     private $username;
@@ -79,7 +78,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     /**
      * @ORM\ManyToOne(targetEntity="UserType", inversedBy="users")
      * @ORM\JoinColumn(onDelete="SET NULL")
-     * @Serializer\ReadOnly()
+     * @Serializer\ReadOnlyProperty()
      * @Serializer\Accessor(getter="getTypeString")
      * @Serializer\Type("string")
      * @SWG\Property(description="UUID of the usertype")

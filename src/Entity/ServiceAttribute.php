@@ -22,7 +22,6 @@ class ServiceAttribute {
 
     /**
      * @ORM\Column(type="string", length=191, unique=true)
-     * @ORM\OrderBy()
      * @Assert\NotBlank()
      */
     private $name;

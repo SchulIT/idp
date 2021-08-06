@@ -20,7 +20,6 @@ class UserRole {
 
     /**
      * @ORM\Column(type="string")
-     * @ORM\OrderBy()
      * @Assert\NotBlank()
      */
     private $name;

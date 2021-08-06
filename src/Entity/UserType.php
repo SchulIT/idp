@@ -21,7 +21,6 @@ class UserType {
 
     /**
      * @ORM\Column(type="string")
-     * @ORM\OrderBy()
      * @Assert\NotBlank()
      */
     private $name;

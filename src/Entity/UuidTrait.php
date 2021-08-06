@@ -10,7 +10,7 @@ trait UuidTrait {
 
     /**
      * @ORM\Column(type="uuid", unique=true)
-     * @Serializer\ReadOnly()
+     * @Serializer\ReadOnlyProperty()
      * @Serializer\Accessor(getter="getUuidString")
      * @Serializer\SerializedName("uuid")
      * @Serializer\Type("string")

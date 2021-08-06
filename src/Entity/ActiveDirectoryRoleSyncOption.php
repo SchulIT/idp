@@ -17,7 +17,6 @@ class ActiveDirectoryRoleSyncOption implements ActiveDirectorySyncOptionInterfac
     /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
-     * @ORM\OrderBy()
      */
     private $name;
 

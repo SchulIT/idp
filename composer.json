@@ -14,7 +14,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.0.0",
         "endroid/qr-code-bundle": "^4.0",
         "frostiede/composer-dependency-list-bundle": "^2.0",
-        "frostiede/enum-bundle": "^3.0.0",
+        "frostiede/enum-bundle": "dev-master",
         "jms/serializer-bundle": "^3.0",
         "knplabs/knp-menu-bundle": "^3.0",
         "league/commonmark": "^1.4",
@@ -35,7 +35,7 @@
         "schulit/idp-exchange-models": "^1.1",
         "schulit/lightsaml-idp-bundle": "^1.1",
         "sensio/framework-extra-bundle": "^5.1",
-        "shapecode/cron-bundle": "^4.0",
+        "shapecode/cron-bundle": "dev-master",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "^5.0",
         "symfony/console": "^5.0",
@@ -123,7 +123,7 @@
         "symfony": {
             "id": "01CAXK8XMD4BS4KM21DF4V4T3X",
             "allow-contrib": false,
-            "require": "^5.0"
+            "require": "^5.3"
         }
     },
     "prefer-stable": true

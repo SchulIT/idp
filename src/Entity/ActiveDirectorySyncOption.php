@@ -19,7 +19,6 @@ class ActiveDirectorySyncOption implements ActiveDirectorySyncOptionInterface {
     /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
-     * @ORM\OrderBy()
      */
     private $name;
 
