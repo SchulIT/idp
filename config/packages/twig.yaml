@@ -13,3 +13,7 @@ twig:
       user: '@App\Twig\UserVariable'
       profile_url: "profile"
       health_check: '@App\HealthCheck\HealthCheckService'
+
+when@test:
+  twig:
+    strict_variables: true
