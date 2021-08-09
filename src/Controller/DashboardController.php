@@ -71,7 +71,9 @@ class DashboardController extends AbstractController {
             $code = $codeRepository->findOneByCode($form->get('code')->getData());
 
             if($code !== null) {
-                if($code->getValidFrom() !== null && $code->getValidFrom() > $dateHelper->getToday()) {
+                if($code->getRedeemingUser() !== null) {
+                    $this->addFlash('error', $translator->trans('register.redeem.error.already_redeemed', [], 'security'));
+                } else if($code->getValidFrom() !== null && $code->getValidFrom() > $dateHelper->getToday()) {
                     $this->addFlash('error', $translator->trans('register.redeem.error.not_yet_valid', [
                         '%date%' => $code->getValidFrom()->format($translator->trans('date.format'))
                     ], 'security'));
