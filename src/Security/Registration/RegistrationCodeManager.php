@@ -55,7 +55,7 @@ class RegistrationCodeManager {
         $user
             ->setType($type)
             ->setIsEmailConfirmationPending($user->getEmail() !== null)
-            ->setPassword($this->passwordHasher->encodePassword($user, $password));
+            ->setPassword($this->passwordHasher->hashPassword($user, $password));
 
         $user->addLinkedStudent($code->getStudent());
         $code->setRedeemingUser($user);
