@@ -24,7 +24,7 @@ security:
 
     access_control:
         - { path: ^/login$, roles: PUBLIC_ACCESS }
-        - { path: ^/(metadata|dependencies|confirm|register|forgot_pw), roles: PUBLIC_ACCESS }
+        - { path: ^/(metadata|confirm|register|forgot_pw), roles: PUBLIC_ACCESS }
         - { path: ^/logout/success, roles: PUBLIC_ACCESS }
         - { path: ^/cron, roles: ROLE_CRON }
         - { path: ^/exchange, roles: ROLE_IDPEXCHANGE }
