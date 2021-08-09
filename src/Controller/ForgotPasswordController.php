@@ -60,7 +60,9 @@ class ForgotPasswordController extends AbstractController {
                 $this->addFlash('error', 'forgot_pw.request.cannot_change');
                 return $this->redirectToRoute('login');
             } else {
-                $this->manager->resetPassword($user, $user->getEmail());
+                if($user !== null) {
+                    $this->manager->resetPassword($user, $user->getEmail());
+                }
                 $this->addFlash('success', 'forgot_pw.request.success');
 
                 return $this->redirectToRoute('login');
