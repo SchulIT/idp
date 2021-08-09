@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\UserProfileCompleteType;
 use App\Repository\RegistrationCodeRepositoryInterface;
+use App\Security\Registration\CodeAlreadyRedeemedException;
 use App\Security\Registration\CodeNotFoundException;
 use App\Security\Registration\EmailAlreadyExistsException;
 use App\Security\Registration\EmailDomainNotAllowedException;
@@ -92,9 +93,12 @@ class RegistrationController extends AbstractController {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $manager->complete($code, $user, $form->get('password')->getData());
-
-            $this->addFlash('success', 'register.completed');
+            try {
+                $manager->complete($code, $user, $form->get('password')->getData());
+                $this->addFlash('success', 'register.completed');
+            } catch (CodeAlreadyRedeemedException $e) {
+                $this->addFlash('error', 'register.redeem.error.already_redeemed');
+            }
 
             return $this->redirectToRoute('login');
         }
