@@ -526,6 +526,8 @@ link:
     button: verknüpfen
     success: Verknüpfung erfolgreich eingerichtet
     instruction: Das Kind muss einmalig die Anmeldedaten eintragen, um die Verknüpfung mit dem Account herzustellen.
+    error:
+      already_linked: Das Kind ist bereits mit dem aktuellen Account verknüpft.
 
 registration:
   complete:

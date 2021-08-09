@@ -76,13 +76,17 @@ class DashboardController extends AbstractController {
                         '%date%' => $code->getValidFrom()->format($translator->trans('date.format'))
                     ], 'security'));
                 } else {
-                    $user->addLinkedStudent($code->getStudent());
-                    $code->setRedeemingUser($user);
+                    if($user->getLinkedStudents()->contains($code->getStudent())) {
+                        $this->addFlash('error', 'link.student.error.already_linked');
+                    } else {
+                        $user->addLinkedStudent($code->getStudent());
+                        $code->setRedeemingUser($user);
 
-                    $userRepository->persist($user);
-                    $codeRepository->persist($code);
+                        $userRepository->persist($user);
+                        $codeRepository->persist($code);
 
-                    $this->addFlash('success', 'link.student.success');
+                        $this->addFlash('success', 'link.student.success');
+                    }
                 }
             } else {
                 $this->addFlash('error', $translator->trans('register.redeem.error.not_found', [], 'security'));
