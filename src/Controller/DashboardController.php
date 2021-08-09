@@ -67,7 +67,7 @@ class DashboardController extends AbstractController {
         $form = $this->createForm(LinkStudentType::class);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if($form->isSubmitted() && $form->isValid() && !empty($form->get('code')->getData())) {
             $code = $codeRepository->findOneByCode($form->get('code')->getData());
 
             if($code !== null) {
