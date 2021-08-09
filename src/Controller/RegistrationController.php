@@ -2,26 +2,19 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Form\UserProfileCompleteType;
 use App\Repository\RegistrationCodeRepositoryInterface;
-use App\Repository\UserRepositoryInterface;
-use App\Repository\UserTypeRepositoryInterface;
-use App\Security\Registration\CodeAlreadyRedeemedException;
 use App\Security\Registration\CodeNotFoundException;
 use App\Security\Registration\EmailAlreadyExistsException;
 use App\Security\Registration\EmailDomainNotAllowedException;
 use App\Security\Registration\RegistrationCodeManager;
 use App\Security\Registration\TokenNotFoundException;
-use App\Security\UserAuthenticator;
 use App\Settings\RegistrationSettings;
 use SchulIT\CommonBundle\Helper\DateHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -84,7 +77,7 @@ class RegistrationController extends AbstractController {
      * @Route("/complete", name="register")
      */
     public function register(Request $request, RegistrationSettings $settings, RegistrationCodeRepositoryInterface $codeRepository,
-                             RegistrationCodeManager $manager, UserAuthenticator $authenticator, GuardAuthenticatorHandler $authenticatorHandler) {
+                             RegistrationCodeManager $manager) {
         $code = $codeRepository->findOneByCode($request->request->get('code'));
 
         if($code === null) {
@@ -103,13 +96,7 @@ class RegistrationController extends AbstractController {
 
             $this->addFlash('success', 'register.completed');
 
-            return $authenticatorHandler
-                ->authenticateUserAndHandleSuccess(
-                    $user,
-                    $request,
-                    $authenticator,
-                    'secured'
-                );
+            return $this->redirectToRoute('login');
         }
 
         return $this->render('register/complete.html.twig', [
