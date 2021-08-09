@@ -3527,16 +3527,16 @@
         },
         {
             "name": "lightsaml2/symfony-bridge",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lightsaml2/SymfonyBridgeBundle.git",
-                "reference": "2e5258dfc26d76b2b31cee262da8242b8a1e1e8a"
+                "reference": "9579a39037c006872361f653c6bb42cbe638b8f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lightsaml2/SymfonyBridgeBundle/zipball/2e5258dfc26d76b2b31cee262da8242b8a1e1e8a",
-                "reference": "2e5258dfc26d76b2b31cee262da8242b8a1e1e8a",
+                "url": "https://api.github.com/repos/lightsaml2/SymfonyBridgeBundle/zipball/9579a39037c006872361f653c6bb42cbe638b8f4",
+                "reference": "9579a39037c006872361f653c6bb42cbe638b8f4",
                 "shasum": ""
             },
             "require": {
@@ -3575,9 +3575,9 @@
             "description": "Light SAML Symfony bridge bundle",
             "homepage": "http://www.lightsaml.com",
             "support": {
-                "source": "https://github.com/lightsaml2/SymfonyBridgeBundle/tree/2.0.0"
+                "source": "https://github.com/lightsaml2/SymfonyBridgeBundle/tree/2.0.1"
             },
-            "time": "2021-06-10T16:47:23+00:00"
+            "time": "2021-08-06T13:58:54+00:00"
         },
         {
             "name": "lorenzo/pinky",
