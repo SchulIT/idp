@@ -10,7 +10,7 @@ use SchulIT\CommonBundle\Helper\DateHelper;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class PasswordManager {
-    private const DefaultTokenLifetime = '2 hours';
+    private const DefaultTokenLifetime = '24 hours';
 
     private $dateHelper;
     private $passwordHasher;
