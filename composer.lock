@@ -5179,16 +5179,16 @@
         },
         {
             "name": "schulit/idp-exchange-models",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchulIT/idp-exchange-models.git",
-                "reference": "330752f4944be26e9106d8127a6eab1750c5acb4"
+                "reference": "577380acdb06f26a597a940e4fe6c2578af07798"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchulIT/idp-exchange-models/zipball/330752f4944be26e9106d8127a6eab1750c5acb4",
-                "reference": "330752f4944be26e9106d8127a6eab1750c5acb4",
+                "url": "https://api.github.com/repos/SchulIT/idp-exchange-models/zipball/577380acdb06f26a597a940e4fe6c2578af07798",
+                "reference": "577380acdb06f26a597a940e4fe6c2578af07798",
                 "shasum": ""
             },
             "require": {
@@ -5217,9 +5217,9 @@
             ],
             "support": {
                 "issues": "https://github.com/SchulIT/idp-exchange-models/issues",
-                "source": "https://github.com/SchulIT/idp-exchange-models/tree/1.1.0"
+                "source": "https://github.com/SchulIT/idp-exchange-models/tree/1.1.1"
             },
-            "time": "2021-06-10T17:03:21+00:00"
+            "time": "2021-08-10T20:53:27+00:00"
         },
         {
             "name": "schulit/lightsaml-idp-bundle",
