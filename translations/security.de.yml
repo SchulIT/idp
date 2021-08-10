@@ -43,6 +43,7 @@ register:
       not_found: Der Registrierungscode ist nicht vorhanden.
       already_redeemed: Der Registrierungsocde wurde bereits verwendet.
       not_yet_valid: 'Der Registrierungscode kann erst ab dem %date% verwendet werden.'
+      invalid_request: Die Anfrage enthielt keinen Registrierungscode. Bitte erneut versuchen.
     button: Code einlösen
   complete:
     label: Benutzerprofil vervollständigen

@@ -50,7 +50,14 @@ class RegistrationController extends AbstractController {
             return $this->redirectToRoute('login');
         }
 
-        $code = $codeRepository->findOneByCode($request->request->get('code'));
+        $registrationCode = $request->request->get('code');
+
+        if(empty($registrationCode)) {
+            $this->addFlash('error', 'register.redeem.error.invalid_request');
+            return $this->redirectToRoute('login');
+        }
+
+        $code = $codeRepository->findOneByCode($registrationCode);
 
         if($code === null) {
             $this->addFlash('error', 'register.redeem.error.not_found');
@@ -79,7 +86,14 @@ class RegistrationController extends AbstractController {
      */
     public function register(Request $request, RegistrationSettings $settings, RegistrationCodeRepositoryInterface $codeRepository,
                              RegistrationCodeManager $manager) {
-        $code = $codeRepository->findOneByCode($request->request->get('code'));
+        $registrationCode = $request->request->get('code');
+
+        if(empty($registrationCode)) {
+            $this->addFlash('error', 'register.redeem.error.invalid_request');
+            return $this->redirectToRoute('login');
+        }
+
+        $code = $codeRepository->findOneByCode($registrationCode);
 
         if($code === null) {
             $this->addFlash('error', 'register.redeem.error.not_found');
