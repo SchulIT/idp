@@ -64,7 +64,7 @@ class ConfirmationManager {
         $this->repository->persist($confirmation);
         $email = (new TemplatedEmail())
             ->subject($this->translator->trans('registration.title', [], 'mail'))
-            ->to(new Address($user->getEmail(), $this->userConverter->convert($user)))
+            ->to(new Address($confirmation->getEmailAddress(), $this->userConverter->convert($user)))
             ->textTemplate('mail/email_confirmation.txt.twig')
             ->htmlTemplate('mail/email_confirmation.html.twig')
             ->context([
