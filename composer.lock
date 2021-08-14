@@ -5223,16 +5223,16 @@
         },
         {
             "name": "schulit/lightsaml-idp-bundle",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchulIT/lightsaml-idp-bundle.git",
-                "reference": "2c473735aecfeb8739fa850fbef94fa86ce763d9"
+                "reference": "38f56450c87989cdf1a1bad038ecc3d96c222aef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchulIT/lightsaml-idp-bundle/zipball/2c473735aecfeb8739fa850fbef94fa86ce763d9",
-                "reference": "2c473735aecfeb8739fa850fbef94fa86ce763d9",
+                "url": "https://api.github.com/repos/SchulIT/lightsaml-idp-bundle/zipball/38f56450c87989cdf1a1bad038ecc3d96c222aef",
+                "reference": "38f56450c87989cdf1a1bad038ecc3d96c222aef",
                 "shasum": ""
             },
             "require": {
@@ -5256,9 +5256,9 @@
             ],
             "support": {
                 "issues": "https://github.com/SchulIT/lightsaml-idp-bundle/issues",
-                "source": "https://github.com/SchulIT/lightsaml-idp-bundle/tree/1.1.0"
+                "source": "https://github.com/SchulIT/lightsaml-idp-bundle/tree/1.1.1"
             },
-            "time": "2021-06-10T17:04:32+00:00"
+            "time": "2021-08-14T18:36:00+00:00"
         },
         {
             "name": "sensio/framework-extra-bundle",
