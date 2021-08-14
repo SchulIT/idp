@@ -14,6 +14,7 @@ use Psr\Log\NullLogger;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -112,6 +113,14 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator {
         $username = $request->request->get('_username');
         $password = $request->request->get('_password');
         $csrfToken = $request->request->get('_csrf_token');
+
+        if(empty($username)) {
+            throw new BadRequestHttpException('Username must not be empty');
+        }
+
+        if(empty($password)) {
+            throw new BadRequestHttpException('Password must not empty');
+        }
 
         return new Passport(
             new UserBadge($username),
