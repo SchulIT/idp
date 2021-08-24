@@ -28,7 +28,6 @@ class ActiveDirectoryUserRequest {
      * @Serializer\SerializedName("user_principal_name")
      * @Serializer\Type("string")
      * @Assert\NotBlank()
-     * @UniqueUsername(type="ad")
      * @var string
      */
     private $userPrincipalName;
