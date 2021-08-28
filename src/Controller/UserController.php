@@ -56,7 +56,9 @@ class UserController extends AbstractController {
         $typeFilterView = $typeFilter->handle($request->query->get('type'));
         $roleFilterView = $roleFilter->handle($request->query->get('role'));
 
-        $paginator = $this->repository->getPaginatedUsers(static::USERS_PER_PAGE, $page, $typeFilterView->getCurrentType(), $roleFilterView->getCurrentRole(), $q, $grade, $deleted);
+        $withoutParents = $typeFilterView->getCurrentType() !== null && $typeFilterView->getCurrentType()->getAlias() === 'student' && $request->query->get('without_parents') === '✓';
+
+        $paginator = $this->repository->getPaginatedUsers(static::USERS_PER_PAGE, $page, $typeFilterView->getCurrentType(), $roleFilterView->getCurrentRole(), $q, $grade, $deleted, $withoutParents);
 
         $pages = 1;
 
@@ -88,6 +90,7 @@ class UserController extends AbstractController {
             'count' => $this->repository->countUsers(),
             'roleFilter' => $roleFilterView,
             'typeFilter' => $typeFilterView,
+            'withoutParents' => $withoutParents,
             'csrf_id' => static::CsrfTokenId,
             'csrf_key' => static::CsrfTokenKey
         ]);

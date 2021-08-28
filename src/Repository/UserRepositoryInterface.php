@@ -109,7 +109,7 @@ interface UserRepositoryInterface {
      * @param bool $deleted
      * @return Paginator
      */
-    public function getPaginatedUsers(int $itemsPerPage, int &$page, ?UserType $type = null, ?UserRole $role = null, ?string $query = null, ?string $grade = null, bool $deleted = false): Paginator;
+    public function getPaginatedUsers(int $itemsPerPage, int &$page, ?UserType $type = null, ?UserRole $role = null, ?string $query = null, ?string $grade = null, bool $deleted = false, bool $onlyNotLinked = false): Paginator;
 
     /**
      * Removes deleted users which are deleted before $threshold.

@@ -161,7 +161,7 @@ class UserRepository implements UserRepositoryInterface {
     /**
      * @inheritDoc
      */
-    public function getPaginatedUsers(int $itemsPerPage, int &$page, ?UserType $type = null, ?UserRole $role = null, ?string $query = null, ?string $grade = null, bool $deleted = false): Paginator {
+    public function getPaginatedUsers(int $itemsPerPage, int &$page, ?UserType $type = null, ?UserRole $role = null, ?string $query = null, ?string $grade = null, bool $deleted = false, bool $onlyNotLinked = false): Paginator {
         $qb = $this->em
             ->createQueryBuilder()
             ->select('u')
@@ -227,6 +227,19 @@ class UserRepository implements UserRepositoryInterface {
         $qb->where(
             $qb->expr()->in('u.id', $qbInner->getDQL())
         );
+
+        if($type !== null && $type->getAlias() === 'student' && $onlyNotLinked === true) {
+            $qb->andWhere(
+                $qb->expr()->in('u.id',
+                    $this->em->createQueryBuilder()
+                        ->select('uStudentInner.id')
+                        ->from(User::class, 'uStudentInner')
+                        ->leftJoin('uStudentInner.parents', 'pStudentInner')
+                        ->where('pStudentInner.id IS NULL')
+                        ->getDQL()
+                )
+            );
+        }
 
         $offset = ($page - 1) * $itemsPerPage;
 
@@ -400,6 +413,7 @@ class UserRepository implements UserRepositoryInterface {
             ->select('DISTINCT u.grade')
             ->from(User::class, 'u')
             ->orderBy('u.grade', 'asc')
+            ->where('u.grade IS NOT NULL')
             ->getQuery()
             ->getResult(Query::HYDRATE_ARRAY);
 

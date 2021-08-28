@@ -158,7 +158,8 @@
                         q: q,
                         grade: grade,
                         type: (typeFilter.currentType ? typeFilter.currentType.uuid.toString() : null),
-                        role: (roleFilter.currentRole ? roleFilter.currentRole.uuid.toString() : null)
+                        role: (roleFilter.currentRole ? roleFilter.currentRole.uuid.toString() : null),
+                        no_parents: (withoutParents == '✓' ? '✓' : null)
                     },
                     currentPage: page,
                     paginationPath: 'users',
@@ -196,6 +197,15 @@
                                     {% endfor %}
                                 </select>
                             </div>
+
+                            {% if typeFilter.currentType is not null and typeFilter.currentType.alias == 'student' %}
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="without-parents" data-trigger="submit" name="without_parents" value="✓" {% if withoutParents %}checked="checked"{% endif %}>
+                                        <label class="custom-control-label" for="without-parents">{{ 'users.filter.without_parents'|trans }}</label>
+                                    </div>
+                                </div>
+                            {% endif %}
 
                             <div class="form-group">
                                 <select name="role" class="form-control" data-choice="true" data-trigger="submit">

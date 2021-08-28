@@ -253,6 +253,9 @@ users:
       confirm: Soll der Kiosk-Zugang für %username% wirklich gelöscht werden?
       success: Kiosk-Zugang erfolgreich gelöscht
 
+  filter:
+    without_parents: Nur Lernende ohne Eltern anzeigen
+
   attributes:
     label: Attribute
     header: Attribute für Benutzer "%username%"
