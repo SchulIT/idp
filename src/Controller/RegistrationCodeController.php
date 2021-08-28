@@ -3,38 +3,23 @@
 namespace App\Controller;
 
 use App\Entity\RegistrationCode;
-use App\Form\AttributeDataTrait;
-use App\Form\ImportRegistrationCodesFlow;
 use App\Form\RegistrationCodeBulkType;
 use App\Form\RegistrationCodeType;
-use App\Import\ImportRegistrationCodeData;
-use App\Import\RecordInvalidException;
-use App\Import\RegistrationCsvImportHelper;
 use App\Repository\RegistrationCodeRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use App\Security\Registration\CodeGenerator;
-use App\Service\AttributePersister;
-use App\View\Filter\UserTypeFilter;
-use Exception;
-use League\Csv\Exception as LeagueException;
 use League\Csv\Writer;
-use Psr\Log\LoggerInterface;
 use SchulIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/admin/registration_codes")
  */
 class RegistrationCodeController extends AbstractController {
-
-    use AttributeDataTrait;
 
     private const CodesPerPage = 25;
 
