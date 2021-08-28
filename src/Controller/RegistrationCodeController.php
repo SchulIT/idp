@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/registration_codes")
@@ -64,7 +65,7 @@ class RegistrationCodeController extends AbstractController {
     /**
      * @Route("/export", name="export_codes")
      */
-    public function export(Request $request, UserRepositoryInterface $userRepository) {
+    public function export(Request $request, UserRepositoryInterface $userRepository, TranslatorInterface $translator) {
         $grade = $request->query->get('grade');
 
         $grades = $userRepository->findGrades();
@@ -84,14 +85,21 @@ class RegistrationCodeController extends AbstractController {
         $csv = Writer::createFromString();
         $csv->setDelimiter(';');
         $csv->setOutputBOM(Writer::BOM_UTF8);
-        $csv->insertOne(['Vorname', 'Nachname', 'Code', 'Klasse']);
+        $csv->insertOne([
+            $translator->trans('label.firstname'),
+            $translator->trans('label.lastname'),
+            $translator->trans('label.code'),
+            $translator->trans('label.grade'),
+            $translator->trans('codes.redeemed')
+        ]);
 
         foreach($codes as $code) {
             $csv->insertOne([
                 $code->getStudent()->getFirstname(),
                 $code->getStudent()->getLastname(),
                 $code->getCode(),
-                $code->getStudent()->getGrade()
+                $code->getStudent()->getGrade(),
+                $code->getRedeemingUser() !== null ? $translator->trans('yes') : $translator->trans('no')
             ]);
         }
 

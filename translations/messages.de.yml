@@ -633,3 +633,6 @@ settings:
     message:
       label: Mitteilung auf der Login-Seite
       help: Diese Mitteilung wird auf der Anmeldeseite angezeigt und kann genutzt werden, um wichtige Informationen zur Anmeldung zu kommunizieren.
+
+yes: ja
+no: nein
