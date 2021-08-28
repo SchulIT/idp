@@ -45,7 +45,7 @@ class RegistrationCodeController extends AbstractController {
             $grade = null;
         }
 
-        $paginator = $this->repository->getPaginatedUsers(static::CodesPerPage, $page, $query);
+        $paginator = $this->repository->getPaginatedUsers(static::CodesPerPage, $page, $query, $grade);
         $pages = 1;
         if($paginator->count() > 0) {
             $pages = ceil((float)$paginator->count() / static::CodesPerPage);
