@@ -107,6 +107,12 @@
 
                                                     <div class="dropdown-divider"></div>
 
+                                                    {% if is_granted('ROLE_ADMIN') and user.type.alias == 'student' %}
+                                                        <a href="{{ path('add_registration_code', { student: user.uuid.toString }) }}" class="dropdown-item">
+                                                            <i class="fas fa-qrcode"></i> {{ 'codes.add.label'|trans }}
+                                                        </a>
+                                                    {% endif %}
+
                                                     <a href="{{ path('reset_password', { uuid: user.uuid }) }}" class="dropdown-item">
                                                         <i class="fa fa-key"></i> {{ 'users.reset_pw.label'|trans }}
                                                     </a>

@@ -148,8 +148,13 @@ class RegistrationCodeController extends AbstractController {
     /**
      * @Route("/add", name="add_registration_code")
      */
-    public function add(Request $request) {
+    public function add(Request $request, UserRepositoryInterface $userRepository) {
         $code = new RegistrationCode();
+
+        if(($studentUuid = $request->query->get('student')) !== null) {
+            $code->setStudent($userRepository->findOneByUuid($studentUuid));
+        }
+
         $form = $this->createForm(RegistrationCodeType::class, $code);
         $form->handleRequest($request);
 
