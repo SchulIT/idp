@@ -103,6 +103,9 @@
                         <a href="{{ path('add_registration_code_bulk') }}" class="list-group-item list-group-item-action">
                             <i class="fas fa-plus"></i> {{ 'codes.bulk.label'|trans }}
                         </a>
+                        <a href="{{ path('add_registration_code_bulk_for_students_without_parent') }}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-plus"></i> {{ 'codes.bulk_noparents.label'|trans }}
+                        </a>
                         <a href="{{ path('export_codes', { grade: grade }) }}" class="list-group-item list-group-item-action">
                             <i class="fa fa-download"></i> {{ 'codes.export.label'|trans }}
                         </a>

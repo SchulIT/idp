@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\RegistrationCode;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -118,5 +119,34 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
             ->setParameter('grade', $grade)
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function findAllByStudent(User $user): array {
+        return $this->em->createQueryBuilder()
+            ->select(['c', 's'])
+            ->from(RegistrationCode::class, 'c')
+            ->leftJoin('c.student', 's')
+            ->where('s.id = :student')
+            ->setParameter('student', $user->getId())
+            ->getQuery()
+            ->getResult();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function codeForStudentExists(User $user): bool {
+        return $this->em->createQueryBuilder()
+            ->select('COUNT(c.id)')
+            ->from(RegistrationCode::class, 'c')
+            ->leftJoin('c.student', 's')
+            ->where('s.id = :student')
+            ->setParameter('student', $user->getId())
+            ->getQuery()
+            ->getSingleScalarResult() > 0;
     }
 }

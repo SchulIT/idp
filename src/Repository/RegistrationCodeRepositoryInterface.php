@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\RegistrationCode;
+use App\Entity\User;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
 interface RegistrationCodeRepositoryInterface extends TransactionalRepositoryInterface {
@@ -20,6 +21,21 @@ interface RegistrationCodeRepositoryInterface extends TransactionalRepositoryInt
      * @return RegistrationCode[]
      */
     public function findByGrade(string $grade): array;
+
+    /**
+     * @param User $user
+     * @return RegistrationCode[]
+     */
+    public function findAllByStudent(User $user): array;
+
+    /**
+     * Checks whether at least one code is already in the system. It does not care about whether or not the code
+     * was redeemed.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function codeForStudentExists(User $user): bool;
 
     public function persist(RegistrationCode $code): void;
 

@@ -408,6 +408,27 @@ class UserRepository implements UserRepositoryInterface {
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function findAllStudentsWithoutParents(): array {
+        $qbInner = $this->em->createQueryBuilder()
+            ->select('uInner.id')
+            ->from(User::class, 'uInner')
+            ->leftJoin('uInner.parents', 'pInner')
+            ->leftJoin('uInner.type', 'tInner')
+            ->where('pInner.id IS NULL')
+            ->andWhere("tInner.alias = 'student'");
+
+        $qb = $this->createDefaultQueryBuilder();
+
+        $qb->where(
+            $qb->expr()->in('u.id', $qbInner->getDQL())
+        );
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function findGrades(): array {
         $result = $this->em->createQueryBuilder()
             ->select('DISTINCT u.grade')
@@ -464,4 +485,6 @@ class UserRepository implements UserRepositoryInterface {
         $this->em->detach($user);
         return $this->findOneById($user->getId());
     }
+
+
 }

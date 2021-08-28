@@ -125,6 +125,11 @@ interface UserRepositoryInterface {
     public function findParentUsersWithoutStudents(): array;
 
     /**
+     * @return User[]
+     */
+    public function findAllStudentsWithoutParents(): array;
+
+    /**
      * @return string[]
      */
     public function findGrades(): array;

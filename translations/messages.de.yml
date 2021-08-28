@@ -501,6 +501,9 @@ codes:
   bulk:
     label: Registrierungscodes für Klasse erzeugen
     success: Registrierungscodes erfolgreich erzeugt
+  bulk_noparents:
+    label: Registrierungscodes für Lernende ohne aktives Elternteil erzeugen
+    success: Registrierungscodes erfolgreich erzeugt
   export:
     label: Registrierungscodes exportieren (CSV)
   edit:

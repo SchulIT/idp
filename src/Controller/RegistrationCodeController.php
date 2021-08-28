@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\RegistrationCode;
+use App\Entity\User;
+use App\Form\RegistrationCodeBulkStudentsWithoutParentAccountType;
 use App\Form\RegistrationCodeBulkType;
 use App\Form\RegistrationCodeType;
 use App\Repository\RegistrationCodeRepositoryInterface;
@@ -184,6 +186,45 @@ class RegistrationCodeController extends AbstractController {
         }
 
         return $this->render('codes/bulk.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/bulk/students_without_parent", name="add_registration_code_bulk_for_students_without_parent")
+     */
+    public function addBulkForStudentsWithoutParent(Request $request, UserRepositoryInterface $userRepository, CodeGenerator $codeGenerator) {
+        $form = $this->createForm(RegistrationCodeBulkStudentsWithoutParentAccountType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            /** @var User[] $users */
+            $users = $form->get('students')->getData();
+            $count = 0;
+
+            foreach($users as $user) {
+                if($user->getType() === null || $user->getType()->getAlias() !== 'student') {
+                    continue;
+                }
+
+                if($this->repository->codeForStudentExists($user)) {
+                    continue;
+                }
+
+                $code = (new RegistrationCode())
+                    ->setCode($codeGenerator->generateCode())
+                    ->setValidFrom($form->get('validFrom')->getData())
+                    ->setStudent($user);
+
+                $this->repository->persist($code);
+                $count++;
+            }
+
+            $this->addFlash('success', 'codes.bulk_noparents.success');
+            return $this->redirectToRoute('registration_codes');
+        }
+
+        return $this->render('codes/bulk_students_without_parents.html.twig', [
             'form' => $form->createView()
         ]);
     }
