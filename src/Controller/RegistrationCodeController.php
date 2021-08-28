@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/registration_codes")
+ * @Route("/registration_codes")
  */
 class RegistrationCodeController extends AbstractController {
 
