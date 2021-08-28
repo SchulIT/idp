@@ -47,28 +47,11 @@
         </div>
 
         {% if is_granted('link-student') %}
-            <div class="card-footer">
-                <i class="fas fa-info-circle"></i> {{ 'link.student.info'|trans }}
-            </div>
-
-            <div class="card-footer">
-                <div class="d-flex align-items-center">
-                    <span class="mr-auto">
-                        <strong class="mr-1">
-                            <i class="fa fa-link"></i> {{ 'label.students'|trans({'%count%': students|length }) }}:
-                        </strong>
-
-                        <span class="text-muted">
-                            {% if students is empty %}
-                                {{ 'link.student.none'|trans }}
-                            {% endif %}
-                            {% for link in students %}
-                                <i class="fas fa-user"></i> {{ link.firstname }} {{ link.lastname }} {% if not link.grade is empty -%}({{ link.grade }}){%- endif -%}
-                            {% endfor %}
-                        </span>
-                    </span>
+            {% for link in students %}
+                <div class="card-footer">
+                    <i class="fas fa-user-graduate"></i> {{ link.lastname }}, {{ link.firstname }} {% if not link.grade is empty -%}({{ link.grade }}){%- endif -%}
                 </div>
-            </div>
+            {% endfor %}
         {% endif %}
     </div>
 
@@ -79,6 +62,10 @@
             </div>
 
             <div class="card-body">
+                <p>
+                    {{ 'link.student.info'|trans }}
+                </p>
+
                 {{ form_start(form, { action: path('link_student')}) }}
 
                 {{ form_widget(form) }}
