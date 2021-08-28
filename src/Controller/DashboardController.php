@@ -71,24 +71,23 @@ class DashboardController extends AbstractController {
             $code = $codeRepository->findOneByCode($form->get('code')->getData());
 
             if($code !== null) {
-                if($code->getRedeemingUser() !== null) {
-                    $this->addFlash('error', $translator->trans('register.redeem.error.already_redeemed', [], 'security'));
-                } else if($code->getValidFrom() !== null && $code->getValidFrom() > $dateHelper->getToday()) {
+                if($code->getValidFrom() !== null && $code->getValidFrom() > $dateHelper->getToday()) {
                     $this->addFlash('error', $translator->trans('register.redeem.error.not_yet_valid', [
                         '%date%' => $code->getValidFrom()->format($translator->trans('date.format'))
                     ], 'security'));
+                }
+                else if($user->getLinkedStudents()->contains($code->getStudent())) {
+                    $this->addFlash('error', 'link.student.error.already_linked');
+                } if($code->getRedeemingUser() !== null) {
+                    $this->addFlash('error', $translator->trans('register.redeem.error.already_redeemed', [], 'security'));
                 } else {
-                    if($user->getLinkedStudents()->contains($code->getStudent())) {
-                        $this->addFlash('error', 'link.student.error.already_linked');
-                    } else {
-                        $user->addLinkedStudent($code->getStudent());
-                        $code->setRedeemingUser($user);
+                    $user->addLinkedStudent($code->getStudent());
+                    $code->setRedeemingUser($user);
 
-                        $userRepository->persist($user);
-                        $codeRepository->persist($code);
+                    $userRepository->persist($user);
+                    $codeRepository->persist($code);
 
-                        $this->addFlash('success', 'link.student.success');
-                    }
+                    $this->addFlash('success', 'link.student.success');
                 }
             } else {
                 $this->addFlash('error', $translator->trans('register.redeem.error.not_found', [], 'security'));
