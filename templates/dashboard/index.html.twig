@@ -49,7 +49,7 @@
         {% if is_granted('link-student') %}
             {% for link in students %}
                 <div class="card-footer">
-                    <i class="fas fa-user-graduate"></i> {{ link.lastname }}, {{ link.firstname }} {% if not link.grade is empty -%}({{ link.grade }}){%- endif -%}
+                    <i class="fas fa-user-graduate" title="{{ 'label.students'|trans({'%count%': 1 }) }}"></i> {{ link.lastname }}, {{ link.firstname }} {% if not link.grade is empty -%}({{ link.grade }}){%- endif -%}
                 </div>
             {% endfor %}
         {% endif %}
