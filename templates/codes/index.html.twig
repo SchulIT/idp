@@ -44,7 +44,9 @@
                                         {% endif %}
                                     </td>
                                     <td class="align-middle">
-                                        {{ code.student|user }}
+                                        <a href="{{ path('edit_user', { uuid: code.student.uuid.toString }) }}">
+                                            {{ code.student|user }}
+                                        </a>
                                     </td>
                                     <td class="align-middle">
                                         {% if code.redeemingUser is not null %}
