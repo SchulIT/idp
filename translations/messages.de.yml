@@ -155,7 +155,7 @@ two_factor:
   disable: deaktivieren
   google:
     label: Google Authenticator (App)
-    help: Mithilfe des Zwei-Faktor-Authentifizierung kann das eigene Konto weiter abgesichert werden. Zum Anmelden wird dann nicht nur das Passwort sondern auch ein Code (der zweite Faktor) benötigt, der durch eine App (bspw. Google Authenticator) erzeugt wird.
+    help: Mithilfe der Zwei-Faktor-Authentifizierung kann das eigene Konto weiter abgesichert werden. Zum Anmelden wird dann nicht nur das Passwort, sondern auch ein Code (der zweite Faktor) benötigt, der durch eine App (bspw. Google Authenticator) erzeugt wird.
     url:
       label: Weitere Informationen beim Bundesamt für Sicherheit (BSI)
       href: "https://www.bsi-fuer-buerger.de/BSIFB/DE/DigitaleGesellschaft/OnlineBanking/Zwei_Faktor_Authentisierung/Zwei-Faktor-Authentisierung_node.html"
