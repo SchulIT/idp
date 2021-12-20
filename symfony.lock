@@ -502,9 +502,6 @@
             "./config/packages/dev/debug.yaml"
         ]
     },
-    "symfony/debug-pack": {
-        "version": "v1.0.5"
-    },
     "symfony/dependency-injection": {
         "version": "v4.0.8"
     },
@@ -644,9 +641,6 @@
     "symfony/options-resolver": {
         "version": "v4.0.8"
     },
-    "symfony/orm-pack": {
-        "version": "v1.0.5"
-    },
     "symfony/password-hasher": {
         "version": "v5.3.2"
     },
@@ -697,9 +691,6 @@
     },
     "symfony/process": {
         "version": "v4.0.8"
-    },
-    "symfony/profiler-pack": {
-        "version": "v1.0.3"
     },
     "symfony/property-access": {
         "version": "v4.0.8"
@@ -758,9 +749,6 @@
     },
     "symfony/serializer": {
         "version": "v4.0.8"
-    },
-    "symfony/serializer-pack": {
-        "version": "v1.0.1"
     },
     "symfony/service-contracts": {
         "version": "v1.1.2"
