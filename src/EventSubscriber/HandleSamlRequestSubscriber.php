@@ -44,7 +44,7 @@ class HandleSamlRequestSubscriber implements EventSubscriberInterface {
             $event->stopPropagation(); // stop other events from possibly redirecting
         }
 
-        if($token === null || !$token->isAuthenticated() || $token instanceof AnonymousToken || $token instanceof TwoFactorToken || $route === 'idp_saml') {
+        if($token === null || $token->getUser() === null || $token instanceof TwoFactorToken || $route === 'idp_saml') {
             // prevent loops
             return;
         }
