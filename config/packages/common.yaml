@@ -14,7 +14,6 @@ common:
   locales: "%locales%"
   menu: mainMenu
   disable:
-    mail: true
     messenger: false
   messenger:
     transport: 'messenger.transport.async'
