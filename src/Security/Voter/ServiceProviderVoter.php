@@ -19,7 +19,7 @@ class ServiceProviderVoter extends Voter {
         $this->userServiceProviderResolver = $userServiceProviderResolver;
     }
 
-    protected function supports($attribute, $subject) {
+    protected function supports($attribute, $subject): bool {
         return $attribute === static::ENABLED
             && $subject instanceof SamlServiceProvider;
     }
@@ -30,7 +30,7 @@ class ServiceProviderVoter extends Voter {
      * @param TokenInterface $token
      * @return bool
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token) {
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool {
         if(!$subject instanceof SamlServiceProvider) {
             return true;
         }

@@ -19,7 +19,7 @@ class OptionResolver {
      * @param string[] $groups Groups the user is a member of
      * @return ActiveDirectorySyncOptionInterface|null Resulting ActiveDirectorySyncOption
      */
-    public function getOption(array $options, $ou, array $groups) {
+    public function getOption(array $options, string $ou, array $groups): ?ActiveDirectorySyncOptionInterface {
         foreach($options as $option) {
             $isOuMembership = $option->getSourceType()->equals(ActiveDirectorySyncSourceType::Ou()) && $this->checkForOuMembership($option, $ou);
             $isGroupsMembership = $option->getSourceType()->equals(ActiveDirectorySyncSourceType::Group()) && $this->checkForGroupMembership($option, $groups);
@@ -41,7 +41,7 @@ class OptionResolver {
      * @param string[] $groups Groups the user is a member of
      * @return ActiveDirectorySyncOptionInterface[] Matching ActiveDirectorySyncOptionInterfaces
      */
-    public function getAllOptions(array $options, $ou, array $groups): array {
+    public function getAllOptions(array $options, string $ou, array $groups): array {
         $result = [ ];
 
         foreach($options as $option) {
@@ -61,7 +61,7 @@ class OptionResolver {
      * @param string $ou
      * @return bool
      */
-    private function checkForOuMembership(ActiveDirectorySyncOptionInterface $option, $ou) {
+    private function checkForOuMembership(ActiveDirectorySyncOptionInterface $option, string $ou): bool {
         return $option->getSource() === $ou || substr($ou, -strlen($option->getSource())) == $option->getSource();
     }
 
@@ -70,7 +70,7 @@ class OptionResolver {
      * @param string[] $groups
      * @return bool
      */
-    private function checkForGroupMembership(ActiveDirectorySyncOptionInterface $options, array $groups) {
+    private function checkForGroupMembership(ActiveDirectorySyncOptionInterface $options, array $groups): bool {
         foreach($groups as $group) {
             if($options->getSource() === $group) {
                 return true;

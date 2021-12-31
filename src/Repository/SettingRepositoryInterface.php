@@ -15,7 +15,7 @@ interface SettingRepositoryInterface {
     /**
      * @return Setting[]
      */
-    public function findAll();
+    public function findAll(): array;
 
     /**
      * @param Setting $setting

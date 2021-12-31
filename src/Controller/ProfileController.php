@@ -13,6 +13,7 @@ use App\Service\AttributePersister;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,7 +27,7 @@ class ProfileController extends AbstractController {
     /**
      * @Route("", name="profile")
      */
-    public function index(Request $request, AttributePersister $attributePersister, EntityManagerInterface $em, ConfirmationManager $confirmationManager) {
+    public function index(Request $request, AttributePersister $attributePersister, EntityManagerInterface $em, ConfirmationManager $confirmationManager): Response {
         /** @var User $user */
         $user = $this->getUser();
 
@@ -65,7 +66,7 @@ class ProfileController extends AbstractController {
     /**
      * @Route("/password", name="profile_password")
      */
-    public function changePassword(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher) {
+    public function changePassword(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response {
         $this->denyAccessUnlessGranted(ProfileVoter::CHANGE_PASSWORD);
 
         /** @var User $user */

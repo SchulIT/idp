@@ -8,6 +8,7 @@ use App\Repository\ActiveDirectoryGradeSyncOptionRepositoryInterface;
 use SchulIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -16,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ActiveDirectoryGradeSyncOptionController extends AbstractController {
 
-    private $repository;
+    private ActiveDirectoryGradeSyncOptionRepositoryInterface $repository;
 
     public function __construct(ActiveDirectoryGradeSyncOptionRepositoryInterface $repository) {
         $this->repository = $repository;
@@ -25,7 +26,7 @@ class ActiveDirectoryGradeSyncOptionController extends AbstractController {
     /**
      * @Route("", name="ad_grades_sync_options")
      */
-    public function index() {
+    public function index(): Response {
         $options = $this->repository->findAll();
 
         return $this->render('ad_sync_options/grades/index.html.twig', [
@@ -36,7 +37,7 @@ class ActiveDirectoryGradeSyncOptionController extends AbstractController {
     /**
      * @Route("/add", name="add_ad_grades_sync_options")
      */
-    public function add(Request $request) {
+    public function add(Request $request): Response {
         $option = new ActiveDirectoryGradeSyncOption();
 
         $form = $this->createForm(ActiveDirectoryGradeSyncOptionType::class, $option);
@@ -57,7 +58,7 @@ class ActiveDirectoryGradeSyncOptionController extends AbstractController {
     /**
      * @Route("/{uuid}/edit", name="edit_ad_grades_sync_options")
      */
-    public function edit(Request $request, ActiveDirectoryGradeSyncOption $option) {
+    public function edit(Request $request, ActiveDirectoryGradeSyncOption $option): Response {
         $form = $this->createForm(ActiveDirectoryGradeSyncOptionType::class, $option);
         $form->handleRequest($request);
 
@@ -77,7 +78,7 @@ class ActiveDirectoryGradeSyncOptionController extends AbstractController {
     /**
      * @Route("/{uuid}/remove", name="remove_ad_grades_sync_options")
      */
-    public function remove(ActiveDirectoryGradeSyncOption $option, Request $request, TranslatorInterface $translator) {
+    public function remove(ActiveDirectoryGradeSyncOption $option, Request $request, TranslatorInterface $translator): Response {
         $form = $this->createForm(ConfirmType::class, [], [
             'message' => $translator->trans('ad_sync_options.grades.remove.confirm', [
                 '%grade%' => $option->getGrade()

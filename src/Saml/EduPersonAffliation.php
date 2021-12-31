@@ -12,7 +12,7 @@ class EduPersonAffliation {
     const FACULTY = 'factulty';
     const AFFILIATE = 'affiliate';
 
-    public static function getAffliations() {
+    public static function getAffliations(): array {
         return [
             static::MEMBER,
             static::STUDENT,

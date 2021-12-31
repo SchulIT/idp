@@ -6,7 +6,7 @@ use App\Repository\KioskUserRepositoryInterface;
 
 class KioskUserTokenGenerator {
 
-    private $repository;
+    private KioskUserRepositoryInterface $repository;
 
     public function __construct(KioskUserRepositoryInterface $repository) {
         $this->repository = $repository;
@@ -17,7 +17,7 @@ class KioskUserTokenGenerator {
      *
      * @return string
      */
-    public function generateToken() {
+    public function generateToken(): string {
         do {
             $token = bin2hex(openssl_random_pseudo_bytes(32));
             $user = $this->repository

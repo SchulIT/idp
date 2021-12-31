@@ -6,25 +6,24 @@ use App\Converter\UserStringConverter;
 use App\Entity\ActiveDirectoryUser;
 use App\Entity\PasswordResetToken;
 use App\Entity\User;
+use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use Psr\Log\Test\LoggerInterfaceTest;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Twig\Environment;
 
 class ForgotPasswordManager {
-    private $passwordManager;
-    private $mailer;
-    private $translator;
-    private $userConverter;
-    private $logger;
-    private $urlGenerator;
+    private PasswordManager $passwordManager;
+    private MailerInterface $mailer;
+    private TranslatorInterface $translator;
+    private UserStringConverter $userConverter;
+    private LoggerInterface $logger;
+    private UrlGeneratorInterface $urlGenerator;
 
     public function __construct(PasswordManager $passwordManager, MailerInterface $mailer, TranslatorInterface $translator,
-                                UserStringConverter $userConverter, UrlGeneratorInterface $urlGenerator, LoggerInterfaceTest $logger = null) {
+                                UserStringConverter $userConverter, UrlGeneratorInterface $urlGenerator, LoggerInterface $logger = null) {
         $this->passwordManager = $passwordManager;
         $this->mailer = $mailer;
         $this->translator = $translator;
@@ -33,11 +32,11 @@ class ForgotPasswordManager {
         $this->logger = $logger ?? new NullLogger();
     }
 
-    public function canResetPassword(User $user, ?string $email) {
+    public function canResetPassword(User $user, ?string $email): bool {
         return $user instanceof User && !$user instanceof ActiveDirectoryUser && $email !== null;
     }
 
-    public function resetPassword(?User $user, ?string $email) {
+    public function resetPassword(?User $user, ?string $email): void {
         if($user === null) {
             return;
         }
@@ -68,7 +67,7 @@ class ForgotPasswordManager {
         $this->mailer->send($email);
     }
 
-    public function updatePassword(PasswordResetToken $token, string $password) {
+    public function updatePassword(PasswordResetToken $token, string $password): void {
         $this->passwordManager->setPassword($token, $password);
 
         $this->logger

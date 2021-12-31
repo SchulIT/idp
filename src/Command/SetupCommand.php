@@ -14,9 +14,9 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
 
 class SetupCommand extends Command {
 
-    private $dbalConnection;
-    private $userTypeSetup;
-    private $pdoSessionHandler;
+    private Connection $dbalConnection;
+    private UserTypesSetup $userTypeSetup;
+    private PdoSessionHandler $pdoSessionHandler;
 
     public function __construct(Connection $connection, UserTypesSetup $userTypeSetup, PdoSessionHandler $pdoSessionHandler, ?string $name = null) {
         parent::__construct($name);
@@ -32,7 +32,7 @@ class SetupCommand extends Command {
             ->setDescription('Runs the initial setup');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output) {
+    public function execute(InputInterface $input, OutputInterface $output): int {
         $io = new SymfonyStyle($input, $output);
 
         $output->write('Add default user type...');
@@ -67,14 +67,14 @@ CREATE TABLE IF NOT EXISTS `rememberme_token` (
 );
 SQL;
 
-        $this->dbalConnection->exec($sql);
+        $this->dbalConnection->executeQuery($sql);
     }
 
     private function setupSessions() {
         $sql = "SHOW TABLES LIKE 'sessions';";
         $row = $this->dbalConnection->executeQuery($sql);
 
-        if($row->fetch() === false) {
+        if($row->fetchAssociative() === false) {
             $this->pdoSessionHandler->createTable();
         }
     }

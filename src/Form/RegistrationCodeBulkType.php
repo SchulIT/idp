@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class RegistrationCodeBulkType extends AbstractType {
-    private $userRepository;
+    private UserRepositoryInterface $userRepository;
 
     public function __construct(UserRepositoryInterface $userRepository) {
         $this->userRepository = $userRepository;

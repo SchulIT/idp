@@ -3,9 +3,9 @@
 namespace App\Repository;
 
 interface TransactionalRepositoryInterface {
-    public function beginTransaction();
+    public function beginTransaction(): void;
 
-    public function commit();
+    public function commit(): void;
 
-    public function rollBack();
+    public function rollBack(): void;
 }

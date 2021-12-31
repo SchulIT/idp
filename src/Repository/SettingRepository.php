@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class SettingRepository implements SettingRepositoryInterface {
 
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $entityManager) {
         $this->em = $entityManager;
@@ -27,7 +27,7 @@ class SettingRepository implements SettingRepositoryInterface {
     /**
      * @return Setting[]
      */
-    public function findAll() {
+    public function findAll(): array {
         return $this->em->getRepository(Setting::class)
             ->findAll();
     }

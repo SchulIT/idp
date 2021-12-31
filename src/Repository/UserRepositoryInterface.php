@@ -19,14 +19,14 @@ interface UserRepositoryInterface {
      * @param string[] $usernames
      * @return User[]
      */
-    public function findUsersByUsernames(array $usernames);
+    public function findUsersByUsernames(array $usernames): array;
 
     /**
      * @param \DateTime $dateTime
      * @param string[] $usernames
      * @return User[]
      */
-    public function findUsersUpdatedAfter(\DateTime $dateTime, array $usernames = [ ]);
+    public function findUsersUpdatedAfter(\DateTime $dateTime, array $usernames = [ ]): array;
 
     public function findOneById(int $id): ?User;
 
@@ -68,14 +68,14 @@ interface UserRepositoryInterface {
      * @param bool $deleted Whether or not to return deleted users
      * @return User[]
      */
-    public function findAll($offset = 0, $limit = null, bool $deleted = false);
+    public function findAll(int $offset = 0, ?int $limit = null, bool $deleted = false): array;
 
     /**
      * @param int $offset
      * @param int|null $limit
      * @return string[]
      */
-    public function findAllUuids($offset = 0, $limit = null);
+    public function findAllUuids(int $offset = 0, ?int $limit = null): array;
 
     /**
      * @param int $limit
@@ -95,9 +95,9 @@ interface UserRepositoryInterface {
      */
     public function countUsers(?UserType $userType = null): int;
 
-    public function persist(User $user);
+    public function persist(User $user): void;
 
-    public function remove(User $user);
+    public function remove(User $user): void;
 
     /**
      * @param int $itemsPerPage

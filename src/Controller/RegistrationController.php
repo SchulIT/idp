@@ -5,11 +5,7 @@ namespace App\Controller;
 use App\Form\UserProfileCompleteType;
 use App\Repository\RegistrationCodeRepositoryInterface;
 use App\Security\Registration\CodeAlreadyRedeemedException;
-use App\Security\Registration\CodeNotFoundException;
-use App\Security\Registration\EmailAlreadyExistsException;
-use App\Security\Registration\EmailDomainNotAllowedException;
 use App\Security\Registration\RegistrationCodeManager;
-use App\Security\Registration\TokenNotFoundException;
 use App\Settings\RegistrationSettings;
 use SchulIT\CommonBundle\Helper\DateHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,11 +22,9 @@ class RegistrationController extends AbstractController {
     private const CSRF_TOKEN_KEY = '_csrf_token';
     private const CSRF_TOKEN_ID = 'registration';
 
-    private $manager;
     private $translator;
 
-    public function __construct(RegistrationCodeManager $manager, TranslatorInterface $translator) {
-        $this->manager = $manager;
+    public function __construct(TranslatorInterface $translator) {
         $this->translator = $translator;
     }
 
@@ -85,7 +79,7 @@ class RegistrationController extends AbstractController {
      * @Route("/complete", name="register")
      */
     public function register(Request $request, RegistrationSettings $settings, RegistrationCodeRepositoryInterface $codeRepository,
-                             RegistrationCodeManager $manager) {
+                             RegistrationCodeManager $manager): Response {
         $registrationCode = $request->request->get('code');
 
         if(empty($registrationCode)) {

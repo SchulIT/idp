@@ -17,8 +17,8 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 
 class KioskUserAuthenticator extends AbstractLoginFormAuthenticator {
 
-    private $repository;
-    private $urlGenerator;
+    private KioskUserRepositoryInterface $repository;
+    private UrlGeneratorInterface $urlGenerator;
 
     public function __construct(KioskUserRepositoryInterface $repository, UrlGeneratorInterface $urlGenerator) {
         $this->repository = $repository;
@@ -35,7 +35,7 @@ class KioskUserAuthenticator extends AbstractLoginFormAuthenticator {
     /**
      * @inheritDoc
      */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response {
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $firewallName): ?Response {
         return new RedirectResponse($this->urlGenerator->generate('dashboard'));
     }
 

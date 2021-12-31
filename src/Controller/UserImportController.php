@@ -12,6 +12,7 @@ use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use League\Csv\Exception as LeagueException;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -21,7 +22,8 @@ class UserImportController extends AbstractController {
     /**
      * @Route("/users/import", name="import_users")
      */
-    public function start(ImportUsersFlow $flow, UserRepositoryInterface $userRepository, UserCsvImportHelper $helper, TranslatorInterface $translator, LoggerInterface $logger) {
+    public function start(ImportUsersFlow $flow, UserRepositoryInterface $userRepository, UserCsvImportHelper $helper,
+                          TranslatorInterface $translator, LoggerInterface $logger): Response {
         $data = new ImportUserData();
         $flow->bind($data);
         $form = $flow->createForm();

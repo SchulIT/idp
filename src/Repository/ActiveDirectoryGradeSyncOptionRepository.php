@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ActiveDirectoryGradeSyncOptionRepository implements ActiveDirectoryGradeSyncOptionRepositoryInterface {
 
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $entityManager) {
         $this->em = $entityManager;
@@ -16,7 +16,7 @@ class ActiveDirectoryGradeSyncOptionRepository implements ActiveDirectoryGradeSy
     /**
      * @inheritDoc
      */
-    public function findAll() {
+    public function findAll(): array {
         return $this->em
             ->getRepository(ActiveDirectoryGradeSyncOption::class)
             ->findBy([], [

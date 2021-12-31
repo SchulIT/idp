@@ -9,15 +9,15 @@ interface ActiveDirectorySyncOptionRepositoryInterface {
     /**
      * @return ActiveDirectorySyncOption[]
      */
-    public function findAll();
+    public function findAll(): array;
 
     /**
      * @param ActiveDirectorySyncOption $option
      */
-    public function persist(ActiveDirectorySyncOption $option);
+    public function persist(ActiveDirectorySyncOption $option): void;
 
     /**
      * @param ActiveDirectorySyncOption $option
      */
-    public function remove(ActiveDirectorySyncOption $option);
+    public function remove(ActiveDirectorySyncOption $option): void;
 }

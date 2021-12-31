@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UserRoleRepository implements UserRoleRepositoryInterface {
 
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $entityManager) {
         $this->em = $entityManager;
@@ -16,7 +16,7 @@ class UserRoleRepository implements UserRoleRepositoryInterface {
     /**
      * @inheritDoc
      */
-    public function findAll() {
+    public function findAll(): array {
         return $this->em
             ->getRepository(UserRole::class)
             ->findBy([], [
@@ -24,12 +24,12 @@ class UserRoleRepository implements UserRoleRepositoryInterface {
             ]);
     }
 
-    public function persist(UserRole $role) {
+    public function persist(UserRole $role): void {
         $this->em->persist($role);
         $this->em->flush();
     }
 
-    public function remove(UserRole $role) {
+    public function remove(UserRole $role): void {
         $this->em->remove($role);
         $this->em->flush();
     }

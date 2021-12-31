@@ -8,12 +8,9 @@ use App\Repository\UserRepositoryInterface;
 use DateTime;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
@@ -25,12 +22,12 @@ class MustAcceptPrivacyPolicyRequestListener implements EventSubscriberInterface
     const LogoutRoute = 'logout';
     const AcceptPrivacyRoute = 'show_privacy_policy';
 
-    private $urlGenerator;
-    private $tokenStorage;
-    private $privacyPolicyRepository;
-    private $userRepository;
-    private $csrfTokenManager;
-    private $requestStack;
+    private UrlGeneratorInterface $urlGenerator;
+    private TokenStorageInterface $tokenStorage;
+    private PrivacyPolicyRepositoryInterface $privacyPolicyRepository;
+    private UserRepositoryInterface $userRepository;
+    private CsrfTokenManagerInterface $csrfTokenManager;
+    private RequestStack $requestStack;
 
     public function __construct(UrlGeneratorInterface $urlGenerator, TokenStorageInterface $tokenStorage, RequestStack $requestStack,
                                 PrivacyPolicyRepositoryInterface $privacyPolicyRepository, CsrfTokenManagerInterface $csrfTokenManager, UserRepositoryInterface $userRepository) {
@@ -120,7 +117,7 @@ class MustAcceptPrivacyPolicyRequestListener implements EventSubscriberInterface
     /**
      * @inheritDoc
      */
-    public static function getSubscribedEvents() {
+    public static function getSubscribedEvents(): array {
         return [
             RequestEvent::class => ['onRequest', -2]
         ];

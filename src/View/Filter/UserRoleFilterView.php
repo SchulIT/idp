@@ -7,10 +7,10 @@ use App\Entity\UserRole;
 class UserRoleFilterView {
 
     /** @var UserRole[] */
-    private $roles;
+    private array $roles;
 
     /** @var UserRole|null */
-    private $currentRole;
+    private ?UserRole $currentRole;
 
     public function __construct(array $roles, ?UserRole $currentRole) {
         $this->roles = $roles;

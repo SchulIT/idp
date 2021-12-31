@@ -7,7 +7,7 @@ use App\Repository\UserRoleRepositoryInterface;
 use App\Utils\ArrayUtils;
 
 class UserRoleFilter {
-    private $userRoleRepository;
+    private UserRoleRepositoryInterface $userRoleRepository;
 
     public function __construct(UserRoleRepositoryInterface $repository) {
         $this->userRoleRepository = $repository;

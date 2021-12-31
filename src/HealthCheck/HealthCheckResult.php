@@ -5,22 +5,22 @@ namespace App\HealthCheck;
 class HealthCheckResult {
 
     /** @var HealthCheckResultType */
-    private $type;
+    private HealthCheckResultType $type;
 
     /** @var string */
-    private $title;
+    private string $title;
 
     /** @var string */
-    private $message;
+    private string $message;
 
     /** @var string[] */
-    private $messageParameter = [ ];
+    private array $messageParameter = [ ];
 
     /** @var string|null */
-    private $route;
+    private ?string $route;
 
     /** @var string[] */
-    private $routeParameter = [ ];
+    private array $routeParameter = [ ];
 
     public function __construct(HealthCheckResultType $type, string $title, string $message, $messageParameter = [ ], ?string $route = null, array $routeParameter = [ ]) {
         $this->type = $type;

@@ -8,18 +8,18 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class PasswordResetTokenRepository implements PasswordResetTokenRepositoryInterface {
 
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $entityManager) {
         $this->em = $entityManager;
     }
 
-    public function persist(PasswordResetToken $passwordResetToken) {
+    public function persist(PasswordResetToken $passwordResetToken): void {
         $this->em->persist($passwordResetToken);
         $this->em->flush();
     }
 
-    public function remove(PasswordResetToken $passwordResetToken) {
+    public function remove(PasswordResetToken $passwordResetToken): void {
         $this->em->remove($passwordResetToken);
         $this->em->flush();
     }

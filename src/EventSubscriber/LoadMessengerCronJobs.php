@@ -15,7 +15,7 @@ class LoadMessengerCronJobs implements EventSubscriberInterface {
     /**
      * @inheritDoc
      */
-    public static function getSubscribedEvents() {
+    public static function getSubscribedEvents(): array {
         return [
             LoadJobsEvent::NAME => 'onLoadJobs',
         ];

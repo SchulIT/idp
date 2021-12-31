@@ -42,7 +42,7 @@ class JsonBodyConverter implements ParamConverterInterface {
      * @inheritDoc
      * @throws ValidationFailedException
      */
-    public function apply(Request $request, ParamConverter $configuration) {
+    public function apply(Request $request, ParamConverter $configuration): bool {
         $contentType = $request->getContentType();
 
         if($contentType !== static::ContentType) {
@@ -78,7 +78,7 @@ class JsonBodyConverter implements ParamConverterInterface {
     /**
      * @inheritDoc
      */
-    public function supports(ParamConverter $configuration) {
+    public function supports(ParamConverter $configuration): bool {
         $class = $configuration->getClass();
 
         if(substr($class, 0, strlen($this->prefix)) === $this->prefix) {

@@ -2,22 +2,12 @@
 
 namespace App\Form;
 
-use App\Entity\RegistrationCode;
 use App\Entity\User;
-use App\Entity\UserType as UserTypeEntity;
-use App\Service\AttributeResolver;
 use Doctrine\ORM\EntityRepository;
-use SchulIT\CommonBundle\Form\FieldsetType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormInterface;
 
 class RegistrationCodeType extends AbstractType {
 

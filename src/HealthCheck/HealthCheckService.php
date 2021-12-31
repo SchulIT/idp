@@ -4,7 +4,7 @@ namespace App\HealthCheck;
 
 class HealthCheckService {
     /** @var HealthCheckInterface[] */
-    private $checks;
+    private array $checks;
 
     public function __construct(iterable $checks) {
         foreach($checks as $check) {
@@ -15,7 +15,7 @@ class HealthCheckService {
     /**
      * @return HealthCheckResult[]
      */
-    public function runAllChecks() {
+    public function runAllChecks(): array {
         $results = [ ];
 
         foreach($this->checks as $check) {
@@ -36,7 +36,7 @@ class HealthCheckService {
     /**
      * @return HealthCheckResult[]
      */
-    public function runAllCheckReturnNonFine() {
+    public function runAllCheckReturnNonFine(): array {
         $results = $this->runAllChecks();
 
         return array_filter($results, function(HealthCheckResult $checkResult) {

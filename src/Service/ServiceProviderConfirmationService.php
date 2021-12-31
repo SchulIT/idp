@@ -10,15 +10,15 @@ use App\Saml\AttributeValueProvider;
 
 class ServiceProviderConfirmationService {
 
-    private $attributeValueProvider;
-    private $confirmationRepository;
+    private AttributeValueProvider $attributeValueProvider;
+    private ServiceProviderConfirmationRepositoryInterface $confirmationRepository;
 
     public function __construct(AttributeValueProvider $attributeValueProvider, ServiceProviderConfirmationRepositoryInterface $confirmationRepository) {
         $this->attributeValueProvider = $attributeValueProvider;
         $this->confirmationRepository = $confirmationRepository;
     }
 
-    public function needsConfirmation(User $user, SamlServiceProvider $serviceProvider) {
+    public function needsConfirmation(User $user, SamlServiceProvider $serviceProvider): bool {
         $confirmation = $this->confirmationRepository->findOneByUserAndServiceProvider($user, $serviceProvider);
 
         if($confirmation === null) {
@@ -34,7 +34,7 @@ class ServiceProviderConfirmationService {
         return $confirmedAttributes !== $currentAttributes;
     }
 
-    public function saveConfirmation(User $user, SamlServiceProvider $serviceProvider) {
+    public function saveConfirmation(User $user, SamlServiceProvider $serviceProvider): void {
         $confirmation = $this->confirmationRepository->findOneByUserAndServiceProvider($user, $serviceProvider);
 
         if($confirmation === null) {

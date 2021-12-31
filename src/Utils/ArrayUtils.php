@@ -10,7 +10,7 @@ class ArrayUtils {
         }
     }
 
-    public static function createArray(array $keys, array $values) {
+    public static function createArray(array $keys, array $values): array {
         $array = [ ];
         $count = count($keys);
 

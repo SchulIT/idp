@@ -14,8 +14,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * @CronJob("0 1 * * * ")
  */
 class RemoveOrphanedParentsCommand extends Command {
-    private $dateHelper;
-    private $userRepository;
+    private DateHelper $dateHelper;
+    private UserRepositoryInterface $userRepository;
 
     private const InactiveModifier = '-14 days';
 
@@ -31,7 +31,7 @@ class RemoveOrphanedParentsCommand extends Command {
             ->setDescription('Cleanup all external ids to remove duplicates.');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output) {
+    public function execute(InputInterface $input, OutputInterface $output): int {
         $style = new SymfonyStyle($input, $output);
 
         $users = $this->userRepository->findParentUsersWithoutStudents();

@@ -16,13 +16,13 @@ class UserCsvImportHelper {
     private const PasswordHeader = 'Passwort';
     private const GradeHeader = 'Klasse';
 
-    private $userRepository;
+    private UserRepositoryInterface $userRepository;
 
     public function __construct(UserRepositoryInterface $userRepository) {
         $this->userRepository = $userRepository;
     }
 
-    public function getHeaders() {
+    public function getHeaders(): array {
         return [
             static::EmailAddressHeader,
             static::PasswordHeader,
@@ -33,7 +33,7 @@ class UserCsvImportHelper {
         ];
     }
 
-    public function getRequiredHeaders() {
+    public function getRequiredHeaders(): array {
         return [
             static::EmailAddressHeader
         ];

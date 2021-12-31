@@ -15,7 +15,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 class UserRoleType extends AbstractType {
     use AttributeDataTrait;
 
-    private $userAttributeResolver;
+    private AttributeResolver $userAttributeResolver;
 
     public function __construct(AttributeResolver $userAttributeResolver) {
         $this->userAttributeResolver = $userAttributeResolver;

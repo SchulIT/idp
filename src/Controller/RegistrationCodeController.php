@@ -26,7 +26,7 @@ class RegistrationCodeController extends AbstractController {
 
     private const CodesPerPage = 25;
 
-    private $repository;
+    private RegistrationCodeRepositoryInterface $repository;
 
     public function __construct(RegistrationCodeRepositoryInterface $repository) {
         $this->repository = $repository;
@@ -35,7 +35,7 @@ class RegistrationCodeController extends AbstractController {
     /**
      * @Route("", name="registration_codes")
      */
-    public function index(Request $request, UserRepositoryInterface $userRepository) {
+    public function index(Request $request, UserRepositoryInterface $userRepository): Response {
         $query = $request->query->get('q');
         $page = $request->query->getInt('page');
         $grade = $request->query->get('grade');
@@ -65,7 +65,7 @@ class RegistrationCodeController extends AbstractController {
     /**
      * @Route("/export", name="export_codes")
      */
-    public function export(Request $request, UserRepositoryInterface $userRepository, TranslatorInterface $translator) {
+    public function export(Request $request, UserRepositoryInterface $userRepository, TranslatorInterface $translator): Response {
         $grade = $request->query->get('grade');
 
         $grades = $userRepository->findGrades();
@@ -123,7 +123,7 @@ class RegistrationCodeController extends AbstractController {
     /**
      * @Route("/remove/redeemed", name="remove_redeemed_codes")
      */
-    public function removeRedeemed(Request $request) {
+    public function removeRedeemed(Request $request): Response {
         $form = $this->createForm(ConfirmType::class, null, [
             'message' => 'codes.remove_redeemed.confirm'
         ]);
@@ -143,7 +143,7 @@ class RegistrationCodeController extends AbstractController {
     /**
      * @Route("/add", name="add_registration_code")
      */
-    public function add(Request $request, UserRepositoryInterface $userRepository) {
+    public function add(Request $request, UserRepositoryInterface $userRepository): Response {
         $code = new RegistrationCode();
 
         if(($studentUuid = $request->query->get('student')) !== null) {
@@ -168,7 +168,7 @@ class RegistrationCodeController extends AbstractController {
     /**
      * @Route("/bulk", name="add_registration_code_bulk")
      */
-    public function addBulk(Request $request, UserRepositoryInterface $userRepository, CodeGenerator $codeGenerator) {
+    public function addBulk(Request $request, UserRepositoryInterface $userRepository, CodeGenerator $codeGenerator): Response {
         $form = $this->createForm(RegistrationCodeBulkType::class);
         $form->handleRequest($request);
 
@@ -201,7 +201,7 @@ class RegistrationCodeController extends AbstractController {
     /**
      * @Route("/bulk/students_without_parent", name="add_registration_code_bulk_for_students_without_parent")
      */
-    public function addBulkForStudentsWithoutParent(Request $request, UserRepositoryInterface $userRepository, CodeGenerator $codeGenerator) {
+    public function addBulkForStudentsWithoutParent(Request $request, CodeGenerator $codeGenerator): Response {
         $form = $this->createForm(RegistrationCodeBulkStudentsWithoutParentAccountType::class);
         $form->handleRequest($request);
 
@@ -240,7 +240,7 @@ class RegistrationCodeController extends AbstractController {
     /**
      * @Route("/{uuid}/edit", name="edit_registration_code")
      */
-    public function edit(RegistrationCode $code, Request $request) {
+    public function edit(RegistrationCode $code, Request $request): Response {
         if($code->getRedeemingUser() !== null) {
             $this->addFlash('error', 'codes.edit.error.already_redeemed.message');
             return $this->redirectToRoute('registration_codes');
@@ -266,7 +266,7 @@ class RegistrationCodeController extends AbstractController {
     /**
      * @Route("/{uuid}/remove", name="remove_registration_code")
      */
-    public function remove(RegistrationCode $code, Request $request) {
+    public function remove(RegistrationCode $code, Request $request): Response {
         $form = $this->createForm(ConfirmType::class, [], [
             'message' => 'codes.remove.confirm',
             'message_parameters' => [

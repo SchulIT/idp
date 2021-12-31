@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ServiceProviderConfirmationRepository implements ServiceProviderConfirmationRepositoryInterface {
 
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $entityManager) {
         $this->em = $entityManager;
@@ -23,7 +23,7 @@ class ServiceProviderConfirmationRepository implements ServiceProviderConfirmati
             ]);
     }
 
-    public function persist(ServiceProviderConfirmation $confirmation) {
+    public function persist(ServiceProviderConfirmation $confirmation): void {
         $this->em->persist($confirmation);
         $this->em->flush();
     }

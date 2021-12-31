@@ -13,7 +13,7 @@ class UserTypeVoter extends Voter {
     /**
      * @inheritDoc
      */
-    protected function supports(string $attribute, $subject) {
+    protected function supports(string $attribute, $subject): bool {
         return $subject instanceof UserType
             && $attribute === static::REMOVE;
     }
@@ -21,7 +21,7 @@ class UserTypeVoter extends Voter {
     /**
      * @inheritDoc
      */
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token) {
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool {
         switch($attribute) {
             case static::REMOVE:
                 return $this->canRemove($subject);

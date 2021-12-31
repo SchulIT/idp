@@ -15,8 +15,8 @@ use SchulIT\IdpExchange\Response\Builder\UsersResponseBuilder;
 use SchulIT\IdpExchange\Response\UpdatedUsersResponse;
 
 class IdpExchangeService {
-    private $userRepository;
-    private $attributeValueProvider;
+    private UserRepositoryInterface $userRepository;
+    private AttributeValueProvider $attributeValueProvider;
 
     public function __construct(UserRepositoryInterface $userRepository, AttributeValueProvider $attributeValueProvider) {
         $this->userRepository = $userRepository;
@@ -27,7 +27,7 @@ class IdpExchangeService {
      * @param UpdatedUsersRequest $request
      * @return UpdatedUsersResponse
      */
-    public function getUpdatedUsers(UpdatedUsersRequest $request) {
+    public function getUpdatedUsers(UpdatedUsersRequest $request): UpdatedUsersResponse {
         $users = $this->userRepository->findUsersUpdatedAfter($request->since, $request->usernames);
 
         $builder = new UpdatedUsersResponseBuilder();
@@ -39,7 +39,7 @@ class IdpExchangeService {
         return $builder->build();
     }
 
-    public function getUsers(UsersRequest $request, string $entityId) {
+    public function getUsers(UsersRequest $request, string $entityId): \SchulIT\IdpExchange\Response\UsersResponse {
         $users = $this->userRepository->findUsersByUsernames($request->usernames);
 
         $builder = new UsersResponseBuilder();
@@ -51,13 +51,13 @@ class IdpExchangeService {
         return $builder->build();
     }
 
-    public function getUser(UserRequest $request, string $entityId) {
+    public function getUser(UserRequest $request, string $entityId): \SchulIT\IdpExchange\Response\UserResponse {
         $user = $this->userRepository->findOneByUsername($request->username);
 
         return $this->buildUserResponse($user, $entityId);
     }
 
-    private function buildUserResponse(User $user = null, string $entityId = null) {
+    private function buildUserResponse(User $user = null, string $entityId = null): \SchulIT\IdpExchange\Response\UserResponse {
         $builder = new UserResponseBuilder();
 
         if($user !== null) {

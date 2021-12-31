@@ -8,15 +8,15 @@ interface ActiveDirectoryRoleSyncOptionRepositoryInterface {
     /**
      * @return ActiveDirectoryRoleSyncOption[]
      */
-    public function findAll();
+    public function findAll(): array;
 
     /**
      * @param ActiveDirectoryRoleSyncOption $option
      */
-    public function persist(ActiveDirectoryRoleSyncOption $option);
+    public function persist(ActiveDirectoryRoleSyncOption $option): void;
 
     /**
      * @param ActiveDirectoryRoleSyncOption $option
      */
-    public function remove(ActiveDirectoryRoleSyncOption $option);
+    public function remove(ActiveDirectoryRoleSyncOption $option): void;
 }

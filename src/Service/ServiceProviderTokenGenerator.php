@@ -6,7 +6,7 @@ use App\Repository\ServiceProviderRepositoryInterface;
 
 class ServiceProviderTokenGenerator {
 
-    private $serviceProviderRepository;
+    private ServiceProviderRepositoryInterface $serviceProviderRepository;
 
     public function __construct(ServiceProviderRepositoryInterface $serviceProviderRepository) {
         $this->serviceProviderRepository = $serviceProviderRepository;

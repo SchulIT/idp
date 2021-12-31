@@ -6,6 +6,7 @@ use App\Entity\ServiceAttributeRegistrationCodeValue;
 use App\Entity\ServiceAttributeUserRoleValue;
 use App\Entity\ServiceAttributeUserTypeValue;
 use App\Entity\ServiceAttributeValue;
+use App\Entity\ServiceAttributeValueInterface;
 use App\Entity\User;
 use App\Entity\RegistrationCode;
 use App\Entity\UserRole;
@@ -14,7 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ServiceAttributeValueRepository implements ServiceAttributeValueRepositoryInterface, TransactionalRepositoryInterface {
 
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $objectManager) {
         $this->em = $objectManager;
@@ -23,34 +24,34 @@ class ServiceAttributeValueRepository implements ServiceAttributeValueRepository
     /**
      * @inheritDoc
      */
-    public function persist($attributeValue) {
+    public function persist(ServiceAttributeValueInterface $attributeValue): void {
         $this->em->persist($attributeValue);
     }
 
     /**
      * @inheritDoc
      */
-    public function remove($attributeValue) {
+    public function remove(ServiceAttributeValueInterface $attributeValue): void {
         $this->em->remove($attributeValue);
     }
 
-    public function beginTransaction() {
+    public function beginTransaction(): void {
         $this->em->beginTransaction();
     }
 
-    public function commit() {
+    public function commit(): void {
         $this->em->commit();
         $this->em->flush();
     }
 
-    public function rollBack() {
+    public function rollBack(): void {
         $this->em->rollback();
     }
 
     /**
      * @inheritDoc
      */
-    public function getAttributeValuesForUser(User $user) {
+    public function getAttributeValuesForUser(User $user): array {
         $query = $this->em
             ->createQueryBuilder()
             ->select(['v', 'a'])
@@ -66,7 +67,7 @@ class ServiceAttributeValueRepository implements ServiceAttributeValueRepository
     /**
      * @inheritDoc
      */
-    public function getAttributeValuesForUserType(UserType $userType) {
+    public function getAttributeValuesForUserType(UserType $userType): array {
         $query = $this->em
             ->createQueryBuilder()
             ->select(['v', 'a'])
@@ -81,7 +82,7 @@ class ServiceAttributeValueRepository implements ServiceAttributeValueRepository
     /**
      * @inheritDoc
      */
-    public function getAttributeValuesForUserRole(UserRole $userRole) {
+    public function getAttributeValuesForUserRole(UserRole $userRole): array {
         $query = $this->em
             ->createQueryBuilder()
             ->select(['v', 'a'])
@@ -96,7 +97,7 @@ class ServiceAttributeValueRepository implements ServiceAttributeValueRepository
     /**
      * @inheritDoc
      */
-    public function getAttributeValuesForRegistrationCode(RegistrationCode $code) {
+    public function getAttributeValuesForRegistrationCode(RegistrationCode $code): array {
         $query = $this->em
             ->createQueryBuilder()
             ->select(['v', 'a'])

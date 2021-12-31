@@ -20,7 +20,7 @@ class TextPrefixType extends TextType {
         $view->vars['prefix'] = $options['prefix'];
     }
 
-    public function getBlockPrefix() {
+    public function getBlockPrefix(): string {
         return 'text_prefix';
     }
 }

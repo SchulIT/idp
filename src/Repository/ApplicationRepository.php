@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ApplicationRepository implements ApplicationRepositoryInterface {
 
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $entityManager) {
         $this->em = $entityManager;
@@ -16,7 +16,7 @@ class ApplicationRepository implements ApplicationRepositoryInterface {
     /**
      * @inheritDoc
      */
-    public function findAll() {
+    public function findAll(): array {
         return $this->em
             ->getRepository(Application::class)
             ->findBy([], [
@@ -24,12 +24,12 @@ class ApplicationRepository implements ApplicationRepositoryInterface {
             ]);
     }
 
-    public function persist(Application $application) {
+    public function persist(Application $application): void {
         $this->em->persist($application);
         $this->em->flush();
     }
 
-    public function remove(Application $application) {
+    public function remove(Application $application): void {
         $this->em->remove($application);
         $this->em->flush();
     }

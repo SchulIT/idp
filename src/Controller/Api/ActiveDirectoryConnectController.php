@@ -22,8 +22,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ActiveDirectoryConnectController extends AbstractApiController {
 
-    private $userCreator;
-    private $repository;
+    private UserCreator $userCreator;
+    private UserRepositoryInterface $repository;
 
     public function __construct(UserCreator $userCreator, UserRepositoryInterface $userRepository, SerializerInterface $serializer) {
         parent::__construct($serializer);
@@ -42,7 +42,7 @@ class ActiveDirectoryConnectController extends AbstractApiController {
      *     @Model(type=ListActiveDirectoryUserResponse::class)
      * )
      */
-    public function list() {
+    public function list(): Response {
         $list = $this->repository->findAllActiveDirectoryUsersObjectGuid();
         return $this->returnJson(new ListActiveDirectoryUserResponse($list));
     }
@@ -71,7 +71,7 @@ class ActiveDirectoryConnectController extends AbstractApiController {
      *     @Model(type=ErrorResponse::class)
      * )
      */
-    public function add(ActiveDirectoryUserRequest $request) {
+    public function add(ActiveDirectoryUserRequest $request): Response {
         $userInfo = $this->transformRequest($request);
 
         if($this->userCreator->canCreateUser($userInfo)) {
@@ -116,7 +116,7 @@ class ActiveDirectoryConnectController extends AbstractApiController {
      *     @Model(type=ErrorResponse::class)
      * )
      */
-    public function update(ActiveDirectoryUser $user, ActiveDirectoryUserRequest $request) {
+    public function update(ActiveDirectoryUser $user, ActiveDirectoryUserRequest $request): Response {
         $user = $this->userCreator->createUser($this->transformRequest($request), $user);
         $this->repository->persist($user);
         return new Response(null, Response::HTTP_NO_CONTENT);
@@ -146,7 +146,7 @@ class ActiveDirectoryConnectController extends AbstractApiController {
      *     @Model(type=ErrorResponse::class)
      * )
      */
-    public function remove(ActiveDirectoryUser $user) {
+    public function remove(ActiveDirectoryUser $user): Response {
         $this->repository->remove($user);
         return new Response(null, Response::HTTP_NO_CONTENT);
     }

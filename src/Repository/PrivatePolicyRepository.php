@@ -6,7 +6,7 @@ use App\Entity\PrivacyPolicy;
 use Doctrine\ORM\EntityManagerInterface;
 
 class PrivatePolicyRepository implements PrivacyPolicyRepositoryInterface {
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $entityManager) {
         $this->em = $entityManager;

@@ -3,9 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\SamlServiceProvider;
-use App\Entity\ServiceProvider;
 use App\Entity\User;
-use App\Link\LinkStudentsHelper;
 use App\Repository\ServiceProviderRepositoryInterface;
 use App\Saml\AttributeValueProvider;
 use App\Security\Voter\ServiceProviderVoter;
@@ -26,7 +24,7 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 class SsoController extends AbstractController {
 
     private const CSRF_TOKEN_ID = '_confirmation_token';
-    private $confirmationService;
+    private ServiceProviderConfirmationService $confirmationService;
 
     public function __construct(ServiceProviderConfirmationService $confirmationService) {
         $this->confirmationService = $confirmationService;
@@ -39,7 +37,7 @@ class SsoController extends AbstractController {
                          SsoIdpReceiveAuthnRequestProfileBuilder $receiveBuilder,
                          SsoIdpSendResponseProfileBuilderFactory $sendResponseBuilder,
                          CsrfTokenManagerInterface $tokenManager, ServiceProviderRepositoryInterface $serviceProviderRepository,
-                         BuildContainerInterface $buildContainer) {
+                         BuildContainerInterface $buildContainer): Response {
         if($requestStorage->has() !== true) {
             return $this->redirectToRoute('dashboard');
         }
@@ -132,7 +130,7 @@ class SsoController extends AbstractController {
     /**
      * @Route("/idp/saml/confirm/{uuid}", name="confirm_redirect")
      */
-    public function confirm(Request $request, SamlServiceProvider $serviceProvider, AttributeValueProvider $attributeValueProvider, CsrfTokenManagerInterface $tokenManager) {
+    public function confirm(Request $request, SamlServiceProvider $serviceProvider, AttributeValueProvider $attributeValueProvider, CsrfTokenManagerInterface $tokenManager): Response {
         $type = $request->request->get('type');
         $destination = $request->request->get('destination');
         $data = $request->request->get('data', [ ]);

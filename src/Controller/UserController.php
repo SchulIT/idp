@@ -20,6 +20,7 @@ use App\View\Filter\UserTypeFilter;
 use SchulIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,15 +35,15 @@ class UserController extends AbstractController {
     const CsrfTokenId = 'remove_user';
     const CsrfTokenKey = '_csrf_token';
 
-    private $repository;
-    private $typeRepository;
+    private UserRepositoryInterface $repository;
+    private UserTypeRepositoryInterface $typeRepository;
 
     public function __construct(UserRepositoryInterface $repository, UserTypeRepositoryInterface $typeRepository) {
         $this->repository = $repository;
         $this->typeRepository = $typeRepository;
     }
 
-    private function internalDisplay(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter, bool $deleted) {
+    private function internalDisplay(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter, bool $deleted): Response {
         $q = $request->query->get('q', null);
         $page = $request->query->getInt('page', 1);
         $grade = $request->query->get('grade', null);
@@ -99,21 +100,21 @@ class UserController extends AbstractController {
     /**
      * @Route("/users", name="users")
      */
-    public function index(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter) {
+    public function index(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter): Response {
         return $this->internalDisplay($request, $typeFilter, $roleFilter, false);
     }
 
     /**
      * @Route("/users/trash", name="users_trash")
      */
-    public function trash(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter) {
+    public function trash(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter): Response {
         return $this->internalDisplay($request, $typeFilter, $roleFilter, true);
     }
 
     /**
      * @Route("/users/{uuid}/attributes", name="show_attributes")
      */
-    public function showAttributes(User $user, AttributeResolver $resolver, AttributeValueProvider $provider) {
+    public function showAttributes(User $user, AttributeResolver $resolver, AttributeValueProvider $provider): Response {
         $attributes = $resolver->getDetailedResultingAttributeValuesForUser($user);
         $defaultAttributes = $provider->getCommonAttributesForUser($user);
 
@@ -127,7 +128,7 @@ class UserController extends AbstractController {
     /**
      * @Route("/users/add", name="add_user")
      */
-    public function add(Request $request, AttributePersister $attributePersister, UserPasswordHasherInterface $passwordHasher) {
+    public function add(Request $request, AttributePersister $attributePersister, UserPasswordHasherInterface $passwordHasher): Response {
         $user = new User();
 
         $form = $this->createForm(UserType::class, $user);
@@ -153,7 +154,7 @@ class UserController extends AbstractController {
     /**
      * @Route("/users/{uuid}/edit", name="edit_user")
      */
-    public function edit(Request $request, User $user, AttributePersister $attributePersister, UserPasswordHasherInterface $passwordHasher) {
+    public function edit(Request $request, User $user, AttributePersister $attributePersister, UserPasswordHasherInterface $passwordHasher): Response {
         if($user->isDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -188,7 +189,7 @@ class UserController extends AbstractController {
     /**
      * @Route("/users/{uuid}/remove", name="remove_user")
      */
-    public function remove(User $user, Request $request, TranslatorInterface $translator) {
+    public function remove(User $user, Request $request, TranslatorInterface $translator): Response {
         if($this->getUser() instanceof User && $this->getUser()->getId() === $user->getId()) {
             $this->addFlash('error', 'users.remove.error.self');
             return $this->redirectToRoute('users');
@@ -231,7 +232,7 @@ class UserController extends AbstractController {
     /**
      * @Route("/users/{uuid}/restore", name="restore_user", methods={"POST"})
      */
-    public function restore(User $user, Request $request) {
+    public function restore(User $user, Request $request): Response {
         if($this->getUser() instanceof User && $this->getUser()->getId() === $user->getId()) {
             $this->addFlash('error', 'users.restore.error.self');
             return $this->redirectToRoute('users');
@@ -251,7 +252,7 @@ class UserController extends AbstractController {
     /**
      * @Route("/users/{uuid}/reset_password", name="reset_password")
      */
-    public function resetPassword(Request $request, User $user, ForgotPasswordManager $manager) {
+    public function resetPassword(Request $request, User $user, ForgotPasswordManager $manager): Response {
         if($manager->canResetPassword($user, 'email@exmaple.com') === false) {
             $this->addFlash('error', 'users.reset_pw.cannot_change');
             return $this->redirectToRoute('users');

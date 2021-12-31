@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ActiveDirectoryRoleSyncOptionRepository implements ActiveDirectoryRoleSyncOptionRepositoryInterface {
 
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $entityManager) {
         $this->em = $entityManager;
@@ -16,7 +16,7 @@ class ActiveDirectoryRoleSyncOptionRepository implements ActiveDirectoryRoleSync
     /**
      * @inheritDoc
      */
-    public function findAll() {
+    public function findAll(): array {
         return $this->em
             ->getRepository(ActiveDirectoryRoleSyncOption::class)
             ->findBy([], [
@@ -27,7 +27,7 @@ class ActiveDirectoryRoleSyncOptionRepository implements ActiveDirectoryRoleSync
     /**
      * @inheritDoc
      */
-    public function persist(ActiveDirectoryRoleSyncOption $option) {
+    public function persist(ActiveDirectoryRoleSyncOption $option): void {
         $this->em->persist($option);
         $this->em->flush();
     }
@@ -35,7 +35,7 @@ class ActiveDirectoryRoleSyncOptionRepository implements ActiveDirectoryRoleSync
     /**
      * @inheritDoc
      */
-    public function remove(ActiveDirectoryRoleSyncOption $option) {
+    public function remove(ActiveDirectoryRoleSyncOption $option): void {
         $this->em->remove($option);
         $this->em->flush();
     }

@@ -7,8 +7,8 @@ use App\Service\UserServiceProviderResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UserVariable {
-    private $tokenStorage;
-    private $serviceProviderResolver;
+    private TokenStorageInterface $tokenStorage;
+    private UserServiceProviderResolver $serviceProviderResolver;
 
     public function __construct(TokenStorageInterface $tokenStorage, UserServiceProviderResolver $serviceProviderResolver) {
         $this->tokenStorage = $tokenStorage;
@@ -34,19 +34,19 @@ class UserVariable {
         return $user;
     }
 
-    public function getStudentId() {
+    public function getStudentId(): ?string {
         return $this->getUser()->getExternalId();
     }
 
-    public function getFirstname() {
+    public function getFirstname(): ?string {
         return $this->getUser()->getFirstname();
     }
 
-    public function getLastname() {
+    public function getLastname(): ?string {
         return $this->getUser()->getLastname();
     }
 
-    public function getEmailAddress() {
+    public function getEmailAddress(): ?string {
         return $this->getUser()->getEmail();
     }
 

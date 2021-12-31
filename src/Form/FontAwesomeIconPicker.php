@@ -19,7 +19,7 @@ class FontAwesomeIconPicker extends TextType {
         $view->vars['attr']['data-target'] = '#icon_' . $view->vars['id'];
     }
 
-    public function getBlockPrefix() {
+    public function getBlockPrefix(): string {
         return 'icon_picker';
     }
 }

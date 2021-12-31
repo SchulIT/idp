@@ -11,10 +11,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class FriendlyAttributeResolver {
     private $map;
 
-    private $initialized = false;
+    private bool $initialized = false;
 
-    private $attributeRepository;
-    private $translator;
+    private ServiceAttributeRepository $attributeRepository;
+    private TranslatorInterface $translator;
 
     public function __construct(ServiceAttributeRepository $attributeRepository, TranslatorInterface $translator) {
         $this->attributeRepository = $attributeRepository;

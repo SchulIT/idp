@@ -20,7 +20,7 @@ class ImportUsersFlow extends FormFlow {
         $this->helper = $helper;
     }
 
-    public function loadStepsConfig() {
+    public function loadStepsConfig(): array {
         return [
             [
                 'label' => 'import.users.step_one.label',
@@ -39,7 +39,7 @@ class ImportUsersFlow extends FormFlow {
         ];
     }
 
-    public function getFormOptions($step, array $options = []) {
+    public function getFormOptions($step, array $options = []): array {
         $options = parent::getFormOptions($step, $options);
 
         if($step === 2) {

@@ -33,17 +33,17 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator {
 
     use TargetPathTrait;
 
-    private $isActiveDirectoryEnabled;
-    private $hasher;
-    private $logger;
-    private $adAuth;
-    private $userRepository;
+    private bool $isActiveDirectoryEnabled;
+    private UserPasswordHasherInterface $hasher;
+    private LoggerInterface $logger;
+    private AdAuthInterface $adAuth;
+    private UserRepositoryInterface $userRepository;
 
-    private $loginRoute;
-    private $checkRoute;
-    private $router;
+    private string $loginRoute;
+    private string $checkRoute;
+    private RouterInterface $router;
 
-    public function __construct($isActiveDirectoryEnabled, $loginRoute, $checkRoute, UserPasswordHasherInterface $hasher, UserRepositoryInterface $userRepository,
+    public function __construct(bool $isActiveDirectoryEnabled, string $loginRoute, string $checkRoute, UserPasswordHasherInterface $hasher, UserRepositoryInterface $userRepository,
                                 AdAuthInterface $adAuth, RouterInterface $router, LoggerInterface $logger = null) {
         $this->isActiveDirectoryEnabled = $isActiveDirectoryEnabled;
         $this->hasher = $hasher;
@@ -74,8 +74,8 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator {
     /**
      * @inheritDoc
      */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response {
-        if($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $firewallName): ?Response {
+        if($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
 

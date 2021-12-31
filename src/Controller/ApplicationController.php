@@ -9,6 +9,7 @@ use App\Service\ApplicationKeyGenerator;
 use SchulIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -16,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ApplicationController extends AbstractController {
 
-    private $repository;
+    private ApplicationRepositoryInterface $repository;
 
     public function __construct(ApplicationRepositoryInterface $repository) {
         $this->repository = $repository;
@@ -25,7 +26,7 @@ class ApplicationController extends AbstractController {
     /**
      * @Route("", name="applications")
      */
-    public function index() {
+    public function index(): Response {
         $applications = $this->repository->findAll();
 
         return $this->render('applications/index.html.twig', [
@@ -36,7 +37,7 @@ class ApplicationController extends AbstractController {
     /**
      * @Route("/add", name="add_application")
      */
-    public function add(Request $request, ApplicationKeyGenerator $keyGenerator) {
+    public function add(Request $request, ApplicationKeyGenerator $keyGenerator): Response {
         $application = (new Application());
 
         $form = $this->createForm(ApplicationType::class, $application);
@@ -58,7 +59,7 @@ class ApplicationController extends AbstractController {
     /**
      * @Route("/{uuid}/edit", name="edit_application")
      */
-    public function edit(Application $application, Request $request) {
+    public function edit(Application $application, Request $request): Response {
         $form = $this->createForm(ApplicationType::class, $application);
         $form->handleRequest($request);
 
@@ -78,7 +79,7 @@ class ApplicationController extends AbstractController {
     /**
      * @Route("/{uuid}/remove", name="remove_application")
      */
-    public function remove(Application $application, Request $request) {
+    public function remove(Application $application, Request $request): Response {
         $form = $this->createForm(ConfirmType::class, null, [
             'message' => 'applications.remove.confirm',
             'message_parameters' => [

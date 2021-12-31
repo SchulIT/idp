@@ -10,11 +10,11 @@ interface ServiceProviderRepositoryInterface {
     /**
      * @return ServiceProvider[]
      */
-    public function findAll();
+    public function findAll(): array;
 
-    public function persist(ServiceProvider $provider);
+    public function persist(ServiceProvider $provider): void;
     
-    public function remove(ServiceProvider $provider);
+    public function remove(ServiceProvider $provider): void;
 
     /**
      * @param string $token

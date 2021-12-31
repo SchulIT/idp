@@ -3,18 +3,17 @@
 namespace App\Service;
 
 use App\Entity\ServiceAttribute;
-use App\Entity\ServiceAttributeRegistrationCodeValue;
 use App\Entity\ServiceAttributeUserRoleValue;
 use App\Entity\ServiceAttributeUserTypeValue;
 use App\Entity\ServiceAttributeValue;
 use App\Entity\User;
-use App\Entity\RegistrationCode;
 use App\Entity\UserRole;
 use App\Entity\UserType;
 use App\Repository\ServiceAttributeRepositoryInterface;
 use App\Repository\ServiceAttributeValueRepositoryInterface;
 use App\Repository\TransactionalRepositoryInterface;
 use App\Traits\ArrayTrait;
+use Closure;
 
 /**
  * Helper which persists attributes of a user in the database.
@@ -22,15 +21,15 @@ use App\Traits\ArrayTrait;
 class AttributePersister {
     use ArrayTrait;
 
-    private $attributeRepository;
-    private $attributeValueRepository;
+    private ServiceAttributeRepositoryInterface $attributeRepository;
+    private ServiceAttributeValueRepositoryInterface $attributeValueRepository;
 
     public function __construct(ServiceAttributeRepositoryInterface $attributeRepository, ServiceAttributeValueRepositoryInterface $attributeValueRepository) {
         $this->attributeRepository = $attributeRepository;
         $this->attributeValueRepository = $attributeValueRepository;
     }
 
-    public function persist(array $values, array $currentAttributes, \Closure $factory) {
+    public function persist(array $values, array $currentAttributes, Closure $factory): void {
         /** @var ServiceAttribute[] $attributes */
         $attributes = $this->makeArrayWithKeys(
             $this->attributeRepository->findAll(),
@@ -72,7 +71,7 @@ class AttributePersister {
         }
     }
 
-    public function persistUserAttributes(array $values, User $user) {
+    public function persistUserAttributes(array $values, User $user): void {
         $factory = function() use ($user) {
             $value = (new ServiceAttributeValue())
                 ->setUser($user);
@@ -92,7 +91,7 @@ class AttributePersister {
         $this->persist($values, $currentUserAttributes, $factory);
     }
 
-    public function persistUserRoleAttributes(array $values, UserRole $userRole) {
+    public function persistUserRoleAttributes(array $values, UserRole $userRole): void {
         $factory = function() use ($userRole) {
             $value = (new ServiceAttributeUserRoleValue())
                 ->setUserRole($userRole);
@@ -112,7 +111,7 @@ class AttributePersister {
         $this->persist($values, $currentUserAttributes, $factory);
     }
 
-    public function persistUserTypeAttributes(array $values, UserType $userType) {
+    public function persistUserTypeAttributes(array $values, UserType $userType): void {
         $factory = function() use ($userType) {
             $value = (new ServiceAttributeUserTypeValue())
                 ->setUserType($userType);

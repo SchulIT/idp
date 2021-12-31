@@ -10,7 +10,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface {
 
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $em) {
         $this->em = $em;
@@ -32,7 +32,7 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
             ->getOneOrNullResult();
     }
 
-    public function findAll() {
+    public function findAll(): array {
         return $this->createDefaultQueryBuilder()
             ->getQuery()
             ->getResult();
@@ -48,15 +48,15 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
         $this->em->flush();;
     }
 
-    public function beginTransaction() {
+    public function beginTransaction(): void {
         $this->em->beginTransaction();
     }
 
-    public function commit() {
+    public function commit(): void {
         $this->em->commit();
     }
 
-    public function rollBack() {
+    public function rollBack(): void {
         $this->em->rollback();;
     }
 

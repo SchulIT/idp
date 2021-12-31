@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Settings\LoginSettings;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -12,7 +12,7 @@ class AuthController extends AbstractController {
     /**
      * @Route("/login", name="login")
      */
-    public function login(AuthenticationUtils $authUtils, LoginSettings $loginSettings) {
+    public function login(AuthenticationUtils $authUtils, LoginSettings $loginSettings): Response {
         // get the login error if there is one
         $error = $authUtils->getLastAuthenticationError();
 
@@ -38,7 +38,7 @@ class AuthController extends AbstractController {
     /**
      * @Route("/logout/success", name="logout_success")
      */
-    public function logoutSuccess() {
+    public function logoutSuccess(): Response {
         return $this->render('auth/logout.html.twig', [
             'error' => null
         ]);

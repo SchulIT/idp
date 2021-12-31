@@ -9,11 +9,12 @@ use App\Repository\PrivacyPolicyRepositoryInterface;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PrivacyPolicyController extends AbstractController {
 
-    private $repository;
+    private PrivacyPolicyRepositoryInterface $repository;
 
     public function __construct(PrivacyPolicyRepositoryInterface $repository) {
         $this->repository = $repository;
@@ -22,7 +23,7 @@ class PrivacyPolicyController extends AbstractController {
     /**
      * @Route("/register/privacy_policy", name="register_privacy_policy")
      */
-    public function showRegister() {
+    public function showRegister(): Response {
         $policy = $this->repository->findOne() ?? new PrivacyPolicy();
 
         return $this->render('register/privacy_policy.html.twig', [
@@ -33,7 +34,7 @@ class PrivacyPolicyController extends AbstractController {
     /**
      * @Route("/privacy_policy", name="show_privacy_policy")
      */
-    public function show() {
+    public function show(): Response {
         /** @var User $user */
         $user = $this->getUser();
         $policy = $this->repository->findOne();
@@ -49,7 +50,7 @@ class PrivacyPolicyController extends AbstractController {
     /**
      * @Route("/admin/privacy_policy", name="edit_privacy_policy")
      */
-    public function edit(Request $request) {
+    public function edit(Request $request): Response {
         $policy = $this->repository->findOne() ?? new PrivacyPolicy();
         $form = $this->createForm(PricacyPolicyType::class, $policy);
         $form->handleRequest($request);

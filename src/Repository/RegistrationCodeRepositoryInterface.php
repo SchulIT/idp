@@ -9,7 +9,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 interface RegistrationCodeRepositoryInterface extends TransactionalRepositoryInterface {
     public function findOneByCode(string $code): ?RegistrationCode;
 
-    public function findAll();
+    public function findAll(): array;
 
     /**
      * @return string[]

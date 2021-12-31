@@ -14,14 +14,14 @@ class ProfileVoter extends Voter {
     /**
      * @inheritDoc
      */
-    protected function supports($attribute, $subject) {
+    protected function supports($attribute, $subject): bool {
         return in_array($attribute, [ static::CHANGE_PASSWORD, static::USE_2FA]);
     }
 
     /**
      * @inheritDoc
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token) {
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool {
         $user = $token->getUser();
 
         if(!$user instanceof User) {

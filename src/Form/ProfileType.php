@@ -6,25 +6,22 @@ use App\Entity\ActiveDirectoryUser;
 use App\Entity\User;
 use App\Security\PasswordStrengthHelper;
 use App\Service\AttributeResolver;
-use SchulIT\CommonBundle\Form\FieldsetType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ProfileType extends AbstractType {
     use AttributeDataTrait;
 
-    private $userAttributeResolver;
-    private $translator;
-    private $passwordStrengthHelper;
+    private AttributeResolver $userAttributeResolver;
+    private TranslatorInterface $translator;
+    private PasswordStrengthHelper $passwordStrengthHelper;
 
     public function __construct(AttributeResolver $userAttributeResolver, TranslatorInterface $translator, PasswordStrengthHelper $passwordStrengthHelper) {
         $this->userAttributeResolver = $userAttributeResolver;

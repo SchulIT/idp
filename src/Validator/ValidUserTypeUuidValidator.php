@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class ValidUserTypeUuidValidator extends ConstraintValidator {
 
-    private $userTypeRepository;
+    private UserTypeRepositoryInterface $userTypeRepository;
 
     public function __construct(UserTypeRepositoryInterface $userTypeRepository) {
         $this->userTypeRepository = $userTypeRepository;

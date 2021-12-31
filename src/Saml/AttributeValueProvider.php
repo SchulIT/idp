@@ -24,9 +24,9 @@ class AttributeValueProvider extends AbstractAttributeProvider {
 
     use ArrayTrait;
 
-    private $attributeResolver;
-    private $attributeRepository;
-    private $userServiceProviderResolver;
+    private AttributeResolver $attributeResolver;
+    private ServiceAttributeRepository $attributeRepository;
+    private UserServiceProviderResolver $userServiceProviderResolver;
 
     public function __construct(TokenStorageInterface $tokenStorage, AttributeResolver $attributeResolver, ServiceAttributeRepository $attributeRepository, UserServiceProviderResolver $userServiceProviderResolver) {
         parent::__construct($tokenStorage);
@@ -42,7 +42,7 @@ class AttributeValueProvider extends AbstractAttributeProvider {
      * @param User|null $user
      * @return array
      */
-    public function getCommonAttributesForUser(User $user = null) {
+    public function getCommonAttributesForUser(User $user = null): array {
         if($user === null) {
             return [ ];
         }
@@ -68,7 +68,7 @@ class AttributeValueProvider extends AbstractAttributeProvider {
      * @param string $entityId
      * @return ServiceAttribute[]
      */
-    private function getRequestedAttributes($entityId) {
+    private function getRequestedAttributes(string $entityId): array {
         $attributes = $this->attributeRepository->getAttributesForServiceProvider($entityId);
 
         return $this->makeArrayWithKeys($attributes, function(ServiceAttribute $attribute) {
@@ -80,7 +80,7 @@ class AttributeValueProvider extends AbstractAttributeProvider {
      * @param User $user
      * @return ServiceAttributeValueInterface[]
      */
-    private function getUserAttributeValues(User $user) {
+    private function getUserAttributeValues(User $user): array {
         $attributeValues = $this->attributeResolver
             ->getDetailedResultingAttributeValuesForUser($user);
 
@@ -96,7 +96,7 @@ class AttributeValueProvider extends AbstractAttributeProvider {
      * @param User $user
      * @return string[]
      */
-    private function getAttributes($entityId, User $user) {
+    private function getAttributes(string $entityId, User $user): array {
         $attributes = [ ];
 
         $requestedAttributes = $this->getRequestedAttributes($entityId);
@@ -116,7 +116,7 @@ class AttributeValueProvider extends AbstractAttributeProvider {
      * @param string $entityId
      * @return Attribute[]
      */
-    public function getValuesForUser(UserInterface $user, $entityId) {
+    public function getValuesForUser(UserInterface $user, $entityId): array {
         $attributes = [ ];
 
         $attributes[] = new Attribute(ClaimTypes::COMMON_NAME, $user->getUsername());
@@ -139,7 +139,7 @@ class AttributeValueProvider extends AbstractAttributeProvider {
     }
 
 
-    protected function getServices(User $user) {
+    protected function getServices(User $user): array {
         /** @var ServiceProvider[] $services */
         $services = $this->userServiceProviderResolver->getServices($user);
 

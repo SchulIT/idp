@@ -7,13 +7,13 @@ use App\Entity\UserType;
 class UserTypeFilterView {
 
     /** @var UserType[] */
-    private $types;
+    private array $types;
 
     /** @var UserType|null  */
-    private $currentType;
+    private ?UserType $currentType;
 
     /** @var bool */
-    private $handleNull = false;
+    private bool $handleNull = false;
 
     public function __construct(array $types, ?UserType $type) {
         $this->types = $types;

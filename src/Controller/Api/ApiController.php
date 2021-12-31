@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ApiController extends AbstractApiController {
@@ -10,7 +11,7 @@ class ApiController extends AbstractApiController {
      *
      * @Route("/api", name="api_default")
      */
-    public function index() {
+    public function index(): Response {
         return $this->returnJson([]);
     }
 }

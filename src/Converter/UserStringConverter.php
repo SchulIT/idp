@@ -5,7 +5,7 @@ namespace App\Converter;
 use App\Entity\User;
 
 class UserStringConverter {
-    public function convert(User $user) {
+    public function convert(User $user): string {
         if(empty($user->getLastname()) && empty($user->getFirstname())) {
             return $user->getUsername();
         } else if(empty($user->getFirstname())) {

@@ -11,11 +11,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Exception;
 
 class UserRepository implements UserRepositoryInterface {
 
-    private $em;
-    private $isInTransaction = false;
+    private EntityManagerInterface $em;
+    private bool $isInTransaction = false;
 
     public function __construct(EntityManagerInterface $objectManager) {
         $this->em = $objectManager;
@@ -36,7 +37,7 @@ class UserRepository implements UserRepositoryInterface {
         $this->isInTransaction = false;
     }
 
-    public function findAll($offset = 0, $limit = null, bool $deleted = false) {
+    public function findAll(int $offset = 0, int $limit = null, bool $deleted = false): array {
         $qb = $this->em
             ->createQueryBuilder()
             ->select('u')
@@ -57,7 +58,7 @@ class UserRepository implements UserRepositoryInterface {
         return $qb->getQuery()->getResult();
     }
 
-    public function findUsersByUsernames(array $usernames) {
+    public function findUsersByUsernames(array $usernames): array {
         $qb = $this->em->createQueryBuilder();
 
         $qb->select(['u', 'a', 'r', 't'])
@@ -71,7 +72,7 @@ class UserRepository implements UserRepositoryInterface {
         return $qb->getQuery()->getResult();
     }
 
-    public function findUsersUpdatedAfter(\DateTime $dateTime, array $usernames = [ ]) {
+    public function findUsersUpdatedAfter(\DateTime $dateTime, array $usernames = [ ]): array {
         $qb = $this->em
             ->createQueryBuilder();
 
@@ -144,14 +145,14 @@ class UserRepository implements UserRepositoryInterface {
             ->getOneOrNullResult();
     }
 
-    public function persist(User $user) {
+    public function persist(User $user): void {
         $this->em->persist($user);
         if($this->isInTransaction === false) {
             $this->em->flush();
         }
     }
 
-    public function remove(User $user) {
+    public function remove(User $user): void {
         $this->em->remove($user);
         if($this->isInTransaction === false) {
             $this->em->flush();
@@ -278,7 +279,7 @@ class UserRepository implements UserRepositoryInterface {
     /**
      * @inheritDoc
      */
-    public function findAllUuids($offset = 0, $limit = null) {
+    public function findAllUuids(int $offset = 0, ?int $limit = null): array {
         $qb = $this->em
             ->createQueryBuilder()
             ->select('u.uuid')
@@ -454,6 +455,9 @@ class UserRepository implements UserRepositoryInterface {
             ->getResult();
     }
 
+    /**
+     * @throws Exception
+     */
     public function convertToActiveDirectory(User $user, ActiveDirectoryUser $activeDirectoryUser): ActiveDirectoryUser {
         $dbal = $this->em->getConnection();
         $dbal->update('user', [
@@ -467,7 +471,13 @@ class UserRepository implements UserRepositoryInterface {
         ]);
 
         $this->em->detach($user);
-        return $this->findOneById($user->getId());
+        $adUser = $this->findOneById($user->getId());
+
+        if(!$adUser instanceof ActiveDirectoryUser) {
+            throw new Exception('Failed to convert user.');
+        }
+
+        return $adUser;
     }
 
     public function convertToUser(ActiveDirectoryUser $user): User {

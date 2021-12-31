@@ -6,6 +6,7 @@ use App\Repository\UserTypeRepositoryInterface;
 use App\Response\ListUserTypeResponse;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -24,7 +25,7 @@ class UserTypeController extends AbstractApiController {
      *     @Model(type=ListUserTypeResponse::class)
      * )
      */
-    public function getUserTypes(UserTypeRepositoryInterface $repository) {
+    public function getUserTypes(UserTypeRepositoryInterface $repository): Response {
         $types = $repository->findAll();
 
         return $this->returnJson(

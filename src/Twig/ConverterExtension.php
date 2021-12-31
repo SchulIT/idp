@@ -9,19 +9,19 @@ use Twig\TwigFilter;
 
 class ConverterExtension extends AbstractExtension {
 
-    private $userConverter;
+    private UserStringConverter $userConverter;
 
     public function __construct(UserStringConverter $userConverter) {
         $this->userConverter = $userConverter;
     }
 
-    public function getFilters() {
+    public function getFilters(): array {
         return [
             new TwigFilter('user', [ $this, 'user'])
         ];
     }
 
-    public function user(User $user) {
+    public function user(User $user): string {
         return $this->userConverter->convert($user);
     }
 }

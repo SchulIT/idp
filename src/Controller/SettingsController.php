@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -27,7 +28,7 @@ class SettingsController extends AbstractController {
      * @Route("", name="settings")
      */
     public function index(Request $request, SettingsManager $settingsManager, AppSettings $appSettings,
-                          LoginSettings $loginSettings, RegistrationSettings $registrationSettings) {
+                          LoginSettings $loginSettings, RegistrationSettings $registrationSettings): Response {
         $settings = [
             'helpdesk:mail' => $appSettings->getHelpdeskMail(),
             'security:password_compromised_check' => $appSettings->isPasswordCompromisedCheckEnabled(),

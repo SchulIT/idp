@@ -14,7 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class RemoveOldEmailConfirmations extends Command {
 
-    private $manager;
+    private ConfirmationManager $manager;
 
     public function __construct(ConfirmationManager $confirmationManager, string $name = null) {
         parent::__construct($name);
@@ -28,7 +28,7 @@ class RemoveOldEmailConfirmations extends Command {
             ->setDescription('Removes expired email confirmations.');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output) {
+    public function execute(InputInterface $input, OutputInterface $output): int {
         $style = new SymfonyStyle($input, $output);
 
         $count = $this->manager->removeOldConfirmations();

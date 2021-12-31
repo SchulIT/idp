@@ -27,8 +27,8 @@ use Symfony\Component\Form\FormEvents;
 class UserType extends AbstractType {
     use AttributeDataTrait;
 
-    private $userAttributeResolver;
-    private $passwordStrengthHelper;
+    private AttributeResolver $userAttributeResolver;
+    private PasswordStrengthHelper $passwordStrengthHelper;
 
     public function __construct(AttributeResolver $userAttributeResolver, PasswordStrengthHelper $passwordStrengthHelper) {
         $this->userAttributeResolver = $userAttributeResolver;

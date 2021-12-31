@@ -4,7 +4,7 @@ namespace App\Security\Badge;
 
 class ClientIpAddressBadge extends AbstractBadge {
 
-    private $validIpAddresses;
+    private array $validIpAddresses;
 
     public function __construct(array $validIpAddresses) {
         $this->validIpAddresses = $validIpAddresses;

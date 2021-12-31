@@ -13,7 +13,7 @@ class MetadataController extends AbstractController {
     /**
      * @Route("/metadata", name="xml_metadata")
      */
-    public function xml(EntityDescriptorProviderInterface $provider) {
+    public function xml(EntityDescriptorProviderInterface $provider): Response {
         $context = new SerializationContext();
         $own = $provider->get();
         $own->serialize($context->getDocument(), $context);

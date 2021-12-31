@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -24,7 +25,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ServiceProviderController extends AbstractController {
 
-    private $repository;
+    private ServiceProviderRepositoryInterface $repository;
 
     public function __construct(ServiceProviderRepositoryInterface $repository) {
         $this->repository = $repository;
@@ -33,7 +34,7 @@ class ServiceProviderController extends AbstractController {
     /**
      * @Route("", name="service_providers")
      */
-    public function index() {
+    public function index(): Response {
         $serviceProviders = $this->repository
             ->findAll();
 
@@ -45,7 +46,7 @@ class ServiceProviderController extends AbstractController {
     /**
      * @Route("/{uuid}/certificate", name="service_provider_certificate")
      */
-    public function certificateInfo(ServiceProvider $serviceProvider) {
+    public function certificateInfo(ServiceProvider $serviceProvider): Response {
         if(!$serviceProvider instanceof SamlServiceProvider) {
             return $this->redirectToRoute('service_providers');
         }
@@ -63,7 +64,7 @@ class ServiceProviderController extends AbstractController {
     /**
      * @Route("/add", name="add_service_provider")
      */
-    public function add(Request $request) {
+    public function add(Request $request): Response {
         if($request->query->get('type', 'default') === 'saml') {
             $serviceProvider = new SamlServiceProvider();
         } else {
@@ -89,7 +90,7 @@ class ServiceProviderController extends AbstractController {
     /**
      * @Route("/{uuid}/edit", name="edit_service_provider")
      */
-    public function edit(Request $request, ServiceProvider $serviceProvider) {
+    public function edit(Request $request, ServiceProvider $serviceProvider): Response {
         $form = $this->createForm(ServiceProviderType::class, $serviceProvider);
         $form->handleRequest($request);
 
@@ -109,7 +110,7 @@ class ServiceProviderController extends AbstractController {
     /**
      * @Route("/{uuid}/remove", name="remove_service_provider")
      */
-    public function remove(ServiceProvider $serviceProvider, Request $request, TranslatorInterface $translator) {
+    public function remove(ServiceProvider $serviceProvider, Request $request, TranslatorInterface $translator): Response {
         $form = $this->createForm(ConfirmType::class, [], [
             'message' => $translator->trans('service_providers.remove.confirm', [
                 '%name%' => $serviceProvider->getName()
@@ -136,7 +137,7 @@ class ServiceProviderController extends AbstractController {
      * @throws TransportExceptionInterface
      * @throws Exception
      */
-    public function loadXml(Request $request, HttpClientInterface $httpClient) {
+    public function loadXml(Request $request, HttpClientInterface $httpClient): Response {
         $url = $request->query->get('url');
 
         if(empty($url)) {

@@ -8,13 +8,13 @@ use Twig\TwigFunction;
 
 class SettingsExtension extends AbstractExtension {
 
-    private $settingsManager;
+    private SettingsManager $settingsManager;
 
     public function __construct(SettingsManager $settingsManager) {
         $this->settingsManager = $settingsManager;
     }
 
-    public function getFunctions() {
+    public function getFunctions(): array {
         return [
             new TwigFunction('setting', [ $this, 'setting' ])
         ];

@@ -14,8 +14,8 @@ class MustChangePasswordRedirectEventSubscriber implements EventSubscriberInterf
 
     private const RedirectRoute = 'profile_password';
 
-    private $urlGenerator;
-    private $tokenStorage;
+    private UrlGeneratorInterface $urlGenerator;
+    private TokenStorageInterface $tokenStorage;
 
     public function __construct(UrlGeneratorInterface $urlGenerator, TokenStorageInterface $tokenStorage) {
         $this->urlGenerator = $urlGenerator;
@@ -62,7 +62,7 @@ class MustChangePasswordRedirectEventSubscriber implements EventSubscriberInterf
     /**
      * @inheritDoc
      */
-    public static function getSubscribedEvents() {
+    public static function getSubscribedEvents(): array {
         return [
             RequestEvent::class => ['onRequest', -1]
         ];

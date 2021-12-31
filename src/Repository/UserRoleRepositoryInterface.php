@@ -9,9 +9,9 @@ interface UserRoleRepositoryInterface {
     /**
      * @return UserRole[]
      */
-    public function findAll();
+    public function findAll(): array;
 
-    public function persist(UserRole $role);
+    public function persist(UserRole $role): void;
 
-    public function remove(UserRole $role);
+    public function remove(UserRole $role): void;
 }

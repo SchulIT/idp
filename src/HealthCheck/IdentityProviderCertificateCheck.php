@@ -3,7 +3,7 @@
 namespace App\HealthCheck;
 
 class IdentityProviderCertificateCheck extends AbstractCertificateHealthCheck {
-    private $certificateFile;
+    private string $certificateFile;
 
     public function __construct(string $certificateFile) {
         $this->certificateFile = $certificateFile;

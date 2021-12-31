@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 
 class PasswordChangeType extends AbstractType {
 
-    private $passwordStrengthHelper;
+    private PasswordStrengthHelper $passwordStrengthHelper;
 
     public function __construct(PasswordStrengthHelper $passwordStrengthHelper) {
         $this->passwordStrengthHelper = $passwordStrengthHelper;

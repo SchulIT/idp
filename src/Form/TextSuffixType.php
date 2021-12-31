@@ -3,8 +3,6 @@
 namespace App\Form;
 
 use Symfony\Component\Form\CallbackTransformer;
-use Symfony\Component\Form\DataMapperInterface;
-use Symfony\Component\Form\Exception;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -36,7 +34,7 @@ class TextSuffixType extends TextType {
         $view->vars['suffix'] = $options['suffix'];
     }
 
-    public function getBlockPrefix() {
+    public function getBlockPrefix(): string {
         return 'text_suffix';
     }
 }

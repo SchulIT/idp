@@ -8,6 +8,7 @@ use App\Repository\ActiveDirectorySyncOptionRepositoryInterface;
 use SchulIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -16,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ActiveDirectorySyncOptionController extends AbstractController {
 
-    private $repository;
+    private ActiveDirectorySyncOptionRepositoryInterface $repository;
 
     public function __construct(ActiveDirectorySyncOptionRepositoryInterface $repository) {
         $this->repository = $repository;
@@ -25,7 +26,7 @@ class ActiveDirectorySyncOptionController extends AbstractController {
     /**
      * @Route("", name="ad_sync_options")
      */
-    public function index() {
+    public function index(): Response {
         $syncOptions = $this->repository->findAll();
 
         return $this->render('ad_sync_options/index.html.twig', [
@@ -36,7 +37,7 @@ class ActiveDirectorySyncOptionController extends AbstractController {
     /**
      * @Route("/add", name="add_ad_sync_option")
      */
-    public function add(Request $request) {
+    public function add(Request $request): Response {
         $syncOption = new ActiveDirectorySyncOption();
 
         $form = $this->createForm(ActiveDirectorySyncOptionType::class, $syncOption);
@@ -57,7 +58,7 @@ class ActiveDirectorySyncOptionController extends AbstractController {
     /**
      * @Route("/{uuid}/edit", name="edit_ad_sync_option")
      */
-    public function edit(Request $request, ActiveDirectorySyncOption $syncOption) {
+    public function edit(Request $request, ActiveDirectorySyncOption $syncOption): Response {
         $form = $this->createForm(ActiveDirectorySyncOptionType::class, $syncOption);
         $form->handleRequest($request);
 
@@ -77,7 +78,7 @@ class ActiveDirectorySyncOptionController extends AbstractController {
     /**
      * @Route("/{uuid}/remove", name="remove_ad_sync_option")
      */
-    public function remove(ActiveDirectorySyncOption $syncOption, Request $request, TranslatorInterface $translator) {
+    public function remove(ActiveDirectorySyncOption $syncOption, Request $request, TranslatorInterface $translator): Response {
         $form = $this->createForm(ConfirmType::class, [], [
             'message' => $translator->trans('ad_sync_options.remove.confirm', [
                 '%name%' => $syncOption->getName()

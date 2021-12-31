@@ -6,12 +6,12 @@ use App\Repository\RegistrationCodeRepositoryInterface;
 
 class CodeGenerator {
 
-    private $characters = 'ABCDEFGHKLMNPQRSTUVWXYZ123456789';
-    private $blocks = 3;
-    private $charactersPerBlock = 4;
-    private $separator = '-';
+    private string $characters = 'ABCDEFGHKLMNPQRSTUVWXYZ123456789';
+    private int $blocks = 3;
+    private int $charactersPerBlock = 4;
+    private string $separator = '-';
 
-    private $codeRepository;
+    private RegistrationCodeRepositoryInterface $codeRepository;
 
     public function __construct(RegistrationCodeRepositoryInterface $codeRepository) {
         $this->codeRepository = $codeRepository;

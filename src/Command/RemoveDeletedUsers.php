@@ -16,8 +16,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class RemoveDeletedUsers extends Command {
 
-    private $dateHelper;
-    private $userRepository;
+    private DateHelper $dateHelper;
+    private UserRepositoryInterface $userRepository;
 
     private const Modifier = '-30 days';
 
@@ -33,7 +33,7 @@ class RemoveDeletedUsers extends Command {
             ->setDescription('Cleanup all external ids to remove duplicates.');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output) {
+    public function execute(InputInterface $input, OutputInterface $output): int {
         $style = new SymfonyStyle($input, $output);
 
         $threshold = $this->dateHelper->getToday()->modify(static::Modifier);

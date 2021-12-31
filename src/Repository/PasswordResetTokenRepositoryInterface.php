@@ -11,7 +11,7 @@ interface PasswordResetTokenRepositoryInterface {
 
     public function findOneByToken(string $token): ?PasswordResetToken;
 
-    public function persist(PasswordResetToken $passwordResetToken);
+    public function persist(PasswordResetToken $passwordResetToken): void;
 
-    public function remove(PasswordResetToken $passwordResetToken);
+    public function remove(PasswordResetToken $passwordResetToken): void;
 }

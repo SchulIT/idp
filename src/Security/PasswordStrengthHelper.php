@@ -10,15 +10,15 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PasswordStrengthHelper {
-    private $settings;
-    private $validator;
+    private AppSettings $settings;
+    private ValidatorInterface $validator;
 
     public function __construct(AppSettings $settings, ValidatorInterface $validator) {
         $this->settings = $settings;
         $this->validator = $validator;
     }
 
-    public function getConstraints() {
+    public function getConstraints(): array {
         $constraints = [
             new PasswordRequirements([
                 'minLength' => 8,

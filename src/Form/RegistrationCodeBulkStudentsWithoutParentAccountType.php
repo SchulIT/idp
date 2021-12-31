@@ -12,8 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class RegistrationCodeBulkStudentsWithoutParentAccountType extends AbstractType {
-    private $userRepository;
-    private $userConverter;
+    private UserRepositoryInterface $userRepository;
+    private UserStringConverter $userConverter;
 
     public function __construct(UserRepositoryInterface $userRepository, UserStringConverter $userConverter) {
         $this->userRepository = $userRepository;

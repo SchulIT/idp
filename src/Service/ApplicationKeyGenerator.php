@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class ApplicationKeyGenerator {
 
-    private $repository;
+    private ApplicationRepositoryInterface $repository;
 
     public function __construct(ApplicationRepositoryInterface $repository) {
         $this->repository = $repository;
@@ -22,7 +22,7 @@ class ApplicationKeyGenerator {
      *
      * @return string
      */
-    public function generateApiKey() {
+    public function generateApiKey(): string {
         do {
             $apiKey = bin2hex(openssl_random_pseudo_bytes(32));
             $application = $this->repository

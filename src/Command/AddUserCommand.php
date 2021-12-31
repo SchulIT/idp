@@ -18,10 +18,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AddUserCommand extends Command {
 
-    private $userTypeRepository;
-    private $userRepository;
-    private $passwordHasher;
-    private $validator;
+    private UserTypeRepositoryInterface $userTypeRepository;
+    private UserRepositoryInterface $userRepository;
+    private UserPasswordHasherInterface $passwordHasher;
+    private ValidatorInterface $validator;
 
     public function __construct(UserTypeRepositoryInterface $userTypeRepository, UserRepositoryInterface $userRepository,
                                 UserPasswordHasherInterface $passwordHasher, ValidatorInterface $validator, $name = null)
@@ -39,7 +39,7 @@ class AddUserCommand extends Command {
             ->setDescription('Adds a new user');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output) {
+    public function execute(InputInterface $input, OutputInterface $output): int {
         $io = new SymfonyStyle($input, $output);
 
         $username = $io->ask('Username', null, function($username) {
@@ -117,7 +117,7 @@ class AddUserCommand extends Command {
             $user->setRoles(['ROLE_SUPER_ADMIN']);
         }
 
-        $encodedPassword = $this->passwordHasher->encodePassword($user, $password);
+        $encodedPassword = $this->passwordHasher->hashPassword($user, $password);
 
         $user->setPassword($encodedPassword);
 

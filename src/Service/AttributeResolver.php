@@ -17,7 +17,7 @@ use App\Traits\ArrayTrait;
 class AttributeResolver {
     use ArrayTrait;
 
-    private $attributeValueRepository;
+    private ServiceAttributeValueRepositoryInterface $attributeValueRepository;
 
     public function __construct(ServiceAttributeValueRepositoryInterface $attributeValueRepository) {
         $this->attributeValueRepository = $attributeValueRepository;
@@ -27,7 +27,7 @@ class AttributeResolver {
      * @param User|null $user
      * @return ServiceAttributeValueInterface[] $user
      */
-    public function getDetailedResultingAttributeValuesForUser(User $user = null) {
+    public function getDetailedResultingAttributeValuesForUser(User $user = null): array {
         if($user === null) {
             return [ ];
         }
@@ -73,7 +73,7 @@ class AttributeResolver {
      * @param User|null $user
      * @return mixed[]
      */
-    public function getResultingAttributeValuesForUser(User $user = null) {
+    public function getResultingAttributeValuesForUser(User $user = null): array {
         if($user === null) {
             return [ ];
         }
@@ -95,7 +95,7 @@ class AttributeResolver {
      * @param User|null $user
      * @return mixed[]
      */
-    public function getAttributeValuesForUser(User $user = null) {
+    public function getAttributeValuesForUser(User $user = null): array {
         if($user === null) {
             return [ ];
         }
@@ -110,7 +110,7 @@ class AttributeResolver {
      * @param UserType $userType
      * @return mixed[]
      */
-    public function getAttributesForType(UserType $userType) {
+    public function getAttributesForType(UserType $userType): array {
         /** @var ServiceAttributeValue[] $userTypeAttributeValues */
         $userTypeAttributeValues = $this->attributeValueRepository->getAttributeValuesForUserType($userType);
 
@@ -121,7 +121,7 @@ class AttributeResolver {
      * @param UserRole $userRole
      * @return mixed[]
      */
-    public function getAttributesForRole(UserRole $userRole) {
+    public function getAttributesForRole(UserRole $userRole): array {
         /** @var ServiceAttributeValue[] $userRoleAttributeValues */
         $userRoleAttributeValues = $this->attributeValueRepository->getAttributeValuesForUserRole($userRole);
 
@@ -132,14 +132,14 @@ class AttributeResolver {
      * @param RegistrationCode $code
      * @return mixed[]
      */
-    public function getAttributesForRegistrationCode(RegistrationCode $code) {
+    public function getAttributesForRegistrationCode(RegistrationCode $code): array {
         /** @var ServiceAttributeValue[] $registrationCodeValues */
         $registrationCodeValues = $this->attributeValueRepository->getAttributeValuesForRegistrationCode($code);
 
         return $this->transformValuesToSimpleArray($registrationCodeValues);
     }
 
-    private function transformValuesToSimpleArray(array $values) {
+    private function transformValuesToSimpleArray(array $values): array {
         $attributeValues = [ ];
 
         foreach($values as $attribute) {

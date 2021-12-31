@@ -4,31 +4,31 @@ namespace App\Security;
 
 class ActiveDirectoryUserInformation {
     /** @var string */
-    private $username;
+    private string $username;
 
     /** @var string */
-    private $userPrincipalName;
+    private string $userPrincipalName;
 
     /** @var string|null */
-    private $firstname;
+    private ?string $firstname;
 
     /** @var string|null */
-    private $lastname;
+    private ?string $lastname;
 
     /** @var string */
-    private $email;
+    private string $email;
 
     /** @var string */
-    private $guid;
+    private string $guid;
 
     /** @var string|null */
-    private $uniqueId;
+    private ?string $uniqueId;
 
     /** @var string */
-    private $ou;
+    private string $ou;
 
     /** @var string[] */
-    private $groups;
+    private array $groups;
 
     /**
      * @return string

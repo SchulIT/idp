@@ -9,6 +9,7 @@ use App\Service\KioskUserTokenGenerator;
 use SchulIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -16,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class KioskUserController extends AbstractController {
 
-    private $repository;
+    private KioskUserRepositoryInterface $repository;
 
     public function __construct(KioskUserRepositoryInterface $repository) {
         $this->repository = $repository;
@@ -25,7 +26,7 @@ class KioskUserController extends AbstractController {
     /**
      * @Route("", name="kiosk_users")
      */
-    public function index() {
+    public function index(): Response {
         return $this->render('users/kiosk/index.html.twig', [
             'users' => $this->repository->findAll()
         ]);
@@ -34,7 +35,7 @@ class KioskUserController extends AbstractController {
     /**
      * @Route("/add", name="add_kiosk_user")
      */
-    public function add(Request $request, KioskUserTokenGenerator $tokenGenerator) {
+    public function add(Request $request, KioskUserTokenGenerator $tokenGenerator): Response {
         $user = (new KioskUser())
             ->setToken($tokenGenerator->generateToken());
         $form = $this->createForm(KioskUserType::class, $user);
@@ -55,7 +56,7 @@ class KioskUserController extends AbstractController {
     /**
      * @Route("/{uuid}/edit", name="edit_kiosk_user")
      */
-    public function edit(KioskUser $user, Request $request) {
+    public function edit(KioskUser $user, Request $request): Response {
         $form = $this->createForm(KioskUserType::class, $user);
         $form->handleRequest($request);
 
@@ -74,7 +75,7 @@ class KioskUserController extends AbstractController {
     /**
      * @Route("/{uuid}/remove", name="remove_kiosk_user")
      */
-    public function remove(KioskUser $user, Request $request) {
+    public function remove(KioskUser $user, Request $request): Response {
         $form = $this->createForm(ConfirmType::class, null, [
             'message' => 'users.kiosk.remove.confirm',
             'message_parameters' => [

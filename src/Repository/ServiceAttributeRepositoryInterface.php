@@ -9,21 +9,21 @@ interface ServiceAttributeRepositoryInterface {
     /**
      * @return ServiceAttribute[]
      */
-    public function findAll();
+    public function findAll(): array;
 
-    public function persist(ServiceAttribute $attribute);
+    public function persist(ServiceAttribute $attribute): void;
 
-    public function remove(ServiceAttribute $attribute);
+    public function remove(ServiceAttribute $attribute): void;
 
     /**
      * @return ServiceAttribute[]
      * @deprecated Use findAll();
      */
-    public function getAttributes();
+    public function getAttributes(): array;
 
     /**
      * @param string $entityId
      * @return ServiceAttribute[]
      */
-    public function getAttributesForServiceProvider($entityId);
+    public function getAttributesForServiceProvider($entityId): array;
 }

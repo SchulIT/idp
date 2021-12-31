@@ -22,6 +22,9 @@ class NameIdProvider implements NameIdProviderInterface {
         $this->tokenStorage = $tokenStorage;
     }
 
+    /**
+     * @return NameID|null
+     */
     public function getNameID(AbstractProfileContext $context) {
         $token = $this->tokenStorage->getToken();
         /** @var UserInterface $user */

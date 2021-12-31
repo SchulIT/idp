@@ -19,28 +19,20 @@ use Ramsey\Uuid\Uuid;
  */
 class UserCreator {
     /** @var ActiveDirectorySyncOption[] */
-    private $syncOptions = null;
+    private ?array $syncOptions = null;
 
     /** @var ActiveDirectoryGradeSyncOption[] */
-    private $gradeSyncOptions = null;
+    private ?array $gradeSyncOptions = null;
 
     /** @var ActiveDirectoryRoleSyncOption[] */
-    private $roleSyncOptions = null;
+    private ?array $roleSyncOptions = null;
 
-    /** @var OptionResolver */
-    private $optionsResolver;
+    private OptionResolver $optionsResolver;
 
-    /** @var ActiveDirectorySyncOptionRepositoryInterface  */
-    private $syncOptionRepository;
-
-    /** @var ActiveDirectoryGradeSyncOptionRepositoryInterface  */
-    private $gradeSyncOptionRepository;
-
-    /** @var ActiveDirectoryRoleSyncOptionRepositoryInterface */
-    private $roleSyncOptionRepository;
-
-    /** @var UserRepositoryInterface */
-    private $userRepository;
+    private ActiveDirectorySyncOptionRepositoryInterface $syncOptionRepository;
+    private ActiveDirectoryGradeSyncOptionRepositoryInterface $gradeSyncOptionRepository;
+    private ActiveDirectoryRoleSyncOptionRepositoryInterface $roleSyncOptionRepository;
+    private UserRepositoryInterface $userRepository;
 
     public function __construct(ActiveDirectorySyncOptionRepositoryInterface $syncOptionRepository,
                                 ActiveDirectoryGradeSyncOptionRepositoryInterface $gradeSyncOptionRepository,
@@ -52,7 +44,7 @@ class UserCreator {
         $this->userRepository = $userRepository;
     }
 
-    private function initialise() {
+    private function initialize(): void {
         if ($this->syncOptions === null) {
             $this->syncOptions = $this->syncOptionRepository
                 ->findAll();
@@ -75,8 +67,8 @@ class UserCreator {
      * @param ActiveDirectoryUserInformation $response
      * @return bool
      */
-    public function canCreateUser(ActiveDirectoryUserInformation $response) {
-        $this->initialise();
+    public function canCreateUser(ActiveDirectoryUserInformation $response): bool {
+        $this->initialize();
         return $this->getTargetUserType($response) !== null;
     }
 
@@ -84,7 +76,7 @@ class UserCreator {
      * @param ActiveDirectoryUserInformation $response
      * @return UserType|null
      */
-    private function getTargetUserType(ActiveDirectoryUserInformation $response) {
+    private function getTargetUserType(ActiveDirectoryUserInformation $response): ?UserType {
         /** @var ActiveDirectorySyncOption|null $option */
         $option = $this->optionsResolver
             ->getOption($this->syncOptions, $response->getOu(), $response->getGroups());
@@ -101,8 +93,8 @@ class UserCreator {
      * @param ActiveDirectoryUser|null $user Already existing AD user
      * @return ActiveDirectoryUser
      */
-    public function createUser(ActiveDirectoryUserInformation $response, ?ActiveDirectoryUser $user = null) {
-        $this->initialise();
+    public function createUser(ActiveDirectoryUserInformation $response, ?ActiveDirectoryUser $user = null): ?ActiveDirectoryUser {
+        $this->initialize();
 
         if ($user === null) {
             // Try to find already existing user by GUID (because username has changed)
@@ -157,7 +149,7 @@ class UserCreator {
      * @param ActiveDirectoryUserInformation $response
      * @return string|null
      */
-    private function getGrade(ActiveDirectoryUserInformation $response) {
+    private function getGrade(ActiveDirectoryUserInformation $response): ?string {
         /** @var ActiveDirectoryGradeSyncOption|null $option */
         $option = $this->optionsResolver
             ->getOption($this->gradeSyncOptions, $response->getOu(), $response->getGroups());

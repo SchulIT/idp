@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UserTypeRepository implements UserTypeRepositoryInterface {
 
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $entityManager) {
         $this->em = $entityManager;
@@ -24,7 +24,7 @@ class UserTypeRepository implements UserTypeRepositoryInterface {
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function findAll() {
+    public function findAll(): array {
         return $this->em->getRepository(UserType::class)
             ->findBy([], [
                 'name' => 'asc'
@@ -34,7 +34,7 @@ class UserTypeRepository implements UserTypeRepositoryInterface {
     /**
      * @inheritDoc
      */
-    public function findAllUuids() {
+    public function findAllUuids(): array {
         return array_map(function(array $item) {
             return $item['uuid'];
         },
@@ -45,12 +45,12 @@ class UserTypeRepository implements UserTypeRepositoryInterface {
             ->getScalarResult());
     }
 
-    public function persist(UserType $userType) {
+    public function persist(UserType $userType): void {
         $this->em->persist($userType);
         $this->em->flush();
     }
 
-    public function remove(UserType $userType) {
+    public function remove(UserType $userType): void {
         $this->em->remove($userType);
         $this->em->flush();
     }

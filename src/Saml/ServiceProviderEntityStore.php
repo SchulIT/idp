@@ -3,9 +3,7 @@
 namespace App\Saml;
 
 use App\Entity\SamlServiceProvider;
-use App\Entity\ServiceProvider;
 use App\Repository\ServiceProviderRepositoryInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use LightSaml\Credential\X509Certificate;
 use LightSaml\Model\Metadata\AssertionConsumerService;
 use LightSaml\Model\Metadata\EntityDescriptor;
@@ -20,7 +18,7 @@ use LightSaml\Store\EntityDescriptor\EntityDescriptorStoreInterface;
  */
 class ServiceProviderEntityStore implements EntityDescriptorStoreInterface {
 
-    private $repository;
+    private ServiceProviderRepositoryInterface $repository;
 
     public function __construct(ServiceProviderRepositoryInterface $repository) {
         $this->repository = $repository;
@@ -29,11 +27,11 @@ class ServiceProviderEntityStore implements EntityDescriptorStoreInterface {
     /**
      * @inheritDoc
      */
-    public function get($entityId) {
+    public function get($entityId): ?EntityDescriptor {
         $provider = $this->repository
            ->findOneByEntityId($entityId);
 
-        if($provider === null || !$provider instanceof SamlServiceProvider) {
+        if(!$provider instanceof SamlServiceProvider) {
             return null;
         }
 
@@ -43,14 +41,14 @@ class ServiceProviderEntityStore implements EntityDescriptorStoreInterface {
     /**
      * @inheritDoc
      */
-    public function has($entityId) {
+    public function has($entityId): bool {
         return $this->get($entityId) !== null;
     }
 
     /**
      * @inheritDoc
      */
-    public function all() {
+    public function all(): array {
         /** @var EntityDescriptor[] $all */
         $all = [ ];
 
@@ -72,7 +70,7 @@ class ServiceProviderEntityStore implements EntityDescriptorStoreInterface {
      * @param SamlServiceProvider $serviceProvider
      * @return EntityDescriptor
      */
-    public function getEntityDescriptor(SamlServiceProvider $serviceProvider) {
+    public function getEntityDescriptor(SamlServiceProvider $serviceProvider): EntityDescriptor {
         $entityDescriptor = new EntityDescriptor($serviceProvider->getEntityId());
         $spDescriptor = new SpSsoDescriptor();
 
@@ -96,7 +94,7 @@ class ServiceProviderEntityStore implements EntityDescriptorStoreInterface {
      * @param string $use
      * @return KeyDescriptor
      */
-    private function getKeyDescriptor(SamlServiceProvider $serviceProvider, $use) {
+    private function getKeyDescriptor(SamlServiceProvider $serviceProvider, $use): KeyDescriptor {
         $keyDescriptor = new KeyDescriptor();
         $keyDescriptor->setUse($use);
         $certificate = new X509Certificate();

@@ -7,18 +7,19 @@ use App\Entity\User;
 use App\Entity\UserRole;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Resolves services which users are enabled for.
  */
 class UserServiceProviderResolver {
-    private $tokenStorage;
+    private TokenStorageInterface $tokenStorage;
 
     public function __construct(TokenStorageInterface $tokenStorage) {
         $this->tokenStorage = $tokenStorage;
     }
 
-    private function getUser() {
+    private function getUser(): ?UserInterface {
         $token = $this->tokenStorage->getToken();
 
         if($token === null) {
@@ -34,7 +35,7 @@ class UserServiceProviderResolver {
      *
      * @return ArrayCollection
      */
-    public function getServicesForCurrentUser() {
+    public function getServicesForCurrentUser(): iterable {
         $user = $this->getUser();
 
         if(!$user instanceof User) {
@@ -50,7 +51,7 @@ class UserServiceProviderResolver {
      * @param User|null $user
      * @return ArrayCollection
      */
-    public function getServices(User $user = null) {
+    public function getServices(User $user = null): iterable {
         if($user === null) {
             return new ArrayCollection();
         }

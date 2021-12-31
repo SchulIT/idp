@@ -17,7 +17,7 @@ class MarkdownController extends AbstractController {
     /**
      * @Route("/xhr/markdown", name="markdown_preview")
      */
-    public function preview(Request $request, MarkdownConverterInterface $converter) {
+    public function preview(Request $request, MarkdownConverterInterface $converter): Response {
         $markdown = $request->getContent();
 
         return new Response($converter->convertToHtml($markdown));

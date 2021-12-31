@@ -14,15 +14,15 @@ use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class TwigFilters extends AbstractExtension {
-    private $translator;
-    private $friendlyAttributeResolver;
+    private TranslatorInterface $translator;
+    private FriendlyAttributeResolver $friendlyAttributeResolver;
 
     public function __construct(TranslatorInterface $translator, FriendlyAttributeResolver $friendlyAttributeResolver) {
         $this->translator = $translator;
         $this->friendlyAttributeResolver = $friendlyAttributeResolver;
     }
 
-    public function getFilters() {
+    public function getFilters(): array {
         return [
             new TwigFilter('attributeSource', [ $this, 'attributeSource' ]),
             new TwigFilter('attributeFriendlyName', [ $this, 'attributeFriendlyName']),

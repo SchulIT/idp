@@ -12,11 +12,11 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RegistrationCodeManager {
 
-    private $codeRepository;
-    private $userRepository;
-    private $passwordHasher;
-    private $typeRepository;
-    private $confirmationManager;
+    private RegistrationCodeRepositoryInterface $codeRepository;
+    private UserRepositoryInterface $userRepository;
+    private UserPasswordHasherInterface $passwordHasher;
+    private UserTypeRepositoryInterface $typeRepository;
+    private ConfirmationManager $confirmationManager;
 
     public function __construct(RegistrationCodeRepositoryInterface $codeRepository,
                                 UserRepositoryInterface $userRepository, UserPasswordHasherInterface $passwordHasher,

@@ -9,6 +9,7 @@ use App\Security\PasswordStrengthHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
@@ -23,9 +24,9 @@ class ForgotPasswordController extends AbstractController {
     private const PASSWORD_KEY = '_password';
     private const REPEAT_PASSWORD_KEY = '_repeat_password';
 
-    private $manager;
-    private $csrfTokenManager;
-    private $translator;
+    private ForgotPasswordManager $manager;
+    private CsrfTokenManagerInterface $csrfTokenManager;
+    private TranslatorInterface $translator;
 
     public function __construct(ForgotPasswordManager $manager, CsrfTokenManagerInterface $csrfTokenManager, TranslatorInterface $translator) {
         $this->manager = $manager;
@@ -47,7 +48,7 @@ class ForgotPasswordController extends AbstractController {
     /**
      * @Route("/forgot_pw", name="forgot_password")
      */
-    public function request(Request $request, CsrfTokenManagerInterface $csrfTokenManager, TranslatorInterface $translator, UserRepositoryInterface $userRepository) {
+    public function request(Request $request, UserRepositoryInterface $userRepository): Response {
         if($request->isMethod('POST')) {
             $username = $request->request->get('_username');
             $user = $userRepository->findOneByUsername($username);
@@ -78,7 +79,7 @@ class ForgotPasswordController extends AbstractController {
      * @Route("/forgot_pw/{token}", name="change_password")
      * @ParamConverter("token", options={"mapping": {"token": "token"}})
      */
-    public function change(PasswordResetToken $token, Request $request, PasswordStrengthHelper $passwordStrengthHelper) {
+    public function change(PasswordResetToken $token, Request $request, PasswordStrengthHelper $passwordStrengthHelper): Response {
         if($request->isMethod('POST')) {
             $password = $request->request->get('_password');
             $repeatPassword = $request->request->get('_repeat_password');

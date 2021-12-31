@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\ServiceAttribute;
 use App\Repository\ServiceAttributeRepositoryInterface;
 use SchulIT\CommonBundle\Form\FieldsetType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -14,7 +13,7 @@ class AttributesType extends FieldsetType {
 
     const EXPANDED_THRESHOLD = 7;
 
-    private $serviceAttributeRepository;
+    private ServiceAttributeRepositoryInterface $serviceAttributeRepository;
 
     public function __construct(ServiceAttributeRepositoryInterface $serviceAttributeRepository) {
         $this->serviceAttributeRepository = $serviceAttributeRepository;

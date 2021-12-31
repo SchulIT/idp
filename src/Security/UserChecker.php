@@ -10,12 +10,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserChecker implements UserCheckerInterface {
 
-    private $dateHelper;
-    private $confirmationManager;
+    private DateHelper $dateHelper;
 
-    public function __construct(DateHelper $dateHelper, ConfirmationManager $confirmationManager) {
+    public function __construct(DateHelper $dateHelper) {
         $this->dateHelper = $dateHelper;
-        $this->confirmationManager = $confirmationManager;
     }
 
     /**

@@ -6,7 +6,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ReadonlyTextType extends TextType {
 
-    public function getBlockPrefix() {
+    public function getBlockPrefix(): string {
         return 'readonly_text';
     }
 

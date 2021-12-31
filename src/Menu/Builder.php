@@ -2,26 +2,23 @@
 
 namespace App\Menu;
 
-use App\Entity\ServiceProvider;
 use App\Entity\User;
-use App\Security\Voter\ProfileVoter;
 use App\Service\UserServiceProviderResolver;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
-use ProxyManager\Proxy\ValueHolderInterface;
 use SchulIT\CommonBundle\DarkMode\DarkModeManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Builder {
-    private $factory;
-    private $authorizationChecker;
-    private $translator;
-    private $tokenStorage;
-    private $userServiceProviderResolver;
-    private $darkModeManager;
-    private $adAuthEnabled;
+    private FactoryInterface $factory;
+    private AuthorizationCheckerInterface $authorizationChecker;
+    private TranslatorInterface $translator;
+    private TokenStorageInterface $tokenStorage;
+    private UserServiceProviderResolver $userServiceProviderResolver;
+    private DarkModeManagerInterface $darkModeManager;
+    private bool $adAuthEnabled;
 
     public function __construct(FactoryInterface $factory, AuthorizationCheckerInterface $authorizationChecker,
                                 TranslatorInterface $translator, TokenStorageInterface $tokenStorage,
@@ -75,7 +72,7 @@ class Builder {
         return $menu;
     }
 
-    public function adminMenu(array $options) {
+    public function adminMenu(array $options): ItemInterface {
         $root = $this->factory->createItem('root')
             ->setChildrenAttributes([
                 'class' => 'navbar-nav float-lg-right'

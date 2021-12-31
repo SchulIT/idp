@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ServiceAttributeRepository implements ServiceAttributeRepositoryInterface {
 
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $objectManager) {
         $this->em = $objectManager;
@@ -16,11 +16,11 @@ class ServiceAttributeRepository implements ServiceAttributeRepositoryInterface 
     /**
      * @inheritDoc
      */
-    public function getAttributes() {
+    public function getAttributes(): array {
         return $this->findAll();
     }
 
-    public function getAttributesForServiceProvider($entityId) {
+    public function getAttributesForServiceProvider($entityId): array {
         $queryBuilder = $this->em
             ->createQueryBuilder()
             ->select(['a', 's'])
@@ -35,18 +35,18 @@ class ServiceAttributeRepository implements ServiceAttributeRepositoryInterface 
     /**
      * @inheritDoc
      */
-    public function findAll() {
+    public function findAll(): array {
         return $this->em
             ->getRepository(ServiceAttribute::class)
             ->findAll();
     }
 
-    public function persist(ServiceAttribute $attribute) {
+    public function persist(ServiceAttribute $attribute): void {
         $this->em->persist($attribute);
         $this->em->flush();
     }
 
-    public function remove(ServiceAttribute $attribute) {
+    public function remove(ServiceAttribute $attribute): void {
         $this->em->remove($attribute);
         $this->em->flush();
     }

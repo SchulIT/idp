@@ -7,7 +7,7 @@ use App\Repository\ServiceProviderRepositoryInterface;
 
 class ServiceProviderCertificateCheck extends AbstractCertificateHealthCheck {
 
-    private $repository;
+    private ServiceProviderRepositoryInterface $repository;
 
     public function __construct(ServiceProviderRepositoryInterface $repository) {
         $this->repository = $repository;

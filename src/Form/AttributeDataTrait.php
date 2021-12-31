@@ -5,7 +5,7 @@ namespace App\Form;
 use Symfony\Component\Form\FormInterface;
 
 trait AttributeDataTrait {
-    public function getAttributeData(FormInterface $form) {
+    public function getAttributeData(FormInterface $form): array {
         $children = $form->get('group_attributes');
 
         $data = [ ];

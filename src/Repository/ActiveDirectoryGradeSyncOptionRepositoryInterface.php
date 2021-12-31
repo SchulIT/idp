@@ -8,7 +8,7 @@ interface ActiveDirectoryGradeSyncOptionRepositoryInterface {
     /**
      * @return ActiveDirectoryGradeSyncOption[]
      */
-    public function findAll();
+    public function findAll(): array;
 
     /**
      * @param ActiveDirectoryGradeSyncOption $option

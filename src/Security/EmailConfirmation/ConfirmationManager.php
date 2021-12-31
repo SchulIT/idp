@@ -18,13 +18,13 @@ class ConfirmationManager {
 
     private const Lifetime = '+2 hours';
 
-    private $dateHelper;
-    private $repository;
-    private $userRepository;
-    private $translator;
-    private $mailer;
-    private $userConverter;
-    private $urlGenerator;
+    private DateHelper $dateHelper;
+    private EmailConfirmationRepositoryInterface $repository;
+    private UserRepositoryInterface $userRepository;
+    private TranslatorInterface $translator;
+    private MailerInterface $mailer;
+    private UserStringConverter $userConverter;
+    private UrlGeneratorInterface $urlGenerator;
 
     public function __construct(DateHelper $dateHelper, EmailConfirmationRepositoryInterface $repository, UserRepositoryInterface $userRepository,
                                 TranslatorInterface $translator, MailerInterface $mailer, UserStringConverter $userConverter, UrlGeneratorInterface $urlGenerator) {

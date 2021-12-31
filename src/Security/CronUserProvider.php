@@ -9,8 +9,8 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class CronUserProvider implements UserProviderInterface {
 
-    private $username;
-    private $password;
+    private string $username;
+    private string $password;
 
     public function __construct(string $username, string $password) {
         $this->username = $username;

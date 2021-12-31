@@ -9,5 +9,5 @@ use App\Entity\User;
 interface ServiceProviderConfirmationRepositoryInterface {
     public function findOneByUserAndServiceProvider(User $user, ServiceProvider $serviceProvider): ?ServiceProviderConfirmation;
 
-    public function persist(ServiceProviderConfirmation $confirmation);
+    public function persist(ServiceProviderConfirmation $confirmation): void;
 }

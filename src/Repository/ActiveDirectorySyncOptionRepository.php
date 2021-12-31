@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ActiveDirectorySyncOptionRepository implements ActiveDirectorySyncOptionRepositoryInterface {
 
-    private $em;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $entityManager) {
         $this->em = $entityManager;
@@ -16,7 +16,7 @@ class ActiveDirectorySyncOptionRepository implements ActiveDirectorySyncOptionRe
     /**
      * @inheritDoc
      */
-    public function findAll() {
+    public function findAll(): array {
         return $this->em
             ->getRepository(ActiveDirectorySyncOption::class)
             ->findBy([], [
@@ -27,7 +27,7 @@ class ActiveDirectorySyncOptionRepository implements ActiveDirectorySyncOptionRe
     /**
      * @inheritDoc
      */
-    public function persist(ActiveDirectorySyncOption $option) {
+    public function persist(ActiveDirectorySyncOption $option): void {
         $this->em->persist($option);
         $this->em->flush();
     }
@@ -35,7 +35,7 @@ class ActiveDirectorySyncOptionRepository implements ActiveDirectorySyncOptionRe
     /**
      * @inheritDoc
      */
-    public function remove(ActiveDirectorySyncOption $option) {
+    public function remove(ActiveDirectorySyncOption $option): void {
         $this->em->remove($option);
         $this->em->flush();
     }

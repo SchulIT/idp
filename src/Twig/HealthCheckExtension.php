@@ -8,19 +8,19 @@ use Twig\TwigFunction;
 
 class HealthCheckExtension extends AbstractExtension {
 
-    private $service;
+    private HealthCheckService $service;
 
     public function __construct(HealthCheckService $service) {
         $this->service = $service;
     }
 
-    public function getFunctions() {
+    public function getFunctions(): array {
         return [
             new TwigFunction('health_check', [ $this, 'healthCheck' ])
         ];
     }
 
-    public function healthCheck() {
+    public function healthCheck(): array {
         return $this->service->runAllCheckReturnNonFine();
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\SamlServiceProvider;
-use App\Entity\ServiceProvider;
 use Doctrine\ORM\EntityRepository;
 use FervoEnumBundle\Generated\Form\ApplicationScopeType;
 use SchulIT\CommonBundle\Form\FieldsetType;

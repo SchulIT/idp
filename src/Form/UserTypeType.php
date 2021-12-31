@@ -19,7 +19,7 @@ use Symfony\Component\Form\FormEvents;
 class UserTypeType extends AbstractType {
     use AttributeDataTrait;
 
-    private $userAttributeResolver;
+    private AttributeResolver $userAttributeResolver;
 
     public function __construct(AttributeResolver $userAttributeResolver) {
         $this->userAttributeResolver = $userAttributeResolver;

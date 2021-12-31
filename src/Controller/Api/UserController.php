@@ -30,10 +30,10 @@ use App\Response\ErrorResponse;
  */
 class UserController extends AbstractApiController {
 
-    private $validator;
-    private $userRepository;
-    private $userTypeRepository;
-    private $attributePersister;
+    private ValidatorInterface $validator;
+    private UserRepositoryInterface $userRepository;
+    private UserTypeRepositoryInterface $userTypeRepository;
+    private AttributePersister $attributePersister;
 
     public function __construct(ValidatorInterface $validator, UserRepositoryInterface $userRepository, UserTypeRepositoryInterface $userTypeRepository,
                                 AttributePersister $attributePersister, SerializerInterface $serializer) {
@@ -69,7 +69,7 @@ class UserController extends AbstractApiController {
      *     description="For paginated results: specifies the number of users to return."
      * )
      */
-    public function list(Request $request, UserRepositoryInterface $userRepository) {
+    public function list(Request $request, UserRepositoryInterface $userRepository): Response {
         $offset = $request->query->get('offset');
         $limit = $request->query->get('limit');
 
@@ -111,7 +111,7 @@ class UserController extends AbstractApiController {
      *     description="Either the UUID of the user or the external ID."
      * )
      */
-    public function user($id) {
+    public function user($id): Response {
         $user = $this->getUserOrThrowNotFound($id);
         return $this->returnJson($user);
     }
@@ -141,7 +141,7 @@ class UserController extends AbstractApiController {
      *     @Model(type=ErrorResponse::class)
      * )
      */
-    public function add(UserRequest $request) {
+    public function add(UserRequest $request): Response {
         $violations = [ ];
         $existingUser = $this->userRepository->findOneByUsername($request->getUsername());
 
@@ -209,7 +209,7 @@ class UserController extends AbstractApiController {
      *     @Model(type=ErrorResponse::class)
      * )
      */
-    public function update($id, UserRequest $request) {
+    public function update($id, UserRequest $request): Response {
         $user = $this->getUserOrThrowNotFound($id);
 
         $user = $this->transformRequest($request, $user);
@@ -259,7 +259,7 @@ class UserController extends AbstractApiController {
      *     @Model(type=App\Response\ErrorResponse::class)
      * )
      */
-    public function updateAttributes($id, UserAttributeRequest $request) {
+    public function updateAttributes($id, UserAttributeRequest $request): Response {
         $user = $this->getUserOrThrowNotFound($id);
         $this->attributePersister->persistUserAttributes($request->getAttributes(), $user);
 
@@ -291,7 +291,7 @@ class UserController extends AbstractApiController {
      *     @Model(type=ErrorResponse::class)
      * )
      */
-    public function remove($id) {
+    public function remove($id): Response {
         $user = $this->getUserOrThrowNotFound($id);
         $this->userRepository->remove($user);
         return new Response(null, Response::HTTP_NO_CONTENT);
@@ -338,7 +338,7 @@ class UserController extends AbstractApiController {
         return $user;
     }
 
-    private function getUserOrThrowNotFound(string $uuidOrExternalId) {
+    private function getUserOrThrowNotFound(string $uuidOrExternalId): User {
         if(Uuid::isValid($uuidOrExternalId)) {
             $user = $this->userRepository->findOneByUuid($uuidOrExternalId);
 

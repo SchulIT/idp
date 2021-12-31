@@ -4,21 +4,15 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\LinkStudentType;
-use App\Link\LinkStudentsHelper;
-use App\Link\NotAStudentException;
 use App\Repository\RegistrationCodeRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
-use App\Security\UserAuthenticator;
 use App\Security\Voter\LinkStudentVoter;
 use App\Service\UserServiceProviderResolver;
-use Psr\Log\LoggerInterface;
 use SchulIT\CommonBundle\Helper\DateHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DashboardController extends AbstractController {
@@ -26,14 +20,14 @@ class DashboardController extends AbstractController {
     /**
      * @Route("/")
      */
-    public function redirectToDashboard() {
+    public function redirectToDashboard(): Response {
         return $this->redirectToRoute('dashboard');
     }
 
     /**
      * @Route("/dashboard", name="dashboard")
      */
-    public function dashboard(Request $request, UserServiceProviderResolver $resolver) {
+    public function dashboard(Request $request, UserServiceProviderResolver $resolver): Response {
         /** @var User $user */
         $user = $this->getUser();
 
@@ -58,7 +52,7 @@ class DashboardController extends AbstractController {
      * @Route("/link", name="link_student")
      */
     public function index(Request $request, UserRepositoryInterface $userRepository, DateHelper $dateHelper,
-                          RegistrationCodeRepositoryInterface $codeRepository, TranslatorInterface $translator) {
+                          RegistrationCodeRepositoryInterface $codeRepository, TranslatorInterface $translator): Response {
         $this->denyAccessUnlessGranted(LinkStudentVoter::LINK);
 
         /** @var User $user */

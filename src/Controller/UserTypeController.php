@@ -12,6 +12,7 @@ use App\Setup\UserTypesSetup;
 use SchulIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -25,7 +26,7 @@ class UserTypeController extends AbstractController {
     private const CSRF_TOKEN_ID = 'setup.user_types';
     private const CSRF_TOKEN_KEY = '_csrf_token';
 
-    private $repository;
+    private UserTypeRepositoryInterface $repository;
 
     public function __construct(UserTypeRepositoryInterface $repository) {
         $this->repository = $repository;
@@ -34,7 +35,7 @@ class UserTypeController extends AbstractController {
     /**
      * @Route("", name="user_types")
      */
-    public function index(UserTypesSetup $setup) {
+    public function index(UserTypesSetup $setup): Response {
         $userTypes = $this->repository
             ->findAll();
 
@@ -49,7 +50,7 @@ class UserTypeController extends AbstractController {
     /**
      * @Route("/setup", name="setup_user_types", methods={"POST"})
      */
-    public function setupDefaultUserTypes(Request $request, UserTypesSetup $setup, TranslatorInterface $translator) {
+    public function setupDefaultUserTypes(Request $request, UserTypesSetup $setup, TranslatorInterface $translator): Response {
         if($this->isCsrfTokenValid(static::CSRF_TOKEN_ID, $request->request->get(static::CSRF_TOKEN_KEY)) !== true) {
             $this->addFlash('error', $translator->trans('Invalid CSRF token.', [], 'security'));
         } else {
@@ -63,7 +64,7 @@ class UserTypeController extends AbstractController {
     /**
      * @Route("/add", name="add_user_type")
      */
-    public function add(Request $request, AttributePersister $attributePersister) {
+    public function add(Request $request, AttributePersister $attributePersister): Response {
         $userType = new UserType();
 
         $form = $this->createForm(UserTypeType::class, $userType);
@@ -87,7 +88,7 @@ class UserTypeController extends AbstractController {
     /**
      * @Route("/{uuid}/edit", name="edit_user_type")
      */
-    public function edit(Request $request, UserType $userType, AttributePersister $attributePersister) {
+    public function edit(Request $request, UserType $userType, AttributePersister $attributePersister): Response {
         $form = $this->createForm(UserTypeType::class, $userType);
         $form->handleRequest($request);
 
@@ -110,7 +111,7 @@ class UserTypeController extends AbstractController {
     /**
      * @Route("/{uuid}/remove", name="remove_user_type")
      */
-    public function remove(UserType $userType, Request $request, UserTypeRepositoryInterface $userTypeRepository, TranslatorInterface $translator) {
+    public function remove(UserType $userType, Request $request, UserTypeRepositoryInterface $userTypeRepository, TranslatorInterface $translator): Response {
         $this->denyAccessUnlessGranted(UserTypeVoter::REMOVE, $userType);
 
         if($userTypeRepository->countUsersOfUserType($userType) > 0) {

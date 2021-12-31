@@ -3,7 +3,7 @@
 namespace App\Message;
 
 class MustProvisionUser {
-    private $userId;
+    private int $userId;
 
     public function __construct(int $userId) {
         $this->userId = $userId;

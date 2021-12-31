@@ -14,14 +14,14 @@ interface UserTypeRepositoryInterface {
     /**
      * @return UserType[]
      */
-    public function findAll();
+    public function findAll(): array;
 
     /**
      * @return string[]
      */
-    public function findAllUuids();
+    public function findAllUuids(): array;
 
-    public function persist(UserType $userType);
+    public function persist(UserType $userType): void;
 
-    public function remove(UserType $userType);
+    public function remove(UserType $userType): void;
 }

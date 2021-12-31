@@ -6,7 +6,7 @@ use App\Entity\UserType;
 use App\Repository\UserTypeRepositoryInterface;
 
 class UserTypesSetup {
-    private $userTypeRepository;
+    private UserTypeRepositoryInterface $userTypeRepository;
 
     public function __construct(UserTypeRepositoryInterface $userTypeRepository) {
         $this->userTypeRepository = $userTypeRepository;
@@ -15,7 +15,7 @@ class UserTypesSetup {
     /**
      * @return UserType[]
      */
-    private function getDefaultUserTypes() {
+    private function getDefaultUserTypes(): array {
         return [
             (new UserType())->setAlias('user')->setName('Benutzer')->setEduPerson(['member'])->setIsBuiltIn(true),
             (new UserType())->setAlias('student')->setName('Schülerin/Schüler')->setEduPerson(['student'])->setIsBuiltIn(true),
@@ -28,7 +28,7 @@ class UserTypesSetup {
     /**
      * @return string[]
      */
-    private function getExistingUserTypeAliases() {
+    private function getExistingUserTypeAliases(): array {
         return array_map(function(UserType $type) {
             return $type->getAlias();
         }, $this->userTypeRepository->findAll());

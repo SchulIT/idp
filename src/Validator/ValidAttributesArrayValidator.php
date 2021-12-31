@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class ValidAttributesArrayValidator extends ConstraintValidator {
 
-    private $attributeRepository;
+    private ServiceAttributeRepositoryInterface $attributeRepository;
 
     public function __construct(ServiceAttributeRepositoryInterface $attributeRepository) {
         $this->attributeRepository = $attributeRepository;
