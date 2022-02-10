@@ -20,7 +20,7 @@
         "choices.js": "^9.0.1",
         "easymde": "^2.9.0",
         "foundation-emails": "^2.3.1",
-        "node-sass": "^4.8.3",
+        "node-sass": "^7.0.0",
         "node-sass-glob-importer": "^5.3.2",
         "postcss-loader": "^5.0.0",
         "sass-loader": "^10.0.0",
