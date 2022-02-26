@@ -66,6 +66,7 @@ class RegistrationCodeManager {
         if($user->getEmail() !== null) {
             $this->confirmationManager->newConfirmation($user, $user->getEmail());
             $user->setIsEmailConfirmationPending(true);
+            $user->setEmail(null);
 
             $this->userRepository->persist($user);
         }

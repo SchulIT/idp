@@ -92,6 +92,7 @@ class ConfirmationManager {
 
         $user = $confirmation->getUser();
         $user->setEmail($confirmation->getEmailAddress());
+        $user->setIsEmailConfirmationPending(false);
 
         $this->userRepository->persist($user);
         $this->repository->remove($confirmation);
