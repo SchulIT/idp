@@ -91,7 +91,7 @@ class AttributesType extends FieldsetType {
         }
     }
 
-    public function getBlockPrefix() {
+    public function getBlockPrefix(): string {
         return $this->getName();
     }
 }
