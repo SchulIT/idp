@@ -463,7 +463,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
      * @return string
      */
     public function getPassword(): string {
-        return $this->password;
+        return $this->password ?? '';
     }
 
     /**
