@@ -49,7 +49,7 @@ Encore
     .enableBuildNotifications()
     .enableSourceMaps(!Encore.isProduction())
     // enables hashed filenames (e.g. app.abc123.css)
-    .enableVersioning(Encore.isProduction())
+    .enableVersioning(/*Encore.isProduction()*/ false) // currently disabled, maybe implement solution like https://stackoverflow.com/q/52776155
 
     // uncomment if you use Sass/SCSS files
     .enableSassLoader(function(options) {
