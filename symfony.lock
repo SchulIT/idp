@@ -17,9 +17,6 @@
     "bacon/bacon-qr-code": {
         "version": "2.0.3"
     },
-    "beberlei/assert": {
-        "version": "v3.3.1"
-    },
     "behat/transliterator": {
         "version": "v1.3.0"
     },
@@ -846,9 +843,6 @@
     },
     "symfony/yaml": {
         "version": "v4.0.8"
-    },
-    "thecodingmachine/safe": {
-        "version": "v1.3.3"
     },
     "theseer/tokenizer": {
         "version": "1.1.0"
