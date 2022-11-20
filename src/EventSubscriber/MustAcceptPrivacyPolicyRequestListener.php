@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Repository\PrivacyPolicyRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use DateTime;
+use Scheb\TwoFactorBundle\Security\Authentication\Token\TwoFactorToken;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -46,7 +47,7 @@ class MustAcceptPrivacyPolicyRequestListener implements EventSubscriberInterface
 
         $token = $this->tokenStorage->getToken();
 
-        if($token === null || !$token->getUser() instanceof User) {
+        if($token === null || $token instanceof TwoFactorToken || !$token->getUser() instanceof User) {
             return;
         }
 
@@ -86,10 +87,6 @@ class MustAcceptPrivacyPolicyRequestListener implements EventSubscriberInterface
             } else {
                 return;
             }
-        }
-
-        if($user->getPrivacyPolicyConfirmedAt() === null) {
-            return;
         }
 
         $policy = $this->privacyPolicyRepository->findOne();
