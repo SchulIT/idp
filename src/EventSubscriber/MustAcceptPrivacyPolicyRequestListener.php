@@ -84,9 +84,8 @@ class MustAcceptPrivacyPolicyRequestListener implements EventSubscriberInterface
                     $event->setResponse($response);
                     return;
                 }
-            } else {
-                return;
             }
+            return;
         }
 
         $policy = $this->privacyPolicyRepository->findOne();
