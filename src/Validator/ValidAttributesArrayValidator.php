@@ -41,14 +41,14 @@ class ValidAttributesArrayValidator extends ConstraintValidator {
 
             $attribute = $attributes[$attributeName];
 
-            if($attribute->getType()->equals(ServiceAttributeType::Text()) && $attributeValue !== null &&  !is_scalar($attributeValue)) {
+            if($attribute->getType() === ServiceAttributeType::Text && $attributeValue !== null &&  !is_scalar($attributeValue)) {
                 $this->context
                     ->buildViolation($constraint->messageInvalidValue)
                     ->setParameter('{{ name }}', $attributeName)
                     ->setParameter('{{ type }}', 'string')
                     ->setParameter('{{ given }}', gettype($attributeValue))
                     ->addViolation();
-            } else if($attribute->getType()->equals(ServiceAttributeType::Select())) {
+            } else if($attribute->getType() === ServiceAttributeType::Select) {
                 if(!is_array($attributeValue)) {
                     $this->context
                         ->buildViolation($constraint->messageInvalidValue)

@@ -22,7 +22,7 @@ class Application implements UserInterface {
     #[Assert\NotBlank]
     private string $name;
 
-    #[ORM\Column(type: 'application_scope')]
+    #[ORM\Column(type: 'string', enumType: ApplicationScope::class)]
     #[Assert\NotNull]
     private ?ApplicationScope $scope = null;
 
@@ -120,11 +120,11 @@ class Application implements UserInterface {
      * @return mixed
      */
     public function getRoles(): array {
-        if($this->getScope()->equals(ApplicationScope::IdpExchange())) {
+        if($this->getScope()->equals === ApplicationScope::IdpExchange) {
             return [ 'ROLE_IDPEXCHANGE' ];
         }
 
-        if($this->scope->equals(ApplicationScope::AdConnect())) {
+        if($this->scope === ApplicationScope::AdConnect) {
             return [ 'ROLE_ADCONNECT' ];
         }
 
@@ -165,7 +165,7 @@ class Application implements UserInterface {
 
     #[Assert\Callback]
     public function validateService(ExecutionContextInterface $context, $payload) {
-        if($this->getScope()->equals(ApplicationScope::IdpExchange())) {
+        if($this->getScope() === ApplicationScope::IdpExchange) {
             if($this->getService() === null) {
                 $context->buildViolation('This value should not be blank.')
                     ->atPath('service')

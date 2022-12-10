@@ -24,12 +24,12 @@ class ActiveDirectoryGradeSyncOption implements ActiveDirectorySyncOptionInterfa
     #[Assert\NotBlank]
     private $source;
 
-    #[ORM\Column(type: 'ad_source_type')]
+    #[ORM\Column(type: 'string', enumType: ActiveDirectorySyncSourceType::class)]
     private $sourceType;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
-        $this->sourceType = ActiveDirectorySyncSourceType::Ou();
+        $this->sourceType = ActiveDirectorySyncSourceType::Ou;
     }
 
     /**

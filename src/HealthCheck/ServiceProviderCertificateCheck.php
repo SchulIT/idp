@@ -29,7 +29,7 @@ class ServiceProviderCertificateCheck extends AbstractCertificateHealthCheck {
                 $result = $this->checkCertificate($certificate);
                 $result->addMessageParameter('%service_provider%', $serviceProvider->getName());
 
-                if($result->getType()->equals(HealthCheckResultType::Fine()) !== true) {
+                if($result->getType() !== HealthCheckResultType::Fine) {
                     $result->setRoute('edit_service_provider');
                     $result->setRouteParameter([
                         'uuid' => $serviceProvider->getUuid()
@@ -37,7 +37,7 @@ class ServiceProviderCertificateCheck extends AbstractCertificateHealthCheck {
                 }
             } catch(Exception $e) {
                 $result[] = new HealthCheckResult(
-                    HealthCheckResultType::Error(),
+                    HealthCheckResultType::Error,
                     'health_check.error',
                     'health_check.error',
                     [

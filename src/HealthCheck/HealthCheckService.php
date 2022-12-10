@@ -38,6 +38,6 @@ $result instanceof HealthCheckResult);
     public function runAllCheckReturnNonFine(): array {
         $results = $this->runAllChecks();
 
-        return array_filter($results, fn(HealthCheckResult $checkResult) => $checkResult->getType()->equals(HealthCheckResultType::Fine()) !== true);
+        return array_filter($results, fn(HealthCheckResult $checkResult) => $checkResult->getType() !== HealthCheckResultType::Fine);
     }
 }

@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\ApplicationScope;
 use App\Entity\SamlServiceProvider;
 use Doctrine\ORM\EntityRepository;
-use FervoEnumBundle\Generated\Form\ApplicationScopeType;
 use SchulIT\CommonBundle\Form\FieldsetType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -27,12 +26,14 @@ class ApplicationType extends AbstractType {
                         ->add('name', TextType::class, [
                             'label' => 'label.name'
                         ])
-                        ->add('scope', ApplicationScopeType::class, [
-                            'label' => 'label.application_scope',
+                        ->add('scope', EnumType::class, [
+                            'class' => ApplicationScope::class,
+                            'label' => $this->translator->trans('label.application_scope', [], 'enums'),
                             'expanded' => true,
                             'label_attr' => [
                                 'class' => 'radio-custom'
-                            ]
+                            ],
+                            'choice_label' => fn(ApplicationScope $scope) => $this->translator->trans('application_scope.'.$scope->value, [], 'enums')
                         ])
                         ->add('service', EntityType::class, [
                             'class' => SamlServiceProvider::class,

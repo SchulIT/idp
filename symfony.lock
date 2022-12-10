@@ -1,7 +1,4 @@
 {
-    "acelaya/doctrine-enum-type": {
-        "version": "v2.3.0"
-    },
     "bacon/bacon-qr-code": {
         "version": "2.0.3"
     },
@@ -133,9 +130,6 @@
     "frostiede/composer-dependency-list-bundle": {
         "version": "1.0.0"
     },
-    "frostiede/enum-bundle": {
-        "version": "3.0.0"
-    },
     "gedmo/doctrine-extensions": {
         "version": "v2.4.39"
     },
@@ -200,9 +194,6 @@
     },
     "myclabs/deep-copy": {
         "version": "1.8.1"
-    },
-    "myclabs/php-enum": {
-        "version": "1.5.2"
     },
     "nelmio/api-doc-bundle": {
         "version": "3.0",

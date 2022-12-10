@@ -18,7 +18,7 @@ abstract class AbstractCertificateHealthCheck implements HealthCheckInterface {
 
         if(empty($certificate)) {
             return new HealthCheckResult(
-                HealthCheckResultType::Error(),
+                HealthCheckResultType::Error,
                 'health_check.error',
                 $this->getEmptyMessage(),
                 [ ]
@@ -31,7 +31,7 @@ abstract class AbstractCertificateHealthCheck implements HealthCheckInterface {
             // Error
             $error = openssl_error_string();
             return new HealthCheckResult(
-                HealthCheckResultType::Error(),
+                HealthCheckResultType::Error,
                 'health_check.error',
                 $this->getInvalidMessage(),
                 [
@@ -46,19 +46,19 @@ abstract class AbstractCertificateHealthCheck implements HealthCheckInterface {
 
         if($validTo < $now) {
             return new HealthCheckResult(
-                HealthCheckResultType::Error(),
+                HealthCheckResultType::Error,
                 'health_check.error',
                 $this->getExpiredMessage()
             );
         } else if($validTo < $now->add(new DateInterval('P' . static::CertificateWarningThresholdInDays . 'D'))) {
             return new HealthCheckResult(
-                HealthCheckResultType::Warning(),
+                HealthCheckResultType::Warning,
                 'health_check.error',
                 $this->getExpiresSoonMessage()
             );
         } else {
             return new HealthCheckResult(
-                HealthCheckResultType::Fine(),
+                HealthCheckResultType::Fine,
                 'health_check.error',
                 $this->getFineMessage()
             );

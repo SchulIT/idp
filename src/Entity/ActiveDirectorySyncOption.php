@@ -25,7 +25,7 @@ class ActiveDirectorySyncOption implements ActiveDirectorySyncOptionInterface {
     #[Assert\NotBlank]
     private $source;
 
-    #[ORM\Column(type: 'ad_source_type', nullable: false)]
+    #[ORM\Column(type: 'string', nullable: false, enumType: ActiveDirectorySyncSourceType::class)]
     private $sourceType;
 
     #[ORM\ManyToOne(targetEntity: 'UserType', inversedBy: 'syncOptions')]
@@ -34,7 +34,7 @@ class ActiveDirectorySyncOption implements ActiveDirectorySyncOptionInterface {
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
-        $this->sourceType = ActiveDirectorySyncSourceType::Ou();
+        $this->sourceType = ActiveDirectorySyncSourceType::Ou;
     }
 
     /**

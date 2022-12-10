@@ -41,7 +41,7 @@ class ServiceAttribute {
     #[Assert\NotBlank]
     private $samlAttributeName;
 
-    #[ORM\Column(type: 'service_attribute_type')]
+    #[ORM\Column(type: 'string', enumType: ServiceAttributeType::class)]
     #[Assert\NotNull]
     private ?ServiceAttributeType $type;
 
@@ -63,7 +63,7 @@ class ServiceAttribute {
     public function __construct() {
         $this->uuid = Uuid::uuid4();
         $this->services = new ArrayCollection();
-        $this->type = ServiceAttributeType::Text();
+        $this->type = ServiceAttributeType::Text;
     }
 
     /**

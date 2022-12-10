@@ -31,7 +31,7 @@ class ApplicationAuthenticatorTest extends WebTestCase {
             ->setDescription('Just a test app')
             ->setLastActivity(new \DateTime())
             ->setApiKey('api-key')
-            ->setScope(ApplicationScope::Api());
+            ->setScope(ApplicationScope::Api);
 
         $this->em->persist($this->application);
         $this->em->flush();

@@ -11,7 +11,7 @@ class IdentityProviderCertificateCheck extends AbstractCertificateHealthCheck {
     public function runCheck(): HealthCheckResult|array {
         if(!is_readable($this->certificateFile)) {
             return new HealthCheckResult(
-                HealthCheckResultType::Error(),
+                HealthCheckResultType::Error,
                 'health_check.error',
                 'health_check.idp_certificate.not_present'
             );
@@ -23,7 +23,7 @@ class IdentityProviderCertificateCheck extends AbstractCertificateHealthCheck {
             return $this->checkCertificate($certificate);
         } catch(Exception $e) {
             return new HealthCheckResult(
-                HealthCheckResultType::Error(),
+                HealthCheckResultType::Error,
                 'health_check.error',
                 'health_check.error',
                 [

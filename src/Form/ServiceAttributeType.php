@@ -2,19 +2,24 @@
 
 namespace App\Form;
 
+use App\Entity\ServiceAttributeType as ServiceAttributeTypeEnum;
 use App\Entity\ServiceProvider;
 use Doctrine\ORM\EntityRepository;
-use FervoEnumBundle\Generated\Form\ServiceAttributeTypeType;
 use SchulIT\CommonBundle\Form\FieldsetType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ServiceAttributeType extends AbstractType {
+
+    public function __construct(private readonly TranslatorInterface $translator) { }
+
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('group_general', FieldsetType::class, [
             'legend' => 'label.general',
@@ -39,12 +44,14 @@ class ServiceAttributeType extends AbstractType {
                     ->add('samlAttributeName', TextType::class, [
                         'label' => 'label.saml_attribute_name'
                     ])
-                    ->add('type', ServiceAttributeTypeType::class, [
+                    ->add('type', EnumType::class, [
+                        'class' => ServiceAttributeTypeEnum::class,
                         'label' => 'label.type',
                         'label_attr' => [
                             'class' => 'radio-custom'
                         ],
-                        'expanded' => true
+                        'expanded' => true,
+                        'choice_label' => fn(ServiceAttributeTypeEnum $type) => $this->translator->trans('service_attribute_type.' . $type->value, [ ], 'enums')
                     ])
                     ->add('services', EntityType::class, [
                         'class' => ServiceProvider::class,
@@ -96,10 +103,17 @@ class ServiceAttributeType extends AbstractType {
 
                 if($attribute->getId() !== null) {
                     $form->get('group_general')
-                        ->add('type', ServiceAttributeTypeType::class, [
+                        ->add('type', EnumType::class, [
+                            'class' => ServiceAttributeTypeEnum::class,
                             'label' => 'label.type',
+                            'label_attr' => [
+                                'class' => 'radio-custom'
+                            ],
+                            'expanded' => true,
                             'disabled' => true,
-                            'data' => $attribute->getType()
+                            'mapped' => false,
+                            'data' => $attribute->getType(),
+                            'choice_label' => fn(ServiceAttributeTypeEnum $type) => $this->translator->trans('service_attribute_type.' . $type->value, [ ], 'enums')
                         ]);
                 }
             });
