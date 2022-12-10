@@ -41,14 +41,14 @@ class MustChangePasswordRedirectEventSubscriber implements EventSubscriberInterf
 
         $currentRoute = $event->getRequest()->attributes->get('_route');
 
-        if($currentRoute === static::RedirectRoute) {
+        if($currentRoute === self::RedirectRoute) {
             // Do not create redirect loops
             $event->stopPropagation(); // prevent other events of redirecting
             return;
         }
 
         $response = new RedirectResponse(
-            $this->urlGenerator->generate(static::RedirectRoute),
+            $this->urlGenerator->generate(self::RedirectRoute),
             Response::HTTP_FOUND
         );
 

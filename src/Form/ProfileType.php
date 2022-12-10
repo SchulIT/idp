@@ -19,7 +19,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ProfileType extends AbstractType {
     use AttributeDataTrait;
 
-    public function __construct(private AttributeResolver $userAttributeResolver, private TranslatorInterface $translator, private PasswordStrengthHelper $passwordStrengthHelper)
+    public function __construct(private readonly AttributeResolver $userAttributeResolver, private readonly TranslatorInterface $translator)
     {
     }
 

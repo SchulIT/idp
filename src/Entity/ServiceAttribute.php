@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use App\Form\DataTransformer\KeyValueContainer;
 use Traversable;
 use InvalidArgumentException;
-use Burgov\Bundle\KeyValueFormBundle\KeyValueContainer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -57,7 +57,7 @@ class ServiceAttribute {
     #[ORM\JoinTable]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(onDelete: 'CASCADE')]
-    #[ORM\ManyToMany(targetEntity: 'SamlServiceProvider', inversedBy: 'attributes')]
+    #[ORM\ManyToMany(targetEntity: SamlServiceProvider::class, inversedBy: 'attributes')]
     private $services;
 
     public function __construct() {

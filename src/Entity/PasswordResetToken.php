@@ -15,7 +15,7 @@ class PasswordResetToken {
     #[ORM\Column(type: 'string', length: 64, unique: true)]
     private $token;
 
-    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private $user;
 

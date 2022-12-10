@@ -65,7 +65,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
      * @Serializer\Accessor(getter="getTypeString")
      * @Serializer\Type("string")
      */
-    #[ORM\ManyToOne(targetEntity: 'UserType', inversedBy: 'users')]
+    #[ORM\ManyToOne(targetEntity: UserType::class, inversedBy: 'users')]
     #[ORM\JoinColumn(onDelete: 'SET NULL')]
     #[Assert\NotNull]
     private ?UserType $type = null;
@@ -94,19 +94,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\JoinTable]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(onDelete: 'CASCADE')]
-    #[ORM\ManyToMany(targetEntity: 'ServiceProvider')]
+    #[ORM\ManyToMany(targetEntity: ServiceProvider::class)]
     private $enabledServices;
 
     /**
      * @Serializer\Exclude()
      */
-    #[ORM\OneToMany(targetEntity: 'ServiceAttributeValue', mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: ServiceAttributeValue::class, mappedBy: 'user')]
     private $attributes;
 
     /**
      * @Serializer\Exclude()
      */
-    #[ORM\ManyToMany(targetEntity: 'UserRole', inversedBy: 'users')]
+    #[ORM\ManyToMany(targetEntity: UserRole::class, inversedBy: 'users')]
     private $userRoles;
 
     /**

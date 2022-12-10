@@ -95,8 +95,8 @@ class SsoController extends AbstractController {
 
         $response = $context->getHttpResponseContext()->getResponse();
 
-        $type = $this->confirmationService->needsConfirmation($this->getUser(), $serviceProvider) ? 'confirm' : 'redirect';
-        $token = $tokenManager->getToken(static::CSRF_TOKEN_ID);
+        $type = $this->confirmationService->needsConfirmation($user, $serviceProvider) ? 'confirm' : 'redirect';
+        $token = $tokenManager->getToken(self::CSRF_TOKEN_ID);
 
         if ($response instanceof SamlPostResponse) {
             $data = $response->getData();
@@ -133,8 +133,8 @@ class SsoController extends AbstractController {
         $data = $request->request->get('data', [ ]);
         $token = $request->request->get('_csrf_token');
 
-        if($this->isCsrfTokenValid(static::CSRF_TOKEN_ID, $token) !== true) {
-            $token = $tokenManager->refreshToken(static::CSRF_TOKEN_ID);
+        if($this->isCsrfTokenValid(self::CSRF_TOKEN_ID, $token) !== true) {
+            $token = $tokenManager->refreshToken(self::CSRF_TOKEN_ID);
 
             if ($type === 'post') {
                 $attributes = $attributeValueProvider->getValuesForUser($this->getUser(), $serviceProvider->getEntityId());

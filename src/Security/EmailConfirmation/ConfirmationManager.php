@@ -40,7 +40,7 @@ class ConfirmationManager {
         $confirmation = (new EmailConfirmation())
             ->setUser($user)
             ->setEmailAddress($email)
-            ->setValidUntil($this->dateHelper->getNow()->modify(static::Lifetime));
+            ->setValidUntil($this->dateHelper->getNow()->modify(self::Lifetime));
 
         do {
             $confirmation->setToken(bin2hex(openssl_random_pseudo_bytes(64)));

@@ -35,7 +35,7 @@ class UserController extends AbstractController {
     public const CsrfTokenId = 'remove_user';
     public const CsrfTokenKey = '_csrf_token';
 
-    public function __construct(private UserRepositoryInterface $repository, private UserTypeRepositoryInterface $typeRepository)
+    public function __construct(private readonly UserRepositoryInterface $repository)
     {
     }
 

@@ -27,7 +27,7 @@ use Symfony\Component\Form\FormEvents;
 class UserType extends AbstractType {
     use AttributeDataTrait;
 
-    public function __construct(private AttributeResolver $userAttributeResolver, private PasswordStrengthHelper $passwordStrengthHelper)
+    public function __construct(private readonly AttributeResolver $userAttributeResolver, private readonly PasswordStrengthHelper $passwordStrengthHelper)
     {
     }
 
@@ -280,7 +280,7 @@ class UserType extends AbstractType {
                         ]);
                 }
 
-                if($user->getType() === null || $user->getType()->isCanLinkStudents() !== true) {
+                if($user->getType()->isCanLinkStudents() !== true) {
                     $form->remove('group_links');
                 } else {
                     $form->get('group_general')

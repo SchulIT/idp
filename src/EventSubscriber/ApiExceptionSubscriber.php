@@ -18,7 +18,7 @@ class ApiExceptionSubscriber implements EventSubscriberInterface {
 
     private const JsonContentType = 'application/json';
 
-    public function __construct(private SerializerInterface $serializer, private LoggerInterface $logger)
+    public function __construct(private readonly SerializerInterface $serializer, private readonly LoggerInterface $logger)
     {
     }
 
@@ -26,7 +26,7 @@ class ApiExceptionSubscriber implements EventSubscriberInterface {
         $request = $event->getRequest();
         $acceptable = $request->getAcceptableContentTypes();
 
-        if(!in_array(static::JsonContentType, $request->getAcceptableContentTypes())) {
+        if(!in_array(self::JsonContentType, $request->getAcceptableContentTypes())) {
             return;
         }
 

@@ -21,7 +21,7 @@ class RegistrationCode {
     #[Assert\NotNull]
     private ?string $code = null;
 
-    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[Assert\NotNull]
     private ?User $student = null;
@@ -31,7 +31,7 @@ class RegistrationCode {
      *
      * @Serializer\Exclude()
      */
-    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private ?User $redeemingUser = null;
 

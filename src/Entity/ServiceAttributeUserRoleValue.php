@@ -7,12 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 class ServiceAttributeUserRoleValue implements ServiceAttributeValueInterface {
     #[ORM\Id]
-    #[ORM\ManyToOne(targetEntity: 'ServiceAttribute')]
+    #[ORM\ManyToOne(targetEntity: ServiceAttribute::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private $attribute;
 
     #[ORM\Id]
-    #[ORM\ManyToOne(targetEntity: 'UserRole', inversedBy: 'attributes')]
+    #[ORM\ManyToOne(targetEntity: UserRole::class, inversedBy: 'attributes')]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private $userRole;
 

@@ -35,7 +35,7 @@ class SamlServiceProvider extends ServiceProvider {
     /**
      * @Serializer\Exclude()
      */
-    #[ORM\ManyToMany(targetEntity: 'ServiceAttribute', mappedBy: 'services')]
+    #[ORM\ManyToMany(targetEntity: ServiceAttribute::class, mappedBy: 'services')]
     private $attributes;
 
     public function __construct() {

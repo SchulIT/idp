@@ -20,17 +20,14 @@ class ForgotPasswordController extends AbstractController {
     private const CSRF_TOKEN_ID = 'forgot_pw';
 
     private const CSRF_TOKEN_KEY = '_csrf_token';
-    private const USERNAME_KEY = '_username';
-    private const PASSWORD_KEY = '_password';
-    private const REPEAT_PASSWORD_KEY = '_repeat_password';
 
     public function __construct(private ForgotPasswordManager $manager, private CsrfTokenManagerInterface $csrfTokenManager, private TranslatorInterface $translator)
     {
     }
 
     private function isCsrfTokenFromRequestValid(Request $request): bool {
-        $tokenValue = $request->request->get(static::CSRF_TOKEN_KEY);
-        $token = new CsrfToken(static::CSRF_TOKEN_ID, $tokenValue);
+        $tokenValue = $request->request->get(self::CSRF_TOKEN_KEY);
+        $token = new CsrfToken(self::CSRF_TOKEN_ID, $tokenValue);
 
         return $this->csrfTokenManager->isTokenValid($token);
     }
@@ -63,7 +60,7 @@ class ForgotPasswordController extends AbstractController {
         }
 
         return $this->render('auth/forgot_pw.html.twig', [
-            'csrfTokenId' => static::CSRF_TOKEN_ID
+            'csrfTokenId' => self::CSRF_TOKEN_ID
         ]);
     }
 
@@ -92,7 +89,7 @@ class ForgotPasswordController extends AbstractController {
 
         return $this->render('auth/change_pw.twig', [
             'user' => $token->getUser(),
-            'csrfTokenId' => static::CSRF_TOKEN_ID,
+            'csrfTokenId' => self::CSRF_TOKEN_ID,
             'token' => $token,
             'violations' => $violations ?? null
         ]);

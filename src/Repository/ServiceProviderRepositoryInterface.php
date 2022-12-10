@@ -17,12 +17,6 @@ interface ServiceProviderRepositoryInterface {
     public function remove(ServiceProvider $provider): void;
 
     /**
-     * @param string $token
-     * @return ServiceProvider|null
-     */
-    public function findOneByToken(string $token): ?ServiceProvider;
-
-    /**
      * @param string $entityId
      * @return SamlServiceProvider|null
      */

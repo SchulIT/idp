@@ -26,14 +26,14 @@ class Application implements UserInterface {
     #[Assert\NotNull]
     private ?ApplicationScope $scope = null;
 
-    #[ORM\ManyToOne(targetEntity: 'SamlServiceProvider')]
+    #[ORM\ManyToOne(targetEntity: SamlServiceProvider::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private ?SamlServiceProvider $service = null;
 
     #[ORM\Column(type: 'string', length: 64, unique: true)]
     private string $apiKey;
 
-    #[ORM\Column(name: '`description`', type: 'text')]
+    #[ORM\Column(name: 'description', type: 'text')]
     #[Assert\NotBlank]
     private string $description;
 
@@ -116,11 +116,8 @@ class Application implements UserInterface {
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getRoles(): array {
-        if($this->getScope()->equals === ApplicationScope::IdpExchange) {
+        if($this->getScope() === ApplicationScope::IdpExchange) {
             return [ 'ROLE_IDPEXCHANGE' ];
         }
 

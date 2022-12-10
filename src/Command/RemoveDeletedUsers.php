@@ -16,14 +16,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class RemoveDeletedUsers extends Command {
     private const Modifier = '-30 days';
 
-    public function __construct(private DateHelper $dateHelper, private UserRepositoryInterface $userRepository, string $name = null) {
+    public function __construct(private readonly DateHelper $dateHelper, private readonly UserRepositoryInterface $userRepository, string $name = null) {
         parent::__construct($name);
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int {
         $style = new SymfonyStyle($input, $output);
 
-        $threshold = $this->dateHelper->getToday()->modify(static::Modifier);
+        $threshold = $this->dateHelper->getToday()->modify(self::Modifier);
         $count = $this->userRepository->removeDeletedUsers($threshold);
 
         $style->success(sprintf('Successfully removed %d user(s).', $count));

@@ -10,6 +10,7 @@ use App\Form\RegistrationCodeType;
 use App\Repository\RegistrationCodeRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use App\Security\Registration\CodeGenerator;
+use League\Csv\ByteSequence;
 use League\Csv\Writer;
 use SchulIT\CommonBundle\Form\ConfirmType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,10 +41,10 @@ class RegistrationCodeController extends AbstractController {
             $grade = null;
         }
 
-        $paginator = $this->repository->getPaginatedUsers(static::CodesPerPage, $page, $query, $grade);
+        $paginator = $this->repository->getPaginatedUsers(self::CodesPerPage, $page, $query, $grade);
         $pages = 1;
         if($paginator->count() > 0) {
-            $pages = ceil((float)$paginator->count() / static::CodesPerPage);
+            $pages = ceil((float)$paginator->count() / self::CodesPerPage);
         }
 
         return $this->render('codes/index.html.twig', [
@@ -76,7 +77,7 @@ class RegistrationCodeController extends AbstractController {
 
         $csv = Writer::createFromString();
         $csv->setDelimiter(';');
-        $csv->setOutputBOM(Writer::BOM_UTF8);
+        $csv->setOutputBOM(ByteSequence::BOM_UTF8);
         $csv->insertOne([
             $translator->trans('label.firstname'),
             $translator->trans('label.lastname'),
@@ -195,7 +196,7 @@ class RegistrationCodeController extends AbstractController {
             $count = 0;
 
             foreach($users as $user) {
-                if($user->getType() === null || $user->getType()->getAlias() !== 'student') {
+                if($user->getType()->getAlias() !== 'student') {
                     continue;
                 }
 

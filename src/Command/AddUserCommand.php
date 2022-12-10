@@ -21,8 +21,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[AsCommand(name: 'app:add-user', description: 'Adds a new user')]
 class AddUserCommand extends Command {
 
-    public function __construct(private UserTypeRepositoryInterface $userTypeRepository, private UserRepositoryInterface $userRepository,
-                                private UserPasswordHasherInterface $passwordHasher, private ValidatorInterface $validator, $name = null)
+    public function __construct(private readonly UserTypeRepositoryInterface $userTypeRepository, private readonly UserRepositoryInterface $userRepository,
+                                private readonly UserPasswordHasherInterface $passwordHasher, private readonly ValidatorInterface $validator, $name = null)
     {
         parent::__construct($name);
     }

@@ -2,8 +2,6 @@
 
 namespace App\Command;
 
-use App\Entity\UserType;
-use App\Repository\UserTypeRepositoryInterface;
 use App\Setup\UserTypesSetup;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -16,7 +14,7 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
 #[AsCommand(name: 'app:setup', description: 'Runs the initial setup.')]
 class SetupCommand extends Command {
 
-    public function __construct(private Connection $dbalConnection, private UserTypesSetup $userTypeSetup, private PdoSessionHandler $pdoSessionHandler, ?string $name = null) {
+    public function __construct(private readonly Connection $dbalConnection, private readonly UserTypesSetup $userTypeSetup, private readonly PdoSessionHandler $pdoSessionHandler, ?string $name = null) {
         parent::__construct($name);
     }
 

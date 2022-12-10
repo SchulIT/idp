@@ -24,7 +24,7 @@ class JsonBodyConverter implements ParamConverterInterface {
         'groups' => null
     ];
 
-    public function __construct(private string $prefix, private SerializerInterface $serializer, private ValidatorInterface $validator, private DeserializationContextFactoryInterface $contextFactory)
+    public function __construct(private readonly string $prefix, private readonly SerializerInterface $serializer, private readonly ValidatorInterface $validator, private readonly DeserializationContextFactoryInterface $contextFactory)
     {
     }
 
@@ -35,7 +35,7 @@ class JsonBodyConverter implements ParamConverterInterface {
     public function apply(Request $request, ParamConverter $configuration): bool {
         $contentType = $request->getContentType();
 
-        if($contentType !== static::ContentType) {
+        if($contentType !== self::ContentType) {
             throw new BadRequestHttpException(sprintf('Request header "Content-Type" must be "application/json", "%s" provided.', $contentType));
         }
 

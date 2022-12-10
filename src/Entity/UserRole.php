@@ -30,7 +30,7 @@ class UserRole {
     #[ORM\JoinTable]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(onDelete: 'CASCADE')]
-    #[ORM\ManyToMany(targetEntity: 'User', mappedBy: 'userRoles')]
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'userRoles')]
     private $users;
 
     /**
@@ -39,13 +39,13 @@ class UserRole {
     #[ORM\JoinTable]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(onDelete: 'CASCADE')]
-    #[ORM\ManyToMany(targetEntity: 'ServiceProvider')]
+    #[ORM\ManyToMany(targetEntity: ServiceProvider::class)]
     private $enabledServices;
 
     /**
      * @Serializer\Exclude()
      */
-    #[ORM\OneToMany(targetEntity: 'ServiceAttributeUserRoleValue', mappedBy: 'userRole')]
+    #[ORM\OneToMany(mappedBy: 'userRole', targetEntity: ServiceAttributeUserRoleValue::class)]
     private $attributes;
 
     /**

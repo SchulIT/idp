@@ -18,7 +18,7 @@ class RemoveOrphanedParentsCommand extends Command {
 
     private const InactiveModifier = '-14 days';
 
-    public function __construct(private DateHelper $dateHelper, private UserRepositoryInterface $userRepository, string $name = null) {
+    public function __construct(private readonly DateHelper $dateHelper, private readonly UserRepositoryInterface $userRepository, string $name = null) {
         parent::__construct($name);
     }
 
@@ -30,7 +30,7 @@ class RemoveOrphanedParentsCommand extends Command {
         $this->userRepository->beginTransaction();
 
         $count = 0;
-        $threshold = $this->dateHelper->getToday()->modify(static::InactiveModifier);
+        $threshold = $this->dateHelper->getToday()->modify(self::InactiveModifier);
 
         foreach($users as $user) {
             if($user->getLinkedStudents()->count() === 0 && $user->getCreatedAt() < $threshold) {

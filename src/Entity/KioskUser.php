@@ -15,7 +15,7 @@ class KioskUser {
 
     use UuidTrait;
 
-    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[Assert\NotNull]
     private ?User $user = null;

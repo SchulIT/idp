@@ -15,14 +15,6 @@ class ServiceProviderRepository implements ServiceProviderRepositoryInterface {
     /**
      * @inheritDoc
      */
-    public function findOneByToken(string $token): ?ServiceProvider {
-        return $this->em->getRepository(ServiceProvider::class)
-            ->findOneBy(['token' => $token]);
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function findAll(): array {
         return $this->em->getRepository(ServiceProvider::class)
             ->findAll();

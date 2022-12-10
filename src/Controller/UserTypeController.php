@@ -24,7 +24,7 @@ class UserTypeController extends AbstractController {
     private const CSRF_TOKEN_ID = 'setup.user_types';
     private const CSRF_TOKEN_KEY = '_csrf_token';
 
-    public function __construct(private UserTypeRepositoryInterface $repository)
+    public function __construct(private readonly UserTypeRepositoryInterface $repository)
     {
     }
 
@@ -35,15 +35,15 @@ class UserTypeController extends AbstractController {
 
         return $this->render('user_types/index.html.twig', [
             'user_types' => $userTypes,
-            'csrf_token_id'=> static::CSRF_TOKEN_ID,
-            'csrf_token_key' => static::CSRF_TOKEN_KEY,
+            'csrf_token_id'=> self::CSRF_TOKEN_ID,
+            'csrf_token_key' => self::CSRF_TOKEN_KEY,
             'can_setup' => $setup->canSetup()
         ]);
     }
 
     #[Route(path: '/setup', name: 'setup_user_types', methods: ['POST'])]
     public function setupDefaultUserTypes(Request $request, UserTypesSetup $setup, TranslatorInterface $translator): Response {
-        if($this->isCsrfTokenValid(static::CSRF_TOKEN_ID, $request->request->get(static::CSRF_TOKEN_KEY)) !== true) {
+        if($this->isCsrfTokenValid(self::CSRF_TOKEN_ID, $request->request->get(self::CSRF_TOKEN_KEY)) !== true) {
             $this->addFlash('error', $translator->trans('Invalid CSRF token.', [], 'security'));
         } else {
             $setup->setupDefaultUserTypes();

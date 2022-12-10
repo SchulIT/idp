@@ -20,7 +20,7 @@ class RegistrationController extends AbstractController {
     private const CSRF_TOKEN_KEY = '_csrf_token';
     private const CSRF_TOKEN_ID = 'registration';
 
-    public function __construct(private TranslatorInterface $translator)
+    public function __construct(private readonly TranslatorInterface $translator)
     {
     }
 
@@ -31,9 +31,9 @@ class RegistrationController extends AbstractController {
             return $this->redirectToRoute('login');
         }
 
-        $csrfToken = $request->request->get(static::CSRF_TOKEN_KEY);
+        $csrfToken = $request->request->get(self::CSRF_TOKEN_KEY);
 
-        if ($this->isCsrfTokenValid(static::CSRF_TOKEN_ID, $csrfToken) !== true) {
+        if ($this->isCsrfTokenValid(self::CSRF_TOKEN_ID, $csrfToken) !== true) {
             $this->addFlash('error', $this->getCsrfTokenMessage());
             return $this->redirectToRoute('login');
         }

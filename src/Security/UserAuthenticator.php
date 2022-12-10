@@ -19,6 +19,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
@@ -33,7 +34,7 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator {
     use TargetPathTrait;
     private LoggerInterface $logger;
 
-    public function __construct(private bool $isActiveDirectoryEnabled, private string $loginRoute, private string $checkRoute, private UserPasswordHasherInterface $hasher, private UserRepositoryInterface $userRepository,
+    public function __construct(private readonly bool $isActiveDirectoryEnabled, private string $loginRoute, private string $checkRoute, private UserPasswordHasherInterface $hasher,
                                 private AdAuthInterface $adAuth, private RouterInterface $router, LoggerInterface $logger = null) {
         $this->logger = $logger ?? new NullLogger();
     }
@@ -107,7 +108,7 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator {
         return new Passport(
             new UserBadge($username),
             new CustomCredentials(
-                function($password, UserInterface $user) {
+                function($password, PasswordAuthenticatedUserInterface $user) {
                     if($user instanceof ActiveDirectoryUser && $this->isActiveDirectoryEnabled === true) {
                         return $this->authenticateUsingActiveDirectory(new Credentials($user->getUserIdentifier(), $password), $user);
                     } else {

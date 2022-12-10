@@ -9,12 +9,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
 #[ORM\Entity]
 class ServiceAttributeValue implements ServiceAttributeValueInterface {
     #[ORM\Id]
-    #[ORM\ManyToOne(targetEntity: 'ServiceAttribute')]
+    #[ORM\ManyToOne(targetEntity: ServiceAttribute::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private $attribute;
 
     #[ORM\Id]
-    #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'attributes')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'attributes')]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private $user;
 

@@ -36,7 +36,7 @@ class UserType {
     /**
      * @Serializer\Exclude()
      */
-    #[ORM\OneToMany(targetEntity: 'User', mappedBy: 'type')]
+    #[ORM\OneToMany(mappedBy: 'type', targetEntity: User::class)]
     private $users;
 
     /**
@@ -45,13 +45,13 @@ class UserType {
     #[ORM\JoinTable]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(onDelete: 'CASCADE')]
-    #[ORM\ManyToMany(targetEntity: 'ServiceProvider')]
+    #[ORM\ManyToMany(targetEntity: ServiceProvider::class)]
     private $enabledServices;
 
     /**
      * @Serializer\Exclude()
      */
-    #[ORM\OneToMany(targetEntity: 'ServiceAttributeUserTypeValue', mappedBy: 'userType')]
+    #[ORM\OneToMany(mappedBy: 'userType', targetEntity: ServiceAttributeUserTypeValue::class)]
     private $attributes;
 
     /**

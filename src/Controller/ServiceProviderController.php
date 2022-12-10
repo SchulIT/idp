@@ -6,7 +6,6 @@ use App\Entity\SamlServiceProvider;
 use App\Entity\ServiceProvider;
 use App\Form\ServiceProviderType;
 use App\Repository\ServiceProviderRepositoryInterface;
-use App\Service\ServiceProviderTokenGenerator;
 use Exception;
 use LightSaml\Model\Metadata\EntityDescriptor;
 use SchulIT\CommonBundle\Form\ConfirmType;

@@ -23,18 +23,18 @@ class UserCsvImportHelper {
 
     public function getHeaders(): array {
         return [
-            static::EmailAddressHeader,
-            static::PasswordHeader,
-            static::FirstnameHeader,
-            static::LastnameHeader,
-            static::GradeHeader,
-            static::IdHeader
+            self::EmailAddressHeader,
+            self::PasswordHeader,
+            self::FirstnameHeader,
+            self::LastnameHeader,
+            self::GradeHeader,
+            self::IdHeader
         ];
     }
 
     public function getRequiredHeaders(): array {
         return [
-            static::EmailAddressHeader
+            self::EmailAddressHeader
         ];
     }
 

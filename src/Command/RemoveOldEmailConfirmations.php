@@ -14,7 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCommand(name: 'app:remove-confirmations', description: 'Removes expired email confirmations.')]
 class RemoveOldEmailConfirmations extends Command {
 
-    public function __construct(private ConfirmationManager $manager, string $name = null) {
+    public function __construct(private readonly ConfirmationManager $manager, string $name = null) {
         parent::__construct($name);
     }
 

@@ -10,12 +10,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class ServiceProviderConfirmation {
 
     #[ORM\Id]
-    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private $user;
 
     #[ORM\Id]
-    #[ORM\ManyToOne(targetEntity: 'ServiceProvider')]
+    #[ORM\ManyToOne(targetEntity: ServiceProvider::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private $serviceProvider;
 

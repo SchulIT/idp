@@ -26,7 +26,7 @@ class ActiveDirectoryRoleSyncOption implements ActiveDirectorySyncOptionInterfac
     #[ORM\Column(type: 'string', nullable: false, enumType: ActiveDirectorySyncSourceType::class)]
     private $sourceType;
 
-    #[ORM\ManyToOne(targetEntity: 'UserRole')]
+    #[ORM\ManyToOne(targetEntity: UserRole::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private $userRole;
 

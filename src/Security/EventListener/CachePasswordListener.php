@@ -6,7 +6,7 @@ use App\Entity\ActiveDirectoryUser;
 use App\Repository\UserRepositoryInterface;
 use App\Security\Badge\CachePasswordBadge;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Security\Http\Authenticator\Passport\UserPassportInterface;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
 class CachePasswordListener implements EventSubscriberInterface {
@@ -18,7 +18,7 @@ class CachePasswordListener implements EventSubscriberInterface {
     public function onLoginSuccess(LoginSuccessEvent $event): void {
         $passport = $event->getPassport();
 
-        if(!$passport instanceof UserPassportInterface || !$passport->hasBadge(CachePasswordBadge::class)) {
+        if(!$passport->hasBadge(CachePasswordBadge::class)) {
             return;
         }
 
