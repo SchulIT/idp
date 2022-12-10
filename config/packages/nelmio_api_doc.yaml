@@ -4,13 +4,15 @@ nelmio_api_doc:
             title: '%env(APP_NAME)%'
             description: ~
             version: '%version%'
-        securityDefinitions:
-            apiKey:
-                type: apiKey
-                name: X-Token
-                in: header
+        components:
+            securitySchemes:
+                apiKey:
+                    type: apiKey
+                    name: X-Token
+                    in: header
         security:
             - apiKey: [ ]
+
     areas:
         ad_connect:
             path_patterns: [ ^/api/ad_connect ]

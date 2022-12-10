@@ -12,9 +12,10 @@ use App\Security\UserCreator;
 use JMS\Serializer\SerializerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Swagger\Annotations as SWG;
+use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Response\ViolationListResponse;
 
 /**
  * @Route("/api/ad_connect")
@@ -36,8 +37,9 @@ class ActiveDirectoryConnectController extends AbstractApiController {
      * Returns the list of objectGuids of all Active Directory users.
      *
      * @Route("", methods={"GET"})
-     * @SWG\Response(
-     *     response=200,
+     * @OA\Get(operationId="api_adconnect_list_users")
+     * @OA\Response(
+     *     response="200",
      *     description="Returns the list of objectGuids of all Active Directory users.",
      *     @Model(type=ListActiveDirectoryUserResponse::class)
      * )
@@ -51,22 +53,21 @@ class ActiveDirectoryConnectController extends AbstractApiController {
      * Adds a new Active Directory user.
      *
      * @Route("", methods={"POST"})
-     * @SWG\Parameter(
-     *     name="payload",
-     *     in="body",
+     * @OA\Post(operationId="api_adconnect_new_user")
+     * @OA\RequestBody(
      *     @Model(type=ActiveDirectoryUserRequest::class)
      * )
-     * @SWG\Response(
-     *     response=201,
+     * @OA\Response(
+     *     response="201",
      *     description="User was successfully created."
      * )
-     * @SWG\Response(
-     *     response=400,
+     * @OA\Response(
+     *     response="400",
      *     description="Validation failed.",
      *     @Model(type=ViolationListResponse::class)
      * )
-     * @SWG\Response(
-     *     response=500,
+     * @OA\Response(
+     *     response="500",
      *     description="Server error.",
      *     @Model(type=ErrorResponse::class)
      * )
@@ -91,27 +92,25 @@ class ActiveDirectoryConnectController extends AbstractApiController {
      * Updates an existing Active Directory user.
      *
      * @Route("/{objectGuid}", methods={"PATCH"})
-     *
-     * @SWG\Parameter(
-     *     name="payload",
-     *     in="body",
+     * @OA\Patch(operationId="api_adconnect_update_user")
+     * @OA\RequestBody(
      *     @Model(type=ActiveDirectoryUserRequest::class)
      * )
-     * @SWG\Response(
-     *     response=200,
+     * @OA\Response(
+     *     response="200",
      *     description="User was successfully updated."
      * )
-     * @SWG\Response(
-     *     response=400,
+     * @OA\Response(
+     *     response="400",
      *     description="Validation failed.",
      *     @Model(type=ViolationListResponse::class)
      * )
-     * @SWG\Response(
-     *     response=404,
+     * @OA\Response(
+     *     response="404",
      *     description="User was not found."
      * )
-     * @SWG\Response(
-     *     response=500,
+     * @OA\Response(
+     *     response="500",
      *     description="Server error.",
      *     @Model(type=ErrorResponse::class)
      * )
@@ -126,22 +125,18 @@ class ActiveDirectoryConnectController extends AbstractApiController {
      * Removes an Active Directory user.
      *
      * @Route("/{objectGuid}", methods={"DELETE"})
+     * @OA\Delete(operationId="api_adconnect_delete_user")
      *
-     * @SWG\Parameter(
-     *     name="payload",
-     *     in="body",
-     *     @Model(type=ActiveDirectoryUserRequest::class)
-     * )
-     * @SWG\Response(
-     *     response=201,
+     * @OA\Response(
+     *     response="201",
      *     description="User was successfully removed."
      * )
-     * @SWG\Response(
-     *     response=404,
+     * @OA\Response(
+     *     response="404",
      *     description="User was not found."
      * )
-     * @SWG\Response(
-     *     response=500,
+     * @OA\Response(
+     *     response="500",
      *     description="Server error.",
      *     @Model(type=ErrorResponse::class)
      * )

@@ -18,8 +18,6 @@ class X509CertificateValidator extends ConstraintValidator {
         if($resource === false) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();
-        } else {
-            openssl_x509_free($resource);
         }
     }
 }

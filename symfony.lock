@@ -2,18 +2,6 @@
     "acelaya/doctrine-enum-type": {
         "version": "v2.3.0"
     },
-    "antishov/doctrine-extensions-bundle": {
-        "version": "1.4",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "1.4",
-            "ref": "6c1ceb662f8997085f739cd089bfbef67f245983"
-        },
-        "files": [
-            "./config/packages/stof_doctrine_extensions.yaml"
-        ]
-    },
     "bacon/bacon-qr-code": {
         "version": "2.0.3"
     },
@@ -22,9 +10,6 @@
     },
     "brick/math": {
         "version": "0.8.14"
-    },
-    "burgov/key-value-form-bundle": {
-        "version": "1.4.2"
     },
     "craue/formflow-bundle": {
         "version": "3.3.2"
@@ -138,9 +123,6 @@
     },
     "endroid/qr-code-bundle": {
         "version": "4.0.2"
-    },
-    "exsyst/swagger": {
-        "version": "v0.4.1"
     },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.3"
@@ -442,8 +424,17 @@
     "spomky-labs/otphp": {
         "version": "v10.0.1"
     },
-    "symfony/amqp-messenger": {
-        "version": "v5.2.7"
+    "stof/doctrine-extensions-bundle": {
+        "version": "1.7",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.2",
+            "ref": "e805aba9eff5372e2d149a9ff56566769e22819d"
+        },
+        "files": [
+            "./config/packages/stof_doctrine_extensions.yaml"
+        ]
     },
     "symfony/apache-pack": {
         "version": "1.0",
@@ -507,9 +498,6 @@
     },
     "symfony/doctrine-bridge": {
         "version": "v4.0.8"
-    },
-    "symfony/doctrine-messenger": {
-        "version": "v5.2.7"
     },
     "symfony/dom-crawler": {
         "version": "v4.0.8"
@@ -677,9 +665,6 @@
     "symfony/polyfill-php72": {
         "version": "v1.7.0"
     },
-    "symfony/polyfill-php73": {
-        "version": "v1.11.0"
-    },
     "symfony/polyfill-php80": {
         "version": "v1.17.0"
     },
@@ -697,9 +682,6 @@
     },
     "symfony/proxy-manager-bridge": {
         "version": "v4.4.18"
-    },
-    "symfony/redis-messenger": {
-        "version": "v5.2.7"
     },
     "symfony/routing": {
         "version": "5.3",
@@ -737,9 +719,6 @@
     },
     "symfony/security-csrf": {
         "version": "v5.2.0"
-    },
-    "symfony/security-guard": {
-        "version": "v4.4.17"
     },
     "symfony/security-http": {
         "version": "v4.4.17"

@@ -24,7 +24,6 @@ class IdpController extends AbstractController {
 
         $cert = openssl_x509_read(file_get_contents($this->getParameter('kernel.project_dir') . '/certs/idp.crt'));
         $certificateInfo = openssl_x509_parse($cert);
-        openssl_x509_free($cert);
 
         $loginUrl = $this->generateUrl('idp_saml');
 

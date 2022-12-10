@@ -26,7 +26,6 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\CustomCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
-use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class UserAuthenticator extends AbstractLoginFormAuthenticator {
@@ -109,7 +108,7 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator {
     /**
      * @inheritDoc
      */
-    public function authenticate(Request $request): PassportInterface {
+    public function authenticate(Request $request): Passport {
         $username = $request->request->get('_username');
         $password = $request->request->get('_password');
         $csrfToken = $request->request->get('_csrf_token');

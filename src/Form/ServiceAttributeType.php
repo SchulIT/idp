@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\ServiceProvider;
-use Burgov\Bundle\KeyValueFormBundle\Form\Type\KeyValueType;
 use Doctrine\ORM\EntityRepository;
 use FervoEnumBundle\Generated\Form\ServiceAttributeTypeType;
 use SchulIT\CommonBundle\Form\FieldsetType;

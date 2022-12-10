@@ -11,7 +11,6 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use JMS\Serializer\Annotation as Serializer;
 use Ramsey\Uuid\Uuid;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
-use Swagger\Annotations as SWG;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -81,7 +80,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
      * @Serializer\ReadOnlyProperty()
      * @Serializer\Accessor(getter="getTypeString")
      * @Serializer\Type("string")
-     * @SWG\Property(description="UUID of the usertype")
      * @Assert\NotNull()
      * @var UserType|null
      */
@@ -446,7 +444,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     /**
      * @return string[]
      */
-    public function getRoles() {
+    public function getRoles(): array {
         return $this->roles;
     }
 

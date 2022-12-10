@@ -2,16 +2,22 @@
 
 namespace App\Form;
 
+use App\Entity\ApplicationScope;
 use App\Entity\SamlServiceProvider;
 use Doctrine\ORM\EntityRepository;
 use FervoEnumBundle\Generated\Form\ApplicationScopeType;
 use SchulIT\CommonBundle\Form\FieldsetType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ApplicationType extends AbstractType {
+
+    public function __construct(private readonly TranslatorInterface $translator) { }
+
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
             ->add('group_general', FieldsetType::class, [

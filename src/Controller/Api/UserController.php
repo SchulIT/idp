@@ -8,6 +8,7 @@ use App\Repository\UserRepositoryInterface;
 use App\Repository\UserTypeRepositoryInterface;
 use App\Request\UserAttributeRequest;
 use App\Request\UserRequest;
+use App\Response\ErrorResponse;
 use App\Response\ListUserResponse;
 use App\Response\Violation;
 use App\Response\ViolationListResponse;
@@ -16,14 +17,13 @@ use Exception;
 use JMS\Serializer\Exception\ValidationFailedException;
 use JMS\Serializer\SerializerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use OpenApi\Annotations as OA;
 use Ramsey\Uuid\Uuid;
-use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use App\Response\ErrorResponse;
 
 /**
  * @Route("/api/user")
@@ -49,23 +49,22 @@ class UserController extends AbstractApiController {
      * Returns a list of users.
      *
      * @Route("", methods={"GET"})
-     * @SWG\Response(
-     *     response=200,
+     * @OA\Get(operationId="api_user_list")
+     * @OA\Response(
+     *     response="200",
      *     description="Returns a list of users",
      *     @Model(type=ListUserResponse::class)
      * )
-     * @SWG\Parameter(
+     * @OA\Parameter(
      *     name="offset",
      *     required=false,
      *     in="query",
-     *     type="integer",
      *     description="For paginated results: specifies the position of the first user to return."
      * )
-     * @SWG\Parameter(
+     * @OA\Parameter(
      *     name="limit",
      *     required=false,
      *     in="query",
-     *     type="integer",
      *     description="For paginated results: specifies the number of users to return."
      * )
      */
@@ -92,27 +91,20 @@ class UserController extends AbstractApiController {
     /**
      * Returns a single user.
      *
-     * @Route("/{id}", methods={"GET"})
-     *
-     * @SWG\Response(
-     *     response=200,
+     * @Route("/{uuidOrExternalId}", methods={"GET"})
+     * @OA\Get(operationId="api_user_get")
+     * @OA\Response(
+     *     response="200",
      *     description="Returns a single user.",
      *     @Model(type=User::class)
      * )
-     * @SWG\Response(
-     *     response=404,
+     * @OA\Response(
+     *     response="404",
      *     description="Empty HTTP 404 response in case the user was not found."
      * )
-     * @SWG\Parameter(
-     *     name="id",
-     *     required=true,
-     *     in="path",
-     *     type="string",
-     *     description="Either the UUID of the user or the external ID."
-     * )
      */
-    public function user($id): Response {
-        $user = $this->getUserOrThrowNotFound($id);
+    public function user($uuidOrExternalId): Response {
+        $user = $this->getUserOrThrowNotFound($uuidOrExternalId);
         return $this->returnJson($user);
     }
 
@@ -120,23 +112,21 @@ class UserController extends AbstractApiController {
      * Creates a new user.
      *
      * @Route("/add", methods={"POST"})
-     *
-     * @SWG\Parameter(
-     *     name="payload",
-     *     in="body",
+     * @OA\Post(operationId="api_users_new")
+     * @OA\RequestBody(
      *     @Model(type=UserRequest::class)
      * )
-     * @SWG\Response(
-     *     response=201,
+     * @OA\Response(
+     *     response="201",
      *     description="User was created successfully."
      * )
-     * @SWG\Response(
-     *     response=400,
+     * @OA\Response(
+     *     response="400",
      *     description="Validation failed.",
      *     @Model(type=ViolationListResponse::class)
      * )
-     * @SWG\Response(
-     *     response=500,
+     * @OA\Response(
+     *     response="500",
      *     description="Server error.",
      *     @Model(type=ErrorResponse::class)
      * )
@@ -177,40 +167,32 @@ class UserController extends AbstractApiController {
     /**
      * Updates an existing user. Note: property username cannot be updated using this endpoint (despite the property exists in the request).
      *
-     * @Route("/{id}", methods={"PATCH"})
-     *
-     * @SWG\Parameter(
-     *     name="id",
-     *     in="path",
-     *     type="string",
-     *     description="Either the UUID of the user or the external ID."
-     * )
-     * @SWG\Parameter(
-     *     name="payload",
-     *     in="body",
+     * @Route("/{uuidOrExternalId}", methods={"PATCH"})
+     * @OA\Patch(operationId="api_users_update")
+     * @OA\RequestBody(
      *     @Model(type=UserRequest::class)
      * )
-     * @SWG\Response(
-     *     response=204,
+     * @OA\Response(
+     *     response="204",
      *     description="User was updated successfully."
      * )
-     * @SWG\Response(
-     *     response=400,
+     * @OA\Response(
+     *     response="400",
      *     description="Validation failed.",
      *     @Model(type=ViolationListResponse::class)
      * )
-     * @SWG\Response(
-     *     response=404,
+     * @OA\Response(
+     *     response="404",
      *     description="User was not found."
      * )
-     * @SWG\Response(
-     *     response=500,
+     * @OA\Response(
+     *     response="500",
      *     description="Server error.",
      *     @Model(type=ErrorResponse::class)
      * )
      */
-    public function update($id, UserRequest $request): Response {
-        $user = $this->getUserOrThrowNotFound($id);
+    public function update($uuidOrExternalId, UserRequest $request): Response {
+        $user = $this->getUserOrThrowNotFound($uuidOrExternalId);
 
         $user = $this->transformRequest($request, $user);
         $violations = $this->validator->validate($user);
@@ -227,40 +209,32 @@ class UserController extends AbstractApiController {
     /**
      * Updates a users attributes. Notice: only given attributes are updated.
      *
-     * @Route("/{id}/attributes", methods={"PATCH"})
-     *
-     * @SWG\Parameter(
-     *     name="id",
-     *     in="path",
-     *     type="string",
-     *     description="Either the UUID of the user or the external ID."
-     * )
-     * @SWG\Parameter(
-     *     name="payload",
-     *     in="body",
+     * @Route("/{uuidOrExternalId}/attributes", methods={"PATCH"})
+     * @OA\Delete(operationId="api_users_update_attributes")
+     * @OA\RequestBody(
      *     @Model(type=UserAttributeRequest::class)
      * )
-     * @SWG\Response(
-     *     response=204,
+     * @OA\Response(
+     *     response="204",
      *     description="User was successfully removed."
      * )
-     * @SWG\Response(
-     *     response=400,
+     * @OA\Response(
+     *     response="400",
      *     description="Validation failed.",
      *     @Model(type=ViolationListResponse::class)
      * )
-     * @SWG\Response(
-     *     response=404,
+     * @OA\Response(
+     *     response="404",
      *     description="User was not found."
      * )
-     * @SWG\Response(
-     *     response=500,
+     * @OA\Response(
+     *     response="500",
      *     description="Server error.",
-     *     @Model(type=App\Response\ErrorResponse::class)
+     *     @Model(type=ErrorResponse::class)
      * )
      */
-    public function updateAttributes($id, UserAttributeRequest $request): Response {
-        $user = $this->getUserOrThrowNotFound($id);
+    public function updateAttributes($uuidOrExternalId, UserAttributeRequest $request): Response {
+        $user = $this->getUserOrThrowNotFound($uuidOrExternalId);
         $this->attributePersister->persistUserAttributes($request->getAttributes(), $user);
 
         return new Response(null, Response::HTTP_NO_CONTENT);
@@ -269,30 +243,24 @@ class UserController extends AbstractApiController {
     /**
      * Removes an existing user.
      *
-     * @Route("/{id}", methods={"DELETE"})
-     *
-     * @SWG\Parameter(
-     *     name="id",
-     *     in="path",
-     *     type="string",
-     *     description="Either the UUID of the user or the external ID."
-     * )
-     * @SWG\Response(
-     *     response=204,
+     * @Route("/{uuidOrExternalId}", methods={"DELETE"})
+     * @OA\Delete(operationId="api_user_delete")
+     * @OA\Response(
+     *     response="204",
      *     description="User was removed successfully."
      * )
-     * @SWG\Response(
-     *     response=404,
+     * @OA\Response(
+     *     response="404",
      *     description="User was not found."
      * )
-     * @SWG\Response(
-     *     response=500,
+     * @OA\Response(
+     *     response="500",
      *     description="Server error.",
      *     @Model(type=ErrorResponse::class)
      * )
      */
-    public function remove($id): Response {
-        $user = $this->getUserOrThrowNotFound($id);
+    public function remove($uuidOrExternalId): Response {
+        $user = $this->getUserOrThrowNotFound($uuidOrExternalId);
         $this->userRepository->remove($user);
         return new Response(null, Response::HTTP_NO_CONTENT);
     }

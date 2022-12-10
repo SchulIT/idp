@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
 class ApplicationAuthenticator extends AbstractAuthenticator {
@@ -43,7 +43,7 @@ class ApplicationAuthenticator extends AbstractAuthenticator {
     /**
      * @inheritDoc
      */
-    public function authenticate(Request $request): PassportInterface {
+    public function authenticate(Request $request): Passport {
         $token = $request->headers->get(static::HEADER_KEY);
         $application = $this->repository->findOneByApiKey($token);
 

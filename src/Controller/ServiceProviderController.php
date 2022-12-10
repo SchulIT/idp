@@ -53,7 +53,6 @@ class ServiceProviderController extends AbstractController {
 
         $cert = openssl_x509_read($serviceProvider->getCertificate());
         $certificateInfo = openssl_x509_parse($cert);
-        openssl_x509_free($cert);
 
         return $this->render('service_providers/info.html.twig', [
             'service_provider' => $serviceProvider,

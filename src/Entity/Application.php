@@ -161,7 +161,7 @@ class Application implements UserInterface {
     /**
      * @return mixed
      */
-    public function getRoles() {
+    public function getRoles(): array {
         if($this->getScope()->equals(ApplicationScope::IdpExchange())) {
             return [ 'ROLE_IDPEXCHANGE' ];
         }
