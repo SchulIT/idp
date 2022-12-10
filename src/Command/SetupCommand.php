@@ -6,30 +6,18 @@ use App\Entity\UserType;
 use App\Repository\UserTypeRepositoryInterface;
 use App\Setup\UserTypesSetup;
 use Doctrine\DBAL\Connection;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
 
+#[AsCommand(name: 'app:setup', description: 'Runs the initial setup.')]
 class SetupCommand extends Command {
 
-    private Connection $dbalConnection;
-    private UserTypesSetup $userTypeSetup;
-    private PdoSessionHandler $pdoSessionHandler;
-
-    public function __construct(Connection $connection, UserTypesSetup $userTypeSetup, PdoSessionHandler $pdoSessionHandler, ?string $name = null) {
+    public function __construct(private Connection $dbalConnection, private UserTypesSetup $userTypeSetup, private PdoSessionHandler $pdoSessionHandler, ?string $name = null) {
         parent::__construct($name);
-
-        $this->dbalConnection = $connection;
-        $this->userTypeSetup = $userTypeSetup;
-        $this->pdoSessionHandler = $pdoSessionHandler;
-    }
-
-    public function configure() {
-        $this
-            ->setName('app:setup')
-            ->setDescription('Runs the initial setup');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int {

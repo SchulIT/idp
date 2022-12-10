@@ -24,23 +24,14 @@ class AttributeValueProvider extends AbstractAttributeProvider {
 
     use ArrayTrait;
 
-    private AttributeResolver $attributeResolver;
-    private ServiceAttributeRepository $attributeRepository;
-    private UserServiceProviderResolver $userServiceProviderResolver;
-
-    public function __construct(TokenStorageInterface $tokenStorage, AttributeResolver $attributeResolver, ServiceAttributeRepository $attributeRepository, UserServiceProviderResolver $userServiceProviderResolver) {
+    public function __construct(TokenStorageInterface $tokenStorage, private AttributeResolver $attributeResolver, private ServiceAttributeRepository $attributeRepository, private UserServiceProviderResolver $userServiceProviderResolver) {
         parent::__construct($tokenStorage);
-
-        $this->attributeResolver = $attributeResolver;
-        $this->attributeRepository = $attributeRepository;
-        $this->userServiceProviderResolver = $userServiceProviderResolver;
     }
 
     /**
      * Returns a list of common attributes which should always be included in a SAMLResponse
      *
      * @param User|null $user
-     * @return array
      */
     public function getCommonAttributesForUser(User $user = null): array {
         if($user === null) {
@@ -65,35 +56,27 @@ class AttributeValueProvider extends AbstractAttributeProvider {
     }
 
     /**
-     * @param string $entityId
      * @return ServiceAttribute[]
      */
     private function getRequestedAttributes(string $entityId): array {
         $attributes = $this->attributeRepository->getAttributesForServiceProvider($entityId);
 
-        return $this->makeArrayWithKeys($attributes, function(ServiceAttribute $attribute) {
-            return $attribute->getId();
-        });
+        return $this->makeArrayWithKeys($attributes, fn(ServiceAttribute $attribute) => $attribute->getId());
     }
 
     /**
-     * @param User $user
      * @return ServiceAttributeValueInterface[]
      */
     private function getUserAttributeValues(User $user): array {
         $attributeValues = $this->attributeResolver
             ->getDetailedResultingAttributeValuesForUser($user);
 
-        return $this->makeArrayWithKeys($attributeValues, function(ServiceAttributeValueInterface $attributeValue) {
-            return $attributeValue->getAttribute()->getId();
-        });
+        return $this->makeArrayWithKeys($attributeValues, fn(ServiceAttributeValueInterface $attributeValue) => $attributeValue->getAttribute()->getId());
     }
 
     /**
      * Returns a list of attributes for the given user and the given entityId (of the requested service provider).
      *
-     * @param string $entityId
-     * @param User $user
      * @return string[]
      */
     private function getAttributes(string $entityId, User $user): array {
@@ -112,14 +95,13 @@ class AttributeValueProvider extends AbstractAttributeProvider {
     }
 
     /**
-     * @param UserInterface $user
      * @param string $entityId
      * @return Attribute[]
      */
     public function getValuesForUser(UserInterface $user, $entityId): array {
         $attributes = [ ];
 
-        $attributes[] = new Attribute(ClaimTypes::COMMON_NAME, $user->getUsername());
+        $attributes[] = new Attribute(ClaimTypes::COMMON_NAME, $user->getUserIdentifier());
 
         if(!$user instanceof User) {
             return $attributes;

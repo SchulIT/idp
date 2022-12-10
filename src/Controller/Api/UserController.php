@@ -25,30 +25,17 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-/**
- * @Route("/api/user")
- */
+#[Route(path: '/api/user')]
 class UserController extends AbstractApiController {
 
-    private ValidatorInterface $validator;
-    private UserRepositoryInterface $userRepository;
-    private UserTypeRepositoryInterface $userTypeRepository;
-    private AttributePersister $attributePersister;
-
-    public function __construct(ValidatorInterface $validator, UserRepositoryInterface $userRepository, UserTypeRepositoryInterface $userTypeRepository,
-                                AttributePersister $attributePersister, SerializerInterface $serializer) {
+    public function __construct(private ValidatorInterface $validator, private UserRepositoryInterface $userRepository, private UserTypeRepositoryInterface $userTypeRepository,
+                                private AttributePersister $attributePersister, SerializerInterface $serializer) {
         parent::__construct($serializer);
-
-        $this->validator = $validator;
-        $this->userRepository = $userRepository;
-        $this->userTypeRepository = $userTypeRepository;
-        $this->attributePersister = $attributePersister;
     }
 
     /**
      * Returns a list of users.
      *
-     * @Route("", methods={"GET"})
      * @OA\Get(operationId="api_user_list")
      * @OA\Response(
      *     response="200",
@@ -68,6 +55,7 @@ class UserController extends AbstractApiController {
      *     description="For paginated results: specifies the number of users to return."
      * )
      */
+    #[Route(path: '', methods: ['GET'])]
     public function list(Request $request, UserRepositoryInterface $userRepository): Response {
         $offset = $request->query->get('offset');
         $limit = $request->query->get('limit');
@@ -91,7 +79,6 @@ class UserController extends AbstractApiController {
     /**
      * Returns a single user.
      *
-     * @Route("/{uuidOrExternalId}", methods={"GET"})
      * @OA\Get(operationId="api_user_get")
      * @OA\Response(
      *     response="200",
@@ -103,6 +90,7 @@ class UserController extends AbstractApiController {
      *     description="Empty HTTP 404 response in case the user was not found."
      * )
      */
+    #[Route(path: '/{uuidOrExternalId}', methods: ['GET'])]
     public function user($uuidOrExternalId): Response {
         $user = $this->getUserOrThrowNotFound($uuidOrExternalId);
         return $this->returnJson($user);
@@ -111,7 +99,6 @@ class UserController extends AbstractApiController {
     /**
      * Creates a new user.
      *
-     * @Route("/add", methods={"POST"})
      * @OA\Post(operationId="api_users_new")
      * @OA\RequestBody(
      *     @Model(type=UserRequest::class)
@@ -131,6 +118,7 @@ class UserController extends AbstractApiController {
      *     @Model(type=ErrorResponse::class)
      * )
      */
+    #[Route(path: '/add', methods: ['POST'])]
     public function add(UserRequest $request): Response {
         $violations = [ ];
         $existingUser = $this->userRepository->findOneByUsername($request->getUsername());
@@ -167,7 +155,6 @@ class UserController extends AbstractApiController {
     /**
      * Updates an existing user. Note: property username cannot be updated using this endpoint (despite the property exists in the request).
      *
-     * @Route("/{uuidOrExternalId}", methods={"PATCH"})
      * @OA\Patch(operationId="api_users_update")
      * @OA\RequestBody(
      *     @Model(type=UserRequest::class)
@@ -191,6 +178,7 @@ class UserController extends AbstractApiController {
      *     @Model(type=ErrorResponse::class)
      * )
      */
+    #[Route(path: '/{uuidOrExternalId}', methods: ['PATCH'])]
     public function update($uuidOrExternalId, UserRequest $request): Response {
         $user = $this->getUserOrThrowNotFound($uuidOrExternalId);
 
@@ -209,7 +197,6 @@ class UserController extends AbstractApiController {
     /**
      * Updates a users attributes. Notice: only given attributes are updated.
      *
-     * @Route("/{uuidOrExternalId}/attributes", methods={"PATCH"})
      * @OA\Delete(operationId="api_users_update_attributes")
      * @OA\RequestBody(
      *     @Model(type=UserAttributeRequest::class)
@@ -233,6 +220,7 @@ class UserController extends AbstractApiController {
      *     @Model(type=ErrorResponse::class)
      * )
      */
+    #[Route(path: '/{uuidOrExternalId}/attributes', methods: ['PATCH'])]
     public function updateAttributes($uuidOrExternalId, UserAttributeRequest $request): Response {
         $user = $this->getUserOrThrowNotFound($uuidOrExternalId);
         $this->attributePersister->persistUserAttributes($request->getAttributes(), $user);
@@ -243,7 +231,6 @@ class UserController extends AbstractApiController {
     /**
      * Removes an existing user.
      *
-     * @Route("/{uuidOrExternalId}", methods={"DELETE"})
      * @OA\Delete(operationId="api_user_delete")
      * @OA\Response(
      *     response="204",
@@ -259,6 +246,7 @@ class UserController extends AbstractApiController {
      *     @Model(type=ErrorResponse::class)
      * )
      */
+    #[Route(path: '/{uuidOrExternalId}', methods: ['DELETE'])]
     public function remove($uuidOrExternalId): Response {
         $user = $this->getUserOrThrowNotFound($uuidOrExternalId);
         $this->userRepository->remove($user);
@@ -266,9 +254,6 @@ class UserController extends AbstractApiController {
     }
 
     /**
-     * @param UserRequest $request
-     * @param User|null $user
-     * @return User
      * @throws Exception
      */
     private function transformRequest(UserRequest $request, ?User $user = null): User {

@@ -6,16 +6,12 @@ use App\Repository\KioskUserRepositoryInterface;
 
 class KioskUserTokenGenerator {
 
-    private KioskUserRepositoryInterface $repository;
-
-    public function __construct(KioskUserRepositoryInterface $repository) {
-        $this->repository = $repository;
+    public function __construct(private KioskUserRepositoryInterface $repository)
+    {
     }
 
     /**
      * Generates an unused token.
-     *
-     * @return string
      */
     public function generateToken(): string {
         do {

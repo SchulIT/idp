@@ -11,13 +11,9 @@ class UserAttributeRequest {
      * @Serializer\SerializedName("attributes")
      * @Serializer\Type("array")
      * @ValidAttributesArray()
-     * @var array
      */
-    private $attributes = [ ];
+    private array $attributes = [ ];
 
-    /**
-     * @return array
-     */
     public function getAttributes(): array {
         return $this->attributes;
     }

@@ -8,12 +8,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class MigrationFactoryDecorator implements MigrationFactory {
 
-    private $factory;
-    private $entityManager;
-
-    public function __construct(MigrationFactory $factory, EntityManagerInterface $entityManager) {
-        $this->factory = $factory;
-        $this->entityManager = $entityManager;
+    public function __construct(private MigrationFactory $factory, private EntityManagerInterface $entityManager)
+    {
     }
 
     public function createVersion(string $migrationClassName): AbstractMigration {

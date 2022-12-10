@@ -2,10 +2,12 @@
 
 namespace App\Command;
 
+use RuntimeException;
 use App\Entity\User;
 use App\Entity\UserType;
 use App\Repository\UserRepositoryInterface;
 use App\Repository\UserTypeRepositoryInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,27 +18,13 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+#[AsCommand(name: 'app:add-user', description: 'Adds a new user')]
 class AddUserCommand extends Command {
 
-    private UserTypeRepositoryInterface $userTypeRepository;
-    private UserRepositoryInterface $userRepository;
-    private UserPasswordHasherInterface $passwordHasher;
-    private ValidatorInterface $validator;
-
-    public function __construct(UserTypeRepositoryInterface $userTypeRepository, UserRepositoryInterface $userRepository,
-                                UserPasswordHasherInterface $passwordHasher, ValidatorInterface $validator, $name = null)
+    public function __construct(private UserTypeRepositoryInterface $userTypeRepository, private UserRepositoryInterface $userRepository,
+                                private UserPasswordHasherInterface $passwordHasher, private ValidatorInterface $validator, $name = null)
     {
         parent::__construct($name);
-        $this->userTypeRepository = $userTypeRepository;
-        $this->userRepository = $userRepository;
-        $this->passwordHasher = $passwordHasher;
-        $this->validator = $validator;
-    }
-
-    public function configure() {
-        $this
-            ->setName('app:add-user')
-            ->setDescription('Adds a new user');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int {
@@ -44,11 +32,11 @@ class AddUserCommand extends Command {
 
         $username = $io->ask('Username', null, function($username) {
             if(empty($username)) {
-                throw new \RuntimeException('Username must not be empty');
+                throw new RuntimeException('Username must not be empty');
             }
 
             if($this->validator->validate($username, new Email())->count() > 0) {
-                throw new \RuntimeException('Username must be an email address.');
+                throw new RuntimeException('Username must be an email address.');
             }
 
             return $username;
@@ -56,7 +44,7 @@ class AddUserCommand extends Command {
 
         $firstname = $io->ask('Firstname', null, function($firstname) {
             if(empty($firstname)) {
-                throw new \RuntimeException('Firstname must not be empty');
+                throw new RuntimeException('Firstname must not be empty');
             }
 
             return $firstname;
@@ -64,7 +52,7 @@ class AddUserCommand extends Command {
 
         $lastname = $io->ask('Lastname', null, function($lastname) {
             if(empty($lastname)) {
-                throw new \RuntimeException('Lastname must not be empty');
+                throw new RuntimeException('Lastname must not be empty');
             }
 
             return $lastname;
@@ -72,7 +60,7 @@ class AddUserCommand extends Command {
 
         $email = $io->ask('E-Mail', null, function($email) {
             if(empty($email)) {
-                throw new \RuntimeException('E-Mail must not be empty');
+                throw new RuntimeException('E-Mail must not be empty');
             }
 
             return $email;
@@ -80,7 +68,7 @@ class AddUserCommand extends Command {
 
         $password = $io->askHidden('Password', function($password) {
             if(empty($password)) {
-                throw new \RuntimeException('Password must not be empty');
+                throw new RuntimeException('Password must not be empty');
             }
 
             return $password;
@@ -88,7 +76,7 @@ class AddUserCommand extends Command {
 
         $io->askHidden('Repeat Password', function($repeatPassword) use ($password) {
             if($repeatPassword !== $password) {
-                throw new \RuntimeException('Passwords must match');
+                throw new RuntimeException('Passwords must match');
             }
 
             return $repeatPassword;
@@ -98,9 +86,7 @@ class AddUserCommand extends Command {
         $isAdmin = $io->askQuestion($question);
 
         $userTypes = $this->userTypeRepository->findAll();
-        $choices = array_map(function(UserType $type) {
-            return $type->getAlias();
-        }, $userTypes);
+        $choices = array_map(fn(UserType $type) => $type->getAlias(), $userTypes);
 
         $question = new ChoiceQuestion('Select user type', $choices, 0);
         $selectedUserTypeAlias = $io->askQuestion($question);

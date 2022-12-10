@@ -10,12 +10,8 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PasswordStrengthHelper {
-    private AppSettings $settings;
-    private ValidatorInterface $validator;
-
-    public function __construct(AppSettings $settings, ValidatorInterface $validator) {
-        $this->settings = $settings;
-        $this->validator = $validator;
+    public function __construct(private AppSettings $settings, private ValidatorInterface $validator)
+    {
     }
 
     public function getConstraints(): array {
@@ -36,10 +32,6 @@ class PasswordStrengthHelper {
         return $constraints;
     }
 
-    /**
-     * @param string $password
-     * @return ConstraintViolationListInterface
-     */
     public function validatePassword(string $password): ConstraintViolationListInterface {
         $constraints = $this->getConstraints();
         return $this->validator->validate($password, $constraints);

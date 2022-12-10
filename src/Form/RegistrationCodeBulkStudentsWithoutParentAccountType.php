@@ -12,20 +12,14 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class RegistrationCodeBulkStudentsWithoutParentAccountType extends AbstractType {
-    private UserRepositoryInterface $userRepository;
-    private UserStringConverter $userConverter;
-
-    public function __construct(UserRepositoryInterface $userRepository, UserStringConverter $userConverter) {
-        $this->userRepository = $userRepository;
-        $this->userConverter = $userConverter;
+    public function __construct(private UserRepositoryInterface $userRepository, private UserStringConverter $userConverter)
+    {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $choices = ArrayUtils::createArrayWithKeys(
             $this->userRepository->findAllStudentsWithoutParents(),
-            function(User $user) {
-                return $this->userConverter->convert($user);
-            });
+            fn(User $user) => $this->userConverter->convert($user));
 
         $builder
             ->add('students', ChoiceType::class, [

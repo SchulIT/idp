@@ -19,14 +19,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-/**
- * @Route("/admin/settings")
- */
+#[Route(path: '/admin/settings')]
 class SettingsController extends AbstractController {
 
-    /**
-     * @Route("", name="settings")
-     */
+    #[Route(path: '', name: 'settings')]
     public function index(Request $request, SettingsManager $settingsManager, AppSettings $appSettings,
                           LoginSettings $loginSettings, RegistrationSettings $registrationSettings): Response {
         $settings = [

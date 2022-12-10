@@ -2,36 +2,29 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * @ORM\Entity()
- */
+#[ORM\Entity]
 class ServiceAttributeValue implements ServiceAttributeValueInterface {
-    /**
-     * @ORM\Id()
-     * @ORM\ManyToOne(targetEntity="ServiceAttribute")
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: 'ServiceAttribute')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private $attribute;
 
-    /**
-     * @ORM\Id()
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="attributes")
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'attributes')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private $user;
 
-    /**
-     * @ORM\Column(type="object", nullable=true)
-     */
+    #[ORM\Column(type: 'object', nullable: true)]
     private $value;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
      * @Gedmo\Timestampable(on="update", field={"value"})
      */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $updatedAt;
 
     /**
@@ -42,7 +35,6 @@ class ServiceAttributeValue implements ServiceAttributeValueInterface {
     }
 
     /**
-     * @param ServiceAttribute $attribute
      * @return ServiceAttributeValue
      */
     public function setAttribute(ServiceAttribute $attribute) {
@@ -58,7 +50,6 @@ class ServiceAttributeValue implements ServiceAttributeValueInterface {
     }
 
     /**
-     * @param User $user
      * @return ServiceAttributeValue
      */
     public function setUser(User $user) {
@@ -69,21 +60,18 @@ class ServiceAttributeValue implements ServiceAttributeValueInterface {
     /**
      * @return string|string[]|int
      */
-    public function getValue() {
+    public function getValue(): string|array|int {
         return $this->value;
     }
 
     /**
      * @param string|string[]|int $value
      */
-    public function setValue($value) {
+    public function setValue(string|array|int $value) {
         $this->value = $value;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getUpdatedAt(): ?\DateTime {
+    public function getUpdatedAt(): ?DateTime {
         return $this->updatedAt;
     }
 }

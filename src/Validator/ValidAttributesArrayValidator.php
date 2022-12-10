@@ -12,10 +12,8 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class ValidAttributesArrayValidator extends ConstraintValidator {
 
-    private ServiceAttributeRepositoryInterface $attributeRepository;
-
-    public function __construct(ServiceAttributeRepositoryInterface $attributeRepository) {
-        $this->attributeRepository = $attributeRepository;
+    public function __construct(private ServiceAttributeRepositoryInterface $attributeRepository)
+    {
     }
 
     /**
@@ -29,9 +27,7 @@ class ValidAttributesArrayValidator extends ConstraintValidator {
         /** @var ServiceAttribute[] $attributes */
         $attributes = ArrayUtils::createArrayWithKeys(
             $this->attributeRepository->findAll(),
-            function(ServiceAttribute $attribute) {
-                return $attribute->getName();
-            });
+            fn(ServiceAttribute $attribute) => $attribute->getName());
         $validAttributeNames = array_keys($attributes);
 
         foreach($value as $attributeName => $attributeValue) {
@@ -69,7 +65,7 @@ class ValidAttributesArrayValidator extends ConstraintValidator {
                             $this->context
                                 ->buildViolation($constraint->messageInvalidArrayItem)
                                 ->setParameter('{{ name }}', $attributeName)
-                                ->setParameter('{{ valid }}', json_encode($validValues))
+                                ->setParameter('{{ valid }}', json_encode($validValues, JSON_THROW_ON_ERROR))
                                 ->setParameter('{{ given }}', $arrayValue)
                                 ->setParameter('{{ pos }}', (string)$i)
                                 ->addViolation();

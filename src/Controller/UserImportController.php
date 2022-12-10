@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Symfony\Component\Messenger\MessageBusInterface;
 use App\Form\ImportUsersFlow;
 use App\Import\ImportUserData;
 use App\Import\RecordInvalidException;
@@ -19,9 +20,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserImportController extends AbstractController {
 
-    /**
-     * @Route("/users/import", name="import_users")
-     */
+    public function __construct(private MessageBusInterface $messageBus)
+    {
+    }
+    #[Route(path: '/users/import', name: 'import_users')]
     public function start(ImportUsersFlow $flow, UserRepositoryInterface $userRepository, UserCsvImportHelper $helper,
                           TranslatorInterface $translator, LoggerInterface $logger): Response {
         $data = new ImportUserData();
@@ -57,7 +59,7 @@ class UserImportController extends AbstractController {
                 try {
                     foreach ($data->getUsers() as $user) {
                         $userRepository->persist($user);
-                        $this->dispatchMessage(new MustProvisionUser($user->getId()));
+                        $this->messageBus->dispatch(new MustProvisionUser($user->getId()));
                     }
 
                     $this->addFlash('success', 'import.users.success');

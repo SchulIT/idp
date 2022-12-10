@@ -2,8 +2,9 @@
 
 namespace App\Traits;
 
+use Closure;
 trait ArrayTrait {
-    protected function makeArrayWithKeys(array $array, \Closure $idFunc) {
+    protected function makeArrayWithKeys(array $array, Closure $idFunc) {
         $result = [ ];
 
         foreach($array as $item) {

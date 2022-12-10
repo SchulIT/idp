@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -9,53 +10,34 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-/**
- * @ORM\Entity()
- * @UniqueEntity(fields={"name"})
- */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['name'])]
 class Application implements UserInterface {
 
     use IdTrait;
     use UuidTrait;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=64, unique=true)
-     * @Assert\Length(max="64")
-     * @Assert\NotBlank()
-     */
-    private $name;
+    #[ORM\Column(type: 'string', length: 64, unique: true)]
+    #[Assert\Length(max: 64)]
+    #[Assert\NotBlank]
+    private string $name;
 
-    /**
-     * @ORM\Column(type="application_scope")
-     * @Assert\NotNull()
-     * @var ApplicationScope
-     */
-    private $scope;
+    #[ORM\Column(type: 'application_scope')]
+    #[Assert\NotNull]
+    private ?ApplicationScope $scope = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="SamlServiceProvider")
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     * @var SamlServiceProvider|null
-     */
-    private $service = null;
+    #[ORM\ManyToOne(targetEntity: 'SamlServiceProvider')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+    private ?SamlServiceProvider $service = null;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=64, unique=true)
-     */
-    private $apiKey;
+    #[ORM\Column(type: 'string', length: 64, unique: true)]
+    private string $apiKey;
 
-    /**
-     * @var string
-     * @ORM\Column(name="`description`", type="text")
-     * @Assert\NotBlank()
-     */
-    private $description;
+    #[ORM\Column(name: '`description`', type: 'text')]
+    #[Assert\NotBlank]
+    private string $description;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $lastActivity;
 
     public function __construct() {
@@ -71,40 +53,25 @@ class Application implements UserInterface {
 
     /**
      * @param string $name
-     * @return Application
      */
     public function setName($name): Application {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return ApplicationScope|null
-     */
     public function getScope(): ?ApplicationScope {
         return $this->scope;
     }
 
-    /**
-     * @param ApplicationScope|null $scope
-     * @return Application
-     */
     public function setScope(?ApplicationScope $scope): Application {
         $this->scope = $scope;
         return $this;
     }
 
-    /**
-     * @return SamlServiceProvider|null
-     */
     public function getService(): ?SamlServiceProvider {
         return $this->service;
     }
 
-    /**
-     * @param SamlServiceProvider|null $service
-     * @return Application
-     */
     public function setService(?SamlServiceProvider $service): Application {
         $this->service = $service;
         return $this;
@@ -119,7 +86,6 @@ class Application implements UserInterface {
 
     /**
      * @param string $apiKey
-     * @return Application
      */
     public function setApiKey($apiKey): Application {
         $this->apiKey = $apiKey;
@@ -135,25 +101,17 @@ class Application implements UserInterface {
 
     /**
      * @param string $description
-     * @return Application
      */
     public function setDescription($description): Application {
         $this->description = $description;
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getLastActivity(): ?\DateTime {
+    public function getLastActivity(): ?DateTime {
         return $this->lastActivity;
     }
 
-    /**
-     * @param \DateTime $lastActivity
-     * @return Application
-     */
-    public function setLastActivity(\DateTime $lastActivity): Application {
+    public function setLastActivity(DateTime $lastActivity): Application {
         $this->lastActivity = $lastActivity;
         return $this;
     }
@@ -205,9 +163,7 @@ class Application implements UserInterface {
      */
     public function eraseCredentials() { }
 
-    /**
-     * @Assert\Callback()
-     */
+    #[Assert\Callback]
     public function validateService(ExecutionContextInterface $context, $payload) {
         if($this->getScope()->equals(ApplicationScope::IdpExchange())) {
             if($this->getService() === null) {

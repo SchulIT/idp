@@ -14,23 +14,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Route("/register")
- */
+#[Route(path: '/register')]
 class RegistrationController extends AbstractController {
 
     private const CSRF_TOKEN_KEY = '_csrf_token';
     private const CSRF_TOKEN_ID = 'registration';
 
-    private $translator;
-
-    public function __construct(TranslatorInterface $translator) {
-        $this->translator = $translator;
+    public function __construct(private TranslatorInterface $translator)
+    {
     }
 
-    /**
-     * @Route("/redeem", name="redeem_registration_code")
-     */
+    #[Route(path: '/redeem', name: 'redeem_registration_code')]
     public function redeem(Request $request, RegistrationCodeRepositoryInterface $codeRepository, RegistrationCodeManager $manager,
                            DateHelper $dateHelper, TranslatorInterface $translator): Response {
         if(!$request->isMethod('POST')) {
@@ -75,9 +69,7 @@ class RegistrationController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/complete", name="register")
-     */
+    #[Route(path: '/complete', name: 'register')]
     public function register(Request $request, RegistrationSettings $settings, RegistrationCodeRepositoryInterface $codeRepository,
                              RegistrationCodeManager $manager): Response {
         $registrationCode = $request->request->get('code');
@@ -104,7 +96,7 @@ class RegistrationController extends AbstractController {
             try {
                 $manager->complete($code, $user, $form->get('password')->getData());
                 $this->addFlash('success', 'register.completed');
-            } catch (CodeAlreadyRedeemedException $e) {
+            } catch (CodeAlreadyRedeemedException) {
                 $this->addFlash('error', 'register.redeem.error.already_redeemed');
             }
 

@@ -36,10 +36,8 @@ class ApplicationType extends AbstractType {
                         ])
                         ->add('service', EntityType::class, [
                             'class' => SamlServiceProvider::class,
-                            'query_builder' => function(EntityRepository $repository) {
-                                return $repository->createQueryBuilder('s')
-                                    ->orderBy('s.name', 'asc');
-                            },
+                            'query_builder' => fn(EntityRepository $repository) => $repository->createQueryBuilder('s')
+                                ->orderBy('s.name', 'asc'),
                             'choice_label' => 'name',
                             'label' => 'label.service',
                             'required' => false,

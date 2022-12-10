@@ -17,12 +17,8 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 
 class KioskUserAuthenticator extends AbstractLoginFormAuthenticator {
 
-    private KioskUserRepositoryInterface $repository;
-    private UrlGeneratorInterface $urlGenerator;
-
-    public function __construct(KioskUserRepositoryInterface $repository, UrlGeneratorInterface $urlGenerator) {
-        $this->repository = $repository;
-        $this->urlGenerator = $urlGenerator;
+    public function __construct(private KioskUserRepositoryInterface $repository, private UrlGeneratorInterface $urlGenerator)
+    {
     }
 
     /**

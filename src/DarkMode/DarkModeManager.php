@@ -11,12 +11,8 @@ class DarkModeManager implements DarkModeManagerInterface {
 
     private const Key = 'dark_mode.enabled';
 
-    private TokenStorageInterface $tokenStorage;
-    private UserRepositoryInterface $userRepository;
-
-    public function __construct(TokenStorageInterface $tokenStorage, UserRepositoryInterface $userRepository) {
-        $this->tokenStorage = $tokenStorage;
-        $this->userRepository = $userRepository;
+    public function __construct(private TokenStorageInterface $tokenStorage, private UserRepositoryInterface $userRepository)
+    {
     }
 
     private function getUser(): ?User {

@@ -10,12 +10,8 @@ use App\Saml\AttributeValueProvider;
 
 class ServiceProviderConfirmationService {
 
-    private AttributeValueProvider $attributeValueProvider;
-    private ServiceProviderConfirmationRepositoryInterface $confirmationRepository;
-
-    public function __construct(AttributeValueProvider $attributeValueProvider, ServiceProviderConfirmationRepositoryInterface $confirmationRepository) {
-        $this->attributeValueProvider = $attributeValueProvider;
-        $this->confirmationRepository = $confirmationRepository;
+    public function __construct(private AttributeValueProvider $attributeValueProvider, private ServiceProviderConfirmationRepositoryInterface $confirmationRepository)
+    {
     }
 
     public function needsConfirmation(User $user, SamlServiceProvider $serviceProvider): bool {

@@ -6,15 +6,11 @@ use App\Entity\UserRole;
 
 class UserRoleFilterView {
 
-    /** @var UserRole[] */
-    private array $roles;
-
-    /** @var UserRole|null */
-    private ?UserRole $currentRole;
-
-    public function __construct(array $roles, ?UserRole $currentRole) {
-        $this->roles = $roles;
-        $this->currentRole = $currentRole;
+    /**
+     * @param UserRole[] $roles
+     */
+    public function __construct(private array $roles, private ?UserRole $currentRole)
+    {
     }
 
     /**
@@ -24,9 +20,6 @@ class UserRoleFilterView {
         return $this->roles;
     }
 
-    /**
-     * @return UserRole|null
-     */
     public function getCurrentRole(): ?UserRole {
         return $this->currentRole;
     }

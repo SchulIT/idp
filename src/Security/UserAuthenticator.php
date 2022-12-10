@@ -31,27 +31,10 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 class UserAuthenticator extends AbstractLoginFormAuthenticator {
 
     use TargetPathTrait;
-
-    private bool $isActiveDirectoryEnabled;
-    private UserPasswordHasherInterface $hasher;
     private LoggerInterface $logger;
-    private AdAuthInterface $adAuth;
-    private UserRepositoryInterface $userRepository;
 
-    private string $loginRoute;
-    private string $checkRoute;
-    private RouterInterface $router;
-
-    public function __construct(bool $isActiveDirectoryEnabled, string $loginRoute, string $checkRoute, UserPasswordHasherInterface $hasher, UserRepositoryInterface $userRepository,
-                                AdAuthInterface $adAuth, RouterInterface $router, LoggerInterface $logger = null) {
-        $this->isActiveDirectoryEnabled = $isActiveDirectoryEnabled;
-        $this->hasher = $hasher;
-        $this->userRepository = $userRepository;
-        $this->adAuth = $adAuth;
-        $this->loginRoute = $loginRoute;
-        $this->checkRoute = $checkRoute;
-        $this->router = $router;
-
+    public function __construct(private bool $isActiveDirectoryEnabled, private string $loginRoute, private string $checkRoute, private UserPasswordHasherInterface $hasher, private UserRepositoryInterface $userRepository,
+                                private AdAuthInterface $adAuth, private RouterInterface $router, LoggerInterface $logger = null) {
         $this->logger = $logger ?? new NullLogger();
     }
 
@@ -95,7 +78,7 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator {
             }
 
             return true;
-        } catch (SocketException $socketException) {
+        } catch (SocketException) {
             // Fallback
             if($this->hasher->isPasswordValid($user, $credentials->getPassword())) {
                 return true;

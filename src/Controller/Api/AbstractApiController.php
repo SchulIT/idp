@@ -8,10 +8,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 abstract class AbstractApiController extends AbstractController {
 
-    protected SerializerInterface $serializer;
-
-    public function __construct(SerializerInterface $serializer) {
-        $this->serializer = $serializer;
+    public function __construct(protected SerializerInterface $serializer)
+    {
     }
 
     public function returnJson($data, int $status = 200, array $headers = []): JsonResponse {

@@ -3,34 +3,21 @@
 namespace App\Command;
 
 use App\Repository\UserRepositoryInterface;
-use DateTime;
 use SchulIT\CommonBundle\Helper\DateHelper;
-use Shapecode\Bundle\CronBundle\Annotation\CronJob;
+use Shapecode\Bundle\CronBundle\Attribute\AsCronJob;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-/**
- * @CronJob("0 0 * * *")
- */
+#[AsCronJob(schedule: '0 0 * * *')]
+#[AsCommand(name: 'app:user:remove_deleted', description: 'Cleanup all external ids to remove duplicates.')]
 class RemoveDeletedUsers extends Command {
-
-    private DateHelper $dateHelper;
-    private UserRepositoryInterface $userRepository;
-
     private const Modifier = '-30 days';
 
-    public function __construct(DateHelper $dateHelper, UserRepositoryInterface $userRepository, string $name = null) {
+    public function __construct(private DateHelper $dateHelper, private UserRepositoryInterface $userRepository, string $name = null) {
         parent::__construct($name);
-        $this->dateHelper = $dateHelper;
-        $this->userRepository = $userRepository;
-    }
-
-    public function configure() {
-        $this
-            ->setName('app:user:remove_deleted')
-            ->setDescription('Cleanup all external ids to remove duplicates.');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int {

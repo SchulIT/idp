@@ -17,16 +17,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DashboardController extends AbstractController {
 
-    /**
-     * @Route("/")
-     */
+    #[Route(path: '/')]
     public function redirectToDashboard(): Response {
         return $this->redirectToRoute('dashboard');
     }
 
-    /**
-     * @Route("/dashboard", name="dashboard")
-     */
+    #[Route(path: '/dashboard', name: 'dashboard')]
     public function dashboard(Request $request, UserServiceProviderResolver $resolver): Response {
         /** @var User $user */
         $user = $this->getUser();
@@ -48,9 +44,7 @@ class DashboardController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/link", name="link_student")
-     */
+    #[Route(path: '/link', name: 'link_student')]
     public function index(Request $request, UserRepositoryInterface $userRepository, DateHelper $dateHelper,
                           RegistrationCodeRepositoryInterface $codeRepository, TranslatorInterface $translator): Response {
         $this->denyAccessUnlessGranted(LinkStudentVoter::LINK);

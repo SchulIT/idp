@@ -19,14 +19,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ProfileType extends AbstractType {
     use AttributeDataTrait;
 
-    private AttributeResolver $userAttributeResolver;
-    private TranslatorInterface $translator;
-    private PasswordStrengthHelper $passwordStrengthHelper;
-
-    public function __construct(AttributeResolver $userAttributeResolver, TranslatorInterface $translator, PasswordStrengthHelper $passwordStrengthHelper) {
-        $this->userAttributeResolver = $userAttributeResolver;
-        $this->translator = $translator;
-        $this->passwordStrengthHelper = $passwordStrengthHelper;
+    public function __construct(private AttributeResolver $userAttributeResolver, private TranslatorInterface $translator, private PasswordStrengthHelper $passwordStrengthHelper)
+    {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {

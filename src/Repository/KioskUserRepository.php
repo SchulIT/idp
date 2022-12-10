@@ -6,10 +6,8 @@ use App\Entity\KioskUser;
 use Doctrine\ORM\EntityManagerInterface;
 
 class KioskUserRepository implements KioskUserRepositoryInterface {
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $em) {
-        $this->em = $em;
+    public function __construct(private EntityManagerInterface $em)
+    {
     }
 
     public function findOneByToken(string $token): ?KioskUser {

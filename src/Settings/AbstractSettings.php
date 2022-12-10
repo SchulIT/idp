@@ -3,10 +3,8 @@
 namespace App\Settings;
 
 abstract class AbstractSettings {
-    private SettingsManager $settingsManager;
-
-    public function __construct(SettingsManager $settingsManager) {
-        $this->settingsManager = $settingsManager;
+    public function __construct(private SettingsManager $settingsManager)
+    {
     }
 
     protected function getValue(string $key, $default = null) {

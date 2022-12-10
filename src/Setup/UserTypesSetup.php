@@ -6,10 +6,8 @@ use App\Entity\UserType;
 use App\Repository\UserTypeRepositoryInterface;
 
 class UserTypesSetup {
-    private UserTypeRepositoryInterface $userTypeRepository;
-
-    public function __construct(UserTypeRepositoryInterface $userTypeRepository) {
-        $this->userTypeRepository = $userTypeRepository;
+    public function __construct(private UserTypeRepositoryInterface $userTypeRepository)
+    {
     }
 
     /**
@@ -29,9 +27,7 @@ class UserTypesSetup {
      * @return string[]
      */
     private function getExistingUserTypeAliases(): array {
-        return array_map(function(UserType $type) {
-            return $type->getAlias();
-        }, $this->userTypeRepository->findAll());
+        return array_map(fn(UserType $type) => $type->getAlias(), $this->userTypeRepository->findAll());
     }
 
     public function canSetup(): bool {

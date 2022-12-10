@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\UserType;
 use App\Entity\ServiceProvider;
 use App\Saml\EduPersonAffliation;
 use App\Service\AttributeResolver;
@@ -19,10 +20,8 @@ use Symfony\Component\Form\FormEvents;
 class UserTypeType extends AbstractType {
     use AttributeDataTrait;
 
-    private AttributeResolver $userAttributeResolver;
-
-    public function __construct(AttributeResolver $userAttributeResolver) {
-        $this->userAttributeResolver = $userAttributeResolver;
+    public function __construct(private AttributeResolver $userAttributeResolver)
+    {
     }
 
     private function getEduPersonAffliations() {
@@ -67,10 +66,8 @@ class UserTypeType extends AbstractType {
                         ])
                         ->add('enabledServices', EntityType::class, [
                             'class' => ServiceProvider::class,
-                            'query_builder' => function(EntityRepository $repository) {
-                                return $repository->createQueryBuilder('s')
-                                    ->orderBy('s.name', 'asc');
-                            },
+                            'query_builder' => fn(EntityRepository $repository) => $repository->createQueryBuilder('s')
+                                ->orderBy('s.name', 'asc'),
                             'choice_label' => 'name',
                             'label' => 'label.services',
                             'multiple' => true,
@@ -111,7 +108,7 @@ class UserTypeType extends AbstractType {
                 $form = $formEvent->getForm();
                 $type = $formEvent->getData();
 
-                if($type instanceof \App\Entity\UserType && $type->isBuiltIn()) {
+                if($type instanceof UserType && $type->isBuiltIn()) {
                     $form->get('group_general')
                         ->add('alias', TextType::class, [
                             'label' => 'label.alias',

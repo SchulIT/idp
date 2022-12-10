@@ -11,16 +11,12 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class ApplicationKeyGenerator {
 
-    private ApplicationRepositoryInterface $repository;
-
-    public function __construct(ApplicationRepositoryInterface $repository) {
-        $this->repository = $repository;
+    public function __construct(private ApplicationRepositoryInterface $repository)
+    {
     }
 
     /**
      * Generates a not used api key.
-     *
-     * @return string
      */
     public function generateApiKey(): string {
         do {

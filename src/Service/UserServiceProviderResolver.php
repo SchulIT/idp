@@ -13,10 +13,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Resolves services which users are enabled for.
  */
 class UserServiceProviderResolver {
-    private TokenStorageInterface $tokenStorage;
-
-    public function __construct(TokenStorageInterface $tokenStorage) {
-        $this->tokenStorage = $tokenStorage;
+    public function __construct(private TokenStorageInterface $tokenStorage)
+    {
     }
 
     private function getUser(): ?UserInterface {
@@ -84,9 +82,7 @@ class UserServiceProviderResolver {
         }
 
         // sort by name
-        usort($services, function(ServiceProvider $serviceProviderA, ServiceProvider $serviceProviderB) {
-            return strcmp($serviceProviderA->getName(), $serviceProviderB->getName());
-        });
+        usort($services, fn(ServiceProvider $serviceProviderA, ServiceProvider $serviceProviderB) => strcmp($serviceProviderA->getName(), $serviceProviderB->getName()));
 
         return new ArrayCollection(array_values($services));
     }

@@ -56,19 +56,12 @@ class OptionResolver {
         return $result;
     }
 
-    /**
-     * @param ActiveDirectorySyncOptionInterface $option
-     * @param string $ou
-     * @return bool
-     */
     private function checkForOuMembership(ActiveDirectorySyncOptionInterface $option, string $ou): bool {
         return $option->getSource() === $ou || substr($ou, -strlen($option->getSource())) == $option->getSource();
     }
 
     /**
-     * @param ActiveDirectorySyncOptionInterface $options
      * @param string[] $groups
-     * @return bool
      */
     private function checkForGroupMembership(ActiveDirectorySyncOptionInterface $options, array $groups): bool {
         foreach($groups as $group) {

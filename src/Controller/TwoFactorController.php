@@ -17,23 +17,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
-/**
- * @Route("/profile/two_factor")
- */
+#[Route(path: '/profile/two_factor')]
 class TwoFactorController extends AbstractController {
 
-    const TWO_FACTOR_EMAIL_CSRF_TOKEN = 'two-factor-csrf';
-    const GOOGLE_SECRET_KEY = 'google-code';
+    public const TWO_FACTOR_EMAIL_CSRF_TOKEN = 'two-factor-csrf';
+    public const GOOGLE_SECRET_KEY = 'google-code';
 
-    private UserRepositoryInterface $userRepository;
-
-    public function __construct(UserRepositoryInterface $repository) {
-        $this->userRepository = $repository;
+    public function __construct(private UserRepositoryInterface $userRepository)
+    {
     }
 
-    /**
-     * @Route("", name="two_factor")
-     */
+    #[Route(path: '', name: 'two_factor')]
     public function twoFactorAuthentication(Request $request, TrustedDeviceManager $trustedDeviceManager,
                                             FirewallMap $firewallMap, CsrfTokenManagerInterface $tokenManager): Response {
         $this->denyAccessUnlessGranted(ProfileVoter::USE_2FA);
@@ -56,9 +50,7 @@ class TwoFactorController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/google/enable", name="enable_google_two_factor")
-     */
+    #[Route(path: '/google/enable', name: 'enable_google_two_factor')]
     public function enableGoogleTwoFactorAuthentication(Request $request, BackupCodeGenerator $backupCodeGenerator,
                                                         GoogleAuthenticatorInterface $googleAuthenticator): Response {
         $this->denyAccessUnlessGranted(ProfileVoter::USE_2FA);
@@ -109,9 +101,7 @@ class TwoFactorController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/google/codes/regenerate", name="regenerate_backup_codes", methods={"POST"})
-     */
+    #[Route(path: '/google/codes/regenerate', name: 'regenerate_backup_codes', methods: ['POST'])]
     public function regenerateBackupCodes(Request $request, BackupCodeGenerator $backupCodeGenerator): Response {
         $this->denyAccessUnlessGranted(ProfileVoter::USE_2FA);
 
@@ -137,9 +127,7 @@ class TwoFactorController extends AbstractController {
         return $this->redirectToRoute('two_factor');
     }
 
-    /**
-     * @Route("/google/disable", name="disable_google_two_factor", methods={"POST"})
-     */
+    #[Route(path: '/google/disable', name: 'disable_google_two_factor', methods: ['POST'])]
     public function disableGoogleTwoFactorAuthentication(Request $request): Response {
         $this->denyAccessUnlessGranted(ProfileVoter::USE_2FA);
 

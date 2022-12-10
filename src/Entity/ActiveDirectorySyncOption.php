@@ -7,41 +7,29 @@ use Ramsey\Uuid\Uuid;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity()
- * @UniqueEntity(fields={"source"})
- */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['source'])]
 class ActiveDirectorySyncOption implements ActiveDirectorySyncOptionInterface {
 
     use IdTrait;
     use UuidTrait;
 
-    /**
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank]
     private $name;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $description;
 
-    /**
-     * @ORM\Column(type="string", unique=true)
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: 'string', unique: true)]
+    #[Assert\NotBlank]
     private $source;
 
-    /**
-     * @ORM\Column(type="ad_source_type", nullable=false)
-     */
+    #[ORM\Column(type: 'ad_source_type', nullable: false)]
     private $sourceType;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="UserType", inversedBy="syncOptions")
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
+    #[ORM\ManyToOne(targetEntity: 'UserType', inversedBy: 'syncOptions')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private $userType;
 
     public function __construct() {
@@ -97,15 +85,11 @@ class ActiveDirectorySyncOption implements ActiveDirectorySyncOptionInterface {
         return $this;
     }
 
-    /**
-     * @return ActiveDirectorySyncSourceType
-     */
     public function getSourceType(): ActiveDirectorySyncSourceType {
         return $this->sourceType;
     }
 
     /**
-     * @param ActiveDirectorySyncSourceType $sourceType
      * @return ActiveDirectorySyncOption
      */
     public function setSourceType(ActiveDirectorySyncSourceType $sourceType) {

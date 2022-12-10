@@ -2,6 +2,7 @@
 
 namespace App\Import;
 
+use League\Csv\Exception;
 use App\Entity\User;
 use App\Entity\UserType;
 use App\Repository\UserRepositoryInterface;
@@ -16,10 +17,8 @@ class UserCsvImportHelper {
     private const PasswordHeader = 'Passwort';
     private const GradeHeader = 'Klasse';
 
-    private UserRepositoryInterface $userRepository;
-
-    public function __construct(UserRepositoryInterface $userRepository) {
-        $this->userRepository = $userRepository;
+    public function __construct(private UserRepositoryInterface $userRepository)
+    {
     }
 
     public function getHeaders(): array {
@@ -42,12 +41,9 @@ class UserCsvImportHelper {
     /**
      * Loads users from a given CSV file into a list of user objects
      *
-     * @param string $csv
-     * @param string $delimiter
-     * @param UserType $userType
      * @return User[]
      * @throws RecordInvalidException
-     * @throws \League\Csv\Exception
+     * @throws Exception
      */
     public function getUsersFromCsv(string $csv, string $delimiter, UserType $userType): array {
         $reader = Reader::createFromString($csv);

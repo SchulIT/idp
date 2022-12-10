@@ -18,10 +18,8 @@ use LightSaml\Store\EntityDescriptor\EntityDescriptorStoreInterface;
  */
 class ServiceProviderEntityStore implements EntityDescriptorStoreInterface {
 
-    private ServiceProviderRepositoryInterface $repository;
-
-    public function __construct(ServiceProviderRepositoryInterface $repository) {
-        $this->repository = $repository;
+    public function __construct(private ServiceProviderRepositoryInterface $repository)
+    {
     }
 
     /**
@@ -66,9 +64,6 @@ class ServiceProviderEntityStore implements EntityDescriptorStoreInterface {
 
     /**
      * Converts a ServiceProvider entity into an entity descriptor for further use within the LightSAML library
-     *
-     * @param SamlServiceProvider $serviceProvider
-     * @return EntityDescriptor
      */
     public function getEntityDescriptor(SamlServiceProvider $serviceProvider): EntityDescriptor {
         $entityDescriptor = new EntityDescriptor($serviceProvider->getEntityId());
@@ -90,9 +85,7 @@ class ServiceProviderEntityStore implements EntityDescriptorStoreInterface {
     }
 
     /**
-     * @param SamlServiceProvider $serviceProvider
      * @param string $use
-     * @return KeyDescriptor
      */
     private function getKeyDescriptor(SamlServiceProvider $serviceProvider, $use): KeyDescriptor {
         $keyDescriptor = new KeyDescriptor();

@@ -8,10 +8,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UserTypeRepository implements UserTypeRepositoryInterface {
 
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $entityManager) {
-        $this->em = $entityManager;
+    public function __construct(private EntityManagerInterface $em)
+    {
     }
 
     public function countUsersOfUserType(UserType $userType): int {
@@ -35,9 +33,7 @@ class UserTypeRepository implements UserTypeRepositoryInterface {
      * @inheritDoc
      */
     public function findAllUuids(): array {
-        return array_map(function(array $item) {
-            return $item['uuid'];
-        },
+        return array_map(fn(array $item) => $item['uuid'],
             $this->em->createQueryBuilder()
             ->select('u.uuid')
             ->from(UserType::class, 'u')

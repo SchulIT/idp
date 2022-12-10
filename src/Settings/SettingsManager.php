@@ -11,25 +11,22 @@ use App\Utils\ArrayUtils;
  */
 class SettingsManager {
 
-    private SettingRepositoryInterface $repository;
-
     private bool $initialized = false;
 
     /** @var Setting[] */
     private array $settings = [ ];
 
-    public function __construct(SettingRepositoryInterface $settingRepository) {
-        $this->repository = $settingRepository;
+    public function __construct(private SettingRepositoryInterface $repository)
+    {
     }
 
     /**
      * Gets the value of a setting or $default if setting does not exist
      *
-     * @param string $key
      * @param mixed $default Default value which is returned if the setting with key $key is non-existent
      * @return mixed|null
      */
-    public function getValue(string $key, $default = null) {
+    public function getValue(string $key, mixed $default = null) {
         $this->initializeIfNecessary();
 
         if(isset($this->settings[$key])) {
@@ -41,11 +38,8 @@ class SettingsManager {
 
     /**
      * Sets the value of a setting
-     *
-     * @param string $key
-     * @param mixed $value
      */
-    public function setValue(string $key, $value) {
+    public function setValue(string $key, mixed $value) {
         $this->initializeIfNecessary();
 
         if(!isset($this->settings[$key])) {

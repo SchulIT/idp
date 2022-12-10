@@ -2,14 +2,15 @@
 
 namespace App\Security\Voter;
 
+use LogicException;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class ProfileVoter extends Voter {
 
-    const CHANGE_PASSWORD = 'change_password';
-    const USE_2FA = 'use_2fa';
+    public const CHANGE_PASSWORD = 'change_password';
+    public const USE_2FA = 'use_2fa';
 
     /**
      * @inheritDoc
@@ -27,13 +28,9 @@ class ProfileVoter extends Voter {
         if(!$user instanceof User) {
             return false;
         }
-
-        switch($attribute) {
-            case static::CHANGE_PASSWORD:
-            case static::USE_2FA:
-                return $user->canChangePassword();
-        }
-
-        throw new \LogicException('This code should not be reached');
+        return match ($attribute) {
+            static::CHANGE_PASSWORD, static::USE_2FA => $user->canChangePassword(),
+            default => throw new LogicException('This code should not be reached'),
+        };
     }
 }

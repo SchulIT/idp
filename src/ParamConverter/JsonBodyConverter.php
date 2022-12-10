@@ -18,24 +18,14 @@ class JsonBodyConverter implements ParamConverterInterface {
 
     private const ContentType = 'json';
 
-    private $prefix;
-
-    private $serializer;
-    private $contextFactory;
-    private $validator;
-
-    private $defaultOptions = [
+    private array $defaultOptions = [
         'validate' => true,
         'version' => null,
         'groups' => null
     ];
 
-    public function __construct(string $prefix, SerializerInterface $serializer, ValidatorInterface $validator, DeserializationContextFactoryInterface $contextFactory) {
-        $this->prefix = $prefix;
-
-        $this->serializer = $serializer;
-        $this->contextFactory = $contextFactory;
-        $this->validator = $validator;
+    public function __construct(private string $prefix, private SerializerInterface $serializer, private ValidatorInterface $validator, private DeserializationContextFactoryInterface $contextFactory)
+    {
     }
 
     /**
@@ -68,7 +58,7 @@ class JsonBodyConverter implements ParamConverterInterface {
             }
 
             $request->attributes->set($name, $object);
-        } catch (SerializerException $e) {
+        } catch (SerializerException) {
             throw new BadRequestHttpException('Request body does not contain valid JSON.');
         }
 
@@ -81,7 +71,7 @@ class JsonBodyConverter implements ParamConverterInterface {
     public function supports(ParamConverter $configuration): bool {
         $class = $configuration->getClass();
 
-        if(substr($class, 0, strlen($this->prefix)) === $this->prefix) {
+        if(str_starts_with($class, $this->prefix)) {
             return true;
         }
 

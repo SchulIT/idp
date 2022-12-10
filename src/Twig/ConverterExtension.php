@@ -9,10 +9,8 @@ use Twig\TwigFilter;
 
 class ConverterExtension extends AbstractExtension {
 
-    private UserStringConverter $userConverter;
-
-    public function __construct(UserStringConverter $userConverter) {
-        $this->userConverter = $userConverter;
+    public function __construct(private UserStringConverter $userConverter)
+    {
     }
 
     public function getFilters(): array {

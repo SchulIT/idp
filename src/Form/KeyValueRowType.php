@@ -35,9 +35,7 @@ class KeyValueRowType extends AbstractType
         if (null === $options['allowed_keys']) {
             $builder->add('key', $options['key_type'], $options['key_options']);
         } else {
-            $builder->add('key', ChoiceType::class, array_merge(array(
-                'choices' => $options['allowed_keys']
-            ), $options['key_options']
+            $builder->add('key', ChoiceType::class, array_merge(['choices' => $options['allowed_keys']], $options['key_options']
             ));
         }
 
@@ -54,14 +52,9 @@ class KeyValueRowType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'key_type' => TextType::class,
-            'key_options' => array(),
-            'value_options' => array(),
-            'allowed_keys' => null
-        ));
+        $resolver->setDefaults(['key_type' => TextType::class, 'key_options' => [], 'value_options' => [], 'allowed_keys' => null]);
 
-        $resolver->setRequired(array('value_type'));
-        $resolver->setAllowedTypes('allowed_keys', array('null', 'array'));
+        $resolver->setRequired(['value_type']);
+        $resolver->setAllowedTypes('allowed_keys', ['null', 'array']);
     }
 }

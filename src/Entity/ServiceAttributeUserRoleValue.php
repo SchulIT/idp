@@ -4,27 +4,19 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity()
- */
+#[ORM\Entity]
 class ServiceAttributeUserRoleValue implements ServiceAttributeValueInterface {
-    /**
-     * @ORM\Id()
-     * @ORM\ManyToOne(targetEntity="ServiceAttribute")
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: 'ServiceAttribute')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private $attribute;
 
-    /**
-     * @ORM\Id()
-     * @ORM\ManyToOne(targetEntity="UserRole", inversedBy="attributes")
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: 'UserRole', inversedBy: 'attributes')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private $userRole;
 
-    /**
-     * @ORM\Column(type="object", nullable=true)
-     */
+    #[ORM\Column(type: 'object', nullable: true)]
     private $value;
 
     /**
@@ -35,7 +27,6 @@ class ServiceAttributeUserRoleValue implements ServiceAttributeValueInterface {
     }
 
     /**
-     * @param ServiceAttribute $attribute
      * @return ServiceAttributeUserRoleValue
      */
     public function setAttribute(ServiceAttribute $attribute) {
@@ -51,7 +42,6 @@ class ServiceAttributeUserRoleValue implements ServiceAttributeValueInterface {
     }
 
     /**
-     * @param UserRole $userRole
      * @return ServiceAttributeUserRoleValue
      */
     public function setUserRole(UserRole $userRole) {
@@ -62,14 +52,14 @@ class ServiceAttributeUserRoleValue implements ServiceAttributeValueInterface {
     /**
      * @return string|string[]|int
      */
-    public function getValue() {
+    public function getValue(): string|array|int {
         return $this->value;
     }
 
     /**
      * @param string|string[]|int $value
      */
-    public function setValue($value) {
+    public function setValue(string|array|int $value) {
         $this->value = $value;
     }
 }

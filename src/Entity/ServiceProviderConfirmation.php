@@ -2,39 +2,32 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * @ORM\Entity()
- */
+#[ORM\Entity]
 class ServiceProviderConfirmation {
 
-    /**
-     * @ORM\Id()
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private $user;
 
-    /**
-     * @ORM\Id()
-     * @ORM\ManyToOne(targetEntity="ServiceProvider")
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: 'ServiceProvider')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private $serviceProvider;
 
     /**
-     * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="create")
      * @Gedmo\Timestampable(on="update")
      */
+    #[ORM\Column(type: 'datetime')]
     private $dateTime;
 
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $attributes = [ ];
+    #[ORM\Column(type: 'json')]
+    private array $attributes = [ ];
 
     /**
      * @return User|null
@@ -44,7 +37,6 @@ class ServiceProviderConfirmation {
     }
 
     /**
-     * @param User $user
      * @return ServiceProviderConfirmation
      */
     public function setUser(User $user) {
@@ -60,7 +52,6 @@ class ServiceProviderConfirmation {
     }
 
     /**
-     * @param ServiceProvider $serviceProvider
      * @return ServiceProviderConfirmation
      */
     public function setServiceProvider(ServiceProvider $serviceProvider) {
@@ -68,10 +59,7 @@ class ServiceProviderConfirmation {
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getDateTime(): ?\DateTime {
+    public function getDateTime(): ?DateTime {
         return $this->dateTime;
     }
 

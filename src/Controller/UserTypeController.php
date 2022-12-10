@@ -16,9 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Route("/admin/user_types")
- */
+#[Route(path: '/admin/user_types')]
 class UserTypeController extends AbstractController {
 
     use AttributeDataTrait;
@@ -26,15 +24,11 @@ class UserTypeController extends AbstractController {
     private const CSRF_TOKEN_ID = 'setup.user_types';
     private const CSRF_TOKEN_KEY = '_csrf_token';
 
-    private UserTypeRepositoryInterface $repository;
-
-    public function __construct(UserTypeRepositoryInterface $repository) {
-        $this->repository = $repository;
+    public function __construct(private UserTypeRepositoryInterface $repository)
+    {
     }
 
-    /**
-     * @Route("", name="user_types")
-     */
+    #[Route(path: '', name: 'user_types')]
     public function index(UserTypesSetup $setup): Response {
         $userTypes = $this->repository
             ->findAll();
@@ -47,9 +41,7 @@ class UserTypeController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/setup", name="setup_user_types", methods={"POST"})
-     */
+    #[Route(path: '/setup', name: 'setup_user_types', methods: ['POST'])]
     public function setupDefaultUserTypes(Request $request, UserTypesSetup $setup, TranslatorInterface $translator): Response {
         if($this->isCsrfTokenValid(static::CSRF_TOKEN_ID, $request->request->get(static::CSRF_TOKEN_KEY)) !== true) {
             $this->addFlash('error', $translator->trans('Invalid CSRF token.', [], 'security'));
@@ -61,9 +53,7 @@ class UserTypeController extends AbstractController {
         return $this->redirectToRoute('user_types');
     }
 
-    /**
-     * @Route("/add", name="add_user_type")
-     */
+    #[Route(path: '/add', name: 'add_user_type')]
     public function add(Request $request, AttributePersister $attributePersister): Response {
         $userType = new UserType();
 
@@ -85,9 +75,7 @@ class UserTypeController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/{uuid}/edit", name="edit_user_type")
-     */
+    #[Route(path: '/{uuid}/edit', name: 'edit_user_type')]
     public function edit(Request $request, UserType $userType, AttributePersister $attributePersister): Response {
         $form = $this->createForm(UserTypeType::class, $userType);
         $form->handleRequest($request);
@@ -108,9 +96,7 @@ class UserTypeController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/{uuid}/remove", name="remove_user_type")
-     */
+    #[Route(path: '/{uuid}/remove', name: 'remove_user_type')]
     public function remove(UserType $userType, Request $request, UserTypeRepositoryInterface $userTypeRepository, TranslatorInterface $translator): Response {
         $this->denyAccessUnlessGranted(UserTypeVoter::REMOVE, $userType);
 

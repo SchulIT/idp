@@ -12,20 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Route("/admin/ad_sync/grades")
- */
+#[Route(path: '/admin/ad_sync/grades')]
 class ActiveDirectoryGradeSyncOptionController extends AbstractController {
 
-    private ActiveDirectoryGradeSyncOptionRepositoryInterface $repository;
-
-    public function __construct(ActiveDirectoryGradeSyncOptionRepositoryInterface $repository) {
-        $this->repository = $repository;
+    public function __construct(private ActiveDirectoryGradeSyncOptionRepositoryInterface $repository)
+    {
     }
 
-    /**
-     * @Route("", name="ad_grades_sync_options")
-     */
+    #[Route(path: '', name: 'ad_grades_sync_options')]
     public function index(): Response {
         $options = $this->repository->findAll();
 
@@ -34,9 +28,7 @@ class ActiveDirectoryGradeSyncOptionController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/add", name="add_ad_grades_sync_options")
-     */
+    #[Route(path: '/add', name: 'add_ad_grades_sync_options')]
     public function add(Request $request): Response {
         $option = new ActiveDirectoryGradeSyncOption();
 
@@ -55,9 +47,7 @@ class ActiveDirectoryGradeSyncOptionController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/{uuid}/edit", name="edit_ad_grades_sync_options")
-     */
+    #[Route(path: '/{uuid}/edit', name: 'edit_ad_grades_sync_options')]
     public function edit(Request $request, ActiveDirectoryGradeSyncOption $option): Response {
         $form = $this->createForm(ActiveDirectoryGradeSyncOptionType::class, $option);
         $form->handleRequest($request);
@@ -75,9 +65,7 @@ class ActiveDirectoryGradeSyncOptionController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/{uuid}/remove", name="remove_ad_grades_sync_options")
-     */
+    #[Route(path: '/{uuid}/remove', name: 'remove_ad_grades_sync_options')]
     public function remove(ActiveDirectoryGradeSyncOption $option, Request $request, TranslatorInterface $translator): Response {
         $form = $this->createForm(ConfirmType::class, [], [
             'message' => $translator->trans('ad_sync_options.grades.remove.confirm', [

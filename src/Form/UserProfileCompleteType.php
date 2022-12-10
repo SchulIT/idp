@@ -16,12 +16,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserProfileCompleteType extends AbstractType {
 
-    private PasswordStrengthHelper $passwordStrengthHelper;
-    private TranslatorInterface $translator;
-
-    public function __construct(PasswordStrengthHelper $passwordStrengthHelper, TranslatorInterface $translator) {
-        $this->passwordStrengthHelper = $passwordStrengthHelper;
-        $this->translator = $translator;
+    public function __construct(private PasswordStrengthHelper $passwordStrengthHelper, private TranslatorInterface $translator)
+    {
     }
 
     public function configureOptions(OptionsResolver $resolver) {

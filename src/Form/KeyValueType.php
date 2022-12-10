@@ -45,13 +45,10 @@ class KeyValueType extends AbstractType
                 return;
             }
 
-            $output = array();
+            $output = [];
 
             foreach ($input as $key => $value) {
-                $output[] = array(
-                    'key' => $key,
-                    'value' => $value
-                );
+                $output[] = ['key' => $key, 'value' => $value];
             }
 
             $e->setData($output);
@@ -60,28 +57,10 @@ class KeyValueType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'entry_type' => KeyValueRowType::class,
-            'allow_add' => true,
-            'allow_delete' => true,
-            'key_type' => TextType::class,
-            'key_options' => array(),
-            'value_options' => array(),
-            'allowed_keys' => null,
-            'use_container_object' => false,
-            'entry_options' => function(Options $options) {
-                return array(
-                    'key_type' => $options['key_type'],
-                    'value_type' => $options['value_type'],
-                    'key_options' => $options['key_options'],
-                    'value_options' => $options['value_options'],
-                    'allowed_keys' => $options['allowed_keys']
-                );
-            }
-        ));
+        $resolver->setDefaults(['entry_type' => KeyValueRowType::class, 'allow_add' => true, 'allow_delete' => true, 'key_type' => TextType::class, 'key_options' => [], 'value_options' => [], 'allowed_keys' => null, 'use_container_object' => false, 'entry_options' => fn(Options $options) => ['key_type' => $options['key_type'], 'value_type' => $options['value_type'], 'key_options' => $options['key_options'], 'value_options' => $options['value_options'], 'allowed_keys' => $options['allowed_keys']]]);
 
-        $resolver->setRequired(array('value_type'));
-        $resolver->setAllowedTypes('allowed_keys', array('null', 'array'));
+        $resolver->setRequired(['value_type']);
+        $resolver->setAllowedTypes('allowed_keys', ['null', 'array']);
     }
 
     public function getParent(): string {

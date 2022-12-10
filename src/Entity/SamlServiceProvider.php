@@ -9,37 +9,33 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity()
- */
+#[ORM\Entity]
 class SamlServiceProvider extends ServiceProvider {
-    /**
-     * @ORM\Column(type="string", unique=true)
-     * @Assert\NotBlank()
-     * @Assert\Length(max="128")
-     */
+    #[ORM\Column(type: 'string', unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 128)]
     private $entityId;
 
     /**
-     * @ORM\Column(type="text")
-     * @Assert\NotBlank()
-     * @Assert\Url()
      * @Serializer\Exclude()
      */
+    #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank]
+    #[Assert\Url]
     private $acs;
 
     /**
-     * @ORM\Column(type="text")
-     * @Assert\NotBlank()
      * @X509Certificate()
      * @Serializer\Exclude()
      */
+    #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank]
     private $certificate;
 
     /**
-     * @ORM\ManyToMany(targetEntity="ServiceAttribute", mappedBy="services")
      * @Serializer\Exclude()
      */
+    #[ORM\ManyToMany(targetEntity: 'ServiceAttribute', mappedBy: 'services')]
     private $attributes;
 
     public function __construct() {
@@ -95,9 +91,6 @@ class SamlServiceProvider extends ServiceProvider {
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getAttributes(): Collection {
         return $this->attributes;
     }

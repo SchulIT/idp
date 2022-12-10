@@ -11,73 +11,67 @@ class UserRequest {
 
     /**
      * @Serializer\Type("string")
-     * @Assert\NotBlank()
      */
+    #[Assert\NotBlank]
     private $username;
 
     /**
      * @Serializer\Type("string")
-     * @Assert\NotBlank(allowNull=true)
-     * @var string|null
      */
-    private $password;
+    #[Assert\NotBlank(allowNull: true)]
+    private ?string $password = null;
 
     /**
      * @Serializer\Type("string")
-     * @var string|null
      */
-    private $externalId;
+    private ?string $externalId = null;
 
     /**
      * @Serializer\Type("string")
-     * @Assert\NotBlank()
      */
+    #[Assert\NotBlank]
     private $firstname;
 
     /**
      * @Serializer\Type("string")
-     * @Assert\NotBlank()
-     * @Assert\Email()
      */
+    #[Assert\NotBlank]
+    #[Assert\Email]
     private $email;
 
     /**
      * @Serializer\Type("string")
-     * @Assert\NotBlank()
      */
+    #[Assert\NotBlank]
     private $lastname;
 
     /**
      * @Serializer\Type("string")
-     * @var string|null
      */
-    private $grade;
+    private ?string $grade = null;
 
     /**
      * @Serializer\Type("string")
-     * @Assert\NotBlank()
-     * @Assert\Uuid()
      * @ValidUserTypeUuid()
-     * @var string
      */
-    private $type;
+    #[Assert\NotBlank]
+    #[Assert\Uuid]
+    private string $type;
 
     /**
      * @Serializer\Type("boolean")
      */
-    private $isActive = true;
+    private bool $isActive = true;
 
     /**
      * @Serializer\Type("DateTime")
-     * @var DateTime|null
      */
-    private $enabledFrom;
+    private ?DateTime $enabledFrom = null;
 
     /**
      * @Serializer\Type("DateTime")
-     * @var DateTime|null
      */
-    private $enabledUntil;
+    private ?DateTime $enabledUntil = null;
 
     /**
      * @return string
@@ -86,16 +80,10 @@ class UserRequest {
         return $this->username;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPassword(): ?string {
         return $this->password;
     }
 
-    /**
-     * @return string|null
-     */
     public function getExternalId(): ?string {
         return $this->externalId;
     }
@@ -121,9 +109,6 @@ class UserRequest {
         return $this->lastname;
     }
 
-    /**
-     * @return string|null
-     */
     public function getGrade(): ?string {
         return $this->grade;
     }
@@ -135,23 +120,14 @@ class UserRequest {
         return $this->type;
     }
 
-    /**
-     * @return bool
-     */
     public function isActive(): bool {
         return $this->isActive;
     }
 
-    /**
-     * @return DateTime|null
-     */
     public function getEnabledFrom(): ?DateTime {
         return $this->enabledFrom;
     }
 
-    /**
-     * @return DateTime|null
-     */
     public function getEnabledUntil(): ?DateTime {
         return $this->enabledUntil;
     }

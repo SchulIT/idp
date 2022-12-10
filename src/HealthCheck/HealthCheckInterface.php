@@ -6,5 +6,5 @@ interface HealthCheckInterface {
     /**
      * @return HealthCheckResult|HealthCheckResult[]
      */
-    public function runCheck();
+    public function runCheck(): HealthCheckResult|array;
 }

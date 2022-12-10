@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\ServiceAttributeType;
 use App\Repository\ServiceAttributeRepositoryInterface;
 use SchulIT\CommonBundle\Form\FieldsetType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -11,12 +12,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AttributesType extends FieldsetType {
 
-    const EXPANDED_THRESHOLD = 7;
+    public const EXPANDED_THRESHOLD = 7;
 
-    private ServiceAttributeRepositoryInterface $serviceAttributeRepository;
-
-    public function __construct(ServiceAttributeRepositoryInterface $serviceAttributeRepository) {
-        $this->serviceAttributeRepository = $serviceAttributeRepository;
+    public function __construct(private ServiceAttributeRepositoryInterface $serviceAttributeRepository)
+    {
     }
 
     public function configureOptions(OptionsResolver $resolver) {
@@ -34,7 +33,7 @@ class AttributesType extends FieldsetType {
         $onlyUserEditable = $options['only_user_editable'];
 
         foreach($this->serviceAttributeRepository->findAll() as $attribute) {
-            $type = $attribute->getType()->equals(\App\Entity\ServiceAttributeType::Text()) ? TextType::class : ChoiceType::class;
+            $type = $attribute->getType()->equals(ServiceAttributeType::Text()) ? TextType::class : ChoiceType::class;
 
             $options = [
                 'label' => $attribute->getLabel(),

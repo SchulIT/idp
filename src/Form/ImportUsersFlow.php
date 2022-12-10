@@ -14,10 +14,8 @@ class ImportUsersFlow extends FormFlow {
     protected $handleFileUploads = true;
     protected $revalidatePreviousSteps = false;
 
-    private $helper;
-
-    public function __construct(UserCsvImportHelper $helper) {
-        $this->helper = $helper;
+    public function __construct(private UserCsvImportHelper $helper)
+    {
     }
 
     public function loadStepsConfig(): array {

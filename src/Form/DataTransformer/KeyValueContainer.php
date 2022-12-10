@@ -26,11 +26,8 @@ use ArrayAccess;
 
 class KeyValueContainer implements ArrayAccess
 {
-    private array $data;
-
-    public function __construct(array $data = array())
+    public function __construct(private array $data = [])
     {
-        $this->data = $data;
     }
 
     public function toArray(): array {

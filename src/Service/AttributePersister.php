@@ -21,21 +21,15 @@ use Closure;
 class AttributePersister {
     use ArrayTrait;
 
-    private ServiceAttributeRepositoryInterface $attributeRepository;
-    private ServiceAttributeValueRepositoryInterface $attributeValueRepository;
-
-    public function __construct(ServiceAttributeRepositoryInterface $attributeRepository, ServiceAttributeValueRepositoryInterface $attributeValueRepository) {
-        $this->attributeRepository = $attributeRepository;
-        $this->attributeValueRepository = $attributeValueRepository;
+    public function __construct(private ServiceAttributeRepositoryInterface $attributeRepository, private ServiceAttributeValueRepositoryInterface $attributeValueRepository)
+    {
     }
 
     public function persist(array $values, array $currentAttributes, Closure $factory): void {
         /** @var ServiceAttribute[] $attributes */
         $attributes = $this->makeArrayWithKeys(
             $this->attributeRepository->findAll(),
-            function(ServiceAttribute $attribute) {
-                return $attribute->getName();
-            }
+            fn(ServiceAttribute $attribute) => $attribute->getName()
         );
 
         if($this->attributeValueRepository instanceof TransactionalRepositoryInterface) {
@@ -83,9 +77,7 @@ class AttributePersister {
         /** @var ServiceAttributeValue[] $currentUserAttributes */
         $currentUserAttributes = $this->makeArrayWithKeys(
             $user->getAttributes()->toArray(),
-            function(ServiceAttributeValue $attributeValue) {
-                return $attributeValue->getAttribute()->getName();
-            }
+            fn(ServiceAttributeValue $attributeValue) => $attributeValue->getAttribute()->getName()
         );
 
         $this->persist($values, $currentUserAttributes, $factory);
@@ -103,9 +95,7 @@ class AttributePersister {
         /** @var ServiceAttributeUserRoleValue[] $currentUserAttributes */
         $currentUserAttributes = $this->makeArrayWithKeys(
             $userRole->getAttributes()->toArray(),
-            function(ServiceAttributeUserRoleValue $attributeValue) {
-                return $attributeValue->getAttribute()->getName();
-            }
+            fn(ServiceAttributeUserRoleValue $attributeValue) => $attributeValue->getAttribute()->getName()
         );
 
         $this->persist($values, $currentUserAttributes, $factory);
@@ -123,9 +113,7 @@ class AttributePersister {
         /** @var ServiceAttributeUserRoleValue[] $currentUserAttributes */
         $currentUserAttributes = $this->makeArrayWithKeys(
             $userType->getAttributes()->toArray(),
-            function(ServiceAttributeUserTypeValue $attributeValue) {
-                return $attributeValue->getAttribute()->getName();
-            }
+            fn(ServiceAttributeUserTypeValue $attributeValue) => $attributeValue->getAttribute()->getName()
         );
 
         $this->persist($values, $currentUserAttributes, $factory);

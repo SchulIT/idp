@@ -11,9 +11,8 @@ class UniqueUsername extends Constraint {
 
     /**
      * Type of the user (user or ad)
-     * @var string
      */
-    public $type = 'user';
+    public string $type = 'user';
 
-    public $message = 'Username already exists or user does not match given type.';
+    public string $message = 'Username already exists or user does not match given type.';
 }

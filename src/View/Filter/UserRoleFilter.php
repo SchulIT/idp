@@ -7,18 +7,14 @@ use App\Repository\UserRoleRepositoryInterface;
 use App\Utils\ArrayUtils;
 
 class UserRoleFilter {
-    private UserRoleRepositoryInterface $userRoleRepository;
-
-    public function __construct(UserRoleRepositoryInterface $repository) {
-        $this->userRoleRepository = $repository;
+    public function __construct(private UserRoleRepositoryInterface $userRoleRepository)
+    {
     }
 
     public function handle(?string $roleUuid): UserRoleFilterView {
         $roles = ArrayUtils::createArrayWithKeys(
             $this->userRoleRepository->findAll(),
-            function(UserRole $role) {
-                return (string)$role->getUuid();
-            });
+            fn(UserRole $role) => (string)$role->getUuid());
 
         $currentRole = $roles[$roleUuid] ?? null;
 

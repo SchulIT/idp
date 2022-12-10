@@ -28,14 +28,11 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 class HashToKeyValueArrayTransformer implements DataTransformerInterface
 {
 
-    private bool $useContainerObject;
-
     /**
      * @param bool $useContainerObject Whether to return a KeyValueContainer object or simply an array
      */
-    public function __construct(bool $useContainerObject)
+    public function __construct(private bool $useContainerObject)
     {
-        $this->useContainerObject = $useContainerObject;
     }
 
     /**
@@ -48,15 +45,13 @@ class HashToKeyValueArrayTransformer implements DataTransformerInterface
     }
 
     /**
-     * @param mixed $value
-     * @return KeyValueContainer|array
      * @throws TransformationFailedException
      */
     public function reverseTransform(mixed $value): KeyValueContainer|array {
-        $return = $this->useContainerObject ? new KeyValueContainer() : array();
+        $return = $this->useContainerObject ? new KeyValueContainer() : [];
 
         foreach ($value as $data) {
-            if (array('key', 'value') != array_keys($data)) {
+            if (['key', 'value'] != array_keys($data)) {
                 throw new TransformationFailedException;
             }
 

@@ -30,17 +30,13 @@ class UserController extends AbstractController {
 
     use AttributeDataTrait;
 
-    const USERS_PER_PAGE = 25;
+    public const USERS_PER_PAGE = 25;
 
-    const CsrfTokenId = 'remove_user';
-    const CsrfTokenKey = '_csrf_token';
+    public const CsrfTokenId = 'remove_user';
+    public const CsrfTokenKey = '_csrf_token';
 
-    private UserRepositoryInterface $repository;
-    private UserTypeRepositoryInterface $typeRepository;
-
-    public function __construct(UserRepositoryInterface $repository, UserTypeRepositoryInterface $typeRepository) {
-        $this->repository = $repository;
-        $this->typeRepository = $typeRepository;
+    public function __construct(private UserRepositoryInterface $repository, private UserTypeRepositoryInterface $typeRepository)
+    {
     }
 
     private function internalDisplay(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter, bool $deleted): Response {
@@ -97,23 +93,17 @@ class UserController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/users", name="users")
-     */
+    #[Route(path: '/users', name: 'users')]
     public function index(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter): Response {
         return $this->internalDisplay($request, $typeFilter, $roleFilter, false);
     }
 
-    /**
-     * @Route("/users/trash", name="users_trash")
-     */
+    #[Route(path: '/users/trash', name: 'users_trash')]
     public function trash(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter): Response {
         return $this->internalDisplay($request, $typeFilter, $roleFilter, true);
     }
 
-    /**
-     * @Route("/users/{uuid}/attributes", name="show_attributes")
-     */
+    #[Route(path: '/users/{uuid}/attributes', name: 'show_attributes')]
     public function showAttributes(User $user, AttributeResolver $resolver, AttributeValueProvider $provider): Response {
         $attributes = $resolver->getDetailedResultingAttributeValuesForUser($user);
         $defaultAttributes = $provider->getCommonAttributesForUser($user);
@@ -125,9 +115,7 @@ class UserController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/users/add", name="add_user")
-     */
+    #[Route(path: '/users/add', name: 'add_user')]
     public function add(Request $request, AttributePersister $attributePersister, UserPasswordHasherInterface $passwordHasher): Response {
         $user = new User();
 
@@ -151,9 +139,7 @@ class UserController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/users/{uuid}/edit", name="edit_user")
-     */
+    #[Route(path: '/users/{uuid}/edit', name: 'edit_user')]
     public function edit(Request $request, User $user, AttributePersister $attributePersister, UserPasswordHasherInterface $passwordHasher): Response {
         if($user->isDeleted()) {
             throw new NotFoundHttpException();
@@ -186,9 +172,7 @@ class UserController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/users/{uuid}/remove", name="remove_user")
-     */
+    #[Route(path: '/users/{uuid}/remove', name: 'remove_user')]
     public function remove(User $user, Request $request, TranslatorInterface $translator): Response {
         if($this->getUser() instanceof User && $this->getUser()->getId() === $user->getId()) {
             $this->addFlash('error', 'users.remove.error.self');
@@ -229,9 +213,7 @@ class UserController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/users/{uuid}/restore", name="restore_user", methods={"POST"})
-     */
+    #[Route(path: '/users/{uuid}/restore', name: 'restore_user', methods: ['POST'])]
     public function restore(User $user, Request $request): Response {
         if($this->getUser() instanceof User && $this->getUser()->getId() === $user->getId()) {
             $this->addFlash('error', 'users.restore.error.self');
@@ -249,9 +231,7 @@ class UserController extends AbstractController {
         return $this->redirectToRoute('users_trash');
     }
 
-    /**
-     * @Route("/users/{uuid}/reset_password", name="reset_password")
-     */
+    #[Route(path: '/users/{uuid}/reset_password', name: 'reset_password')]
     public function resetPassword(Request $request, User $user, ForgotPasswordManager $manager): Response {
         if($manager->canResetPassword($user, 'email@exmaple.com') === false) {
             $this->addFlash('error', 'users.reset_pw.cannot_change');

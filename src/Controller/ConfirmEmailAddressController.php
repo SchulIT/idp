@@ -9,9 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ConfirmEmailAddressController extends AbstractController {
-    /**
-     * @Route("/confirm/{token}", name="confirm_email")
-     */
+    #[Route(path: '/confirm/{token}', name: 'confirm_email')]
     public function confirmEmailAddress($token, ConfirmationManager $confirmationManager): Response {
         if(empty($token)) {
             return $this->redirectToRoute('dashboard');
@@ -19,7 +17,7 @@ class ConfirmEmailAddressController extends AbstractController {
 
         try {
             $confirmationManager->confirm($token);
-        } catch (TokenNotFoundException $e) {
+        } catch (TokenNotFoundException) {
             return $this->render('confirmation/email.html.twig', [
                 'error' => true
             ]);

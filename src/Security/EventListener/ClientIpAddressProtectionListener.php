@@ -10,10 +10,8 @@ use Symfony\Component\Security\Http\Event\CheckPassportEvent;
 
 class ClientIpAddressProtectionListener implements EventSubscriberInterface {
 
-    private RequestStack $requestStack;
-
-    public function __construct(RequestStack $requestStack) {
-        $this->requestStack = $requestStack;
+    public function __construct(private RequestStack $requestStack)
+    {
     }
 
     public function checkPassport(CheckPassportEvent $event): void {

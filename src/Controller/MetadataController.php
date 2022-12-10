@@ -10,9 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MetadataController extends AbstractController {
 
-    /**
-     * @Route("/metadata", name="xml_metadata")
-     */
+    #[Route(path: '/metadata', name: 'xml_metadata')]
     public function xml(EntityDescriptorProviderInterface $provider): Response {
         $context = new SerializationContext();
         $own = $provider->get();
@@ -20,7 +18,7 @@ class MetadataController extends AbstractController {
         $context->getDocument()->formatOutput = true;
         $idpXml = $context->getDocument()->saveXML();
 
-        return new Response($idpXml, 200, [
+        return new Response($idpXml, Response::HTTP_OK, [
             'Content-Type' => 'application/xml'
         ]);
     }

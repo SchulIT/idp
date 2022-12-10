@@ -9,14 +9,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @IsGranted("ROLE_ADMIN")
- */
+#[IsGranted('ROLE_ADMIN')]
 class MarkdownController extends AbstractController {
 
-    /**
-     * @Route("/xhr/markdown", name="markdown_preview")
-     */
+    #[Route(path: '/xhr/markdown', name: 'markdown_preview')]
     public function preview(Request $request, MarkdownConverterInterface $converter): Response {
         $markdown = $request->getContent();
 

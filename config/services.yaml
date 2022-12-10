@@ -110,6 +110,7 @@ services:
     # Controllers
     App\Controller\IdpController:
         bind:
+            $kernelProjectDir: '%kernel.project_dir%'
             $provider: '@lightsaml.own.entity_descriptor_provider'
 
     App\Controller\MetadataController:

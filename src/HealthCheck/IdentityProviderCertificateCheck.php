@@ -2,14 +2,13 @@
 
 namespace App\HealthCheck;
 
+use Exception;
 class IdentityProviderCertificateCheck extends AbstractCertificateHealthCheck {
-    private string $certificateFile;
-
-    public function __construct(string $certificateFile) {
-        $this->certificateFile = $certificateFile;
+    public function __construct(private string $certificateFile)
+    {
     }
 
-    public function runCheck() {
+    public function runCheck(): HealthCheckResult|array {
         if(!is_readable($this->certificateFile)) {
             return new HealthCheckResult(
                 HealthCheckResultType::Error(),
@@ -22,7 +21,7 @@ class IdentityProviderCertificateCheck extends AbstractCertificateHealthCheck {
             $certificate = file_get_contents($this->certificateFile);
 
             return $this->checkCertificate($certificate);
-        } catch(\Exception $e) {
+        } catch(Exception $e) {
             return new HealthCheckResult(
                 HealthCheckResultType::Error(),
                 'health_check.error',

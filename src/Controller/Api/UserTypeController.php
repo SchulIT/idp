@@ -9,15 +9,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use OpenApi\Annotations as OA;
 
-/**
- * @Route("/api")
- */
+#[Route(path: '/api')]
 class UserTypeController extends AbstractApiController {
 
     /**
      * Returns a list of user types which a user can be assigned.
      *
-     * @Route("/user_types", methods={"GET"})
      * @OA\Get(operationId="api_usertypes_list")
      * @OA\Response(
      *     response="200",
@@ -25,6 +22,7 @@ class UserTypeController extends AbstractApiController {
      *     @Model(type=ListUserTypeResponse::class)
      * )
      */
+    #[Route(path: '/user_types', methods: ['GET'])]
     public function getUserTypes(UserTypeRepositoryInterface $repository): Response {
         $types = $repository->findAll();
 

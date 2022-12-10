@@ -9,10 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ServiceProviderConfirmationRepository implements ServiceProviderConfirmationRepositoryInterface {
 
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $entityManager) {
-        $this->em = $entityManager;
+    public function __construct(private EntityManagerInterface $em)
+    {
     }
 
     public function findOneByUserAndServiceProvider(User $user, ServiceProvider $serviceProvider): ?ServiceProviderConfirmation {

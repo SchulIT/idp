@@ -7,17 +7,10 @@ use App\Service\UserServiceProviderResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UserVariable {
-    private TokenStorageInterface $tokenStorage;
-    private UserServiceProviderResolver $serviceProviderResolver;
-
-    public function __construct(TokenStorageInterface $tokenStorage, UserServiceProviderResolver $serviceProviderResolver) {
-        $this->tokenStorage = $tokenStorage;
-        $this->serviceProviderResolver = $serviceProviderResolver;
+    public function __construct(private TokenStorageInterface $tokenStorage, private UserServiceProviderResolver $serviceProviderResolver)
+    {
     }
 
-    /**
-     * @return User|null
-     */
     public function getUser(): ?User {
         $token = $this->tokenStorage->getToken();
 

@@ -17,10 +17,8 @@ class ApplicationAuthenticator extends AbstractAuthenticator {
 
     public const HEADER_KEY = 'X-Token';
 
-    private ApplicationRepositoryInterface $repository;
-
-    public function __construct(ApplicationRepositoryInterface $repository) {
-        $this->repository = $repository;
+    public function __construct(private ApplicationRepositoryInterface $repository)
+    {
     }
 
     /**
@@ -52,9 +50,7 @@ class ApplicationAuthenticator extends AbstractAuthenticator {
         }
 
         return new SelfValidatingPassport(
-            new UserBadge($token, function($token) {
-                return $this->repository->findOneByApiKey($token);
-            })
+            new UserBadge($token, fn($token) => $this->repository->findOneByApiKey($token))
         );
     }
 

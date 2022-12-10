@@ -11,12 +11,10 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class ServiceProviderVoter extends Voter {
 
-    const ENABLED = 'enabled';
+    public const ENABLED = 'enabled';
 
-    private $userServiceProviderResolver;
-
-    public function __construct(UserServiceProviderResolver $userServiceProviderResolver) {
-        $this->userServiceProviderResolver = $userServiceProviderResolver;
+    public function __construct(private UserServiceProviderResolver $userServiceProviderResolver)
+    {
     }
 
     protected function supports($attribute, $subject): bool {
@@ -25,10 +23,7 @@ class ServiceProviderVoter extends Voter {
     }
 
     /**
-     * @param string $attribute
      * @param ServiceProvider $subject
-     * @param TokenInterface $token
-     * @return bool
      */
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool {
         if(!$subject instanceof SamlServiceProvider) {

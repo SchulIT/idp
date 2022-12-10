@@ -8,10 +8,8 @@ use Twig\TwigFunction;
 
 class HealthCheckExtension extends AbstractExtension {
 
-    private HealthCheckService $service;
-
-    public function __construct(HealthCheckService $service) {
-        $this->service = $service;
+    public function __construct(private HealthCheckService $service)
+    {
     }
 
     public function getFunctions(): array {

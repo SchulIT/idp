@@ -8,10 +8,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ImportUserData extends AbstractImportData {
 
     /**
-     * @Assert\Valid(groups={"User", "step_two"})
      * @var User[]
      */
-    private $users = [ ];
+    #[Assert\Valid(groups: ['User', 'step_two'])]
+    private array $users = [ ];
 
     /**
      * @return User[]
@@ -22,7 +22,6 @@ class ImportUserData extends AbstractImportData {
 
     /**
      * @param User[] $users
-     * @return ImportUserData
      */
     public function setUsers(array $users): ImportUserData {
         $this->users = $users;

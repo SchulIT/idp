@@ -8,10 +8,8 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 class EmailConfirmationRepository implements EmailConfirmationRepositoryInterface {
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $em) {
-        $this->em = $em;
+    public function __construct(private EntityManagerInterface $em)
+    {
     }
 
     public function findOneByToken(string $token): ?EmailConfirmation {

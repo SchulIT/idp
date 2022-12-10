@@ -2,6 +2,9 @@
 
 namespace App\Service;
 
+use SchulIT\IdpExchange\Response\UsersResponse;
+use SchulIT\IdpExchange\Response\UserResponse;
+use DateTime;
 use App\Entity\User;
 use App\Repository\UserRepositoryInterface;
 use App\Saml\AttributeValueProvider;
@@ -15,18 +18,10 @@ use SchulIT\IdpExchange\Response\Builder\UsersResponseBuilder;
 use SchulIT\IdpExchange\Response\UpdatedUsersResponse;
 
 class IdpExchangeService {
-    private UserRepositoryInterface $userRepository;
-    private AttributeValueProvider $attributeValueProvider;
-
-    public function __construct(UserRepositoryInterface $userRepository, AttributeValueProvider $attributeValueProvider) {
-        $this->userRepository = $userRepository;
-        $this->attributeValueProvider = $attributeValueProvider;
+    public function __construct(private UserRepositoryInterface $userRepository, private AttributeValueProvider $attributeValueProvider)
+    {
     }
 
-    /**
-     * @param UpdatedUsersRequest $request
-     * @return UpdatedUsersResponse
-     */
     public function getUpdatedUsers(UpdatedUsersRequest $request): UpdatedUsersResponse {
         $users = $this->userRepository->findUsersUpdatedAfter($request->since, $request->usernames);
 
@@ -39,7 +34,7 @@ class IdpExchangeService {
         return $builder->build();
     }
 
-    public function getUsers(UsersRequest $request, string $entityId): \SchulIT\IdpExchange\Response\UsersResponse {
+    public function getUsers(UsersRequest $request, string $entityId): UsersResponse {
         $users = $this->userRepository->findUsersByUsernames($request->usernames);
 
         $builder = new UsersResponseBuilder();
@@ -51,13 +46,13 @@ class IdpExchangeService {
         return $builder->build();
     }
 
-    public function getUser(UserRequest $request, string $entityId): \SchulIT\IdpExchange\Response\UserResponse {
+    public function getUser(UserRequest $request, string $entityId): UserResponse {
         $user = $this->userRepository->findOneByUsername($request->username);
 
         return $this->buildUserResponse($user, $entityId);
     }
 
-    private function buildUserResponse(User $user = null, string $entityId = null): \SchulIT\IdpExchange\Response\UserResponse {
+    private function buildUserResponse(User $user = null, string $entityId = null): UserResponse {
         $builder = new UserResponseBuilder();
 
         if($user !== null) {
@@ -91,7 +86,7 @@ class IdpExchangeService {
         return $builder->build();
     }
 
-    private function computeLastUpdate(User $user): \DateTime {
+    private function computeLastUpdate(User $user): DateTime {
         $max = $user->getUpdatedAt();
 
         foreach($user->getAttributes() as $attribute) {
@@ -99,7 +94,7 @@ class IdpExchangeService {
         }
 
         if($max === null) {
-            return new \DateTime('2019-01-01');
+            return new DateTime('2019-01-01');
         }
 
         return $max;

@@ -10,10 +10,8 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface {
 
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $em) {
-        $this->em = $em;
+    public function __construct(private EntityManagerInterface $em)
+    {
     }
 
     private function createDefaultQueryBuilder(): QueryBuilder {
@@ -96,9 +94,7 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
             ->select('u.uuid')
             ->from(RegistrationCode::class, 'u');
 
-        return array_map(function(array $item) {
-            return $item['uuid'];
-        }, $qb->getQuery()->getScalarResult());
+        return array_map(fn(array $item) => $item['uuid'], $qb->getQuery()->getScalarResult());
     }
 
     public function removeRedeemed(): void {

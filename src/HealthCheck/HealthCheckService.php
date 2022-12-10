@@ -24,9 +24,8 @@ class HealthCheckService {
             if($checkResult instanceof HealthCheckResult) {
                 $results[] = $checkResult;
             } else if(is_array($checkResult)) {
-                $results += array_filter($checkResult, function ($result) { // Ensure correct type
-                    return $result instanceof HealthCheckResult;
-                });
+                $results += array_filter($checkResult, fn($result) => // Ensure correct type
+$result instanceof HealthCheckResult);
             }
         }
 
@@ -39,8 +38,6 @@ class HealthCheckService {
     public function runAllCheckReturnNonFine(): array {
         $results = $this->runAllChecks();
 
-        return array_filter($results, function(HealthCheckResult $checkResult) {
-            return $checkResult->getType()->equals(HealthCheckResultType::Fine()) !== true;
-        });
+        return array_filter($results, fn(HealthCheckResult $checkResult) => $checkResult->getType()->equals(HealthCheckResultType::Fine()) !== true);
     }
 }

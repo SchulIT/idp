@@ -27,12 +27,8 @@ use Symfony\Component\Form\FormEvents;
 class UserType extends AbstractType {
     use AttributeDataTrait;
 
-    private AttributeResolver $userAttributeResolver;
-    private PasswordStrengthHelper $passwordStrengthHelper;
-
-    public function __construct(AttributeResolver $userAttributeResolver, PasswordStrengthHelper $passwordStrengthHelper) {
-        $this->userAttributeResolver = $userAttributeResolver;
-        $this->passwordStrengthHelper = $passwordStrengthHelper;
+    public function __construct(private AttributeResolver $userAttributeResolver, private PasswordStrengthHelper $passwordStrengthHelper)
+    {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
@@ -101,10 +97,8 @@ class UserType extends AbstractType {
                         ])
                         ->add('type', EntityType::class, [
                             'class' => UserTypeEntity::class,
-                            'query_builder' => function(EntityRepository $repository) {
-                                return $repository->createQueryBuilder('t')
-                                    ->orderBy('t.name', 'asc');
-                            },
+                            'query_builder' => fn(EntityRepository $repository) => $repository->createQueryBuilder('t')
+                                ->orderBy('t.name', 'asc'),
                             'choice_label' => 'name',
                             'label' => 'label.user_type',
                             'expanded' => true,
@@ -114,10 +108,8 @@ class UserType extends AbstractType {
                         ])
                         ->add('userRoles', EntityType::class, [
                             'class' => UserRole::class,
-                            'query_builder' => function(EntityRepository $repository) {
-                                return $repository->createQueryBuilder('r')
-                                    ->orderBy('r.name', 'asc');
-                            },
+                            'query_builder' => fn(EntityRepository $repository) => $repository->createQueryBuilder('r')
+                                ->orderBy('r.name', 'asc'),
                             'choice_label' => 'name',
                             'label' => 'label.user_roles',
                             'multiple' => true,
@@ -129,10 +121,8 @@ class UserType extends AbstractType {
                         ])
                         ->add('enabledServices', EntityType::class, [
                             'class' => ServiceProvider::class,
-                            'query_builder' => function(EntityRepository $repository) {
-                                return $repository->createQueryBuilder('s')
-                                    ->orderBy('s.name', 'asc');
-                            },
+                            'query_builder' => fn(EntityRepository $repository) => $repository->createQueryBuilder('s')
+                                ->orderBy('s.name', 'asc'),
                             'choice_label' => 'name',
                             'label' => 'label.services',
                             'multiple' => true,
@@ -159,12 +149,10 @@ class UserType extends AbstractType {
 
                                 return sprintf('%s, %s (%s)', $user->getLastname(), $user->getFirstname(), $user->getUsername());
                             },
-                            'query_builder' => function(EntityRepository $repository) {
-                                return $repository->createQueryBuilder('u')
-                                    ->leftJoin('u.type', 't')
-                                    ->where("t.alias = 'student'")
-                                    ->orderBy('u.username', 'asc');
-                            },
+                            'query_builder' => fn(EntityRepository $repository) => $repository->createQueryBuilder('u')
+                                ->leftJoin('u.type', 't')
+                                ->where("t.alias = 'student'")
+                                ->orderBy('u.username', 'asc'),
                             'multiple' => true,
                             'by_reference' => false,
                             'attr' => [

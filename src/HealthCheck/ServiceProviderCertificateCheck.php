@@ -2,21 +2,20 @@
 
 namespace App\HealthCheck;
 
+use Exception;
 use App\Entity\SamlServiceProvider;
 use App\Repository\ServiceProviderRepositoryInterface;
 
 class ServiceProviderCertificateCheck extends AbstractCertificateHealthCheck {
 
-    private ServiceProviderRepositoryInterface $repository;
-
-    public function __construct(ServiceProviderRepositoryInterface $repository) {
-        $this->repository = $repository;
+    public function __construct(private ServiceProviderRepositoryInterface $repository)
+    {
     }
 
     /**
      * @inheritDoc
      */
-    public function runCheck() {
+    public function runCheck(): HealthCheckResult|array {
         $result = [ ];
 
         foreach($this->repository->findAll() as $serviceProvider) {
@@ -36,7 +35,7 @@ class ServiceProviderCertificateCheck extends AbstractCertificateHealthCheck {
                         'uuid' => $serviceProvider->getUuid()
                     ]);
                 }
-            } catch(\Exception $e) {
+            } catch(Exception $e) {
                 $result[] = new HealthCheckResult(
                     HealthCheckResultType::Error(),
                     'health_check.error',

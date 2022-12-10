@@ -11,10 +11,8 @@ class CodeGenerator {
     private int $charactersPerBlock = 4;
     private string $separator = '-';
 
-    private RegistrationCodeRepositoryInterface $codeRepository;
-
-    public function __construct(RegistrationCodeRepositoryInterface $codeRepository) {
-        $this->codeRepository = $codeRepository;
+    public function __construct(private RegistrationCodeRepositoryInterface $codeRepository)
+    {
     }
 
     private function generateRandomCode(): string {

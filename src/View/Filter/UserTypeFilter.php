@@ -7,16 +7,12 @@ use App\Repository\UserTypeRepositoryInterface;
 use App\Utils\ArrayUtils;
 
 class UserTypeFilter {
-    private UserTypeRepositoryInterface $userTypeRepository;
-
-    public function __construct(UserTypeRepositoryInterface $userTypeRepository) {
-        $this->userTypeRepository = $userTypeRepository;
+    public function __construct(private UserTypeRepositoryInterface $userTypeRepository)
+    {
     }
 
     public function handle($userType, ?UserType $defaultType = null) {
-        $types = ArrayUtils::createArrayWithKeys($this->userTypeRepository->findAll(), function(UserType $type) {
-            return (string)$type->getUuid();
-        });
+        $types = ArrayUtils::createArrayWithKeys($this->userTypeRepository->findAll(), fn(UserType $type) => (string)$type->getUuid());
 
         if($userType === null || is_numeric($userType)) {
             $type = $defaultType;

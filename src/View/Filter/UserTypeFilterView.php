@@ -6,18 +6,14 @@ use App\Entity\UserType;
 
 class UserTypeFilterView {
 
-    /** @var UserType[] */
-    private array $types;
-
-    /** @var UserType|null  */
-    private ?UserType $currentType;
-
     /** @var bool */
     private bool $handleNull = false;
 
-    public function __construct(array $types, ?UserType $type) {
-        $this->types = $types;
-        $this->currentType = $type;
+    /**
+     * @param UserType[] $types
+     */
+    public function __construct(private array $types, private ?UserType $currentType)
+    {
     }
 
     /**
@@ -27,9 +23,6 @@ class UserTypeFilterView {
         return $this->types;
     }
 
-    /**
-     * @return UserType|null
-     */
     public function getCurrentType(): ?UserType {
         return $this->currentType;
     }

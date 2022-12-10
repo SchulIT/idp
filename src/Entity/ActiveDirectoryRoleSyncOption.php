@@ -6,40 +6,28 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity()
- */
+#[ORM\Entity]
 class ActiveDirectoryRoleSyncOption implements ActiveDirectorySyncOptionInterface {
 
     use IdTrait;
     use UuidTrait;
 
-    /**
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank]
     private $name;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $description;
 
-    /**
-     * @ORM\Column(type="string", unique=true)
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: 'string', unique: true)]
+    #[Assert\NotBlank]
     private $source;
 
-    /**
-     * @ORM\Column(type="ad_source_type", nullable=false)
-     */
+    #[ORM\Column(type: 'ad_source_type', nullable: false)]
     private $sourceType;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="UserRole")
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
+    #[ORM\ManyToOne(targetEntity: 'UserRole')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private $userRole;
 
     public function __construct() {
@@ -95,17 +83,10 @@ class ActiveDirectoryRoleSyncOption implements ActiveDirectorySyncOptionInterfac
         return $this;
     }
 
-    /**
-     * @return ActiveDirectorySyncSourceType
-     */
     public function getSourceType(): ActiveDirectorySyncSourceType {
         return $this->sourceType;
     }
 
-    /**
-     * @param ActiveDirectorySyncSourceType $sourceType
-     * @return ActiveDirectoryRoleSyncOption
-     */
     public function setSourceType(ActiveDirectorySyncSourceType $sourceType): ActiveDirectoryRoleSyncOption {
         $this->sourceType = $sourceType;
         return $this;
@@ -119,7 +100,6 @@ class ActiveDirectoryRoleSyncOption implements ActiveDirectorySyncOptionInterfac
     }
 
     /**
-     * @param UserRole $userRole
      * @return ActiveDirectoryRoleSyncOption
      */
     public function setUserRole(UserRole $userRole) {

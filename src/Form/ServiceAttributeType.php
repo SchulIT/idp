@@ -48,10 +48,8 @@ class ServiceAttributeType extends AbstractType {
                     ])
                     ->add('services', EntityType::class, [
                         'class' => ServiceProvider::class,
-                        'query_builder' => function(EntityRepository $repository) {
-                            return $repository->createQueryBuilder('s')
-                                ->orderBy('s.name', 'asc');
-                        },
+                        'query_builder' => fn(EntityRepository $repository) => $repository->createQueryBuilder('s')
+                            ->orderBy('s.name', 'asc'),
                         'choice_label' => 'name',
                         'label' => 'label.services',
                         'multiple' => true,

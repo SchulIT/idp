@@ -2,6 +2,7 @@
 
 namespace App\Saml;
 
+use LightSaml\SamlConstants;
 use LightSaml\Context\Profile\AbstractProfileContext;
 use LightSaml\Model\Assertion\NameID;
 use LightSaml\Provider\EntityDescriptor\EntityDescriptorProviderInterface;
@@ -14,12 +15,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class NameIdProvider implements NameIdProviderInterface {
 
-    private $tokenStorage;
-    private $entityDescriptorProvider;
-
-    public function __construct(EntityDescriptorProviderInterface $entityDescriptorProvider, TokenStorageInterface $tokenStorage) {
-        $this->entityDescriptorProvider = $entityDescriptorProvider;
-        $this->tokenStorage = $tokenStorage;
+    public function __construct(private EntityDescriptorProviderInterface $entityDescriptorProvider, private TokenStorageInterface $tokenStorage)
+    {
     }
 
     /**
@@ -30,9 +27,9 @@ class NameIdProvider implements NameIdProviderInterface {
         /** @var UserInterface $user */
         $user = $token->getUser();
 
-        $nameId = new NameID($user->getUsername());
+        $nameId = new NameID($user->getUserIdentifier());
         $nameId
-            ->setFormat(\LightSaml\SamlConstants::NAME_ID_FORMAT_PERSISTENT)
+            ->setFormat(SamlConstants::NAME_ID_FORMAT_PERSISTENT)
             ->setNameQualifier($this->entityDescriptorProvider->get()->getEntityID());
 
         return $nameId;

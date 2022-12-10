@@ -2,6 +2,7 @@
 
 namespace App\Security\ForgotPassword;
 
+use DateTime;
 use App\Entity\PasswordResetToken;
 use App\Entity\User;
 use App\Repository\PasswordResetTokenRepositoryInterface;
@@ -12,22 +13,11 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class PasswordManager {
     private const DefaultTokenLifetime = '24 hours';
 
-    private $dateHelper;
-    private $passwordHasher;
-    private $userRepository;
-    private $passwordResetTokenRepository;
-    private $tokenLifetime;
-
-    public function __construct(DateHelper $dateHelper, UserPasswordHasherInterface $passwordHasher, UserRepositoryInterface $userRepository, PasswordResetTokenRepositoryInterface $passwordResetTokenRepository, $tokenLifetime = self::DefaultTokenLifetime) {
-        $this->dateHelper = $dateHelper;
-        $this->passwordHasher = $passwordHasher;
-        $this->userRepository = $userRepository;
-        $this->passwordResetTokenRepository = $passwordResetTokenRepository;
-        $this->tokenLifetime = $tokenLifetime;
+    public function __construct(private DateHelper $dateHelper, private UserPasswordHasherInterface $passwordHasher, private UserRepositoryInterface $userRepository, private PasswordResetTokenRepositoryInterface $passwordResetTokenRepository, private $tokenLifetime = self::DefaultTokenLifetime)
+    {
     }
 
     /**
-     * @param User $user
      * @return PasswordResetToken
      */
     public function createPasswordToken(User $user) {
@@ -39,7 +29,7 @@ class PasswordManager {
             return $token;
         }
 
-        $expiresAt = (new \DateTime())
+        $expiresAt = (new DateTime())
             ->modify(sprintf('+%s', $this->tokenLifetime));
 
         $token = (new PasswordResetToken())
@@ -53,7 +43,6 @@ class PasswordManager {
     }
 
     /**
-     * @param string $token
      * @return PasswordResetToken|null
      */
     public function getPasswordToken(string $token) {
@@ -61,10 +50,6 @@ class PasswordManager {
             ->findOneByToken($token);
     }
 
-    /**
-     * @param PasswordResetToken $token
-     * @param string $password
-     */
     public function setPassword(PasswordResetToken $token, string $password) {
         $user = $token->getUser();
 
@@ -74,9 +59,6 @@ class PasswordManager {
         $this->removePasswordToken($token);
     }
 
-    /**
-     * @param PasswordResetToken $token
-     */
     public function removePasswordToken(PasswordResetToken $token) {
         $this->passwordResetTokenRepository->remove($token);
     }

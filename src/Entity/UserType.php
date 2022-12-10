@@ -10,93 +10,79 @@ use Ramsey\Uuid\Uuid;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity()
- * @UniqueEntity(fields={"alias"})
- */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['alias'])]
 class UserType {
 
     use IdTrait;
     use UuidTrait;
 
-    /**
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank]
     private $name;
 
-    /**
-     * @ORM\Column(type="string", unique=true)
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: 'string', unique: true)]
+    #[Assert\NotBlank]
     private $alias;
 
     /**
      * @var string[]
-     * @ORM\Column(type="json")
-     * @Assert\Count(min="1")
      * @Serializer\Type("array<string>")
      */
-    private $eduPerson;
+    #[ORM\Column(type: 'json')]
+    #[Assert\Count(min: 1)]
+    private ?array $eduPerson = null;
 
     /**
-     * @ORM\OneToMany(targetEntity="User", mappedBy="type")
      * @Serializer\Exclude()
      */
+    #[ORM\OneToMany(targetEntity: 'User', mappedBy: 'type')]
     private $users;
 
     /**
-     * @ORM\ManyToMany(targetEntity="ServiceProvider")
-     * @ORM\JoinTable(
-     *  joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
-     *  inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
-     * )
      * @Serializer\Exclude()
      */
+    #[ORM\JoinTable]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(onDelete: 'CASCADE')]
+    #[ORM\ManyToMany(targetEntity: 'ServiceProvider')]
     private $enabledServices;
 
     /**
-     * @ORM\OneToMany(targetEntity="ServiceAttributeUserTypeValue", mappedBy="userType")
      * @Serializer\Exclude()
      */
+    #[ORM\OneToMany(targetEntity: 'ServiceAttributeUserTypeValue', mappedBy: 'userType')]
     private $attributes;
 
     /**
-     * @ORM\OneToMany(targetEntity="ActiveDirectorySyncOption", mappedBy="userType")
      * @Serializer\Exclude()
      */
+    #[ORM\OneToMany(targetEntity: 'ActiveDirectorySyncOption', mappedBy: 'userType')]
     private $syncOptions;
 
     /**
-     * @ORM\Column(type="boolean")
      * @Serializer\Exclude()
      */
-    private $canChangeName = true;
+    #[ORM\Column(type: 'boolean')]
+    private bool $canChangeName = true;
 
     /**
-     * @ORM\Column(type="boolean")
      * @Serializer\Exclude()
      */
-    private $canChangeEmail = true;
+    #[ORM\Column(type: 'boolean')]
+    private bool $canChangeEmail = true;
 
     /**
-     * @ORM\Column(type="boolean")
      * @Serializer\Exclude()
-     * @var bool
      */
-    private $canLinkStudents = false;
+    #[ORM\Column(type: 'boolean')]
+    private bool $canLinkStudents = false;
 
-    /**
-     * @ORM\Column(type="boolean")
-     * @var bool
-     */
-    private $isBuiltIn = false;
+    #[ORM\Column(type: 'boolean')]
+    private bool $isBuiltIn = false;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @var string|null
-     */
-    private $icon;
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $icon = null;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
@@ -157,58 +143,34 @@ class UserType {
         return $this;
     }
 
-    /**
-     * @param User $user
-     */
     public function addUser(User $user) {
         $this->users->add($user);
     }
 
-    /**
-     * @param User $user
-     */
     public function removeUser(User $user) {
         $this->users->removeElement($user);
     }
 
-    /**
-     * @return Collection
-     */
     public function getUsers(): Collection {
         return $this->users;
     }
 
-    /**
-     * @param ServiceProvider $serviceProvider
-     */
     public function addEnabledService(ServiceProvider $serviceProvider) {
         $this->enabledServices->add($serviceProvider);
     }
 
-    /**
-     * @param ServiceProvider $serviceProvider
-     */
     public function removeEnabledService(ServiceProvider $serviceProvider) {
         $this->enabledServices->removeElement($serviceProvider);
     }
 
-    /**
-     * @return Collection
-     */
     public function getEnabledServices(): Collection {
         return $this->enabledServices;
     }
 
-    /**
-     * @return Collection
-     */
     public function getAttributes(): Collection {
         return $this->attributes;
     }
 
-    /**
-     * @return Collection
-     */
     public function getSyncOptions(): Collection {
         return $this->syncOptions;
     }
@@ -245,49 +207,28 @@ class UserType {
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isCanLinkStudents(): bool {
         return $this->canLinkStudents;
     }
 
-    /**
-     * @param bool $canLinkStudents
-     * @return UserType
-     */
     public function setCanLinkStudents(bool $canLinkStudents): UserType {
         $this->canLinkStudents = $canLinkStudents;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isBuiltIn(): bool {
         return $this->isBuiltIn;
     }
 
-    /**
-     * @param bool $isBuiltIn
-     * @return UserType
-     */
     public function setIsBuiltIn(bool $isBuiltIn): UserType {
         $this->isBuiltIn = $isBuiltIn;
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getIcon(): ?string {
         return $this->icon;
     }
 
-    /**
-     * @param string|null $icon
-     * @return UserType
-     */
     public function setIcon(?string $icon): UserType {
         $this->icon = $icon;
         return $this;

@@ -2,6 +2,8 @@
 
 namespace App\HealthCheck;
 
+use DateTime;
+use DateInterval;
 abstract class AbstractCertificateHealthCheck implements HealthCheckInterface {
     protected const CertificateWarningThresholdInDays = 30;
 
@@ -12,7 +14,7 @@ abstract class AbstractCertificateHealthCheck implements HealthCheckInterface {
     protected abstract function getFineMessage(): string;
 
     protected function checkCertificate(?string $certificate): HealthCheckResult {
-        $now = new \DateTime();
+        $now = new DateTime();
 
         if(empty($certificate)) {
             return new HealthCheckResult(
@@ -40,7 +42,7 @@ abstract class AbstractCertificateHealthCheck implements HealthCheckInterface {
 
         $certificateInfo = openssl_x509_parse($certificate);
 
-        $validTo = (new \DateTime())->setTimestamp($certificateInfo['validTo_time_t']);
+        $validTo = (new DateTime())->setTimestamp($certificateInfo['validTo_time_t']);
 
         if($validTo < $now) {
             return new HealthCheckResult(
@@ -48,7 +50,7 @@ abstract class AbstractCertificateHealthCheck implements HealthCheckInterface {
                 'health_check.error',
                 $this->getExpiredMessage()
             );
-        } else if($validTo < $now->add(new \DateInterval('P' . static::CertificateWarningThresholdInDays . 'D'))) {
+        } else if($validTo < $now->add(new DateInterval('P' . static::CertificateWarningThresholdInDays . 'D'))) {
             return new HealthCheckResult(
                 HealthCheckResultType::Warning(),
                 'health_check.error',

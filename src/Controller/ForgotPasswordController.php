@@ -24,14 +24,8 @@ class ForgotPasswordController extends AbstractController {
     private const PASSWORD_KEY = '_password';
     private const REPEAT_PASSWORD_KEY = '_repeat_password';
 
-    private ForgotPasswordManager $manager;
-    private CsrfTokenManagerInterface $csrfTokenManager;
-    private TranslatorInterface $translator;
-
-    public function __construct(ForgotPasswordManager $manager, CsrfTokenManagerInterface $csrfTokenManager, TranslatorInterface $translator) {
-        $this->manager = $manager;
-        $this->csrfTokenManager = $csrfTokenManager;
-        $this->translator = $translator;
+    public function __construct(private ForgotPasswordManager $manager, private CsrfTokenManagerInterface $csrfTokenManager, private TranslatorInterface $translator)
+    {
     }
 
     private function isCsrfTokenFromRequestValid(Request $request): bool {
@@ -45,9 +39,7 @@ class ForgotPasswordController extends AbstractController {
         return $this->translator->trans('Invalid CSRF token.', [], 'security');
     }
 
-    /**
-     * @Route("/forgot_pw", name="forgot_password")
-     */
+    #[Route(path: '/forgot_pw', name: 'forgot_password')]
     public function request(Request $request, UserRepositoryInterface $userRepository): Response {
         if($request->isMethod('POST')) {
             $username = $request->request->get('_username');
@@ -75,10 +67,8 @@ class ForgotPasswordController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/forgot_pw/{token}", name="change_password")
-     * @ParamConverter("token", options={"mapping": {"token": "token"}})
-     */
+    #[Route(path: '/forgot_pw/{token}', name: 'change_password')]
+    #[ParamConverter('token', options: ['mapping' => ['token' => 'token']])]
     public function change(PasswordResetToken $token, Request $request, PasswordStrengthHelper $passwordStrengthHelper): Response {
         if($request->isMethod('POST')) {
             $password = $request->request->get('_password');

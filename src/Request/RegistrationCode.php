@@ -10,119 +10,87 @@ class RegistrationCode {
 
     /**
      * @Serializer\Type("string")
-     * @Assert\NotBlank()
-     * @var string|null
      */
-    private $code;
+    #[Assert\NotBlank]
+    private ?string $code = null;
 
     /**
      * @Serializer\Type("string")
-     * @Assert\NotBlank()
-     * @var string|null
      */
-    private $username;
+    #[Assert\NotBlank]
+    private ?string $username = null;
 
     /**
      * @Serializer\Type("string")
-     * @Assert\NotBlank(allowNull=true)
-     * @var string|null
      */
-    private $firstname;
+    #[Assert\NotBlank(allowNull: true)]
+    private ?string $firstname = null;
 
     /**
      * @Serializer\Type("string")
-     * @Assert\NotBlank(allowNull=true)
-     * @var string|null
      */
-    private $lastname;
+    #[Assert\NotBlank(allowNull: true)]
+    private ?string $lastname = null;
 
     /**
      * @Serializer\Type("string")
-     * @Assert\Email()
-     * @var string|null
      */
-    private $email;
+    #[Assert\Email]
+    private ?string $email = null;
 
     /**
      * @Serializer\Type("string")
-     * @Assert\NotBlank(allowNull=true)
-     * @var string|null
      */
-    private $grade;
+    #[Assert\NotBlank(allowNull: true)]
+    private ?string $grade = null;
 
     /**
      * @Serializer\Type("string")
-     * @Assert\Uuid()
      * @ValidUserTypeUuid()
-     * @var string|null
      */
-    private $type;
+    #[Assert\Uuid]
+    private ?string $type = null;
 
     /**
      * @Serializer\Type("string")
-     * @Assert\NotBlank(allowNull=true)
-     * @var string|null
      */
-    private $externalId;
+    #[Assert\NotBlank(allowNull: true)]
+    private ?string $externalId = null;
 
     /**
      * @Serializer\Type("array<string, string>")
      * @var string[]
      */
-    private $attributes = [ ];
+    private array $attributes = [ ];
 
-    /**
-     * @return string|null
-     */
     public function getCode(): ?string {
         return $this->code;
     }
 
-    /**
-     * @return string|null
-     */
     public function getUsername(): ?string {
         return $this->username;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFirstname(): ?string {
         return $this->firstname;
     }
 
-    /**
-     * @return string|null
-     */
     public function getLastname(): ?string {
         return $this->lastname;
     }
 
-    /**
-     * @return string|null
-     */
     public function getEmail(): ?string {
         return $this->email;
     }
 
-    /**
-     * @return string|null
-     */
     public function getGrade(): ?string {
         return $this->grade;
     }
 
-    /**
-     * @return string|null
-     */
     public function getType(): ?string {
         return $this->type;
     }
 
-    /**
-     * @return string|null
-     */
     public function getExternalId(): ?string {
         return $this->externalId;
     }

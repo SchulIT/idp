@@ -15,20 +15,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ForgotPasswordManager {
-    private PasswordManager $passwordManager;
-    private MailerInterface $mailer;
-    private TranslatorInterface $translator;
-    private UserStringConverter $userConverter;
     private LoggerInterface $logger;
-    private UrlGeneratorInterface $urlGenerator;
 
-    public function __construct(PasswordManager $passwordManager, MailerInterface $mailer, TranslatorInterface $translator,
-                                UserStringConverter $userConverter, UrlGeneratorInterface $urlGenerator, LoggerInterface $logger = null) {
-        $this->passwordManager = $passwordManager;
-        $this->mailer = $mailer;
-        $this->translator = $translator;
-        $this->userConverter = $userConverter;
-        $this->urlGenerator = $urlGenerator;
+    public function __construct(private PasswordManager $passwordManager, private MailerInterface $mailer, private TranslatorInterface $translator,
+                                private UserStringConverter $userConverter, private UrlGeneratorInterface $urlGenerator, LoggerInterface $logger = null) {
         $this->logger = $logger ?? new NullLogger();
     }
 

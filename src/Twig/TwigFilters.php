@@ -14,12 +14,8 @@ use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class TwigFilters extends AbstractExtension {
-    private TranslatorInterface $translator;
-    private FriendlyAttributeResolver $friendlyAttributeResolver;
-
-    public function __construct(TranslatorInterface $translator, FriendlyAttributeResolver $friendlyAttributeResolver) {
-        $this->translator = $translator;
-        $this->friendlyAttributeResolver = $friendlyAttributeResolver;
+    public function __construct(private TranslatorInterface $translator, private FriendlyAttributeResolver $friendlyAttributeResolver)
+    {
     }
 
     public function getFilters(): array {

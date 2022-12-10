@@ -15,11 +15,10 @@ use Exception;
 
 class UserRepository implements UserRepositoryInterface {
 
-    private EntityManagerInterface $em;
     private bool $isInTransaction = false;
 
-    public function __construct(EntityManagerInterface $objectManager) {
-        $this->em = $objectManager;
+    public function __construct(private EntityManagerInterface $em)
+    {
     }
 
     public function beginTransaction(): void {
@@ -72,7 +71,7 @@ class UserRepository implements UserRepositoryInterface {
         return $qb->getQuery()->getResult();
     }
 
-    public function findUsersUpdatedAfter(\DateTime $dateTime, array $usernames = [ ]): array {
+    public function findUsersUpdatedAfter(DateTime $dateTime, array $usernames = [ ]): array {
         $qb = $this->em
             ->createQueryBuilder();
 
@@ -116,7 +115,7 @@ class UserRepository implements UserRepositoryInterface {
 
         $result = $qb->getQuery()->getResult();
 
-        if(count($result) === 0) {
+        if((is_countable($result) ? count($result) : 0) === 0) {
             return null;
         }
 
@@ -265,9 +264,7 @@ class UserRepository implements UserRepositoryInterface {
      * @inheritDoc
      */
     public function findAllActiveDirectoryUsersObjectGuid(): array {
-        return array_map(function(array $item) {
-            return $item['objectGuid'];
-        },
+        return array_map(fn(array $item) => $item['objectGuid'],
             $this->em->createQueryBuilder()
                 ->select('u.objectGuid')
                 ->from(ActiveDirectoryUser::class, 'u')
@@ -291,9 +288,7 @@ class UserRepository implements UserRepositoryInterface {
             $qb->setMaxResults($limit);
         }
 
-        return array_map(function(array $item) {
-            return $item['uuid'];
-        }, $qb->getQuery()->getScalarResult());
+        return array_map(fn(array $item) => $item['uuid'], $qb->getQuery()->getScalarResult());
     }
 
     public function findOneByExternalId(string $externalId): ?User {
@@ -372,9 +367,7 @@ class UserRepository implements UserRepositoryInterface {
 
         $result = $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
 
-        return array_map(function($row) {
-            return $row['externalId'];
-        }, $result);
+        return array_map(fn($row) => $row['externalId'], $result);
     }
 
     /**
@@ -439,9 +432,7 @@ class UserRepository implements UserRepositoryInterface {
             ->getQuery()
             ->getResult(Query::HYDRATE_ARRAY);
 
-        return array_map(function($row) {
-            return $row['grade'];
-        }, $result);
+        return array_map(fn($row) => $row['grade'], $result);
     }
 
     /**
@@ -464,7 +455,7 @@ class UserRepository implements UserRepositoryInterface {
             'user_principal_name' => $activeDirectoryUser->getUserPrincipalName(),
             'object_guid' => $activeDirectoryUser->getObjectGuid(),
             'ou' => $activeDirectoryUser->getOu(),
-            'groups' => json_encode($activeDirectoryUser->getGroups()),
+            'groups' => json_encode($activeDirectoryUser->getGroups(), JSON_THROW_ON_ERROR),
             'class' => 'ad'
         ], [
             'id' => $user->getId()

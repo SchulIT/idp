@@ -22,11 +22,10 @@ interface UserRepositoryInterface {
     public function findUsersByUsernames(array $usernames): array;
 
     /**
-     * @param \DateTime $dateTime
      * @param string[] $usernames
      * @return User[]
      */
-    public function findUsersUpdatedAfter(\DateTime $dateTime, array $usernames = [ ]): array;
+    public function findUsersUpdatedAfter(DateTime $dateTime, array $usernames = [ ]): array;
 
     public function findOneById(int $id): ?User;
 
@@ -45,10 +44,6 @@ interface UserRepositoryInterface {
      */
     public function findAllExternalIdsByExternalIdList(array $externalIds): array;
 
-    /**
-     * @param string $guid
-     * @return ActiveDirectoryUser|null
-     */
     public function findActiveDirectoryUserByObjectGuid(string $guid): ?ActiveDirectoryUser;
 
     /**
@@ -56,65 +51,40 @@ interface UserRepositoryInterface {
      */
     public function findAllActiveDirectoryUsersObjectGuid(): array;
 
-    /**
-     * @param string $email
-     * @return User|null
-     */
     public function findOneByEmail(string $email): ?User;
 
     /**
-     * @param int $offset
-     * @param int|null $limit
      * @param bool $deleted Whether or not to return deleted users
      * @return User[]
      */
     public function findAll(int $offset = 0, ?int $limit = null, bool $deleted = false): array;
 
     /**
-     * @param int $offset
-     * @param int|null $limit
      * @return string[]
      */
     public function findAllUuids(int $offset = 0, ?int $limit = null): array;
 
     /**
-     * @param int $limit
      * @return User[]
      */
     public function findNextNonProvisionedUsers(int $limit): array;
 
     /**
-     * @param string $grade
      * @return User[]
      */
     public function findStudentsByGrade(string $grade): array;
 
-    /**
-     * @param UserType|null $userType
-     * @return int
-     */
     public function countUsers(?UserType $userType = null): int;
 
     public function persist(User $user): void;
 
     public function remove(User $user): void;
 
-    /**
-     * @param int $itemsPerPage
-     * @param int $page
-     * @param UserType|null $type
-     * @param UserRole|null $role
-     * @param string|null $query
-     * @param string|null $grade
-     * @param bool $deleted
-     * @return Paginator
-     */
     public function getPaginatedUsers(int $itemsPerPage, int &$page, ?UserType $type = null, ?UserRole $role = null, ?string $query = null, ?string $grade = null, bool $deleted = false, bool $onlyNotLinked = false): Paginator;
 
     /**
      * Removes deleted users which are deleted before $threshold.
      *
-     * @param DateTime $threshold
      * @return int Number of removed users.
      */
     public function removeDeletedUsers(DateTime $threshold): int;

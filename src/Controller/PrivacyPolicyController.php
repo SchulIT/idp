@@ -14,15 +14,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PrivacyPolicyController extends AbstractController {
 
-    private PrivacyPolicyRepositoryInterface $repository;
-
-    public function __construct(PrivacyPolicyRepositoryInterface $repository) {
-        $this->repository = $repository;
+    public function __construct(private PrivacyPolicyRepositoryInterface $repository)
+    {
     }
 
-    /**
-     * @Route("/register/privacy_policy", name="register_privacy_policy")
-     */
+    #[Route(path: '/register/privacy_policy', name: 'register_privacy_policy')]
     public function showRegister(): Response {
         $policy = $this->repository->findOne() ?? new PrivacyPolicy();
 
@@ -31,9 +27,7 @@ class PrivacyPolicyController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/privacy_policy", name="show_privacy_policy")
-     */
+    #[Route(path: '/privacy_policy', name: 'show_privacy_policy')]
     public function show(): Response {
         /** @var User $user */
         $user = $this->getUser();
@@ -47,9 +41,7 @@ class PrivacyPolicyController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/admin/privacy_policy", name="edit_privacy_policy")
-     */
+    #[Route(path: '/admin/privacy_policy', name: 'edit_privacy_policy')]
     public function edit(Request $request): Response {
         $policy = $this->repository->findOne() ?? new PrivacyPolicy();
         $form = $this->createForm(PricacyPolicyType::class, $policy);

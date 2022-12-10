@@ -10,18 +10,14 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class RegistrationCodeBulkType extends AbstractType {
-    private UserRepositoryInterface $userRepository;
-
-    public function __construct(UserRepositoryInterface $userRepository) {
-        $this->userRepository = $userRepository;
+    public function __construct(private UserRepositoryInterface $userRepository)
+    {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $choices = ArrayUtils::createArrayWithKeys(
             $this->userRepository->findGrades(),
-            function($grade) {
-                return $grade;
-            }
+            fn($grade) => $grade
         );
 
         $builder

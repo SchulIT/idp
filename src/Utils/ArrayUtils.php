@@ -2,9 +2,11 @@
 
 namespace App\Utils;
 
+use Closure;
+use InvalidArgumentException;
 class ArrayUtils {
 
-    public static function apply(array &$items, \Closure $closure): void {
+    public static function apply(array &$items, Closure $closure): void {
         foreach($items as $item) {
             $closure($item);
         }
@@ -18,7 +20,7 @@ class ArrayUtils {
         $values = array_values($values);
 
         if(count($keys) !== count($values)) {
-            throw new \InvalidArgumentException('$keys and $items parameter need to have the same length.');
+            throw new InvalidArgumentException('$keys and $items parameter need to have the same length.');
         }
 
         for($i = 0; $i < $count; $i++) {
@@ -28,7 +30,7 @@ class ArrayUtils {
         return $array;
     }
 
-    public static function createArrayWithKeys(array $items, \Closure $keyFunc): array {
+    public static function createArrayWithKeys(array $items, Closure $keyFunc): array {
         $array = [ ];
 
         foreach($items as $item) {

@@ -4,20 +4,18 @@ namespace App\MessageHandler;
 
 use App\Message\MustProvisionUser;
 use App\Repository\UserRepositoryInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class MustProvisionUserHandler implements MessageHandlerInterface {
+#[AsMessageHandler]
+class MustProvisionUserHandler {
 
-    private UserRepositoryInterface $userRepository;
-    private UserPasswordHasherInterface $passwordHasher;
-
-    public function __construct(UserRepositoryInterface $userRepository, UserPasswordHasherInterface $passwordHasher) {
-        $this->userRepository = $userRepository;
-        $this->passwordHasher = $passwordHasher;
+    public function __construct(private UserRepositoryInterface $userRepository, private UserPasswordHasherInterface $passwordHasher)
+    {
     }
 
-    public function __invoke(MustProvisionUser $message) {
+    public function __invoke(MustProvisionUser $message): void {
         $user = $this->userRepository->findOneById($message->getUserId());
 
         if($user !== null) {

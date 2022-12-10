@@ -30,10 +30,8 @@ class ImportCsvType extends AbstractType {
             ])
             ->add('userType', EntityType::class, [
                 'class' => UserTypeEntity::class,
-                'query_builder' => function(EntityRepository $repository) {
-                    return $repository->createQueryBuilder('t')
-                        ->orderBy('t.name', 'asc');
-                },
+                'query_builder' => fn(EntityRepository $repository) => $repository->createQueryBuilder('t')
+                    ->orderBy('t.name', 'asc'),
                 'choice_label' => 'name',
                 'label' => 'label.user_type',
                 'expanded' => true,

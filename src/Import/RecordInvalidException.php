@@ -17,16 +17,10 @@ class RecordInvalidException extends Exception {
         $this->field = $field;
     }
 
-    /**
-     * @return int
-     */
     public function getIndex(): int {
         return $this->index;
     }
 
-    /**
-     * @return string
-     */
     public function getField(): string {
         return $this->field;
     }

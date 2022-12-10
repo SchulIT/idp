@@ -6,10 +6,8 @@ use App\Entity\PrivacyPolicy;
 use Doctrine\ORM\EntityManagerInterface;
 
 class PrivatePolicyRepository implements PrivacyPolicyRepositoryInterface {
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $entityManager) {
-        $this->em = $entityManager;
+    public function __construct(private EntityManagerInterface $em)
+    {
     }
 
     public function findOne(): ?PrivacyPolicy {

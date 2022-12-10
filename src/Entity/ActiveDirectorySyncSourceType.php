@@ -9,6 +9,6 @@ use MyCLabs\Enum\Enum;
  * @method static ActiveDirectorySyncSourceType Ou()
  */
 class ActiveDirectorySyncSourceType extends Enum {
-    const Group = 'group';
-    const Ou = 'ou';
+    public const Group = 'group';
+    public const Ou = 'ou';
 }

@@ -12,25 +12,8 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Builder {
-    private FactoryInterface $factory;
-    private AuthorizationCheckerInterface $authorizationChecker;
-    private TranslatorInterface $translator;
-    private TokenStorageInterface $tokenStorage;
-    private UserServiceProviderResolver $userServiceProviderResolver;
-    private DarkModeManagerInterface $darkModeManager;
-    private bool $adAuthEnabled;
-
-    public function __construct(FactoryInterface $factory, AuthorizationCheckerInterface $authorizationChecker,
-                                TranslatorInterface $translator, TokenStorageInterface $tokenStorage,
-                                UserServiceProviderResolver $userServiceProviderResolver, DarkModeManagerInterface $darkModeManager,
-                                bool $adAuthEnabled) {
-        $this->factory = $factory;
-        $this->authorizationChecker = $authorizationChecker;
-        $this->translator = $translator;
-        $this->tokenStorage = $tokenStorage;
-        $this->userServiceProviderResolver = $userServiceProviderResolver;
-        $this->darkModeManager = $darkModeManager;
-        $this->adAuthEnabled = $adAuthEnabled;
+    public function __construct(private FactoryInterface $factory, private AuthorizationCheckerInterface $authorizationChecker, private TranslatorInterface $translator, private TokenStorageInterface $tokenStorage, private UserServiceProviderResolver $userServiceProviderResolver, private DarkModeManagerInterface $darkModeManager, private bool $adAuthEnabled)
+    {
     }
 
     public function mainMenu(): ItemInterface {

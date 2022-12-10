@@ -12,20 +12,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RegistrationCodeManager {
 
-    private RegistrationCodeRepositoryInterface $codeRepository;
-    private UserRepositoryInterface $userRepository;
-    private UserPasswordHasherInterface $passwordHasher;
-    private UserTypeRepositoryInterface $typeRepository;
-    private ConfirmationManager $confirmationManager;
-
-    public function __construct(RegistrationCodeRepositoryInterface $codeRepository,
-                                UserRepositoryInterface $userRepository, UserPasswordHasherInterface $passwordHasher,
-                                UserTypeRepositoryInterface $typeRepository, ConfirmationManager $confirmationManager) {
-        $this->codeRepository = $codeRepository;
-        $this->userRepository = $userRepository;
-        $this->passwordHasher = $passwordHasher;
-        $this->typeRepository = $typeRepository;
-        $this->confirmationManager = $confirmationManager;
+    public function __construct(private RegistrationCodeRepositoryInterface $codeRepository, private UserRepositoryInterface $userRepository, private UserPasswordHasherInterface $passwordHasher, private UserTypeRepositoryInterface $typeRepository, private ConfirmationManager $confirmationManager)
+    {
     }
 
     public function getTemplateUser(): User {
@@ -41,9 +29,6 @@ class RegistrationCodeManager {
     }
 
     /**
-     * @param RegistrationCode $code
-     * @param User $user
-     * @param string $password
      * @throws CodeAlreadyRedeemedException
      */
     public function complete(RegistrationCode $code, User $user, string $password): void {

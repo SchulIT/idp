@@ -27,21 +27,8 @@ class UserCreator {
     /** @var ActiveDirectoryRoleSyncOption[] */
     private ?array $roleSyncOptions = null;
 
-    private OptionResolver $optionsResolver;
-
-    private ActiveDirectorySyncOptionRepositoryInterface $syncOptionRepository;
-    private ActiveDirectoryGradeSyncOptionRepositoryInterface $gradeSyncOptionRepository;
-    private ActiveDirectoryRoleSyncOptionRepositoryInterface $roleSyncOptionRepository;
-    private UserRepositoryInterface $userRepository;
-
-    public function __construct(ActiveDirectorySyncOptionRepositoryInterface $syncOptionRepository,
-                                ActiveDirectoryGradeSyncOptionRepositoryInterface $gradeSyncOptionRepository,
-                                ActiveDirectoryRoleSyncOptionRepositoryInterface $roleSyncOptionRepository, OptionResolver $optionResolver, UserRepositoryInterface $userRepository) {
-        $this->syncOptionRepository = $syncOptionRepository;
-        $this->gradeSyncOptionRepository = $gradeSyncOptionRepository;
-        $this->roleSyncOptionRepository = $roleSyncOptionRepository;
-        $this->optionsResolver = $optionResolver;
-        $this->userRepository = $userRepository;
+    public function __construct(private ActiveDirectorySyncOptionRepositoryInterface $syncOptionRepository, private ActiveDirectoryGradeSyncOptionRepositoryInterface $gradeSyncOptionRepository, private ActiveDirectoryRoleSyncOptionRepositoryInterface $roleSyncOptionRepository, private OptionResolver $optionsResolver, private UserRepositoryInterface $userRepository)
+    {
     }
 
     private function initialize(): void {
@@ -63,19 +50,12 @@ class UserCreator {
 
     /**
      * Determines whether the user can be imported from Active Directory.
-     *
-     * @param ActiveDirectoryUserInformation $response
-     * @return bool
      */
     public function canCreateUser(ActiveDirectoryUserInformation $response): bool {
         $this->initialize();
         return $this->getTargetUserType($response) !== null;
     }
 
-    /**
-     * @param ActiveDirectoryUserInformation $response
-     * @return UserType|null
-     */
     private function getTargetUserType(ActiveDirectoryUserInformation $response): ?UserType {
         /** @var ActiveDirectorySyncOption|null $option */
         $option = $this->optionsResolver
@@ -89,7 +69,6 @@ class UserCreator {
     }
 
     /**
-     * @param ActiveDirectoryUserInformation $response
      * @param ActiveDirectoryUser|null $user Already existing AD user
      * @return ActiveDirectoryUser
      */
@@ -145,10 +124,6 @@ class UserCreator {
         return $user;
     }
 
-    /**
-     * @param ActiveDirectoryUserInformation $response
-     * @return string|null
-     */
     private function getGrade(ActiveDirectoryUserInformation $response): ?string {
         /** @var ActiveDirectoryGradeSyncOption|null $option */
         $option = $this->optionsResolver

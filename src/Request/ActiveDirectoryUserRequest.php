@@ -10,120 +10,91 @@ class ActiveDirectoryUserRequest {
     /**
      * @Serializer\SerializedName("object_guid")
      * @Serializer\Type("string")
-     * @Assert\NotBlank()
-     * @Assert\Uuid()
-     * @var string
      */
-    private $objectGuid;
+    #[Assert\NotBlank]
+    #[Assert\Uuid]
+    private string $objectGuid;
 
     /**
      * @Serializer\SerializedName("sam_account_name")
      * @Serializer\Type("string")
-     * @Assert\NotBlank()
-     * @var string
      */
-    private $samAccountName;
+    #[Assert\NotBlank]
+    private string $samAccountName;
 
     /**
      * @Serializer\SerializedName("user_principal_name")
      * @Serializer\Type("string")
-     * @Assert\NotBlank()
-     * @var string
      */
-    private $userPrincipalName;
+    #[Assert\NotBlank]
+    private string $userPrincipalName;
 
     /**
      * @Serializer\SerializedName("firstname")
      * @Serializer\Type("string")
-     * @Assert\NotBlank()
-     * @var string
      */
-    private $firstname;
+    #[Assert\NotBlank]
+    private string $firstname;
 
     /**
      * @Serializer\SerializedName("lastname")
      * @Serializer\Type("string")
-     * @Assert\NotBlank()
-     * @var string
      */
-    private $lastname;
+    #[Assert\NotBlank]
+    private string $lastname;
 
     /**
      * @Serializer\SerializedName("email")
      * @Serializer\Type("string")
-     * @Assert\Email()
-     * @Assert\NotBlank()
-     * @var string
      */
-    private $email;
+    #[Assert\Email]
+    #[Assert\NotBlank]
+    private string $email;
 
     /**
      * @Serializer\SerializedName("ou")
      * @Serializer\Type("string")
-     * @Assert\NotBlank()
-     * @var string
      */
-    private $ou;
+    #[Assert\NotBlank]
+    private string $ou;
 
     /**
      * @Serializer\SerializedName("groups")
      * @Serializer\Type("array<string>")
      * @var string[]
      */
-    private $groups;
+    private array $groups;
 
     /**
      * @Serializer\SerializedName("unique_id")
      * @Serializer\Type("string")
-     * @var string|null
      */
-    private $uniqueId;
+    private ?string $uniqueId = null;
 
-    /**
-     * @return string|null
-     */
     public function getObjectGuid(): ?string {
         return $this->objectGuid;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSamAccountName(): ?string {
         return $this->samAccountName;
     }
 
-    /**
-     * @return string|null
-     */
     public function getUserPrincipalName(): ?string {
         return $this->userPrincipalName;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFirstname(): ?string {
         return $this->firstname;
     }
 
-    /**
-     * @return string|null
-     */
     public function getLastname(): ?string {
         return $this->lastname;
     }
 
-    /**
-     * @return string|null
-     */
     public function getEmail(): ?string {
         return $this->email;
     }
 
-    /**
-     * @return string|null
-     */
     public function getOu(): ?string {
         return $this->ou;
     }
@@ -135,9 +106,6 @@ class ActiveDirectoryUserRequest {
         return $this->groups;
     }
 
-    /**
-     * @return string|null
-     */
     public function getUniqueId(): ?string {
         return $this->uniqueId;
     }

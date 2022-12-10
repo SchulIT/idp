@@ -14,22 +14,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Route("/admin/user_roles")
- */
+#[Route(path: '/admin/user_roles')]
 class UserRoleController extends AbstractController {
 
     use AttributeDataTrait;
 
-    private UserRoleRepositoryInterface $repository;
-
-    public function __construct(UserRoleRepositoryInterface $repository) {
-        $this->repository = $repository;
+    public function __construct(private UserRoleRepositoryInterface $repository)
+    {
     }
 
-    /**
-     * @Route("", name="user_roles")
-     */
+    #[Route(path: '', name: 'user_roles')]
     public function index(): Response {
         $roles = $this->repository
             ->findAll();
@@ -39,9 +33,7 @@ class UserRoleController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/add", name="add_role")
-     */
+    #[Route(path: '/add', name: 'add_role')]
     public function add(Request $request, AttributePersister $attributePersister): Response {
         $role = new UserRole();
 
@@ -63,9 +55,7 @@ class UserRoleController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/{uuid}/edit", name="edit_role")
-     */
+    #[Route(path: '/{uuid}/edit', name: 'edit_role')]
     public function edit(Request $request, UserRole $role, AttributePersister $attributePersister): Response {
         $form = $this->createForm(UserRoleType::class, $role);
         $form->handleRequest($request);
@@ -86,9 +76,7 @@ class UserRoleController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/{uuid}/remove", name="remove_role")
-     */
+    #[Route(path: '/{uuid}/remove', name: 'remove_role')]
     public function remove(UserRole $role, Request $request, TranslatorInterface $translator): Response {
         $form = $this->createForm(ConfirmType::class, [ ], [
             'message' => $translator->trans('user_roles.remove.confirm', [

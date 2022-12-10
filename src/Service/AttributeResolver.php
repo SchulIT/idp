@@ -17,10 +17,8 @@ use App\Traits\ArrayTrait;
 class AttributeResolver {
     use ArrayTrait;
 
-    private ServiceAttributeValueRepositoryInterface $attributeValueRepository;
-
-    public function __construct(ServiceAttributeValueRepositoryInterface $attributeValueRepository) {
-        $this->attributeValueRepository = $attributeValueRepository;
+    public function __construct(private ServiceAttributeValueRepositoryInterface $attributeValueRepository)
+    {
     }
 
     /**
@@ -34,9 +32,7 @@ class AttributeResolver {
 
         $values = [ ];
 
-        $keyFunc = function(ServiceAttributeValueInterface $attributeValue) {
-            return $attributeValue->getAttribute()->getId();
-        };
+        $keyFunc = fn(ServiceAttributeValueInterface $attributeValue) => $attributeValue->getAttribute()->getId();
 
         // USER TYPE
         $typeValues = $this->attributeValueRepository->getAttributeValuesForUserType($user->getType());
@@ -46,9 +42,7 @@ class AttributeResolver {
         // USER ROLES
         /** @var UserRole[] $userRoles */
         $userRoles = $user->getUserRoles()->toArray();
-        usort($userRoles, function(UserRole $roleA, UserRole $roleB) {
-            return $roleB->getPriority() - $roleA->getPriority();
-        });
+        usort($userRoles, fn(UserRole $roleA, UserRole $roleB) => $roleB->getPriority() - $roleA->getPriority());
 
         foreach($userRoles as $role) {
             $roleValues = $this->attributeValueRepository->getAttributeValuesForUserRole($role);
@@ -107,7 +101,6 @@ class AttributeResolver {
     }
 
     /**
-     * @param UserType $userType
      * @return mixed[]
      */
     public function getAttributesForType(UserType $userType): array {
@@ -118,7 +111,6 @@ class AttributeResolver {
     }
 
     /**
-     * @param UserRole $userRole
      * @return mixed[]
      */
     public function getAttributesForRole(UserRole $userRole): array {
@@ -129,7 +121,6 @@ class AttributeResolver {
     }
 
     /**
-     * @param RegistrationCode $code
      * @return mixed[]
      */
     public function getAttributesForRegistrationCode(RegistrationCode $code): array {

@@ -3,29 +3,19 @@
 namespace App\Command;
 
 use App\Security\EmailConfirmation\ConfirmationManager;
-use Shapecode\Bundle\CronBundle\Annotation\CronJob;
+use Shapecode\Bundle\CronBundle\Attribute\AsCronJob;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-/**
- * @CronJob("* *\/2 * * *")
- */
+#[AsCronJob(schedule: '* *\/2 * * *')]
+#[AsCommand(name: 'app:remove-confirmations', description: 'Removes expired email confirmations.')]
 class RemoveOldEmailConfirmations extends Command {
 
-    private ConfirmationManager $manager;
-
-    public function __construct(ConfirmationManager $confirmationManager, string $name = null) {
+    public function __construct(private ConfirmationManager $manager, string $name = null) {
         parent::__construct($name);
-
-        $this->manager = $confirmationManager;
-    }
-
-    public function configure() {
-        $this
-            ->setName('app:remove-confirmations')
-            ->setDescription('Removes expired email confirmations.');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int {

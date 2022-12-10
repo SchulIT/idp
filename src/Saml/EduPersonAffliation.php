@@ -6,11 +6,11 @@ namespace App\Saml;
  * Enumeration for EduPersonAffliation
  */
 class EduPersonAffliation {
-    const MEMBER = 'member';
-    const STAFF = 'staff';
-    const STUDENT = 'student';
-    const FACULTY = 'factulty';
-    const AFFILIATE = 'affiliate';
+    public const MEMBER = 'member';
+    public const STAFF = 'staff';
+    public const STUDENT = 'student';
+    public const FACULTY = 'factulty';
+    public const AFFILIATE = 'affiliate';
 
     public static function getAffliations(): array {
         return [

@@ -18,14 +18,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class HandleSamlRequestSubscriber implements EventSubscriberInterface {
 
-    private UrlGeneratorInterface $urlGenerator;
-    private TokenStorageInterface $tokenStorage;
-    private RequestStorageInterface $samlRequestStorage;
-
-    public function __construct(TokenStorageInterface $tokenStorage, RequestStorageInterface $requestStorage, UrlGeneratorInterface $urlGenerator) {
-        $this->tokenStorage = $tokenStorage;
-        $this->samlRequestStorage = $requestStorage;
-        $this->urlGenerator = $urlGenerator;
+    public function __construct(private TokenStorageInterface $tokenStorage, private RequestStorageInterface $samlRequestStorage, private UrlGeneratorInterface $urlGenerator)
+    {
     }
 
     public function onRequest(RequestEvent $event) {
@@ -55,9 +49,6 @@ class HandleSamlRequestSubscriber implements EventSubscriberInterface {
         }
     }
 
-    /**
-     * @return array
-     */
     public static function getSubscribedEvents(): array {
         return [
             RequestEvent::class => ['onRequest', -5]

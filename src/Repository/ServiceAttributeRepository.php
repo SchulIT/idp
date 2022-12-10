@@ -7,10 +7,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ServiceAttributeRepository implements ServiceAttributeRepositoryInterface {
 
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $objectManager) {
-        $this->em = $objectManager;
+    public function __construct(private EntityManagerInterface $em)
+    {
     }
 
     /**

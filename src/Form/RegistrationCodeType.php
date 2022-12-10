@@ -26,12 +26,10 @@ class RegistrationCodeType extends AbstractType {
 
                     return sprintf('%s, %s (%s)', $user->getLastname(), $user->getFirstname(), $user->getUsername());
                 },
-                'query_builder' => function(EntityRepository $repository) {
-                    return $repository->createQueryBuilder('u')
-                        ->leftJoin('u.type', 't')
-                        ->where("t.alias = 'student'")
-                        ->orderBy('u.username', 'asc');
-                },
+                'query_builder' => fn(EntityRepository $repository) => $repository->createQueryBuilder('u')
+                    ->leftJoin('u.type', 't')
+                    ->where("t.alias = 'student'")
+                    ->orderBy('u.username', 'asc'),
                 'placeholder' => 'label.select',
                 'attr' => [
                     'data-choice' => 'true'

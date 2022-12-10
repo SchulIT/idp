@@ -8,10 +8,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ServiceProviderRepository implements ServiceProviderRepositoryInterface {
 
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $entityManager) {
-        $this->em = $entityManager;
+    public function __construct(private EntityManagerInterface $em)
+    {
     }
 
     /**

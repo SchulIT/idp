@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use Throwable;
 use App\Entity\Application;
 use App\Service\IdpExchangeService;
 use JMS\Serializer\Exception\Exception;
@@ -17,35 +18,22 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-/**
- * @Route("/exchange")
- */
+#[Route(path: '/exchange')]
 class IdpExchangeController extends AbstractApiController {
 
-    private IdpExchangeService $service;
-    private ValidatorInterface $validator;
-    private LoggerInterface $logger;
-
-    public function __construct(IdpExchangeService $idpExchangeService, SerializerInterface $serializer, ValidatorInterface $validator, LoggerInterface $logger) {
+    public function __construct(private IdpExchangeService $service, SerializerInterface $serializer, private ValidatorInterface $validator, private LoggerInterface $logger) {
         parent::__construct($serializer);
-
-        $this->service = $idpExchangeService;
-        $this->validator = $validator;
-        $this->logger = $logger;
     }
 
     /**
      * Default IdP Exchange controller (only used for testing purporses)
-     *
-     * @Route("", name="idp_exchange_default")
      */
+    #[Route(path: '', name: 'idp_exchange_default')]
     public function index(): Response {
         return $this->returnJson([]);
     }
 
-    /**
-     * @Route("/updated_users", name="idp_exchange_updated_users", methods={"POST"})
-     */
+    #[Route(path: '/updated_users', name: 'idp_exchange_updated_users', methods: ['POST'])]
     public function updatedUsers(Request $request): Response {
         $json = $request->getContent();
         /** @var UpdatedUsersRequest $exchangeRequest */
@@ -55,9 +43,7 @@ class IdpExchangeController extends AbstractApiController {
         return $this->returnJson($response);
     }
 
-    /**
-     * @Route("/users", name="idp_exchange_users", methods={"POST"})
-     */
+    #[Route(path: '/users', name: 'idp_exchange_users', methods: ['POST'])]
     public function users(Request $request): Response {
         /** @var Application $application */
         $application = $this->getUser();
@@ -70,9 +56,7 @@ class IdpExchangeController extends AbstractApiController {
         return $this->returnJson($response);
     }
 
-    /**
-     * @Route("/user", name="idp_exchange_user", methods={"POST"})
-     */
+    #[Route(path: '/user', name: 'idp_exchange_user', methods: ['POST'])]
     public function user(Request $request): Response {
         /** @var Application $application */
         $application = $this->getUser();
@@ -86,8 +70,6 @@ class IdpExchangeController extends AbstractApiController {
     }
 
     /**
-     * @param string $json
-     * @param string $type
      * @return object
      */
     private function parseAndValidateRequestOrThrowError(string $json, string $type) {
@@ -102,16 +84,13 @@ class IdpExchangeController extends AbstractApiController {
             $this->logFailedValidation($violations);
         } catch (Exception $e) {
             $this->logger->alert(sprintf('Invalid JSON body for type "%s": %s', $type, $e->getMessage()));
-        } catch (\Throwable $e) {
-            $this->logger->alert(sprintf('Exception "%s" thrown with message "%s"', get_class($e), $e->getMessage()));
+        } catch (Throwable $e) {
+            $this->logger->alert(sprintf('Exception "%s" thrown with message "%s"', $e::class, $e->getMessage()));
         }
 
         throw new BadRequestHttpException();
     }
 
-    /**
-     * @param ConstraintViolationListInterface $violationList
-     */
     private function logFailedValidation(ConstraintViolationListInterface $violationList): void {
         foreach($violationList as $violation) {
             $this->logger->alert(

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Traversable;
+use InvalidArgumentException;
 use Burgov\Bundle\KeyValueFormBundle\KeyValueContainer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,69 +13,51 @@ use Ramsey\Uuid\Uuid;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity()
- * @UniqueEntity(fields={"name"})
- */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['name'])]
 class ServiceAttribute {
 
     use IdTrait;
     use UuidTrait;
 
-    /**
-     * @ORM\Column(type="string", length=191, unique=true)
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: 'string', length: 191, unique: true)]
+    #[Assert\NotBlank]
     private $name;
 
-    /**
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank]
     private $label;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $description;
 
     /**
-     * @ORM\Column(type="boolean")
      * @Serializer\Exclude()
      */
-    private $isUserEditEnabled = true;
+    #[ORM\Column(type: 'boolean')]
+    private bool $isUserEditEnabled = true;
 
-    /**
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank]
     private $samlAttributeName;
 
-    /**
-     * @ORM\Column(type="service_attribute_type")
-     * @Assert\NotNull()
-     * @var ServiceAttributeType|null
-     */
-    private $type;
+    #[ORM\Column(type: 'service_attribute_type')]
+    #[Assert\NotNull]
+    private ?ServiceAttributeType $type;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $isMultipleChoice = false;
+
+    #[ORM\Column(type: 'json', nullable: true)]
+    private array $options = [ ];
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isMultipleChoice = false;
-
-    /**
-     * @ORM\Column(type="json", nullable=true)
-     */
-    private $options = [ ];
-
-    /**
-     * @ORM\ManyToMany(targetEntity="SamlServiceProvider", inversedBy="attributes")
-     * @ORM\JoinTable(
-     *  joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
-     *  inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
-     * )
      * @Serializer\Exclude()
      */
+    #[ORM\JoinTable]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(onDelete: 'CASCADE')]
+    #[ORM\ManyToMany(targetEntity: 'SamlServiceProvider', inversedBy: 'attributes')]
     private $services;
 
     public function __construct() {
@@ -170,7 +154,6 @@ class ServiceAttribute {
     }
 
     /**
-     * @param ServiceAttributeType $type
      * @return ServiceAttribute
      */
     public function setType(ServiceAttributeType $type) {
@@ -197,7 +180,7 @@ class ServiceAttribute {
     /**
      * Set the options.
      *
-     * @param array|KeyValueContainer|\Traversable $options Something that can be converted to an array.
+     * @param array|KeyValueContainer|Traversable $options Something that can be converted to an array.
      */
     public function setOptions($options)
     {
@@ -211,9 +194,9 @@ class ServiceAttribute {
      *
      * @return array Native array representation of $data
      *
-     * @throws \InvalidArgumentException If $data can not be converted to an array.
+     * @throws InvalidArgumentException If $data can not be converted to an array.
      */
-    private function convertToArray($data)
+    private function convertToArray(mixed $data)
     {
         if (is_array($data)) {
             return $data;
@@ -223,11 +206,11 @@ class ServiceAttribute {
             return $data->toArray();
         }
 
-        if ($data instanceof \Traversable) {
+        if ($data instanceof Traversable) {
             return iterator_to_array($data);
         }
 
-        throw new \InvalidArgumentException(sprintf('Expected array, Traversable or KeyValueContainer, got "%s"', is_object($data) ? get_class($data) : gettype($data)));
+        throw new InvalidArgumentException(sprintf('Expected array, Traversable or KeyValueContainer, got "%s"', get_debug_type($data)));
     }
 
     /**
@@ -237,23 +220,14 @@ class ServiceAttribute {
         return $this->options;
     }
 
-    /**
-     * @return Collection
-     */
     public function getServices(): Collection {
         return $this->services;
     }
 
-    /**
-     * @param ServiceProvider $serviceProvider
-     */
     public function addService(ServiceProvider $serviceProvider) {
         $this->services->add($serviceProvider);
     }
 
-    /**
-     * @param ServiceProvider $serviceProvider
-     */
     public function removeService(ServiceProvider $serviceProvider) {
         $this->services->removeElement($serviceProvider);
     }

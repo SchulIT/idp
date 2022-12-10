@@ -6,42 +6,31 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity()
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="class", type="string")
- * @ORM\DiscriminatorMap({"saml" = "SamlServiceProvider", "normal" = "ServiceProvider"})
- */
+#[ORM\Entity]
+#[ORM\InheritanceType('SINGLE_TABLE')]
+#[ORM\DiscriminatorColumn(name: 'class', type: 'string')]
+#[ORM\DiscriminatorMap(['saml' => 'SamlServiceProvider', 'normal' => 'ServiceProvider'])]
 class ServiceProvider {
 
     use IdTrait;
     use UuidTrait;
 
-    /**
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank]
     private $name;
 
-    /**
-     * @ORM\Column(type="text")
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank]
     private $description;
 
-    /**
-     * @ORM\Column(type="text")
-     * @Assert\NotBlank()
-     * @Assert\Url()
-     */
+    #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank]
+    #[Assert\Url]
     private $url;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     * @Assert\NotBlank(allowNull=true)
-     * @var string|null
-     */
-    private $icon;
+    #[ORM\Column(type: 'text', nullable: true)]
+    #[Assert\NotBlank(allowNull: true)]
+    private ?string $icon = null;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
@@ -95,17 +84,10 @@ class ServiceProvider {
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getIcon(): ?string {
         return $this->icon;
     }
 
-    /**
-     * @param string|null $icon
-     * @return ServiceProvider
-     */
     public function setIcon(?string $icon): ServiceProvider {
         $this->icon = $icon;
         return $this;

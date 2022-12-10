@@ -7,16 +7,10 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class SettingRepository implements SettingRepositoryInterface {
 
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $entityManager) {
-        $this->em = $entityManager;
+    public function __construct(private EntityManagerInterface $em)
+    {
     }
 
-    /**
-     * @param string $key
-     * @return Setting|null
-     */
     public function findOneByKey(string $key): ?Setting {
         return $this->em->getRepository(Setting::class)
             ->findOneBy([
@@ -32,9 +26,6 @@ class SettingRepository implements SettingRepositoryInterface {
             ->findAll();
     }
 
-    /**
-     * @param Setting $setting
-     */
     public function persist(Setting $setting): void {
         $this->em->persist($setting);
         $this->em->flush();

@@ -18,23 +18,8 @@ class ConfirmationManager {
 
     private const Lifetime = '+2 hours';
 
-    private DateHelper $dateHelper;
-    private EmailConfirmationRepositoryInterface $repository;
-    private UserRepositoryInterface $userRepository;
-    private TranslatorInterface $translator;
-    private MailerInterface $mailer;
-    private UserStringConverter $userConverter;
-    private UrlGeneratorInterface $urlGenerator;
-
-    public function __construct(DateHelper $dateHelper, EmailConfirmationRepositoryInterface $repository, UserRepositoryInterface $userRepository,
-                                TranslatorInterface $translator, MailerInterface $mailer, UserStringConverter $userConverter, UrlGeneratorInterface $urlGenerator) {
-        $this->dateHelper = $dateHelper;
-        $this->repository = $repository;
-        $this->userRepository = $userRepository;
-        $this->translator = $translator;
-        $this->mailer = $mailer;
-        $this->userConverter = $userConverter;
-        $this->urlGenerator = $urlGenerator;
+    public function __construct(private DateHelper $dateHelper, private EmailConfirmationRepositoryInterface $repository, private UserRepositoryInterface $userRepository, private TranslatorInterface $translator, private MailerInterface $mailer, private UserStringConverter $userConverter, private UrlGeneratorInterface $urlGenerator)
+    {
     }
 
     public function hasConfirmation(User $user): bool {
@@ -80,7 +65,6 @@ class ConfirmationManager {
     }
 
     /**
-     * @param string $token
      * @throws TokenNotFoundException
      */
     public function confirm(string $token): void {

@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class UserTypeVoter extends Voter {
-    const REMOVE = 'remove';
+    public const REMOVE = 'remove';
 
     /**
      * @inheritDoc
@@ -21,13 +21,12 @@ class UserTypeVoter extends Voter {
     /**
      * @inheritDoc
      */
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool {
-        switch($attribute) {
-            case static::REMOVE:
-                return $this->canRemove($subject);
-        }
-
-        throw new LogicException('This code should not be executed.');
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
+    {
+        return match ($attribute) {
+            static::REMOVE => $this->canRemove($subject),
+            default => throw new LogicException('This code should not be executed.'),
+        };
     }
 
     private function canRemove(UserType $userType) {

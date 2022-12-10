@@ -19,25 +19,12 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class MustAcceptPrivacyPolicyRequestListener implements EventSubscriberInterface {
 
-    const RedirectFallbackRoute = 'dashboard';
-    const LogoutRoute = 'logout';
-    const AcceptPrivacyRoute = 'show_privacy_policy';
+    public const RedirectFallbackRoute = 'dashboard';
+    public const LogoutRoute = 'logout';
+    public const AcceptPrivacyRoute = 'show_privacy_policy';
 
-    private UrlGeneratorInterface $urlGenerator;
-    private TokenStorageInterface $tokenStorage;
-    private PrivacyPolicyRepositoryInterface $privacyPolicyRepository;
-    private UserRepositoryInterface $userRepository;
-    private CsrfTokenManagerInterface $csrfTokenManager;
-    private RequestStack $requestStack;
-
-    public function __construct(UrlGeneratorInterface $urlGenerator, TokenStorageInterface $tokenStorage, RequestStack $requestStack,
-                                PrivacyPolicyRepositoryInterface $privacyPolicyRepository, CsrfTokenManagerInterface $csrfTokenManager, UserRepositoryInterface $userRepository) {
-        $this->urlGenerator = $urlGenerator;
-        $this->tokenStorage = $tokenStorage;
-        $this->privacyPolicyRepository = $privacyPolicyRepository;
-        $this->userRepository = $userRepository;
-        $this->csrfTokenManager = $csrfTokenManager;
-        $this->requestStack = $requestStack;
+    public function __construct(private UrlGeneratorInterface $urlGenerator, private TokenStorageInterface $tokenStorage, private RequestStack $requestStack, private PrivacyPolicyRepositoryInterface $privacyPolicyRepository, private CsrfTokenManagerInterface $csrfTokenManager, private UserRepositoryInterface $userRepository)
+    {
     }
 
     public function onRequest(RequestEvent $event) {

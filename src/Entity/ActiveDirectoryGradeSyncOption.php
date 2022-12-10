@@ -7,32 +7,24 @@ use Ramsey\Uuid\Uuid;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity()
- * @UniqueEntity(fields={"grade"})
- * @UniqueEntity(fields={"source", "sourceType"})
- */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['grade'])]
+#[UniqueEntity(fields: ['source', 'sourceType'])]
 class ActiveDirectoryGradeSyncOption implements ActiveDirectorySyncOptionInterface {
 
     use IdTrait;
     use UuidTrait;
 
-    /**
-     * @ORM\Column(type="string", length=32)
-     * @Assert\Length(max="32")
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: 'string', length: 32)]
+    #[Assert\Length(max: 32)]
+    #[Assert\NotBlank]
     private $grade;
 
-    /**
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank]
     private $source;
 
-    /**
-     * @ORM\Column(type="ad_source_type")
-     */
+    #[ORM\Column(type: 'ad_source_type')]
     private $sourceType;
 
     public function __construct() {
@@ -72,15 +64,11 @@ class ActiveDirectoryGradeSyncOption implements ActiveDirectorySyncOptionInterfa
         return $this;
     }
 
-    /**
-     * @return ActiveDirectorySyncSourceType
-     */
     public function getSourceType(): ActiveDirectorySyncSourceType {
         return $this->sourceType;
     }
 
     /**
-     * @param ActiveDirectorySyncSourceType $sourceType
      * @return ActiveDirectoryGradeSyncOption
      */
     public function setSourceType(ActiveDirectorySyncSourceType $sourceType) {

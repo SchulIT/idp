@@ -9,18 +9,15 @@ use Ramsey\Uuid\UuidInterface;
 trait UuidTrait {
 
     /**
-     * @ORM\Column(type="uuid", unique=true)
      * @Serializer\ReadOnlyProperty()
      * @Serializer\Accessor(getter="getUuidString")
      * @Serializer\SerializedName("uuid")
      * @Serializer\Type("string")
      * @var UuidInterface
      */
+    #[ORM\Column(type: 'uuid', unique: true)]
     private $uuid;
 
-    /**
-     * @return UuidInterface
-     */
     public function getUuid(): UuidInterface {
         return $this->uuid;
     }

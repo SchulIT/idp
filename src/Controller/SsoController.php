@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use LightSaml\Idp\Builder\Action\Profile\SingleSignOn\Idp\SsoIdpAssertionActionBuilder;
+use RuntimeException;
 use App\Entity\SamlServiceProvider;
 use App\Entity\User;
 use App\Repository\ServiceProviderRepositoryInterface;
@@ -24,15 +26,12 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 class SsoController extends AbstractController {
 
     private const CSRF_TOKEN_ID = '_confirmation_token';
-    private ServiceProviderConfirmationService $confirmationService;
 
-    public function __construct(ServiceProviderConfirmationService $confirmationService) {
-        $this->confirmationService = $confirmationService;
+    public function __construct(private ServiceProviderConfirmationService $confirmationService)
+    {
     }
 
-    /**
-     * @Route("/idp/saml", name="idp_saml")
-     */
+    #[Route(path: '/idp/saml', name: 'idp_saml')]
     public function saml(RequestStorageInterface $requestStorage, AttributeValueProvider $attributeValueProvider,
                          SsoIdpReceiveAuthnRequestProfileBuilder $receiveBuilder,
                          SsoIdpSendResponseProfileBuilderFactory $sendResponseBuilder,
@@ -79,7 +78,7 @@ class SsoController extends AbstractController {
         }
 
         $sendBuilder = $sendResponseBuilder->build(
-            [new \LightSaml\Idp\Builder\Action\Profile\SingleSignOn\Idp\SsoIdpAssertionActionBuilder($buildContainer)],
+            [new SsoIdpAssertionActionBuilder($buildContainer)],
             $partyContext->getEntityDescriptor()->getEntityID()
         );
         $sendBuilder->setPartyEntityDescriptor($partyContext->getEntityDescriptor());
@@ -124,12 +123,10 @@ class SsoController extends AbstractController {
             ]);
         }
 
-        throw new \RuntimeException('Unsupported Binding!');
+        throw new RuntimeException('Unsupported Binding!');
     }
 
-    /**
-     * @Route("/idp/saml/confirm/{uuid}", name="confirm_redirect")
-     */
+    #[Route(path: '/idp/saml/confirm/{uuid}', name: 'confirm_redirect')]
     public function confirm(Request $request, SamlServiceProvider $serviceProvider, AttributeValueProvider $attributeValueProvider, CsrfTokenManagerInterface $tokenManager): Response {
         $type = $request->request->get('type');
         $destination = $request->request->get('destination');

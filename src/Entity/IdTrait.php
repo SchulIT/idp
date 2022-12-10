@@ -8,12 +8,12 @@ use JMS\Serializer\Annotation as Serializer;
 trait IdTrait {
 
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer", options={"unsigned": true})
      * @Serializer\Exclude()
      * @var int|null
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
     private $id;
 
     public function getId(): ?int {

@@ -17,16 +17,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/profile")
- */
+#[Route(path: '/profile')]
 class ProfileController extends AbstractController {
 
     use AttributeDataTrait;
 
-    /**
-     * @Route("", name="profile")
-     */
+    #[Route(path: '', name: 'profile')]
     public function index(Request $request, AttributePersister $attributePersister, EntityManagerInterface $em, ConfirmationManager $confirmationManager): Response {
         /** @var User $user */
         $user = $this->getUser();
@@ -63,9 +59,7 @@ class ProfileController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/password", name="profile_password")
-     */
+    #[Route(path: '/password', name: 'profile_password')]
     public function changePassword(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response {
         $this->denyAccessUnlessGranted(ProfileVoter::CHANGE_PASSWORD);
 

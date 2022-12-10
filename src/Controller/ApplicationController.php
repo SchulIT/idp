@@ -12,20 +12,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/admin/applications")
- */
+#[Route(path: '/admin/applications')]
 class ApplicationController extends AbstractController {
 
-    private ApplicationRepositoryInterface $repository;
-
-    public function __construct(ApplicationRepositoryInterface $repository) {
-        $this->repository = $repository;
+    public function __construct(private ApplicationRepositoryInterface $repository)
+    {
     }
 
-    /**
-     * @Route("", name="applications")
-     */
+    #[Route(path: '', name: 'applications')]
     public function index(): Response {
         $applications = $this->repository->findAll();
 
@@ -34,9 +28,7 @@ class ApplicationController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/add", name="add_application")
-     */
+    #[Route(path: '/add', name: 'add_application')]
     public function add(Request $request, ApplicationKeyGenerator $keyGenerator): Response {
         $application = (new Application());
 
@@ -56,9 +48,7 @@ class ApplicationController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/{uuid}/edit", name="edit_application")
-     */
+    #[Route(path: '/{uuid}/edit', name: 'edit_application')]
     public function edit(Application $application, Request $request): Response {
         $form = $this->createForm(ApplicationType::class, $application);
         $form->handleRequest($request);
@@ -76,9 +66,7 @@ class ApplicationController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route("/{uuid}/remove", name="remove_application")
-     */
+    #[Route(path: '/{uuid}/remove', name: 'remove_application')]
     public function remove(Application $application, Request $request): Response {
         $form = $this->createForm(ConfirmType::class, null, [
             'message' => 'applications.remove.confirm',

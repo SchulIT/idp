@@ -2,6 +2,7 @@
 
 namespace App\Security\Registration;
 
-class CodeAlreadyRedeemedException extends \Exception {
+use Exception;
+class CodeAlreadyRedeemedException extends Exception {
 
 }
