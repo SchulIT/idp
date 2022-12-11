@@ -5,12 +5,13 @@ namespace App\Controller\Api;
 use App\Repository\UserTypeRepositoryInterface;
 use App\Response\ListUserTypeResponse;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use OpenApi\Annotations as OA;
 
 #[Route(path: '/api')]
-class UserTypeController extends AbstractApiController {
+class UserTypeController extends AbstractController {
 
     /**
      * Returns a list of user types which a user can be assigned.
@@ -26,7 +27,7 @@ class UserTypeController extends AbstractApiController {
     public function getUserTypes(UserTypeRepositoryInterface $repository): Response {
         $types = $repository->findAll();
 
-        return $this->returnJson(
+        return $this->json(
             new ListUserTypeResponse($types)
         );
     }

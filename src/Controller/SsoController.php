@@ -130,7 +130,7 @@ class SsoController extends AbstractController {
     public function confirm(Request $request, SamlServiceProvider $serviceProvider, AttributeValueProvider $attributeValueProvider, CsrfTokenManagerInterface $tokenManager): Response {
         $type = $request->request->get('type');
         $destination = $request->request->get('destination');
-        $data = $request->request->get('data', [ ]);
+        $data = $request->request->all('data');
         $token = $request->request->get('_csrf_token');
 
         if($this->isCsrfTokenValid(self::CSRF_TOKEN_ID, $token) !== true) {
@@ -157,7 +157,9 @@ class SsoController extends AbstractController {
                 ]);
             }
         } else {
-            $this->confirmationService->saveConfirmation($this->getUser(), $serviceProvider);
+            /** @var User $user */
+            $user = $this->getUser();
+            $this->confirmationService->saveConfirmation($user, $serviceProvider);
 
             if($type === 'post') {
                 return $this->render('sso/redirect_post.html.twig', [
@@ -166,6 +168,7 @@ class SsoController extends AbstractController {
                     'destination' => $destination
                 ]);
             } else if($type === 'redirect') {
+                $token = $tokenManager->refreshToken(self::CSRF_TOKEN_ID);
                 return $this->render('sso/redirect_uri.html.twig', [
                     'service' => $serviceProvider,
                     'destination' => $destination,

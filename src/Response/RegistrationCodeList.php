@@ -12,11 +12,16 @@ class RegistrationCodeList {
     public function __construct(
         /**
          * List of UUIDs of all registration codes
-         * @Serializer\SerializedName("codes")
-         * @Serializer\Type("array<string>")
          */
-        private array $codes
+        private readonly array $codes
     )
     {
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getCodes(): array {
+        return $this->codes;
     }
 }

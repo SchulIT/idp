@@ -2,74 +2,37 @@
 
 namespace App\Request;
 
-use App\Validator\UniqueUsername;
-use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class ActiveDirectoryUserRequest {
-    /**
-     * @Serializer\SerializedName("object_guid")
-     * @Serializer\Type("string")
-     */
+
     #[Assert\NotBlank]
     #[Assert\Uuid]
     private string $objectGuid;
 
-    /**
-     * @Serializer\SerializedName("sam_account_name")
-     * @Serializer\Type("string")
-     */
     #[Assert\NotBlank]
     private string $samAccountName;
 
-    /**
-     * @Serializer\SerializedName("user_principal_name")
-     * @Serializer\Type("string")
-     */
     #[Assert\NotBlank]
     private string $userPrincipalName;
 
-    /**
-     * @Serializer\SerializedName("firstname")
-     * @Serializer\Type("string")
-     */
     #[Assert\NotBlank]
     private string $firstname;
 
-    /**
-     * @Serializer\SerializedName("lastname")
-     * @Serializer\Type("string")
-     */
     #[Assert\NotBlank]
     private string $lastname;
 
-    /**
-     * @Serializer\SerializedName("email")
-     * @Serializer\Type("string")
-     */
     #[Assert\Email]
     #[Assert\NotBlank]
     private string $email;
 
-    /**
-     * @Serializer\SerializedName("ou")
-     * @Serializer\Type("string")
-     */
     #[Assert\NotBlank]
     private string $ou;
 
     /**
-     * @Serializer\SerializedName("groups")
-     * @Serializer\Type("array<string>")
      * @var string[]
      */
     private array $groups;
-
-    /**
-     * @Serializer\SerializedName("unique_id")
-     * @Serializer\Type("string")
-     */
-    private ?string $uniqueId = null;
 
     public function getObjectGuid(): ?string {
         return $this->objectGuid;
@@ -106,7 +69,59 @@ class ActiveDirectoryUserRequest {
         return $this->groups;
     }
 
-    public function getUniqueId(): ?string {
-        return $this->uniqueId;
+    /**
+     * @param string $objectGuid
+     */
+    public function setObjectGuid(string $objectGuid): void {
+        $this->objectGuid = $objectGuid;
+    }
+
+    /**
+     * @param string $samAccountName
+     */
+    public function setSamAccountName(string $samAccountName): void {
+        $this->samAccountName = $samAccountName;
+    }
+
+    /**
+     * @param string $userPrincipalName
+     */
+    public function setUserPrincipalName(string $userPrincipalName): void {
+        $this->userPrincipalName = $userPrincipalName;
+    }
+
+    /**
+     * @param string $firstname
+     */
+    public function setFirstname(string $firstname): void {
+        $this->firstname = $firstname;
+    }
+
+    /**
+     * @param string $lastname
+     */
+    public function setLastname(string $lastname): void {
+        $this->lastname = $lastname;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail(string $email): void {
+        $this->email = $email;
+    }
+
+    /**
+     * @param string $ou
+     */
+    public function setOu(string $ou): void {
+        $this->ou = $ou;
+    }
+
+    /**
+     * @param array $groups
+     */
+    public function setGroups(array $groups): void {
+        $this->groups = $groups;
     }
 }

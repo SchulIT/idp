@@ -171,13 +171,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\JoinTable(name: 'user_links')]
     #[ORM\JoinColumn(name: 'source_user_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'target_user_id', onDelete: 'CASCADE')]
-    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'parents')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'parents')]
     private $linkedStudents;
 
     /**
      * @var Collection<User>
      */
-    #[ORM\ManyToMany(targetEntity: 'User', mappedBy: 'linkedStudents')]
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'linkedStudents')]
     private $parents;
 
     public function __construct() {

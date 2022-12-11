@@ -6,14 +6,14 @@ use App\Entity\KioskUser;
 use App\Entity\User;
 use App\Entity\UserType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class KioskLoginTest extends WebTestCase {
     /** @var EntityManagerInterface */
     private $em;
 
-    /** @var Client */
+    /** @var KernelBrowser */
     private $client;
 
     /** @var User */
@@ -25,7 +25,7 @@ class KioskLoginTest extends WebTestCase {
     /** @var KioskUser */
     private $kiosk;
 
-    public function setUp() {
+    public function setUp(): void {
         $this->client = static::createClient();
 
         $this->em = $this->client->getContainer()
@@ -80,7 +80,7 @@ class KioskLoginTest extends WebTestCase {
         $this->assertNotNull($tokenStorage->getToken());
 
         $token = $tokenStorage->getToken();
-        $this->assertEquals($this->user->getUsername(), $token->getUsername());
+        $this->assertEquals($this->user->getUserIdentifier(), $token->getUserIdentifier());
     }
 
     public function testLoginValidTokenInvalidIpAddress() {

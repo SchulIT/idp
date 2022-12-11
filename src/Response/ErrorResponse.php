@@ -2,26 +2,25 @@
 
 namespace App\Response;
 
-use JMS\Serializer\Annotation as Serializer;
-
 class ErrorResponse {
 
+
     public function __construct(
-        /**
-         * Error message
-         *
-         * @Serializer\Type("string")
-         * @Serializer\SerializedName("message")
-         */
-        private string $message,
+
+        private readonly string $message,
         /**
          * Type of exception (optional).
-         *
-         * @Serializer\Type("string")
-         * @Serializer\SerializedName("type")
          */
-        private ?string $type = null
+        private readonly ?string $type = null
     )
     {
+    }
+
+    public function getMessage(): string {
+        return $this->message;
+    }
+
+    public function getType(): ?string {
+        return $this->type;
     }
 }

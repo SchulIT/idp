@@ -3,62 +3,35 @@
 namespace App\Request;
 
 use App\Validator\ValidUserTypeUuid;
-use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class RegistrationCode {
 
-    /**
-     * @Serializer\Type("string")
-     */
     #[Assert\NotBlank]
     private ?string $code = null;
 
-    /**
-     * @Serializer\Type("string")
-     */
     #[Assert\NotBlank]
     private ?string $username = null;
 
-    /**
-     * @Serializer\Type("string")
-     */
     #[Assert\NotBlank(allowNull: true)]
     private ?string $firstname = null;
 
-    /**
-     * @Serializer\Type("string")
-     */
     #[Assert\NotBlank(allowNull: true)]
     private ?string $lastname = null;
 
-    /**
-     * @Serializer\Type("string")
-     */
     #[Assert\Email]
     private ?string $email = null;
 
-    /**
-     * @Serializer\Type("string")
-     */
     #[Assert\NotBlank(allowNull: true)]
     private ?string $grade = null;
 
     /**
-     * @Serializer\Type("string")
      * @ValidUserTypeUuid()
      */
     #[Assert\Uuid]
     private ?string $type = null;
 
     /**
-     * @Serializer\Type("string")
-     */
-    #[Assert\NotBlank(allowNull: true)]
-    private ?string $externalId = null;
-
-    /**
-     * @Serializer\Type("array<string, string>")
      * @var string[]
      */
     private array $attributes = [ ];
@@ -91,14 +64,66 @@ class RegistrationCode {
         return $this->type;
     }
 
-    public function getExternalId(): ?string {
-        return $this->externalId;
-    }
-
     /**
      * @return string[]
      */
     public function getAttributes(): array {
         return $this->attributes;
+    }
+
+    /**
+     * @param string|null $code
+     */
+    public function setCode(?string $code): void {
+        $this->code = $code;
+    }
+
+    /**
+     * @param string|null $username
+     */
+    public function setUsername(?string $username): void {
+        $this->username = $username;
+    }
+
+    /**
+     * @param string|null $firstname
+     */
+    public function setFirstname(?string $firstname): void {
+        $this->firstname = $firstname;
+    }
+
+    /**
+     * @param string|null $lastname
+     */
+    public function setLastname(?string $lastname): void {
+        $this->lastname = $lastname;
+    }
+
+    /**
+     * @param string|null $email
+     */
+    public function setEmail(?string $email): void {
+        $this->email = $email;
+    }
+
+    /**
+     * @param string|null $grade
+     */
+    public function setGrade(?string $grade): void {
+        $this->grade = $grade;
+    }
+
+    /**
+     * @param string|null $type
+     */
+    public function setType(?string $type): void {
+        $this->type = $type;
+    }
+
+    /**
+     * @param array $attributes
+     */
+    public function setAttributes(array $attributes): void {
+        $this->attributes = $attributes;
     }
 }

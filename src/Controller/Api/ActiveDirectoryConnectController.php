@@ -7,23 +7,21 @@ use App\Repository\UserRepositoryInterface;
 use App\Request\ActiveDirectoryUserRequest;
 use App\Response\ErrorResponse;
 use App\Response\ListActiveDirectoryUserResponse;
+use App\Response\ViolationListResponse;
 use App\Security\ActiveDirectoryUserInformation;
 use App\Security\UserCreator;
-use JMS\Serializer\SerializerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use OpenApi\Annotations as OA;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Response\ViolationListResponse;
 
 #[Route(path: '/api/ad_connect')]
 #[IsGranted('ROLE_ADCONNECT')]
-class ActiveDirectoryConnectController extends AbstractApiController {
+class ActiveDirectoryConnectController extends AbstractController {
 
-    public function __construct(private UserCreator $userCreator, private UserRepositoryInterface $repository, SerializerInterface $serializer) {
-        parent::__construct($serializer);
-    }
+    public function __construct(private UserCreator $userCreator, private UserRepositoryInterface $repository) { }
 
     /**
      * Returns the list of objectGuids of all Active Directory users.
@@ -38,7 +36,7 @@ class ActiveDirectoryConnectController extends AbstractApiController {
     #[Route(path: '', methods: ['GET'])]
     public function list(): Response {
         $list = $this->repository->findAllActiveDirectoryUsersObjectGuid();
-        return $this->returnJson(new ListActiveDirectoryUserResponse($list));
+        return $this->json(new ListActiveDirectoryUserResponse($list));
     }
 
     /**
@@ -75,7 +73,7 @@ class ActiveDirectoryConnectController extends AbstractApiController {
             return new Response(null, Response::HTTP_CREATED);
         }
 
-        return $this->returnJson(
+        return $this->json(
             new ErrorResponse('Cannot create user. Specify a sync rule first.')
         );
     }
@@ -146,7 +144,6 @@ class ActiveDirectoryConnectController extends AbstractApiController {
             ->setLastname($request->getLastname())
             ->setEmail($request->getEmail())
             ->setGuid($request->getObjectGuid())
-            ->setUniqueId($request->getUniqueId())
             ->setOu($request->getOu())
             ->setGroups($request->getGroups());
     }

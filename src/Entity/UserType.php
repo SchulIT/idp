@@ -57,7 +57,7 @@ class UserType {
     /**
      * @Serializer\Exclude()
      */
-    #[ORM\OneToMany(targetEntity: 'ActiveDirectorySyncOption', mappedBy: 'userType')]
+    #[ORM\OneToMany(targetEntity: ActiveDirectorySyncOption::class, mappedBy: 'userType')]
     private $syncOptions;
 
     /**

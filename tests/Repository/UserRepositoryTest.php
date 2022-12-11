@@ -17,7 +17,7 @@ class UserRepositoryTest extends KernelTestCase {
     private $user;
     private $adUser;
 
-    public function setUp() {
+    public function setUp(): void {
         $kernel = self::bootKernel();
         $container = $kernel->getContainer();
 

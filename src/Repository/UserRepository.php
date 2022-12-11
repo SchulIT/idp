@@ -111,15 +111,10 @@ class UserRepository implements UserRepositoryInterface {
             ->leftJoin('u.userRoles', 'r')
             ->leftJoin('u.type', 't')
             ->where('u.username = :username')
-            ->setParameter('username', $username);
+            ->setParameter('username', $username)
+            ->setMaxResults(1);
 
-        $result = $qb->getQuery()->getResult();
-
-        if((is_countable($result) ? count($result) : 0) === 0) {
-            return null;
-        }
-
-        return $result[0];
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     private function createDefaultQueryBuilder(): QueryBuilder {

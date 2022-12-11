@@ -10,7 +10,6 @@ use App\Security\ForgotPassword\PasswordManager;
 use PHPUnit\Framework\TestCase;
 use SchulIT\CommonBundle\Helper\DateHelper;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class PasswordManagerTest extends TestCase {
     public function testCreateTokenIfNotPresent() {
@@ -95,13 +94,13 @@ class PasswordManagerTest extends TestCase {
             ->setUser($user);
 
         $dateHelper = new DateHelper();
-        $userPasswordEncoder = $this->createMock(PasswordHasher::class);
+        $userPasswordEncoder = $this->createMock(UserPasswordHasherInterface::class);
         $userPasswordEncoder
-            ->method('hashPassword')
+            ->method('hash')
             ->willReturn('new-encoded-password');
         $userPasswordEncoder
             ->expects($this->once())
-            ->method('hashPassword')
+            ->method('hash')
             ->with($this->equalTo($user), $this->equalTo('new-password'));
         $userRepository = $this->createMock(UserRepositoryInterface::class);
         $passwordResetRepository = $this->createMock(PasswordResetTokenRepositoryInterface::class);

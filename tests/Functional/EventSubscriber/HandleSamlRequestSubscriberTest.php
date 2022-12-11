@@ -4,22 +4,18 @@ namespace App\Tests\Functional\EventSubscriber;
 
 use App\Entity\User;
 use App\Entity\UserType;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Client;
+use Doctrine\Persistence\ObjectManager;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class HandleSamlRequestSubscriberTest extends WebTestCase {
 
-    /** @var EntityManagerInterface */
-    private $em;
+    private ?ObjectManager $em;
+    private KernelBrowser $client;
+    private ?User $user;
+    private ?UserType $userType;
 
-    /** @var Client */
-    private $client;
-
-    /** @var User */
-    private $user;
-
-    public function setUp() {
+    public function setUp(): void {
         $this->client = static::createClient();
 
         $this->em = $this->client->getContainer()

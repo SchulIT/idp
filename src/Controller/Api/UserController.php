@@ -19,6 +19,7 @@ use JMS\Serializer\SerializerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Annotations as OA;
 use Ramsey\Uuid\Uuid;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -26,12 +27,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route(path: '/api/user')]
-class UserController extends AbstractApiController {
+class UserController extends AbstractController {
 
     public function __construct(private ValidatorInterface $validator, private UserRepositoryInterface $userRepository, private UserTypeRepositoryInterface $userTypeRepository,
-                                private AttributePersister $attributePersister, SerializerInterface $serializer) {
-        parent::__construct($serializer);
-    }
+                                private AttributePersister $attributePersister) {    }
 
     /**
      * Returns a list of users.
@@ -73,7 +72,7 @@ class UserController extends AbstractApiController {
         }
 
         $uuids = $userRepository->findAllUuids($offset, $limit);
-        return $this->returnJson(new ListUserResponse($uuids));
+        return $this->json(new ListUserResponse($uuids));
     }
 
     /**
@@ -93,7 +92,7 @@ class UserController extends AbstractApiController {
     #[Route(path: '/{uuidOrExternalId}', methods: ['GET'])]
     public function user($uuidOrExternalId): Response {
         $user = $this->getUserOrThrowNotFound($uuidOrExternalId);
-        return $this->returnJson($user);
+        return $this->json($user);
     }
 
     /**
@@ -134,7 +133,7 @@ class UserController extends AbstractApiController {
         }
 
         if(count($violations) > 0) {
-            return $this->returnJson(
+            return $this->json(
                 new ViolationListResponse($violations),
                 Response::HTTP_BAD_REQUEST
             );

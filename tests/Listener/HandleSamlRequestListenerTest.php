@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -38,7 +37,7 @@ class HandleSamlRequestListenerTest extends TestCase {
 
         $kernel = $this->createMock(HttpKernelInterface::class);
 
-        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
 
         $tokenStorage = $this->createMock(TokenStorageInterface::class);
         $tokenStorage->method('getToken')
@@ -60,7 +59,7 @@ class HandleSamlRequestListenerTest extends TestCase {
 
         $kernel = $this->createMock(HttpKernelInterface::class);
 
-        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
 
         $tokenStorage = $this->createMock(TokenStorageInterface::class);
         $tokenStorage->method('getToken')
@@ -88,7 +87,7 @@ class HandleSamlRequestListenerTest extends TestCase {
 
         $kernel = $this->createMock(HttpKernelInterface::class);
 
-        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
 
         $tokenStorage = $this->createMock(TokenStorageInterface::class);
         $tokenStorage->method('getToken')
@@ -112,11 +111,11 @@ class HandleSamlRequestListenerTest extends TestCase {
 
         $kernel = $this->createMock(HttpKernelInterface::class);
 
-        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
 
         $tokenStorage = $this->createMock(TokenStorageInterface::class);
         $tokenStorage->method('getToken')
-            ->willReturn($this->createMock(AnonymousToken::class));
+            ->willReturn(null);
 
         $requestStorage = $this->createMock(RequestStorageInterface::class);
         $requestStorage->method('has')
@@ -137,7 +136,7 @@ class HandleSamlRequestListenerTest extends TestCase {
 
         $kernel = $this->createMock(HttpKernelInterface::class);
 
-        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
 
         $tokenStorage = $this->createMock(TokenStorageInterface::class);
         $tokenStorage->method('getToken')
@@ -158,6 +157,6 @@ class HandleSamlRequestListenerTest extends TestCase {
 
     private function getToken() {
         $user = $this->createMock(UserInterface::class);
-        return new UsernamePasswordToken($user, 'password', 'test', ['ROLE_USER']);
+        return new UsernamePasswordToken($user, 'test', ['ROLE_USER']);
     }
 }

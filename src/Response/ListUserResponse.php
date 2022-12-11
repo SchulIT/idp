@@ -2,8 +2,6 @@
 
 namespace App\Response;
 
-use JMS\Serializer\Annotation as Serializer;
-
 class ListUserResponse {
     /**
      * @param string[] $users
@@ -11,11 +9,16 @@ class ListUserResponse {
     public function __construct(
         /**
          * List of objectGuids of all Active Directory users
-         * @Serializer\SerializedName("users")
-         * @Serializer\Type("array<string>")
          */
-        private array $users
+        private readonly array $users
     )
     {
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getUsers(): array {
+        return $this->users;
     }
 }

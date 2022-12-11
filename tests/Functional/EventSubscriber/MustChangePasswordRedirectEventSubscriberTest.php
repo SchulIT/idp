@@ -4,22 +4,21 @@ namespace App\Tests\Functional\EventSubscriber;
 
 use App\Entity\User;
 use App\Entity\UserType;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Client;
+use Doctrine\Persistence\ObjectManager;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class MustChangePasswordRedirectEventSubscriberTest extends WebTestCase {
 
-    /** @var EntityManagerInterface */
-    private $em;
+    private ?ObjectManager $em;
 
-    /** @var Client */
-    private $client;
+    private KernelBrowser $client;
 
-    /** @var User */
-    private $user;
+    private ?User $user;
 
-    public function setUp() {
+    private ?UserType $userType;
+
+    public function setUp(): void {
         $this->client = static::createClient();
 
         $this->em = $this->client->getContainer()

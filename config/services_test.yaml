@@ -8,12 +8,6 @@ services:
     #
     # test.App\Service\MyService: '@App\Service\MyService'
 
-    password_encoder: '@Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface'
-
-    App\Tests\NoTranslator:
-        decorates: translator
-        arguments: ['@App\Tests\NoTranslator.inner']
-
     App\Repository\UserRepositoryInterface:
         class: App\Repository\UserRepository
         arguments:

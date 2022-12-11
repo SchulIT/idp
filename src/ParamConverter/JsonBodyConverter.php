@@ -3,15 +3,12 @@
 namespace App\ParamConverter;
 
 use App\Rest\ValidationFailedException;
-use JMS\Serializer\ContextFactory\DeserializationContextFactoryInterface;
-use JMS\Serializer\DeserializationContext;
-use JMS\Serializer\Exception\Exception as SerializerException;
-use JMS\Serializer\SerializerInterface;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class JsonBodyConverter implements ParamConverterInterface {
@@ -24,13 +21,13 @@ class JsonBodyConverter implements ParamConverterInterface {
         'groups' => null
     ];
 
-    public function __construct(private readonly string $prefix, private readonly SerializerInterface $serializer, private readonly ValidatorInterface $validator, private readonly DeserializationContextFactoryInterface $contextFactory)
+    public function __construct(private readonly string $prefix, private readonly SerializerInterface $serializer, private readonly ValidatorInterface $validator)
     {
     }
 
     /**
      * @inheritDoc
-     * @throws ValidationFailedException
+     * @throws BadRequestHttpException
      */
     public function apply(Request $request, ParamConverter $configuration): bool {
         $contentType = $request->getContentType();
@@ -46,8 +43,7 @@ class JsonBodyConverter implements ParamConverterInterface {
         $options = $this->getOptions($configuration);
 
         try {
-            $context = $this->getDeserializationContext($configuration);
-            $object = $this->serializer->deserialize($json, $class, 'json', $context);
+            $object = $this->serializer->deserialize($json, $class, 'json');
 
             if($options['validate'] === true) {
                 $validations = $this->validator->validate($object);
@@ -58,7 +54,7 @@ class JsonBodyConverter implements ParamConverterInterface {
             }
 
             $request->attributes->set($name, $object);
-        } catch (SerializerException) {
+        } catch (Exception) {
             throw new BadRequestHttpException('Request body does not contain valid JSON.');
         }
 
@@ -76,22 +72,6 @@ class JsonBodyConverter implements ParamConverterInterface {
         }
 
         return false;
-    }
-
-    private function getDeserializationContext(ParamConverter $configuration): DeserializationContext {
-        $options = $this->getOptions($configuration);
-
-        $context = $this->contextFactory->createDeserializationContext();
-
-        if(is_array($options['groups']) || is_string($options['groups'])) {
-            $context->setGroups($options['groups']);
-        }
-
-        if($options['version'] !== null) {
-            $context->setVersion($options['version']);
-        }
-
-        return $context;
     }
 
     private function getOptions(ParamConverter $configuration): array {

@@ -10,13 +10,14 @@ class ListUserTypeResponse {
     /**
      * @param UserType[] $types
      */
-    public function __construct(
-        /**
-         * @Serializer\SerializedName("types")
-         * @Serializer\Type("array<App\Entity\UserType>")
-         */
-        private array $types
-    )
+    public function __construct(private readonly array $types)
     {
+    }
+
+    /**
+     * @return UserType[]
+     */
+    public function getTypes(): array {
+        return $this->types;
     }
 }

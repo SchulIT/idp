@@ -19,7 +19,7 @@ class ApplicationAuthenticatorTest extends WebTestCase {
     /** @var Application */
     private $application;
 
-    public function setUp() {
+    public function setUp(): void {
         $this->client = static::createClient();
 
         $this->em = $this->client->getContainer()

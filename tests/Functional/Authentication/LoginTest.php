@@ -28,7 +28,7 @@ class LoginTest extends WebTestCase {
     /** @var UserType */
     private $userType;
 
-    public function setUp() {
+    public function setUp(): void {
         $this->client = static::createClient();
 
         $this->em = $this->client->getContainer()
@@ -103,7 +103,7 @@ class LoginTest extends WebTestCase {
         $token = $tokenStorage->getToken();
 
         $this->assertInstanceOf(PostAuthenticationToken::class, $token);
-        $this->assertEquals($this->user->getUsername(), $token->getUsername());
+        $this->assertEquals($this->user->getUserIdentifier(), $token->getUserIdentifier());
     }
 
     public function testLoginTwoFactor() {
@@ -129,7 +129,7 @@ class LoginTest extends WebTestCase {
         $this->assertNotNull($tokenStorage->getToken());
 
         $token = $tokenStorage->getToken();
-        $this->assertEquals($this->twoFactorUser->getUsername(), $token->getUsername());
+        $this->assertEquals($this->twoFactorUser->getUserIdentifier(), $token->getUserIdentifier());
 
         $this->client->request('GET', '/dashboard');
         $this->assertEquals('http://localhost/login/2fa', $crawler->getUri(), 'Tests whether we land on the two factor page if we are partially authenticated and browsing to a secured page');
@@ -153,7 +153,7 @@ class LoginTest extends WebTestCase {
 
         $token = $tokenStorage->getToken();
         $this->assertInstanceOf(PostAuthenticationToken::class, $token);
-        $this->assertEquals($this->twoFactorUser->getUsername(), $token->getUsername());
+        $this->assertEquals($this->twoFactorUser->getUserIdentifier(), $token->getUserIdentifier());
     }
 
     public function testCancelTwoFactorLogin() {
@@ -179,7 +179,7 @@ class LoginTest extends WebTestCase {
         $this->assertNotNull($tokenStorage->getToken());
 
         $token = $tokenStorage->getToken();
-        $this->assertEquals($this->twoFactorUser->getUsername(), $token->getUsername());
+        $this->assertEquals($this->twoFactorUser->getUserIdentifier(), $token->getUserIdentifier());
         $this->assertEquals(0, count($token->getRoles()), 'Tests if we have 0 roles when being partially authenticated');
 
         $link = $crawler->filter('a[role=button]')->first()->link();
