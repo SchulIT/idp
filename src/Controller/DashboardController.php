@@ -6,6 +6,8 @@ use App\Entity\User;
 use App\Form\LinkStudentType;
 use App\Repository\RegistrationCodeRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
+use App\Security\Session\ActiveSessionsResolver;
+use App\Security\Session\LogoutHelper;
 use App\Security\Voter\LinkStudentVoter;
 use App\Service\UserServiceProviderResolver;
 use SchulIT\CommonBundle\Helper\DateHelper;
@@ -23,7 +25,7 @@ class DashboardController extends AbstractController {
     }
 
     #[Route(path: '/dashboard', name: 'dashboard')]
-    public function dashboard(Request $request, UserServiceProviderResolver $resolver): Response {
+    public function dashboard(Request $request, UserServiceProviderResolver $resolver, ActiveSessionsResolver $sessionsResolver): Response {
         /** @var User $user */
         $user = $this->getUser();
 
@@ -40,7 +42,8 @@ class DashboardController extends AbstractController {
             'services' => $services,
             'students' => $user->getLinkedStudents(),
             'links_required' => $user->getType()->isCanLinkStudents() && $user->getLinkedStudents()->count() === 0,
-            'form' => $form !== null ? $form->createView() : null
+            'form' => $form !== null ? $form->createView() : null,
+            'sessions' => $sessionsResolver->getSessionsForUser($user)
         ]);
     }
 
@@ -83,5 +86,15 @@ class DashboardController extends AbstractController {
         }
 
         return $this->redirectToRoute('dashboard');
+    }
+
+
+    #[Route('/destroy', name: 'destroy_sessions')]
+    public function destroySessions(LogoutHelper $helper): Response {
+        /** @var User $user */
+        $user = $this->getUser();
+        $helper->logout($user);
+
+        return $this->redirect('/');
     }
 }

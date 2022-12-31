@@ -636,3 +636,11 @@ settings:
 
 yes: ja
 no: nein
+
+sessions:
+  label: Aktive Sitzungen
+  info: In dieser Übersicht werden alle aktiven Sitzungen (Anmeldungen) von diesem Benutzeraccount angezeigt.
+  logout_everywhere:
+    label: überall abmelden (aktuelle Sitzung bleibt erhalten)
+    success: Auf allen Geräten abgemeldet
+  active: diese Sitzung

@@ -99,4 +99,53 @@
             {% endif %}
         {% endfor %}
     </div>
+
+    <div class="card-deck mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ 'sessions.label'|trans }}</h5>
+
+                <p>{{ 'sessions.info'|trans }}</p>
+
+                <a href="{{ path('destroy_sessions') }}" class="btn btn-danger btn-sm">
+                    {{ 'sessions.logout_everywhere.label'|trans }}
+                </a>
+            </div>
+
+            <div class="list-group list-group-flush">
+                {% for session in sessions %}
+                    <div class="list-group-item">
+                        {% if session.browserInfo.device_type == 'Desktop' %}
+                            <i class="fas fa-desktop"></i>
+                        {% elseif session.browserInfo.device_type == 'Mobile Phone' %}
+                            <i class="fas fa-mobile-alt"></i>
+                        {% elseif session.browserInfo.device_type == 'Tablet' %}
+                            <i class="fas fa-tablet-alt"></i>
+                        {% endif %}
+
+                        {{ session.startedAt|format_datetime }}
+
+                        {% if session.browserInfo.browser is defined %}
+                            <span class="badge badge-primary">
+                                {{ session.browserInfo.browser }}
+                                {% if session.browserInfo.version != '0.0' %}
+                                    {{ session.browserInfo.version }}
+                                {% endif %}
+                            </span>
+                        {% endif %}
+
+                        {% if session.browserInfo.platform_description is defined %}
+                            <span class="badge badge-primary">
+                                {{ session.browserInfo.platform_description }}
+                            </span>
+                        {% endif %}
+
+                        {% if session.isCurrentSession %}
+                            <span class="badge badge-success">{{ 'sessions.active'|trans }}</span>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
