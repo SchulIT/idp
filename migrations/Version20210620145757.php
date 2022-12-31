@@ -24,47 +24,9 @@ final class Version20210620145757 extends AbstractMigration implements EntityMan
     }
 
     public function postUp(Schema $schema): void {
-        /** @var UserType[] $types */
-        $types = $this->em->getRepository(UserType::class)
-            ->findBy([
-                'canLinkStudents' => true
-            ]);
+        return; // This migration is not working anymore due to incompatible entities
 
-        foreach($types as $type) {
-            /** @var User[] $sourceUsers */
-            $sourceUsers = $this->em->getRepository(User::class)
-                ->findBy([
-                    'type' => $type
-                ]);
-
-            foreach($sourceUsers as $sourceUser) {
-                if(empty($sourceUser->getExternalId())) {
-                    continue;
-                }
-
-                $ids = explode(',', $sourceUser->getExternalId());
-
-                /** @var User[] $targetUsers */
-                $targetUsers = $this->em->createQueryBuilder()
-                    ->select('u')
-                    ->from(User::class, 'u')
-                    ->leftJoin('u.type', 't')
-                    ->where('u.externalId IN (:ids)')
-                    ->andWhere("t.alias = 'student'")
-                    ->setParameter('ids', $ids)
-                    ->getQuery()
-                    ->getResult();
-
-                foreach($targetUsers as $targetUser) {
-                    $sourceUser->addLinkedStudent($targetUser);
-                }
-
-                $sourceUser->setExternalId(null);
-                $this->em->persist($sourceUser);
-            }
-        }
-
-        $this->em->flush();
+        // (but also: it is not needed anymore as there is no active instance that should use this migration)
     }
 
     public function preDown(Schema $schema): void {
