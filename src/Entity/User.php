@@ -303,7 +303,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
      */
     public function getExternalId() {
         if($this->linkedStudents->count() > 0) {
-            return implode(',', $this->linkedStudents->map(fn(User $user) => $user->getExternalId())->toArray());
+            return implode(',', $this->linkedStudents->map(fn(User $user) => $user->getEmail())->toArray());
         }
 
         return $this->externalId;
