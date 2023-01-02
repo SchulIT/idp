@@ -4752,23 +4752,22 @@
         },
         {
             "name": "schulit/adauth",
-            "version": "1.1.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchulIT/adauth.git",
-                "reference": "c8b0afc258e776b94f5906d8fd669cdf37b4a68c"
+                "reference": "4441429d9961f076a193b9a113bd64d951b78a77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchulIT/adauth/zipball/c8b0afc258e776b94f5906d8fd669cdf37b4a68c",
-                "reference": "c8b0afc258e776b94f5906d8fd669cdf37b4a68c",
+                "url": "https://api.github.com/repos/SchulIT/adauth/zipball/4441429d9961f076a193b9a113bd64d951b78a77",
+                "reference": "4441429d9961f076a193b9a113bd64d951b78a77",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-openssl": "*",
-                "jms/serializer": "^3.0",
-                "php": "^7.2|^8.0"
+                "php": "^8.1"
             },
             "type": "library",
             "autoload": {
@@ -4789,9 +4788,9 @@
             "description": "Client library for Active Directory Authentication Server",
             "support": {
                 "issues": "https://github.com/SchulIT/adauth/issues",
-                "source": "https://github.com/SchulIT/adauth/tree/1.1.0"
+                "source": "https://github.com/SchulIT/adauth/tree/2.0.0"
             },
-            "time": "2022-07-18T11:32:42+00:00"
+            "time": "2023-01-02T15:27:40+00:00"
         },
         {
             "name": "schulit/adauth-bundle",
@@ -4799,21 +4798,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchulIT/adauth-bundle.git",
-                "reference": "eafb56169dc81d5b0520bf232271f140c7e99d82"
+                "reference": "324cb3669ca0d8555737940edc52deee12491a36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchulIT/adauth-bundle/zipball/eafb56169dc81d5b0520bf232271f140c7e99d82",
-                "reference": "eafb56169dc81d5b0520bf232271f140c7e99d82",
+                "url": "https://api.github.com/repos/SchulIT/adauth-bundle/zipball/324cb3669ca0d8555737940edc52deee12491a36",
+                "reference": "324cb3669ca0d8555737940edc52deee12491a36",
                 "shasum": ""
             },
             "require": {
                 "ext-iconv": "*",
-                "php": "^7.4|^8.0",
-                "schulit/adauth": "^1.0",
-                "symfony/console": "^5.4|^6.0",
-                "symfony/framework-bundle": "^5.4|^6.0",
-                "symfony/yaml": "^5.4|^6.0"
+                "php": "^8.1",
+                "schulit/adauth": "^2.0.0",
+                "symfony/console": "^6.0",
+                "symfony/framework-bundle": "^6.0",
+                "symfony/yaml": "^6.0"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -4836,7 +4835,7 @@
                 "issues": "https://github.com/SchulIT/adauth-bundle/issues",
                 "source": "https://github.com/SchulIT/adauth-bundle/tree/2.0.0"
             },
-            "time": "2021-12-31T11:45:20+00:00"
+            "time": "2023-01-02T15:55:32+00:00"
         },
         {
             "name": "schulit/common-bundle",

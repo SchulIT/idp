@@ -2,10 +2,16 @@
 
 namespace App\Controller;
 
+use AdAuth\AdAuthInterface;
+use AdAuth\Credentials;
+use AdAuth\Response\PasswordFailedResponse;
+use AdAuth\Response\PasswordSuccessResponse;
+use AdAuth\SocketException;
 use App\Entity\ActiveDirectoryUser;
 use App\Entity\User;
 use App\Form\AttributeDataTrait;
 use App\Form\ResetPasswordType;
+use App\Form\ResetPasswortActiveDirectoryType;
 use App\Form\UserType;
 use App\Entity\UserType as UserTypeEntity;
 use App\Repository\UserRepositoryInterface;
@@ -231,6 +237,51 @@ class UserController extends AbstractController {
 
         $this->addFlash('error', 'users.trash.restore.error');
         return $this->redirectToRoute('users_trash');
+    }
+
+    #[Route(path: '/users/{uuid}/reset_password_ad', name: 'reset_password_ad')]
+    public function resetPasswordActiveDirectory(Request $request, User $user, AdAuthInterface $adAuth, TranslatorInterface $translator): Response {
+        if(!$user instanceof ActiveDirectoryUser) {
+            $this->addFlash('error', 'users.reset_pw_ad.cannot_change');
+            return $this->redirectToRoute('users');
+        }
+
+        $form = $this->createForm(ResetPasswortActiveDirectoryType::class, [
+            'username' => $user->getUserIdentifier()
+        ]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $adminUsername = $form->get('admin_username')->getData();
+            $adminPassword = $form->get('admin_password')->getData();
+            $username = $user->getUserIdentifier();
+            $password = $form->get('password')->getData();
+
+            try {
+                $response = $adAuth->resetPassword(
+                    new Credentials($username, $password),
+                    new Credentials($adminUsername, $adminPassword)
+                );
+
+                if($response instanceof PasswordSuccessResponse) {
+                    $this->addFlash('success', 'users.reset_pw_ad.success');
+                    return $this->redirectToRoute('users');
+                } else if($response instanceof PasswordFailedResponse) {
+                    $this->addFlash('error', $translator->trans('users.reset_pw_ad.failure', [
+                        '%error%' => $response->getResult()
+                    ]));
+                }
+            } catch (SocketException $e) {
+                $this->addFlash('error', $translator->trans('users.reset_pw_ad.failure', [
+                    '%error%' => $e->getMessage()
+                ]));
+            }
+        }
+
+        return $this->render('users/reset_pw_ad.html.twig', [
+            'user' => $user,
+            'form' => $form->createView()
+        ]);
     }
 
     #[Route(path: '/users/{uuid}/reset_password', name: 'reset_password')]

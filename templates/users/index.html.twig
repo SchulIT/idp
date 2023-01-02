@@ -113,9 +113,15 @@
                                                         </a>
                                                     {% endif %}
 
-                                                    <a href="{{ path('reset_password', { uuid: user.uuid }) }}" class="dropdown-item">
-                                                        <i class="fa fa-key"></i> {{ 'users.reset_pw.label'|trans }}
-                                                    </a>
+                                                    {% if user.userPrincipalName is defined %}
+                                                        <a href="{{ path('reset_password_ad', { uuid: user.uuid }) }}" class="dropdown-item">
+                                                            <i class="fa fa-key"></i> {{ 'users.reset_pw.label'|trans }}
+                                                        </a>
+                                                    {% else %}
+                                                        <a href="{{ path('reset_password', { uuid: user.uuid }) }}" class="dropdown-item">
+                                                            <i class="fa fa-key"></i> {{ 'users.reset_pw.label'|trans }}
+                                                        </a>
+                                                    {% endif %}
 
                                                     {% if is_granted('ROLE_ALLOWED_TO_SWITCH') %}
                                                         <a href="{{ path('dashboard') }}?_switch_user={{ user.username }}" class="dropdown-item">

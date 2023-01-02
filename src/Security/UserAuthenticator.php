@@ -5,6 +5,7 @@ namespace App\Security;
 use AdAuth\AdAuthInterface;
 use AdAuth\Credentials;
 use AdAuth\Response\AuthenticationResponse;
+use AdAuth\Response\AuthenticationSuccessResponse;
 use AdAuth\SocketException;
 use App\Entity\ActiveDirectoryUser;
 use App\Repository\UserRepositoryInterface;
@@ -67,10 +68,9 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator {
 
     private function authenticateUsingActiveDirectory(Credentials $credentials, ActiveDirectoryUser $user): bool {
         try {
-            /** @var AuthenticationResponse $response */
             $response = $this->adAuth->authenticate($credentials);
 
-            if($response->isSuccess() !== true) {
+            if(!$response instanceof AuthenticationSuccessResponse) {
                 // password not valid
                 $this->logger
                     ->notice(sprintf('Failed to authenticate "%s" using Active Directory', $credentials->getUsername()));
