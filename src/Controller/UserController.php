@@ -12,12 +12,14 @@ use App\Repository\UserRepositoryInterface;
 use App\Repository\UserTypeRepositoryInterface;
 use App\Saml\AttributeValueProvider;
 use App\Security\ForgotPassword\ForgotPasswordManager;
+use App\Security\Session\LogoutHelper;
 use App\Service\AttributePersister;
 use App\Service\AttributeResolver;
 use App\Utils\ArrayUtils;
 use App\View\Filter\UserRoleFilter;
 use App\View\Filter\UserTypeFilter;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use SchulIT\CommonBundle\Utils\RefererHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -254,5 +256,15 @@ class UserController extends AbstractController {
             'user' => $user,
             'form'=> $form->createView()
         ]);
+    }
+
+    #[Route('/users/{uuid}/logout', name: 'user_logout_everywhere')]
+    public function logout(User $user, LogoutHelper $logoutHelper, RefererHelper $refererHelper): Response {
+        $logoutHelper->logout($user);
+
+        $this->addFlash('success', 'sessions.logout_everywhere.success');
+        return $this->redirect(
+            $refererHelper->getRefererPathFromRequest('users')
+        );
     }
 }

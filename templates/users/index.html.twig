@@ -122,6 +122,10 @@
                                                             <i class="fas fa-sign-in-alt"></i> {{ 'profile.switch.label'|trans }}
                                                         </a>
                                                     {% endif %}
+
+                                                    <a href="{{ path('user_logout_everywhere', { uuid: user.uuid }) }}" class="dropdown-item">
+                                                        <i class="fa fa-sign-out-alt"></i> {{ 'sessions.logout_everywhere.label_short'|trans }}
+                                                    </a>
                                                 </div>
                                             </div>
                                         </form>
