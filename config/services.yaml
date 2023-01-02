@@ -163,25 +163,7 @@ services:
             $environment: "@League\\CommonMark\\EnvironmentInterface"
 
     # FORM FLOW
-    Craue\FormFlowBundle\Storage\UserSessionStorageKeyGenerator:
-        arguments:
-            $requestStackOrSession: '@request_stack'
 
-    Craue\FormFlowBundle\Storage\DoctrineStorage:
-        arguments:
-            $storageKeyGenerator: '@Craue\FormFlowBundle\Storage\UserSessionStorageKeyGenerator'
-
-    Craue\FormFlowBundle\Storage\DataManager:
-        arguments:
-            $storage: '@Craue\FormFlowBundle\Storage\DoctrineStorage'
-
-    craue.form.flow:
-        class: '%craue.form.flow.class%'
-        calls:
-            - [ setDataManager, [ '@Craue\FormFlowBundle\Storage\DataManager']]
-            - [ setFormFactory, [ '@form.factory']]
-            - [ setRequestStack, [ '@request_stack']]
-            - [ setEventDispatcher, [ '@event_dispatcher']]
 
     # Security
     App\Security\CronUserProvider:
