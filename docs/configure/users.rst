@@ -11,17 +11,21 @@ Da Lehrkräfte und Lernende in der Regel in einer Datenbank (entweder Schulverwa
 einem Active Directory/LDAP-Verzeichnis) gespeichert sind, kann ein Datenimport aus einer dieser
 Quellen erfolgen.
 
-Der Import aus CSV-Dateien wird `hier <../import/users.html>`_ erläutert. 
+Der Import aus CSV-Dateien wird `hier <../import/users.html>`_ erläutert.
 
-Um den Import weiter zu vereinfachen, wird der Import aus dem Active Directory empfohlen. Dazu werden zwei
-Komponenten benötigt:
-
-- Active Directory Authentication Server: Dieser Server beantwortet Authentifizierungsanfragen, sodass sich Benutzer mit ihrer E-Mail-Adresse und dem Passwort aus dem Schulnetzwerk anmelden können.
-- Active Directory Connect (optional, aber empfolen): Diese Software synchronisiert alle Benutzer vorab zum Identity Provider, sodass Benutzer bereits vor ihrer ersten Anmeldung dort bekannt sind und bearbeitet werden können.
-
-Damit die Benutzer für sie passende Rechte zugewiesen bekommen, müssen `Synchronisationsregeln <sync_rules.html>`_ erstellt werden.
+Der Einstieg zur Verwendung eines bereits vorhandenen Active Directories wird `hier <../admin/active-directory.html>`_ erläutert.
 
 Eltern
 ######
 
-Eltern 
+Eltern erstellen ihren Benutzeraccount selbstständig mithilfe von `Registrierungscodes <../import/codes.html>`_. Elternaccounts
+können mit beliebigen Schüleraccounts verknüpft werden (immer mit einem entsprechenden Registrierungscode), sodass
+ein Account für mehrere Kinder genutzt werden kann.
+
+Elternaccounts ohne verknüpftes Kind werden in regelmäßigen Abständen automatisch gelöscht (sofern Cronjobs funktionieren).
+Verknüpfungen werden automatisch entfernt, wenn der Account des Kindes gelöscht wird.
+
+Personal
+########
+
+Accounts für das Personal können händisch über die Weboberfläche angelegt werden.

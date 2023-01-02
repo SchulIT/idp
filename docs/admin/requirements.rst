@@ -8,7 +8,7 @@ Obligatorische Software
 
 - Webserver (Apache oder nginx)
     - der Identity Provider muss auf einer Subdomain laufen, also bspw. ``sso.example.com``
-- PHP 7.4 oder PHP 8.x
+- PHP 8.1 oder höher
     - aktivierte Plugins: json, ctype, iconv, openssl, xml, gd
 - MySQL 5.7+ oder MariaDB 10.3+
 - SSH-Zugriff auf den Webspace

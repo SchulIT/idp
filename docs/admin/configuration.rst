@@ -48,8 +48,8 @@ ADAUTH_PEERNAME
 
 Peername des Serverzertifikats vom Active Directory Authentication Server.
 
-ADAUTH_FINGERPRINT
-##################
+ADAUTH_PEERFINGERPRINT
+######################
 
 Fingerabdruck des Serverzertifikats vom Active Directory Authentication Server.
 
@@ -72,7 +72,7 @@ SAML_ENTITY_ID
 ##############
 
 ID des ICCs, welche für SAML-Anfragen (Authentifizierung) genutzt wird. Dieser Wert muss mit dem Wert im Identity Provider übereinstimmen.
-Als Entity ID wird in der Regel die URL der Anwendung (bspw. ``https://icc.example.com/`` verwendet).
+Als Entity ID wird in der Regel die URL der Anwendung (bspw. ``https://sso.example.com/`` verwendet).
 
 MAILER_FROM
 ###########
@@ -92,16 +92,19 @@ ab Version MySQl 5.7. Die Zeichenfolge setzt sich dabei folgendermaßen zusammen
 
 .. code-block:: shell
 
-    mysql://USERNAME:PASSWORD@HOST:3306/NAME
+    mysql://USERNAME:PASSWORD@HOST:3306/NAME?serverVersion=xx.yy.zz
 
 - ``USERNAME``: Benutzername der Datenbank
 - ``PASSWORD``: zugehöriges Passwort des Datenbankbenutzers
 - ``HOST``: Hostname des Datenbankservers
 - ``NAME``: Name der Datenbank
+- den Parameter `serverVersion` entsprechend anpassen:
+    - MySQL: `serverVersion=5.8` (ggf. `5.8` durch die entsprechende Version ändern)
+    - MariaDB: `serverVersion=mariadb-10.3.0` (ggf. `10.3.0` durch die entsprechende Version ändern)
 
 Weitere Informationen (englisch) gibt `hier <https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html#connecting-using-a-url>`_.
 
-MAILER_URL
+MAILER_DSN
 ##########
 
 Verbindungszeichenfolge für das E-Mail-Postfach, welches zum Versand von E-Mails verwendet werden soll. Beispiele:

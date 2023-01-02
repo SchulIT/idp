@@ -21,7 +21,6 @@ sich der Vorteil, dass sie sich mit ihren Benutzerdaten an mehreren Diensten anm
    :maxdepth: 2
 
    general/index
-   general/external_id
    general/terminology
 
 .. toctree::
@@ -34,7 +33,6 @@ sich der Vorteil, dass sie sich mit ihren Benutzerdaten an mehreren Diensten anm
    admin/update
    admin/roles
    admin/cronjobs
-   admin/active_directory
 
 .. toctree::
    :caption: Einrichtung
@@ -47,17 +45,30 @@ sich der Vorteil, dass sie sich mit ihren Benutzerdaten an mehreren Diensten anm
    configure/sync_rules
    configure/services
    configure/attributes
+   configure/kiosk
+
+.. toctree::
+   :caption: Registrierungscodes
+   :maxdepth: 2
+
+   codes/index
+
+.. toctree::
+   :caption: Benutzerimport
+   :maxdepth: 2
+
+   import/index
+   import/csv
+   import/api
+
+.. toctree::
+   :caption: Active Directory-Anbindung
+   :maxdepth: 2
+
+   ad_connect/index
 
 .. toctree::
    :caption: API-Schnittstelle
    
    api/index.rst
-
-.. toctree::
-   :caption: Datenimport
-   :maxdepth: 2
-
-   import/index
-   import/users
-   import/codes
 

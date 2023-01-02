@@ -1,17 +1,5 @@
-Benutzer
-========
-
-Vorbemerkungen
-##############
-
-Beim Import müssen folgende Dinge beachtet werden:
-
-- Importiert man vorhandene Benutzer erneut, werden diese entsprechend der neuen Daten aktualisiert. Passwörter werden dabei **nicht** überschrieben, sondern ignoriert.
-- Das System erkennt vorhandene Benutzer anhand der E-Mail-Adresse.
-- Wenn beim Import kein Passwort angegeben wird, muss der Benutzer die *Passwort zurücksetzen*-Funktion verwenden, um sich ein Passwort zu setzen. **Wichtig:** Die E-Mail-Adresse muss gültig sein und E-Mails vom System empfangen können!
-
 CSV-Import
-##########
+==========
 
 Zunächst muss eine CSV-Datei mit den folgenden Spalten erzeugt werden:
 
@@ -45,13 +33,3 @@ Man erkennt noch nicht bereitgestellte Benutzer am Tag *Bereitstellung ausstehen
 .. image:: ../images/import/users/csv-provisioning-pending.png
 
 Sobald das Tag verschwunden ist, kann sich der Benutzer anmelden.
-
-API-Import
-##########
-
-Über die `REST-Schnittstelle <https://de.wikipedia.org/wiki/Representational_State_Transfer>`_ können Benutzer
-automatisiert angelegt werden. 
-
-Die Dokumentation der Schnittstelle ist in der Verwaltung :fa:`cogs` unter *API-Dokumentation* angegeben.
-
-Zur Nutzung der API bitte unter `API-Schnittstelle <../api/index.html>`_ weiterlesen.

@@ -1,1 +1,2 @@
 sphinx-fontawesome==0.0.6
+sphinx-rtd-theme==1.1.1

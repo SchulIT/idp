@@ -120,10 +120,10 @@ Als Benutzernamen wählt man eine (beliebige) E-Mail-Adresse aus. Diese muss nic
 
       [OK] User successfully added
 
-Schritt 5: ICC im Webspace einrichten
--------------------------------------
+Schritt 5: Identity Provider im Webspace einrichten
+---------------------------------------------------
 
-Das ICC muss auf einer Subdomain (bspw. ``sso.example.com``) betrieben werden. Das Betreiben des Identity Providers in einem Unterordner
+Der Identity Provider muss auf einer Subdomain (bspw. ``sso.example.com``) betrieben werden. Das Betreiben des Identity Providers in einem Unterordner
 wird nicht unterstützt.
 
 .. warning:: Der Root-Pfad der Subdomain muss auf das ``public/``-Verzeichnis zeigen. Anderenfalls funktioniert das ICC nicht und es können wichtige Konfigurationsdaten abgerufen werden.

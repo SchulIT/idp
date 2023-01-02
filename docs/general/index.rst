@@ -66,3 +66,12 @@ vorhanden) von Werten des Benutzers überschrieben.
 Eine Freischaltung von Diensten erfolgt in der gleichen Reihenfolge. Allerdings lässt sich eine Freischaltung nicht überschreiben.
 Wenn also Dienst A für den Benutzertyp freigeschaltet ist, reicht dies aus. Der Dienst kann dann nicht mehr durch eine
 Benutzergruppe oder den Benutzer selbst gesperrt werden.
+
+Wiedererkennung in anderen Anwendungen
+######################################
+
+Damit Benutzer in anderen Anwendungen (wie beispielsweise dem ICC) zugeordnet werden können, wird die E-Mail-Adresse
+des Benutzers verwendet (nicht der Anmeldename). Bei Elternaccounts wird ein zusätzliches SAML-Attribut `urn:id` verwendet,
+in dem jeweils die E-Mail-Adressen der Kinder kommasepariert hinterlegt sind.
+
+.. warning:: Es ist wichtig, dass die E-Mail-Adressen der Benutzer stets in allen Anwendungen korrekt hinterlegt sind.
