@@ -3,22 +3,10 @@
 namespace App\Response;
 
 class ListActiveDirectoryUserResponse {
-
-
-    /**
-     * @param string[] $users
-     */
-    public function __construct(
-        /**
-         * List of objectGuids of all Active Directory users
-         */
-        private readonly array $users
-    )
-    {
-    }
+    public function __construct(private readonly array $users) { }
 
     /**
-     * @return string[]
+     * @return ActiveDirectoryUser[]
      */
     public function getUsers(): array {
         return $this->users;

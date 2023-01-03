@@ -263,9 +263,20 @@ class UserRepository implements UserRepositoryInterface {
             $this->em->createQueryBuilder()
                 ->select('u.objectGuid')
                 ->from(ActiveDirectoryUser::class, 'u')
+                ->where('u.deletedAt IS NULL')
                 ->getQuery()
                 ->getScalarResult()
         );
+    }
+
+    public function findAllActiveDirectoryUsers(): array {
+        return $this->em
+            ->createQueryBuilder()
+            ->select('u')
+            ->from(ActiveDirectoryUser::class, 'u')
+            ->where('u.deletedAt IS NULL')
+            ->getQuery()
+            ->getResult();
     }
 
     /**

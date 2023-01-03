@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Response\ActiveDirectoryUser as ActiveDirectoryUserResponse;
 
 #[Route(path: '/api/ad_connect')]
 #[IsGranted('ROLE_ADCONNECT')]
@@ -35,8 +36,8 @@ class ActiveDirectoryConnectController extends AbstractController {
      */
     #[Route(path: '', methods: ['GET'])]
     public function list(): Response {
-        $list = $this->repository->findAllActiveDirectoryUsersObjectGuid();
-        return $this->json(new ListActiveDirectoryUserResponse($list));
+        $users = array_map(fn(ActiveDirectoryUser $user) => $this->transformResponse($user), $this->repository->findAllActiveDirectoryUsers());
+        return $this->json(new ListActiveDirectoryUserResponse($users));
     }
 
     /**
@@ -146,5 +147,9 @@ class ActiveDirectoryConnectController extends AbstractController {
             ->setGuid($request->getObjectGuid())
             ->setOu($request->getOu())
             ->setGroups($request->getGroups());
+    }
+
+    private function transformResponse(ActiveDirectoryUser $user): ActiveDirectoryUserResponse {
+        return new ActiveDirectoryUserResponse($user->getUserIdentifier(), $user->getFirstname(), $user->getLastname(), $user->getGrade(), $user->getObjectGuid());
     }
 }

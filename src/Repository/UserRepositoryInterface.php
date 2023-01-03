@@ -51,6 +51,11 @@ interface UserRepositoryInterface {
      */
     public function findAllActiveDirectoryUsersObjectGuid(): array;
 
+    /**
+     * @return ActiveDirectoryUser[]
+     */
+    public function findAllActiveDirectoryUsers(): array;
+
     public function findOneByEmail(string $email): ?User;
 
     /**
