@@ -15,7 +15,11 @@ nelmio_api_doc:
 
     areas:
         ad_connect:
-            path_patterns: [ ^/api/ad_connect ]
-
+            path_patterns:
+                - ^/api/ad_connect
+        idp_exchange:
+            path_patterns:
+                - ^/api/idp_exchange
         default:
-            path_patterns: [ ^/api/(?!ad_connect) ]
+            path_patterns:
+                - ^/api

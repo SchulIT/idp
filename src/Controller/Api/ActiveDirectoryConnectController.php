@@ -11,13 +11,16 @@ use App\Response\ViolationListResponse;
 use App\Security\ActiveDirectoryUserInformation;
 use App\Security\UserCreator;
 use Nelmio\ApiDocBundle\Annotation\Model;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Response\ActiveDirectoryUser as ActiveDirectoryUserResponse;
 
+/**
+ * Endpunkte für den Active Directory Connect Client
+ */
 #[Route(path: '/api/ad_connect')]
 #[IsGranted('ROLE_ADCONNECT')]
 class ActiveDirectoryConnectController extends AbstractController {
@@ -25,15 +28,15 @@ class ActiveDirectoryConnectController extends AbstractController {
     public function __construct(private UserCreator $userCreator, private UserRepositoryInterface $repository) { }
 
     /**
-     * Returns the list of objectGuids of all Active Directory users.
-     *
-     * @OA\Get(operationId="api_adconnect_list_users")
-     * @OA\Response(
-     *     response="200",
-     *     description="Returns the list of objectGuids of all Active Directory users.",
-     *     @Model(type=ListActiveDirectoryUserResponse::class)
-     * )
+     * [Active Directory Connect Client] Gibt die Liste aller Benutzer zurück, die über den Active Directory Connect Client provisioniert wurden. Benutzer,
+     * die gelöscht (aber nicht endgültig gelöscht sind), werden hier nicht berücksichtigt.
      */
+    #[OA\Get(operationId: 'api_adconnect_list_users', tags: [ 'Active Directory Connect Client'])]
+    #[OA\Response(
+        response: "200",
+        description: "Liste der Active Directory Benutzer.",
+        content: new Model(type: ListActiveDirectoryUserResponse::class )
+    )]
     #[Route(path: '', methods: ['GET'])]
     public function list(): Response {
         $users = array_map(fn(ActiveDirectoryUser $user) => $this->transformResponse($user), $this->repository->findAllActiveDirectoryUsers());
@@ -41,27 +44,13 @@ class ActiveDirectoryConnectController extends AbstractController {
     }
 
     /**
-     * Adds a new Active Directory user.
-     *
-     * @OA\Post(operationId="api_adconnect_new_user")
-     * @OA\RequestBody(
-     *     @Model(type=ActiveDirectoryUserRequest::class)
-     * )
-     * @OA\Response(
-     *     response="201",
-     *     description="User was successfully created."
-     * )
-     * @OA\Response(
-     *     response="400",
-     *     description="Validation failed.",
-     *     @Model(type=ViolationListResponse::class)
-     * )
-     * @OA\Response(
-     *     response="500",
-     *     description="Server error.",
-     *     @Model(type=ErrorResponse::class)
-     * )
+     * [Active Directory Connect Client] Benutzer erstellen
      */
+    #[OA\Post(operationId: 'api_adconnect_new_user', tags: [ 'Active Directory Connect Client'])]
+    #[OA\RequestBody(content: new Model(type: ActiveDirectoryUserRequest::class))]
+    #[OA\Response(response: '201', description: 'Benutzer wurde erfolgreich angelegt.')]
+    #[OA\Response(response: '400', description: 'Validierung fehlgeschlagen.', content: new Model(type:ViolationListResponse::class))]
+    #[OA\Response(response: '500', description: 'Serverfehler', content: new Model(type: ErrorResponse::class))]
     #[Route(path: '', methods: ['POST'])]
     public function add(ActiveDirectoryUserRequest $request): Response {
         $userInfo = $this->transformRequest($request);
@@ -80,31 +69,13 @@ class ActiveDirectoryConnectController extends AbstractController {
     }
 
     /**
-     * Updates an existing Active Directory user.
-     *
-     * @OA\Patch(operationId="api_adconnect_update_user")
-     * @OA\RequestBody(
-     *     @Model(type=ActiveDirectoryUserRequest::class)
-     * )
-     * @OA\Response(
-     *     response="200",
-     *     description="User was successfully updated."
-     * )
-     * @OA\Response(
-     *     response="400",
-     *     description="Validation failed.",
-     *     @Model(type=ViolationListResponse::class)
-     * )
-     * @OA\Response(
-     *     response="404",
-     *     description="User was not found."
-     * )
-     * @OA\Response(
-     *     response="500",
-     *     description="Server error.",
-     *     @Model(type=ErrorResponse::class)
-     * )
+     * [Active Directory Connect Client] Benutzer aktualisieren
      */
+    #[OA\Patch(operationId: 'api_adconnect_update_user', tags: [ 'Active Directory Connect Client'])]
+    #[OA\RequestBody(content: new Model(type:ActiveDirectoryUserRequest::class))]
+    #[OA\Response(response: '200', description: 'Benutzer wurde erfolgreich aktualisiert.')]
+    #[OA\Response(response: '400', description: 'Validierung fehlgeschlagen.', content: new Model(type:ViolationListResponse::class))]
+    #[OA\Response(response: '500', description: 'Serverfehler', content: new Model(type: ErrorResponse::class))]
     #[Route(path: '/{objectGuid}', methods: ['PATCH'])]
     public function update(ActiveDirectoryUser $user, ActiveDirectoryUserRequest $request): Response {
         $user = $this->userCreator->createUser($this->transformRequest($request), $user);
@@ -113,24 +84,12 @@ class ActiveDirectoryConnectController extends AbstractController {
     }
 
     /**
-     * Removes an Active Directory user.
-     *
-     * @OA\Delete(operationId="api_adconnect_delete_user")
-     *
-     * @OA\Response(
-     *     response="201",
-     *     description="User was successfully removed."
-     * )
-     * @OA\Response(
-     *     response="404",
-     *     description="User was not found."
-     * )
-     * @OA\Response(
-     *     response="500",
-     *     description="Server error.",
-     *     @Model(type=ErrorResponse::class)
-     * )
+     * [Active Directory Connect Client] Benutzer löschen
      */
+    #[OA\Delete(operationId: 'api_adconnect_delete_user', tags: [ 'Active Directory Connect Client'])]
+    #[OA\Response(response: '204', description: 'Benutzer wurde erfolgreich gelöscht.')]
+    #[OA\Response(response: '404', description: 'Benutzer wurde nicht gefunden.')]
+    #[OA\Response(response: '500', description: 'Serverfehler', content: new Model(type: ErrorResponse::class))]
     #[Route(path: '/{objectGuid}', methods: ['DELETE'])]
     public function remove(ActiveDirectoryUser $user): Response {
         $this->repository->remove($user);

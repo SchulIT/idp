@@ -25,12 +25,7 @@ logout:
 app.swagger_ui:
   path: /docs/api
   methods: GET
-  defaults: { _controller: nelmio_api_doc.controller.swagger_ui, area: default }
-
-app.swagger_ui.ad_connect:
-  path: /docs/api/ad_connect
-  methods: GET
-  defaults: { _controller: nelmio_api_doc.controller.swagger_ui, area: ad_connect }
+  defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
 
 composer:
     resource: '@ComposerDependencyListBundle/Controller'
