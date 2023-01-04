@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eed6842fc22aa96707762f29959ff18b",
+    "content-hash": "cf041ab467d3c6b336ef5d1b4ba97d2b",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -4890,50 +4890,6 @@
                 "source": "https://github.com/SchulIT/common-bundle/tree/2.0.1"
             },
             "time": "2022-11-03T19:05:42+00:00"
-        },
-        {
-            "name": "schulit/idp-exchange-models",
-            "version": "1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/SchulIT/idp-exchange-models.git",
-                "reference": "a08287f45223b49d97748462eaafc63b8082b9f6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/SchulIT/idp-exchange-models/zipball/a08287f45223b49d97748462eaafc63b8082b9f6",
-                "reference": "a08287f45223b49d97748462eaafc63b8082b9f6",
-                "shasum": ""
-            },
-            "require": {
-                "jms/serializer": "^3.4",
-                "php": "^7.3|^8.0",
-                "symfony/validator": "^4.4|^5.0|^6.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7.2|^8.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "SchulIT\\IdpExchange\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Marcel Marnitz",
-                    "email": "marcelmarnitz@googlemail.com"
-                }
-            ],
-            "support": {
-                "issues": "https://github.com/SchulIT/idp-exchange-models/issues",
-                "source": "https://github.com/SchulIT/idp-exchange-models/tree/1.2.0"
-            },
-            "time": "2022-07-18T11:44:20+00:00"
         },
         {
             "name": "schulit/lightsaml-idp-bundle",

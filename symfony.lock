@@ -343,9 +343,6 @@
     "schulit/common-bundle": {
         "version": "dev-master"
     },
-    "schulit/idp-exchange-models": {
-        "version": "dev-master"
-    },
     "schulit/lightsaml-idp-bundle": {
         "version": "dev-master"
     },
