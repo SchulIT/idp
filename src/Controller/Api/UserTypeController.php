@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\UserType;
 use App\Repository\UserTypeRepositoryInterface;
 use App\Response\ListUserTypeResponse;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -9,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use OpenApi\Attributes as OA;
+use App\Response\UserType as UserTypeResponse;
 
 #[Route(path: '/api')]
 class UserTypeController extends AbstractController {
@@ -27,5 +29,9 @@ class UserTypeController extends AbstractController {
         return $this->json(
             new ListUserTypeResponse($types)
         );
+    }
+
+    private function transformResponse(UserType $entity): UserTypeResponse {
+        return new UserTypeResponse($entity->getUuid()->toString(), $entity->getName(), $entity->getAlias(), $entity->getEduPerson());
     }
 }

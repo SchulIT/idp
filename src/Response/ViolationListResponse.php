@@ -6,21 +6,14 @@ use JMS\Serializer\Annotation as Serializer;
 
 class ViolationListResponse extends ErrorResponse {
 
+    #[Serializer\Type("array<App\Response\Violation>")]
+    public readonly array $violations;
+
     /**
      * @param Violation[] $violations
      */
-    public function __construct(
-        /**
-         * List of violations
-         */
-    private readonly array $violations) {
-        parent::__construct('Validation failed.');
-    }
-
-    /**
-     * @return Violation[]
-     */
-    public function getViolations(): array {
-        return $this->violations;
+    public function __construct(array $violations) {
+        parent::__construct('Validierung fehlgeschlagen.');
+        $this->violations = $violations;
     }
 }

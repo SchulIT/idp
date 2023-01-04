@@ -2,22 +2,19 @@
 
 namespace App\Response;
 
-use App\Entity\UserType;
 use JMS\Serializer\Annotation as Serializer;
 
 class ListUserTypeResponse {
 
+    /**  @var UserType[] */
+    #[Serializer\Type("array<App\Response\UserType>")]
+    public readonly array $types;
+
     /**
      * @param UserType[] $types
      */
-    public function __construct(private readonly array $types)
-    {
+    public function __construct(array $types) {
+        $this->types = $types;
     }
 
-    /**
-     * @return UserType[]
-     */
-    public function getTypes(): array {
-        return $this->types;
-    }
 }

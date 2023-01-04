@@ -2,11 +2,10 @@
 
 namespace App\Validator;
 
+use Attribute;
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- */
+#[Attribute]
 class ValidUserTypeUuid extends Constraint {
     public string $message = 'User type with uuid {{ uuid }} was not found.';
 }

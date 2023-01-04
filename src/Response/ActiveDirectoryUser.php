@@ -4,44 +4,17 @@ namespace App\Response;
 
 class ActiveDirectoryUser {
 
-    public function __construct(private readonly string $username, private readonly string $firstname,
-                                private readonly string $lastname, private readonly ?string $grade,
-                                private readonly string $guid) {
+    public readonly string $username;
+    public readonly string $firstname;
+    public readonly string $lastname;
+    public readonly ?string $grade;
+    public readonly string $guid;
 
-    }
-
-    /**
-     * @return string
-     */
-    public function getUsername(): string {
-        return $this->username;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFirstname(): string {
-        return $this->firstname;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLastname(): string {
-        return $this->lastname;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getGrade(): ?string {
-        return $this->grade;
-    }
-
-    /**
-     * @return string
-     */
-    public function getGuid(): string {
-        return $this->guid;
+    public function __construct(string $username,  string $firstname, string $lastname, ?string $grade, string $guid) {
+        $this->username = $username;
+        $this->firstname = $firstname;
+        $this->lastname = $lastname;
+        $this->grade = $grade;
+        $this->guid = $guid;
     }
 }

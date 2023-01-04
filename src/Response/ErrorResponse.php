@@ -4,23 +4,20 @@ namespace App\Response;
 
 class ErrorResponse {
 
+    /**
+     * @var string Fehlermeldung
+     */
+    public readonly string $message;
 
-    public function __construct(
+    /**
+     * @var string|null Klasse der Exception (falls verfügbar)
+     */
+    public readonly ?string $type;
 
-        private readonly string $message,
-        /**
-         * Type of exception (optional).
-         */
-        private readonly ?string $type = null
-    )
+
+    public function __construct(string $message, ?string $type = null)
     {
-    }
-
-    public function getMessage(): string {
-        return $this->message;
-    }
-
-    public function getType(): ?string {
-        return $this->type;
+        $this->message = $message;
+        $this->type = $type;
     }
 }

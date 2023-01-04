@@ -2,13 +2,20 @@
 
 namespace App\Response;
 
+use JMS\Serializer\Annotation as Serializer;
+
 class ListActiveDirectoryUserResponse {
-    public function __construct(private readonly array $users) { }
 
     /**
-     * @return ActiveDirectoryUser[]
+     * @var ActiveDirectoryUser[]
      */
-    public function getUsers(): array {
-        return $this->users;
+    #[Serializer\Type("array<App\Response\ActiveDirectoryUser>")]
+    public readonly array $users;
+
+    /**
+     * @param ActiveDirectoryUser[] $users
+     */
+    public function __construct(array $users) {
+        $this->users = $users;
     }
 }

@@ -8,29 +8,38 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class UserRequest {
 
+    /** @var string Benutzername des Benutzers (muss eine gültige E-Mail-Adresse sein) */
     #[Assert\NotBlank]
+    #[Assert\Email]
     private string $username;
 
+    /** @var string|null Passwort des Benutzers - wenn leer: TODO */
     #[Assert\NotBlank(allowNull: true)]
     private ?string $password = null;
 
+    /** @var string|null Eine (optionale) externe ID zum Wiedererkennen des Benutzers */
     private ?string $externalId = null;
 
+    /** @var string Vorname */
     #[Assert\NotBlank]
     private string $firstname;
 
+    /** @var string Nachname */
+    #[Assert\NotBlank]
+    private string $lastname;
+
+    /** @var string E-Mail Adresse des Benutzers */
     #[Assert\NotBlank]
     #[Assert\Email]
     private string $email;
 
-    #[Assert\NotBlank]
-    private string $lastname;
-
+    /** @var string|null Klasse */
     private ?string $grade = null;
-
+    
     /**
-     * @ValidUserTypeUuid()
+     * @var string UUID des Benutzertyps
      */
+    #[ValidUserTypeUuid]
     #[Assert\NotBlank]
     #[Assert\Uuid]
     private string $type;

@@ -2,11 +2,10 @@
 
 namespace App\Validator;
 
+use Attribute;
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- */
+#[Attribute]
 class ValidAttributesArray extends Constraint {
     public string $messageNotFound = 'Attribute with name {{ name }} was not found.';
     public string $messageInvalidValue = 'Attribute {{ name }} has an invalid value. Value must be of type {{ type }}, {{ given }} given.';
