@@ -3,6 +3,7 @@ monolog:
     - import
     - auth
     - exchange
+    - deprecation
 
 when@dev:
   monolog:

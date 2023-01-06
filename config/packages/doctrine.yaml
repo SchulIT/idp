@@ -7,15 +7,25 @@ parameters:
 
 doctrine:
     dbal:
-        driver: 'pdo_mysql'
-        server_version: '5.7'
-        charset: utf8mb4
-        schema_filter: ~^(?!(sessions|rememberme_token))~ # exclude session and rememberme_token table
-        default_table_options:
-            charset: utf8mb4
-            collate: utf8mb4_unicode_ci
-
-        url: '%env(resolve:DATABASE_URL)%'
+        default_connection: default
+        connections:
+            default:
+                url: '%env(resolve:DATABASE_URL)%'
+                driver: 'pdo_mysql'
+                server_version: 'mariadb-10.4.0'
+                charset: utf8mb4
+                schema_filter: ~^(?!(sessions|rememberme_token))~ # exclude session and rememberme_token table
+                default_table_options:
+                    charset: utf8mb4
+                    collate: utf8mb4_unicode_ci
+            logger:
+                url: '%env(resolve:DATABASE_URL)%'
+                charset: utf8mb4
+                driver: 'pdo_mysql'
+                server_version: 'mariadb-10.4.0'
+                default_table_options:
+                    charset: utf8mb4
+                    collate: utf8mb4_unicode_ci
 
     orm:
         auto_generate_proxy_classes: true

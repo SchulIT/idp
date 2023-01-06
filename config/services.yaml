@@ -188,3 +188,9 @@ services:
         arguments:
             $command: '@console.command.messenger_consume_messages'
 
+    # Monolog
+    App\Monolog\DatabaseHandler:
+        arguments:
+            $connection: '@doctrine.dbal.logger_connection'
+        calls:
+            - setFormatter: [ '@App\Monolog\LineFormatter' ]
