@@ -20,11 +20,9 @@ class ServiceAttributeValue implements ServiceAttributeValueInterface {
 
     #[ORM\Column(type: 'object', nullable: true)]
     private $value;
-
-    /**
-     * @Gedmo\Timestampable(on="update", field={"value"})
-     */
+    
     #[ORM\Column(type: 'datetime', nullable: true)]
+    #[Gedmo\Timestampable(on: 'update', field: ['value'])]
     private $updatedAt;
 
     /**

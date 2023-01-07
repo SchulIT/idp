@@ -19,15 +19,16 @@ class ServiceProviderConfirmation {
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private $serviceProvider;
 
-    /**
-     * @Gedmo\Timestampable(on="create")
-     * @Gedmo\Timestampable(on="update")
-     */
     #[ORM\Column(type: 'datetime')]
+    #[Gedmo\Timestampable(on: 'update')]
     private $dateTime;
 
     #[ORM\Column(type: 'json')]
     private array $attributes = [ ];
+
+    public function __construct() {
+        $this->dateTime = new DateTime();
+    }
 
     /**
      * @return User|null

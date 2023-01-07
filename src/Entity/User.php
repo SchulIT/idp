@@ -16,15 +16,13 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @Serializer\Discriminator(disabled=true)
- * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=true)
- */
 #[ORM\Entity]
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'class', type: 'string')]
 #[ORM\DiscriminatorMap(['user' => 'User', 'ad' => 'ActiveDirectoryUser'])]
 #[UniqueEntity(fields: ['username'])]
+#[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false, hardDelete: true)]
+#[Serializer\Discriminator(disabled: true)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface {
 
     use IdTrait;
@@ -34,7 +32,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\Column(type: 'string', unique: true)]
     #[Assert\NotBlank]
     #[Assert\Email(mode: 'html5')]
-    #[Assert\Length(max: 128, min: 4)]
+    #[Assert\Length(min: 4, max: 128)]
     private $username;
 
     #[ORM\Column(type: 'string', nullable: true)]
@@ -45,10 +43,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[Assert\NotBlank(allowNull: true)]
     private ?string $lastname = null;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\Column(type: 'string', length: 62, nullable: true)]
+    #[Serializer\Exclude]
     private $password;
 
     #[ORM\Column(type: 'string', nullable: true)]
@@ -60,20 +56,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $grade = null;
 
-    /**
-     * @Serializer\ReadOnlyProperty()
-     * @Serializer\Accessor(getter="getTypeString")
-     * @Serializer\Type("string")
-     */
     #[ORM\ManyToOne(targetEntity: UserType::class, inversedBy: 'users')]
     #[ORM\JoinColumn(onDelete: 'SET NULL')]
     #[Assert\NotNull]
+    #[Serializer\ReadOnlyProperty]
+    #[Serializer\Accessor(getter: 'getTypeString')]
+    #[Serializer\Type('string')]
     private ?UserType $type = null;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\Column(type: 'json')]
+    #[Serializer\Exclude]
     private array $roles = [ 'ROLE_USER' ];
 
     #[ORM\Column(type: 'string', nullable: true)]
@@ -82,63 +74,45 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\Column(type: 'boolean')]
     private bool $isActive = true;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\Column(type: 'boolean')]
+    #[Serializer\Exclude]
     private bool $isEmailConfirmationPending = false;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\JoinTable]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(onDelete: 'CASCADE')]
     #[ORM\ManyToMany(targetEntity: ServiceProvider::class)]
+    #[Serializer\Exclude]
     private $enabledServices;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\OneToMany(targetEntity: ServiceAttributeValue::class, mappedBy: 'user')]
+    #[Serializer\Exclude]
     private $attributes;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\ManyToMany(targetEntity: UserRole::class, inversedBy: 'users')]
+    #[Serializer\Exclude]
     private $userRoles;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\Column(type: 'string', nullable: true)]
+    #[Serializer\Exclude]
     private $googleAuthenticatorSecret;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\Column(type: 'json')]
+    #[Serializer\Exclude]
     private array $backupCodes = [ ];
 
-    /**
-     * @Serializer\Exclude()
-     */
-    #[ORM\Column(type: 'integer', name: 'trusted_version')]
+    #[ORM\Column(name: 'trusted_version', type: 'integer')]
+    #[Serializer\Exclude]
     private int $trustedVersion = 0;
 
-    /**
-     * @Gedmo\Timestampable(on="create")
-     * @Serializer\Exclude()
-     */
     #[ORM\Column(type: 'datetime')]
+    #[Gedmo\Timestampable(on: 'create')]
+    #[Serializer\Exclude]
     private $createdAt;
 
-    /**
-     * @Gedmo\Timestampable(on="update", field={"firstname", "lastname", "email", "type", "userRoles"})
-     * @Serializer\Exclude()
-     */
     #[ORM\Column(type: 'datetime', nullable: true)]
+    #[Gedmo\Timestampable(on: 'update', field: ['firstname', 'lastname', 'email', 'type', 'userRoles'])]
+    #[Serializer\Exclude]
     private $updatedAt;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
@@ -147,10 +121,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $enabledUntil;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\Column(type: 'json')]
+    #[Serializer\Exclude]
     private array $data = [ ];
 
     #[ORM\Column(type: 'datetime', nullable: true)]

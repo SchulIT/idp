@@ -18,10 +18,8 @@ class PrivacyPolicy {
     #[Assert\NotBlank]
     private ?string $content = null;
 
-    /**
-     * @Gedmo\Timestampable(on="create")
-     */
     #[ORM\Column(type: 'datetime')]
+    #[Gedmo\Timestampable(on: 'create')]
     private ?DateTime $changedAt = null;
 
     public function __construct() {

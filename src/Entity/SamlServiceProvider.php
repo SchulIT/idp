@@ -16,26 +16,20 @@ class SamlServiceProvider extends ServiceProvider {
     #[Assert\Length(max: 128)]
     private $entityId;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\Column(type: 'text')]
     #[Assert\NotBlank]
     #[Assert\Url]
+    #[Serializer\Exclude]
     private $acs;
 
-    /**
-     * @X509Certificate()
-     * @Serializer\Exclude()
-     */
     #[ORM\Column(type: 'text')]
     #[Assert\NotBlank]
+    #[Serializer\Exclude]
+    #[X509Certificate]
     private $certificate;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\ManyToMany(targetEntity: ServiceAttribute::class, mappedBy: 'services')]
+    #[Serializer\Exclude]
     private $attributes;
 
     public function __construct() {

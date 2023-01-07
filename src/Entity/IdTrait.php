@@ -7,14 +7,11 @@ use JMS\Serializer\Annotation as Serializer;
 
 trait IdTrait {
 
-    /**
-     * @Serializer\Exclude()
-     * @var int|null
-     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
-    private $id;
+    #[Serializer\Exclude]
+    private ?int $id;
 
     public function getId(): ?int {
         return $this->id;

@@ -31,10 +31,8 @@ class ServiceAttribute {
     #[ORM\Column(type: 'text', nullable: true)]
     private $description;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\Column(type: 'boolean')]
+    #[Serializer\Exclude]
     private bool $isUserEditEnabled = true;
 
     #[ORM\Column(type: 'string')]
@@ -51,13 +49,11 @@ class ServiceAttribute {
     #[ORM\Column(type: 'json', nullable: true)]
     private array $options = [ ];
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\JoinTable]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(onDelete: 'CASCADE')]
     #[ORM\ManyToMany(targetEntity: SamlServiceProvider::class, inversedBy: 'attributes')]
+    #[Serializer\Exclude]
     private $services;
 
     public function __construct() {

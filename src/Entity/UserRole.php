@@ -24,34 +24,26 @@ class UserRole {
     #[Assert\NotBlank]
     private $description;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\JoinTable]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(onDelete: 'CASCADE')]
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'userRoles')]
+    #[Serializer\Exclude]
     private $users;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\JoinTable]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(onDelete: 'CASCADE')]
     #[ORM\ManyToMany(targetEntity: ServiceProvider::class)]
+    #[Serializer\Exclude]
     private $enabledServices;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\OneToMany(mappedBy: 'userRole', targetEntity: ServiceAttributeUserRoleValue::class)]
+    #[Serializer\Exclude]
     private $attributes;
 
-    /**
-     * @Gedmo\SortablePosition()
-     */
     #[ORM\Column(name: 'priority', type: 'integer')]
+    #[Gedmo\SortablePosition]
     private int $priority = 0;
 
     public function __construct() {

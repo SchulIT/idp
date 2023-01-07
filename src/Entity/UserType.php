@@ -27,55 +27,41 @@ class UserType {
 
     /**
      * @var string[]
-     * @Serializer\Type("array<string>")
      */
     #[ORM\Column(type: 'json')]
     #[Assert\Count(min: 1)]
+    #[Serializer\Type('array<string>')]
     private ?array $eduPerson = null;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\OneToMany(mappedBy: 'type', targetEntity: User::class)]
+    #[Serializer\Exclude]
     private $users;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\JoinTable]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(onDelete: 'CASCADE')]
     #[ORM\ManyToMany(targetEntity: ServiceProvider::class)]
+    #[Serializer\Exclude]
     private $enabledServices;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\OneToMany(mappedBy: 'userType', targetEntity: ServiceAttributeUserTypeValue::class)]
+    #[Serializer\Exclude]
     private $attributes;
 
-    /**
-     * @Serializer\Exclude()
-     */
-    #[ORM\OneToMany(targetEntity: ActiveDirectorySyncOption::class, mappedBy: 'userType')]
+    #[ORM\OneToMany(mappedBy: 'userType', targetEntity: ActiveDirectorySyncOption::class)]
+    #[Serializer\Exclude]
     private $syncOptions;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\Column(type: 'boolean')]
+    #[Serializer\Exclude]
     private bool $canChangeName = true;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\Column(type: 'boolean')]
+    #[Serializer\Exclude]
     private bool $canChangeEmail = true;
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\Column(type: 'boolean')]
+    #[Serializer\Exclude]
     private bool $canLinkStudents = false;
 
     #[ORM\Column(type: 'boolean')]

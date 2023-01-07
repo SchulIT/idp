@@ -9,29 +9,22 @@ use Ramsey\Uuid\UuidInterface;
 #[ORM\Entity]
 class ActiveDirectoryUser extends User {
 
-    /**
-     * @Serializer\Exclude()
-     */
+    #[Serializer\Exclude]
     #[ORM\Column(type: 'string')]
     private ?string $userPrincipalName = null;
 
-
-    /**
-     * @Serializer\Exclude()
-     */
+    #[Serializer\Exclude]
     #[ORM\Column(type: 'uuid', unique: true)]
     private ?UuidInterface $objectGuid = null;
 
-    /**
-     * @Serializer\Exclude()
-     */
+    #[Serializer\Exclude]
     #[ORM\Column(type: 'string')]
     private ?string $ou = null;
 
     /**
-     * @Serializer\Exclude()
      * @var string[]
      */
+    #[Serializer\Exclude]
     #[ORM\Column(type: 'json')]
     private array $groups = [ ];
 

@@ -28,9 +28,8 @@ class RegistrationCode {
 
     /**
      * The user which was created from this code.
-     *
-     * @Serializer\Exclude()
      */
+    #[Serializer\Exclude]
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private ?User $redeemingUser = null;
