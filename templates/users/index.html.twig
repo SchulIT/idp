@@ -93,19 +93,21 @@
                                                 </button>
 
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a href="{{ path('edit_user', { uuid: user.uuid }) }}" class="dropdown-item">
-                                                        <i class="fa fa-edit"></i> {{ 'actions.edit'|trans }}
-                                                    </a>
+                                                    {% if is_granted('ROLE_ADMIN') %}
+                                                        <a href="{{ path('edit_user', { uuid: user.uuid }) }}" class="dropdown-item">
+                                                            <i class="fa fa-edit"></i> {{ 'actions.edit'|trans }}
+                                                        </a>
 
-                                                    <a href="{{ path('show_attributes', { uuid: user.uuid }) }}" class="dropdown-item">
-                                                        <i class="fa fa-user-tag"></i> {{ 'users.attributes.label'|trans }}
-                                                    </a>
+                                                        <a href="{{ path('show_attributes', { uuid: user.uuid }) }}" class="dropdown-item">
+                                                            <i class="fa fa-user-tag"></i> {{ 'users.attributes.label'|trans }}
+                                                        </a>
 
-                                                    <button type="submit" class="dropdown-item text-danger">
-                                                        <i class="fa fa-trash"></i> {{ 'actions.remove'|trans }}
-                                                    </button>
+                                                        <button type="submit" class="dropdown-item text-danger">
+                                                            <i class="fa fa-trash"></i> {{ 'actions.remove'|trans }}
+                                                        </button>
 
-                                                    <div class="dropdown-divider"></div>
+                                                        <div class="dropdown-divider"></div>
+                                                    {% endif %}
 
                                                     {% if is_granted('ROLE_ADMIN') and user.type.alias == 'student' %}
                                                         <a href="{{ path('add_registration_code', { student: user.uuid.toString }) }}" class="dropdown-item">
@@ -113,14 +115,16 @@
                                                         </a>
                                                     {% endif %}
 
-                                                    {% if user.userPrincipalName is defined %}
-                                                        <a href="{{ path('reset_password_ad', { uuid: user.uuid }) }}" class="dropdown-item">
-                                                            <i class="fa fa-key"></i> {{ 'users.reset_pw.label'|trans }}
-                                                        </a>
-                                                    {% else %}
-                                                        <a href="{{ path('reset_password', { uuid: user.uuid }) }}" class="dropdown-item">
-                                                            <i class="fa fa-key"></i> {{ 'users.reset_pw.label'|trans }}
-                                                        </a>
+                                                    {% if is_granted('ROLE_PASSWORD_MANAGER') %}
+                                                        {% if user.userPrincipalName is defined %}
+                                                            <a href="{{ path('reset_password_ad', { uuid: user.uuid }) }}" class="dropdown-item">
+                                                                <i class="fa fa-key"></i> {{ 'users.reset_pw.label'|trans }}
+                                                            </a>
+                                                        {% else %}
+                                                            <a href="{{ path('reset_password', { uuid: user.uuid }) }}" class="dropdown-item">
+                                                                <i class="fa fa-key"></i> {{ 'users.reset_pw.label'|trans }}
+                                                            </a>
+                                                        {% endif %}
                                                     {% endif %}
 
                                                     {% if is_granted('ROLE_ALLOWED_TO_SWITCH') %}
@@ -129,9 +133,11 @@
                                                         </a>
                                                     {% endif %}
 
-                                                    <a href="{{ path('user_logout_everywhere', { uuid: user.uuid }) }}" class="dropdown-item">
-                                                        <i class="fa fa-sign-out-alt"></i> {{ 'sessions.logout_everywhere.label_short'|trans }}
-                                                    </a>
+                                                    {% if is_granted('ROLE_ADMIN') %}
+                                                        <a href="{{ path('user_logout_everywhere', { uuid: user.uuid }) }}" class="dropdown-item">
+                                                            <i class="fa fa-sign-out-alt"></i> {{ 'sessions.logout_everywhere.label_short'|trans }}
+                                                        </a>
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                         </form>

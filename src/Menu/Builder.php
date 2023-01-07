@@ -30,12 +30,14 @@ class Builder {
         ])
             ->setExtra('icon', 'fas fa-user');
 
-        if($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+        if($this->authorizationChecker->isGranted('ROLE_ADMIN') || $this->authorizationChecker->isGranted('ROLE_PASSWORD_MANAGER')) {
             $menu->addChild('users.label', [
                 'route' => 'users'
             ])
                 ->setExtra('icon', 'fas fa-users');
+        }
 
+        if($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
             $menu->addChild('codes.label', [
                 'route' => 'registration_codes'
             ])

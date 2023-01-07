@@ -436,6 +436,7 @@ idp:
 
   roles:
     user: Benutzer
+    password_manager: Passwort-Manager
     admin: Administrator
     super_admin: Super Administrator
 

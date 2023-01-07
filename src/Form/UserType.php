@@ -168,6 +168,7 @@ class UserType extends AbstractType {
                         ->add('roles', ChoiceType::class, [
                             'choices' => [
                                 'idp.roles.user' => 'ROLE_USER',
+                                'idp.roles.password_manager' => 'ROLE_PASSWORD_MANAGER',
                                 'idp.roles.admin' => 'ROLE_ADMIN',
                                 'idp.roles.super_admin' => 'ROLE_SUPER_ADMIN'
                             ],
