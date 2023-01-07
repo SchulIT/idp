@@ -236,6 +236,7 @@ users:
 
   reset_pw_ad:
     label: Passwort zurücksetzen
+    button: Passwort im Active Directory ändern
     help: Das Passwort wird direkt im Active Directory geändert. Damit dies funktioniert, müssen zusätzlich Zugangsdaten für den Account zum Ändern eines Passwortes angegeben werden.
     success: Passwort wurde erfolgreich geändert.
     failure: "Fehler beim Ändern des Passwortes: %error%"
