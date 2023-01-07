@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\RegistrationCode;
 use App\Entity\User;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -18,12 +19,13 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
         return $this->em->createQueryBuilder()
             ->select(['c', 'u'])
             ->from(RegistrationCode::class, 'c')
-            ->leftJoin('c.student', 'u');
+            ->leftJoin('c.student', 'u')
+            ->where('c.deletedAt IS NULL');
     }
 
     public function findOneByCode(string $code): ?RegistrationCode {
         return $this->createDefaultQueryBuilder()
-            ->where('c.code = :code')
+            ->andWhere('c.code = :code')
             ->setParameter('code', $code)
             ->setMaxResults(1)
             ->getQuery()
@@ -100,8 +102,10 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
     public function removeRedeemed(): void {
         $qb = $this->em->createQueryBuilder();
         $qb
-            ->delete(RegistrationCode::class, 'r')
-            ->where($qb->expr()->isNotNull('r.redeemingUser'))
+            ->update(RegistrationCode::class, 'c')
+            ->set('c.deletedAt', ':now')
+            ->setParameter('now', new DateTime())
+            ->where($qb->expr()->isNotNull('c.redeemingUser'))
             ->getQuery()
             ->execute();
     }
@@ -111,7 +115,7 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
             ->select(['c', 's'])
             ->from(RegistrationCode::class, 'c')
             ->leftJoin('c.student', 's')
-            ->where('s.grade = :grade')
+            ->andWhere('s.grade = :grade')
             ->setParameter('grade', $grade)
             ->getQuery()
             ->getResult();
@@ -125,7 +129,7 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
             ->select(['c', 's'])
             ->from(RegistrationCode::class, 'c')
             ->leftJoin('c.student', 's')
-            ->where('s.id = :student')
+            ->andWhere('s.id = :student')
             ->setParameter('student', $user->getId())
             ->getQuery()
             ->getResult();
@@ -140,7 +144,7 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
             ->select('COUNT(c.id)')
             ->from(RegistrationCode::class, 'c')
             ->leftJoin('c.student', 's')
-            ->where('s.id = :student')
+            ->andWhere('s.id = :student')
             ->setParameter('student', $user->getId())
             ->getQuery()
             ->getSingleScalarResult() > 0;

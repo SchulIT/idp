@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\SoftDeleteable;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use JMS\Serializer\Annotation as Serializer;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -11,12 +13,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 #[UniqueEntity(fields: ['code'])]
+#[SoftDeleteable(fieldName: 'deletedAt', hardDelete: false)]
 class RegistrationCode {
 
     use IdTrait;
     use UuidTrait;
+    use SoftDeleteableEntity;
 
-    #[ORM\Column(type: 'string', unique: true, length: 32)]
+    #[ORM\Column(type: 'string', length: 32, unique: true)]
     #[Assert\NotBlank]
     #[Assert\NotNull]
     private ?string $code = null;
