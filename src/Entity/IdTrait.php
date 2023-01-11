@@ -11,7 +11,7 @@ trait IdTrait {
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
     #[Serializer\Exclude]
-    private ?int $id;
+    private ?int $id = null;
 
     public function getId(): ?int {
         return $this->id;
