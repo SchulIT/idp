@@ -117,10 +117,6 @@ class Application implements UserInterface {
     }
 
     public function getRoles(): array {
-        if($this->getScope() === ApplicationScope::IdpExchange) {
-            return [ 'ROLE_IDPEXCHANGE' ];
-        }
-
         if($this->scope === ApplicationScope::AdConnect) {
             return [ 'ROLE_ADCONNECT' ];
         }
