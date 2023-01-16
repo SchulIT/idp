@@ -6,6 +6,7 @@ use App\Entity\UserType as UserTypeEntity;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -41,6 +42,14 @@ class ImportCsvType extends AbstractType {
                 'constraints' => [
                     new NotNull()
                 ]
+            ])
+            ->add('performSync', CheckboxType::class, [
+                'label' => 'label.sync.label',
+                'help' => 'label.sync.help',
+                'label_attr' => [
+                    'class' => 'checkbox-custom'
+                ],
+                'required' => false
             ]);
     }
 }

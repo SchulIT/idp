@@ -54,6 +54,7 @@
                 {{ form_row(form.file) }}
                 {{ form_row(form.delimiter) }}
                 {{ form_row(form.userType) }}
+                {{ form_row(form.performSync) }}
             </div>
         {% elseif flow.currentStepNumber == 2 %}
             {% if not form.vars.valid %}
@@ -118,6 +119,22 @@
                             <td>
                                 {{ form_widget(userForm.type) }}
                                 {{ form_errors(userForm.type) }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                    {% for userForm in form.removeUsers %}
+                        <tr class="table-danger">
+                            <td class="align-middle">
+                                <i class="fa fa-user-times" title="{{ 'import.users.step_two.remove'|trans }}"></i>
+                            </td>
+                            <td colspan="5">
+                                {{ form_widget(userForm.username)}}
+                                {{ form_errors(userForm.username) }}
+                            </td>
+                            <td colspan="3">
+                                {{ form_widget(userForm.grade) }}
+                                {{ form_errors(userForm.grade) }}
                             </td>
                         </tr>
                     {% endfor %}

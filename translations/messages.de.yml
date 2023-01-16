@@ -86,6 +86,9 @@ label:
     label: Metadaten-XML
     download: Herunterladen
     info: Mithilfe der Metadaten-XML können einige Felder automatisch ausgefüllt werden. Das Eintragen der URL dient nur dem Komfort. Die URL wird nicht gespeichert.
+  sync:
+    label: Vollständige Synchronisation
+    help: Wenn diese Option aktiviert ist, wird ein richtiger Ableicht mit den importierten Daten gemacht. Das bedeutet, dass im Anschluss an den Importvorgang ausschließlich Benutzer im System vorhanden sind, die auch in der CSV-Datei enthalten sind. Benutzer des ausgewählten Benutzer-Typs, die nicht in der CSV-Datei enthalten sind, werden zum Löschen vorgemerkt.
 
 help:
   voluntary: Diese Angabe ist freiwillig.
@@ -609,6 +612,7 @@ import:
       label: Daten prüfen
       add: Benutzer hinzufügen
       edit: Benutzer aktualisieren
+      remove: Benutzer löschen
 
 email_confirmation:
   label: Bestätigung der E-Mail-Adresse

@@ -15,6 +15,8 @@ interface UserRepositoryInterface {
 
     public function commit(): void;
 
+    public function rollBack(): void;
+
     /**
      * @param string[] $usernames
      * @return User[]
@@ -78,6 +80,13 @@ interface UserRepositoryInterface {
      * @return User[]
      */
     public function findStudentsByGrade(string $grade): array;
+
+    /**
+     * @param string[] $usernames
+     * @param UserType $userType
+     * @return User[]
+     */
+    public function findAllNotInUsernamesList(array $usernames, UserType $userType): array;
 
     public function countUsers(?UserType $userType = null): int;
 

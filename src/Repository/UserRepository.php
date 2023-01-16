@@ -36,6 +36,10 @@ class UserRepository implements UserRepositoryInterface {
         $this->isInTransaction = false;
     }
 
+    public function rollBack(): void {
+        $this->em->rollback();
+    }
+
     public function findAll(int $offset = 0, int $limit = null, bool $deleted = false): array {
         $qb = $this->em
             ->createQueryBuilder()
@@ -137,6 +141,20 @@ class UserRepository implements UserRepositoryInterface {
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function findAllNotInUsernamesList(array $usernames, UserType $userType): array {
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->select(['u'])
+            ->from(User::class, 'u')
+            ->leftJoin('u.type', 't')
+            ->where('t.id = :type')
+            ->andWhere($qb->expr()->notIn('u.username', ':usernames'))
+            ->setParameter('usernames', $usernames)
+            ->setParameter('type', $userType->getId());
+
+        return $qb->getQuery()->getResult();
     }
 
     public function persist(User $user): void {

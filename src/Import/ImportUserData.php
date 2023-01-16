@@ -14,6 +14,13 @@ class ImportUserData extends AbstractImportData {
     private array $users = [ ];
 
     /**
+     * @var User[]
+     */
+    private array $removeUsers = [ ];
+
+    private bool $performSync = false;
+
+    /**
      * @return User[]
      */
     public function getUsers(): array {
@@ -26,5 +33,33 @@ class ImportUserData extends AbstractImportData {
     public function setUsers(array $users): ImportUserData {
         $this->users = $users;
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRemoveUsers(): array {
+        return $this->removeUsers;
+    }
+
+    /**
+     * @param array $removeUsers
+     */
+    public function setRemoveUsers(array $removeUsers): void {
+        $this->removeUsers = $removeUsers;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPerformSync(): bool {
+        return $this->performSync;
+    }
+
+    /**
+     * @param bool $performSync
+     */
+    public function setPerformSync(bool $performSync): void {
+        $this->performSync = $performSync;
     }
 }

@@ -2,9 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use App\Import\ImportUserData;
 use App\Import\RecordInvalidException;
 use App\Import\UserCsvImportHelper;
+use App\Repository\UserRepositoryInterface;
 use Craue\FormFlowBundle\Form\FormFlow;
 use League\Csv\Exception as LeagueException;
 use \Exception;
@@ -14,7 +16,7 @@ class ImportUsersFlow extends FormFlow {
     protected $handleFileUploads = true;
     protected $revalidatePreviousSteps = false;
 
-    public function __construct(private UserCsvImportHelper $helper)
+    public function __construct(private readonly UserCsvImportHelper $helper, private readonly UserRepositoryInterface $userRepository)
     {
     }
 
@@ -43,7 +45,16 @@ class ImportUsersFlow extends FormFlow {
         if($step === 2) {
             /** @var ImportUserData $data */
             $data = $this->getFormData();
-            $data->setUsers($this->helper->getUsersFromCsv(file_get_contents($data->getFile()->getPathname()), $data->getDelimiter(), $data->getUserType()));
+
+            $addOrUpdate = $this->helper->getUsersFromCsv(file_get_contents($data->getFile()->getPathname()), $data->getDelimiter(), $data->getUserType());
+            $data->setUsers($addOrUpdate);
+
+            // Compute removal (if necessary)
+            if($data->isPerformSync()) {
+                $usernames = array_map(fn(User $user) => $user->getUsername(), $addOrUpdate);
+                $toDelete = $this->userRepository->findAllNotInUsernamesList($usernames, $data->getUserType());
+                $data->setRemoveUsers($toDelete);
+            }
         }
 
         return $options;

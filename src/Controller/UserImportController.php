@@ -57,15 +57,22 @@ class UserImportController extends AbstractController {
                 }
             } else {
                 try {
+                    $userRepository->beginTransaction();
                     foreach ($data->getUsers() as $user) {
                         $userRepository->persist($user);
                         $this->messageBus->dispatch(new MustProvisionUser($user->getId()));
                     }
 
+                    foreach($data->getRemoveUsers() as $user) {
+                        $userRepository->remove($user);
+                    }
+                    $userRepository->commit();
+
                     $this->addFlash('success', 'import.users.success');
 
                     return $this->redirectToRoute('users');
                 } catch (Exception $e) {
+                    $userRepository->rollBack();
                     $form->addError(new FormError('import.error.unknown'));
 
                     $logger->error('Error persisting imported registration codes.', [

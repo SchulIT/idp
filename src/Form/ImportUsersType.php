@@ -16,6 +16,12 @@ class ImportUsersType extends AbstractType {
                 'entry_options' => [
                     'label' => false
                 ]
+            ])
+            ->add('removeUsers', CollectionType::class, [
+                'entry_type' => UserUsernameGradeType::class,
+                'entry_options' => [
+                    'label' => false
+                ]
             ]);
     }
 
