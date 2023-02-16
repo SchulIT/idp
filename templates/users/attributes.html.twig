@@ -78,9 +78,9 @@
                     <td>{{ attributeValue.attribute.name }}</td>
                     <td>{{ attributeValue.attribute.samlAttributeName }}</td>
                     <td>
-                        {% if attributeValue.attribute.type == 'text' %}
+                        {% if attributeValue.attribute.type.value == 'text' %}
                             {{ attributeValue.value }}
-                        {% elseif attributeValue.attribute.type == 'select' %}
+                        {% elseif attributeValue.attribute.type.value == 'select' %}
                             {% if attributeValue.attribute.multipleChoice %}
                                 <ul class="list-unstyled">
                                     {% for value in attributeValue.value %}
