@@ -32,12 +32,12 @@ class AttributeResolver {
 
         $values = [ ];
 
-        $keyFunc = fn(ServiceAttributeValueInterface $attributeValue) => $attributeValue->getAttribute()->getId();
+        $keyFunc = fn(ServiceAttributeValueInterface $attributeValue) => $attributeValue->getAttribute()->getUuid()->toString();
 
         // USER TYPE
         $typeValues = $this->attributeValueRepository->getAttributeValuesForUserType($user->getType());
         $typeValues = $this->makeArrayWithKeys($typeValues, $keyFunc);
-        $values = array_merge($values, $typeValues);
+        $values = array_replace($values, $typeValues);
 
         // USER ROLES
         /** @var UserRole[] $userRoles */
@@ -49,16 +49,14 @@ class AttributeResolver {
             $roleValues = $this->makeArrayWithKeys($roleValues, $keyFunc);
 
             foreach($roleValues as $key => $value) {
-                if(array_key_exists($key, $values) === false) {
-                    $values[$key] = $value;
-                }
+                $values[$key] = $value;
             }
         }
 
         // USER
         $userValues = $this->attributeValueRepository->getAttributeValuesForUser($user);
         $userValues = $this->makeArrayWithKeys($userValues, $keyFunc);
-        $values = array_merge($values, $userValues);
+        $values = array_replace($values, $userValues);
 
         return $values;
     }
