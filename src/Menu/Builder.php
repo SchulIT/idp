@@ -18,7 +18,7 @@ class Builder {
 
     public function mainMenu(): ItemInterface {
         $menu = $this->factory->createItem('root')
-            ->setChildrenAttribute('class', 'navbar-nav mr-auto');
+            ->setChildrenAttribute('class', 'navbar-nav me-auto');
 
         $menu->addChild('dashboard.label', [
             'route' => 'dashboard'

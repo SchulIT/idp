@@ -22,25 +22,23 @@
 
         <div class="card-body">
             {% if form.entityId is defined %}
-                <div class="form-group row">
+                <div class="mb-3 row">
                     <label class="col-form-label col-sm-2" for="metadata-url">
                         {{ 'label.metadata.label'|trans }}
                     </label>
                     <div class="col-sm-10">
                         <div class="input-group">
                             <input id="metadata-url" class="form-control" type="url" inputmode="url">
-                            <div class="input-group-append">
-                                <button type="button" data-trigger="metadata-xml"
-                                        class="btn btn-outline-primary"
-                                        data-input-id="metadata-url"
-                                        data-endpoint="{{ url('load_xml_metadata') }}"
-                                        data-url-id="{{ form.url.vars.id }}"
-                                        data-entityid-id="{{ form.entityId.vars.id }}"
-                                        data-acs-id="{{ form.acs.vars.id }}"
-                                        data-cert-id="{{ form.certificate.vars.id }}">
-                                    <i class="fas fa-download"></i> {{ 'label.metadata.download'|trans }}
-                                </button>
-                            </div>
+                            <button type="button" data-trigger="metadata-xml"
+                                    class="btn btn-outline-primary"
+                                    data-input-id="metadata-url"
+                                    data-endpoint="{{ url('load_xml_metadata') }}"
+                                    data-url-id="{{ form.url.vars.id }}"
+                                    data-entityid-id="{{ form.entityId.vars.id }}"
+                                    data-acs-id="{{ form.acs.vars.id }}"
+                                    data-cert-id="{{ form.certificate.vars.id }}">
+                                <i class="fas fa-download"></i> {{ 'label.metadata.download'|trans }}
+                            </button>
                         </div>
                     </div>
                 </div>

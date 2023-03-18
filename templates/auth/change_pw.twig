@@ -27,12 +27,12 @@
     {% endif %}
 
     <form class="form-signin" role="form" action="{{ path('change_password', { token: token.token }) }}" method="post">
-        <div class="form-group">
+        <div class="mb-3">
             <label for="password" class="control-label">{{ 'label.password'|trans }}</label>
             <input type="text" id="password" name="_password" class="form-control" required="required" autocomplete="new-password" autofocus >
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
             <label for="repeat_password" class="control-label">{{ 'label.repeat_password'|trans }}</label>
             <input type="text" id="repeat_password" name="_repeat_password" class="form-control" autocomplete="new-password" required="required" autofocus >
         </div>
@@ -42,10 +42,10 @@
         <div class="container-fluid px-0">
             <div class="row">
                 <div class="col-md-6">
-                    <button class="btn btn-primary btn-block" type="submit">{{ 'forgot_pw.change.button'|trans }}</button>
+                    <button class="btn btn-primary w-100" type="submit">{{ 'forgot_pw.change.button'|trans }}</button>
                 </div>
                 <div class="col-md-6">
-                    <a href="{{ path('login') }}" class="btn btn-secondary btn-block" role="button">{{ 'actions.cancel'|trans }}</a>
+                    <a href="{{ path('login') }}" class="btn btn-secondary w-100" role="button">{{ 'actions.cancel'|trans }}</a>
                 </div>
             </div>
         </div>

@@ -51,7 +51,7 @@
 
             {{ form_row(form.username) }}
             {{ form_widget(form.password) }}
-            <div class="form-group">
+            <div class="mb-3">
                 {{ form_widget(form.agreePrivacyPolicy) }}
             </div>
 
@@ -70,10 +70,10 @@
     <div class="container-fluid px-0">
         <div class="row">
             <div class="col-md-6">
-                <button class="btn btn-primary btn-block" type="submit">{{ 'register.complete.button'|trans({}, 'security') }}</button>
+                <button class="btn btn-primary w-100" type="submit">{{ 'register.complete.button'|trans({}, 'security') }}</button>
             </div>
             <div class="col-md-6">
-                <a href="{{ path('login') }}" class="btn btn-secondary btn-block" role="button">{{ 'actions.cancel'|trans }}</a>
+                <a href="{{ path('login') }}" class="btn btn-secondary w-100" role="button">{{ 'actions.cancel'|trans }}</a>
             </div>
         </div>
     </div>

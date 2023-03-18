@@ -1,7 +1,7 @@
 {% extends "sso/confirm.html.twig" %}
 
 {% block redirect %}
-    <a href="{{ destination }}" class="btn btn-primary btn-block">
+    <a href="{{ destination }}" class="btn btn-primary w-100">
         {{ 'actions.confirm'|trans }}
     </a>
 {% endblock %}
@@ -12,7 +12,7 @@
         <input type="hidden" name="destination" value="{{ destination }}" >
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" >
 
-        <button type="submit" class="btn btn-primary btn-block">
+        <button type="submit" class="btn btn-primary w-100">
             {{ 'sso.confirm.submit'|trans }}
         </button>
     </form>

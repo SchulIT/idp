@@ -1,0 +1,26 @@
+// Import SCSS from custom
+@import "custom/style.scss";
+
+@import '../../vendor/schulit/common-bundle/Resources/assets/css/variables.scss';
+
+// Import Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Import FontAwesome
+@import '../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
+@import '../../node_modules/@fortawesome/fontawesome-free/scss/solid';
+@import '../../node_modules/@fortawesome/fontawesome-free/scss/regular';
+@import '../../node_modules/@fortawesome/fontawesome-free/scss/brands';
+
+// Import SchulIT design
+@import '../../vendor/schulit/common-bundle/Resources/assets/css/layout.scss';
+@import '../../vendor/schulit/common-bundle/Resources/assets/css/callouts.scss';
+
+// Import SCSS from overrides
+//@import "./assets/css/overrides/*.scss";
+
+@media screen and (max-width:768px) {
+  header#page-header {
+    padding:10px;
+  }
+}

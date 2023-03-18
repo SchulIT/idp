@@ -45,11 +45,11 @@
                                     {{ user.username }}
 
                                     {% if not user.active %}
-                                        <span class="badge badge-danger">{{ 'label.not_active'|trans }}</span>
+                                        <span class="badge text-bg-danger">{{ 'label.not_active'|trans }}</span>
                                     {% endif %}
 
                                     {% if user.emailConfirmationPending %}
-                                        <span class="badge badge-warning">{{ 'label.pending_email_confirmation'|trans }}</span>
+                                        <span class="badge text-bg-warning">{{ 'label.pending_email_confirmation'|trans }}</span>
                                     {% endif %}
                                 </td>
                                 <td>{{ user.firstname }}</td>
@@ -114,7 +114,7 @@
                 <div class="card">
                     <div class="card-body">
                         <form method="get">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <select name="type" class="form-control" data-choice="true" data-trigger="submit">
                                     <option value="">{{ 'filter.all_types'|trans }}</option>
                                     {% for t in typeFilter.types %}
@@ -123,7 +123,7 @@
                                 </select>
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <select name="role" class="form-control" data-choice="true" data-trigger="submit">
                                     <option value="">{{ 'filter.all_roles'|trans }}</option>
                                     {% for r in roleFilter.roles %}
@@ -132,7 +132,7 @@
                                 </select>
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <select name="grade" class="form-control" data-choice="true" data-trigger="submit">
                                     <option value="">{{ 'filter.all_grades'|trans }}</option>
                                     {% for g in grades %}
@@ -144,11 +144,9 @@
                             <div class="input-group">
                                 <input type="text" value="{{ q }}" name="q" class="form-control" >
 
-                                <span class="input-group-append">
-                                    <button class="btn btn-outline-primary" type="submit" title="{{ 'search.label'|trans }}">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </span>
+                                <button class="btn btn-outline-primary" type="submit" title="{{ 'search.label'|trans }}">
+                                    <i class="fas fa-search"></i>
+                                </button>
                             </div>
                         </form>
                     </div>

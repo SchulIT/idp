@@ -40,7 +40,7 @@
                                         {{ code.code }}
 
                                         {% if code.redeemingUser is not null %}
-                                            <span class="badge badge-success">{{ 'codes.redeemed'|trans }}</span>
+                                            <span class="badge text-bg-success">{{ 'codes.redeemed'|trans }}</span>
                                         {% endif %}
                                     </td>
                                     <td class="align-middle">
@@ -62,7 +62,7 @@
                                     </td>
                                     <td class="align-middle">
                                         <div class="dropdown">
-                                            <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-toggle="dropdown">
+                                            <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </button>
 
@@ -120,7 +120,7 @@
                 <div class="card">
                     <div class="card-body">
                         <form method="get">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <select name="grade" class="form-control" data-choice="true" data-trigger="submit">
                                     <option value="">{{ 'filter.all_grades'|trans }}</option>
                                     {% for g in grades %}
@@ -129,12 +129,10 @@
                                 </select>
                             </div>
 
-                            <div class="form-group mb-0">
+                            <div class="mb-3 mb-0">
                                 <div class="input-group">
                                     <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="{{ 'codes.query'|trans }}">
-                                    <div class="input-group-append">
-                                        <button type="submit" class="btn btn-outline-primary btn"><i class="fa fa-search"></i></button>
-                                    </div>
+                                    <button type="submit" class="btn btn-outline-primary btn"><i class="fa fa-search"></i></button>
                                 </div>
                             </div>
                         </form>

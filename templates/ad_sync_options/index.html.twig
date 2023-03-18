@@ -41,13 +41,13 @@
                                         <small class="d-block">{{ option.description }}</small>
                                     </td>
                                     <td class="align-middle">
-                                        <span class="badge badge-primary">{% if option.sourceType == 'ou' %}{{ 'label.ou'|trans }}{% else %}{{ 'label.ad_group'|trans }}{% endif %}</span> <br>
+                                        <span class="badge text-bg-primary">{% if option.sourceType == 'ou' %}{{ 'label.ou'|trans }}{% else %}{{ 'label.ad_group'|trans }}{% endif %}</span> <br>
                                         {{ option.source }}
                                     </td>
                                     <td class="align-middle">{{ option.userType.name }}</td>
                                     <td class="align-middle">
                                         <div class="dropdown">
-                                            <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-toggle="dropdown">
+                                            <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </button>
 

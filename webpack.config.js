@@ -1,5 +1,4 @@
 const Encore = require('@symfony/webpack-encore');
-const GlobImporter = require('node-sass-glob-importer');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -21,8 +20,7 @@ Encore
      */
     .addEntry('app', './assets/js/app.js')
     .addEntry('editor', './assets/js/editor.js')
-    .addStyleEntry('signin', './vendor/schulit/common-bundle/Resources/assets/css/signin.scss')
-    .addStyleEntry('simple', './vendor/schulit/common-bundle/Resources/assets/css/simple.scss')
+    .addStyleEntry('simple', './assets/css/simple.scss')
     .addEntry('attributes', './assets/js/attributes.js')
     .addEntry('code-generator', './assets/js/code-generator.js')
     .addStyleEntry('email', './assets/css/email.scss')
@@ -49,24 +47,13 @@ Encore
     .enableBuildNotifications()
     .enableSourceMaps(!Encore.isProduction())
     // enables hashed filenames (e.g. app.abc123.css)
-    .enableVersioning(/*Encore.isProduction()*/ false) // currently disabled, maybe implement solution like https://stackoverflow.com/q/52776155
+    .enableVersioning(Encore.isProduction())
 
     // uncomment if you use Sass/SCSS files
-    .enableSassLoader(function(options) {
-        options.sassOptions.importer = GlobImporter();
-    })
+    .enableSassLoader()
     .enablePostCssLoader()
 
     .disableSingleRuntimeChunk()
-
-    .addLoader(
-        {
-            test: /bootstrap\.native/,
-            use: {
-                loader: 'bootstrap.native-loader'
-            }
-        }
-    )
 ;
 
 module.exports = Encore.getWebpackConfig();

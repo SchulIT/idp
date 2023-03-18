@@ -6,7 +6,7 @@
             <input type="hidden" name="{{ name|e }}" value="{{ value|e }}" >
         {% endfor %}
 
-        <button type="submit" class="btn btn-primary btn-block">
+        <button type="submit" class="btn btn-primary w-100">
             {{ 'actions.confirm'|trans }}
         </button>
     </form>
@@ -21,7 +21,7 @@
         {% endfor %}
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" >
 
-        <button type="submit" class="btn btn-primary btn-block">
+        <button type="submit" class="btn btn-primary w-100">
             {{ 'sso.confirm.submit'|trans }}
         </button>
     </form>

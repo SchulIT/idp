@@ -14,7 +14,7 @@
     {% include '@Common/auth/errors.html.twig' %}
 
     <form class="form-signin" role="form" action="{{ path('forgot_password') }}" method="post">
-        <div class="form-group">
+        <div class="mb-3">
             <label for="username" class="control-label">{{ 'label.username'|trans }}</label>
             <input type="email" id="username" name="_username" class="form-control" required="required" autofocus >
         </div>
@@ -24,10 +24,10 @@
         <div class="container-fluid px-0">
             <div class="row">
                 <div class="col-md-6">
-                    <button class="btn btn-primary btn-block" type="submit">{{ 'forgot_pw.request.button'|trans }}</button>
+                    <button class="btn btn-primary w-100" type="submit">{{ 'forgot_pw.request.button'|trans }}</button>
                 </div>
                 <div class="col-md-6">
-                    <a href="{{ path('login') }}" class="btn btn-secondary btn-block" role="button">{{ 'actions.cancel'|trans }}</a>
+                    <a href="{{ path('login') }}" class="btn btn-secondary w-100" role="button">{{ 'actions.cancel'|trans }}</a>
                 </div>
             </div>
         </div>
