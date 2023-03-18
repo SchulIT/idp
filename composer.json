@@ -35,7 +35,7 @@
         "schulit/common-bundle": "^2.0.0",
         "schulit/lightsaml-idp-bundle": "^2.0.0",
         "sensio/framework-extra-bundle": "^6.0",
-        "shapecode/cron-bundle": "dev-master",
+        "shapecode/cron-bundle": "^6.0",
         "stof/doctrine-extensions-bundle": "^1.7",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "^6.0",
