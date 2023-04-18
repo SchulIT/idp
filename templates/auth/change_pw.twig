@@ -1,5 +1,4 @@
-{% extends "@Common/auth/main.html.twig" %}
-
+{% extends "auth/main.html.twig" %}
 
 {% block content %}
 
@@ -12,7 +11,7 @@
 
     <hr >
 
-    {% include '@Common/auth/errors.html.twig' %}
+    {% include 'auth/errors.html.twig' %}
 
     {% if violations is not null and violations.count() > 0 %}
         <div class="bs-callout bs-callout-danger">

@@ -1,5 +1,5 @@
 // Import SCSS from custom
-@import "custom/style.scss";
+@import "custom/*.scss";
 
 @import '../../vendor/schulit/common-bundle/Resources/assets/css/variables.scss';
 
@@ -30,7 +30,7 @@
 @import '../../vendor/schulit/common-bundle/Resources/assets/css/dark/choices';
 
 // Import SCSS from overrides
-//@import "overrides/*.scss";
+@import "overrides/*.scss";
 
 // ---start
 table {
