@@ -60,13 +60,16 @@ class UserImportController extends AbstractController {
                     $userRepository->beginTransaction();
                     foreach ($data->getUsers() as $user) {
                         $userRepository->persist($user);
-                        $this->messageBus->dispatch(new MustProvisionUser($user->getId()));
                     }
 
                     foreach($data->getRemoveUsers() as $user) {
                         $userRepository->remove($user);
                     }
                     $userRepository->commit();
+
+                    foreach ($data->getUsers() as $user) {
+                        $this->messageBus->dispatch(new MustProvisionUser($user->getId()));
+                    }
 
                     $this->addFlash('success', 'import.users.success');
 
