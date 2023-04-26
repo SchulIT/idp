@@ -37,7 +37,7 @@ class HandleActiveSessionSubscriber implements EventSubscriberInterface {
     }
 
     public function onInteractiveLogin(InteractiveLoginEvent $event): void {
-        $user = $event->getAuthenticationToken()?->getUser();
+        $user = $event->getAuthenticationToken()->getUser();
 
         if(!$user instanceof User) {
             return;

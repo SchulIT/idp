@@ -48,7 +48,7 @@ class ApplicationAuthenticatorTest extends WebTestCase {
     }
 
     public function testAuthenticateNoApiKey() {
-        $this->client->request('GET', '/api', [], [], [
+        $this->client->request('GET', '/api/user_types', [], [], [
             'HTTP_ACCEPT' => 'application/json'
         ]);
 
@@ -59,7 +59,7 @@ class ApplicationAuthenticatorTest extends WebTestCase {
     }
 
     public function testAuthenticateValidApplication() {
-        $this->client->request('GET', '/api', [], [], [
+        $this->client->request('GET', '/api/user_types', [], [], [
             'HTTP_X_TOKEN' => 'api-key',
             'Accept' => 'application/json'
         ]);
@@ -69,7 +69,7 @@ class ApplicationAuthenticatorTest extends WebTestCase {
     }
 
     public function testAuthenticateInvalidApplication() {
-        $this->client->request('GET', '/api', [], [], [
+        $this->client->request('GET', '/api/user_types', [], [], [
             'HTTP_X_TOKEN' => 'invalid-api-key'
         ]);
 
