@@ -1,6 +1,6 @@
 # Identity Provider
 
-![PHP 8.1](https://img.shields.io/badge/PHP-8.1-success.svg?style=flat-square) 
+![PHP 8.2](https://img.shields.io/badge/PHP-8.2-success.svg?style=flat-square) 
 ![AGPL-3.0](https://img.shields.io/github/license/schulit/idp.svg?style=flat-square)
 
 Ein SAML Identity Provider, welcher für die SchulIT Software Suite benötigt wird.
