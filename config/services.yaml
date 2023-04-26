@@ -193,4 +193,4 @@ services:
         arguments:
             $connection: '@doctrine.dbal.logger_connection'
         calls:
-            - setFormatter: [ '@App\Monolog\LineFormatter' ]
+            - setFormatter: [ '@SchulIT\CommonBundle\Monolog\LineFormatter' ]
