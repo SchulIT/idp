@@ -42,6 +42,9 @@ jobs:
       - name: Install PHP dependencies
         run: composer install --prefer-dist --no-progress --no-scripts
 
+      - name: Generate cache
+        run: php bin/console cache:clear
+
       - name: Run PHPStan
         run: vendor/bin/phpstan analyze ./src --level 5 --memory-limit 1G
 
