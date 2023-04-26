@@ -52,19 +52,19 @@
                                         {{ user.username }}
 
                                         {% if not user.active %}
-                                            <span class="badge badge-danger">{{ 'label.not_active'|trans }}</span>
+                                            <span class="badge text-bg-danger">{{ 'label.not_active'|trans }}</span>
                                         {% endif %}
 
                                         {% if user.emailConfirmationPending %}
-                                            <span class="badge badge-warning">{{ 'label.pending_email_confirmation'|trans }}</span>
+                                            <span class="badge text-bg-warning">{{ 'label.pending_email_confirmation'|trans }}</span>
                                         {% endif %}
 
                                         {% if not user.isProvisioned %}
-                                            <span class="badge badge-warning">{{ 'label.not_provisioned'|trans }}</span>
+                                            <span class="badge text-bg-warning">{{ 'label.not_provisioned'|trans }}</span>
                                         {% endif %}
 
                                         {% if user.mustChangePassword %}
-                                            <span class="badge badge-warning">{{ 'label.must_change_password'|trans }}</span>
+                                            <span class="badge text-bg-warning">{{ 'label.must_change_password'|trans }}</span>
                                         {% endif %}
                                     </td>
                                     <td class="align-middle">{{ user.firstname }}</td>
@@ -88,11 +88,11 @@
                                             <input type="hidden" name="{{ csrf_key }}" value="{{ csrf_token(csrf_id) }}">
 
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-toggle="dropdown">
+                                                <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown">
                                                     <i class="fas fa-ellipsis-v"></i>
                                                 </button>
 
-                                                <div class="dropdown-menu dropdown-menu-right">
+                                                <div class="dropdown-menu dropdown-menu-end">
                                                     {% if is_granted('ROLE_ADMIN') %}
                                                         <a href="{{ path('edit_user', { uuid: user.uuid }) }}" class="dropdown-item">
                                                             <i class="fa fa-edit"></i> {{ 'actions.edit'|trans }}
@@ -205,7 +205,7 @@
                 <div class="card">
                     <div class="card-body">
                         <form method="get">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <select name="type" class="form-control" data-choice="true" data-trigger="submit">
                                     <option value="">{{ 'filter.all_types'|trans }}</option>
                                     {% for t in typeFilter.types %}
@@ -215,7 +215,7 @@
                             </div>
 
                             {% if typeFilter.currentType is not null and typeFilter.currentType.alias == 'student' %}
-                                <div class="form-group">
+                                <div class="mb-3">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" id="without-parents" data-trigger="submit" name="without_parents" value="✓" {% if withoutParents %}checked="checked"{% endif %}>
                                         <label class="custom-control-label" for="without-parents">{{ 'users.filter.without_parents'|trans }}</label>
@@ -223,7 +223,7 @@
                                 </div>
                             {% endif %}
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <select name="role" class="form-control" data-choice="true" data-trigger="submit">
                                     <option value="">{{ 'filter.all_roles'|trans }}</option>
                                     {% for r in roleFilter.roles %}
@@ -232,7 +232,7 @@
                                 </select>
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <select name="grade" class="form-control" data-choice="true" data-trigger="submit">
                                     <option value="">{{ 'filter.all_grades'|trans }}</option>
                                     {% for g in grades %}
@@ -244,11 +244,9 @@
                             <div class="input-group">
                                 <input type="text" value="{{ q }}" name="q" class="form-control" >
 
-                                <span class="input-group-append">
-                                    <button class="btn btn-outline-primary" type="submit" title="{{ 'search.label'|trans }}">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </span>
+                                <button class="btn btn-outline-primary" type="submit" title="{{ 'search.label'|trans }}">
+                                    <i class="fas fa-search"></i>
+                                </button>
                             </div>
                         </form>
                     </div>

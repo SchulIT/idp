@@ -1,4 +1,4 @@
-{% extends "@Common/auth/main.html.twig" %}
+{% extends "auth/main.html.twig" %}
 
 
 {% block content %}
@@ -10,7 +10,7 @@
         <p>{{ 'too_many_attempts.message'|trans({}, 'security') }}</p>
     </div>
 
-    <a href="{{ path('login') }}" class="btn btn-primary btn-block">
+    <a href="{{ path('login') }}" class="btn btn-primary w-100">
         {{ 'too_many_attempts.retry'|trans({}, 'security') }}
     </a>
 

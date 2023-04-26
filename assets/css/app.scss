@@ -1,10 +1,10 @@
-@import '../../vendor/schulit/common-bundle/Resources/assets/css/variables.scss';
-
 // Import SCSS from custom
 @import "custom/*.scss";
 
+@import '../../vendor/schulit/common-bundle/Resources/assets/css/variables.scss';
+
 // Import Bootstrap
-@import '../../node_modules/bootstrap/scss/bootstrap';
+@import '~bootstrap/scss/bootstrap';
 
 // Import FontAwesome
 @import '../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
@@ -14,22 +14,15 @@
 
 // Import SchulIT design
 @import '../../vendor/schulit/common-bundle/Resources/assets/css/layout.scss';
-@import '../../vendor/schulit/common-bundle/Resources/assets/css/additions.scss';
+@import '../../vendor/schulit/common-bundle/Resources/assets/css/callouts.scss';
 @import '../../vendor/schulit/common-bundle/Resources/assets/css/div-tables.scss';
 @import '../../vendor/schulit/common-bundle/Resources/assets/css/swagger.scss';
-@import '../../node_modules/bootstrap-darkmode/darktheme';
-@import '../../vendor/schulit/common-bundle/Resources/assets/css/dark/variables.scss';
-@import '../../vendor/schulit/common-bundle/Resources/assets/css/dark/layout';
 
 // Import editor
 @import '../../node_modules/easymde/src/css/easymde.css';
 @import '../../node_modules/codemirror/lib/codemirror.css';
 @import '../../vendor/schulit/common-bundle/Resources/assets/css/editor';
-@import '../../vendor/schulit/common-bundle/Resources/assets/css/dark/editor';
-
-// Import Bootstrap 4 Card Tables
-@import '../../node_modules/bootstrap4-card-tables/src/bootstrap4-card-tables';
-@import '../../vendor/schulit/common-bundle/Resources/assets/css/nested-card-tables.scss';
+@import '../../vendor/schulit/common-bundle/Resources/assets/css/dark/editor.scss';
 
 // Import choices.js
 @import '../../node_modules/choices.js/src/styles/choices';
@@ -38,6 +31,22 @@
 
 // Import SCSS from overrides
 @import "overrides/*.scss";
+
+// ---start
+table {
+  th, td {
+    padding: 0.75rem 1.25rem !important;
+  }
+}
+
+form {
+  .form-text {
+    font-size: 100%;
+  }
+}
+
+// ---end
+
 
 small, .small {
   font-size: 90% !important;

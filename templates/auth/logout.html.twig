@@ -1,4 +1,4 @@
-{% extends "@Common/auth/main.html.twig" %}
+{% extends "auth/main.html.twig" %}
 
 {% block title %}{% endblock %}
 
@@ -10,7 +10,7 @@
         <p>{{ 'logout.info'|trans }}</p>
     </div>
 
-    <div class="container-fluid px-0">
-        <a href="/" class="btn btn-primary btn-block" type="submit">{{ 'logout.login'|trans }}</a>
+    <div class="container-fluid px-0 mt-2">
+        <a href="/" class="btn btn-primary w-100" type="submit">{{ 'logout.login'|trans }}</a>
     </div>
 {% endblock %}

@@ -1,7 +1,7 @@
 require('../css/app.scss');
 
-let bsn = require('bootstrap.native');
-let bsCustomFileInput = require('bs-custom-file-input');
+import { Tooltip, Modal} from "bootstrap";
+
 require('../../vendor/schulit/common-bundle/Resources/assets/js/polyfill');
 require('../../vendor/schulit/common-bundle/Resources/assets/js/menu');
 require('../../vendor/schulit/common-bundle/Resources/assets/js/dropdown-polyfill');
@@ -9,10 +9,8 @@ require('../../vendor/schulit/common-bundle/Resources/assets/js/dropdown-polyfil
 import Choices from "choices.js";
 
 document.addEventListener('DOMContentLoaded', function() {
-    bsCustomFileInput.init();
-
     document.querySelectorAll('[title]').forEach(function(el) {
-        new bsn.Tooltip(el, {
+        new Tooltip(el, {
             placement: 'bottom'
         });
     });
@@ -28,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             let modalEl = document.querySelector(confirmModalSelector);
-            let modal = new bsn.Modal(modalEl);
+            let modal = new Modal(modalEl);
             modal.show();
 
             let confirmBtn = modalEl.querySelector('.confirm');

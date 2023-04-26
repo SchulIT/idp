@@ -40,11 +40,11 @@
                                     <td class="align-middle">{{ service.url }}</td>
                                     <td class="align-middle">
                                         <div class="dropdown">
-                                            <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-toggle="dropdown">
+                                            <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </button>
 
-                                            <div class="dropdown-menu dropdown-menu-right">
+                                            <div class="dropdown-menu dropdown-menu-end">
                                                 <a href="{{ path('edit_service_provider', { uuid: service.uuid }) }}" class="dropdown-item">
                                                     <i class="fa fa-edit"></i> {{ 'actions.edit'|trans }}
                                                 </a>

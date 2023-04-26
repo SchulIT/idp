@@ -21,11 +21,11 @@ return [
     Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
     AdAuthBundle\AdAuthBundle::class => ['all' => true],
     Craue\FormFlowBundle\CraueFormFlowBundle::class => ['all' => true],
-    Shapecode\Bundle\CronBundle\ShapecodeCronBundle::class => ['all' => true],
     LightSaml\SymfonyBridgeBundle\LightSamlSymfonyBridgeBundle::class => ['all' => true],
     Scheb\TwoFactorBundle\SchebTwoFactorBundle::class => ['all' => true],
     Endroid\QrCodeBundle\EndroidQrCodeBundle::class => ['all' => true],
     Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
     JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
+    Shapecode\Bundle\CronBundle\ShapecodeCronBundle::class => ['all' => true],
 ];

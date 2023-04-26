@@ -27,7 +27,7 @@
                         {% set values = attribute.allAttributeValues %}
 
                         {% if values is null or values|length == 0%}
-                            <span class="badge badge-secondary">NULL</span>
+                            <span class="badge text-bg-secondary">NULL</span>
                         {% elseif values|length == 1 %}
                             {{ values[0] }}
                         {% else %}
@@ -57,7 +57,7 @@
                 {% block confirm %}{% endblock %}
             </div>
             <div class="col-md-4">
-                <a href="{{ path('dashboard') }}" class="btn btn-secondary btn-block">{{ 'actions.cancel'|trans }}</a>
+                <a href="{{ path('dashboard') }}" class="btn btn-secondary w-100">{{ 'actions.cancel'|trans }}</a>
             </div>
         </div>
     </div>

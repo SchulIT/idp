@@ -30,9 +30,9 @@
             {{ 'two_factor.google.label'|trans }}
 
             {% if isGoogleEnabled %}
-                <span class="badge badge-success"><i class="fas fa-check"></i> {{ 'two_factor.enabled'|trans }}</span>
+                <span class="badge text-bg-success"><i class="fas fa-check"></i> {{ 'two_factor.enabled'|trans }}</span>
             {% else %}
-                <span class="badge badge-danger"><i class="fas fa-times"></i> {{ 'two_factor.disabled'|trans }}</span>
+                <span class="badge text-bg-danger"><i class="fas fa-times"></i> {{ 'two_factor.disabled'|trans }}</span>
             {% endif %}
         </div>
 
@@ -55,7 +55,7 @@
 
         <div class="card-footer clearfix">
             {% if isGoogleEnabled %}
-                <form action="{{ path('disable_google_two_factor') }}" method="post" class="float-left form-inline mr-1">
+                <form action="{{ path('disable_google_two_factor') }}" method="post" class="float-start form-inline me-1">
                     <input type="hidden" name="_csrf_token" value="{{ csrfToken.value }}" >
 
                     <button type="submit" class="btn btn-danger btn-sm">
@@ -63,7 +63,7 @@
                     </button>
                 </form>
 
-                <form action="{{ path('regenerate_backup_codes') }}" method="post" class="float-left form-inline ml-0 mr-1" style="margin-left: 10px">
+                <form action="{{ path('regenerate_backup_codes') }}" method="post" class="float-start form-inline ms-0 me-1" style="margin-left: 10px">
                     <input type="hidden" name="_csrf_token" value="{{ csrfToken.value }}" >
 
                     <button type="submit" class="btn btn-primary btn-sm">
