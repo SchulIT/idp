@@ -1,10 +1,7 @@
 # Identity Provider
 
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/schulit/idp.svg?style=flat-square)](https://scrutinizer-ci.com/g/SchulIT/idp/?branch=master) 
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/schulit/idp.svg?style=flat-square)](https://scrutinizer-ci.com/g/SchulIT/idp/?branch=master) 
-[![Build Status](https://img.shields.io/travis/SchulIT/idp.svg?style=flat-square)](https://travis-ci.org/SchulIT/idp) 
-![PHP 7.4](https://img.shields.io/badge/PHP-7.4-success.svg?style=flat-square) 
-![MIT License](https://img.shields.io/github/license/schulit/idp.svg?style=flat-square)
+![PHP 8.1](https://img.shields.io/badge/PHP-8.1-success.svg?style=flat-square) 
+![AGPL-3.0](https://img.shields.io/github/license/schulit/idp.svg?style=flat-square)
 
 Ein SAML Identity Provider, welcher für die SchulIT Software Suite benötigt wird.
 
@@ -26,10 +23,6 @@ Dieser Identity Provider ist das Herzstück der SchulIT Software Suite, da er f�
 * Eltern-Registrierung im Self-Service
     * Eltern erhalten Code über die Schule und können sich damit selbstständig registrieren
     * Verknüpfung mit Kind eigenständig oder durch Administrator möglich
-    
-## Wichtiger Hinweis
-
-Aufgrund eines PHP Bugs, muss mindestens PHP 7.4.1 verfügbar sein.
 
 ## Handbuch
 
@@ -37,4 +30,4 @@ Die Installation und Nutzung sind im [Handbuch](https://schulit-idp.readthedocs.
 
 ## Lizenz
 
-[MIT](LICENSE)
+[AGPL-3.0](LICENSE)
