@@ -28,7 +28,7 @@ jobs:
         uses: shivammathur/setup-php@verbose
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: gb, iconv, json, openssl, xsl, pdo, mbstring
+          extensions: gd, iconv, json, openssl, xsl, pdo, mbstring
 
       - name: Cache Composer packages
         id: composer-cache
@@ -40,10 +40,7 @@ jobs:
             ${{ runner.os }}-php-
 
       - name: Install PHP dependencies
-        run: composer install --prefer-dist --no-progress --no-scripts
-
-      - name: Generate cache
-        run: php bin/console cache:clear
+        run: composer install --prefer-dist --no-progress
 
       - name: Run PHPStan
         run: vendor/bin/phpstan analyze ./src --level 5 --memory-limit 1G
