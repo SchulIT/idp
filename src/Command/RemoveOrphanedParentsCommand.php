@@ -4,7 +4,6 @@ namespace App\Command;
 
 use App\Repository\UserRepositoryInterface;
 use SchulIT\CommonBundle\Helper\DateHelper;
-use Shapecode\Bundle\CronBundle\Annotation\CronJob;
 use Shapecode\Bundle\CronBundle\Attribute\AsCronJob;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -13,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCronJob(schedule: '0 1 * * * ')]
-#[AsCommand(name: 'app:user:remove_orphaned', description: 'Cleanup all external ids to remove duplicates.')]
+#[AsCommand(name: 'app:user:remove_orphaned', description: 'Löscht Eltern ohne verknüpften Lernenden.')]
 class RemoveOrphanedParentsCommand extends Command {
 
     private const InactiveModifier = '-14 days';
@@ -41,7 +40,7 @@ class RemoveOrphanedParentsCommand extends Command {
 
         $this->userRepository->commit();
 
-        $style->success(sprintf('Successfully removed %d user(s)', $count));
+        $style->success(sprintf('%d Benutzer gelöscht', $count));
 
         return 0;
     }

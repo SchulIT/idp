@@ -21,28 +21,24 @@ class SetupCommand extends Command {
     public function execute(InputInterface $input, OutputInterface $output): int {
         $io = new SymfonyStyle($input, $output);
 
-        $output->write('Add default user type...');
-        $this->addDefaultUserType();
-        $output->writeln('<fg=green>OK</>');
+        $this->addDefaultUserType($io);
+        $this->setupSessions($io);
+        $this->setupRememberMe($io);
 
-        $output->write('Create sessions table...');
-        $this->setupSessions();
-        $output->writeln('<fg=green>OK</>');
-
-        $output->write('Create remember me table...');
-        $this->setupRememberMe();
-        $output->writeln('<fg=green>OK</>');
-
-        $io->success('Setup completed');
+        $io->success('Setup abgeschlossen');
 
         return 0;
     }
 
-    private function addDefaultUserType() {
+    private function addDefaultUserType(SymfonyStyle $io) {
+        $io->section('Benutzertypen');
+        $io->writeln('Prüfe, ob Benutzertypen existieren und lege sie ggf. an');
         $this->userTypeSetup->setupDefaultUserTypes();
+        $io->success('Fertig');
     }
 
-    private function setupRememberMe() {
+    private function setupRememberMe(SymfonyStyle $io) {
+        $io->section('Erstelle Tabelle für die "angemeldet bleiben"-Funktion, falls nicht vorhanden');
         $sql = <<<SQL
 CREATE TABLE IF NOT EXISTS `rememberme_token` (
     `series`   char(88)     UNIQUE PRIMARY KEY NOT NULL,
@@ -54,14 +50,35 @@ CREATE TABLE IF NOT EXISTS `rememberme_token` (
 SQL;
 
         $this->dbalConnection->executeQuery($sql);
+        $io->success('Fertig');
     }
 
-    private function setupSessions() {
+    private function setupSessions(SymfonyStyle $io) {
+        $io->section('Sessions');
+        $io->write('Prüfe, ob sessions-Tabelle existiert...');
         $sql = "SHOW TABLES LIKE 'sessions';";
         $row = $this->dbalConnection->executeQuery($sql);
 
         if($row->fetchAssociative() === false) {
+            $io->write('Tabelle existiert nicht, lege an...');
             $this->pdoSessionHandler->createTable();
+            $io->success('Tabelle angelegt');
+        } else {
+            $io->success('Tabelle existiert bereits');
+        }
+
+        $io->writeln('Prüfe, ob Feld für Daten MEDIUMBLOB ist...');
+        // Check if field is of type "MEDIUMBLOB" to allow more session data
+        $sql = "SHOW COLUMNS FROM `sessions` WHERE `Field` = 'sess_data'";
+        $row = $this->dbalConnection->executeQuery($sql)->fetchAssociative();
+
+        if(strtolower($row['Type']) === 'mediumblob') {
+            $io->success('Feld ist bereits MEDIUMBLOB. Fertig.');
+        } else {
+            $io->writeln(sprintf('Ändere Feld von %s zu MEDIUMBLOB', $row['Type']));
+            $sql = "ALTER TABLE `sessions` MODIFY `sess_data` MEDIUMBLOB";
+            $this->dbalConnection->executeQuery($sql);
+            $io->success('Fertig');
         }
     }
 }

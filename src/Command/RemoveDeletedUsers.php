@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCronJob(schedule: '0 0 * * *')]
-#[AsCommand(name: 'app:user:remove_deleted', description: 'Cleanup all external ids to remove duplicates.')]
+#[AsCommand(name: 'app:user:remove_deleted', description: 'Löscht alle zum Löschen vorgemerkten Benutzer, die vor mehr als 30 Tagen zum Löschen markiert wurden.')]
 class RemoveDeletedUsers extends Command {
     private const Modifier = '-30 days';
 
@@ -26,7 +26,7 @@ class RemoveDeletedUsers extends Command {
         $threshold = $this->dateHelper->getToday()->modify(self::Modifier);
         $count = $this->userRepository->removeDeletedUsers($threshold);
 
-        $style->success(sprintf('Successfully removed %d user(s).', $count));
+        $style->success(sprintf('%d Benutzer gelöscht', $count));
 
         return 0;
     }

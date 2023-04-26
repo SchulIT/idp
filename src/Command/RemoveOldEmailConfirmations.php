@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCronJob(schedule: '* *\/2 * * *')]
-#[AsCommand(name: 'app:remove-confirmations', description: 'Removes expired email confirmations.')]
+#[AsCommand(name: 'app:remove-confirmations', description: 'Löscht abgelaufene E-Mail-Bestätigungen')]
 class RemoveOldEmailConfirmations extends Command {
 
     public function __construct(private readonly ConfirmationManager $manager, string $name = null) {
@@ -23,7 +23,7 @@ class RemoveOldEmailConfirmations extends Command {
 
         $count = $this->manager->removeOldConfirmations();
 
-        $style->success(sprintf('Successfully deleted %d expired confirmations', $count));
+        $style->success(sprintf('%d abgelaufene Bestätigung(en) gelöscht', $count));
 
         return 0;
     }
