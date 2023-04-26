@@ -1,20 +1,19 @@
-dist: bionic
 language: php
 
 php:
-    - '7.4'
+    - '8.1'
+    - '8.2'
 
-services:
-    - mysql
+addons:
+    mariadb: '10.4'
 
 before_install:
     - php -i
-    - nvm install 10
+    - nvm install
 
 install:
     - COMPOSER_MEMORY_LIMIT=-1 travis_retry composer install --prefer-dist --no-interaction
-    - yarn install
-    - yarn encore dev
+    - npm run production
 
 script:
     - vendor/bin/phpstan analyze ./src --level 5 --memory-limit 1G
