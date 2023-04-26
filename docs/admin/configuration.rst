@@ -88,19 +88,17 @@ DATABASE_URL
 ############
 
 Verbindungszeichenfolge für die Datenbankverbindung. Aktuell unterstützt das ICC ausschließlich MySQL/MariaDB-Datenbanken
-ab Version MySQl 5.7. Die Zeichenfolge setzt sich dabei folgendermaßen zusammen:
+ab Version MariaDB 10.4 Die Zeichenfolge setzt sich dabei folgendermaßen zusammen:
 
 .. code-block:: shell
 
-    mysql://USERNAME:PASSWORD@HOST:3306/NAME?serverVersion=xx.yy.zz
+    mysql://USERNAME:PASSWORD@HOST:3306/NAME?serverVersion=mariadb-10.4.0
 
 - ``USERNAME``: Benutzername der Datenbank
 - ``PASSWORD``: zugehöriges Passwort des Datenbankbenutzers
 - ``HOST``: Hostname des Datenbankservers
 - ``NAME``: Name der Datenbank
-- den Parameter `serverVersion` entsprechend anpassen:
-    - MySQL: `serverVersion=5.8` (ggf. `5.8` durch die entsprechende Version ändern)
-    - MariaDB: `serverVersion=mariadb-10.3.0` (ggf. `10.3.0` durch die entsprechende Version ändern)
+- den Parameter `serverVersion` entsprechend der MariaDB-Version anpassen
 
 Weitere Informationen (englisch) gibt `hier <https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html#connecting-using-a-url>`_.
 
@@ -113,3 +111,10 @@ Verbindungszeichenfolge für das E-Mail-Postfach, welches zum Versand von E-Mail
 - Google Mail-Postfach: ``gmail://USERNAME:PASSWORD@localhost``
 
 Dabei sind die Parameter ``SMTPSERVER``, ``USERNAME`` und ``PASSWORD`` entsprechend anzupassen.
+
+PHP_BINARY
+##########
+
+Wenn Cronjobs ausgeführt werden, werden diese in einem separaten Prozess mithilfe dieser PHP Executable ausgeführt. Diese
+Variable sollte auf die entsprechende PHP-Version (z.B. ``/usr/bin/php`` oder ``/usr/bin/php8.2``) gesetzt werden. Anderenfalls
+kann die Ausführung von Cronjobs fehlerhaft sein.

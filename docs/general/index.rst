@@ -71,7 +71,7 @@ Wiedererkennung in anderen Anwendungen
 ######################################
 
 Damit Benutzer in anderen Anwendungen (wie beispielsweise dem ICC) zugeordnet werden können, wird die E-Mail-Adresse
-des Benutzers verwendet (nicht der Anmeldename). Bei Elternaccounts wird ein zusätzliches SAML-Attribut `urn:id` verwendet,
+des Benutzers verwendet (nicht der Anmeldename). Bei Elternaccounts wird ein zusätzliches SAML-Attribut `urn:external-id` verwendet,
 in dem jeweils die E-Mail-Adressen der Kinder kommasepariert hinterlegt sind.
 
 .. warning:: Es ist wichtig, dass die E-Mail-Adressen der Benutzer stets in allen Anwendungen korrekt hinterlegt sind.

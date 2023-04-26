@@ -57,7 +57,7 @@ Cronjob einrichten
 
 Folgende Daten in der Cronjob-Verwaltung des Webspace festlegen
 
-- URL: ``https://sso.example.com/cron`` (``sso.example.com`` durch die echte Adresse des ICC ersetzen)
+- URL: ``https://sso.example.com/cron`` (``sso.example.com`` durch die echte Adresse des Single Sign-Ons ersetzen)
 - Intervall: alle zwei Minuten
 - Authentifizierung:
     - Art: HTTP-Basic

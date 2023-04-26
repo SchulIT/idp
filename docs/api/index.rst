@@ -14,7 +14,6 @@ Das Token erzeugt man in der :fa:`cogs` Verwaltung unter :fa:`key` Anwendungen.
 Beim Erzeugen muss ausgewählt werden, welche Funktionalität das Token hat:
 
 - Allgemeine API: erlaubt die Nutzung der Endpunkte ``/api/user_types``, ``/api/user`` und ``/api/registration_codes``
-- IdP Exchange: erlaubt die Nutzung der Endpunkte ``/exchange/``. Diese Endpunkte werden für IdP Exchange-Funktionalitäten genutzt. Diese werden bei den jeweiligen Anwendungen (ICC, ...) beschrieben
 - AD Connect: erlaubt die Nutzung der Endpunkte ``/api/ad_connect``. Wird für AD Connect Clients benötigt.
 
 Sofern man den Zugriffsbereich IdP Exchange auswählt, muss auch ein Dienst angegeben werden. Nur so wird sichergestellt,

@@ -20,17 +20,18 @@ Anschließend in das Verzeichnis ``icc`` wechseln und alle Abhängigkeiten insta
 
 .. code-block:: shell
 
-    $ composer install --no-dev --optimize-autoloader --no-scripts
+    $ composer install --no-dev --classmap-authoritative --no-scripts
 
 Die Direktive ``no-scripts`` ist wichtig, da es ansonsten zu Fehlermeldungen kommt.
 
-.. warning:: Der folgende Teil funktioniert nur, wenn Node und yarn verfügbar sind. Falls die beiden Tools nicht verfügbar sind, müssen die Dateien manuell hochgeladen werden.
+.. warning:: Der folgende Teil funktioniert nur, wenn Node und npm verfügbar sind. Falls die beiden Tools nicht verfügbar sind, müssen die Dateien manuell hochgeladen werden.
 
 Nun müssen noch die Assets installiert werden:
 
 .. code-block:: shell
 
-    $ yarn encore production
+    $ npm install
+    $ npm install production
 
 Möglichkeit 2: Installation ohne Git
 ####################################
@@ -63,7 +64,7 @@ Anschließend werden einige Daten abgefragt. Diese können abgesehen vom ``commo
 - ``countryName``, ``stateOrProvinceName``, ``localityName`` geben den Standort der Schule an
 - ``organizationName`` entspricht dem Namen der Schule
 - ``organizationalUnitName`` entspricht der Fachabteilung der Schule, welche das ICC administriert, bspw. Schulname und IT-Suffix
-- ``commonName`` Domainname des ICCs, bspw. ``icc.example.com``
+- ``commonName`` Domainname des ICCs, bspw. ``sso.example.com``
 - ``emailAddress`` entspricht der E-Mail-Adresse des Administrators
 
 Schritt 3: Installation abschließen
@@ -93,32 +94,32 @@ Als Benutzernamen wählt man eine (beliebige) E-Mail-Adresse aus. Diese muss nic
 
     $ php bin/console app:add-user
 
-      Username:
+      Benutzername:
       > admin@example.com
 
-      Firstname:
+      Vorname:
       > Erika
 
-      Lastname:
+      Nachname:
       > Mustermann
 
       E-Mail:
       > admin@example.com
 
-      Password:
+      Passwort:
       >
 
-      Repeat Password:
+      Passwort wiederholen:
       >
 
-      Is this an administrator? (yes/no) [yes]:
+      Ist der Benutzer ein Administrator? (yes/no) [yes]:
       > yes
 
-      Select user type [user]:
+      Benutzertyp wählen [user]:
         [0] user
       > user
 
-      [OK] User successfully added
+      [OK] Benutzer erfolgreich erstellt
 
 Schritt 5: Identity Provider im Webspace einrichten
 ---------------------------------------------------

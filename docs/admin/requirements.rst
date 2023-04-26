@@ -10,7 +10,7 @@ Obligatorische Software
     - der Identity Provider muss auf einer Subdomain laufen, also bspw. ``sso.example.com``
 - PHP 8.1 oder höher
     - aktivierte Plugins: json, ctype, iconv, openssl, xml, gd
-- MySQL 5.7+ oder MariaDB 10.3+
+- MariaDB 10.4+
 - SSH-Zugriff auf den Webspace
 - Cronjobs (entweder als Skriptausführung oder HTTP-Anfrage)
 
@@ -21,7 +21,7 @@ Außerdem sollten folgende Tools auf dem Webserver installiert sein:
 
 - git (wird zum Herunterladen des Codes benötigt)
 - composer (wird zum Herunterladen von PHP Abhängigkeiten benötigt)
-- nodejs und yarn (wird zum Kompilieren des Designs benötigt)
+- nodejs und npm (wird zum Kompilieren des Designs benötigt)
 
 Falls die Tools nicht vorhanden sein sollten, kann man eine ZIP-Datei mit allen benötigten Dateien herunterladen und
 auf dem Webspace hochladen.

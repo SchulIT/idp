@@ -19,8 +19,9 @@ Anschließend folgende Kommandos ausführen:
 
 .. code-block:: shell
 
-    $ composer install --no-dev --optimize-autoloader --no-scripts
-    $ yarn encore production
+    $ composer install --no-dev --classmap-authoritative --no-scripts
+    $ npm install
+    $ npm run production
 
 Möglichkeit 2: Installation ohne Git
 ####################################
