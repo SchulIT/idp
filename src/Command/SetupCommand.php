@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Security\Session\ActiveSessionsResolver;
 use App\Setup\UserTypesSetup;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -14,7 +15,11 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
 #[AsCommand(name: 'app:setup', description: 'Runs the initial setup.')]
 class SetupCommand extends Command {
 
-    public function __construct(private readonly Connection $dbalConnection, private readonly UserTypesSetup $userTypeSetup, private readonly PdoSessionHandler $pdoSessionHandler, ?string $name = null) {
+    public function __construct(private readonly Connection $dbalConnection,
+                                private readonly UserTypesSetup $userTypeSetup,
+                                private readonly PdoSessionHandler $pdoSessionHandler,
+                                private readonly ActiveSessionsResolver $activeSessionsResolver,
+                                ?string $name = null) {
         parent::__construct($name);
     }
 
@@ -80,5 +85,9 @@ SQL;
             $this->dbalConnection->executeQuery($sql);
             $io->success('Fertig');
         }
+
+        $io->section('Erstelle Tabelle für Session-Zugehörigkeit');
+        $this->activeSessionsResolver->createTable($this->dbalConnection);
+        $io->success('Fertig');
     }
 }

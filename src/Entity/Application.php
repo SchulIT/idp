@@ -20,7 +20,7 @@ class Application implements UserInterface {
     #[ORM\Column(type: 'string', length: 64, unique: true)]
     #[Assert\Length(max: 64)]
     #[Assert\NotBlank]
-    private string $name;
+    private ?string $name;
 
     #[ORM\Column(type: 'string', enumType: ApplicationScope::class)]
     #[Assert\NotNull]
@@ -31,30 +31,32 @@ class Application implements UserInterface {
     private ?SamlServiceProvider $service = null;
 
     #[ORM\Column(type: 'string', length: 64, unique: true)]
-    private string $apiKey;
+    #[Assert\NotBlank]
+    private ?string $apiKey;
 
     #[ORM\Column(name: 'description', type: 'text')]
     #[Assert\NotBlank]
-    private string $description;
+    private ?string $description;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private $lastActivity;
+    private ?DateTime $lastActivity;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getName() {
+    public function getName(): ?string {
         return $this->name;
     }
 
     /**
-     * @param string $name
+     * @param string|null $name
+     * @return Application
      */
-    public function setName($name): Application {
+    public function setName(?string $name): Application {
         $this->name = $name;
         return $this;
     }
@@ -78,31 +80,33 @@ class Application implements UserInterface {
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getApiKey() {
+    public function getApiKey(): ?string {
         return $this->apiKey;
     }
 
     /**
-     * @param string $apiKey
+     * @param string|null $apiKey
+     * @return Application
      */
-    public function setApiKey($apiKey): Application {
+    public function setApiKey(?string $apiKey): Application {
         $this->apiKey = $apiKey;
         return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDescription() {
+    public function getDescription(): ?string {
         return $this->description;
     }
 
     /**
-     * @param string $description
+     * @param string|null $description
+     * @return Application
      */
-    public function setDescription($description): Application {
+    public function setDescription(?string $description): Application {
         $this->description = $description;
         return $this;
     }
@@ -156,14 +160,4 @@ class Application implements UserInterface {
      */
     public function eraseCredentials() { }
 
-    #[Assert\Callback]
-    public function validateService(ExecutionContextInterface $context, $payload) {
-        if($this->getScope() === ApplicationScope::IdpExchange) {
-            if($this->getService() === null) {
-                $context->buildViolation('This value should not be blank.')
-                    ->atPath('service')
-                    ->addViolation();
-            }
-        }
-    }
 }

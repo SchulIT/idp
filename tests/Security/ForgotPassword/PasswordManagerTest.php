@@ -96,11 +96,11 @@ class PasswordManagerTest extends TestCase {
         $dateHelper = new DateHelper();
         $userPasswordEncoder = $this->createMock(UserPasswordHasherInterface::class);
         $userPasswordEncoder
-            ->method('hash')
+            ->method('hashPassword')
             ->willReturn('new-encoded-password');
         $userPasswordEncoder
             ->expects($this->once())
-            ->method('hash')
+            ->method('hashPassword')
             ->with($this->equalTo($user), $this->equalTo('new-password'));
         $userRepository = $this->createMock(UserRepositoryInterface::class);
         $passwordResetRepository = $this->createMock(PasswordResetTokenRepositoryInterface::class);

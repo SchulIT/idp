@@ -10,16 +10,16 @@ class ActiveSession {
 
     public function __construct(public readonly int $userId, public readonly mixed $sessionId, public readonly ?string $userAgent,
                                 public readonly DateTimeImmutable $startedAt, public readonly ?string $ipAddress, public readonly bool $isCurrentSession) {
+        $browserInfo = [ ];
+
         if($this->userAgent !== null) {
             $info = @get_browser($this->userAgent, true);
 
-            if($info === false) {
-                $this->browserInfo = [ ];
-            } else {
-                $this->browserInfo = $info;
+            if($info !== false) {
+                $browserInfo = $info;
             }
-        } else {
-            $this->browserInfo = [ ];
         }
+
+        $this->browserInfo = $browserInfo;
     }
 }

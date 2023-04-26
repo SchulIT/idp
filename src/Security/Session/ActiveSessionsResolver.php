@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -50,20 +51,13 @@ class ActiveSessionsResolver {
         return $sessions;
     }
 
-    public function configureSchema(Schema $schema, Connection $forConnection): void {
-        if($this->connection !== $forConnection) {
+    public function createTable(Connection $connection): void {
+        $schemaManager = $connection->createSchemaManager();
+        if($schemaManager->tablesExist('session_user')) {
             return;
         }
 
-        if($schema->hasTable('session_user')) {
-            return;
-        }
-
-        $this->addTableToSchema($schema);
-    }
-
-    private function addTableToSchema(Schema $schema): void {
-        $table = $schema->createTable('session_user');
+        $table = new Table('session_user');
         $table->addColumn('user_id', Types::INTEGER, ['unsigned' => true, 'length' => 10]);
         $table->addColumn('session_id', Types::BINARY, ['length' => 128]);
         $table->addColumn('user_agent', Types::TEXT, ['notnull' => false]);
@@ -71,5 +65,7 @@ class ActiveSessionsResolver {
         $table->addColumn('ip_address', Types::STRING, ['length' => 45, 'notnull' => false ]);
         $table->addForeignKeyConstraint('user', ['user_id'], ['id'], ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE']);
         $table->addForeignKeyConstraint('sessions', ['session_id'], ['sess_id'], ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE']);
+
+        $schemaManager->createTable($table);
     }
 }

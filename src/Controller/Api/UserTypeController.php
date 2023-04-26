@@ -24,7 +24,10 @@ class UserTypeController extends AbstractController {
     #[OA\Response(response: '200', description: 'Liste mit Benutzertypen', content: new Model(type: ListUserTypeResponse::class))]
     #[Route(path: '/user_types', methods: ['GET'])]
     public function getUserTypes(UserTypeRepositoryInterface $repository): Response {
-        $types = $repository->findAll();
+        $types = array_map(
+            fn(UserType $type) => $this->transformResponse($type),
+            $repository->findAll()
+        );
 
         return $this->json(
             new ListUserTypeResponse($types)

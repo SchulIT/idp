@@ -256,9 +256,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     }
 
     /**
-     * @return UserType
+     * @return UserType|null
      */
-    public function getType() {
+    public function getType(): ?UserType {
         return $this->type;
     }
 

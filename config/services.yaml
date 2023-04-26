@@ -174,10 +174,6 @@ services:
     Symfony\Component\Security\Core\User\UserProviderInterface:
         alias: 'security.user.provider.concrete.database'
 
-    App\Security\Session\ActiveSessionsDoctrineSchemaSubscriber:
-        tags:
-            - { name: doctrine.event_subscriber, connection: 'default' }
-
     # Migrations
     Doctrine\Migrations\Version\DbalMigrationFactory: ~
     App\Migrations\Factory\MigrationFactoryDecorator:
