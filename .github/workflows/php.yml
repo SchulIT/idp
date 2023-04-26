@@ -1,0 +1,65 @@
+name: PHP
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: "PHP {{ matrix.php-versions }}"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php-versions:
+          - 8.1
+          - 8.2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@verbose
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: gb, iconv, json, openssl, xsl, pdo, mbstring
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install PHP dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyze ./src --level 5 --memory-limit 1G
+
+      - name: Run PHP Unit
+        run: vendor/bin/phpunit --coverage-clover clover.xml
+
+      - name: Cache Node packages
+        id: node-cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: NPM install
+        run: npm install
+
+      - name: NPM build
+        run: npm run production
