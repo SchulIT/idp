@@ -95,7 +95,7 @@
                 </a>
             </div>
 
-            {% if loop.index % 4 == 0 %}
+            {% if loop.index % 4 == 0 and not loop.last %}
             </div>
             <div class="row row-cols-4 mb-3 g-4">
             {% endif %}
