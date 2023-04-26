@@ -40,7 +40,7 @@ jobs:
             ${{ runner.os }}-php-
 
       - name: Replace environment (to dev)
-        run: set -i 's/APP_ENV=prod/APP_ENV=dev/' .env
+        run: sed -i 's/APP_ENV=prod/APP_ENV=dev/' .env
 
       - name: Install PHP dependencies
         run: composer install --prefer-dist --no-progress
