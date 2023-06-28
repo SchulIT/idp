@@ -20,6 +20,13 @@ jobs:
       matrix:
         php-versions:
           - 8.2
+    services:
+      mariadb:
+        image: mariadb:latest
+        env:
+          MYSQL_ALLOT_EMPTY_PASSWORD: false
+          MYSQL_ROOT_PASSWORD: symfony
+          MYSQL_DATABASE: symfony
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -29,6 +36,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: gd, iconv, json, openssl, xsl, pdo, mbstring
+          coverage: xdebug
 
       - name: Cache Composer packages
         id: composer-cache
@@ -50,6 +58,8 @@ jobs:
 
       - name: Run PHP Unit
         run: vendor/bin/phpunit --coverage-clover clover.xml
+        env:
+          DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mariadb.ports['3306'] }}/symfony
 
       - name: Cache Node packages
         id: node-cache

@@ -26,7 +26,7 @@ Dieser Identity Provider ist das Herzst√ºck der SchulIT Software Suite, da er f√
 
 ## Handbuch
 
-Die Installation und Nutzung sind im [Handbuch](https://schulit-idp.readthedocs.org) beschrieben.
+Die Installation und Nutzung sind im [Handbuch](https://docs.schulit.de/idp) beschrieben.
 
 ## Lizenz
 
