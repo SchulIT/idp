@@ -2,6 +2,7 @@
 
 namespace App\Tests\Listener;
 
+use App\Entity\User;
 use App\EventSubscriber\HandleSamlRequestSubscriber;
 use PHPUnit\Framework\TestCase;
 use Scheb\TwoFactorBundle\Security\Authentication\Token\TwoFactorToken;
@@ -155,8 +156,8 @@ class HandleSamlRequestListenerTest extends TestCase {
         $this->assertNull($event->getResponse());
     }
 
-    private function getToken() {
-        $user = $this->createMock(UserInterface::class);
+    private function getToken(): UsernamePasswordToken {
+        $user = $this->createMock(User::class);
         return new UsernamePasswordToken($user, 'test', ['ROLE_USER']);
     }
 }

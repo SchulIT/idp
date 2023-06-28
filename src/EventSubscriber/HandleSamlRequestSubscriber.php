@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\User;
 use Scheb\TwoFactorBundle\Security\Authentication\Token\TwoFactorToken;
 use SchulIT\LightSamlIdpBundle\RequestStorage\RequestStorageInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -40,6 +41,11 @@ class HandleSamlRequestSubscriber implements EventSubscriberInterface {
 
         if($token === null || $token->getUser() === null || $token instanceof TwoFactorToken || $route === 'idp_saml' || $route === 'show_privacy_policy') {
             // prevent loops
+            return;
+        }
+
+        if(!$token->getUser() instanceof User) {
+            // Only store for users
             return;
         }
 
