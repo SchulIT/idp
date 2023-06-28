@@ -84,7 +84,8 @@ jobs:
         run: npm run production
 
       - name: Save log to artifacts
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: log
-          path: var/log/test.log
+          path: var/log/*.log
