@@ -82,3 +82,9 @@ jobs:
 
       - name: NPM build
         run: npm run production
+
+      - name: Save log to artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: log
+          path: var/log/test.log
