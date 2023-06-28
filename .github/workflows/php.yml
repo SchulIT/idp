@@ -23,6 +23,8 @@ jobs:
     services:
       mariadb:
         image: mariadb:latest
+        ports:
+          - 3306/tcp
         env:
           MYSQL_ALLOT_EMPTY_PASSWORD: false
           MYSQL_ROOT_PASSWORD: symfony
