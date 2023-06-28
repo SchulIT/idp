@@ -55,6 +55,12 @@ jobs:
       - name: Install PHP dependencies
         run: composer install --prefer-dist --no-progress
 
+      - name: NPM install
+        run: npm install
+
+      - name: NPM build
+        run: npm run production
+
       - name: Run PHPStan
         run: vendor/bin/phpstan analyze ./src --level 5 --memory-limit 1G
 
@@ -76,12 +82,6 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-
-      - name: NPM install
-        run: npm install
-
-      - name: NPM build
-        run: npm run production
 
       - name: Save log to artifacts
         if: always()
