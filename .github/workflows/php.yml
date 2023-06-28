@@ -59,7 +59,7 @@ jobs:
         run: npm install
 
       - name: NPM build
-        run: npm run production
+        run: npm run build
 
       - name: Run PHPStan
         run: vendor/bin/phpstan analyze ./src --level 5 --memory-limit 1G
