@@ -139,7 +139,7 @@ class ServiceProviderController extends AbstractController {
         $acs = null;
 
         foreach($descriptor->getAllSpKeyDescriptors() as $spKeyDescriptor) {
-            if($spKeyDescriptor->getUse() === 'encryption') {
+            if($spKeyDescriptor->getUse() === 'encryption' || $spKeyDescriptor->getUse() === 'signing') {
                 $certificate = $spKeyDescriptor->getCertificate()->toPem();
             }
         }
