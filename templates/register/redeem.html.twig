@@ -1,4 +1,4 @@
-{% extends "@Common/auth/auth.html.twig" %}
+{% extends "auth/auth.html.twig" %}
 
 {% block title %}{{ 'register.label'|trans({}, 'security') }}{% endblock %}
 
@@ -10,7 +10,7 @@
     </div>
 
     <div class="d-flex align-items-center mb-3">
-        <div class="text-center user-icon rounded-circle mr-3 bg-primary text-white flex-shrink-0" style="width: 50px; height: 50px;">
+        <div class="text-center user-icon rounded-circle me-3 bg-primary text-white flex-shrink-0" style="width: 50px; height: 50px;">
             <div class="d-flex align-items-center text-center h-100">
                 <i class="fas fa-user-graduate fa-2x mx-auto"></i>
             </div>
@@ -26,7 +26,7 @@
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('registration') }}">
         <input type="hidden" name="code" value="{{ code.code }}">
 
-        <button class="card card-link text-left p-0 mb-3">
+        <button class="card card-link text-start p-0 mb-3">
             <div class="card-body">
                 <h5 class="card-title">{{ 'register.redeem.new_account.label'|trans({}, 'security') }}</h5>
                 <p class="mb-0">
