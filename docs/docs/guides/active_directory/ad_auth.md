@@ -59,9 +59,16 @@ oder Sonderzeichen (wie bspw. Doppelpunkte).
 Wenn alles richtig konfiguriert wurde, können sich nun importierte Benutzer anmelden.
 :::
 
+## Zertifikat hinterlegen
+
+Es muss das Zertifikat der Zertifizierungsstelle hinterlegt werden, womit das Zertifikat des Authentication Servers 
+signiert wurde. Nutzt man ein selbst-signiertes Zertifikat, so muss dieses entsprechend hinterlegt werden.
+
+Das Zertifikat muss im PEM-Format unter `certs/ca.crt` hinterlegt werden.
+
 ## Fehlerbehandlung
 
-Funktioniert die Anmeldung nicht reibunglos, können folgende Dinge überprüft werden:
+Funktioniert die Anmeldung nicht reibungslos, können folgende Dinge überprüft werden:
 
 * Ist die Portweiterleitung aktiv und richtig konfiguriert?
 * Läuft der Dienst auf dem Windows Server?
