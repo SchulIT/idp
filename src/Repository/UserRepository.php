@@ -297,10 +297,7 @@ class UserRepository implements UserRepositoryInterface {
             ->getResult();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function findAllUuids(int $offset = 0, ?int $limit = null): array {
+    public function findAllUuids(int $offset = 0, ?int $limit = null, bool $excludeDeleted = false): array {
         $qb = $this->em
             ->createQueryBuilder()
             ->select('u.uuid')
@@ -310,6 +307,10 @@ class UserRepository implements UserRepositoryInterface {
 
         if($limit !== null) {
             $qb->setMaxResults($limit);
+        }
+
+        if($excludeDeleted === true) {
+            $qb->andWhere($qb->expr()->isNull('u.deletedAt'));
         }
 
         return array_map(fn(array $item) => $item['uuid'], $qb->getQuery()->getScalarResult());

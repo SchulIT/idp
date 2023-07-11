@@ -69,7 +69,7 @@ interface UserRepositoryInterface {
     /**
      * @return string[]
      */
-    public function findAllUuids(int $offset = 0, ?int $limit = null): array;
+    public function findAllUuids(int $offset = 0, ?int $limit = null, bool $excludeDeleted = false): array;
 
     /**
      * @return User[]

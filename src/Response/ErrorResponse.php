@@ -2,17 +2,17 @@
 
 namespace App\Response;
 
-class ErrorResponse {
+readonly class ErrorResponse {
 
     /**
      * @var string Fehlermeldung
      */
-    public readonly string $message;
+    public string $message;
 
     /**
      * @var string|null Klasse der Exception (falls verfügbar)
      */
-    public readonly ?string $type;
+    public ?string $type;
 
 
     public function __construct(string $message, ?string $type = null)

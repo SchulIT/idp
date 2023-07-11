@@ -30,13 +30,13 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[Route(path: '/api/user')]
 class UserController extends AbstractController {
 
-    public function __construct(private ValidatorInterface $validator, private UserRepositoryInterface $userRepository, private UserTypeRepositoryInterface $userTypeRepository,
-                                private AttributePersister $attributePersister) {    }
+    public function __construct(private readonly ValidatorInterface $validator, private readonly UserRepositoryInterface $userRepository,
+                                private readonly UserTypeRepositoryInterface $userTypeRepository, private readonly AttributePersister $attributePersister) {    }
 
     /**
      * Abfrage aller Benutzer im System
      */
-    #[OA\Get(operationId: 'api_user_list', tags: ['Allgemein'])]
+    #[OA\Get(operationId: 'api_user_list', tags: ['Benutzer'])]
     #[OA\Response(response: '200', description: 'Liste mit Benutzern.', content: new Model(type: ListUserResponse::class))]
     #[OA\Parameter(name: 'offset', description: '[Pagination] Offset für das erste zurückgegebene Element.', in: 'query', required: false)]
     #[OA\Parameter(name: 'limit', description: '[Pagination] Anzahl der Benutzer, die zurückgegeben werden sollen.', in: 'query', required: false)]
@@ -45,7 +45,7 @@ class UserController extends AbstractController {
         $offset = $request->query->get('offset');
         $limit = $request->query->get('limit');
 
-        if($offset === null || !is_numeric($offset) || $offset < 0) {
+        if(!is_numeric($offset) || $offset < 0) {
             $offset = 0;
         } else {
             $offset = (int)$offset;
@@ -57,7 +57,7 @@ class UserController extends AbstractController {
             $limit = (int)$limit;
         }
 
-        $uuids = $userRepository->findAllUuids($offset, $limit);
+        $uuids = $userRepository->findAllUuids($offset, $limit, true);
         return $this->json(new ListUserResponse($uuids));
     }
 
@@ -65,7 +65,7 @@ class UserController extends AbstractController {
      * Liefert Informationen über einen Benutzer. Dabei wird entweder dessen UUID angegeben oder alternativ die externe ID,
      * welche beim Import angegeben wurde.
      */
-    #[OA\Get(operationId: 'api_user_get', tags: ['Allgemein'])]
+    #[OA\Get(operationId: 'api_user_get', tags: ['Benutzer'])]
     #[OA\Response(response: '200', description: 'Das Benutzerobjekt', content: new Model(type: User::class))]
     #[OA\Response(response: '404', description: 'Der Benutzer wurde nicht gefunden.')]
     #[Route(path: '/{uuidOrExternalId}', methods: ['GET'])]
@@ -77,7 +77,7 @@ class UserController extends AbstractController {
     /**
      * Einen neuen Benutzer erstellen.
      */
-    #[OA\Post(operationId: 'api_users_new', tags: ['Allgemein'])]
+    #[OA\Post(operationId: 'api_users_new', tags: ['Benutzer'])]
     #[OA\RequestBody(content: new Model(type: UserRequest::class))]
     #[OA\Response(response: '201', description: 'Benutzer wurde angelegt.')]
     #[OA\Response(response: '400', description: 'Validierung fehlgeschlagen.', content: new Model(type:ViolationListResponse::class))]
@@ -119,7 +119,7 @@ class UserController extends AbstractController {
     /**
      * Aktualisiert Informationen über einen Benutzer.
      */
-    #[OA\Patch(operationId: 'api_users_update', tags: ['Allgemein'])]
+    #[OA\Patch(operationId: 'api_users_update', tags: ['Benutzer'])]
     #[OA\RequestBody(content: new Model(type: UserRequest::class))]
     #[OA\Response(response: '204', description: 'Benutzer wurde aktualisiert.')]
     #[OA\Response(response: '400', description: 'Validierung fehlgeschlagen.', content: new Model(type:ViolationListResponse::class))]
@@ -145,7 +145,7 @@ class UserController extends AbstractController {
      * Aktualisiert Attributswerte eines Benutzers. Nur angegebene Attribute werden aktualisieren, die restlichen Attribute
      * werden ignoriert.
      */
-    #[OA\Patch(operationId: 'api_users_update_attributes', tags: ['Allgemein'])]
+    #[OA\Patch(operationId: 'api_users_update_attributes', tags: ['Benutzer'])]
     #[OA\RequestBody(content: new Model(type: UserAttributeRequest::class))]
     #[OA\Response(response: '204', description: 'Attributwerte wurden aktualisiert.')]
     #[OA\Response(response: '400', description: 'Validierung fehlgeschlagen.', content: new Model(type:ViolationListResponse::class))]
@@ -162,7 +162,7 @@ class UserController extends AbstractController {
     /**
      * Removes an existing user.
      */
-    #[OA\Delete(operationId: 'api_user_delete', tags: [ 'Allgemein'])]
+    #[OA\Delete(operationId: 'api_user_delete', tags: [ 'Benutzer'])]
     #[OA\Response(response: '204', description: 'Benutzer wurde erfolgreich gelöscht.')]
     #[OA\Response(response: '404', description: 'Benutzer wurde nicht gefunden.')]
     #[OA\Response(response: '500', description: 'Serverfehler', content: new Model(type: ErrorResponse::class))]
@@ -222,10 +222,14 @@ class UserController extends AbstractController {
 
         $user = $this->userRepository->findOneByExternalId($uuidOrExternalId);
 
+        if($user->isDeleted()) {
+            throw $this->createNotFoundException();
+        }
+
         if($user !== null) {
             return $user;
         }
 
-        throw new NotFoundHttpException();
+        throw $this->createNotFoundException();
     }
 }

@@ -4,10 +4,10 @@ namespace App\Response;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class ViolationListResponse extends ErrorResponse {
+readonly class ViolationListResponse extends ErrorResponse {
 
     #[Serializer\Type("array<App\Response\Violation>")]
-    public readonly array $violations;
+    public array $violations;
 
     /**
      * @param Violation[] $violations

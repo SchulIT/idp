@@ -17,10 +17,8 @@ class UserTypeController extends AbstractController {
 
     /**
      * Abfrage aller Benutzertypen im System.
-     *
-     * Returns a list of user types which a user can be assigned.
      */
-    #[OA\Get(operationId: 'api_usertypes_list', tags: ['Allgemein'])]
+    #[OA\Get(operationId: 'api_usertypes_list', tags: ['Benutzertypen'])]
     #[OA\Response(response: '200', description: 'Liste mit Benutzertypen', content: new Model(type: ListUserTypeResponse::class))]
     #[Route(path: '/user_types', methods: ['GET'])]
     public function getUserTypes(UserTypeRepositoryInterface $repository): Response {

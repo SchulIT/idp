@@ -2,12 +2,10 @@
 
 namespace App\Response;
 
-use JMS\Serializer\Annotation as Serializer;
+readonly class Violation {
 
-class Violation {
-
-    public readonly string $property;
-    public readonly string $message;
+    public string $property;
+    public string $message;
 
     public function __construct(string $property, string $message) {
         $this->property = $property;

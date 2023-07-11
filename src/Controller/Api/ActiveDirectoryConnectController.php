@@ -25,26 +25,32 @@ use App\Response\ActiveDirectoryUser as ActiveDirectoryUserResponse;
 #[IsGranted('ROLE_ADCONNECT')]
 class ActiveDirectoryConnectController extends AbstractController {
 
-    public function __construct(private UserCreator $userCreator, private UserRepositoryInterface $repository) { }
+    public function __construct(private readonly UserCreator $userCreator, private readonly UserRepositoryInterface $repository) { }
 
     /**
-     * [Active Directory Connect Client] Gibt die Liste aller Benutzer zurück, die über den Active Directory Connect Client provisioniert wurden. Benutzer,
+     * Gibt die Liste aller Benutzer zurück, die über den Active Directory Connect Client provisioniert wurden. Benutzer,
      * die gelöscht (aber nicht endgültig gelöscht sind), werden hier nicht berücksichtigt.
      */
     #[OA\Get(operationId: 'api_adconnect_list_users', tags: [ 'Active Directory Connect Client'])]
     #[OA\Response(
         response: "200",
-        description: "Liste der Active Directory Benutzer.",
+        description: "Liste der Active Directory Benutzer. Hinweis: Gelöschte Benutzer (die sich im Papierkorb befinden), werden nicht zurückgegeben.",
         content: new Model(type: ListActiveDirectoryUserResponse::class )
     )]
     #[Route(path: '', methods: ['GET'])]
     public function list(): Response {
-        $users = array_map(fn(ActiveDirectoryUser $user) => $this->transformResponse($user), $this->repository->findAllActiveDirectoryUsers());
+        $users = array_map(
+            fn(ActiveDirectoryUser $user) => $this->transformResponse($user),
+            array_filter(
+                $this->repository->findAllActiveDirectoryUsers(),
+                fn(ActiveDirectoryUser $user) => $user->isDeleted() === false
+            )
+        );
         return $this->json(new ListActiveDirectoryUserResponse($users));
     }
 
     /**
-     * [Active Directory Connect Client] Benutzer erstellen
+     * Benutzer erstellen
      */
     #[OA\Post(operationId: 'api_adconnect_new_user', tags: [ 'Active Directory Connect Client'])]
     #[OA\RequestBody(content: new Model(type: ActiveDirectoryUserRequest::class))]
@@ -69,7 +75,7 @@ class ActiveDirectoryConnectController extends AbstractController {
     }
 
     /**
-     * [Active Directory Connect Client] Benutzer aktualisieren
+     * Benutzer aktualisieren
      */
     #[OA\Patch(operationId: 'api_adconnect_update_user', tags: [ 'Active Directory Connect Client'])]
     #[OA\RequestBody(content: new Model(type:ActiveDirectoryUserRequest::class))]
@@ -84,7 +90,7 @@ class ActiveDirectoryConnectController extends AbstractController {
     }
 
     /**
-     * [Active Directory Connect Client] Benutzer löschen
+     * Benutzer löschen
      */
     #[OA\Delete(operationId: 'api_adconnect_delete_user', tags: [ 'Active Directory Connect Client'])]
     #[OA\Response(response: '204', description: 'Benutzer wurde erfolgreich gelöscht.')]

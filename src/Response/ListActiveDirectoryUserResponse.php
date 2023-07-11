@@ -4,13 +4,13 @@ namespace App\Response;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class ListActiveDirectoryUserResponse {
+readonly class ListActiveDirectoryUserResponse {
 
     /**
      * @var ActiveDirectoryUser[]
      */
     #[Serializer\Type("array<App\Response\ActiveDirectoryUser>")]
-    public readonly array $users;
+    public array $users;
 
     /**
      * @param ActiveDirectoryUser[] $users

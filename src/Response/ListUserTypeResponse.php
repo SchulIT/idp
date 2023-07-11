@@ -4,11 +4,11 @@ namespace App\Response;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class ListUserTypeResponse {
+readonly class ListUserTypeResponse {
 
     /**  @var UserType[] */
     #[Serializer\Type("array<App\Response\UserType>")]
-    public readonly array $types;
+    public array $types;
 
     /**
      * @param UserType[] $types

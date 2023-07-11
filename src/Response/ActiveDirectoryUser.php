@@ -2,13 +2,13 @@
 
 namespace App\Response;
 
-class ActiveDirectoryUser {
+readonly class ActiveDirectoryUser {
 
-    public readonly string $username;
-    public readonly string $firstname;
-    public readonly string $lastname;
-    public readonly ?string $grade;
-    public readonly string $guid;
+    public string $username;
+    public string $firstname;
+    public string $lastname;
+    public ?string $grade;
+    public string $guid;
 
     public function __construct(string $username,  string $firstname, string $lastname, ?string $grade, string $guid) {
         $this->username = $username;

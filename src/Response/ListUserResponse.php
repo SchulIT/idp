@@ -4,11 +4,11 @@ namespace App\Response;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class ListUserResponse {
+readonly class ListUserResponse {
 
     /** UUIDs der Benutzer */
     #[Serializer\Type("array<string>")]
-    public readonly array $users;
+    public array $users;
 
     public function __construct(array $users) {
         $this->users = $users;

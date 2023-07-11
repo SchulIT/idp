@@ -4,15 +4,15 @@ namespace App\Response;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class UserType {
-    public readonly string $uuid;
+readonly class UserType {
+    public string $uuid;
 
-    public readonly string $name;
+    public string $name;
 
-    public readonly string $alias;
+    public string $alias;
 
     #[Serializer\Type("array<string>")]
-    public readonly array $eduPersonAffiliation;
+    public array $eduPersonAffiliation;
 
     /**
      * @param string $uuid
