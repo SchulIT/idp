@@ -8,8 +8,8 @@ sidebar_position: 2
 
 ```bash
 $ git clone https://github.com/schulit/idp.git
-$ git checkout -b 1.0.0
 $ cd idp
+$ git checkout -b 1.0.0
 ```
 
 Dabei muss `1.0.0` durch die gewünschte Version ersetzt werden.
