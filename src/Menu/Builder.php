@@ -151,11 +151,11 @@ class Builder {
         }
 
         $label = 'dark_mode.enable';
-        $icon = 'far fa-moon';
+        $icon = 'fas fa-moon';
 
         if($this->darkModeManager->isDarkModeEnabled()) {
             $label = 'dark_mode.disable';
-            $icon = 'far fa-sun';
+            $icon = 'fas fa-sun';
         }
 
         $menu->addChild($label, [
