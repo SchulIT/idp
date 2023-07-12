@@ -53,13 +53,19 @@ jobs:
         run: sed -i 's/APP_ENV=prod/APP_ENV=dev/' .env
 
       - name: Install PHP dependencies
-        run: composer install --prefer-dist --no-progress
+        run: composer install --prefer-dist --no-progress --no-scripts
 
       - name: NPM install
         run: npm install
 
       - name: NPM build
         run: npm run build
+
+      - name: Run cache:clear
+        run: php bin/console cache:clear
+
+      - run: Run assets:install
+        run: php bin/console assets:install
 
       - name: Run PHPStan
         run: vendor/bin/phpstan analyze ./src --level 5 --memory-limit 1G
