@@ -36,7 +36,7 @@
 
     {% for msg in app.session.flashbag.get('error') %}
         <div class="bs-callout bs-callout-danger">
-            <h5><i class="fas fa-info-circle"></i> {{ 'error.label'|trans }}</h5>
+            <h5><i class="fas fa-circle-exclamation"></i> {{ 'error.label'|trans }}</h5>
             <p>{{ msg|trans }}</p>
         </div>
     {% endfor %}
@@ -50,7 +50,7 @@
 
     {% for msg in app.session.flashbag.get('success') %}
         <div class="bs-callout bs-callout-success">
-            <h5><i class="fas fa-info-circle"></i> {{ 'success.label'|trans }}</h5>
+            <h5><i class="fas fa-circle-check"></i> {{ 'success.label'|trans }}</h5>
             <p>{{ msg|trans }}</p>
         </div>
     {% endfor %}
