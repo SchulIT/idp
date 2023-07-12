@@ -15,7 +15,7 @@
         {% include "auth/errors.html.twig" %}
 
         {% if error %}
-            <div class="alert alert-error">
+            <div class="bs-callout bs-callout-danger">
                 <h5 class="card-title"><i class="fas fa-exclamation-circle"></i> {{ 'error.label'|trans }}</h5>
                 {{ error.messageKey|trans(error.messageData, 'security') }}
             </div>
