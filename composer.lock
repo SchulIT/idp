@@ -4902,16 +4902,16 @@
         },
         {
             "name": "schulit/common-bundle",
-            "version": "4.0.0",
+            "version": "4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchulIT/common-bundle.git",
-                "reference": "f5a02a5f14d10e384a93522a628f2954fb6b4a43"
+                "reference": "3c9a516d97114e3b79901517e7e006db0cca2be9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchulIT/common-bundle/zipball/f5a02a5f14d10e384a93522a628f2954fb6b4a43",
-                "reference": "f5a02a5f14d10e384a93522a628f2954fb6b4a43",
+                "url": "https://api.github.com/repos/SchulIT/common-bundle/zipball/3c9a516d97114e3b79901517e7e006db0cca2be9",
+                "reference": "3c9a516d97114e3b79901517e7e006db0cca2be9",
                 "shasum": ""
             },
             "require": {
@@ -4950,9 +4950,9 @@
             ],
             "support": {
                 "issues": "https://github.com/SchulIT/common-bundle/issues",
-                "source": "https://github.com/SchulIT/common-bundle/tree/4.0.0"
+                "source": "https://github.com/SchulIT/common-bundle/tree/4.0.1"
             },
-            "time": "2023-04-26T08:14:47+00:00"
+            "time": "2023-07-12T08:24:21+00:00"
         },
         {
             "name": "schulit/lightsaml-idp-bundle",
