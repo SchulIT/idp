@@ -24,6 +24,7 @@ use App\Service\AttributeResolver;
 use App\Utils\ArrayUtils;
 use App\View\Filter\UserRoleFilter;
 use App\View\Filter\UserTypeFilter;
+use DateTime;
 use SchulIT\CommonBundle\Form\ConfirmType;
 use SchulIT\CommonBundle\Utils\RefererHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -113,6 +114,26 @@ class UserController extends AbstractController {
     #[IsGranted('ROLE_ADMIN')]
     public function trash(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter): Response {
         return $this->internalDisplay($request, $typeFilter, $roleFilter, true);
+    }
+
+    #[Route(path: '/users/trash/empty', name: 'empty_users_trash')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function emptyTrash(Request $request, UserRepositoryInterface $userRepository, TranslatorInterface $translator): Response {
+        $form = $this->createForm(ConfirmType::class, [], [
+            'message' => 'users.trash.remove_all.confirm'
+        ]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $count = $userRepository->removeDeletedUsers();
+            $this->addFlash('success', $translator->trans('users.trash.remove_all.success', [ '%count%' => $count]));
+
+            return $this->redirectToRoute('users_trash');
+        }
+
+        return $this->render('users/empty_trash.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     #[Route(path: '/users/{uuid}/attributes', name: 'show_attributes')]

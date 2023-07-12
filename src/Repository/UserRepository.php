@@ -398,13 +398,16 @@ class UserRepository implements UserRepositoryInterface {
     /**
      * @inheritDoc
      */
-    public function removeDeletedUsers(DateTime $threshold): int {
+    public function removeDeletedUsers(?DateTime $threshold = null): int {
         $qb = $this->em->createQueryBuilder();
 
         $qb->delete(User::class, 'u')
-            ->where($qb->expr()->isNotNull('u.deletedAt'))
-            ->andWhere('u.deletedAt < :threshold')
-            ->setParameter('threshold', $threshold);
+            ->where($qb->expr()->isNotNull('u.deletedAt'));
+
+        if($threshold !== null) {
+            $qb->andWhere('u.deletedAt < :threshold')
+                ->setParameter('threshold', $threshold);
+        }
 
         return $qb->getQuery()->execute();
     }

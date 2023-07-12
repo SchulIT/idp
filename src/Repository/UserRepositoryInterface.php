@@ -99,9 +99,10 @@ interface UserRepositoryInterface {
     /**
      * Removes deleted users which are deleted before $threshold.
      *
+     * @param DateTime|null $threshold All users deleted before this threshold are ultimately removed. If none is given, all deleted users are removed.
      * @return int Number of removed users.
      */
-    public function removeDeletedUsers(DateTime $threshold): int;
+    public function removeDeletedUsers(?DateTime $threshold = null): int;
 
     /**
      * @return User[]

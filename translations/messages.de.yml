@@ -226,6 +226,10 @@ users:
     label: Gelöschte Benutzer
     info: Gelöschte Benutzer können innerhalb von 30 Tagen wiederhergestellt werden bevor sie dann endgültig gelöscht werden.
     remove: endgültig löschen
+    remove_all:
+      label: Alle Benutzer endgültig löschen
+      confirm: Sollen alle bereits gelöschten Benutzer endgültig entfernt werden? Diese Benutzer können nicht wiederhergestellt werden.
+      success: '%count% Benutzer erfolgreich gelöscht'
     restore:
       success: Benutzer erfolgreich wiederhergestellt
       error: Die Anfrage war fehlerhaft. Der Benutzer wurde nicht wiederhergestellt. Bitte erneut probieren.
