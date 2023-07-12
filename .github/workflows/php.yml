@@ -64,7 +64,7 @@ jobs:
       - name: Run cache:clear
         run: php bin/console cache:clear
 
-      - run: Run assets:install
+      - name: Run assets:install
         run: php bin/console assets:install
 
       - name: Run PHPStan
