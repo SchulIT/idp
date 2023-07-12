@@ -32,7 +32,8 @@ Benutzername gleich der Anmelde-E-Mail-Adresse im Active Directory. Wählt man *
 Benutzername der Benutzername im Single Sign-On.
 
 :::danger Warnung
-Hier sollte *UserPrincipalName* ausgewählt werden, da im Single Sign-On stets von einer *Anmelde-E-Mail-Adresse* gesprochen wird.
+Hier sollte *UserPrincipalName* ausgewählt werden, da das Single Sign-On E-Mail-Adressen als Benutzername erwartet und es
+anderenfalls zu einem unerwarteten Verhalten kommen kann.
 :::
 
 ### URL des Identity Providers
