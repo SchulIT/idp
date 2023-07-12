@@ -38,14 +38,22 @@ class ForgotPasswordController extends AbstractController {
 
     #[Route(path: '/forgot_pw', name: 'forgot_password')]
     public function request(Request $request, UserRepositoryInterface $userRepository): Response {
-        if($request->isMethod('POST')) {
-            $username = $request->request->get('_username');
-            $user = $userRepository->findOneByUsername($username);
+        if($request->isMethod('POST') && ($request->request->has('_username') || $request->request->has('_email'))) {
+            $user = null;
+
+            if($request->request->has('_username')) {
+                $username = $request->request->get('_username');
+                $user = $userRepository->findOneByUsername($username);
+            } else if($request->request->has('_email')) {
+                $email = $request->request->get('_email');
+                $user = $userRepository->findOneByEmail($email);
+            } else {
+                $this->addFlash('error', 'forgot_pw.request.username_empty');
+                return $this->redirectToRoute('forgot_password', [ 'email' => $request->query->get('email')]);
+            }
 
             if($this->isCsrfTokenFromRequestValid($request) !== true) {
                 $this->addFlash('error', $this->getCsrfTokenMessage());
-            } else if ($username === null) {
-                $this->addFlash('error', 'forgot_pw.request.username_empty');
             } else if($user !== null && $this->manager->canResetPassword($user, $user->getEmail()) !== true) {
                 $this->addFlash('error', 'forgot_pw.request.cannot_change');
                 return $this->redirectToRoute('login');
@@ -60,7 +68,8 @@ class ForgotPasswordController extends AbstractController {
         }
 
         return $this->render('auth/forgot_pw.html.twig', [
-            'csrfTokenId' => self::CSRF_TOKEN_ID
+            'csrfTokenId' => self::CSRF_TOKEN_ID,
+            'use_email' => $request->query->get('email') === '✓'
         ]);
     }
 

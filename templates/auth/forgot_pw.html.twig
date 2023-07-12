@@ -14,10 +14,29 @@
     {% include 'auth/errors.html.twig' %}
 
     <form class="form-signin" role="form" action="{{ path('forgot_password') }}" method="post">
-        <div class="mb-3">
-            <label for="username" class="control-label">{{ 'label.username'|trans }}</label>
-            <input type="email" id="username" name="_username" class="form-control" required="required" autofocus >
-        </div>
+        {% if use_email %}
+            <div class="mb-3">
+                <label for="email" class="control-label">{{ 'label.email'|trans }}</label>
+                <input type="email" id="email" name="_email" class="form-control" required="required" autofocus>
+            </div>
+
+            <div class="mb-3">
+                <a  href="{{ path('forgot_password') }}">
+                    {{ 'forgot_pw.request.email_unknown'|trans }}
+                </a>
+            </div>
+        {% else %}
+            <div class="mb-3">
+                <label for="username" class="control-label">{{ 'label.username'|trans }}</label>
+                <input type="email" id="username" name="_username" class="form-control" required="required" autofocus>
+            </div>
+
+            <div class="mb-3">
+                <a  href="{{ path('forgot_password', { email: '✓'}) }}">
+                    {{ 'forgot_pw.request.username_unknown'|trans }}
+                </a>
+            </div>
+        {% endif %}
 
         <input type="hidden" name="_csrf_token" value="{{ csrf_token(csrfTokenId) }}" >
 
