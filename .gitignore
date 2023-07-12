@@ -104,3 +104,4 @@ modules.xml
 # End of https://www.gitignore.io/api/phpstorm+all
 
 public/images/*
+public/build/*
