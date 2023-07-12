@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Security\EmailConfirmation\ConfirmationManager;
+use App\Security\EmailConfirmation\EmailAddressAlreadyInUseException;
 use App\Security\EmailConfirmation\TokenNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +20,11 @@ class ConfirmEmailAddressController extends AbstractController {
             $confirmationManager->confirm($token);
         } catch (TokenNotFoundException) {
             return $this->render('confirmation/email.html.twig', [
-                'error' => true
+                'error' => 'email_confirmation.error.not_found'
+            ]);
+        } catch(EmailAddressAlreadyInUseException) {
+            return $this->render('confirmation/email.html.twig', [
+                'error' => 'email_confirmation.error.email_address_already_in_use'
             ]);
         }
 

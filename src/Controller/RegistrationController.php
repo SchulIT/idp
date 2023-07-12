@@ -48,12 +48,12 @@ class RegistrationController extends AbstractController {
         $code = $codeRepository->findOneByCode($registrationCode);
 
         if($code === null) {
-            $this->addFlash('error', 'register.redeem.error.not_found');
+            $this->addFlash('error', 'registration.not_found');
             return $this->redirectToRoute('login');
         }
 
         if($manager->isRedeemed($code)) {
-            $this->addFlash('error', 'register.redeem.error.already_redeemed');
+            $this->addFlash('error', 'registration.already_redeemed');
             return $this->redirectToRoute('login');
         }
 
@@ -95,9 +95,13 @@ class RegistrationController extends AbstractController {
         if($form->isSubmitted() && $form->isValid()) {
             try {
                 $manager->complete($code, $user, $form->get('password')->getData());
-                $this->addFlash('success', 'register.completed');
+                $this->addFlash('success', 'registration.success');
+
+                if($user->isEmailConfirmationPending()) {
+                    $this->addFlash('info', 'registration.email_confirmation_pending');
+                }
             } catch (CodeAlreadyRedeemedException) {
-                $this->addFlash('error', 'register.redeem.error.already_redeemed');
+                $this->addFlash('error', 'registration.already_redeemed');
             }
 
             return $this->redirectToRoute('login');

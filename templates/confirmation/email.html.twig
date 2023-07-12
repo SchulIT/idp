@@ -1,14 +1,14 @@
-{% extends "@Common/auth/main.html.twig" %}
+{% extends "auth/main.html.twig" %}
 
 {% block title %}{{ 'email_confirmation.label'|trans }}{% endblock %}
 
 {% block content %}
-    {% if error %}
+    {% if error is not empty %}
         <div class="text-center">
             <i class="fas fa-times fa-3x d-block text-danger"></i>
             <h4>{{ 'email_confirmation.error.label'|trans }}</h4>
 
-            <p>{{ 'email_confirmation.error.not_found'|trans }}</p>
+            <p>{{ error|trans }}</p>
         </div>
     {% else %}
         <div class="text-center">
@@ -20,7 +20,7 @@
     {% endif %}
 
     <hr>
-    {% include '@Common/auth/errors.html.twig' %}
+    {% include 'auth/errors.html.twig' %}
 
     <div class="container-fluid px-0">
         <div class="row">

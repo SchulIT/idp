@@ -557,6 +557,11 @@ link:
       already_linked: Das Kind ist bereits mit dem aktuellen Account verknüpft.
 
 registration:
+  success: Registrierung erfolgreich
+  already_redeemed: Der Registrierungscode wurde bereits eingelöst
+  not_found: Registrierungscode nicht gefunden
+  email_confirmation_pending: Bitte das E-Mail-Postfach überprüfen, um die E-Mail-Adresse zu bestätigen.
+
   complete:
     label: Registrierung abschließen
     message: Schließen Sie die Registrierung ab, indem Sie sich mit Ihrem Kind verknüpfen.
@@ -625,6 +630,7 @@ email_confirmation:
   error:
     label: Fehler
     not_found: Das Token wurde nicht gefunden.
+    email_address_already_in_use: Die E-Mail-Adresse wurde zwischenzeitlich von einem anderen Benutzer bestätigt. Bitte in den Kontoeinstellungen eine neue E-Mail-Adresse hinterlegen.
   success:
     label: E-Mail-Adresse bestätigt
     message: Die E-Mail-Adresse wurde erfolgreich bestätigt.

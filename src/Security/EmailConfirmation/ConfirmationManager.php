@@ -7,6 +7,7 @@ use App\Entity\EmailConfirmation;
 use App\Entity\User;
 use App\Repository\EmailConfirmationRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use SchulIT\CommonBundle\Helper\DateHelper;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
@@ -65,7 +66,7 @@ class ConfirmationManager {
     }
 
     /**
-     * @throws TokenNotFoundException
+     * @throws TokenNotFoundException|EmailAddressAlreadyInUseException
      */
     public function confirm(string $token): void {
         $confirmation = $this->repository->findOneByToken($token);
@@ -77,6 +78,14 @@ class ConfirmationManager {
         $user = $confirmation->getUser();
         $user->setEmail($confirmation->getEmailAddress());
         $user->setIsEmailConfirmationPending(false);
+
+        if($this->userRepository->findOneByEmail($confirmation->getEmailAddress()) !== null) {
+            $user->setEmail(null);
+            $this->userRepository->persist($user);
+            $this->repository->remove($confirmation);
+
+            throw new EmailAddressAlreadyInUseException($confirmation->getEmailAddress());
+        }
 
         $this->userRepository->persist($user);
         $this->repository->remove($confirmation);
