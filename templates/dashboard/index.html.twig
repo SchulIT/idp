@@ -82,7 +82,7 @@
     <div class="row row-cols-4 mb-3 g-4">
         {% for service in services %}
             <div class="col">
-                <a class="card h-100" href="{{ service.url }}" target="_blank">
+                <a class="card card-link h-100" href="{{ service.url }}" target="_blank">
                     <div class="card-body">
                         <h5 class="card-title">
                             {% if service.icon is not empty %}
