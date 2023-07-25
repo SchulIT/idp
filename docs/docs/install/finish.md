@@ -81,3 +81,12 @@ $ php bin/console app:add-user
   [OK] Benutzer erfolgreich erstellt
 ```
 
+## Webserver konfigurieren
+
+Die Konfiguration des Webservers kann in der [Symfony Dokumentation](https://symfony.com/doc/current/setup/web_server_configuration.html)
+nachgelesen werden.
+
+:::danger Wichtig
+Es ist wichtig, dass das `public/`-Verzeichnis als Wurzelverzeichnis im Webserver hinterlegt ist. Anderenfalls können
+Konfigurationsdateien abgefangen werden.
+:::
