@@ -45,24 +45,28 @@
                 </a>
             </div>
         </div>
-
-        {% if is_granted('link-student') %}
-            {% for link in students %}
-                <div class="card-footer">
-                    <i class="fas fa-user-graduate" title="{{ 'label.students'|trans({'%count%': 1 }) }}"></i> {{ link.lastname }}, {{ link.firstname }} {% if not link.grade is empty -%}({{ link.grade }}){%- endif -%}
-                </div>
-            {% endfor %}
-        {% endif %}
     </div>
 
     {% if is_granted('link-student') %}
-        <div class="card" id="link">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-users"></i> {{ 'label.students_simple'|trans }} <span class="badge rounded-pill bg-primary">{{ students|length }}</span>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                {% for link in students %}
+                    <li class="list-group-item">
+                        <i class="fas fa-user-graduate" title="{{ 'label.students'|trans({'%count%': 1 }) }}"></i> {{ link.lastname }}, {{ link.firstname }} {% if not link.grade is empty -%}<span class="badge bg-primary">{{ link.grade }}</span>{%- endif -%}
+                    </li>
+                {% endfor %}
+            </ul>
+
             <div class="card-header">
                 <i class="fas fa-user-plus"></i> {{ 'link.student.label'|trans }}
             </div>
 
             <div class="card-body">
-                <p>
+                <p id="link">
                     {{ 'link.student.info'|trans }}
                 </p>
 
@@ -71,7 +75,7 @@
                 {{ form_widget(form) }}
 
                 <button type="submit" class="btn btn-primary btn-sm">
-                    {{ 'link.student.button'|trans }}
+                    <i class="fas fa-link"></i> {{ 'link.student.button'|trans }}
                 </button>
 
                 {{ form_end(form) }}
@@ -89,6 +93,7 @@
                                 <i class="{{ service.icon }}"></i>
                             {% endif %}
                             {{ service.name }}
+                            <i class="fas fa-external-link"></i>
                         </h5>
                         <h6 class="card-subtitle text-muted">{{ service.description }}</h6>
                     </div>
