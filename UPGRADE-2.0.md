@@ -27,3 +27,7 @@ Beim Upgrade wird mindestens eine Migration ausgeführt.
 **ACHTUNG:** Die Migration erkennt mehrfach genutzte E-Mail-Adressen und löscht diese
 bei allen Nutzern. E-Mail-Adressen, die nicht mehrfach genutzt werden, bleiben erhalten.
 
+### Wichtige Hinweise zum Aktualisierungsprozess
+
+* Es können Meldungen zu Deprecations auftreten - diese können ignoriert werden
+* Bei Fehlermeldungen beim Ausführungen von `php bin/console ...` Befehlen, kann es notwendig sein, zuvor `rm -rf var/cache/prod` auszuführen
