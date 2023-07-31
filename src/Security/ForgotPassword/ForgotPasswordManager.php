@@ -11,14 +11,17 @@ use Psr\Log\NullLogger;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 class ForgotPasswordManager {
     private LoggerInterface $logger;
 
-    public function __construct(private PasswordManager $passwordManager, private MailerInterface $mailer, private TranslatorInterface $translator,
-                                private UserStringConverter $userConverter, private UrlGeneratorInterface $urlGenerator, LoggerInterface $logger = null) {
+    public function __construct(private readonly PasswordManager $passwordManager, private readonly MailerInterface $mailer, private readonly TranslatorInterface $translator,
+                                private readonly UserStringConverter $userConverter, private readonly UrlGeneratorInterface $urlGenerator,
+                                private readonly Environment $twig, LoggerInterface $logger = null) {
         $this->logger = $logger ?? new NullLogger();
     }
 
@@ -36,23 +39,27 @@ class ForgotPasswordManager {
         }
 
         $token = $this->passwordManager->createPasswordToken($user);
+        $context = [
+            'token' => $token->getToken(),
+            'link' => $this->urlGenerator->generate(
+                'change_password', [
+                'token' => $token->getToken()
+            ],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            ),
+            'expiry_date' => $token->getExpiresAt(),
+            'username' => $user->getUsername()
+        ];
 
-        $email = (new TemplatedEmail())
+        $email = (new Email())
             ->to(new Address($email, $this->userConverter->convert($user)))
             ->subject($this->translator->trans('reset_password.title', [], 'mail'))
-            ->textTemplate('mail/reset_password.txt.twig')
-            ->htmlTemplate('mail/reset_password.html.twig')
-            ->context([
-                'token' => $token->getToken(),
-                'link' => $this->urlGenerator->generate(
-                    'change_password', [
-                        'token' => $token->getToken()
-                    ],
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                ),
-                'expiry_date' => $token->getExpiresAt(),
-                'username' => $user->getUsername()
-            ]);
+            ->text(
+                $this->twig->render('mail/reset_password.txt.twig', $context)
+            )
+            ->html(
+                $this->twig->render('mail/reset_password.html.twig', $context)
+            );
 
         $this->mailer->send($email);
     }

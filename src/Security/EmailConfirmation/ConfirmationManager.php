@@ -12,14 +12,19 @@ use SchulIT\CommonBundle\Helper\DateHelper;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 class ConfirmationManager {
 
     private const Lifetime = '+2 hours';
 
-    public function __construct(private DateHelper $dateHelper, private EmailConfirmationRepositoryInterface $repository, private UserRepositoryInterface $userRepository, private TranslatorInterface $translator, private MailerInterface $mailer, private UserStringConverter $userConverter, private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private readonly DateHelper $dateHelper, private readonly EmailConfirmationRepositoryInterface $repository,
+                                private readonly UserRepositoryInterface $userRepository, private readonly TranslatorInterface $translator,
+                                private readonly MailerInterface $mailer, private readonly Environment $twig, private readonly UserStringConverter $userConverter,
+                                private readonly UrlGeneratorInterface $urlGenerator)
     {
     }
 
@@ -48,19 +53,25 @@ class ConfirmationManager {
         } while($this->repository->findOneByToken($confirmation->getToken()) !== null);
 
         $this->repository->persist($confirmation);
-        $email = (new TemplatedEmail())
+        $context = [
+            'username' => $user->getUsername(),
+            'token' => $confirmation->getToken(),
+            'link' => $this->urlGenerator->generate('confirm_email', [
+                'token' => $confirmation->getToken()
+            ], UrlGeneratorInterface::ABSOLUTE_URL),
+            'expiry_date' => $confirmation->getValidUntil()
+        ];
+
+
+        $email = (new Email())
             ->subject($this->translator->trans('registration.title', [], 'mail'))
             ->to(new Address($confirmation->getEmailAddress(), $this->userConverter->convert($user)))
-            ->textTemplate('mail/email_confirmation.txt.twig')
-            ->htmlTemplate('mail/email_confirmation.html.twig')
-            ->context([
-                'username' => $user->getUsername(),
-                'token' => $confirmation->getToken(),
-                'link' => $this->urlGenerator->generate('confirm_email', [
-                    'token' => $confirmation->getToken()
-                ], UrlGeneratorInterface::ABSOLUTE_URL),
-                'expiry_date' => $confirmation->getValidUntil()
-            ]);
+            ->text(
+                $this->twig->render('mail/email_confirmation.txt.twig', $context)
+            )
+            ->html(
+                $this->twig->render('mail/email_confirmation.html.twig', $context)
+            );
 
         $this->mailer->send($email);
     }
