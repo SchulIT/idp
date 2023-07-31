@@ -26,7 +26,7 @@
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('registration') }}">
         <input type="hidden" name="code" value="{{ code.code }}">
 
-        <button class="card card-link text-start p-0 mb-3">
+        <button class="card card-link text-start p-0 mb-3 w-100">
             <div class="card-body">
                 <h5 class="card-title">{{ 'register.redeem.new_account.label'|trans({}, 'security') }}</h5>
                 <p class="mb-0">
@@ -36,7 +36,7 @@
         </button>
     </form>
 
-    <a href="{{ path('login') }}" class="card card-link">
+    <a href="{{ path('login') }}" class="card card-link w-100">
         <div class="card-body">
             <h5 class="card-title">{{ 'register.redeem.existing_account.label'|trans({}, 'security') }}</h5>
             <p class="mb-0">
