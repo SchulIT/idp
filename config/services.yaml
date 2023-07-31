@@ -192,3 +192,8 @@ services:
             - setFormatter: [ '@SchulIT\CommonBundle\Monolog\LineFormatter' ]
 
     SchulIT\CommonBundle\Monolog\LineFormatter: ~
+
+    # TWIG
+    App\Twig\WebpackEntryCssSourceExtension:
+        bind:
+            $publicDir: '%kernel.project_dir%/public'
