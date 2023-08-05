@@ -145,6 +145,7 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
             ->from(RegistrationCode::class, 'c')
             ->leftJoin('c.student', 's')
             ->andWhere('s.id = :student')
+            ->andWhere('c.deletedAt IS NULL')
             ->setParameter('student', $user->getId())
             ->getQuery()
             ->getSingleScalarResult() > 0;
