@@ -20,7 +20,7 @@
     <form class="form-signin" method="post" action="{{ path('2fa_login_check') }}">
         <div class="mb-3">
             <label class="control-label" for="auth_code">{{ "auth_code"|trans({}, 'SchebTwoFactorBundle') }}</label>
-            <input type="text" id="auth_code" name="_auth_code" class="form-control" autocomplete="off" required="required" autofocus >
+            <input type="text" inputmode="numeric" pattern="[0-9]*" id="auth_code" name="_auth_code" class="form-control" autocomplete="off" required="required" autofocus >
         </div>
 
         <div class="mb-3">
