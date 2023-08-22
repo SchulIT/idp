@@ -30,8 +30,9 @@ class RegistrationCodeManager {
 
     /**
      * @throws CodeAlreadyRedeemedException
+     * @return bool Whether an email confirmation was sent.
      */
-    public function complete(RegistrationCode $code, User $user, string $password): void {
+    public function complete(RegistrationCode $code, User $user, string $password): bool {
         if($this->isRedeemed($code)) {
             throw new CodeAlreadyRedeemedException();
         }
@@ -39,7 +40,6 @@ class RegistrationCodeManager {
         $type = $this->typeRepository->findOneByAlias('parent');
         $user
             ->setType($type)
-            ->setIsEmailConfirmationPending($user->getEmail() !== null)
             ->setPassword($this->passwordHasher->hashPassword($user, $password));
 
         $user->addLinkedStudent($code->getStudent());
@@ -50,10 +50,12 @@ class RegistrationCodeManager {
 
         if($user->getEmail() !== null) {
             $this->confirmationManager->newConfirmation($user, $user->getEmail());
-            $user->setIsEmailConfirmationPending(true);
             $user->setEmail(null);
 
             $this->userRepository->persist($user);
+            return true;
         }
+
+        return false;
     }
 }

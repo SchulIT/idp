@@ -25,12 +25,6 @@
                 <button class="large expanded" href="{{ link }}">
                     {{ 'email.button'|trans({}, 'mail') }}
                 </button>
-
-                <hr/>
-
-                <p>
-                    <small>{{ 'email.expiry'|trans({'%date%': expiry_date|format_datetime()}, 'mail') }}</small>
-                </p>
             </columns>
         </row>
     </container>

@@ -1,0 +1,48 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'users.email_confirmation.label'|trans }}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('users') }}">{{ 'users.label'|trans }}</a></li>
+        <li class="breadcrumb-item">{{ confirmation.user.username }}</li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid px-0">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ 'users.email_confirmation.label'|trans }}</h4>
+                        <p>
+                            {{ 'label.token'|trans }}: {{ confirmation.token }}
+                        </p>
+                        <p>
+                            <i class="fas fa-envelope"></i> {{ confirmation.emailAddress }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <form action="{{ path('perform_email_confirmation_action', { token: confirmation.token}) }}" method="post">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token(tokenId) }}">
+                    <div class="card">
+                        <div class="list-group list-group-flush">
+                            <button class="list-group-item list-group-item-action" type="submit" name="action" value="confirm">
+                                <i class="fas fa-check"></i> {{ 'users.email_confirmation.confirm.label'|trans }}
+                            </button>
+                            <button class="list-group-item list-group-item-action" type="submit" name="action" value="send">
+                                <i class="fas fa-envelope"></i> {{ 'users.email_confirmation.send.label'|trans }}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -5,7 +5,6 @@ namespace App\Utils;
 use Closure;
 use InvalidArgumentException;
 class ArrayUtils {
-
     public static function apply(array &$items, Closure $closure): void {
         foreach($items as $item) {
             $closure($item);

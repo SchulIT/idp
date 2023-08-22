@@ -55,7 +55,7 @@
                                             <span class="badge text-bg-danger">{{ 'label.not_active'|trans }}</span>
                                         {% endif %}
 
-                                        {% if user.emailConfirmationPending %}
+                                        {% if user.emailConfirmation is not null %}
                                             <span class="badge text-bg-warning">{{ 'label.pending_email_confirmation'|trans }}</span>
                                         {% endif %}
 
@@ -137,6 +137,12 @@
                                                         <a href="{{ path('user_logout_everywhere', { uuid: user.uuid }) }}" class="dropdown-item">
                                                             <i class="fa fa-sign-out-alt"></i> {{ 'sessions.logout_everywhere.label_short'|trans }}
                                                         </a>
+
+                                                        {% if user.emailConfirmation is not null %}
+                                                            <a href="{{ path('show_email_confirmation', { token: user.emailConfirmation.token}) }}" class="dropdown-item">
+                                                                <i class="fas fa-envelope"></i> {{ 'users.email_confirmation.label'|trans }}
+                                                            </a>
+                                                        {% endif %}
                                                     {% endif %}
                                                 </div>
                                             </div>

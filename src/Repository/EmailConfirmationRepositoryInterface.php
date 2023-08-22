@@ -11,8 +11,6 @@ interface EmailConfirmationRepositoryInterface {
 
     public function findOneByUser(User $user): ?EmailConfirmation;
 
-    public function removeExpired(DateTime $dateTime): int;
-
     public function persist(EmailConfirmation $confirmation): void;
 
     public function remove(EmailConfirmation $confirmation): void;

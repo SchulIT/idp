@@ -75,10 +75,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\Column(type: 'boolean')]
     private bool $isActive = true;
 
-    #[ORM\Column(type: 'boolean')]
-    #[Serializer\Exclude]
-    private bool $isEmailConfirmationPending = false;
-
     #[ORM\JoinTable]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(onDelete: 'CASCADE')]
@@ -152,6 +148,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
      */
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'linkedStudents')]
     private $parents;
+
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: EmailConfirmation::class)]
+    private ?EmailConfirmation $emailConfirmation = null;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
@@ -304,15 +303,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
      */
     public function setIsActive($active) {
         $this->isActive = $active;
-        return $this;
-    }
-
-    public function isEmailConfirmationPending(): bool {
-        return $this->isEmailConfirmationPending;
-    }
-
-    public function setIsEmailConfirmationPending(bool $isEmailConfirmationPending): User {
-        $this->isEmailConfirmationPending = $isEmailConfirmationPending;
         return $this;
     }
 
@@ -529,6 +519,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
 
     public function getParents(): Collection {
         return $this->parents;
+    }
+
+    public function getEmailConfirmation(): ?EmailConfirmation {
+        return $this->emailConfirmation;
     }
 
     public function getTypeString(): string {

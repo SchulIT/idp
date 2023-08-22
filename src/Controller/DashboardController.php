@@ -6,10 +6,12 @@ use App\Entity\User;
 use App\Form\LinkStudentType;
 use App\Repository\RegistrationCodeRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
+use App\Security\EmailConfirmation\ConfirmationManager;
 use App\Security\Session\ActiveSessionsResolver;
 use App\Security\Session\LogoutHelper;
 use App\Security\Voter\LinkStudentVoter;
 use App\Service\UserServiceProviderResolver;
+use Exception;
 use SchulIT\CommonBundle\Helper\DateHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +20,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DashboardController extends AbstractController {
+
+    public const CsrfTokenId = 'send_confirmation';
 
     #[Route(path: '/')]
     public function redirectToDashboard(): Response {
@@ -43,8 +47,29 @@ class DashboardController extends AbstractController {
             'students' => $user->getLinkedStudents(),
             'links_required' => $user->getType()->isCanLinkStudents() && $user->getLinkedStudents()->count() === 0,
             'form' => $form !== null ? $form->createView() : null,
-            'sessions' => $sessionsResolver->getSessionsForUser($user)
+            'sessions' => $sessionsResolver->getSessionsForUser($user),
+            'token_id' => self::CsrfTokenId
         ]);
+    }
+
+    #[Route(path: '/confirmation', name: 'send_pending_email_confirmation', methods: ['POST'])]
+    public function sendEmailConfirmation(Request $request, ConfirmationManager $confirmationManager, TranslatorInterface $translator): Response {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if($user->getEmailConfirmation() === null) {
+            return $this->redirectToDashboard();
+        }
+
+        if($this->isCsrfTokenValid(self::CsrfTokenId, $request->request->get('_csrf_token')) !== true) {
+            $this->addFlash('error', $translator->trans('Invalid CSRF token.', [], 'security'));
+            return $this->redirectToDashboard();
+        }
+
+        $confirmationManager->newConfirmation($user, $user->getEmailConfirmation()->getEmailAddress());
+        $this->addFlash('success', 'dashboard.send_email_confirmation.success');
+
+        return $this->redirectToDashboard();
     }
 
     #[Route(path: '/link', name: 'link_student')]

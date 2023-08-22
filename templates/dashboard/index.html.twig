@@ -36,6 +36,10 @@
                 <p class="text-muted">
                     {{ app.user.username }}
 
+                    {% if app.user.email is not empty %}
+                    <i class="fas fa-envelope"></i> {{ app.user.email }}
+                    {% endif %}
+
                     <i class="fa fa-users"></i> {{ app.user.type.name }}
                 </p>
             </div>
@@ -46,6 +50,33 @@
             </div>
         </div>
     </div>
+
+    {% if app.user.email is empty %}
+        <div class="bs-callout bs-callout-warning">
+            {% if app.user.emailConfirmation is null %}
+                <h4>{{ 'dashboard.empty_email.label'|trans }}</h4>
+                <p>{{ 'dashboard.empty_email.info'|trans }}</p>
+
+                <a href="{{ path('profile') }}" class="btn btn-outline-primary btn-sm">
+                    <i class="fas fa-arrow-right"></i> {{ 'dashboard.empty_email.link'|trans }}
+                </a>
+            {% else %}
+                <form action="{{ path('send_pending_email_confirmation') }}" method="post">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token(token_id) }}">
+                    <h4>{{ 'dashboard.pending_email_confirmation.label'|trans }}</h4>
+                    <p>{{ 'dashboard.pending_email_confirmation.info'|trans({'%address%': app.user.emailConfirmation.emailAddress})|raw }}</p>
+
+                    <button type="submit" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-rotate-left"></i> {{ 'dashboard.pending_email_confirmation.send'|trans }}
+                    </button>
+
+                    <a href="{{ path('profile') }}" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-arrow-right"></i> {{ 'dashboard.pending_email_confirmation.change'|trans }}
+                    </a>
+                </form>
+            {% endif %}
+        </div>
+    {% endif %}
 
     {% if is_granted('link-student') %}
         <div class="card">

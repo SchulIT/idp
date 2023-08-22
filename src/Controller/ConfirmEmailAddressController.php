@@ -17,7 +17,8 @@ class ConfirmEmailAddressController extends AbstractController {
         }
 
         try {
-            $confirmationManager->confirm($token);
+            $confirmation = $confirmationManager->getConfirmation($token);
+            $confirmationManager->confirm($confirmation);
         } catch (TokenNotFoundException) {
             return $this->render('confirmation/email.html.twig', [
                 'error' => 'email_confirmation.error.not_found'

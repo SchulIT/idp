@@ -13,7 +13,7 @@ class EmailConfirmation {
     use IdTrait;
     use UuidTrait;
 
-    #[ORM\Column(type: 'string', unique: true, length: 128)]
+    #[ORM\Column(type: 'string', length: 128, unique: true)]
     #[Assert\NotNull]
     private ?string $token = null;
 
@@ -25,10 +25,6 @@ class EmailConfirmation {
     #[Assert\Email]
     #[Assert\NotNull]
     private ?string $emailAddress = null;
-
-    #[ORM\Column(type: 'datetime')]
-    #[Assert\NotNull]
-    private ?DateTime $validUntil = null;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
@@ -58,15 +54,6 @@ class EmailConfirmation {
 
     public function setEmailAddress(?string $emailAddress): EmailConfirmation {
         $this->emailAddress = $emailAddress;
-        return $this;
-    }
-
-    public function getValidUntil(): ?DateTime {
-        return $this->validUntil;
-    }
-
-    public function setValidUntil(?DateTime $validUntil): EmailConfirmation {
-        $this->validUntil = $validUntil;
         return $this;
     }
 }

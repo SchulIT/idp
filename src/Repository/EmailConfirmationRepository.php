@@ -6,8 +6,9 @@ use App\Entity\EmailConfirmation;
 use App\Entity\User;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
-class EmailConfirmationRepository implements EmailConfirmationRepositoryInterface {
+readonly class EmailConfirmationRepository implements EmailConfirmationRepositoryInterface {
     public function __construct(private EntityManagerInterface $em)
     {
     }
@@ -21,8 +22,7 @@ class EmailConfirmationRepository implements EmailConfirmationRepositoryInterfac
     }
 
     public function findOneByUser(User $user): ?EmailConfirmation {
-        return $this->em
-            ->getRepository(EmailConfirmation::class)
+        return $this->em->getRepository(EmailConfirmation::class)
             ->findOneBy([
                 'user' => $user
             ]);
@@ -36,17 +36,5 @@ class EmailConfirmationRepository implements EmailConfirmationRepositoryInterfac
     public function remove(EmailConfirmation $confirmation): void {
         $this->em->remove($confirmation);
         $this->em->flush();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function removeExpired(DateTime $dateTime): int {
-        return $this->em->createQueryBuilder()
-            ->delete(EmailConfirmation::class, 'c')
-            ->where('c.validUntil < :threshold')
-            ->setParameter('threshold', $dateTime)
-            ->getQuery()
-            ->execute();
     }
 }

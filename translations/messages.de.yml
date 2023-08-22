@@ -89,6 +89,7 @@ label:
   sync:
     label: Vollständige Synchronisation
     help: Wenn diese Option aktiviert ist, wird ein richtiger Ableicht mit den importierten Daten gemacht. Das bedeutet, dass im Anschluss an den Importvorgang ausschließlich Benutzer im System vorhanden sind, die auch in der CSV-Datei enthalten sind. Benutzer des ausgewählten Benutzer-Typs, die nicht in der CSV-Datei enthalten sind, werden zum Löschen vorgemerkt.
+  token: Token
 
 help:
   voluntary: Diese Angabe ist freiwillig.
@@ -197,6 +198,17 @@ dashboard:
   services: Meine Dienste
   open: öffnen
   link: Zur Übersicht
+  empty_email:
+    label: Keine E-Mail-Adresse hinterlegt
+    info: Für diesen Benutzer ist keine E-Mail-Adresse hinterlegt. Wenn eine E-Mail-Adresse hinterlegt ist, können Systeme wie das ICC Sie kontaktieren. Außerdem kann bei hinterlegter E-Mail-Adresse das Passwort eigenständig geändert werden, falls es nicht mehr bekannt sein sollte.
+    link: E-Mail-Adresse hinterlegen
+  pending_email_confirmation:
+    label: E-Mail-Adresse nicht bestätigt
+    info: Die E-Mail-Adresse <strong>%address%</strong> wurde noch nicht bestätigt und kann somit noch nicht vom System verwendet werden. Bestätigen Sie Ihre E-Mail-Adresse schnellstmöglich oder geben Sie eine andere E-Mail-Adresse an.
+    send: Bestätigungs-E-Mail erneut verschicken
+    change: E-Mail-Adresse ändern
+  send_email_confirmation:
+    success: Bestätigungs-E-Mail erfolgreich verschickt
 
 
 user_menu:
@@ -286,6 +298,15 @@ users:
       user: Benutzer
       role: Benutzerrolle
       type: Benutzertyp
+
+  email_confirmation:
+    label: E-Mail Bestätigung
+    confirm:
+      label: E-Mail-Adresse bestätigen
+      success: E-Mail-Adresse bestätigt
+    send:
+      label: E-Mail Bestätigung erneut versenden
+      success: E-Mail Bestätigung erneut versendet
 
 management:
   label: Verwaltung
@@ -629,9 +650,12 @@ email_confirmation:
   label: Bestätigung der E-Mail-Adresse
   sent: Es wurde eine E-Mail an die angegebene Adresse versendet. Bitte den Bestätigungslink in der E-Mail anklicken, um die Änderung der E-Mail-Adresse abzuschließen.
   pending: Die neue E-Mail-Adresse wurde noch nicht bestätigt. Bitte den Bestätigungslink in der E-Mail anklicken, um die Änderung der E-Mail-Adresse abzuschließen.
+  retry: Bestätigungslink erneut senden
   error:
     label: Fehler
     not_found: Das Token wurde nicht gefunden.
+    expired: Der Bestätigungslink ist abgelaufen.
+    confirmed: Der Bestätigungslink ist nicht mehr gültig, da er bereits verwendet wurde.
     email_address_already_in_use: Die E-Mail-Adresse wurde zwischenzeitlich von einem anderen Benutzer bestätigt. Bitte in den Kontoeinstellungen eine neue E-Mail-Adresse hinterlegen.
   success:
     label: E-Mail-Adresse bestätigt

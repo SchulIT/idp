@@ -94,10 +94,10 @@ class RegistrationController extends AbstractController {
 
         if($form->isSubmitted() && $form->isValid()) {
             try {
-                $manager->complete($code, $user, $form->get('password')->getData());
+                $isEmailConfirmationPending = $manager->complete($code, $user, $form->get('password')->getData());
                 $this->addFlash('success', 'registration.success');
 
-                if($user->isEmailConfirmationPending()) {
+                if($isEmailConfirmationPending === true) {
                     $this->addFlash('info', 'registration.email_confirmation_pending');
                 }
             } catch (CodeAlreadyRedeemedException) {

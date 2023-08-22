@@ -49,7 +49,7 @@
                                             <span class="badge text-bg-danger">{{ 'label.not_active'|trans }}</span>
                                         {% endif %}
 
-                                        {% if user.emailConfirmationPending %}
+                                        {% if user.emailConfirmation is not null %}
                                             <span class="badge text-bg-warning">{{ 'label.pending_email_confirmation'|trans }}</span>
                                         {% endif %}
                                     </td>
