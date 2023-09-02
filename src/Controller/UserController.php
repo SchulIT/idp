@@ -333,10 +333,10 @@ class UserController extends AbstractController {
                 $this->addFlash('success', $translator->trans('forgot_pw.request.success', ['%expiry%' => $token->getExpiresAt()->format($translator->trans('date.with_time'))]));
                 return $this->redirectToRoute('users');
             } catch (UserCannotResetPasswordException) {
-                $this->addFlash('error', 'users.reset_pw.cannot_change');
+                $this->addFlash('error', 'forgot_pw.request.cannot_change');
                 return $this->redirectToRoute('users');
             } catch (TooManyRequestsException) {
-                $this->addFlash('error', 'users.reset_pw.too_many_requests');
+                $this->addFlash('error', 'forgot_pw.request.too_many_requests');
                 return $this->redirectToRoute('users');
             }
         }
