@@ -18,6 +18,8 @@ use App\Repository\UserRepositoryInterface;
 use App\Repository\UserTypeRepositoryInterface;
 use App\Saml\AttributeValueProvider;
 use App\Security\ForgotPassword\ForgotPasswordManager;
+use App\Security\ForgotPassword\TooManyRequestsException;
+use App\Security\ForgotPassword\UserCannotResetPasswordException;
 use App\Security\Session\LogoutHelper;
 use App\Service\AttributePersister;
 use App\Service\AttributeResolver;
@@ -317,12 +319,7 @@ class UserController extends AbstractController {
 
     #[Route(path: '/users/{uuid}/reset_password', name: 'reset_password')]
     #[IsGranted('ROLE_PASSWORD_MANAGER')]
-    public function resetPassword(Request $request, User $user, ForgotPasswordManager $manager): Response {
-        if($manager->canResetPassword($user, 'email@exmaple.com') === false) {
-            $this->addFlash('error', 'users.reset_pw.cannot_change');
-            return $this->redirectToRoute('users');
-        }
-
+    public function resetPassword(Request $request, User $user, ForgotPasswordManager $manager, TranslatorInterface $translator): Response {
         $form = $this->createForm(ResetPasswordType::class, [
             'email' => $user->getEmail()
         ]);
@@ -330,9 +327,18 @@ class UserController extends AbstractController {
 
         if($form->isSubmitted() && $form->isValid()) {
             $email = $form->get('email')->getData();
-            $manager->resetPassword($user, $email);
-            $this->addFlash('success', 'forgot_pw.request.success');
-            return $this->redirectToRoute('users');
+
+            try {
+                $token = $manager->createPasswordResetRequest($user, $email);
+                $this->addFlash('success', $translator->trans('forgot_pw.request.success', ['%expiry%' => $token->getExpiresAt()->format($translator->trans('date.with_time'))]));
+                return $this->redirectToRoute('users');
+            } catch (UserCannotResetPasswordException) {
+                $this->addFlash('error', 'users.reset_pw.cannot_change');
+                return $this->redirectToRoute('users');
+            } catch (TooManyRequestsException) {
+                $this->addFlash('error', 'users.reset_pw.too_many_requests');
+                return $this->redirectToRoute('users');
+            }
         }
 
         return $this->render('users/reset_pw.html.twig', [

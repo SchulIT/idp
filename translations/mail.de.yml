@@ -5,7 +5,8 @@ notice: Diese Benachrichtigung wurde automatisch durch das System versendet. Bit
 reset_password:
   title: Passwort zurücksetzen
   message: 'Es wurde eine Anfrage zum Zurücksetzen des Passwortes für den Benutzer %username% erstellt.'
-  link: 'Klicken Sie auf den folgenden Link %link%, um das Passwort zurückzusetzen. Falls Sie das Passwort nicht ändern möchten, können Sie diese E-Mail ignorieren.'
+  link: 'Klicken Sie auf den folgenden Link um das Passwort zurückzusetzen: %link%'
+  ignore: Falls das Passwort nicht geändert werden soll, kann diese E-Mail ignoriert werden.
   button: Passwort zurücksetzen
   expiry: Bitte beachten Sie, dass der Link nur bis %date% gültig ist.
 

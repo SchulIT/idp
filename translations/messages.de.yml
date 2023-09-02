@@ -107,8 +107,9 @@ forgot_pw:
     button: Passwort ändern
     email_unknown: E-Mail-Adresse nicht bekannt?
     username_unknown: Anmelde-E-Mail-Adresse nicht bekannt?
-    success: E-Mail zum Ändern des Passwortes wurde verschickt.
+    success: E-Mail zum Ändern des Passwortes verschickt. Bitte beachten, dass die E-Mail nur bis %expiry% gültig ist.
     cannot_change: Das Passwort des Benutzeraccounts kann nicht zurückgesetzt werden. Bitte an den Administrator wenden.
+    too_many_requests: Es wurde bereits eine Anfrage zum Zurücksetzen des Passwortes gestellt. Bitte die E-Mails überprüfen oder später erneut versuchen.
     username_empty: Es muss ein Benutzername eingetragen werden.
   change:
     message: Bitte das neue Kennwort eingeben und anschließend bestätigen.
@@ -116,6 +117,10 @@ forgot_pw:
     success: Passwort wurde erfolgreich geändert.
     password_mismatch: Die Passwörter stimmen nicht überein.
     password_constraint_error: Die Passwort-Regeln wurden nicht eingehalten.
+  error:
+    token_expired: Das Token zum Zurücksetzen des Passwortes ist abgelaufen. Bitte ein neues Token anfordern.
+    token_not_found: Das Token zum Zurücksetzen des Passwortes wurde nicht gefunden. Entweder ist es abgelaufen (dann kann ein neues Token angefordert werden) oder die Adresse wurde falsch in den Browser übertragen (bitte den genauen Link aus der E-Mail anklicken bzw. kopieren).
+    request_new_token: Neues Token anfordern
 
 error:
   label: Fehler
