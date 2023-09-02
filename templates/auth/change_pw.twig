@@ -28,12 +28,12 @@
     <form class="form-signin" role="form" action="{{ path('change_password', { token: token.token }) }}" method="post">
         <div class="mb-3">
             <label for="password" class="control-label">{{ 'label.password'|trans }}</label>
-            <input type="text" id="password" name="_password" class="form-control" required="required" autocomplete="new-password" autofocus >
+            <input type="password" id="password" name="_password" class="form-control" required="required" autocomplete="new-password" autofocus >
         </div>
 
         <div class="mb-3">
             <label for="repeat_password" class="control-label">{{ 'label.repeat_password'|trans }}</label>
-            <input type="text" id="repeat_password" name="_repeat_password" class="form-control" autocomplete="new-password" required="required" autofocus >
+            <input type="password" id="repeat_password" name="_repeat_password" class="form-control" autocomplete="new-password" required="required" autofocus >
         </div>
 
         <input type="hidden" name="_csrf_token" value="{{ csrf_token(csrfTokenId) }}" >
