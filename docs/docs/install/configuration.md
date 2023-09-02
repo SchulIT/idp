@@ -101,14 +101,13 @@ Der Konfigurationsparameter können zunächst übersprungen werden und zu einem 
 Verbindungszeichenfolge für die Datenbankverbindung, welche sich wie folgt zusammensetzt:
 
 ```
-mysql://USERNAME:PASSWORD@HOST:3306/NAME?serverVersion=mariadb-10.4.0
+mysql://USERNAME:PASSWORD@HOST:3306/NAME
 ```
 
 * `USERNAME`: Benutzername der Datenbank
 * `PASSWORD`: zugehöriges Passwort des Datenbankbenutzers
 * `HOST`: Hostname des Datenbankservers
 * `NAME`: Name der Datenbank
-* den Parameter `serverVersion` entsprechend der MariaDB-Version anpassen (er kann aber auch auf 10.4 belassen werden, obwohl man eine höhere Version einsetzt)
 
 Weitere Informationen zur Verbindungszeichenfolge gibt es [hier](https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html#connecting-using-a-url).
 
