@@ -14,11 +14,11 @@ class MustChangePasswordRedirectEventSubscriber implements EventSubscriberInterf
 
     private const RedirectRoute = 'profile_password';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator, private TokenStorageInterface $tokenStorage)
+    public function __construct(private readonly UrlGeneratorInterface $urlGenerator, private readonly TokenStorageInterface $tokenStorage)
     {
     }
 
-    public function onRequest(RequestEvent $event) {
+    public function onRequest(RequestEvent $event): void {
         if($event->isMainRequest() !== true) {
             return;
         }

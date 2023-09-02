@@ -23,11 +23,11 @@ class MustAcceptPrivacyPolicyRequestListener implements EventSubscriberInterface
     public const LogoutRoute = 'logout';
     public const AcceptPrivacyRoute = 'show_privacy_policy';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator, private TokenStorageInterface $tokenStorage, private RequestStack $requestStack, private PrivacyPolicyRepositoryInterface $privacyPolicyRepository, private CsrfTokenManagerInterface $csrfTokenManager, private UserRepositoryInterface $userRepository)
+    public function __construct(private readonly UrlGeneratorInterface $urlGenerator, private readonly TokenStorageInterface $tokenStorage, private readonly RequestStack $requestStack, private readonly PrivacyPolicyRepositoryInterface $privacyPolicyRepository, private readonly CsrfTokenManagerInterface $csrfTokenManager, private readonly UserRepositoryInterface $userRepository)
     {
     }
 
-    public function onRequest(RequestEvent $event) {
+    public function onRequest(RequestEvent $event): void {
         if($event->isMainRequest() === false) {
             return;
         }

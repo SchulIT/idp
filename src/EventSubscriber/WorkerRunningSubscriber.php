@@ -6,7 +6,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\Event\WorkerRunningEvent;
 
 class WorkerRunningSubscriber implements EventSubscriberInterface {
-    public function onWorkerRunning(WorkerRunningEvent $runningEvent) {
+    public function onWorkerRunning(WorkerRunningEvent $runningEvent): void {
         if($runningEvent->isWorkerIdle()) {
             $runningEvent->getWorker()->stop();
         }

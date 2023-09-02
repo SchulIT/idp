@@ -19,11 +19,11 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class HandleSamlRequestSubscriber implements EventSubscriberInterface {
 
-    public function __construct(private TokenStorageInterface $tokenStorage, private RequestStorageInterface $samlRequestStorage, private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private readonly TokenStorageInterface $tokenStorage, private readonly RequestStorageInterface $samlRequestStorage, private readonly UrlGeneratorInterface $urlGenerator)
     {
     }
 
-    public function onRequest(RequestEvent $event) {
+    public function onRequest(RequestEvent $event): void {
         $request = $event->getRequest();
         $route = $request->get('_route');
 

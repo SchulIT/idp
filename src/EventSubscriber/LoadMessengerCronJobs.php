@@ -9,11 +9,11 @@ use Symfony\Component\Messenger\Command\ConsumeMessagesCommand;
 
 class LoadMessengerCronJobs implements EventSubscriberInterface {
 
-    public function __construct(private ConsumeMessagesCommand $command) {
+    public function __construct(private readonly ConsumeMessagesCommand $command) {
 
     }
 
-    public function onLoadJobs(LoadJobsEvent $event) {
+    public function onLoadJobs(LoadJobsEvent $event): void {
         $event->addJob(CronJobMetadata::createByCommand('*/1 * * * *', $this->command, 'async -vv --time-limit=20 --limit=25 --no-reset'));
     }
 
