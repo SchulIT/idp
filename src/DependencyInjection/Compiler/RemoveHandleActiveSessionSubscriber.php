@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class RemoveHandleActiveSessionSubscriber implements CompilerPassInterface {
 
-    public function process(ContainerBuilder $container) {
+    public function process(ContainerBuilder $container): void {
         $container->removeDefinition(HandleActiveSessionSubscriber::class);
     }
 }

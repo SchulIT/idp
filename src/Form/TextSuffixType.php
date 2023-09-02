@@ -10,13 +10,13 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TextSuffixType extends TextType {
-    public function configureOptions(OptionsResolver $resolver) {
+    public function configureOptions(OptionsResolver $resolver): void {
         parent::configureOptions($resolver);
 
         $resolver->setRequired('suffix');
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+    public function buildForm(FormBuilderInterface $builder, array $options): void {
         $builder
             ->addModelTransformer(new CallbackTransformer(
                 fn($username) => rtrim($username, $options['suffix']),
@@ -24,7 +24,7 @@ class TextSuffixType extends TextType {
             ));
     }
 
-    public function finishView(FormView $view, FormInterface $form, array $options) {
+    public function finishView(FormView $view, FormInterface $form, array $options): void {
         parent::finishView($view, $form, $options);
 
         $view->vars['suffix'] = $options['suffix'];

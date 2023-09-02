@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormView;
 
 class FontAwesomeIconPicker extends TextType {
 
-    public function buildView(FormView $view, FormInterface $form, array $options) {
+    public function buildView(FormView $view, FormInterface $form, array $options): void {
         parent::buildView($view, $form, $options);
 
         if(!isset($view->vars['attr'])) {

@@ -16,17 +16,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserProfileCompleteType extends AbstractType {
 
-    public function __construct(private PasswordStrengthHelper $passwordStrengthHelper, private TranslatorInterface $translator)
+    public function __construct(private readonly PasswordStrengthHelper $passwordStrengthHelper, private readonly TranslatorInterface $translator)
     {
     }
 
-    public function configureOptions(OptionsResolver $resolver) {
+    public function configureOptions(OptionsResolver $resolver): void {
         parent::configureOptions($resolver);
 
         $resolver->setRequired('username_suffix');
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+    public function buildForm(FormBuilderInterface $builder, array $options): void {
         $builder
             ->add('username', TextSuffixType::class, [
                 'label' => 'label.username',

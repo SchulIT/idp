@@ -31,7 +31,7 @@ class UserType extends AbstractType {
     {
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+    public function buildForm(FormBuilderInterface $builder, array $options): void {
         $user = $options['data'];
 
         $builder

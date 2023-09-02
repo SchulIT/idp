@@ -15,11 +15,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 class UserRoleType extends AbstractType {
     use AttributeDataTrait;
 
-    public function __construct(private AttributeResolver $userAttributeResolver)
+    public function __construct(private readonly AttributeResolver $userAttributeResolver)
     {
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+    public function buildForm(FormBuilderInterface $builder, array $options): void {
         $userRole = $options['data'];
 
         $builder

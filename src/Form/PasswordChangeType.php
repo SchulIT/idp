@@ -11,11 +11,11 @@ use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 
 class PasswordChangeType extends AbstractType {
 
-    public function __construct(private PasswordStrengthHelper $passwordStrengthHelper)
+    public function __construct(private readonly PasswordStrengthHelper $passwordStrengthHelper)
     {
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+    public function buildForm(FormBuilderInterface $builder, array $options): void {
         $builder
             ->add('currentPassword', PasswordType::class, [
                 'label' => 'label.current_password',

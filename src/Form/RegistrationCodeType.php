@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class RegistrationCodeType extends AbstractType {
 
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+    public function buildForm(FormBuilderInterface $builder, array $options): void {
         $builder
             ->add('code', CodeGeneratorType::class, [
                 'label' => 'label.code'

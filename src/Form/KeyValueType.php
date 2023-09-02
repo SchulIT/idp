@@ -34,8 +34,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class KeyValueType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    public function buildForm(FormBuilderInterface $builder, array $options): void {
         $builder->addModelTransformer(new HashToKeyValueArrayTransformer($options['use_container_object']));
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $e) {
@@ -55,8 +54,7 @@ class KeyValueType extends AbstractType
         }, 1);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
-    {
+    public function configureOptions(OptionsResolver $resolver): void {
         $resolver->setDefaults(['entry_type' => KeyValueRowType::class, 'allow_add' => true, 'allow_delete' => true, 'key_type' => TextType::class, 'key_options' => [], 'value_options' => [], 'allowed_keys' => null, 'use_container_object' => false, 'entry_options' => fn(Options $options) => ['key_type' => $options['key_type'], 'value_type' => $options['value_type'], 'key_options' => $options['key_options'], 'value_options' => $options['value_options'], 'allowed_keys' => $options['allowed_keys']]]);
 
         $resolver->setRequired(['value_type']);

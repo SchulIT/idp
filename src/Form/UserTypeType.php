@@ -20,11 +20,11 @@ use Symfony\Component\Form\FormEvents;
 class UserTypeType extends AbstractType {
     use AttributeDataTrait;
 
-    public function __construct(private AttributeResolver $userAttributeResolver)
+    public function __construct(private readonly AttributeResolver $userAttributeResolver)
     {
     }
 
-    private function getEduPersonAffliations() {
+    private function getEduPersonAffliations(): array {
         $affliations = EduPersonAffliation::getAffliations();
 
         $result = [ ];
@@ -36,7 +36,7 @@ class UserTypeType extends AbstractType {
         return $result;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+    public function buildForm(FormBuilderInterface $builder, array $options): void {
         $userType = $options['data'];
 
         $builder

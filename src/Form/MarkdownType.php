@@ -14,7 +14,7 @@ class MarkdownType extends TextareaType {
     {
     }
 
-    public function configureOptions(OptionsResolver $resolver) {
+    public function configureOptions(OptionsResolver $resolver): void {
         $resolver
             ->setDefault('upload_enabled', true)
             ->setDefault('upload_url', null)
@@ -23,7 +23,7 @@ class MarkdownType extends TextareaType {
             ->setDefault('enable_links', true);
     }
 
-    public function buildView(FormView $view, FormInterface $form, array $options) {
+    public function buildView(FormView $view, FormInterface $form, array $options): void {
         parent::buildView($view, $form, $options);
 
         $view->vars['attr'] = [

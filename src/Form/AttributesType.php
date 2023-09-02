@@ -14,11 +14,11 @@ class AttributesType extends FieldsetType {
 
     public const EXPANDED_THRESHOLD = 7;
 
-    public function __construct(private ServiceAttributeRepositoryInterface $serviceAttributeRepository)
+    public function __construct(private readonly ServiceAttributeRepositoryInterface $serviceAttributeRepository)
     {
     }
 
-    public function configureOptions(OptionsResolver $resolver) {
+    public function configureOptions(OptionsResolver $resolver): void {
         parent::configureOptions($resolver);
 
         $resolver
@@ -28,7 +28,7 @@ class AttributesType extends FieldsetType {
             ->remove('fields');
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+    public function buildForm(FormBuilderInterface $builder, array $options): void {
         $attributeValues = $options['attribute_values'];
         $onlyUserEditable = $options['only_user_editable'];
 

@@ -8,13 +8,13 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TextPrefixType extends TextType {
-    public function configureOptions(OptionsResolver $resolver) {
+    public function configureOptions(OptionsResolver $resolver): void {
         parent::configureOptions($resolver);
 
         $resolver->setRequired('prefix');
     }
 
-    public function finishView(FormView $view, FormInterface $form, array $options) {
+    public function finishView(FormView $view, FormInterface $form, array $options): void {
         parent::finishView($view, $form, $options);
 
         $view->vars['prefix'] = $options['prefix'];
