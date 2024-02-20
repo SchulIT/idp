@@ -604,8 +604,8 @@ health_check:
   error: Zertifikatfehler
   fix: Fehler beheben
   idp_certificate:
-    empty: Das Zertifikat des Identity Providers wurde nicht gefunden. Bitte ein Zertifikat erstellen.
-    expires_soon: Das Zertifikat des Identidy Providers läuft in naher Zukunft ab. Bitte erneuern.
+    empty: Das Zertifikat des Identity Providers wurde nicht gefunden oder ist nicht lesbar. Bitte ein Zertifikat erstellen oder Berechtigungen prüfen.
+    expires_soon: Das Zertifikat des Identity Providers läuft in naher Zukunft ab. Bitte erneuern.
     expired: Das Zertifikat des Identity Providers ist abgelaufen. Bitte erneuern.
     fine: Das Zertifikat des Identity Providers ist gültig. Keine Aktion erforderlich.
   sp_certificate:

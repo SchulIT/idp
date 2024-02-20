@@ -13,7 +13,7 @@ class IdentityProviderCertificateCheck extends AbstractCertificateHealthCheck {
             return new HealthCheckResult(
                 HealthCheckResultType::Error,
                 'health_check.error',
-                'health_check.idp_certificate.not_present'
+                'health_check.idp_certificate.empty'
             );
         }
 
