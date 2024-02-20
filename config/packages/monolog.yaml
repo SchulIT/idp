@@ -4,6 +4,7 @@ monolog:
     - auth
     - exchange
     - deprecation
+    - browscap
 
 when@dev:
   monolog:

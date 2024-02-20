@@ -3,6 +3,7 @@
 namespace App\Security\Session;
 
 use App\Entity\User;
+use BrowscapPHP\Browscap;
 use DateTimeImmutable;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
@@ -14,7 +15,7 @@ class HandleActiveSessionSubscriber implements EventSubscriberInterface {
 
     private ?ActiveSession $sessionToSave = null;
 
-    public function __construct(private readonly Connection $connection) { }
+    public function __construct(private readonly Connection $connection, private readonly Browscap $browscap) { }
 
     public function onKernelTerminate(FinishRequestEvent $event): void {
         if($this->sessionToSave === null) {
@@ -56,7 +57,8 @@ class HandleActiveSessionSubscriber implements EventSubscriberInterface {
             $event->getRequest()->headers->get('User-Agent'),
             new DateTimeImmutable(),
             $event->getRequest()->getClientIp(),
-            true
+            true,
+            !empty($event->getRequest()->headers->get('User-Agent')) ? $this->browscap->getBrowser($event->getRequest()->headers->get('User-Agent')) : null
         );
     }
 

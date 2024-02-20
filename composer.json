@@ -8,6 +8,7 @@
         "ext-json": "*",
         "ext-openssl": "*",
         "ext-xsl": "*",
+        "browscap/browscap-php": "^7.4",
         "composer/package-versions-deprecated": "1.11.99.4",
         "craue/formflow-bundle": "^3.3",
         "doctrine/annotations": "^1.0",
@@ -121,7 +122,8 @@
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "app:browscap:update": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"

@@ -3,6 +3,7 @@
 namespace App\Security\Session;
 
 use App\Entity\User;
+use BrowscapPHP\Browscap;
 use DateTimeImmutable;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
@@ -21,7 +22,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class ActiveSessionsResolver {
 
-    public function __construct(private readonly Connection $connection, private readonly RequestStack $requestStack) {
+    public function __construct(private readonly Connection $connection, private readonly RequestStack $requestStack, private readonly Browscap $browscap) {
 
     }
 
@@ -44,7 +45,8 @@ class ActiveSessionsResolver {
                 $row['user_agent'],
                 new DateTimeImmutable($row['started_at']),
                 $row['ip_address'],
-                $row['session_id'] === $currentSessionId
+                $row['session_id'] === $currentSessionId,
+                !empty($row['user_agent']) ? $this->browscap->getBrowser($row['user_agent']) : null
             );
         }
 

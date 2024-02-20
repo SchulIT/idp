@@ -37,6 +37,8 @@ $ php bin/console doctrine:migrations:migrate --no-interaction
 $ php bin/console app:setup
 # Cronjobs registrieren
 $ php bin/console shapecode:cron:scan
+# Browscap aktualisieren
+$ php bin/console app:browscap:update
 ```
 
 ## Ersten Benutzer erstellen

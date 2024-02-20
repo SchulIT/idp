@@ -1,4 +1,4 @@
-# This file is the entry point to configure your own services.
+# This file is the entry point to configure your own services.p
 # Files in the packages/ subdirectory configure your dependencies.
 
 # Put parameters here that don't need to change on each machine where the app is deployed
@@ -197,3 +197,19 @@ services:
     App\Twig\WebpackEntryCssSourceExtension:
         bind:
             $publicDir: '%kernel.project_dir%/public'
+
+    # BROWSCAP
+    cache.browscap.psr16:
+        class: Symfony\Component\Cache\Psr16Cache
+        bind:
+            $pool: '@cache.browscap'
+
+    BrowscapPHP\Browscap:
+        bind:
+            $cache: '@cache.browscap.psr16'
+            $logger: '@monolog.logger.browscap'
+
+    BrowscapPHP\BrowscapUpdater:
+        bind:
+            $cache: '@cache.browscap.psr16'
+            $logger: '@monolog.logger.browscap'
