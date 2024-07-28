@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9e40cbfd8939697a5f9da118020187c5",
+    "content-hash": "052521e8056d76fe2944b923890f4335",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -5854,25 +5854,25 @@
         },
         {
             "name": "schulit/adauth-bundle",
-            "version": "2.0.0",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchulIT/adauth-bundle.git",
-                "reference": "324cb3669ca0d8555737940edc52deee12491a36"
+                "reference": "a12e90d87fafb087c11be93c482a918b2e3785e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchulIT/adauth-bundle/zipball/324cb3669ca0d8555737940edc52deee12491a36",
-                "reference": "324cb3669ca0d8555737940edc52deee12491a36",
+                "url": "https://api.github.com/repos/SchulIT/adauth-bundle/zipball/a12e90d87fafb087c11be93c482a918b2e3785e0",
+                "reference": "a12e90d87fafb087c11be93c482a918b2e3785e0",
                 "shasum": ""
             },
             "require": {
                 "ext-iconv": "*",
                 "php": "^8.1",
                 "schulit/adauth": "^2.0.0",
-                "symfony/console": "^6.0",
-                "symfony/framework-bundle": "^6.0",
-                "symfony/yaml": "^6.0"
+                "symfony/console": "^6.4|^7.0",
+                "symfony/framework-bundle": "^6.4|^7.0",
+                "symfony/yaml": "^6.4|^7.0"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -5893,9 +5893,9 @@
             "description": "Symfony bundle for schulit/adauth package",
             "support": {
                 "issues": "https://github.com/SchulIT/adauth-bundle/issues",
-                "source": "https://github.com/SchulIT/adauth-bundle/tree/2.0.0"
+                "source": "https://github.com/SchulIT/adauth-bundle/tree/3.0.0"
             },
-            "time": "2023-01-02T15:55:32+00:00"
+            "time": "2024-07-28T13:22:02+00:00"
         },
         {
             "name": "schulit/common-bundle",
