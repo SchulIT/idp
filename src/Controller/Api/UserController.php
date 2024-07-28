@@ -21,6 +21,7 @@ use OpenApi\Attributes as OA;
 use PhpParser\Node\Expr\AssignOp\Mod;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -31,7 +32,13 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class UserController extends AbstractController {
 
     public function __construct(private readonly ValidatorInterface $validator, private readonly UserRepositoryInterface $userRepository,
+                                private readonly SerializerInterface $serializer,
                                 private readonly UserTypeRepositoryInterface $userTypeRepository, private readonly AttributePersister $attributePersister) {    }
+
+    public function json(mixed $data, int $status = 200, array $headers = [], array $context = []): JsonResponse {
+        $json = $this->serializer->serialize($data, 'json');
+        return new JsonResponse($json, $status, $headers, true);
+    }
 
     /**
      * Abfrage aller Benutzer im System
@@ -39,22 +46,18 @@ class UserController extends AbstractController {
     #[OA\Get(operationId: 'api_user_list', tags: ['Benutzer'])]
     #[OA\Response(response: '200', description: 'Liste mit Benutzern.', content: new Model(type: ListUserResponse::class))]
     #[OA\Parameter(name: 'offset', description: '[Pagination] Offset für das erste zurückgegebene Element.', in: 'query', required: false)]
-    #[OA\Parameter(name: 'limit', description: '[Pagination] Anzahl der Benutzer, die zurückgegeben werden sollen.', in: 'query', required: false)]
+    #[OA\Parameter(name: 'limit', description: '[Pagination] Anzahl der Benutzer, die zurückgegeben werden sollen.', in: 'query', required: true)]
     #[Route(path: '', methods: ['GET'])]
     public function list(Request $request, UserRepositoryInterface $userRepository): Response {
-        $offset = $request->query->get('offset');
-        $limit = $request->query->get('limit');
+        $offset = $request->query->getInt('offset', 0);
+        $limit = $request->query->getInt('limit', 50);
 
-        if(!is_numeric($offset) || $offset < 0) {
+        if($offset < 0) {
             $offset = 0;
-        } else {
-            $offset = (int)$offset;
         }
 
-        if($limit !== null && (!is_numeric($limit) || $limit < 0)) {
-            $limit = null;
-        } else {
-            $limit = (int)$limit;
+        if($limit < 0) {
+            $limit = 50;
         }
 
         $uuids = $userRepository->findAllUuids($offset, $limit, true);
@@ -222,14 +225,10 @@ class UserController extends AbstractController {
 
         $user = $this->userRepository->findOneByExternalId($uuidOrExternalId);
 
-        if($user->isDeleted()) {
+        if($user === null || $user->isDeleted()) {
             throw $this->createNotFoundException();
         }
 
-        if($user !== null) {
-            return $user;
-        }
-
-        throw $this->createNotFoundException();
+        return $user;
     }
 }
