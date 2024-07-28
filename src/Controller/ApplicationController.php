@@ -31,12 +31,12 @@ class ApplicationController extends AbstractController {
     #[Route(path: '/add', name: 'add_application')]
     public function add(Request $request, ApplicationKeyGenerator $keyGenerator): Response {
         $application = (new Application());
+        $application->setApiKey($keyGenerator->generateApiKey());
 
         $form = $this->createForm(ApplicationType::class, $application);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $application->setApiKey($keyGenerator->generateApiKey());
             $this->repository->persist($application);
             $this->addFlash('success', 'applications.add.success');
 
