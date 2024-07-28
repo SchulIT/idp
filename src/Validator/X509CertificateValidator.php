@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
 class X509CertificateValidator extends ConstraintValidator {
-    public function validate($value, Constraint $constraint) {
+    public function validate($value, Constraint $constraint): void {
         if(!$constraint instanceof X509Certificate) {
             throw new InvalidArgumentException(
                 sprintf('$constraint must be of type "%s" ("%s" given)', X509Certificate::class, $constraint::class)

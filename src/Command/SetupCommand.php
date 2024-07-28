@@ -32,17 +32,17 @@ class SetupCommand extends Command {
 
         $io->success('Setup abgeschlossen');
 
-        return 0;
+        return Command::SUCCESS;
     }
 
-    private function addDefaultUserType(SymfonyStyle $io) {
+    private function addDefaultUserType(SymfonyStyle $io): void {
         $io->section('Benutzertypen');
         $io->writeln('Prüfe, ob Benutzertypen existieren und lege sie ggf. an');
         $this->userTypeSetup->setupDefaultUserTypes();
         $io->success('Fertig');
     }
 
-    private function setupRememberMe(SymfonyStyle $io) {
+    private function setupRememberMe(SymfonyStyle $io): void {
         $io->section('Erstelle Tabelle für die "angemeldet bleiben"-Funktion, falls nicht vorhanden');
         $sql = <<<SQL
 CREATE TABLE IF NOT EXISTS `rememberme_token` (
@@ -58,7 +58,7 @@ SQL;
         $io->success('Fertig');
     }
 
-    private function setupSessions(SymfonyStyle $io) {
+    private function setupSessions(SymfonyStyle $io): void {
         $io->section('Sessions');
         $io->write('Prüfe, ob sessions-Tabelle existiert...');
         $sql = "SHOW TABLES LIKE 'sessions';";

@@ -18,7 +18,7 @@ class RemoveExpiredPasswordRequestTokensCommand extends Command {
         parent::__construct($name);
     }
 
-    public function execute(InputInterface $input, OutputInterface $output) {
+    public function execute(InputInterface $input, OutputInterface $output): int {
         $io = new SymfonyStyle($input, $output);
 
         $io->section('Lösche alte Tokens');
@@ -26,6 +26,6 @@ class RemoveExpiredPasswordRequestTokensCommand extends Command {
         $count = $this->forgotPasswordManager->garbageCollect();
         $io->success(sprintf('%d Token gelöscht', $count));
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

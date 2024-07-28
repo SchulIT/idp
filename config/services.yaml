@@ -142,11 +142,6 @@ services:
     SchulIT\CommonBundle\DarkMode\DarkModeManagerInterface:
         class: App\DarkMode\DarkModeManager
 
-    # Rest
-    App\ParamConverter\JsonBodyConverter:
-        arguments:
-            $prefix: 'App\Request'
-
     # Markdown
     League\CommonMark\Extension\CommonMarkCoreExtension: ~
 

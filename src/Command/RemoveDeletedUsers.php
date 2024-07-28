@@ -28,6 +28,6 @@ class RemoveDeletedUsers extends Command {
 
         $style->success(sprintf('%d Benutzer gelöscht', $count));
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

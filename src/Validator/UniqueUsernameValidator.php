@@ -18,7 +18,7 @@ class UniqueUsernameValidator extends ConstraintValidator {
     /**
      * @inheritDoc
      */
-    public function validate($value, Constraint $constraint) {
+    public function validate($value, Constraint $constraint): void {
         if(!$constraint instanceof UniqueUsername) {
             throw new UnexpectedTypeException($constraint, UniqueUsername::class);
         }

@@ -111,6 +111,6 @@ class AddUserCommand extends Command {
 
         $io->success('Benutzer erfolgreich erstellt');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }
