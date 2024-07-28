@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cd53e017f5b1ae40b038d68249daee70",
+    "content-hash": "9e40cbfd8939697a5f9da118020187c5",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2322,23 +2322,23 @@
         },
         {
             "name": "frostiede/composer-dependency-list-bundle",
-            "version": "3.0.1",
+            "version": "4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/frostieDE/composer-dependency-list-bundle.git",
-                "reference": "44a187014dc38b79f1285ec704997d9720a84fea"
+                "reference": "54d47488c3d9b4eed1fc48067a0da9aae47ae172"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/frostieDE/composer-dependency-list-bundle/zipball/44a187014dc38b79f1285ec704997d9720a84fea",
-                "reference": "44a187014dc38b79f1285ec704997d9720a84fea",
+                "url": "https://api.github.com/repos/frostieDE/composer-dependency-list-bundle/zipball/54d47488c3d9b4eed1fc48067a0da9aae47ae172",
+                "reference": "54d47488c3d9b4eed1fc48067a0da9aae47ae172",
                 "shasum": ""
             },
             "require": {
                 "frostiede/composer-dependency-list": "^2.0",
-                "php": "^7.4|^8.0",
-                "symfony/console": "^5.4|^6.0",
-                "symfony/framework-bundle": "^5.4|^6.0"
+                "php": "^8.1",
+                "symfony/console": "^6.4|^7.0",
+                "symfony/framework-bundle": "^6.4|^7.0"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -2358,9 +2358,9 @@
             ],
             "support": {
                 "issues": "https://github.com/frostieDE/composer-dependency-list-bundle/issues",
-                "source": "https://github.com/frostieDE/composer-dependency-list-bundle/tree/3.0.1"
+                "source": "https://github.com/frostieDE/composer-dependency-list-bundle/tree/4.0.1"
             },
-            "time": "2023-08-31T17:36:30+00:00"
+            "time": "2024-07-28T12:55:07+00:00"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -5954,26 +5954,25 @@
         },
         {
             "name": "schulit/lightsaml-idp-bundle",
-            "version": "2.0.0",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SchulIT/lightsaml-idp-bundle.git",
-                "reference": "ed2cd2516f446a8e27f893f99e2258b4254f56d1"
+                "reference": "9df42a06922619c259c9f5723302cb53ff135427"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SchulIT/lightsaml-idp-bundle/zipball/ed2cd2516f446a8e27f893f99e2258b4254f56d1",
-                "reference": "ed2cd2516f446a8e27f893f99e2258b4254f56d1",
+                "url": "https://api.github.com/repos/SchulIT/lightsaml-idp-bundle/zipball/9df42a06922619c259c9f5723302cb53ff135427",
+                "reference": "9df42a06922619c259c9f5723302cb53ff135427",
                 "shasum": ""
             },
             "require": {
                 "ext-iconv": "*",
                 "lightsaml2/lightsaml-idp": "^2.0",
-                "php": "^7.4.1|^8.0",
-                "symfony/flex": "^1.0",
-                "symfony/framework-bundle": "^5.4|^6.0",
-                "symfony/security-core": "^5.4|^6.0",
-                "symfony/yaml": "^5.4|^6.0"
+                "php": "^8.0",
+                "symfony/framework-bundle": "^6.4|^7.0",
+                "symfony/security-core": "^6.4|^7.0",
+                "symfony/yaml": "^6.4|^7.0"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -5987,9 +5986,9 @@
             ],
             "support": {
                 "issues": "https://github.com/SchulIT/lightsaml-idp-bundle/issues",
-                "source": "https://github.com/SchulIT/lightsaml-idp-bundle/tree/2.0.0"
+                "source": "https://github.com/SchulIT/lightsaml-idp-bundle/tree/3.0.0"
             },
-            "time": "2021-12-31T12:16:34+00:00"
+            "time": "2024-07-28T13:03:17+00:00"
         },
         {
             "name": "sensiolabs/ansi-to-html",
