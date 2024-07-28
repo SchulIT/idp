@@ -29,8 +29,8 @@ use App\View\Filter\UserTypeFilter;
 use DateTime;
 use SchulIT\CommonBundle\Form\ConfirmType;
 use SchulIT\CommonBundle\Utils\RefererHelper;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -39,6 +39,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[IsGranted(
+    new Expression(
+        "is_granted('ROLE_ADMIN') or is_granted('ROLE_PASSWORD_MANAGER')"
+    )
+)]
 class UserController extends AbstractController {
 
     use AttributeDataTrait;
@@ -107,7 +112,6 @@ class UserController extends AbstractController {
     }
 
     #[Route(path: '/users', name: 'users')]
-    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_PASSWORD_MANAGER')")]
     public function index(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter): Response {
         return $this->internalDisplay($request, $typeFilter, $roleFilter, false);
     }
