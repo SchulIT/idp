@@ -23,7 +23,7 @@ sidebar_position: 1
   * tokenizer
   * xml
   * xmlwriter
-* MariaDB 10.4+ (ein kompatibles MySQL kann funktionieren, ist jedoch nicht getestet)
+* MariaDB 10.11+ (ein kompatibles MySQL kann funktionieren, ist jedoch nicht getestet)
 * Composer 2+
 * Git (zum einfachen Einspielen der Software)
 * NodeJS >= 18 inkl NPM (zum Erstellen der Javascript- und CSS-Dateien)
