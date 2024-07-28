@@ -148,12 +148,14 @@
             <div class="list-group list-group-flush">
                 {% for session in sessions %}
                     <div class="list-group-item">
-                        {% if session.browserInfo.device_type == 'Desktop' %}
-                            <i class="fas fa-desktop"></i>
-                        {% elseif session.browserInfo.device_type == 'Mobile Phone' %}
-                            <i class="fas fa-mobile-alt"></i>
-                        {% elseif session.browserInfo.device_type == 'Tablet' %}
-                            <i class="fas fa-tablet-alt"></i>
+                        {% if session.browserInfo.device_type is defined %}
+                            {% if session.browserInfo.device_type == 'Desktop' %}
+                                <i class="fas fa-desktop"></i>
+                            {% elseif session.browserInfo.device_type == 'Mobile Phone' %}
+                                <i class="fas fa-mobile-alt"></i>
+                            {% elseif session.browserInfo.device_type == 'Tablet' %}
+                                <i class="fas fa-tablet-alt"></i>
+                            {% endif %}
                         {% endif %}
 
                         {{ session.startedAt|format_datetime }}
