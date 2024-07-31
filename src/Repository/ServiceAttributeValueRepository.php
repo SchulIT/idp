@@ -92,18 +92,4 @@ class ServiceAttributeValueRepository implements ServiceAttributeValueRepository
         return $query->getQuery()->getResult();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getAttributeValuesForRegistrationCode(RegistrationCode $code): array {
-        $query = $this->em
-            ->createQueryBuilder()
-            ->select(['v', 'a'])
-            ->from(ServiceAttributeRegistrationCodeValue::class, 'v')
-            ->leftJoin('v.attribute', 'a')
-            ->where('v.registrationCode = :code')
-            ->setParameter('code', $code->getId());
-
-        return $query->getQuery()->getResult();
-    }
 }

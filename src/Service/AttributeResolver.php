@@ -118,16 +118,6 @@ class AttributeResolver {
         return $this->transformValuesToSimpleArray($userRoleAttributeValues);
     }
 
-    /**
-     * @return mixed[]
-     */
-    public function getAttributesForRegistrationCode(RegistrationCode $code): array {
-        /** @var ServiceAttributeValue[] $registrationCodeValues */
-        $registrationCodeValues = $this->attributeValueRepository->getAttributeValuesForRegistrationCode($code);
-
-        return $this->transformValuesToSimpleArray($registrationCodeValues);
-    }
-
     private function transformValuesToSimpleArray(array $values): array {
         $attributeValues = [ ];
 
