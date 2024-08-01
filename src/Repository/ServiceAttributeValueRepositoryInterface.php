@@ -41,10 +41,4 @@ interface ServiceAttributeValueRepositoryInterface {
      */
     public function getAttributeValuesForUserRole(UserRole $userRole): array;
 
-    /**
-     * @param RegistrationCode $code
-     * @return ServiceAttributeRegistrationCodeValue[]
-     */
-    public function getAttributeValuesForRegistrationCode(RegistrationCode $code): array;
-
 }

@@ -36,7 +36,7 @@ Dabei ist `1.0.0` durch die entsprechende Version zu ersetzen.
 ## Abhängigkeiten aktualisieren
 
 ```bash
-$ composer install --no-dev --classmap-authoritative --no-scripts
+$ composer install --no-dev --classmap-authoritative
 $ npm install
 ```
 

@@ -12,7 +12,7 @@ doctrine:
             default:
                 url: '%env(resolve:DATABASE_URL)%'
                 driver: 'pdo_mysql'
-                server_version: '10.4.0-mariadb'
+                server_version: '10.11.0-mariadb'
                 charset: utf8mb4
                 schema_filter: ~^(?!(sessions|rememberme_token|session_user))~ # exclude session and rememberme_token table
                 default_table_options:
@@ -22,7 +22,7 @@ doctrine:
                 url: '%env(resolve:DATABASE_URL)%'
                 charset: utf8mb4
                 driver: 'pdo_mysql'
-                server_version: '10.4.0-mariadb'
+                server_version: '10.11.0-mariadb'
                 default_table_options:
                     charset: utf8mb4
                     collate: utf8mb4_unicode_ci
@@ -31,6 +31,9 @@ doctrine:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
+        enable_lazy_ghost_objects: true
+        controller_resolver:
+            auto_mapping: false
         mappings:
             App:
                 is_bundle: false

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Exception;
 use LightSaml\Idp\Builder\Action\Profile\SingleSignOn\Idp\SsoIdpAssertionActionBuilder;
 use RuntimeException;
 use App\Entity\SamlServiceProvider;
@@ -50,80 +51,90 @@ class SsoController extends AbstractController {
             return $this->redirectToRoute('dashboard');
         }
 
-        $requestStorage->load();
+        try {
+            $requestStorage->load();
 
-        $context = $receiveBuilder->buildContext();
-        $action = $receiveBuilder->buildAction();
+            $context = $receiveBuilder->buildContext();
+            $action = $receiveBuilder->buildAction();
 
-        $action->execute($context);
+            $action->execute($context);
 
-        $partyContext = $context->getPartyEntityContext();
-        $endpoint = $context->getEndpoint();
-        $message = $context->getInboundMessage();
+            $partyContext = $context->getPartyEntityContext();
+            $endpoint = $context->getEndpoint();
+            $message = $context->getInboundMessage();
 
-        // check authorization
-        $serviceProvider = $serviceProviderRepository
-            ->findOneByEntityId($partyContext->getEntityId());
+            // check authorization
+            $serviceProvider = $serviceProviderRepository
+                ->findOneByEntityId($partyContext->getEntityId());
 
-        if($serviceProvider === null || !$serviceProvider instanceof SamlServiceProvider) {
-            throw new BadRequestHttpException('The issusing service provider does not exist.');
-        }
+            if ($serviceProvider === null || !$serviceProvider instanceof SamlServiceProvider) {
+                throw new BadRequestHttpException('The issusing service provider does not exist.');
+            }
 
-        if(!$this->isGranted(ServiceProviderVoter::ENABLED, $serviceProvider)) {
+            if (!$this->isGranted(ServiceProviderVoter::ENABLED, $serviceProvider)) {
+                $requestStorage->clear();
+
+                return $this->render('sso/denied.html.twig', [
+                    'service' => $serviceProvider
+                ], new Response(null, Response::HTTP_FORBIDDEN));
+            }
+
+            $sendBuilder = $sendResponseBuilder->build(
+                [new SsoIdpAssertionActionBuilder($buildContainer)],
+                $partyContext->getEntityDescriptor()->getEntityID()
+            );
+            $sendBuilder->setPartyEntityDescriptor($partyContext->getEntityDescriptor());
+            $sendBuilder->setPartyTrustOptions($partyContext->getTrustOptions());
+            $sendBuilder->setEndpoint($endpoint);
+            $sendBuilder->setMessage($message);
+
+            $context = $sendBuilder->buildContext();
+            $action = $sendBuilder->buildAction();
+
+            $action->execute($context);
+
             $requestStorage->clear();
 
-            return $this->render('sso/denied.html.twig', [
-                'service' => $serviceProvider
-            ], new Response(null, Response::HTTP_FORBIDDEN));
+            $response = $context->getHttpResponseContext()->getResponse();
+
+            $type = $this->confirmationService->needsConfirmation($user, $serviceProvider) ? 'confirm' : 'redirect';
+            $token = $tokenManager->getToken(self::CSRF_TOKEN_ID);
+
+            if ($response instanceof SamlPostResponse) {
+                $data = $response->getData();
+                $destination = $response->getDestination();
+                $attributes = $attributeValueProvider->getValuesForUser($this->getUser(), $serviceProvider->getEntityId());
+
+                return $this->render('sso/' . $type . '_post.html.twig', [
+                    'service' => $serviceProvider,
+                    'data' => $data,
+                    'destination' => $destination,
+                    'attributes' => $attributes,
+                    'csrf_token' => $token->getValue()
+                ]);
+            } else {
+                if ($response instanceof RedirectResponse) {
+                    $destination = $response->getTargetUrl();
+
+                    $attributes = $attributeValueProvider->getValuesForUser($this->getUser(), $serviceProvider->getEntityId());
+
+                    return $this->render('sso/' . $type . '_uri.html.twig', [
+                        'service' => $serviceProvider,
+                        'destination' => $destination,
+                        'attributes' => $attributes,
+                        'csrf_token' => $token->getValue()
+                    ]);
+                }
+            }
+
+            throw new RuntimeException('Unsupported Binding!');
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
+        } finally {
+            $requestStorage->clear();
         }
 
-        $sendBuilder = $sendResponseBuilder->build(
-            [new SsoIdpAssertionActionBuilder($buildContainer)],
-            $partyContext->getEntityDescriptor()->getEntityID()
-        );
-        $sendBuilder->setPartyEntityDescriptor($partyContext->getEntityDescriptor());
-        $sendBuilder->setPartyTrustOptions($partyContext->getTrustOptions());
-        $sendBuilder->setEndpoint($endpoint);
-        $sendBuilder->setMessage($message);
-
-        $context = $sendBuilder->buildContext();
-        $action = $sendBuilder->buildAction();
-
-        $action->execute($context);
-
-        $requestStorage->clear();
-
-        $response = $context->getHttpResponseContext()->getResponse();
-
-        $type = $this->confirmationService->needsConfirmation($user, $serviceProvider) ? 'confirm' : 'redirect';
-        $token = $tokenManager->getToken(self::CSRF_TOKEN_ID);
-
-        if ($response instanceof SamlPostResponse) {
-            $data = $response->getData();
-            $destination = $response->getDestination();
-            $attributes = $attributeValueProvider->getValuesForUser($this->getUser(), $serviceProvider->getEntityId());
-
-            return $this->render('sso/' . $type . '_post.html.twig', [
-                'service' => $serviceProvider,
-                'data' => $data,
-                'destination' => $destination,
-                'attributes' => $attributes,
-                'csrf_token' => $token->getValue()
-            ]);
-        } else if ($response instanceof RedirectResponse) {
-            $destination = $response->getTargetUrl();
-
-            $attributes = $attributeValueProvider->getValuesForUser($this->getUser(), $serviceProvider->getEntityId());
-
-            return $this->render('sso/' . $type . '_uri.html.twig', [
-                'service' => $serviceProvider,
-                'destination' => $destination,
-                'attributes' => $attributes,
-                'csrf_token' => $token->getValue()
-            ]);
-        }
-
-        throw new RuntimeException('Unsupported Binding!');
+        return $this->redirectToRoute('dashboard');
     }
 
     #[Route(path: '/idp/saml/confirm/{uuid}', name: 'confirm_redirect')]

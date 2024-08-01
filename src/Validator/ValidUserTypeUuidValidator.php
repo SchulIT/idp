@@ -16,7 +16,7 @@ class ValidUserTypeUuidValidator extends ConstraintValidator {
     /**
      * @inheritDoc
      */
-    public function validate($value, Constraint $constraint) {
+    public function validate($value, Constraint $constraint): void {
         if(!$constraint instanceof ValidUserTypeUuid) {
             throw new UnexpectedTypeException($constraint, ValidUserTypeUuid::class);
         }

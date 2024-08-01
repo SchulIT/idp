@@ -13,8 +13,3 @@ common:
     logo_link: 'dashboard'
   locales: "%locales%"
   menu: mainMenu
-  disable:
-    messenger: false
-  messenger:
-    transport: 'messenger.transport.async'
-
