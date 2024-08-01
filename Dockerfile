@@ -85,28 +85,30 @@ RUN npm install \
 
 FROM base AS runner
 
+WORKDIR /var/www/html
+
 # Copy necessary files into the container
-#COPY bin /var/www/html/bin
-#COPY .env /var/www/html/.env
-#COPY templates /var/www/html/templates
-#COPY migrations /var/www/html/migrations
-#COPY config /var/www/html/config
-#COPY src /var/www/html/src
-#COPY public /var/www/html/public
 COPY . .
+
+# Remove unnecessary files
+RUN rm -rf ./docs
+RUN rm -rf ./.github
+RUN rm -rf ./docker-compose.yml
+RUN rm -rf ./Dockerfile
+RUN rm -rf ./.gitignore
 
 # Copy build files from the previous stages
 COPY --from=node /var/www/html/public /var/www/html/public
 COPY --from=composer /var/www/html/vendor /var/www/html/vendor
 
-WORKDIR /var/www/html
+# Remove the .htaccess file because we are using Nginx
+RUN rm -rf ./public/.htaccess
 
 # Create SAML certificate
 RUN php bin/console app:create-certificate --type saml --no-interaction
 
 # Copy the Nginx configuration file into the container
-COPY default.conf /etc/nginx/sites-enabled/sso
-# COPY default.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/sites-enabled/sso
 
 # Copy the startup script into the container
 COPY startup.sh /usr/local/bin/startup.sh

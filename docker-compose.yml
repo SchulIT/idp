@@ -6,24 +6,31 @@ services:
     ports:
       - "8080:80"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     env_file:
       - .env.local
+    volumes:
+      - certs:/var/www/html/certs
+      # nginx configuration file
+      - ./nginx.conf:/etc/nginx/sites-enabled/sso
 
   db:
     image: mariadb:10.4
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: idp
-      MYSQL_USER: idpuser
-      MYSQL_PASSWORD: idppassword
+    env_file:
+      - .env.local
     ports:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      timeout: 20s
+      retries: 10
 
 volumes:
   db_data:
+  certs:
 
 
