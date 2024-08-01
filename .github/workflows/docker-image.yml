@@ -1,10 +1,6 @@
 name: Docker Image CI
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
   workflow_dispatch:
   release:
     types: [ published ]
@@ -40,17 +36,9 @@ jobs:
         uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-   # Build and push Docker image with Buildx (don't push on PR)
+      
+      # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
-      - name: Build and push Docker image to nightly
-        id: build-and-push-nightly
-        uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
-        with:
-          context: .
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:nightly
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: version_info=${{ env.RELEASE_VERSION }} (${{ env.CURRENT_DATE }})
       - name: Build and push Docker image to latest
         if: ${{ !github.event.release.prerelease && github.event_name != 'push' }}
         id: build-and-push-latest
