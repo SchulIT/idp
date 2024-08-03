@@ -108,7 +108,7 @@ RUN rm -rf ./public/.htaccess
 RUN php bin/console app:create-certificate --type saml --no-interaction
 
 # Copy the Nginx configuration file into the container
-COPY nginx.conf /etc/nginx/sites-enabled/sso
+COPY nginx.conf /etc/nginx/sites-enabled/default
 
 # Copy the startup script into the container
 COPY startup.sh /usr/local/bin/startup.sh
