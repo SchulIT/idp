@@ -14,7 +14,7 @@ services:
     volumes:
       - certs:/var/www/html/certs
       # nginx configuration file
-      - ./nginx.conf:/etc/nginx/sites-enabled/sso
+      # - ./nginx.conf:/etc/nginx/sites-enabled/default
 
   db:
     image: mariadb:10.4
