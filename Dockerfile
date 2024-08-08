@@ -78,10 +78,9 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g npm@latest
 
-# Install Node.js dependencies and build assets
+# Install Node.js dependencies
 RUN npm install \
-    && npm run build \
-    && php bin/console assets:install
+    && npm run build
 
 FROM base AS runner
 
@@ -101,11 +100,13 @@ RUN rm -rf ./.gitignore
 COPY --from=node /var/www/html/public /var/www/html/public
 COPY --from=composer /var/www/html/vendor /var/www/html/vendor
 
+# Install assets
+RUN php bin/console assets:install
+
+# Output of assets? --> Needs to be copied to the final image - maybe separate stage
+
 # Remove the .htaccess file because we are using Nginx
 RUN rm -rf ./public/.htaccess
-
-# Create SAML certificate
-RUN php bin/console app:create-certificate --type saml --no-interaction
 
 # Copy the Nginx configuration file into the container
 COPY nginx.conf /etc/nginx/sites-enabled/default

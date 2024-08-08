@@ -33,7 +33,7 @@ doctrine:
         auto_mapping: true
         enable_lazy_ghost_objects: true
         controller_resolver:
-            auto_mapping: false
+            auto_mapping: true
         mappings:
             App:
                 is_bundle: false

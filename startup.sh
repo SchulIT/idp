@@ -1,7 +1,19 @@
 #!/bin/sh
 
-# Check if the FIRST_RUN environment variable is 1
-if [ "$FIRST_RUN" = "1" ]; then
+CONTAINER_ALREADY_STARTED="IDP_CONTAINER_ALREADY_STARTED"
+# Check if the container has already been started
+if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
+    touch $CONTAINER_ALREADY_STARTED
+    echo "-- First container startup --"
+
+    # Check if the SAML certificate does not exist
+    if [ ! -f /var/www/html/certs/idp.crt ] || [ ! -f /var/www/html/certs/idp.key ]; then
+        echo "Creating SAML certificate..."
+
+        # Create SAML certificate
+        php bin/console app:create-certificate --type saml --no-interaction
+    fi
+
     # Run database migrations
     php bin/console doctrine:migrations:migrate --no-interaction
 
@@ -13,9 +25,6 @@ if [ "$FIRST_RUN" = "1" ]; then
 
     # Update Browscap
     php bin/console app:browscap:update
-
-    # Set FIRST_RUN environment variable to 0
-    export FIRST_RUN=0
 fi
 
 # Start PHP-FPM

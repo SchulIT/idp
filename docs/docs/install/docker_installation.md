@@ -307,8 +307,4 @@ docker compose up --build
 
 gestartet werden.
 
-
 Anschließend muss auch ein Admin User angelegt werden (s.o.)
-
-
-
