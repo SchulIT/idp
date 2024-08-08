@@ -67,11 +67,7 @@ services:
       # if you want to modify the apperance of this app mount this folder
       # - /home/docker/schulit/idp/own_assets:/var/www/html/public/own_assets
       # nginx configuration file - uncomment below if you want to use an own nginx config
-
-      # - ./nginx.conf:/etc/nginx/sites-enabled/default
-
-
-
+      # - ./nginx.conf:/etc/nginx/sites-enabled/sso
 
   db:
     image: mariadb:10.4
@@ -307,8 +303,8 @@ docker compose up --build
 
 gestartet werden.
 
-
 Anschließend muss auch ein Admin User angelegt werden (s.o.)
+
 
 
 
