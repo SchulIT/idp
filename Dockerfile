@@ -55,7 +55,7 @@ WORKDIR /var/www/html
 COPY . .
 
 # Install PHP dependencies including symfony/runtime
-RUN composer install --classmap-authoritative --no-scripts
+RUN composer install --no-dev --classmap-authoritative --no-scripts
 
 FROM base AS node
 
@@ -78,9 +78,10 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g npm@latest
 
-# Install Node.js dependencies
+# Install Node.js dependencies and build the assets
 RUN npm install \
-    && npm run build
+    && npm run build \
+    && php bin/console assets:install
 
 FROM base AS runner
 
@@ -100,9 +101,6 @@ RUN rm -rf ./.gitignore
 COPY --from=node /var/www/html/public /var/www/html/public
 COPY --from=composer /var/www/html/vendor /var/www/html/vendor
 
-# Install assets
-RUN php bin/console assets:install
-
 # Output of assets? --> Needs to be copied to the final image - maybe separate stage
 
 # Remove the .htaccess file because we are using Nginx
@@ -116,9 +114,6 @@ COPY startup.sh /usr/local/bin/startup.sh
 
 # Ensure the startup script is executable
 RUN chmod +x /usr/local/bin/startup.sh
-
-# Set first run flag
-ENV FIRST_RUN=1
 
 # Expose port 80
 EXPOSE 80

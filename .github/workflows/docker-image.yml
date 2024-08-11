@@ -32,7 +32,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: downcase REPO
+      # Set image name to lower case because ghcr.io complains about uppercase
+      - name: downcase image name
         run: |
           echo "IMAGE_NAME_LOWER=${IMAGE_NAME@L}" >> "${GITHUB_ENV}"
 
