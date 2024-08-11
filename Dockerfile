@@ -119,4 +119,4 @@ RUN chmod +x /usr/local/bin/startup.sh
 EXPOSE 80
 
 # Use the startup script as the entrypoint
-CMD ["/usr/local/bin/startup.sh"]
+ENTRYPOINT ["/usr/local/bin/startup.sh"]

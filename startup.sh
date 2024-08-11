@@ -25,13 +25,13 @@ if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
 
     # Update Browscap
     php bin/console app:browscap:update
-
-    # Grant write permissions to the storage directories
-    chown -R www-data:www-data /var/www/html/var
 fi
 
 # Start PHP-FPM
 php-fpm &
+
+# Ensure the var directory is writable
+chown -R www-data:www-data /var/www/html/var
 
 # Start Nginx
 nginx -g 'daemon off;'
