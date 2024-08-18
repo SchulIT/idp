@@ -14,6 +14,7 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Response\ActiveDirectoryUser as ActiveDirectoryUserResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -58,7 +59,7 @@ class ActiveDirectoryConnectController extends AbstractController {
     #[OA\Response(response: '400', description: 'Validierung fehlgeschlagen.', content: new Model(type:ViolationListResponse::class))]
     #[OA\Response(response: '500', description: 'Serverfehler', content: new Model(type: ErrorResponse::class))]
     #[Route(path: '', methods: ['POST'])]
-    public function add(ActiveDirectoryUserRequest $request): Response {
+    public function add(#[MapRequestPayload] ActiveDirectoryUserRequest $request): Response {
         $userInfo = $this->transformRequest($request);
 
         if($this->userCreator->canCreateUser($userInfo)) {
@@ -83,7 +84,7 @@ class ActiveDirectoryConnectController extends AbstractController {
     #[OA\Response(response: '400', description: 'Validierung fehlgeschlagen.', content: new Model(type:ViolationListResponse::class))]
     #[OA\Response(response: '500', description: 'Serverfehler', content: new Model(type: ErrorResponse::class))]
     #[Route(path: '/{objectGuid}', methods: ['PATCH'])]
-    public function update(ActiveDirectoryUser $user, ActiveDirectoryUserRequest $request): Response {
+    public function update(ActiveDirectoryUser $user, #[MapRequestPayload] ActiveDirectoryUserRequest $request): Response {
         $user = $this->userCreator->createUser($this->transformRequest($request), $user);
         $this->repository->persist($user);
         return new Response(null, Response::HTTP_NO_CONTENT);
