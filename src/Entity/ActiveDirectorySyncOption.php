@@ -16,71 +16,50 @@ class ActiveDirectorySyncOption implements ActiveDirectorySyncOptionInterface {
 
     #[ORM\Column(type: 'string')]
     #[Assert\NotBlank]
-    private $name;
+    private string $name;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $description;
+    private ?string $description;
 
     #[ORM\Column(type: 'string', unique: true)]
     #[Assert\NotBlank]
-    private $source;
+    private string $source;
 
     #[ORM\Column(type: 'string', nullable: false, enumType: ActiveDirectorySyncSourceType::class)]
-    private $sourceType;
+    private ActiveDirectorySyncSourceType $sourceType;
 
     #[ORM\ManyToOne(targetEntity: UserType::class, inversedBy: 'syncOptions')]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private $userType;
+    private ?UserType $userType;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
         $this->sourceType = ActiveDirectorySyncSourceType::Ou;
     }
 
-    /**
-     * @return string
-     */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return ActiveDirectorySyncOption
-     */
-    public function setName($name) {
+    public function setName(string $name): self {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getDescription() {
+    public function getDescription(): ?string {
         return $this->description;
     }
 
-    /**
-     * @param string|null $description
-     * @return ActiveDirectorySyncOption
-     */
-    public function setDescription($description) {
+    public function setDescription(?string $description): self {
         $this->description = $description;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSource() {
+    public function getSource(): string {
         return $this->source;
     }
 
-    /**
-     * @param string $source
-     * @return ActiveDirectorySyncOption
-     */
-    public function setSource($source) {
+    public function setSource(string $source): self {
         $this->source = $source;
         return $this;
     }
@@ -89,26 +68,16 @@ class ActiveDirectorySyncOption implements ActiveDirectorySyncOptionInterface {
         return $this->sourceType;
     }
 
-    /**
-     * @return ActiveDirectorySyncOption
-     */
-    public function setSourceType(ActiveDirectorySyncSourceType $sourceType) {
+    public function setSourceType(ActiveDirectorySyncSourceType $sourceType): self {
         $this->sourceType = $sourceType;
         return $this;
     }
 
-    /**
-     * @return UserType
-     */
-    public function getUserType() {
+    public function getUserType(): ?UserType {
         return $this->userType;
     }
 
-    /**
-     * @param UserType $userType
-     * @return ActiveDirectorySyncOption
-     */
-    public function setUserType($userType) {
+    public function setUserType(UserType $userType): self {
         $this->userType = $userType;
         return $this;
     }

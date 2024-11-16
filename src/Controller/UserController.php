@@ -35,7 +35,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -216,8 +217,8 @@ class UserController extends AbstractController {
 
     #[Route(path: '/users/{uuid}/remove', name: 'remove_user')]
     #[IsGranted('ROLE_ADMIN')]
-    public function remove(User $user, Request $request, TranslatorInterface $translator): Response {
-        if($this->getUser() instanceof User && $this->getUser()->getId() === $user->getId()) {
+    public function remove(#[CurrentUser] User $currentUser, User $user, Request $request, TranslatorInterface $translator): Response {
+        if($currentUser->getId() === $user->getId()) {
             $this->addFlash('error', 'users.remove.error.self');
             return $this->redirectToRoute('users');
         }
@@ -258,8 +259,8 @@ class UserController extends AbstractController {
 
     #[Route(path: '/users/{uuid}/restore', name: 'restore_user', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function restore(User $user, Request $request): Response {
-        if($this->getUser() instanceof User && $this->getUser()->getId() === $user->getId()) {
+    public function restore(#[CurrentUser] User $currentUser, User $user, Request $request): Response {
+        if($currentUser->getId() === $user->getId()) {
             $this->addFlash('error', 'users.restore.error.self');
             return $this->redirectToRoute('users');
         }

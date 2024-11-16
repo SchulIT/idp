@@ -6,7 +6,7 @@ use App\Repository\KioskUserRepositoryInterface;
 
 class KioskUserTokenGenerator {
 
-    public function __construct(private KioskUserRepositoryInterface $repository)
+    public function __construct(private readonly KioskUserRepositoryInterface $repository)
     {
     }
 

@@ -12,7 +12,7 @@ class UserTypeFilterView {
     /**
      * @param UserType[] $types
      */
-    public function __construct(private array $types, private ?UserType $currentType)
+    public function __construct(private readonly array $types, private readonly ?UserType $currentType)
     {
     }
 

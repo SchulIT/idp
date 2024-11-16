@@ -27,7 +27,7 @@ class UserCreator {
     /** @var ActiveDirectoryRoleSyncOption[] */
     private ?array $roleSyncOptions = null;
 
-    public function __construct(private ActiveDirectorySyncOptionRepositoryInterface $syncOptionRepository, private ActiveDirectoryGradeSyncOptionRepositoryInterface $gradeSyncOptionRepository, private ActiveDirectoryRoleSyncOptionRepositoryInterface $roleSyncOptionRepository, private OptionResolver $optionsResolver, private UserRepositoryInterface $userRepository)
+    public function __construct(private readonly ActiveDirectorySyncOptionRepositoryInterface $syncOptionRepository, private readonly ActiveDirectoryGradeSyncOptionRepositoryInterface $gradeSyncOptionRepository, private readonly ActiveDirectoryRoleSyncOptionRepositoryInterface $roleSyncOptionRepository, private readonly OptionResolver $optionsResolver, private readonly UserRepositoryInterface $userRepository)
     {
     }
 

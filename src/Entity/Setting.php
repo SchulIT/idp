@@ -40,7 +40,7 @@ class Setting {
     /**
      * @return Setting
      */
-    public function setValue(mixed $value) {
+    public function setValue(mixed $value): self {
         $this->value = $value;
         return $this;
     }

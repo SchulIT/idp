@@ -34,7 +34,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[Assert\NotBlank]
     #[Assert\Email(mode: 'html5')]
     #[Assert\Length(min: 4, max: 128)]
-    private $username;
+    private string $username;
 
     #[ORM\Column(type: 'string', nullable: true)]
     #[Assert\NotBlank(allowNull: true)]
@@ -46,9 +46,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
 
     #[ORM\Column(type: 'string', length: 62, nullable: true)]
     #[Serializer\Exclude]
-    private $password;
+    private ?string $password = null;
 
-    #[ORM\Column(type: 'string', nullable: true, unique: true)]
+    #[ORM\Column(type: 'string', unique: true, nullable: true)]
     #[Assert\NotBlank(allowNull: true)]
     #[Assert\Length(max: 191)]
     #[Assert\Email]
@@ -70,29 +70,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     private array $roles = [ 'ROLE_USER' ];
 
     #[ORM\Column(type: 'string', nullable: true)]
-    private $externalId;
+    private ?string $externalId = null;
 
     #[ORM\Column(type: 'boolean')]
     private bool $isActive = true;
 
+    /**
+     * @var Collection<ServiceProvider>
+     */
+    #[ORM\ManyToMany(targetEntity: ServiceProvider::class)]
     #[ORM\JoinTable]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(onDelete: 'CASCADE')]
-    #[ORM\ManyToMany(targetEntity: ServiceProvider::class)]
     #[Serializer\Exclude]
-    private $enabledServices;
+    private Collection $enabledServices;
 
+    /**
+     * @var Collection<ServiceAttributeValue>
+     */
     #[ORM\OneToMany(targetEntity: ServiceAttributeValue::class, mappedBy: 'user')]
     #[Serializer\Exclude]
-    private $attributes;
+    private Collection $attributes;
 
+    /**
+     * @var Collection<UserRole>
+     */
     #[ORM\ManyToMany(targetEntity: UserRole::class, inversedBy: 'users')]
+    #[ORM\JoinTable]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(onDelete: 'CASCADE')]
     #[Serializer\Exclude]
-    private $userRoles;
+    private Collection $userRoles;
 
     #[ORM\Column(type: 'string', nullable: true)]
     #[Serializer\Exclude]
-    private $googleAuthenticatorSecret;
+    private ?string $googleAuthenticatorSecret = null;
 
     #[ORM\Column(type: 'json')]
     #[Serializer\Exclude]
@@ -105,18 +117,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\Column(type: 'datetime')]
     #[Gedmo\Timestampable(on: 'create')]
     #[Serializer\Exclude]
-    private $createdAt;
+    private DateTime $createdAt;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     #[Gedmo\Timestampable(on: 'update', field: ['firstname', 'lastname', 'email', 'type', 'userRoles'])]
     #[Serializer\Exclude]
-    private $updatedAt;
+    private ?DateTime $updatedAt = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private $enabledFrom;
+    private ?DateTime $enabledFrom = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private $enabledUntil;
+    private ?DateTime $enabledUntil = null;
 
     #[ORM\Column(type: 'json')]
     #[Serializer\Exclude]
@@ -137,19 +149,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     /**
      * @var Collection<User>
      */
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'parents')]
     #[ORM\JoinTable(name: 'user_links')]
     #[ORM\JoinColumn(name: 'source_user_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'target_user_id', onDelete: 'CASCADE')]
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'parents')]
-    private $linkedStudents;
+    private Collection $linkedStudents;
 
     /**
      * @var Collection<User>
      */
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'linkedStudents')]
-    private $parents;
+    private Collection $parents;
 
-    #[ORM\OneToOne(mappedBy: 'user', targetEntity: EmailConfirmation::class)]
+    #[ORM\OneToOne(targetEntity: EmailConfirmation::class, mappedBy: 'user')]
     private ?EmailConfirmation $emailConfirmation = null;
 
     public function __construct() {
@@ -162,10 +174,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         $this->parents = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
-    public function getUsername() {
+    public function getUsername(): string {
         return $this->username;
     }
 
@@ -173,107 +182,64 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         return $this->getUsername();
     }
 
-    /**
-     * @param string $username
-     * @return User
-     */
-    public function setUsername($username) {
+    public function setUsername(string $username): self {
         $this->username = mb_strtolower($username);
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getFirstname() {
+    public function getFirstname(): ?string {
         return $this->firstname;
     }
 
-    /**
-     * @param string|null $firstname
-     * @return User
-     */
-    public function setFirstname($firstname) {
+    public function setFirstname(?string $firstname): self {
         $this->firstname = $firstname;
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getLastname() {
+    public function getLastname(): ?string {
         return $this->lastname;
     }
 
-    /**
-     * @param string|null $lastname
-     * @return User
-     */
-    public function setLastname($lastname) {
+    public function setLastname(?string $lastname): self {
         $this->lastname = $lastname;
         return $this;
     }
 
-    /**
-     * @param string $password
-     * @return User
-     */
-    public function setPassword($password) {
+    public function setPassword(string $password): self {
         $this->password = $password;
         return $this;
     }
 
-    /**
-     * @param string|null $email
-     * @return User
-     */
-    public function setEmail($email) {
+
+    public function setEmail(?string $email): self {
         $this->email = $email;
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getEmail() {
+    public function getEmail(): ?string {
         return $this->email;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getGrade() {
+
+    public function getGrade(): ?string {
         return $this->grade;
     }
 
-    /**
-     * @param string $grade
-     * @return User
-     */
-    public function setGrade($grade) {
+    public function setGrade(?string $grade): self {
         $this->grade = $grade;
         return $this;
     }
 
-    /**
-     * @return UserType|null
-     */
     public function getType(): ?UserType {
         return $this->type;
     }
 
-    /**
-     * @return User
-     */
-    public function setType(UserType $userType) {
+    public function setType(UserType $userType): self {
         $this->type = $userType;
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getExternalId() {
+    public function getExternalId(): ?string {
         if($this->linkedStudents->count() > 0) {
             return implode(',', $this->linkedStudents->map(fn(User $user) => $user->getEmail())->toArray());
         }
@@ -281,36 +247,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         return $this->externalId;
     }
 
-    /**
-     * @param string|null $externalId
-     * @return User
-     */
-    public function setExternalId($externalId) {
+    public function setExternalId(?string $externalId): self {
         $this->externalId = $externalId;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isActive() {
+    public function isActive(): bool {
         return $this->isActive;
     }
 
-    /**
-     * @param bool $active
-     * @return User
-     */
-    public function setIsActive($active) {
+    public function setIsActive(bool $active): self {
         $this->isActive = $active;
         return $this;
     }
 
-    public function addEnabledService(ServiceProvider $serviceProvider) {
+    public function addEnabledService(ServiceProvider $serviceProvider): void {
         $this->enabledServices->add($serviceProvider);
     }
 
-    public function removeEnabledService(ServiceProvider $serviceProvider) {
+    public function removeEnabledService(ServiceProvider $serviceProvider): void {
         $this->enabledServices->removeElement($serviceProvider);
     }
 
@@ -326,11 +281,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         return $this->userRoles;
     }
 
-    public function addUserRole(UserRole $role) {
+    public function addUserRole(UserRole $role): void {
         $this->userRoles->add($role);
     }
 
-    public function removeUserRole(UserRole $role) {
+    public function removeUserRole(UserRole $role): void {
         $this->userRoles->removeElement($role);
     }
 
@@ -345,7 +300,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
      * @param string[] $roles
      * @return User
      */
-    public function setRoles(array $roles) {
+    public function setRoles(array $roles): self {
         $this->roles = $roles;
         return $this;
     }
@@ -354,18 +309,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         return $this->password ?? '';
     }
 
-    /**
-     * @return null
-     */
-    public function getSalt() {
+    public function getSalt(): null {
         return null;
     }
 
-    /**
-     * @return null
-     */
-    public function eraseCredentials() {
-        return null;
+    public function eraseCredentials(): void {
+        return;
     }
 
     /**
@@ -379,9 +328,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         return $this->googleAuthenticatorSecret;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function setGoogleAuthenticatorSecret(?string $googleAuthenticatorSecret): void {
         $this->googleAuthenticatorSecret = $googleAuthenticatorSecret;
     }
@@ -389,11 +335,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     /**
      * @return string[]
      */
-    public function getBackupCodes() {
+    public function getBackupCodes(): array {
         return $this->backupCodes;
     }
 
-    public function emptyBackupCodes() {
+    public function emptyBackupCodes(): void {
         $this->backupCodes = [ ];
     }
 
@@ -401,21 +347,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
      * @param string[] $backupCodes
      * @return User
      */
-    public function setBackupCodes(array $backupCodes) {
+    public function setBackupCodes(array $backupCodes): self {
         $this->backupCodes = $backupCodes;
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function isBackupCode(string $code): bool {
         return in_array($code, $this->backupCodes);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function invalidateBackupCode(string $code): void {
         $key = array_search($code, $this->backupCodes);
         if ($key !== false){

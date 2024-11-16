@@ -4,7 +4,7 @@ namespace App\Security\Badge;
 
 class ClientIpAddressBadge extends AbstractBadge {
 
-    public function __construct(private array $validIpAddresses)
+    public function __construct(private readonly array $validIpAddresses)
     {
     }
 

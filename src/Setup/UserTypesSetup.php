@@ -6,7 +6,7 @@ use App\Entity\UserType;
 use App\Repository\UserTypeRepositoryInterface;
 
 class UserTypesSetup {
-    public function __construct(private UserTypeRepositoryInterface $userTypeRepository)
+    public function __construct(private readonly UserTypeRepositoryInterface $userTypeRepository)
     {
     }
 

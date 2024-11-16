@@ -4,13 +4,7 @@ namespace App\Entity;
 
 interface ActiveDirectorySyncOptionInterface {
 
-    /**
-     * @return string
-     */
-    public function getSource();
+    public function getSource(): string;
 
-    /**
-     * @return ActiveDirectorySyncSourceType
-     */
     public function getSourceType(): ActiveDirectorySyncSourceType;
 }

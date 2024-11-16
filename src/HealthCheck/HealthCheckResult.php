@@ -8,7 +8,7 @@ class HealthCheckResult {
      * @param string[] $messageParameter
      * @param string[] $routeParameter
      */
-    public function __construct(private HealthCheckResultType $type, private string $title, private string $message, private $messageParameter = [ ], private ?string $route = null, private array $routeParameter = [ ])
+    public function __construct(private readonly HealthCheckResultType $type, private readonly string $title, private readonly string $message, private $messageParameter = [ ], private ?string $route = null, private array $routeParameter = [ ])
     {
     }
 

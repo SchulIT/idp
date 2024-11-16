@@ -14,77 +14,62 @@ class SamlServiceProvider extends ServiceProvider {
     #[ORM\Column(type: 'string', unique: true)]
     #[Assert\NotBlank]
     #[Assert\Length(max: 128)]
-    private $entityId;
+    private string $entityId;
 
     #[ORM\Column(type: 'text')]
     #[Assert\NotBlank]
     #[Assert\Url]
     #[Serializer\Exclude]
-    private $acs;
+    private string $acs;
 
     #[ORM\Column(type: 'text')]
     #[Assert\NotBlank]
     #[Serializer\Exclude]
     #[X509Certificate]
-    private $certificate;
+    private string $certificate;
 
+    /**
+     * @var Collection<ServiceAttribute>
+     */
     #[ORM\ManyToMany(targetEntity: ServiceAttribute::class, mappedBy: 'services')]
     #[Serializer\Exclude]
-    private $attributes;
+    private Collection $attributes;
 
     public function __construct() {
         parent::__construct();
         $this->attributes = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
-    public function getEntityId() {
+    public function getEntityId(): string {
         return $this->entityId;
     }
 
-    /**
-     * @param string $entityId
-     * @return ServiceProvider
-     */
-    public function setEntityId($entityId) {
+    public function setEntityId(string $entityId): self {
         $this->entityId = $entityId;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getAcs() {
+    public function getAcs(): string {
         return $this->acs;
     }
 
-    /**
-     * @param string $acs
-     * @return ServiceProvider
-     */
-    public function setAcs($acs) {
+    public function setAcs(string $acs): self {
         $this->acs = $acs;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getCertificate() {
+    public function getCertificate(): string {
         return $this->certificate;
     }
 
-    /**
-     * @param string $certificate
-     * @return ServiceProvider
-     */
-    public function setCertificate($certificate) {
+    public function setCertificate(string $certificate): self {
         $this->certificate = $certificate;
         return $this;
     }
 
+    /**
+     * @return Collection<ServiceAttribute>
+     */
     public function getAttributes(): Collection {
         return $this->attributes;
     }

@@ -9,13 +9,13 @@ use Twig\TwigFilter;
 
 class ConverterExtension extends AbstractExtension {
 
-    public function __construct(private UserStringConverter $userConverter)
+    public function __construct(private readonly UserStringConverter $userConverter)
     {
     }
 
     public function getFilters(): array {
         return [
-            new TwigFilter('user', [ $this, 'user'])
+            new TwigFilter('user', $this->user(...))
         ];
     }
 

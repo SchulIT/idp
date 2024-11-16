@@ -14,13 +14,13 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use League\Csv\Exception as LeagueException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserImportController extends AbstractController {
 
-    public function __construct(private MessageBusInterface $messageBus)
+    public function __construct(private readonly MessageBusInterface $messageBus)
     {
     }
     #[Route(path: '/users/import', name: 'import_users')]

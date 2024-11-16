@@ -22,14 +22,14 @@ class ServiceAttribute {
 
     #[ORM\Column(type: 'string', length: 191, unique: true)]
     #[Assert\NotBlank]
-    private $name;
+    private string $name;
 
     #[ORM\Column(type: 'string')]
     #[Assert\NotBlank]
-    private $label;
+    private string $label;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $description;
+    private ?string $description;
 
     #[ORM\Column(type: 'boolean')]
     #[Serializer\Exclude]
@@ -37,7 +37,7 @@ class ServiceAttribute {
 
     #[ORM\Column(type: 'string')]
     #[Assert\NotBlank]
-    private $samlAttributeName;
+    private string $samlAttributeName;
 
     #[ORM\Column(type: 'string', enumType: ServiceAttributeType::class)]
     #[Assert\NotNull]
@@ -49,12 +49,15 @@ class ServiceAttribute {
     #[ORM\Column(type: 'json', nullable: true)]
     private array $options = [ ];
 
+    /**
+     * @var Collection<SamlServiceProvider>
+     */
     #[ORM\JoinTable]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(onDelete: 'CASCADE')]
     #[ORM\ManyToMany(targetEntity: SamlServiceProvider::class, inversedBy: 'attributes')]
     #[Serializer\Exclude]
-    private $services;
+    private Collection $services;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
@@ -62,113 +65,65 @@ class ServiceAttribute {
         $this->type = ServiceAttributeType::Text;
     }
 
-    /**
-     * @return string
-     */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return ServiceAttribute
-     */
-    public function setName($name) {
+    public function setName(string $name): self {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getLabel() {
+    public function getLabel(): string {
         return $this->label;
     }
 
-    /**
-     * @param string $label
-     * @return ServiceAttribute
-     */
-    public function setLabel($label) {
+    public function setLabel(string $label): self {
         $this->label = $label;
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getDescription() {
+    public function getDescription(): ?string {
         return $this->description;
     }
 
-    /**
-     * @param string|null $description
-     * @return ServiceAttribute
-     */
-    public function setDescription($description) {
+    public function setDescription(?string $description): self {
         $this->description = $description;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isUserEditEnabled() {
+    public function isUserEditEnabled(): bool {
         return $this->isUserEditEnabled;
     }
 
-    /**
-     * @param bool $isUserEditEnabled
-     * @return ServiceAttribute
-     */
-    public function setIsUserEditEnabled($isUserEditEnabled) {
+    public function setIsUserEditEnabled(bool $isUserEditEnabled): self {
         $this->isUserEditEnabled = $isUserEditEnabled;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSamlAttributeName() {
+    public function getSamlAttributeName(): string {
         return $this->samlAttributeName;
     }
 
-    /**
-     * @param string $samlAttributeName
-     * @return ServiceAttribute
-     */
-    public function setSamlAttributeName($samlAttributeName) {
+    public function setSamlAttributeName(string $samlAttributeName): self {
         $this->samlAttributeName = $samlAttributeName;
         return $this;
     }
 
-    /**
-     * @return ServiceAttributeType
-     */
-    public function getType() {
+    public function getType(): ?ServiceAttributeType {
         return $this->type;
     }
 
-    /**
-     * @return ServiceAttribute
-     */
-    public function setType(ServiceAttributeType $type) {
+    public function setType(ServiceAttributeType $type): self {
         $this->type = $type;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isMultipleChoice() {
+    public function isMultipleChoice(): bool {
         return $this->isMultipleChoice;
     }
 
-    /**
-     * @param bool $isMultipleChoice
-     * @return ServiceAttribute
-     */
-    public function setIsMultipleChoice($isMultipleChoice) {
+    public function setIsMultipleChoice(bool $isMultipleChoice): self {
         $this->isMultipleChoice = $isMultipleChoice;
         return $this;
     }
@@ -176,24 +131,22 @@ class ServiceAttribute {
     /**
      * Set the options.
      *
-     * @param array|KeyValueContainer|Traversable $options Something that can be converted to an array.
+     * @param iterable|KeyValueContainer $options Something that can be converted to an array.
      */
-    public function setOptions($options)
-    {
+    public function setOptions(KeyValueContainer|iterable $options): void {
         $this->options = $this->convertToArray($options);
     }
 
     /**
      * Extract an array out of $data or throw an exception if not possible.
      *
-     * @param mixed $data Something that can be converted to an array.
+     * @param iterable|KeyValueContainer $data Something that can be converted to an array.
      *
      * @return array Native array representation of $data
      *
      * @throws InvalidArgumentException If $data can not be converted to an array.
      */
-    private function convertToArray(mixed $data)
-    {
+    private function convertToArray(KeyValueContainer|iterable $data): array {
         if (is_array($data)) {
             return $data;
         }
@@ -212,19 +165,22 @@ class ServiceAttribute {
     /**
      * @return string[]
      */
-    public function getOptions() {
+    public function getOptions(): array {
         return $this->options;
     }
 
+    /**
+     * @return Collection<SamlServiceProvider>
+     */
     public function getServices(): Collection {
         return $this->services;
     }
 
-    public function addService(ServiceProvider $serviceProvider) {
+    public function addService(ServiceProvider $serviceProvider): void {
         $this->services->add($serviceProvider);
     }
 
-    public function removeService(ServiceProvider $serviceProvider) {
+    public function removeService(ServiceProvider $serviceProvider): void {
         $this->services->removeElement($serviceProvider);
     }
 }

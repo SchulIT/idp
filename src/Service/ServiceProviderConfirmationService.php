@@ -10,7 +10,7 @@ use App\Saml\AttributeValueProvider;
 
 class ServiceProviderConfirmationService {
 
-    public function __construct(private AttributeValueProvider $attributeValueProvider, private ServiceProviderConfirmationRepositoryInterface $confirmationRepository)
+    public function __construct(private readonly AttributeValueProvider $attributeValueProvider, private readonly ServiceProviderConfirmationRepositoryInterface $confirmationRepository)
     {
     }
 

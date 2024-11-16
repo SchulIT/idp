@@ -10,11 +10,12 @@ use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class PrivacyPolicyController extends AbstractController {
 
-    public function __construct(private PrivacyPolicyRepositoryInterface $repository)
+    public function __construct(private readonly PrivacyPolicyRepositoryInterface $repository)
     {
     }
 
@@ -28,9 +29,7 @@ class PrivacyPolicyController extends AbstractController {
     }
 
     #[Route(path: '/privacy_policy', name: 'show_privacy_policy')]
-    public function show(): Response {
-        /** @var User $user */
-        $user = $this->getUser();
+    public function show(#[CurrentUser] User $user): Response {
         $policy = $this->repository->findOne();
 
         $mustConfirm = $policy !== null && $user->getPrivacyPolicyConfirmedAt() < $policy->getChangedAt();

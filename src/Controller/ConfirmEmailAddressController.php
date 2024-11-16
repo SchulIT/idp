@@ -7,7 +7,7 @@ use App\Security\EmailConfirmation\EmailAddressAlreadyInUseException;
 use App\Security\EmailConfirmation\TokenNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class ConfirmEmailAddressController extends AbstractController {
     #[Route(path: '/confirm/{token}', name: 'confirm_email')]

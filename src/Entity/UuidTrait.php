@@ -8,9 +8,6 @@ use Ramsey\Uuid\UuidInterface;
 
 trait UuidTrait {
 
-    /**
-     * @var UuidInterface
-     */
     #[ORM\Column(type: 'uuid', unique: true)]
     #[Serializer\ReadOnlyProperty]
     #[Serializer\Accessor(getter: 'getUuidString')]

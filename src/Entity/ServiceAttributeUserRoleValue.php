@@ -9,42 +9,30 @@ class ServiceAttributeUserRoleValue implements ServiceAttributeValueInterface {
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: ServiceAttribute::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private $attribute;
+    private ServiceAttribute $attribute;
 
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: UserRole::class, inversedBy: 'attributes')]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private $userRole;
+    private UserRole $userRole;
 
     #[ORM\Column(type: 'object', nullable: true)]
-    private $value;
+    private string|array|int $value;
 
-    /**
-     * @return ServiceAttribute
-     */
-    public function getAttribute() {
+    public function getAttribute(): ServiceAttribute {
         return $this->attribute;
     }
 
-    /**
-     * @return ServiceAttributeUserRoleValue
-     */
-    public function setAttribute(ServiceAttribute $attribute) {
+    public function setAttribute(ServiceAttribute $attribute): self {
         $this->attribute = $attribute;
         return $this;
     }
 
-    /**
-     * @return UserRole
-     */
-    public function getUserRole() {
+    public function getUserRole(): UserRole {
         return $this->userRole;
     }
 
-    /**
-     * @return ServiceAttributeUserRoleValue
-     */
-    public function setUserRole(UserRole $userRole) {
+    public function setUserRole(UserRole $userRole): self {
         $this->userRole = $userRole;
         return $this;
     }
@@ -59,7 +47,7 @@ class ServiceAttributeUserRoleValue implements ServiceAttributeValueInterface {
     /**
      * @param string|string[]|int $value
      */
-    public function setValue(string|array|int $value) {
+    public function setValue(string|array|int $value): void {
         $this->value = $value;
     }
 }

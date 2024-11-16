@@ -17,7 +17,7 @@ class UserCsvImportHelper {
     private const PasswordHeader = 'Passwort';
     private const GradeHeader = 'Klasse';
 
-    public function __construct(private UserRepositoryInterface $userRepository)
+    public function __construct(private readonly UserRepositoryInterface $userRepository)
     {
     }
 

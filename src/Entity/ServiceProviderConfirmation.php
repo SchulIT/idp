@@ -12,16 +12,16 @@ class ServiceProviderConfirmation {
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private $user;
+    private ?User $user;
 
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: ServiceProvider::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private $serviceProvider;
+    private ?ServiceProvider $serviceProvider;
 
     #[ORM\Column(type: 'datetime')]
     #[Gedmo\Timestampable(on: 'update')]
-    private $dateTime;
+    private DateTime $dateTime;
 
     #[ORM\Column(type: 'json')]
     private array $attributes = [ ];
@@ -30,32 +30,20 @@ class ServiceProviderConfirmation {
         $this->dateTime = new DateTime();
     }
 
-    /**
-     * @return User|null
-     */
-    public function getUser() {
+    public function getUser(): ?User {
         return $this->user;
     }
 
-    /**
-     * @return ServiceProviderConfirmation
-     */
-    public function setUser(User $user) {
+    public function setUser(User $user): self {
         $this->user = $user;
         return $this;
     }
 
-    /**
-     * @return ServiceProvider|null
-     */
-    public function getServiceProvider() {
+    public function getServiceProvider(): ?ServiceProvider {
         return $this->serviceProvider;
     }
 
-    /**
-     * @return ServiceProviderConfirmation
-     */
-    public function setServiceProvider(ServiceProvider $serviceProvider) {
+    public function setServiceProvider(ServiceProvider $serviceProvider): self {
         $this->serviceProvider = $serviceProvider;
         return $this;
     }
@@ -67,7 +55,7 @@ class ServiceProviderConfirmation {
     /**
      * @return string[]
      */
-    public function getAttributes() {
+    public function getAttributes(): array {
         return $this->attributes;
     }
 
@@ -75,7 +63,7 @@ class ServiceProviderConfirmation {
      * @param string[] $attributes
      * @return ServiceProviderConfirmation
      */
-    public function setAttributes(array $attributes) {
+    public function setAttributes(array $attributes): self {
         $this->attributes = $attributes;
         return $this;
     }

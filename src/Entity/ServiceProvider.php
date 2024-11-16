@@ -17,16 +17,16 @@ class ServiceProvider {
 
     #[ORM\Column(type: 'string')]
     #[Assert\NotBlank]
-    private $name;
+    private string $name;
 
     #[ORM\Column(type: 'text')]
     #[Assert\NotBlank]
-    private $description;
+    private string $description;
 
     #[ORM\Column(type: 'text')]
     #[Assert\NotBlank]
     #[Assert\Url]
-    private $url;
+    private string $url;
 
     #[ORM\Column(type: 'text', nullable: true)]
     #[Assert\NotBlank(allowNull: true)]
@@ -36,50 +36,29 @@ class ServiceProvider {
         $this->uuid = Uuid::uuid4();
     }
 
-    /**
-     * @return string
-     */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return ServiceProvider
-     */
-    public function setName($name) {
+    public function setName(string $name): self {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription() {
+    public function getDescription(): string {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     * @return ServiceProvider
-     */
-    public function setDescription($description) {
+    public function setDescription(string $description): self {
         $this->description = $description;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getUrl() {
+    public function getUrl(): string {
         return $this->url;
     }
 
-    /**
-     * @param string $url
-     * @return ServiceProvider
-     */
-    public function setUrl($url) {
+    public function setUrl(string $url): self {
         $this->url = $url;
         return $this;
     }

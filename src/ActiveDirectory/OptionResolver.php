@@ -57,7 +57,7 @@ class OptionResolver {
     }
 
     private function checkForOuMembership(ActiveDirectorySyncOptionInterface $option, string $ou): bool {
-        return $option->getSource() === $ou || substr($ou, -strlen($option->getSource())) == $option->getSource();
+        return $option->getSource() === $ou || str_ends_with($ou, $option->getSource());
     }
 
     /**

@@ -4,7 +4,10 @@ namespace App\Traits;
 
 use Closure;
 trait ArrayTrait {
-    protected function makeArrayWithKeys(array $array, Closure $idFunc) {
+    /**
+     * @return mixed[]
+     */
+    protected function makeArrayWithKeys(array $array, Closure $idFunc): array {
         $result = [ ];
 
         foreach($array as $item) {

@@ -7,7 +7,7 @@ use App\Repository\UserTypeRepositoryInterface;
 use App\Utils\ArrayUtils;
 
 class UserTypeFilter {
-    public function __construct(private UserTypeRepositoryInterface $userTypeRepository)
+    public function __construct(private readonly UserTypeRepositoryInterface $userTypeRepository)
     {
     }
 

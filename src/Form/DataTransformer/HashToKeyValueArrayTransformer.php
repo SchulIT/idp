@@ -31,7 +31,7 @@ class HashToKeyValueArrayTransformer implements DataTransformerInterface
     /**
      * @param bool $useContainerObject Whether to return a KeyValueContainer object or simply an array
      */
-    public function __construct(private bool $useContainerObject)
+    public function __construct(private readonly bool $useContainerObject)
     {
     }
 

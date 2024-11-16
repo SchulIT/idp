@@ -18,29 +18,35 @@ class UserRole {
 
     #[ORM\Column(type: 'string')]
     #[Assert\NotBlank]
-    private $name;
+    private string $name;
 
     #[ORM\Column(type: 'text')]
     #[Assert\NotBlank]
-    private $description;
+    private string $description;
 
-    #[ORM\JoinTable]
-    #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    #[ORM\InverseJoinColumn(onDelete: 'CASCADE')]
+    /**
+     * @var Collection<User>
+     */
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'userRoles')]
     #[Serializer\Exclude]
-    private $users;
+    private Collection $users;
 
+    /**
+     * @var Collection<ServiceProvider>
+     */
     #[ORM\JoinTable]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(onDelete: 'CASCADE')]
     #[ORM\ManyToMany(targetEntity: ServiceProvider::class)]
     #[Serializer\Exclude]
-    private $enabledServices;
+    private Collection $enabledServices;
 
-    #[ORM\OneToMany(mappedBy: 'userRole', targetEntity: ServiceAttributeUserRoleValue::class)]
+    /***
+     * @var Collection<ServiceAttributeUserRoleValue>
+     */
+    #[ORM\OneToMany(targetEntity: ServiceAttributeUserRoleValue::class, mappedBy: 'userRole')]
     #[Serializer\Exclude]
-    private $attributes;
+    private Collection $attributes;
 
     #[ORM\Column(name: 'priority', type: 'integer')]
     #[Gedmo\SortablePosition]
@@ -53,34 +59,20 @@ class UserRole {
         $this->attributes = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return UserRole
-     */
-    public function setName($name) {
+    public function setName(string $name): self {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription() {
+    public function getDescription(): string {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     * @return UserRole
-     */
-    public function setDescription($description) {
+    public function setDescription(string $description): self {
         $this->description = $description;
         return $this;
     }
@@ -89,11 +81,11 @@ class UserRole {
         return $this->users;
     }
 
-    public function addUser(User $user) {
+    public function addUser(User $user): void {
         $this->users->add($user);
     }
 
-    public function removeUser(User $user) {
+    public function removeUser(User $user): void {
         $this->users->removeElement($user);
     }
 
@@ -105,11 +97,11 @@ class UserRole {
         return $this->attributes;
     }
 
-    public function addEnabledService(ServiceProvider $serviceProvider) {
+    public function addEnabledService(ServiceProvider $serviceProvider): void {
         $this->enabledServices->add($serviceProvider);
     }
 
-    public function removeEnabledService(ServiceProvider $serviceProvider) {
+    public function removeEnabledService(ServiceProvider $serviceProvider): void {
         $this->enabledServices->removeElement($serviceProvider);
     }
 

@@ -8,13 +8,13 @@ use Twig\TwigFilter;
 
 class MarkdownExtension extends AbstractExtension {
 
-    public function __construct(private MarkdownConverterInterface $converter)
+    public function __construct(private readonly MarkdownConverterInterface $converter)
     {
     }
 
     public function getFilters(): array {
         return [
-            new TwigFilter('markdown_to_html', [ $this, 'markdown'], [ 'is_safe' => ['html'] ])
+            new TwigFilter('markdown_to_html', $this->markdown(...), [ 'is_safe' => ['html'] ])
         ];
     }
 

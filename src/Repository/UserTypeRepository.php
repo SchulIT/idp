@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UserTypeRepository implements UserTypeRepositoryInterface {
 
-    public function __construct(private EntityManagerInterface $em)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
     }
 

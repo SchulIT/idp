@@ -14,71 +14,50 @@ class ActiveDirectoryRoleSyncOption implements ActiveDirectorySyncOptionInterfac
 
     #[ORM\Column(type: 'string')]
     #[Assert\NotBlank]
-    private $name;
+    private string $name;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $description;
+    private ?string $description;
 
     #[ORM\Column(type: 'string', unique: true)]
     #[Assert\NotBlank]
-    private $source;
+    private string $source;
 
     #[ORM\Column(type: 'string', nullable: false, enumType: ActiveDirectorySyncSourceType::class)]
-    private $sourceType;
+    private ActiveDirectorySyncSourceType $sourceType;
 
     #[ORM\ManyToOne(targetEntity: UserRole::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private $userRole;
+    private ?UserRole $userRole;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
         $this->sourceType = ActiveDirectorySyncSourceType::Ou;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return ActiveDirectoryRoleSyncOption
-     */
-    public function setName($name) {
+    public function setName(string $name): self {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription() {
+    public function getDescription(): ?string {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     * @return ActiveDirectoryRoleSyncOption
-     */
-    public function setDescription($description) {
+    public function setDescription(?string $description): self {
         $this->description = $description;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSource() {
+    public function getSource(): string {
         return $this->source;
     }
 
-    /**
-     * @param string $source
-     * @return ActiveDirectoryRoleSyncOption
-     */
-    public function setSource($source) {
+    public function setSource(string $source): self {
         $this->source = $source;
         return $this;
     }
@@ -92,17 +71,11 @@ class ActiveDirectoryRoleSyncOption implements ActiveDirectorySyncOptionInterfac
         return $this;
     }
 
-    /**
-     * @return UserRole
-     */
-    public function getUserRole() {
+    public function getUserRole(): ?UserRole {
         return $this->userRole;
     }
 
-    /**
-     * @return ActiveDirectoryRoleSyncOption
-     */
-    public function setUserRole(UserRole $userRole) {
+    public function setUserRole(UserRole $userRole): self {
         $this->userRole = $userRole;
         return $this;
     }

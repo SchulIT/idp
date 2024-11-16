@@ -18,7 +18,7 @@ use LightSaml\Store\EntityDescriptor\EntityDescriptorStoreInterface;
  */
 class ServiceProviderEntityStore implements EntityDescriptorStoreInterface {
 
-    public function __construct(private ServiceProviderRepositoryInterface $repository)
+    public function __construct(private readonly ServiceProviderRepositoryInterface $repository)
     {
     }
 

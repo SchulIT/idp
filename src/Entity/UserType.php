@@ -19,11 +19,11 @@ class UserType {
 
     #[ORM\Column(type: 'string')]
     #[Assert\NotBlank]
-    private $name;
+    private string $name;
 
     #[ORM\Column(type: 'string', unique: true)]
     #[Assert\NotBlank]
-    private $alias;
+    private string $alias;
 
     /**
      * @var string[]
@@ -31,26 +31,38 @@ class UserType {
     #[ORM\Column(type: 'json')]
     #[Assert\Count(min: 1)]
     #[Serializer\Type('array<string>')]
-    private ?array $eduPerson = null;
+    private array $eduPerson = [];
 
-    #[ORM\OneToMany(mappedBy: 'type', targetEntity: User::class)]
+    /**
+     * @var Collection<User>
+     */
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'type')]
     #[Serializer\Exclude]
-    private $users;
+    private Collection $users;
 
+    /**
+     * @var Collection<ServiceProvider>
+     */
     #[ORM\JoinTable]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(onDelete: 'CASCADE')]
     #[ORM\ManyToMany(targetEntity: ServiceProvider::class)]
     #[Serializer\Exclude]
-    private $enabledServices;
+    private Collection $enabledServices;
 
-    #[ORM\OneToMany(mappedBy: 'userType', targetEntity: ServiceAttributeUserTypeValue::class)]
+    /**
+     * @var Collection<ServiceAttributeUserTypeValue>
+     */
+    #[ORM\OneToMany(targetEntity: ServiceAttributeUserTypeValue::class, mappedBy: 'userType')]
     #[Serializer\Exclude]
-    private $attributes;
+    private Collection $attributes;
 
-    #[ORM\OneToMany(mappedBy: 'userType', targetEntity: ActiveDirectorySyncOption::class)]
+    /**
+     * @var Collection<ActiveDirectorySyncOption>
+     */
+    #[ORM\OneToMany(targetEntity: ActiveDirectorySyncOption::class, mappedBy: 'userType')]
     #[Serializer\Exclude]
-    private $syncOptions;
+    private Collection $syncOptions;
 
     #[ORM\Column(type: 'boolean')]
     #[Serializer\Exclude]
@@ -79,34 +91,20 @@ class UserType {
         $this->attributes = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return UserType
-     */
-    public function setName($name) {
+    public function setName(string $name): self {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getAlias() {
+    public function getAlias(): string {
         return $this->alias;
     }
 
-    /**
-     * @param string $alias
-     * @return UserType
-     */
-    public function setAlias($alias) {
+    public function setAlias(string $alias): self {
         $this->alias = $alias;
         return $this;
     }
@@ -114,7 +112,7 @@ class UserType {
     /**
      * @return string[]
      */
-    public function getEduPerson() {
+    public function getEduPerson(): array {
         return $this->eduPerson;
     }
 
@@ -122,18 +120,18 @@ class UserType {
      * @param string[] $eduPerson
      * @return UserType
      */
-    public function setEduPerson(array $eduPerson) {
+    public function setEduPerson(array $eduPerson): self {
         sort($eduPerson);
 
         $this->eduPerson = $eduPerson;
         return $this;
     }
 
-    public function addUser(User $user) {
+    public function addUser(User $user): void {
         $this->users->add($user);
     }
 
-    public function removeUser(User $user) {
+    public function removeUser(User $user): void {
         $this->users->removeElement($user);
     }
 
@@ -141,11 +139,11 @@ class UserType {
         return $this->users;
     }
 
-    public function addEnabledService(ServiceProvider $serviceProvider) {
+    public function addEnabledService(ServiceProvider $serviceProvider): void {
         $this->enabledServices->add($serviceProvider);
     }
 
-    public function removeEnabledService(ServiceProvider $serviceProvider) {
+    public function removeEnabledService(ServiceProvider $serviceProvider): void {
         $this->enabledServices->removeElement($serviceProvider);
     }
 
@@ -161,34 +159,21 @@ class UserType {
         return $this->syncOptions;
     }
 
-    /**
-     * @return bool
-     */
-    public function canChangeName() {
+    public function canChangeName(): bool {
         return $this->canChangeName;
     }
 
-    /**
-     * @param bool $canChangeName
-     * @return UserType
-     */
-    public function setCanChangeName($canChangeName) {
+    public function setCanChangeName(bool $canChangeName): self {
         $this->canChangeName = $canChangeName;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function canChangeEmail() {
+    public function canChangeEmail(): bool {
         return $this->canChangeEmail;
     }
 
-    /**
-     * @param bool $canChangeEmail
-     * @return UserType
-     */
-    public function setCanChangeEmail($canChangeEmail) {
+
+    public function setCanChangeEmail(bool $canChangeEmail): self {
         $this->canChangeEmail = $canChangeEmail;
         return $this;
     }

@@ -14,15 +14,15 @@ use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class TwigFilters extends AbstractExtension {
-    public function __construct(private TranslatorInterface $translator, private FriendlyAttributeResolver $friendlyAttributeResolver)
+    public function __construct(private readonly TranslatorInterface $translator, private readonly FriendlyAttributeResolver $friendlyAttributeResolver)
     {
     }
 
     public function getFilters(): array {
         return [
-            new TwigFilter('attributeSource', [ $this, 'attributeSource' ]),
-            new TwigFilter('attributeFriendlyName', [ $this, 'attributeFriendlyName']),
-            new TwigFilter('from_timestamp', [ $this, 'getDateTimeFromTimestamp'])
+            new TwigFilter('attributeSource', $this->attributeSource(...)),
+            new TwigFilter('attributeFriendlyName', $this->attributeFriendlyName(...)),
+            new TwigFilter('from_timestamp', $this->getDateTimeFromTimestamp(...))
         ];
     }
 

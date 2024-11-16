@@ -13,7 +13,7 @@ class FriendlyAttributeResolver {
 
     private bool $initialized = false;
 
-    public function __construct(private ServiceAttributeRepository $attributeRepository, private TranslatorInterface $translator)
+    public function __construct(private readonly ServiceAttributeRepository $attributeRepository, private readonly TranslatorInterface $translator)
     {
     }
 

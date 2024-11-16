@@ -6,7 +6,7 @@ use App\Entity\KioskUser;
 use Doctrine\ORM\EntityManagerInterface;
 
 class KioskUserRepository implements KioskUserRepositoryInterface {
-    public function __construct(private EntityManagerInterface $em)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
     }
 

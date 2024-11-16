@@ -17,7 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/registration_codes')]
@@ -25,7 +25,7 @@ class RegistrationCodeController extends AbstractController {
 
     private const CodesPerPage = 25;
 
-    public function __construct(private RegistrationCodeRepositoryInterface $repository)
+    public function __construct(private readonly RegistrationCodeRepositoryInterface $repository)
     {
     }
 
