@@ -16,6 +16,7 @@ use LightSaml\Build\Container\BuildContainerInterface;
 use LightSaml\Idp\Builder\Profile\WebBrowserSso\Idp\SsoIdpReceiveAuthnRequestProfileBuilder;
 use SchulIT\LightSamlIdpBundle\Builder\Profile\WebBrowserSso\Idp\SsoIdpSendResponseProfileBuilderFactory;
 use SchulIT\LightSamlIdpBundle\RequestStorage\RequestStorageInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -136,7 +137,7 @@ class SsoController extends AbstractController {
     }
 
     #[Route(path: '/idp/saml/confirm/{uuid}', name: 'confirm_redirect')]
-    public function confirm(#[CurrentUser] User $user, Request $request, SamlServiceProvider $serviceProvider, AttributeValueProvider $attributeValueProvider, CsrfTokenManagerInterface $tokenManager): Response {
+    public function confirm(#[CurrentUser] User $user, Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] SamlServiceProvider $serviceProvider, AttributeValueProvider $attributeValueProvider, CsrfTokenManagerInterface $tokenManager): Response {
         $type = $request->request->get('type');
         $destination = $request->request->get('destination');
         $data = $request->request->all('data');

@@ -139,6 +139,7 @@ class ForgotPasswordManagerTest extends TestCase {
         );
 
         $user = new User();
+        $user->setUsername('foo@example.com');
         $token = $manager->createPasswordResetRequest($user, 'foo@example.com');
 
         $this->assertEquals($user, $token->getUser(), 'Token should hold the user for which the request was made');

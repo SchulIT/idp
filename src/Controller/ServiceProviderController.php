@@ -9,6 +9,7 @@ use App\Repository\ServiceProviderRepositoryInterface;
 use Exception;
 use LightSaml\Model\Metadata\EntityDescriptor;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -37,7 +38,7 @@ class ServiceProviderController extends AbstractController {
     }
 
     #[Route(path: '/{uuid}/certificate', name: 'service_provider_certificate')]
-    public function certificateInfo(ServiceProvider $serviceProvider): Response {
+    public function certificateInfo(#[MapEntity(mapping: ['uuid' => 'uuid'])] ServiceProvider $serviceProvider): Response {
         if(!$serviceProvider instanceof SamlServiceProvider) {
             return $this->redirectToRoute('service_providers');
         }
@@ -76,7 +77,7 @@ class ServiceProviderController extends AbstractController {
     }
 
     #[Route(path: '/{uuid}/edit', name: 'edit_service_provider')]
-    public function edit(Request $request, ServiceProvider $serviceProvider): Response {
+    public function edit(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] ServiceProvider $serviceProvider): Response {
         $form = $this->createForm(ServiceProviderType::class, $serviceProvider);
         $form->handleRequest($request);
 
@@ -94,7 +95,7 @@ class ServiceProviderController extends AbstractController {
     }
 
     #[Route(path: '/{uuid}/remove', name: 'remove_service_provider')]
-    public function remove(ServiceProvider $serviceProvider, Request $request, TranslatorInterface $translator): Response {
+    public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] ServiceProvider $serviceProvider, Request $request, TranslatorInterface $translator): Response {
         $form = $this->createForm(ConfirmType::class, [], [
             'message' => $translator->trans('service_providers.remove.confirm', [
                 '%name%' => $serviceProvider->getName()

@@ -6,6 +6,7 @@ use App\Entity\ServiceAttribute;
 use App\Form\ServiceAttributeType;
 use App\Repository\ServiceAttributeRepositoryInterface;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,7 +49,7 @@ class ServiceAttributeController extends AbstractController {
     }
 
     #[Route(path: '/admin/attributes/{uuid}/edit', name: 'edit_attribute')]
-    public function edit(Request $request, ServiceAttribute $attribute): Response {
+    public function edit(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] ServiceAttribute $attribute): Response {
         $form = $this->createForm(ServiceAttributeType::class, $attribute);
         $form->handleRequest($request);
 
@@ -66,7 +67,7 @@ class ServiceAttributeController extends AbstractController {
     }
 
     #[Route(path: '/admin/attributes/{uuid}/remove', name: 'remove_attribute')]
-    public function remove(ServiceAttribute $attribute, Request $request, TranslatorInterface $translator): Response {
+    public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] ServiceAttribute $attribute, Request $request, TranslatorInterface $translator): Response {
         $form = $this->createForm(ConfirmType::class, [], [
             'message' => $translator->trans('service_attributes.remove.confirm', [
                 '%name%' => $attribute->getName()

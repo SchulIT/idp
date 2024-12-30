@@ -7,6 +7,7 @@ use App\Form\KioskUserType;
 use App\Repository\KioskUserRepositoryInterface;
 use App\Service\KioskUserTokenGenerator;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,7 +47,7 @@ class KioskUserController extends AbstractController {
     }
 
     #[Route(path: '/{uuid}/edit', name: 'edit_kiosk_user')]
-    public function edit(KioskUser $user, Request $request): Response {
+    public function edit(#[MapEntity(mapping: ['uuid' => 'uuid'])] KioskUser $user, Request $request): Response {
         $form = $this->createForm(KioskUserType::class, $user);
         $form->handleRequest($request);
 
@@ -63,7 +64,7 @@ class KioskUserController extends AbstractController {
     }
 
     #[Route(path: '/{uuid}/remove', name: 'remove_kiosk_user')]
-    public function remove(KioskUser $user, Request $request): Response {
+    public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] KioskUser $user, Request $request): Response {
         $form = $this->createForm(ConfirmType::class, null, [
             'message' => 'users.kiosk.remove.confirm',
             'message_parameters' => [

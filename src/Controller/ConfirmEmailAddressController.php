@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ConfirmEmailAddressController extends AbstractController {
     #[Route(path: '/confirm/{token}', name: 'confirm_email')]
-    public function confirmEmailAddress($token, ConfirmationManager $confirmationManager): Response {
+    public function confirmEmailAddress(string $token, ConfirmationManager $confirmationManager): Response {
         if(empty($token)) {
             return $this->redirectToRoute('dashboard');
         }

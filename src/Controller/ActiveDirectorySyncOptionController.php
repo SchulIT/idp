@@ -6,6 +6,7 @@ use App\Entity\ActiveDirectorySyncOption;
 use App\Form\ActiveDirectorySyncOptionType;
 use App\Repository\ActiveDirectorySyncOptionRepositoryInterface;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,7 +49,7 @@ class ActiveDirectorySyncOptionController extends AbstractController {
     }
 
     #[Route(path: '/{uuid}/edit', name: 'edit_ad_sync_option')]
-    public function edit(Request $request, ActiveDirectorySyncOption $syncOption): Response {
+    public function edit(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] ActiveDirectorySyncOption $syncOption): Response {
         $form = $this->createForm(ActiveDirectorySyncOptionType::class, $syncOption);
         $form->handleRequest($request);
 
@@ -66,7 +67,7 @@ class ActiveDirectorySyncOptionController extends AbstractController {
     }
 
     #[Route(path: '/{uuid}/remove', name: 'remove_ad_sync_option')]
-    public function remove(ActiveDirectorySyncOption $syncOption, Request $request, TranslatorInterface $translator): Response {
+    public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] ActiveDirectorySyncOption $syncOption, Request $request, TranslatorInterface $translator): Response {
         $form = $this->createForm(ConfirmType::class, [], [
             'message' => $translator->trans('ad_sync_options.remove.confirm', [
                 '%name%' => $syncOption->getName()

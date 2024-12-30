@@ -8,6 +8,7 @@ use App\Form\UserRoleType;
 use App\Repository\UserRoleRepositoryInterface;
 use App\Service\AttributePersister;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -56,7 +57,7 @@ class UserRoleController extends AbstractController {
     }
 
     #[Route(path: '/{uuid}/edit', name: 'edit_role')]
-    public function edit(Request $request, UserRole $role, AttributePersister $attributePersister): Response {
+    public function edit(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] UserRole $role, AttributePersister $attributePersister): Response {
         $form = $this->createForm(UserRoleType::class, $role);
         $form->handleRequest($request);
 
@@ -77,7 +78,7 @@ class UserRoleController extends AbstractController {
     }
 
     #[Route(path: '/{uuid}/remove', name: 'remove_role')]
-    public function remove(UserRole $role, Request $request, TranslatorInterface $translator): Response {
+    public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] UserRole $role, Request $request, TranslatorInterface $translator): Response {
         $form = $this->createForm(ConfirmType::class, [ ], [
             'message' => $translator->trans('user_roles.remove.confirm', [
                 '%name%' => $role->getName()

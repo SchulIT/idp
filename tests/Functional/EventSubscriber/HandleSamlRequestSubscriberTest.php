@@ -66,6 +66,8 @@ class HandleSamlRequestSubscriberTest extends WebTestCase {
 
         $crawler = $this->client->submit($form);
 
+        dump($crawler->html());
+
         $this->assertEquals('http://localhost/idp/saml', $crawler->getUri(), 'Ensure we were redirected to the SAML SSO page after login.');
     }
 }

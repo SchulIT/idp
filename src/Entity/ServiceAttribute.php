@@ -158,8 +158,6 @@ class ServiceAttribute {
         if ($data instanceof Traversable) {
             return iterator_to_array($data);
         }
-
-        throw new InvalidArgumentException(sprintf('Expected array, Traversable or KeyValueContainer, got "%s"', get_debug_type($data)));
     }
 
     /**

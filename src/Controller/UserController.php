@@ -29,6 +29,7 @@ use App\View\Filter\UserTypeFilter;
 use DateTime;
 use SchulIT\CommonBundle\Form\ConfirmType;
 use SchulIT\CommonBundle\Utils\RefererHelper;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
@@ -145,7 +146,7 @@ class UserController extends AbstractController {
 
     #[Route(path: '/users/{uuid}/attributes', name: 'show_attributes')]
     #[IsGranted('ROLE_ADMIN')]
-    public function showAttributes(User $user, AttributeResolver $resolver, AttributeValueProvider $provider): Response {
+    public function showAttributes(#[MapEntity(mapping: ['uuid' => 'uuid'])] User $user, AttributeResolver $resolver, AttributeValueProvider $provider): Response {
         $attributes = $resolver->getDetailedResultingAttributeValuesForUser($user);
         $defaultAttributes = $provider->getCommonAttributesForUser($user);
 
@@ -183,7 +184,7 @@ class UserController extends AbstractController {
 
     #[Route(path: '/users/{uuid}/edit', name: 'edit_user')]
     #[IsGranted('ROLE_ADMIN')]
-    public function edit(Request $request, User $user, AttributePersister $attributePersister, UserPasswordHasherInterface $passwordHasher): Response {
+    public function edit(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] User $user, AttributePersister $attributePersister, UserPasswordHasherInterface $passwordHasher): Response {
         if($user->isDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -217,7 +218,7 @@ class UserController extends AbstractController {
 
     #[Route(path: '/users/{uuid}/remove', name: 'remove_user')]
     #[IsGranted('ROLE_ADMIN')]
-    public function remove(#[CurrentUser] User $currentUser, User $user, Request $request, TranslatorInterface $translator): Response {
+    public function remove(#[CurrentUser] User $currentUser, #[MapEntity(mapping: ['uuid' => 'uuid'])] User $user, Request $request, TranslatorInterface $translator): Response {
         if($currentUser->getId() === $user->getId()) {
             $this->addFlash('error', 'users.remove.error.self');
             return $this->redirectToRoute('users');
@@ -259,7 +260,7 @@ class UserController extends AbstractController {
 
     #[Route(path: '/users/{uuid}/restore', name: 'restore_user', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function restore(#[CurrentUser] User $currentUser, User $user, Request $request): Response {
+    public function restore(#[CurrentUser] User $currentUser, #[MapEntity(mapping: ['uuid' => 'uuid'])]  User $user, Request $request): Response {
         if($currentUser->getId() === $user->getId()) {
             $this->addFlash('error', 'users.restore.error.self');
             return $this->redirectToRoute('users');
@@ -278,7 +279,7 @@ class UserController extends AbstractController {
 
     #[Route(path: '/users/{uuid}/reset_password_ad', name: 'reset_password_ad')]
     #[IsGranted('ROLE_PASSWORD_MANAGER')]
-    public function resetPasswordActiveDirectory(Request $request, User $user, AdAuthInterface $adAuth, TranslatorInterface $translator): Response {
+    public function resetPasswordActiveDirectory(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] User $user, AdAuthInterface $adAuth, TranslatorInterface $translator): Response {
         if(!$user instanceof ActiveDirectoryUser) {
             $this->addFlash('error', 'users.reset_pw_ad.cannot_change');
             return $this->redirectToRoute('users');
@@ -324,7 +325,7 @@ class UserController extends AbstractController {
 
     #[Route(path: '/users/{uuid}/reset_password', name: 'reset_password')]
     #[IsGranted('ROLE_PASSWORD_MANAGER')]
-    public function resetPassword(Request $request, User $user, ForgotPasswordManager $manager, TranslatorInterface $translator): Response {
+    public function resetPassword(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] User $user, ForgotPasswordManager $manager, TranslatorInterface $translator): Response {
         $form = $this->createForm(ResetPasswordType::class, [
             'email' => $user->getEmail()
         ]);
@@ -354,7 +355,7 @@ class UserController extends AbstractController {
 
     #[Route('/users/{uuid}/logout', name: 'user_logout_everywhere')]
     #[IsGranted('ROLE_ADMIN')]
-    public function logout(User $user, LogoutHelper $logoutHelper, RefererHelper $refererHelper): Response {
+    public function logout(#[MapEntity(mapping: ['uuid' => 'uuid'])] User $user, LogoutHelper $logoutHelper, RefererHelper $refererHelper): Response {
         $logoutHelper->logout($user);
 
         $this->addFlash('success', 'sessions.logout_everywhere.success');

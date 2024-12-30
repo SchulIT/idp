@@ -6,6 +6,7 @@ use App\Entity\ActiveDirectoryGradeSyncOption;
 use App\Form\ActiveDirectoryGradeSyncOptionType;
 use App\Repository\ActiveDirectoryGradeSyncOptionRepositoryInterface;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,7 +49,7 @@ class ActiveDirectoryGradeSyncOptionController extends AbstractController {
     }
 
     #[Route(path: '/{uuid}/edit', name: 'edit_ad_grades_sync_options')]
-    public function edit(Request $request, ActiveDirectoryGradeSyncOption $option): Response {
+    public function edit(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] ActiveDirectoryGradeSyncOption $option): Response {
         $form = $this->createForm(ActiveDirectoryGradeSyncOptionType::class, $option);
         $form->handleRequest($request);
 
@@ -66,7 +67,7 @@ class ActiveDirectoryGradeSyncOptionController extends AbstractController {
     }
 
     #[Route(path: '/{uuid}/remove', name: 'remove_ad_grades_sync_options')]
-    public function remove(ActiveDirectoryGradeSyncOption $option, Request $request, TranslatorInterface $translator): Response {
+    public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] ActiveDirectoryGradeSyncOption $option, Request $request, TranslatorInterface $translator): Response {
         $form = $this->createForm(ConfirmType::class, [], [
             'message' => $translator->trans('ad_sync_options.grades.remove.confirm', [
                 '%grade%' => $option->getGrade()

@@ -6,6 +6,7 @@ use App\Entity\ActiveDirectoryRoleSyncOption;
 use App\Form\ActiveDirectoryRoleSyncOptionType;
 use App\Repository\ActiveDirectoryRoleSyncOptionRepositoryInterface;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,7 +49,7 @@ class ActiveDirectoryRoleSyncOptionController extends AbstractController {
     }
 
     #[Route(path: '/{uuid}/edit', name: 'edit_ad_role_sync_options')]
-    public function edit(Request $request, ActiveDirectoryRoleSyncOption $option): Response {
+    public function edit(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] ActiveDirectoryRoleSyncOption $option): Response {
         $form = $this->createForm(ActiveDirectoryRoleSyncOptionType::class, $option);
         $form->handleRequest($request);
 
@@ -66,7 +67,7 @@ class ActiveDirectoryRoleSyncOptionController extends AbstractController {
     }
 
     #[Route(path: '/{uuid}/remove', name: 'remove_ad_role_sync_options')]
-    public function remove(ActiveDirectoryRoleSyncOption $option, Request $request, TranslatorInterface $translator): Response {
+    public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] ActiveDirectoryRoleSyncOption $option, Request $request, TranslatorInterface $translator): Response {
         $form = $this->createForm(ConfirmType::class, [], [
             'message' => $translator->trans('ad_sync_options.roles.remove.confirm', [
                 '%role%' => $option->getUserRole()->getName()
