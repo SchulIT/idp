@@ -128,12 +128,12 @@ class SsoController extends AbstractController {
 
             throw new RuntimeException('Unsupported Binding!');
         } catch (Exception $e) {
-            $this->addFlash('error', $e->getMessage());
+            return $this->render('sso/error.html.twig', [
+                'message' => $e->getMessage()
+            ]);
         } finally {
             $requestStorage->clear();
         }
-
-        return $this->redirectToRoute('dashboard');
     }
 
     #[Route(path: '/idp/saml/confirm/{uuid}', name: 'confirm_redirect')]

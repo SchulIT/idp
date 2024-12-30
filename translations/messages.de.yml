@@ -521,6 +521,8 @@ sso:
     message: Die Anmeldung war erfolgreich. Falls die automatische Weiterleitung nicht funktioniert, bitte unten auf den Button klicken.
     submit: Zum Dienst
   error:
+    title: Fehler
+    message: Aufgrund eines serverseitigen Fehlers war die Anmeldung nicht erfolgreich. Bitte erneut zum gewünschten Dienst navigieren und erneut einen Anmeldeversuch starten.
     registration_incomplete: Die Anmeldung am Dienst ist nicht möglich, da die Registrierung nicht abgeschlossen ist.
 
 attributes:
