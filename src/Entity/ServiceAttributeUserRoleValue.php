@@ -16,8 +16,8 @@ class ServiceAttributeUserRoleValue implements ServiceAttributeValueInterface {
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private UserRole $userRole;
 
-    #[ORM\Column(type: 'object', nullable: true)]
-    private string|array|int $value;
+    #[ORM\Column(type: 'json', nullable: true)]
+    private mixed $value = null;
 
     public function getAttribute(): ServiceAttribute {
         return $this->attribute;

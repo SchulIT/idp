@@ -18,8 +18,8 @@ class ServiceAttributeValue implements ServiceAttributeValueInterface {
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private User $user;
 
-    #[ORM\Column(type: 'object', nullable: true)]
-    private string|int|array $value;
+    #[ORM\Column(type: 'json', nullable: true)]
+    private mixed $value = null;
     
     #[ORM\Column(type: 'datetime', nullable: true)]
     #[Gedmo\Timestampable(on: 'update', field: ['value'])]

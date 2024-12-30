@@ -16,8 +16,8 @@ class ServiceAttributeUserTypeValue implements ServiceAttributeValueInterface {
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private UserType $userType;
 
-    #[ORM\Column(type: 'object', nullable: true)]
-    private string|int|array $value;
+    #[ORM\Column(type: 'json', nullable: true)]
+    private mixed $value = null;
 
     public function getAttribute(): ServiceAttribute {
         return $this->attribute;

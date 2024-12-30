@@ -41,7 +41,7 @@ class UserRole {
     #[Serializer\Exclude]
     private Collection $enabledServices;
 
-    /***
+    /**
      * @var Collection<ServiceAttributeUserRoleValue>
      */
     #[ORM\OneToMany(targetEntity: ServiceAttributeUserRoleValue::class, mappedBy: 'userRole')]
