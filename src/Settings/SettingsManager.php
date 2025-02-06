@@ -16,7 +16,7 @@ class SettingsManager {
     /** @var Setting[] */
     private array $settings = [ ];
 
-    public function __construct(private SettingRepositoryInterface $repository)
+    public function __construct(private readonly SettingRepositoryInterface $repository)
     {
     }
 

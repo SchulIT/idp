@@ -15,6 +15,7 @@ doctrine:
                 server_version: '10.11.0-mariadb'
                 charset: utf8mb4
                 schema_filter: ~^(?!(sessions|rememberme_token|session_user))~ # exclude session and rememberme_token table
+                use_savepoints: true
                 default_table_options:
                     charset: utf8mb4
                     collate: utf8mb4_unicode_ci
@@ -23,6 +24,7 @@ doctrine:
                 charset: utf8mb4
                 driver: 'pdo_mysql'
                 server_version: '10.11.0-mariadb'
+                use_savepoints: true
                 default_table_options:
                     charset: utf8mb4
                     collate: utf8mb4_unicode_ci
@@ -33,7 +35,7 @@ doctrine:
         auto_mapping: true
         enable_lazy_ghost_objects: true
         controller_resolver:
-            auto_mapping: true
+            auto_mapping: false
         mappings:
             App:
                 is_bundle: false

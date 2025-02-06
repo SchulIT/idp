@@ -19,7 +19,7 @@ class TextSuffixType extends TextType {
     public function buildForm(FormBuilderInterface $builder, array $options): void {
         $builder
             ->addModelTransformer(new CallbackTransformer(
-                fn($username) => rtrim($username, $options['suffix']),
+                fn($username) => rtrim((string) $username, $options['suffix']),
                 fn($input) => sprintf('%s%s', $input, $options['suffix'])
             ));
     }

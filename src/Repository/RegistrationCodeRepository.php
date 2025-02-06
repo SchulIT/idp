@@ -11,7 +11,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface {
 
-    public function __construct(private EntityManagerInterface $em)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
     }
 

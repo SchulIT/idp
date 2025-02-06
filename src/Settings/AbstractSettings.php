@@ -3,7 +3,7 @@
 namespace App\Settings;
 
 abstract class AbstractSettings {
-    public function __construct(private SettingsManager $settingsManager)
+    public function __construct(private readonly SettingsManager $settingsManager)
     {
     }
 

@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UserRoleRepository implements UserRoleRepositoryInterface {
 
-    public function __construct(private EntityManagerInterface $em)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
     }
 

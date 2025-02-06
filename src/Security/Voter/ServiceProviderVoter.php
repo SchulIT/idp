@@ -13,7 +13,7 @@ class ServiceProviderVoter extends Voter {
 
     public const ENABLED = 'enabled';
 
-    public function __construct(private UserServiceProviderResolver $userServiceProviderResolver)
+    public function __construct(private readonly UserServiceProviderResolver $userServiceProviderResolver)
     {
     }
 

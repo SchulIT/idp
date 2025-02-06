@@ -7,7 +7,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\BadgeInterface;
 
 class CachePasswordBadge implements BadgeInterface {
 
-    public function __construct(private string $password, private UserPasswordHasherInterface $hasher)
+    public function __construct(private readonly string $password, private readonly UserPasswordHasherInterface $hasher)
     {
     }
 

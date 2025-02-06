@@ -7,15 +7,16 @@ use App\Form\ApplicationType;
 use App\Repository\ApplicationRepositoryInterface;
 use App\Service\ApplicationKeyGenerator;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route(path: '/admin/applications')]
 class ApplicationController extends AbstractController {
 
-    public function __construct(private ApplicationRepositoryInterface $repository)
+    public function __construct(private readonly ApplicationRepositoryInterface $repository)
     {
     }
 
@@ -49,7 +50,7 @@ class ApplicationController extends AbstractController {
     }
 
     #[Route(path: '/{uuid}/edit', name: 'edit_application')]
-    public function edit(Application $application, Request $request): Response {
+    public function edit(#[MapEntity(mapping: ['uuid' => 'uuid'])] Application $application, Request $request): Response {
         $form = $this->createForm(ApplicationType::class, $application);
         $form->handleRequest($request);
 
@@ -67,7 +68,7 @@ class ApplicationController extends AbstractController {
     }
 
     #[Route(path: '/{uuid}/remove', name: 'remove_application')]
-    public function remove(Application $application, Request $request): Response {
+    public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] Application $application, Request $request): Response {
         $form = $this->createForm(ConfirmType::class, null, [
             'message' => 'applications.remove.confirm',
             'message_parameters' => [

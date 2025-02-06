@@ -180,7 +180,7 @@ class LoginTest extends WebTestCase {
 
         $token = $tokenStorage->getToken();
         $this->assertEquals($this->twoFactorUser->getUserIdentifier(), $token->getUserIdentifier());
-        $this->assertEquals(0, count($token->getRoles()), 'Tests if we have 0 roles when being partially authenticated');
+        $this->assertEquals(0, count($token->getRoleNames()), 'Tests if we have 0 roles when being partially authenticated');
 
         $link = $crawler->filter('a[role=button]')->first()->link();
         $crawler = $this->client->click($link);

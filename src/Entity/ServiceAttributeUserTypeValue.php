@@ -9,42 +9,30 @@ class ServiceAttributeUserTypeValue implements ServiceAttributeValueInterface {
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: ServiceAttribute::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private $attribute;
+    private ServiceAttribute $attribute;
 
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: UserType::class, inversedBy: 'attributes')]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private $userType;
+    private UserType $userType;
 
-    #[ORM\Column(type: 'object', nullable: true)]
-    private $value;
+    #[ORM\Column(type: 'json', nullable: true)]
+    private mixed $value = null;
 
-    /**
-     * @return ServiceAttribute
-     */
-    public function getAttribute() {
+    public function getAttribute(): ServiceAttribute {
         return $this->attribute;
     }
 
-    /**
-     * @return ServiceAttributeUserTypeValue
-     */
-    public function setAttribute(ServiceAttribute $attribute) {
+    public function setAttribute(ServiceAttribute $attribute): self {
         $this->attribute = $attribute;
         return $this;
     }
 
-    /**
-     * @return UserType
-     */
-    public function getUserType() {
+    public function getUserType(): UserType {
         return $this->userType;
     }
 
-    /**
-     * @return ServiceAttributeUserTypeValue
-     */
-    public function setUserType(UserType $userType) {
+    public function setUserType(UserType $userType): self {
         $this->userType = $userType;
         return $this;
     }
@@ -59,7 +47,7 @@ class ServiceAttributeUserTypeValue implements ServiceAttributeValueInterface {
     /**
      * @param string|string[]|int $value
      */
-    public function setValue(string|array|int $value) {
+    public function setValue(string|array|int $value): void {
         $this->value = $value;
     }
 

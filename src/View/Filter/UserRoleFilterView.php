@@ -9,7 +9,7 @@ class UserRoleFilterView {
     /**
      * @param UserRole[] $roles
      */
-    public function __construct(private array $roles, private ?UserRole $currentRole)
+    public function __construct(private readonly array $roles, private readonly ?UserRole $currentRole)
     {
     }
 

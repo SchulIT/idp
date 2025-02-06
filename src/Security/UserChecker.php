@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserChecker implements UserCheckerInterface {
 
-    public function __construct(private DateHelper $dateHelper)
+    public function __construct(private readonly DateHelper $dateHelper)
     {
     }
 

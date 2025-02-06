@@ -18,48 +18,34 @@ class ActiveDirectoryGradeSyncOption implements ActiveDirectorySyncOptionInterfa
     #[ORM\Column(type: 'string', length: 32)]
     #[Assert\Length(max: 32)]
     #[Assert\NotBlank]
-    private $grade;
+    private string $grade;
 
     #[ORM\Column(type: 'string')]
     #[Assert\NotBlank]
-    private $source;
+    private string $source;
 
     #[ORM\Column(type: 'string', enumType: ActiveDirectorySyncSourceType::class)]
-    private $sourceType;
+    private ActiveDirectorySyncSourceType $sourceType;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
         $this->sourceType = ActiveDirectorySyncSourceType::Ou;
     }
 
-    /**
-     * @return string
-     */
-    public function getGrade() {
+    public function getGrade(): string {
         return $this->grade;
     }
 
-    /**
-     * @param string $grade
-     * @return ActiveDirectoryGradeSyncOption
-     */
-    public function setGrade($grade) {
+    public function setGrade(string $grade): self {
         $this->grade = $grade;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSource() {
+    public function getSource(): string {
         return $this->source;
     }
 
-    /**
-     * @param string $source
-     * @return ActiveDirectoryGradeSyncOption
-     */
-    public function setSource($source) {
+    public function setSource(string $source): self {
         $this->source = $source;
         return $this;
     }
@@ -68,10 +54,7 @@ class ActiveDirectoryGradeSyncOption implements ActiveDirectorySyncOptionInterfa
         return $this->sourceType;
     }
 
-    /**
-     * @return ActiveDirectoryGradeSyncOption
-     */
-    public function setSourceType(ActiveDirectorySyncSourceType $sourceType) {
+    public function setSourceType(ActiveDirectorySyncSourceType $sourceType): self {
         $this->sourceType = $sourceType;
         return $this;
     }

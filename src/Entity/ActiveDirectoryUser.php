@@ -32,10 +32,7 @@ class ActiveDirectoryUser extends User {
         return $this->userPrincipalName;
     }
 
-    /**
-     * @return ActiveDirectoryUser
-     */
-    public function setUserPrincipalName(string $userPrincipalName) {
+    public function setUserPrincipalName(string $userPrincipalName): self {
         $this->userPrincipalName = $userPrincipalName;
         return $this;
     }

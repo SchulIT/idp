@@ -15,7 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ServiceAttributeValueRepository implements ServiceAttributeValueRepositoryInterface, TransactionalRepositoryInterface {
 
-    public function __construct(private EntityManagerInterface $em)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
     }
 

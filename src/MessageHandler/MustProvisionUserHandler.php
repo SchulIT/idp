@@ -11,7 +11,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[AsMessageHandler]
 class MustProvisionUserHandler {
 
-    public function __construct(private UserRepositoryInterface $userRepository, private UserPasswordHasherInterface $passwordHasher)
+    public function __construct(private readonly UserRepositoryInterface $userRepository, private readonly UserPasswordHasherInterface $passwordHasher)
     {
     }
 

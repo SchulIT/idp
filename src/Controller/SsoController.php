@@ -16,24 +16,26 @@ use LightSaml\Build\Container\BuildContainerInterface;
 use LightSaml\Idp\Builder\Profile\WebBrowserSso\Idp\SsoIdpReceiveAuthnRequestProfileBuilder;
 use SchulIT\LightSamlIdpBundle\Builder\Profile\WebBrowserSso\Idp\SsoIdpSendResponseProfileBuilderFactory;
 use SchulIT\LightSamlIdpBundle\RequestStorage\RequestStorageInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class SsoController extends AbstractController {
 
     private const CSRF_TOKEN_ID = '_confirmation_token';
 
-    public function __construct(private ServiceProviderConfirmationService $confirmationService)
+    public function __construct(private readonly ServiceProviderConfirmationService $confirmationService)
     {
     }
 
     #[Route(path: '/idp/saml', name: 'idp_saml')]
-    public function saml(RequestStorageInterface $requestStorage, AttributeValueProvider $attributeValueProvider,
+    public function saml(#[CurrentUser] User $user, RequestStorageInterface $requestStorage, AttributeValueProvider $attributeValueProvider,
                          SsoIdpReceiveAuthnRequestProfileBuilder $receiveBuilder,
                          SsoIdpSendResponseProfileBuilderFactory $sendResponseBuilder,
                          CsrfTokenManagerInterface $tokenManager, ServiceProviderRepositoryInterface $serviceProviderRepository,
@@ -41,9 +43,6 @@ class SsoController extends AbstractController {
         if($requestStorage->has() !== true) {
             return $this->redirectToRoute('dashboard');
         }
-
-        /** @var User $user */
-        $user = $this->getUser();
 
         if($user->getType()->isCanLinkStudents() && count($user->getLinkedStudents()) === 0) {
             $this->addFlash('error', 'sso.error.registration_incomplete');
@@ -103,7 +102,7 @@ class SsoController extends AbstractController {
             if ($response instanceof SamlPostResponse) {
                 $data = $response->getData();
                 $destination = $response->getDestination();
-                $attributes = $attributeValueProvider->getValuesForUser($this->getUser(), $serviceProvider->getEntityId());
+                $attributes = $attributeValueProvider->getValuesForUser($user, $serviceProvider->getEntityId());
 
                 return $this->render('sso/' . $type . '_post.html.twig', [
                     'service' => $serviceProvider,
@@ -116,7 +115,7 @@ class SsoController extends AbstractController {
                 if ($response instanceof RedirectResponse) {
                     $destination = $response->getTargetUrl();
 
-                    $attributes = $attributeValueProvider->getValuesForUser($this->getUser(), $serviceProvider->getEntityId());
+                    $attributes = $attributeValueProvider->getValuesForUser($user, $serviceProvider->getEntityId());
 
                     return $this->render('sso/' . $type . '_uri.html.twig', [
                         'service' => $serviceProvider,
@@ -129,16 +128,16 @@ class SsoController extends AbstractController {
 
             throw new RuntimeException('Unsupported Binding!');
         } catch (Exception $e) {
-            $this->addFlash('error', $e->getMessage());
+            return $this->render('sso/error.html.twig', [
+                'message' => $e->getMessage()
+            ]);
         } finally {
             $requestStorage->clear();
         }
-
-        return $this->redirectToRoute('dashboard');
     }
 
     #[Route(path: '/idp/saml/confirm/{uuid}', name: 'confirm_redirect')]
-    public function confirm(Request $request, SamlServiceProvider $serviceProvider, AttributeValueProvider $attributeValueProvider, CsrfTokenManagerInterface $tokenManager): Response {
+    public function confirm(#[CurrentUser] User $user, Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] SamlServiceProvider $serviceProvider, AttributeValueProvider $attributeValueProvider, CsrfTokenManagerInterface $tokenManager): Response {
         $type = $request->request->get('type');
         $destination = $request->request->get('destination');
         $data = $request->request->all('data');
@@ -148,7 +147,7 @@ class SsoController extends AbstractController {
             $token = $tokenManager->refreshToken(self::CSRF_TOKEN_ID);
 
             if ($type === 'post') {
-                $attributes = $attributeValueProvider->getValuesForUser($this->getUser(), $serviceProvider->getEntityId());
+                $attributes = $attributeValueProvider->getValuesForUser($user, $serviceProvider->getEntityId());
 
                 return $this->render('sso/confirm_post.html.twig', [
                     'service' => $serviceProvider,
@@ -158,7 +157,7 @@ class SsoController extends AbstractController {
                     'csrf_token' => $token->getValue()
                 ]);
             } else if ($type === 'redirect') {
-                $attributes = $attributeValueProvider->getValuesForUser($this->getUser(), $serviceProvider->getEntityId());
+                $attributes = $attributeValueProvider->getValuesForUser($user, $serviceProvider->getEntityId());
 
                 return $this->render('sso/confirm_uri.html.twig', [
                     'service' => $serviceProvider,
@@ -168,8 +167,6 @@ class SsoController extends AbstractController {
                 ]);
             }
         } else {
-            /** @var User $user */
-            $user = $this->getUser();
             $this->confirmationService->saveConfirmation($user, $serviceProvider);
 
             if($type === 'post') {

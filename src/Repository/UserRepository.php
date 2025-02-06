@@ -17,7 +17,7 @@ class UserRepository implements UserRepositoryInterface {
 
     private bool $isInTransaction = false;
 
-    public function __construct(private EntityManagerInterface $em)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
     }
 

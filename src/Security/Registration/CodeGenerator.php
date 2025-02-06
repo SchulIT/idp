@@ -11,7 +11,7 @@ class CodeGenerator {
     private int $charactersPerBlock = 4;
     private string $separator = '-';
 
-    public function __construct(private RegistrationCodeRepositoryInterface $codeRepository)
+    public function __construct(private readonly RegistrationCodeRepositoryInterface $codeRepository)
     {
     }
 

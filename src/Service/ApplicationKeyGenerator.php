@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class ApplicationKeyGenerator {
 
-    public function __construct(private ApplicationRepositoryInterface $repository)
+    public function __construct(private readonly ApplicationRepositoryInterface $repository)
     {
     }
 

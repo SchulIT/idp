@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class NameIdProvider implements NameIdProviderInterface {
 
-    public function __construct(private EntityDescriptorProviderInterface $entityDescriptorProvider, private TokenStorageInterface $tokenStorage)
+    public function __construct(private readonly EntityDescriptorProviderInterface $entityDescriptorProvider, private readonly TokenStorageInterface $tokenStorage)
     {
     }
 

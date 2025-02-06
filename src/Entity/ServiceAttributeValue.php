@@ -11,46 +11,34 @@ class ServiceAttributeValue implements ServiceAttributeValueInterface {
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: ServiceAttribute::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private $attribute;
+    private ServiceAttribute $attribute;
 
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'attributes')]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private $user;
+    private User $user;
 
-    #[ORM\Column(type: 'object', nullable: true)]
-    private $value;
+    #[ORM\Column(type: 'json', nullable: true)]
+    private mixed $value = null;
     
     #[ORM\Column(type: 'datetime', nullable: true)]
     #[Gedmo\Timestampable(on: 'update', field: ['value'])]
-    private $updatedAt;
+    private ?DateTime $updatedAt;
 
-    /**
-     * @return ServiceAttribute
-     */
-    public function getAttribute() {
+    public function getAttribute(): ServiceAttribute {
         return $this->attribute;
     }
 
-    /**
-     * @return ServiceAttributeValue
-     */
-    public function setAttribute(ServiceAttribute $attribute) {
+    public function setAttribute(ServiceAttribute $attribute): self {
         $this->attribute = $attribute;
         return $this;
     }
 
-    /**
-     * @return User
-     */
-    public function getUser() {
+    public function getUser(): User {
         return $this->user;
     }
 
-    /**
-     * @return ServiceAttributeValue
-     */
-    public function setUser(User $user) {
+    public function setUser(User $user): self {
         $this->user = $user;
         return $this;
     }
@@ -65,7 +53,7 @@ class ServiceAttributeValue implements ServiceAttributeValueInterface {
     /**
      * @param string|string[]|int $value
      */
-    public function setValue(string|array|int $value) {
+    public function setValue(string|array|int $value): void {
         $this->value = $value;
     }
 

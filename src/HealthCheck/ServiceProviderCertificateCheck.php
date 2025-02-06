@@ -8,7 +8,7 @@ use App\Repository\ServiceProviderRepositoryInterface;
 
 class ServiceProviderCertificateCheck extends AbstractCertificateHealthCheck {
 
-    public function __construct(private ServiceProviderRepositoryInterface $repository)
+    public function __construct(private readonly ServiceProviderRepositoryInterface $repository)
     {
     }
 

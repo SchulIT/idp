@@ -7,7 +7,7 @@ use App\Service\UserServiceProviderResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UserVariable {
-    public function __construct(private TokenStorageInterface $tokenStorage, private UserServiceProviderResolver $serviceProviderResolver)
+    public function __construct(private readonly TokenStorageInterface $tokenStorage, private readonly UserServiceProviderResolver $serviceProviderResolver)
     {
     }
 
@@ -43,7 +43,7 @@ class UserVariable {
         return $this->getUser()->getEmail();
     }
 
-    public function getServices() {
+    public function getServices(): iterable {
         return $this->serviceProviderResolver->getServicesForCurrentUser();
     }
 }

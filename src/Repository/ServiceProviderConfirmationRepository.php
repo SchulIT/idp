@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ServiceProviderConfirmationRepository implements ServiceProviderConfirmationRepositoryInterface {
 
-    public function __construct(private EntityManagerInterface $em)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
     }
 

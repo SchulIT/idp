@@ -20,7 +20,7 @@ class Application implements UserInterface {
     #[ORM\Column(type: 'string', length: 64, unique: true)]
     #[Assert\Length(max: 64)]
     #[Assert\NotBlank]
-    private ?string $name;
+    private ?string $name = null;
 
     #[ORM\Column(type: 'string', enumType: ApplicationScope::class)]
     #[Assert\NotNull]
@@ -32,30 +32,23 @@ class Application implements UserInterface {
 
     #[ORM\Column(type: 'string', length: 64, unique: true)]
     #[Assert\NotBlank]
-    private ?string $apiKey;
+    private ?string $apiKey = null;
 
     #[ORM\Column(name: 'description', type: 'text')]
     #[Assert\NotBlank]
-    private ?string $description;
+    private ?string $description = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?DateTime $lastActivity;
+    private ?DateTime $lastActivity = null;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string {
         return $this->name;
     }
 
-    /**
-     * @param string|null $name
-     * @return Application
-     */
     public function setName(?string $name): Application {
         $this->name = $name;
         return $this;
@@ -130,24 +123,7 @@ class Application implements UserInterface {
         ];
     }
 
-    /**
-     * @return string
-     */
-    public function getPassword() {
-        return '';
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getSalt() {
-        return null;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUsername() {
+    public function getUsername(): ?string {
         return $this->getName();
     }
 
@@ -155,9 +131,6 @@ class Application implements UserInterface {
         return $this->getName();
     }
 
-    /**
-     * @return mixed
-     */
-    public function eraseCredentials() { }
+    public function eraseCredentials(): void { }
 
 }

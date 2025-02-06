@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class CronUserProvider implements UserProviderInterface {
 
-    public function __construct(private string $username, private string $password)
+    public function __construct(private readonly string $username, private readonly string $password)
     {
     }
 

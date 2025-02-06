@@ -4,7 +4,7 @@ namespace App\HealthCheck;
 
 use Exception;
 class IdentityProviderCertificateCheck extends AbstractCertificateHealthCheck {
-    public function __construct(private string $certificateFile)
+    public function __construct(private readonly string $certificateFile)
     {
     }
 

@@ -23,18 +23,6 @@
     "dasprid/enum": {
         "version": "1.0.3"
     },
-    "doctrine/annotations": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "a2759dd6123694c8d901d0ec80006e044c2e6457"
-        },
-        "files": [
-            "./config/routes/annotations.yaml"
-        ]
-    },
     "doctrine/cache": {
         "version": "v1.7.1"
     },
@@ -118,9 +106,6 @@
     "endroid/qr-code-bundle": {
         "version": "4.0.2"
     },
-    "friendsofphp/proxy-manager-lts": {
-        "version": "v1.0.3"
-    },
     "frostiede/composer-dependency-list": {
         "version": "1.0.0"
     },
@@ -155,9 +140,6 @@
     },
     "knplabs/knp-menu-bundle": {
         "version": "v2.2.1"
-    },
-    "laminas/laminas-code": {
-        "version": "4.4.2"
     },
     "lcobucci/clock": {
         "version": "2.0.0"
@@ -632,9 +614,6 @@
     "symfony/polyfill-mbstring": {
         "version": "v1.7.0"
     },
-    "symfony/polyfill-php72": {
-        "version": "v1.7.0"
-    },
     "symfony/polyfill-php80": {
         "version": "v1.17.0"
     },
@@ -649,9 +628,6 @@
     },
     "symfony/property-info": {
         "version": "v4.0.8"
-    },
-    "symfony/proxy-manager-bridge": {
-        "version": "v4.4.18"
     },
     "symfony/routing": {
         "version": "5.3",

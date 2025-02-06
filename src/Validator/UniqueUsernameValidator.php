@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class UniqueUsernameValidator extends ConstraintValidator {
 
-    public function __construct(private UserRepositoryInterface $userRepository)
+    public function __construct(private readonly UserRepositoryInterface $userRepository)
     {
     }
 
@@ -36,7 +36,7 @@ class UniqueUsernameValidator extends ConstraintValidator {
         }
     }
 
-    private function matchesType(User $user, string $type) {
+    private function matchesType(User $user, string $type): bool {
         return ($user::class === User::class && $type === 'user')
             || ($user::class === ActiveDirectoryUser::class && $type === 'ad');
     }

@@ -29,7 +29,7 @@ class UserTypeVoter extends Voter {
         };
     }
 
-    private function canRemove(UserType $userType) {
+    private function canRemove(UserType $userType): bool {
         return $userType->isBuiltIn() === false;
     }
 }

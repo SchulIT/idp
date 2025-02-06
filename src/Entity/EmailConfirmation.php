@@ -17,7 +17,7 @@ class EmailConfirmation {
     #[Assert\NotNull]
     private ?string $token = null;
 
-    #[ORM\OneToOne(targetEntity: User::class, cascade: ['persist'], inversedBy: 'emailConfirmation')]
+    #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'emailConfirmation', cascade: ['persist'])]
     #[ORM\JoinColumn(unique: true, onDelete: 'CASCADE')]
     private ?User $user = null;
 

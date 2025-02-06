@@ -6,11 +6,11 @@ use LightSaml\Model\Context\SerializationContext;
 use LightSaml\Provider\EntityDescriptor\EntityDescriptorProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route(path: '/admin/idp')]
 class IdpController extends AbstractController {
-    public function __construct(private string $kernelProjectDir)
+    public function __construct(private readonly string $kernelProjectDir)
     {
     }
     #[Route(path: '', name: 'idp_details')]

@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ServiceProviderRepository implements ServiceProviderRepositoryInterface {
 
-    public function __construct(private EntityManagerInterface $em)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
     }
 

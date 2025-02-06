@@ -55,7 +55,10 @@ class ActiveSessionsResolver {
 
     public function createTable(Connection $connection): void {
         $schemaManager = $connection->createSchemaManager();
-        if($schemaManager->tablesExist('session_user')) {
+        $sql = "SHOW TABLES LIKE 'session_user';";
+        $row = $connection->executeQuery($sql);
+
+        if($row->fetchAssociative() !== false) {
             return;
         }
 

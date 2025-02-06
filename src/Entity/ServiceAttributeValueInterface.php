@@ -3,10 +3,7 @@
 namespace App\Entity;
 
 interface ServiceAttributeValueInterface {
-    /**
-     * @return ServiceAttribute
-     */
-    public function getAttribute();
+    public function getAttribute(): ServiceAttribute;
 
     /**
      * @return mixed

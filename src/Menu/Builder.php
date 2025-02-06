@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Builder {
-    public function __construct(private FactoryInterface $factory, private AuthorizationCheckerInterface $authorizationChecker, private TranslatorInterface $translator, private TokenStorageInterface $tokenStorage, private UserServiceProviderResolver $userServiceProviderResolver, private DarkModeManagerInterface $darkModeManager, private bool $adAuthEnabled)
+    public function __construct(private readonly FactoryInterface $factory, private readonly AuthorizationCheckerInterface $authorizationChecker, private readonly TranslatorInterface $translator, private readonly TokenStorageInterface $tokenStorage, private readonly UserServiceProviderResolver $userServiceProviderResolver, private readonly DarkModeManagerInterface $darkModeManager, private readonly bool $adAuthEnabled)
     {
     }
 

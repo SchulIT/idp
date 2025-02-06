@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 
 class KioskUserAuthenticator extends AbstractLoginFormAuthenticator {
 
-    public function __construct(private KioskUserRepositoryInterface $repository, private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private readonly KioskUserRepositoryInterface $repository, private readonly UrlGeneratorInterface $urlGenerator)
     {
     }
 
@@ -57,7 +57,7 @@ class KioskUserAuthenticator extends AbstractLoginFormAuthenticator {
         return new SelfValidatingPassport(
             new UserBadge($user->getUser()->getUserIdentifier()),
             [
-                new ClientIpAddressBadge(explode(',', $user->getIpAddresses()))
+                new ClientIpAddressBadge(explode(',', (string) $user->getIpAddresses()))
             ]
         );
     }

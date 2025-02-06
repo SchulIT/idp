@@ -11,7 +11,7 @@ use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
 class CachePasswordListener implements EventSubscriberInterface {
 
-    public function __construct(private UserRepositoryInterface $userRepository)
+    public function __construct(private readonly UserRepositoryInterface $userRepository)
     {
     }
 

@@ -13,11 +13,12 @@ use App\Security\Registration\CodeGenerator;
 use League\Csv\ByteSequence;
 use League\Csv\Writer;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route(path: '/registration_codes')]
@@ -25,7 +26,7 @@ class RegistrationCodeController extends AbstractController {
 
     private const CodesPerPage = 25;
 
-    public function __construct(private RegistrationCodeRepositoryInterface $repository)
+    public function __construct(private readonly RegistrationCodeRepositoryInterface $repository)
     {
     }
 
@@ -223,7 +224,7 @@ class RegistrationCodeController extends AbstractController {
     }
 
     #[Route(path: '/{uuid}/edit', name: 'edit_registration_code')]
-    public function edit(RegistrationCode $code, Request $request): Response {
+    public function edit(#[MapEntity(mapping: ['uuid' => 'uuid'])] RegistrationCode $code, Request $request): Response {
         if($code->getRedeemingUser() !== null) {
             $this->addFlash('error', 'codes.edit.error.already_redeemed.message');
             return $this->redirectToRoute('registration_codes');
@@ -247,7 +248,7 @@ class RegistrationCodeController extends AbstractController {
     }
 
     #[Route(path: '/{uuid}/remove', name: 'remove_registration_code')]
-    public function remove(RegistrationCode $code, Request $request): Response {
+    public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] RegistrationCode $code, Request $request): Response {
         $form = $this->createForm(ConfirmType::class, [], [
             'message' => 'codes.remove.confirm',
             'message_parameters' => [

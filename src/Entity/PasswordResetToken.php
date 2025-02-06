@@ -13,14 +13,14 @@ class PasswordResetToken {
     use UuidTrait;
 
     #[ORM\Column(type: 'string', length: 64, unique: true)]
-    private $token;
+    private string $token;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private $user;
+    private ?User $user;
 
     #[ORM\Column(type: 'datetime')]
-    private $expiresAt;
+    private DateTime $expiresAt;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
@@ -35,7 +35,7 @@ class PasswordResetToken {
         return $this;
     }
 
-    public function getUser(): User {
+    public function getUser(): ?User {
         return $this->user;
     }
 

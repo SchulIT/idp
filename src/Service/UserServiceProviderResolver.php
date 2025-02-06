@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Resolves services which users are enabled for.
  */
 class UserServiceProviderResolver {
-    public function __construct(private TokenStorageInterface $tokenStorage)
+    public function __construct(private readonly TokenStorageInterface $tokenStorage)
     {
     }
 

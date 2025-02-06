@@ -23,6 +23,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -84,7 +85,7 @@ class UserController extends AbstractController {
     #[OA\Response(response: '400', description: 'Validierung fehlgeschlagen.', content: new Model(type:ViolationListResponse::class))]
     #[OA\Response(response: '500', description: 'Serverfehler', content: new Model(type: ErrorResponse::class))]
     #[Route(path: '', methods: ['POST'])]
-    public function add(UserRequest $request): Response {
+    public function add(#[MapRequestPayload] UserRequest $request): Response {
         $violations = [ ];
         $existingUser = $this->userRepository->findOneByUsername($request->getUsername());
 
@@ -127,7 +128,7 @@ class UserController extends AbstractController {
     #[OA\Response(response: '404', description: 'Benutzer wurde nicht gefunden.')]
     #[OA\Response(response: '500', description: 'Serverfehler', content: new Model(type: ErrorResponse::class))]
     #[Route(path: '/{uuidOrExternalId}', methods: ['PATCH'])]
-    public function update($uuidOrExternalId, UserRequest $request): Response {
+    public function update($uuidOrExternalId, #[MapRequestPayload] UserRequest $request): Response {
         $user = $this->getUserOrThrowNotFound($uuidOrExternalId);
 
         $user = $this->transformRequest($request, $user);
@@ -153,7 +154,7 @@ class UserController extends AbstractController {
     #[OA\Response(response: '404', description: 'Benutzer wurde nicht gefunden.')]
     #[OA\Response(response: '500', description: 'Serverfehler', content: new Model(type: ErrorResponse::class))]
     #[Route(path: '/{uuidOrExternalId}/attributes', methods: ['PATCH'])]
-    public function updateAttributes($uuidOrExternalId, UserAttributeRequest $request): Response {
+    public function updateAttributes($uuidOrExternalId, #[MapRequestPayload] UserAttributeRequest $request): Response {
         $user = $this->getUserOrThrowNotFound($uuidOrExternalId);
         $this->attributePersister->persistUserAttributes($request->getAttributes(), $user);
 

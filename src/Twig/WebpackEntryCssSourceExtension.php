@@ -16,7 +16,7 @@ class WebpackEntryCssSourceExtension extends AbstractExtension {
 
     public function getFunctions(): array {
         return [
-            new TwigFunction('css_source', [ $this, 'getCssSource'])
+            new TwigFunction('css_source', $this->getCssSource(...))
         ];
     }
 

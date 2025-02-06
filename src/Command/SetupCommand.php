@@ -77,7 +77,7 @@ SQL;
         $sql = "SHOW COLUMNS FROM `sessions` WHERE `Field` = 'sess_data'";
         $row = $this->dbalConnection->executeQuery($sql)->fetchAssociative();
 
-        if(strtolower($row['Type']) === 'mediumblob') {
+        if(strtolower((string) $row['Type']) === 'mediumblob') {
             $io->success('Feld ist bereits MEDIUMBLOB. Fertig.');
         } else {
             $io->writeln(sprintf('Ändere Feld von %s zu MEDIUMBLOB', $row['Type']));

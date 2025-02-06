@@ -6,9 +6,9 @@ use Exception;
 use Throwable;
 
 class RecordInvalidException extends Exception {
-    private int $index;
+    private readonly int $index;
 
-    private string $field;
+    private readonly string $field;
 
     public function __construct(int $index, string $field, $code = 0, Throwable $previous = null) {
         parent::__construct(sprintf('Record %d has an invalid field %s', $index, $field), $code, $previous);
