@@ -20,7 +20,7 @@ final class Version20241230112327 extends AbstractMigration
     public function preUp(Schema $schema): void {
         $stmt = $this->connection->executeQuery('SELECT * FROM service_attribute_value');
         while($row = $stmt->fetchAssociative()) {
-            $this->addSql('UPDATE service_attribute_value SET value = :value WHERE attribute_id = :attribute_id AND user_id = :user_id', [
+            $this->addSql('UPDATE service_attribute_value SET `value` = :value WHERE attribute_id = :attribute_id AND user_id = :user_id', [
                 'value' => json_encode(unserialize($row['value'])),
                 'user_id' => $row['user_id'],
                 'attribute_id' => $row['attribute_id']
@@ -29,7 +29,7 @@ final class Version20241230112327 extends AbstractMigration
 
         $stmt = $this->connection->executeQuery('SELECT * FROM service_attribute_user_type_value');
         while($row = $stmt->fetchAssociative()) {
-            $this->addSql('UPDATE service_attribute_user_type_value SET value = :value WHERE attribute_id = :attribute_id AND user_type_id = :user_type_id', [
+            $this->addSql('UPDATE service_attribute_user_type_value SET `value` = :value WHERE attribute_id = :attribute_id AND user_type_id = :user_type_id', [
                 'value' => json_encode(unserialize($row['value'])),
                 'user_type_id' => $row['user_type_id'],
                 'attribute_id' => $row['attribute_id']
@@ -38,7 +38,7 @@ final class Version20241230112327 extends AbstractMigration
 
         $stmt = $this->connection->executeQuery('SELECT * FROM service_attribute_user_role_value');
         while($row = $stmt->fetchAssociative()) {
-            $this->addSql('UPDATE service_attribute_user_role_value SET value = :value WHERE attribute_id = :attribute_id AND user_role_id = :user_role_id', [
+            $this->addSql('UPDATE service_attribute_user_role_value SET `value` = :value WHERE attribute_id = :attribute_id AND user_role_id = :user_role_id', [
                 'value' => json_encode(unserialize($row['value'])),
                 'user_role_id' => $row['user_role_id'],
                 'attribute_id' => $row['attribute_id']
