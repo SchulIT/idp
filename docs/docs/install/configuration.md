@@ -94,6 +94,19 @@ Das Passwort für den Cronjob-Benutzer, sofern Cronjobs via HTTPs ausgeführt we
 Der Konfigurationsparameter können zunächst übersprungen werden und zu einem späteren Zeitpunkt konfiguriert werden.
 :::
 
+#### AUTH_AUDIT_ENABLED
+
+Gibt an, ob das Anmelde-Log aktiviert ist oder nicht. Standardwert ist `false`, d.h. das Anmelde-Log ist deaktiviert.
+Siehe [Anmelde-Log](../guides/authentication_audit).
+
+#### AUTH_AUDIT_RETENTION_DAYS
+
+Gibt an, wie viele Tage das Anmelde-Log gespeichert werden soll. Der Wert `0` deaktiviert das Löschen des Logs. Siehe [Anmelde-Log](../guides/authentication_audit).
+
+#### MAXMIND_LICENCE_KEY (optional)
+
+API-Schlüssel zum Abrufen der GeoIP-Datenbank. [Anmelde-Log](../guides/authentication_audit).
+
 ### Datenbank
 
 #### DATABASE_URL

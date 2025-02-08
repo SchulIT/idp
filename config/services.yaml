@@ -169,6 +169,14 @@ services:
     Symfony\Component\Security\Core\User\UserProviderInterface:
         alias: 'security.user.provider.concrete.database'
 
+    App\Security\EventListener\AuthenticationAuditEventSubscriber:
+        arguments:
+            $isEnabled: '%env(bool:AUTH_AUDIT_ENABLED)%'
+
+    App\Command\ClearAuthenticationAuditLogCommand:
+        arguments:
+            $days: '%env(int:AUTH_AUDIT_RETENTION_DAYS)%'
+
     # Migrations
     Doctrine\Migrations\Version\DbalMigrationFactory: ~
     App\Migrations\Factory\MigrationFactoryDecorator:

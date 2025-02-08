@@ -1,0 +1,163 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'authentication_audit.label'|trans }}{% endblock %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a></li>
+    <li class="breadcrumb-item">{{ block('title') }}</li>
+</ol>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid px-0">
+        <div class="row">
+            <div class="col-9">
+                <div class="card">
+                    <table class="table table-hover table-striped card-table">
+                        <colgroup></colgroup>
+
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>{{ 'authentication_audit.type.label'|trans }}</th>
+                            <th>{{ 'label.username'|trans }}</th>
+                            <th>{{ 'authentication_audit.ip_address'|trans }}</th>
+                            <th>{{ 'authentication_audit.country'|trans }}</th>
+                            <th>{{ 'authentication_audit.timestamp'|trans }}</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for item in items %}
+                            <tr>
+                                <td>
+                                    <div class="pointer" data-toggle="table-collapse" data-target="#audit-detail-{{ item.id }}">
+                                        <i class="fa fa-chevron-down indicator"></i>
+                                    </div>
+                                </td>
+                                <td>
+                                    {% if item.type.value == 'login' %}
+                                        <i class="fas fa-sign-in-alt" title="{{ 'authentication_audit.type.login'|trans }}"></i>
+                                    {% elseif item.type.value == 'logout' %}
+                                        <i class="fas fa-sign-out-alt" title="{{ 'authentication_audit.type.logout'|trans }}"></i>
+                                    {% elseif item.type.value == 'error' %}
+                                        <i class="fas fa-triangle-exclamation text-danger" title="{{ 'authentication_audit.type.error'|trans }}"></i>
+                                    {% elseif item.type.value == 'switch_user' %}
+                                        <i class="fa-solid fa-shuffle" title="{{ 'authentication_audit.type.switch_user'|trans }}"></i>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if item.username is not empty %}
+                                        {{ item.username }}
+                                    {% else %}
+                                        <span class="badge text-bg-secondary">N/A</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if item.ipAddress is not empty %}
+                                        {{ item.ipAddress }}
+
+
+                                    {% else %}
+                                        <span class="badge text-bg-secondary">N/A</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if item.ipCountry is not empty %}
+                                        {{ item.ipCountry }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ item.createdAt|format_datetime }}
+                                </td>
+
+                            </tr>
+                            <tr id="audit-detail-{{ item.id }}" class="collapse">
+                                <td colspan="6">
+                                    <p>
+                                        <span class="text-muted">{{ 'authentication_audit.authenticator'|trans }}</span>
+
+                                        {% if item.authenticatorFqcn is not empty %}
+                                            <pre>{{ item.authenticatorFqcn }}</pre>
+                                        {% else %}
+                                            <span class="badge text-bg-secondary">N/A</span>
+                                        {% endif %}
+                                    </p>
+
+                                    <p>
+                                        <span class="text-muted">{{ 'authentication_audit.token'|trans }}</span>
+
+                                        {% if item.tokenFqcn is not empty %}
+                                            <pre>{{ item.tokenFqcn }}</pre>
+                                        {% else %}
+                                            <span class="badge text-bg-secondary">N/A</span>
+                                        {% endif %}
+                                    </p>
+
+                                    <p>
+                                        <span class="text-muted">{{ 'authentication_audit.firewall'|trans }}</span>
+
+                                        {% if item.firewall is not empty %}
+                                            <pre>{{ item.firewall }}</pre>
+                                        {% else %}
+                                            <span class="badge text-bg-secondary">N/A</span>
+                                        {% endif %}
+                                    </p>
+
+                                    <p>
+                                        <span class="text-muted">{{ 'authentication_audit.message'|trans }}</span>
+
+                                        {% if item.message is not empty %}
+                                            {{ item.message }}
+                                        {% else %}
+                                            <span class="badge text-bg-secondary">N/A</span>
+                                        {% endif %}
+                                    </p>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                {% include '@Common/includes/pagination.html.twig' with {
+                    currentPage: page,
+                    currentFilters: { request_id: requestId, username: username },
+                    paginationPath: 'authentication_audit',
+                    lastPage: pages,
+                    showAlwaysFirstAndLast: true
+                } only %}
+            </div>
+
+            <div class="col-3 sticky-sidebar">
+                <form method="get">
+                    <div class="card">
+                        <div class="card-header">{{ 'authentication_audit.filter.label'|trans }}</div>
+
+                        <div class="card-body">
+                            <div>
+                                <label for="username" class="form-label">{{ 'label.username'|trans }}</label>
+                                <input type="text" name="username" id="username" class="form-control" value="{{ username }}">
+                            </div>
+
+                            <div>
+                                <label for="request_id" class="form-label">{{ 'authentication_audit.request_id'|trans }}</label>
+                                <input type="text" name="request_id" id="request_id" class="form-control" value="{{ requestId }}">
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                {{ 'authentication_audit.filter.apply'|trans }}
+                            </button>
+
+                            <a href="{{ path('authentication_audit') }}" class="btn btn-secondary btn-sm">
+                                {{ 'authentication_audit.filter.clear'|trans }}
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

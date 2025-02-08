@@ -16,6 +16,7 @@
         "doctrine/orm": "^3.2",
         "endroid/qr-code-bundle": "^6.0",
         "frostiede/composer-dependency-list-bundle": "^4.0",
+        "gpslab/geoip2": "^2.1",
         "jms/serializer-bundle": "^5.0",
         "knplabs/knp-menu-bundle": "^3.4",
         "league/commonmark": "^1.4",
@@ -120,7 +121,8 @@
             "cache:clear": "symfony-cmd",
             "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
-            "app:browscap:update": "symfony-cmd"
+            "app:browscap:update": "symfony-cmd",
+            "geoip2:update": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"

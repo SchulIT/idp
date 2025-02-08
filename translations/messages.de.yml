@@ -706,3 +706,25 @@ sessions:
     label_short: überall abmelden
     success: Auf allen Geräten abgemeldet
   active: diese Sitzung
+
+authentication_audit:
+  label: Anmelde-Log
+
+  type:
+      label: Art
+      login: Anmeldung
+      logout: Abmeldung
+      switch_user: Benutzerwechsel
+      error: Fehler
+  ip_address: IP-Adresse
+  country: Land
+  authenticator: Authenticator-Art
+  token: Token-Art
+  firewall: Firewall
+  message: Mitteilung
+  request_id: Request ID
+  timestamp: Zeitpunkt
+  filter:
+    label: Filter
+    apply: Filter übernehmen
+    clear: Filter löschen

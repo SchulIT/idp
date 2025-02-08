@@ -7,12 +7,20 @@ use App\Service\UserServiceProviderResolver;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use SchulIT\CommonBundle\DarkMode\DarkModeManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Builder {
-    public function __construct(private readonly FactoryInterface $factory, private readonly AuthorizationCheckerInterface $authorizationChecker, private readonly TranslatorInterface $translator, private readonly TokenStorageInterface $tokenStorage, private readonly UserServiceProviderResolver $userServiceProviderResolver, private readonly DarkModeManagerInterface $darkModeManager, private readonly bool $adAuthEnabled)
+    public function __construct(private readonly FactoryInterface $factory,
+                                private readonly AuthorizationCheckerInterface $authorizationChecker,
+                                private readonly TranslatorInterface $translator,
+                                private readonly TokenStorageInterface $tokenStorage,
+                                private readonly UserServiceProviderResolver $userServiceProviderResolver,
+                                private readonly DarkModeManagerInterface $darkModeManager,
+                                #[Autowire(env: 'bool:AUTH_AUDIT_ENABLED')] private readonly bool $authenticatoinAuditEnabled,
+                                private readonly bool $adAuthEnabled)
     {
     }
 
@@ -114,6 +122,13 @@ class Builder {
                 'route' => 'applications'
             ])
                 ->setExtra('icon', 'fas fa-key');
+
+            if($this->authenticatoinAuditEnabled) {
+                $menu->addChild('authentication_audit.label', [
+                    'route' => 'authentication_audit'
+                ])
+                    ->setExtra('icon', 'fas fa-sign-in-alt');
+            }
 
             $menu->addChild('cron.label', [
                 'route' => 'admin_cronjobs'

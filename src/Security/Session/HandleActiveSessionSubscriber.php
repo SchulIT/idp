@@ -10,6 +10,7 @@ use Doctrine\DBAL\Types\Types;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Security\Http\Event\LogoutEvent;
 
 class HandleActiveSessionSubscriber implements EventSubscriberInterface {
 
@@ -19,6 +20,11 @@ class HandleActiveSessionSubscriber implements EventSubscriberInterface {
 
     public function onKernelTerminate(FinishRequestEvent $event): void {
         if($this->sessionToSave === null) {
+            return;
+        }
+
+        if(empty($event->getRequest()->getSession()->getId())) {
+            // no session id available -> skip
             return;
         }
 
@@ -61,6 +67,8 @@ class HandleActiveSessionSubscriber implements EventSubscriberInterface {
             !empty($event->getRequest()->headers->get('User-Agent')) ? $this->browscap->getBrowser($event->getRequest()->headers->get('User-Agent')) : null
         );
     }
+
+
 
     public static function getSubscribedEvents(): array {
         return [
