@@ -6,6 +6,7 @@ use BrowscapPHP\Browscap;
 use BrowscapPHP\BrowscapUpdater;
 use BrowscapPHP\Helper\IniLoaderInterface;
 use Exception;
+use Shapecode\Bundle\CronBundle\Attribute\AsCronJob;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,6 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand('app:browscap:update', description: 'Aktualisiert den Browscap Cache')]
+#[AsCronJob(schedule: '@daily')]
 class UpdateBrowscapCommand extends Command {
 
     public function __construct(private readonly BrowscapUpdater $browscapUpdater, string $name = null) {
