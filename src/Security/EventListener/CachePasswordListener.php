@@ -22,6 +22,8 @@ class CachePasswordListener implements EventSubscriberInterface {
             return;
         }
 
+        dump($event);
+
         /** @var CachePasswordBadge $badge */
         $badge = $passport->getBadge(CachePasswordBadge::class);
         $plaintextPassword = $badge->getPassword();
@@ -29,10 +31,6 @@ class CachePasswordListener implements EventSubscriberInterface {
         $user = $passport->getUser();
 
         if(!$user instanceof ActiveDirectoryUser) {
-            return;
-        }
-
-        if($badge->isResolved()) {
             return;
         }
 
