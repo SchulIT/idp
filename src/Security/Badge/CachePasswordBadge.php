@@ -2,12 +2,13 @@
 
 namespace App\Security\Badge;
 
+use SensitiveParameter;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\BadgeInterface;
 
-class CachePasswordBadge implements BadgeInterface {
+readonly class CachePasswordBadge implements BadgeInterface {
 
-    public function __construct(private readonly string $password, private readonly UserPasswordHasherInterface $hasher)
+    public function __construct(#[SensitiveParameter] private string $password, private UserPasswordHasherInterface $hasher)
     {
     }
 
