@@ -679,6 +679,10 @@ settings:
     mail:
       label: E-Mail-Adresse für Hilfe
       help: Diese E-Mail-Adresse wird auf der Anmeldeseite angezeigt. Benutzer können sich bei Schwierigkeiten an diese E-Mail-Adresse wenden.
+  custom_css:
+    label: Benutzerdefiniertes CSS
+    help: Hier kann benutzerdefiniertes CSS eingebunden werden, um die Software nach eigenen Wünschen einzufärben.
+
   security:
     password_compromised_check:
       label: Passwort-Check aktiv

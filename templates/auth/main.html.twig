@@ -6,7 +6,14 @@
     <title>{{ config.name }}</title>
 
     {% block css %}
-    <link rel="stylesheet" type="text/css" href="{{ preload(asset('build/simple.css')) }}">
+        <link rel="stylesheet" type="text/css" href="{{ preload(asset('build/simple.css')) }}">
+
+        {% set customCSS = customCSS() %}
+        {% if customCSS is not empty %}
+            <style>
+                {{ customCSS }}
+            </style>
+        {% endif %}
     {% endblock %}
 
     {% block head %}{% endblock %}

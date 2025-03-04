@@ -1,7 +1,14 @@
 {% extends '@Common/base.html.twig' %}
 
 {% block css %}
-    <link rel="stylesheet" href="{{ asset('build/app.css') }}" type="text/css" >
+    <link rel="stylesheet" href="{{ asset('build/app.css') }}" type="text/css" />
+
+    {% set customCSS = customCSS() %}
+    {% if customCSS is not empty %}
+        <style>
+            {{ customCSS }}
+        </style>
+    {% endif %}
 {% endblock %}
 
 {% block javascript %}

@@ -1,5 +1,4 @@
 const Encore = require('@symfony/webpack-encore');
-const GlobImporter = require('node-sass-glob-importer');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -51,9 +50,7 @@ Encore
     .enableVersioning(Encore.isProduction())
 
     // uncomment if you use Sass/SCSS files
-    .enableSassLoader(function(options) {
-        options.sassOptions.importer = GlobImporter()
-    })
+    .enableSassLoader()
     .enablePostCssLoader()
 
     .disableSingleRuntimeChunk()

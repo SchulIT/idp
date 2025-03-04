@@ -1,10 +1,10 @@
-// Import SCSS from custom
-@import "custom/*.scss";
-
-@import '../../vendor/schulit/common-bundle/Resources/assets/css/variables.scss';
+@import '../../vendor/schulit/common-bundle/Resources/assets/css/bootstrap.scss';
 
 // Import Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+// Import (and override) variables
+@import '../../vendor/schulit/common-bundle/Resources/assets/css/variables.scss';
 
 // Import FontAwesome
 @import '../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
@@ -28,9 +28,6 @@
 @import '../../node_modules/choices.js/src/styles/choices';
 @import '../../vendor/schulit/common-bundle/Resources/assets/css/choices-fixes.scss';
 @import '../../vendor/schulit/common-bundle/Resources/assets/css/dark/choices';
-
-// Import SCSS from overrides
-@import "overrides/*.scss";
 
 // ---start
 table {
@@ -109,6 +106,6 @@ header {
 
 table {
   .odd {
-    background: $table-accent-bg;
+    background: var(--bs-table-accent-bg);
   }
 }
