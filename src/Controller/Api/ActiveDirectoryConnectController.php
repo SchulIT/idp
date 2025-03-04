@@ -12,6 +12,7 @@ use App\Security\ActiveDirectoryUserInformation;
 use App\Security\UserCreator;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
@@ -84,7 +85,7 @@ class ActiveDirectoryConnectController extends AbstractController {
     #[OA\Response(response: '400', description: 'Validierung fehlgeschlagen.', content: new Model(type:ViolationListResponse::class))]
     #[OA\Response(response: '500', description: 'Serverfehler', content: new Model(type: ErrorResponse::class))]
     #[Route(path: '/{objectGuid}', methods: ['PATCH'])]
-    public function update(ActiveDirectoryUser $user, #[MapRequestPayload] ActiveDirectoryUserRequest $request): Response {
+    public function update(#[MapEntity(mapping: ['objectGuid' => 'objectGuid'])] ActiveDirectoryUser $user, #[MapRequestPayload] ActiveDirectoryUserRequest $request): Response {
         $user = $this->userCreator->createUser($this->transformRequest($request), $user);
         $this->repository->persist($user);
         return new Response(null, Response::HTTP_NO_CONTENT);
@@ -98,7 +99,7 @@ class ActiveDirectoryConnectController extends AbstractController {
     #[OA\Response(response: '404', description: 'Benutzer wurde nicht gefunden.')]
     #[OA\Response(response: '500', description: 'Serverfehler', content: new Model(type: ErrorResponse::class))]
     #[Route(path: '/{objectGuid}', methods: ['DELETE'])]
-    public function remove(ActiveDirectoryUser $user): Response {
+    public function remove(#[MapEntity(mapping: ['objectGuid' => 'objectGuid'])] ActiveDirectoryUser $user): Response {
         $this->repository->remove($user);
         return new Response(null, Response::HTTP_NO_CONTENT);
     }
