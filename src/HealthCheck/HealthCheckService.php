@@ -2,11 +2,13 @@
 
 namespace App\HealthCheck;
 
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
+
 class HealthCheckService {
     /** @var HealthCheckInterface[] */
     private array $checks;
 
-    public function __construct(iterable $checks) {
+    public function __construct(#[AutowireIterator('app.health_check')] iterable $checks) {
         foreach($checks as $check) {
             $this->checks[] = $check;
         }

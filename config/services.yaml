@@ -42,10 +42,6 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    _instanceof:
-        App\HealthCheck\HealthCheckInterface:
-            tags: [ 'app.health_check' ]
-
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
@@ -132,10 +128,6 @@ services:
     App\HealthCheck\IdentityProviderCertificateCheck:
         arguments:
             $certificateFile: '%kernel.project_dir%/certs/idp.crt'
-
-    App\HealthCheck\HealthCheckService:
-        arguments:
-            $checks: !tagged 'app.health_check'
 
 
     # Dark mode
