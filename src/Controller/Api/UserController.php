@@ -71,7 +71,7 @@ class UserController extends AbstractController {
     #[OA\Response(response: '200', description: 'Das Benutzerobjekt', content: new Model(type: User::class))]
     #[OA\Response(response: '404', description: 'Der Benutzer wurde nicht gefunden.')]
     #[Route(path: '/{uuidOrExternalId}', methods: ['GET'])]
-    public function user($uuidOrExternalId): Response {
+    public function user(string $uuidOrExternalId): Response {
         $user = $this->getUserOrThrowNotFound($uuidOrExternalId);
         return $this->json($user);
     }
@@ -128,7 +128,7 @@ class UserController extends AbstractController {
     #[OA\Response(response: '404', description: 'Benutzer wurde nicht gefunden.')]
     #[OA\Response(response: '500', description: 'Serverfehler', content: new Model(type: ErrorResponse::class))]
     #[Route(path: '/{uuidOrExternalId}', methods: ['PATCH'])]
-    public function update($uuidOrExternalId, #[MapRequestPayload] UserRequest $request): Response {
+    public function update(string $uuidOrExternalId, #[MapRequestPayload] UserRequest $request): Response {
         $user = $this->getUserOrThrowNotFound($uuidOrExternalId);
 
         $user = $this->transformRequest($request, $user);
@@ -154,7 +154,7 @@ class UserController extends AbstractController {
     #[OA\Response(response: '404', description: 'Benutzer wurde nicht gefunden.')]
     #[OA\Response(response: '500', description: 'Serverfehler', content: new Model(type: ErrorResponse::class))]
     #[Route(path: '/{uuidOrExternalId}/attributes', methods: ['PATCH'])]
-    public function updateAttributes($uuidOrExternalId, #[MapRequestPayload] UserAttributeRequest $request): Response {
+    public function updateAttributes(string $uuidOrExternalId, #[MapRequestPayload] UserAttributeRequest $request): Response {
         $user = $this->getUserOrThrowNotFound($uuidOrExternalId);
         $this->attributePersister->persistUserAttributes($request->getAttributes(), $user);
 
@@ -169,7 +169,7 @@ class UserController extends AbstractController {
     #[OA\Response(response: '404', description: 'Benutzer wurde nicht gefunden.')]
     #[OA\Response(response: '500', description: 'Serverfehler', content: new Model(type: ErrorResponse::class))]
     #[Route(path: '/{uuidOrExternalId}', methods: ['DELETE'])]
-    public function remove($uuidOrExternalId): Response {
+    public function remove(string $uuidOrExternalId): Response {
         $user = $this->getUserOrThrowNotFound($uuidOrExternalId);
         $this->userRepository->remove($user);
         return new Response(null, Response::HTTP_NO_CONTENT);
