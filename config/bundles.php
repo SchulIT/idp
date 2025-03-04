@@ -29,4 +29,5 @@ return [
     Shapecode\Bundle\CronBundle\ShapecodeCronBundle::class => ['all' => true],
     GpsLab\Bundle\GeoIP2Bundle\GpsLabGeoIP2Bundle::class => ['all' => true],
     Chrisguitarguy\RequestId\ChrisguitarguyRequestIdBundle::class => ['all' => true],
+    Zenstruck\Messenger\Monitor\ZenstruckMessengerMonitorBundle::class => ['all' => true],
 ];

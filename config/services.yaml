@@ -216,3 +216,7 @@ services:
         bind:
             $cache: '@cache.browscap.psr16'
             $logger: '@monolog.logger.browscap'
+
+    Zenstruck\Messenger\Monitor\Command\PurgeCommand:
+        tags:
+            - { name: shapecode_cron.cron_job, expression: '@daily' }
