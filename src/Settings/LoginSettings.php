@@ -2,12 +2,16 @@
 
 namespace App\Settings;
 
-class LoginSettings extends AbstractSettings {
-    public function getLoginMessage(): ?string {
-        return $this->getValue('login.message', null);
-    }
+use App\Form\MarkdownType;
+use Jbtronics\SettingsBundle\ParameterTypes\StringType;
+use Jbtronics\SettingsBundle\Settings\Settings;
+use Jbtronics\SettingsBundle\Settings\SettingsParameter;
+use Symfony\Component\Validator\Constraints as Assert;
 
-    public function setLoginMessage(?string $message): void {
-        $this->setValue('login.message', $message);
-    }
+#[Settings]
+class LoginSettings {
+
+    #[SettingsParameter(type: StringType::class, label: 'settings.login.message.label', description: 'settings.login.message.help', formType: MarkdownType::class, formOptions: [ 'required' => false], nullable: true)]
+    #[Assert\NotBlank(allowNull: true)]
+    public ?string $loginMessage = null;
 }

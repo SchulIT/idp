@@ -17,8 +17,7 @@ class PasswordStrengthHelperTest extends TestCase {
         ];
 
         $settings = $this->createMock(AppSettings::class);
-        $settings->method('isPasswordCompromisedCheckEnabled')
-            ->willReturn(true);
+        $settings->isPasswordCompromisedCheckEnabled = true;
 
         $validator = Validation::createValidator();
         $helper = new PasswordStrengthHelper($settings, $validator);

@@ -673,7 +673,7 @@ email_confirmation:
 settings:
   label: Einstellungen
   success: Einstellungen wurden erfolgreich aktualisiert.
-  general:
+  app:
     label: Allgemeine Einstellungen
   helpdesk:
     mail:

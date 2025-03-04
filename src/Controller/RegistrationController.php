@@ -88,7 +88,7 @@ class RegistrationController extends AbstractController {
 
         $user = $manager->getTemplateUser();
         $form = $this->createForm(UserProfileCompleteType::class, $user, [
-            'username_suffix' => sprintf('@%s', $settings->getUsernameSuffix())
+            'username_suffix' => sprintf('@%s', $settings->usernameSuffix)
         ]);
         $form->handleRequest($request);
 

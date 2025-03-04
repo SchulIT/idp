@@ -25,7 +25,7 @@ class PasswordStrengthHelper {
             ])
         ];
 
-        if($this->settings->isPasswordCompromisedCheckEnabled()) {
+        if($this->settings->isPasswordCompromisedCheckEnabled) {
             $constraints[] = new NotCompromisedPassword();
         }
         

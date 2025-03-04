@@ -2,21 +2,23 @@
 
 namespace App\Settings;
 
-class AppSettings extends AbstractSettings {
-    public function getHelpdeskMail(): ?string {
-        return $this->getValue('helpdesk.mail');
-    }
+use Jbtronics\SettingsBundle\ParameterTypes\BoolType;
+use Jbtronics\SettingsBundle\ParameterTypes\StringType;
+use Jbtronics\SettingsBundle\Settings\Settings;
+use Jbtronics\SettingsBundle\Settings\SettingsParameter;
+use Jbtronics\SettingsBundle\Settings\SettingsTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
-    public function setHelpdeskInfo(?string $info): void {
-        $this->setValue('helpdesk.info', $info);
-    }
+#[Settings]
+class AppSettings {
+    use SettingsTrait;
 
-    public function isPasswordCompromisedCheckEnabled(): bool {
-        return $this->getValue('security.password_compromised_check', true);
-    }
+    #[SettingsParameter(type: StringType::class, label: 'settings.helpdesk.mail.label', description: 'settings.helpdesk.mail.help', formOptions: [ 'required' => false], nullable: true)]
+    #[Assert\NotBlank(allowNull: true)]
+    #[Assert\Email]
+    public ?string $helpdeskMail = null;
 
-    public function setPasswordCompromisedCheckEnabled(bool $enabled): void {
-        $this->setValue('security.password_compromised_check', $enabled);
-    }
+    #[SettingsParameter(type: BoolType::class, label: 'settings.security.password_compromised_check.label', description: 'settings.security.password_compromised_check.help', formOptions: [ 'required' => false], nullable: true)]
 
+    public bool $isPasswordCompromisedCheckEnabled = true;
 }

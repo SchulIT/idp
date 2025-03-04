@@ -30,10 +30,10 @@
                         {% block content %}{% endblock %}
                     </div>
 
-                    {% if setting('helpdesk.mail') is not empty %}
+                    {% if settings_instance('app').helpdeskMail is not empty %}
                         <div class="card-footer">
                             <div class="d-block">
-                                <i class="fas fa-question-circle"></i> {{ 'helpdesk'|trans({'%mail%': setting('helpdesk.mail') }, 'security') }}
+                                <i class="fas fa-question-circle"></i> {{ 'helpdesk'|trans({'%mail%': settings_instance('app').helpdeskMail }, 'security') }}
                             </div>
                         </div>
                     {% endif %}

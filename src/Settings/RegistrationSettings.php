@@ -2,14 +2,17 @@
 
 namespace App\Settings;
 
-class RegistrationSettings extends AbstractSettings {
-    public function getUsernameSuffix(): string {
-        return $this->getValue('registration.suffix', 'e.schulit.de');
-    }
+use App\Form\TextPrefixType;
+use Jbtronics\SettingsBundle\ParameterTypes\StringType;
+use Jbtronics\SettingsBundle\Settings\Settings;
+use Jbtronics\SettingsBundle\Settings\SettingsParameter;
+use Symfony\Component\Validator\Constraints as Assert;
 
-    public function setUsernameSuffix(string $suffix): void {
-        $this->setValue('registration.suffix', $suffix);
-    }
+#[Settings]
+class RegistrationSettings {
 
+    #[SettingsParameter(type: StringType::class, label: 'settings.registration.suffix.label', description: 'settings.registration.suffix.help', formType: TextPrefixType::class, formOptions: ['prefix' => '@'], nullable: false)]
+    #[Assert\NotBlank]
+    public string $usernameSuffix = 'e.schulit.de';
     
 }

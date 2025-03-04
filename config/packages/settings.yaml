@@ -1,0 +1,6 @@
+jbtronics_settings:
+  search_paths:
+    - '%kernel.project_dir%/src/Settings'
+  default_storage_adapter: Jbtronics\SettingsBundle\Storage\ORMStorageAdapter
+  orm_storage:
+    default_entity_class: App\Entity\Setting
