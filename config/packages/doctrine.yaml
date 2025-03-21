@@ -12,7 +12,7 @@ doctrine:
             default:
                 url: '%env(resolve:DATABASE_URL)%'
                 driver: 'pdo_mysql'
-                server_version: '10.11.0-mariadb'
+                server_version: '%env(resolve:DATABASE_SERVER_VERSION)%'
                 charset: utf8mb4
                 schema_filter: ~^(?!(sessions|rememberme_token|session_user))~ # exclude session and rememberme_token table
                 use_savepoints: true
@@ -23,7 +23,7 @@ doctrine:
                 url: '%env(resolve:DATABASE_URL)%'
                 charset: utf8mb4
                 driver: 'pdo_mysql'
-                server_version: '10.11.0-mariadb'
+                server_version: '%env(resolve:DATABASE_SERVER_VERSION)%'
                 use_savepoints: true
                 default_table_options:
                     charset: utf8mb4
