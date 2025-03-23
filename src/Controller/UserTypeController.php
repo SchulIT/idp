@@ -10,6 +10,7 @@ use App\Security\Voter\UserTypeVoter;
 use App\Service\AttributePersister;
 use App\Setup\UserTypesSetup;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -76,7 +77,7 @@ class UserTypeController extends AbstractController {
     }
 
     #[Route(path: '/{uuid}/edit', name: 'edit_user_type')]
-    public function edit(Request $request, UserType $userType, AttributePersister $attributePersister): Response {
+    public function edit(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] UserType $userType, AttributePersister $attributePersister): Response {
         $form = $this->createForm(UserTypeType::class, $userType);
         $form->handleRequest($request);
 
@@ -97,7 +98,7 @@ class UserTypeController extends AbstractController {
     }
 
     #[Route(path: '/{uuid}/remove', name: 'remove_user_type')]
-    public function remove(UserType $userType, Request $request, UserTypeRepositoryInterface $userTypeRepository, TranslatorInterface $translator): Response {
+    public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] UserType $userType, Request $request, UserTypeRepositoryInterface $userTypeRepository, TranslatorInterface $translator): Response {
         $this->denyAccessUnlessGranted(UserTypeVoter::REMOVE, $userType);
 
         if($userTypeRepository->countUsersOfUserType($userType) > 0) {
