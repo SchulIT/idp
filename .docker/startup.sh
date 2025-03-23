@@ -17,6 +17,14 @@ if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
 
     # Run app setup
     php bin/console app:setup
+
+    # Fetch browscap database
+    php bin/console app:browscap:update
+
+    # Fetch GeoIP database (only if MAXMIND_LICENCE_KEY is set)
+    if [ -n "${MAXMIND_LICENCE_KEY}" ]; then
+        php bin/console geoip2:update
+    fi
 fi
 
 # Check if the SAML certificate does not exist
