@@ -698,6 +698,9 @@ settings:
     message:
       label: Mitteilung auf der Login-Seite
       help: Diese Mitteilung wird auf der Anmeldeseite angezeigt und kann genutzt werden, um wichtige Informationen zur Anmeldung zu kommunizieren.
+    email:
+      label: Anmeldung mit E-Mail Adresse
+      help: Wenn diese Option aktiv ist, kann bei der Anmeldung als Anmeldename die hinterlegte E-Mail Adresse verwendet werden.
 
 yes: ja
 no: nein

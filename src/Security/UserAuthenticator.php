@@ -10,6 +10,7 @@ use AdAuth\SocketException;
 use App\Entity\ActiveDirectoryUser;
 use App\Repository\UserRepositoryInterface;
 use App\Security\Badge\CachePasswordBadge;
+use App\Settings\LoginSettings;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -33,11 +34,16 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 class UserAuthenticator extends AbstractLoginFormAuthenticator {
 
     use TargetPathTrait;
-    private LoggerInterface $logger;
 
-    public function __construct(private readonly bool $isActiveDirectoryEnabled, private string $loginRoute, private string $checkRoute, private UserPasswordHasherInterface $hasher,
-                                private AdAuthInterface $adAuth, private RouterInterface $router, LoggerInterface $logger = null) {
-        $this->logger = $logger ?? new NullLogger();
+    public function __construct(private readonly bool $isActiveDirectoryEnabled,
+                                private readonly string $loginRoute,
+                                private readonly string $checkRoute,
+                                private readonly UserPasswordHasherInterface $hasher,
+                                private readonly AdAuthInterface $adAuth,
+                                private readonly RouterInterface $router,
+                                private readonly LoginSettings $loginSettings,
+                                private readonly UserRepositoryInterface $userRepository,
+                                private readonly LoggerInterface $logger) {
     }
 
     /**
@@ -103,6 +109,13 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator {
 
         if(empty($password)) {
             throw new BadRequestHttpException('Password must not empty');
+        }
+
+        if($this->loginSettings->allowEmailOnLogin && $this->userRepository->findOneByUsername($username) === null) {
+            $user = $this->userRepository->findOneByEmail($username);
+            if($user !== null && !empty($user->getEmail())) {
+                $username = $user->getUsername();
+            }
         }
 
         return new Passport(
