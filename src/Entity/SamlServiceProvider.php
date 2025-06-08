@@ -16,11 +16,13 @@ class SamlServiceProvider extends ServiceProvider {
     #[Assert\Length(max: 128)]
     private string $entityId;
 
-    #[ORM\Column(type: 'text')]
-    #[Assert\NotBlank]
-    #[Assert\Url]
+    #[ORM\Column(type: 'json', nullable: true)]
+    #[Assert\All(constraints: [
+        new Assert\NotBlank(),
+        new Assert\Url()
+    ])]
     #[Serializer\Exclude]
-    private string $acs;
+    private ?array $acsUrls = [];
 
     #[ORM\Column(type: 'text')]
     #[Assert\NotBlank]
@@ -49,12 +51,19 @@ class SamlServiceProvider extends ServiceProvider {
         return $this;
     }
 
-    public function getAcs(): string {
-        return $this->acs;
+    /**
+     * @return string[]|null
+     */
+    public function getAcsUrls(): ?array {
+        return $this->acsUrls;
     }
 
-    public function setAcs(string $acs): self {
-        $this->acs = $acs;
+    /**
+     * @param string[]|null $acsUrls
+     * @return $this
+     */
+    public function setAcsUrls(?array $acsUrls): self {
+        $this->acsUrls = $acsUrls;
         return $this;
     }
 

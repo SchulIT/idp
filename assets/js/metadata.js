@@ -19,8 +19,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (xhr.status >= 200 && xhr.status < 300) {
                     urlEl.value = response.entity_id;
                     entityIdEl.value = response.entity_id;
-                    acsEl.value = response.acs;
                     certificateEl.value = response.certificate;
+
+                    for(let acs of response.acsUrls) {
+                        let $button = document.querySelector('button[data-collection=acs]');
+
+                        if($button === null) {
+                            continue;
+                        }
+
+                        $button.click();
+
+                        let $div = document.querySelector('div[data-collection=acs]');
+                        let $input = $div.lastChild.querySelector('input');
+                        $input.value = acs;
+                    }
                 } else {
                     console.error(response);
                 }

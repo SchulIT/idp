@@ -11,6 +11,10 @@
     </ol>
 {% endblock %}
 
+{% block post_javascript %}
+    <script src="{{ asset('build/collection.js') }}"></script>
+{% endblock %}
+
 {% block content %}
     {{ form_start(form) }}
 
@@ -18,9 +22,35 @@
         <div class="card-header">{{ 'label.general'|trans }}</div>
 
         <div class="card-body">
-            {{ form_widget(form) }}
+            {% for child in form %}
+                {% if child.vars.name != "acsUrls" %}
+                    {{ form_row(child) }}
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
+
+    {% if form.acsUrls is defined %}
+    <div class="card">
+        <div class="card-header">{{ 'label.acs'|trans }}</div>
+        <div class="card-body">
+            <div class="acs" data-collection="acs" data-prototype="{{ form_widget(form.acsUrls.vars.prototype)|e('html_attr') }}">
+                {% for child in form.acsUrls %}
+                    {{ form_widget(child) }}
+                {% endfor %}
+
+                {{ form_help(form.acsUrls) }}
+                {{ form_errors(form.acsUrls) }}
+                {% do form.acsUrls.setRendered %}
+            </div>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-outline-primary btn-sm btn-add" type="button" data-collection="acs">
+                <i class="fa fa-plus"></i> {{ 'actions.add'|trans }}
+            </button>
+        </div>
+    </div>
+    {% endif %}
 
     <div class="buttons">
         <button type="submit" class="btn btn-sm btn-primary">

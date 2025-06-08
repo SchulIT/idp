@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\SamlServiceProvider;
 use App\Entity\ServiceProvider;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -32,14 +33,17 @@ class ServiceProviderType extends AbstractType {
                 'help' => 'label.icon.help',
                 'required' => false
             ])
-            ->add('acs', UrlType::class, [
-                'label' => 'label.acs'
-            ])
             ->add('certificate', TextareaType::class, [
                 'label' => 'label.certificate',
                 'attr' => [
                     'rows' => 40
                 ]
+            ])
+            ->add('acsUrls', CollectionType::class, [
+                'label' => 'label.acs',
+                'entry_type' => TextCollectionEntryType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
             ]);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
@@ -50,7 +54,7 @@ class ServiceProviderType extends AbstractType {
 
             if(!$provider instanceof SamlServiceProvider) {
                 $form->remove('entityId')
-                    ->remove('acs')
+                    ->remove('acsUrls')
                     ->remove('certificate');
             }
         });

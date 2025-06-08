@@ -147,14 +147,22 @@ class ServiceProviderController extends AbstractController {
 
         $sspSsoDescriptor = $descriptor->getFirstSpSsoDescriptor();
 
-        if($sspSsoDescriptor !== null && $sspSsoDescriptor->getFirstAssertionConsumerService() !== null) {
-            $acs = $sspSsoDescriptor->getFirstAssertionConsumerService()->getLocation();
+        $acsUrls = [ ];
+
+        if($sspSsoDescriptor !== null) {
+            foreach($sspSsoDescriptor->getAllAssertionConsumerServices() as $acs) {
+                if(!empty($acs->getLocation())) {
+                    $acsUrls[] = $acs->getLocation();
+                }
+            }
         }
+
+        $acsUrls = array_unique($acsUrls);
 
         return new JsonResponse([
             'entity_id' => $descriptor->getEntityID(),
             'certificate' => $certificate,
-            'acs' => $acs
+            'acsUrls' => $acsUrls
         ]);
     }
 }

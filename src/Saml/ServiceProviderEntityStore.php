@@ -72,13 +72,17 @@ class ServiceProviderEntityStore implements EntityDescriptorStoreInterface {
         $spDescriptor->addKeyDescriptor($this->getKeyDescriptor($serviceProvider, KeyDescriptor::USE_SIGNING));
         $spDescriptor->addKeyDescriptor($this->getKeyDescriptor($serviceProvider, KeyDescriptor::USE_ENCRYPTION));
 
-        $consumerService = new AssertionConsumerService($serviceProvider->getAcs());
-        $consumerService->setBinding(SamlConstants::BINDING_SAML2_HTTP_POST);
-        $spDescriptor->addAssertionConsumerService($consumerService);
+        if($serviceProvider->getAcsUrls() !== null) {
+            foreach ($serviceProvider->getAcsUrls() as $url) {
+                $consumerService = new AssertionConsumerService($url);
+                $consumerService->setBinding(SamlConstants::BINDING_SAML2_HTTP_POST);
+                $spDescriptor->addAssertionConsumerService($consumerService);
 
-        $consumerService = new AssertionConsumerService($serviceProvider->getAcs());
-        $consumerService->setBinding(SamlConstants::BINDING_SAML2_HTTP_REDIRECT);
-        $spDescriptor->addAssertionConsumerService($consumerService);
+                $consumerService = new AssertionConsumerService($url);
+                $consumerService->setBinding(SamlConstants::BINDING_SAML2_HTTP_REDIRECT);
+                $spDescriptor->addAssertionConsumerService($consumerService);
+            }
+        }
 
         $entityDescriptor->addItem($spDescriptor);
         return $entityDescriptor;
