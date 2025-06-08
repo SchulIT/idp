@@ -35,6 +35,13 @@
                                 <tr>
                                     <td class="align-middle">
                                         {{ service.name }}
+
+                                        {% if service is instanceof('App\\Entity\\SamlServiceProvider') %}
+                                            <span class="badge text-bg-primary">{{ 'service_providers.type.saml'|trans }}</span>
+                                        {% else %}
+                                            <span class="badge text-bg-primary">{{ 'service_providers.type.default'|trans }}</span>
+                                        {% endif %}
+
                                         <p><small>{{ service.description }}</small></p>
                                     </td>
                                     <td class="align-middle">{{ service.url }}</td>

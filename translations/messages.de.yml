@@ -396,6 +396,9 @@ ad_sync_options:
 service_providers:
   label: Dienste
   help: Dienste sind Anwendungen (Service Provider), an denen sich ein Benutzer mithilfe dieses Sigle-Sign-Ons anmelden kann.
+  type:
+    default: Link
+    saml: SAML
   add:
     label:
       saml: Neuer Dienst (SAML)
