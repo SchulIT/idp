@@ -25,6 +25,7 @@ Encore
     .addEntry('code-generator', './assets/js/code-generator.js')
     .addStyleEntry('email', './assets/css/email.scss')
     .addEntry('metadata', './assets/js/metadata.js')
+    .addEntry('collection', './assets/js/collection.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     //.enableStimulusBridge('./assets/controllers.json')

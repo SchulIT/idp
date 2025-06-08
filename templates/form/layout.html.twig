@@ -116,3 +116,17 @@
         {{ block('form_widget_simple') }}
     </div>
 {% endblock %}
+
+{%- block text_collection_entry_widget -%}
+    <div class="mb-2">
+        <div class="input-group">
+            {{ form_widget(form) }}
+
+            <button type="button" class="btn btn-danger btn-sm btn-delete float-right" data-selector=".input-group">
+                <i class="fa fa-trash"></i>
+            </button>
+        </div>
+
+        {{ form_errors(form) }}
+    </div>
+{%- endblock -%}

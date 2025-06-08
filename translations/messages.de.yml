@@ -692,6 +692,10 @@ settings:
     suffix:
       label: E-Mail Domäne für Benutzername
       help: Gibt die E-Mail Domäne an, die Elternaccounts zugeordnet wird.
+    email:
+      disallowed_domains:
+        label: Nicht-erlaubte E-Mail Domains
+        help: Eltern können keine E-Mail-Adressen mit den hier hinterlegten Domains anlegen. Hier sollten E-Mail Domains hinterlegt werden, die bei der Synchornisation aus dem Active Directory verwendet werden.
 
   login:
     label: Anmeldung

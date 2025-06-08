@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Security\PasswordStrengthHelper;
+use App\Validator\AllowedEmailDomain;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -78,7 +79,10 @@ class UserProfileCompleteType extends AbstractType {
                 'invalid_message' => $this->translator->trans('register.email.not_match', [], 'security'),
                 'first_options' => [
                     'label' => 'label.email',
-                    'help' => $this->translator->trans('register.complete.email_help', [], 'security')
+                    'help' => $this->translator->trans('register.complete.email_help', [], 'security'),
+                    'constraints' => [
+                        new AllowedEmailDomain()
+                    ]
                 ],
                 'second_options' => [
                     'label' => 'label.repeat_email'
