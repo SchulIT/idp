@@ -24,7 +24,8 @@ class IdpController extends AbstractController {
         $context->getDocument()->formatOutput = true;
         $idpXml = $context->getDocument()->saveXML();
 
-        $cert = openssl_x509_read(file_get_contents($this->kernelProjectDir . '/certs/idp.crt'));
+        $certAsString = file_get_contents($this->kernelProjectDir . '/certs/idp.crt');
+        $cert = openssl_x509_read($certAsString);
         $certificateInfo = openssl_x509_parse($cert);
 
         $loginUrl = $this->generateUrl('idp_saml');
@@ -32,7 +33,8 @@ class IdpController extends AbstractController {
         return $this->render('idp/index.html.twig', [
             'idpXml' => $idpXml,
             'loginUrl' => $loginUrl,
-            'certificate' => $certificateInfo
+            'certificate' => $certificateInfo,
+            'cert' => $certAsString
         ]);
     }
 
