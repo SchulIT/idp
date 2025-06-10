@@ -2,14 +2,17 @@
 
 namespace App\Saml;
 
+use App\Entity\SamlServiceProvider;
 use App\Entity\ServiceAttribute;
 use App\Entity\ServiceAttributeValueInterface;
 use App\Entity\ServiceProvider;
 use App\Entity\User;
 use App\Repository\ServiceAttributeRepository;
+use App\Repository\ServiceProviderRepositoryInterface;
 use App\Service\AttributeResolver;
 use App\Service\UserServiceProviderResolver;
 use App\Traits\ArrayTrait;
+use Dom\Attr;
 use LightSaml\ClaimTypes;
 use LightSaml\Model\Assertion\Attribute;
 use SchulIT\CommonBundle\Saml\ClaimTypes as ExtendedClaimTypes;
@@ -24,7 +27,8 @@ class AttributeValueProvider extends AbstractAttributeProvider {
 
     use ArrayTrait;
 
-    public function __construct(TokenStorageInterface $tokenStorage, private AttributeResolver $attributeResolver, private ServiceAttributeRepository $attributeRepository, private UserServiceProviderResolver $userServiceProviderResolver) {
+    public function __construct(TokenStorageInterface $tokenStorage, private AttributeResolver $attributeResolver, private ServiceAttributeRepository $attributeRepository,
+                                private UserServiceProviderResolver $userServiceProviderResolver, private readonly ServiceProviderRepositoryInterface $serviceProviderRepository) {
         parent::__construct($tokenStorage);
     }
 
@@ -104,7 +108,7 @@ class AttributeValueProvider extends AbstractAttributeProvider {
         $attributes[] = new Attribute(ClaimTypes::COMMON_NAME, $user->getUserIdentifier());
 
         if(!$user instanceof User) {
-            return $attributes;
+            return $this->renameAttributesIfNecessary($entityId, $attributes);
         }
 
         foreach($this->getCommonAttributesForUser($user) as $name => $value) {
@@ -117,9 +121,29 @@ class AttributeValueProvider extends AbstractAttributeProvider {
             $attributes[] = new Attribute($samlAttributeName, $value);
         }
 
-        return $attributes;
+        return $this->renameAttributesIfNecessary($entityId, $attributes);
     }
 
+    /**
+     * @param string $entityId
+     * @param Attribute[] $attributes
+     * @return Attribute[]
+     */
+    private function renameAttributesIfNecessary(string $entityId, array $attributes): array {
+        $service = $this->serviceProviderRepository->findOneByEntityId($entityId);
+
+        if(empty($service->getAttributeNameMapping())) {
+            return $attributes;
+        }
+
+        foreach($attributes as $attribute) {
+            if(array_key_exists($attribute->getName(), $service->getAttributeNameMapping())) {
+                $attribute->setName($service->getAttributeNameMapping()[$attribute->getName()]);
+            }
+        }
+
+        return $attributes;
+    }
 
     protected function getServices(User $user): array {
         /** @var ServiceProvider[] $services */

@@ -44,6 +44,20 @@ class ServiceProviderType extends AbstractType {
                 'entry_type' => TextCollectionEntryType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
+            ])
+            ->add('attributeNameMapping', KeyValueType::class, [
+                'label' => 'label.attribute_name_mapping.label',
+                'help' =>  'label.attribute_name_mapping.help',
+                'value_type' => TextType::class,
+                'value_options' => [
+                    'label' => 'label.mapped_attribute_name'
+                ],
+                'key_type' => TextType::class,
+                'key_options' => [
+                    'label' => 'label.original_attribute_name'
+                ],
+                'allow_add' => true,
+                'allow_delete' => true,
             ]);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
@@ -55,7 +69,8 @@ class ServiceProviderType extends AbstractType {
             if(!$provider instanceof SamlServiceProvider) {
                 $form->remove('entityId')
                     ->remove('acsUrls')
-                    ->remove('certificate');
+                    ->remove('certificate')
+                    ->remove('attributeNameMapping');
             }
         });
     }

@@ -23,10 +23,31 @@
 
         <div class="card-body">
             {% for child in form %}
-                {% if child.vars.name != "acsUrls" %}
+                {% if child.vars.name != "acsUrls" and child.vars.name != "attributeNameMapping" %}
                     {{ form_row(child) }}
                 {% endif %}
             {% endfor %}
+
+            <div class="mb-3 row">
+                {{ form_label(form.attributeNameMapping) }}
+
+                <div class="col-sm-10">
+                    <div class="mapping" data-collection="mapping" data-prototype="{{ form_widget(form.attributeNameMapping.vars.prototype)|e("html_attr") }}">
+                        {% for item in form.attributeNameMapping %}
+                            {{ form_widget(item) }}
+                        {% endfor %}
+                    </div>
+
+                    {{ form_errors(form.attributeNameMapping) }}
+                    {{ form_help(form.attributeNameMapping) }}
+
+                    <button class="btn btn-outline-primary btn-sm btn-add" type="button" data-collection="mapping">
+                        <i class="fa fa-plus"></i> {{ 'actions.add'|trans }}
+                    </button>
+
+                    {% do form.attributeNameMapping.setRendered %}
+                </div>
+            </div>
         </div>
     </div>
 

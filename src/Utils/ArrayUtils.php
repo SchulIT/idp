@@ -2,8 +2,11 @@
 
 namespace App\Utils;
 
+use App\Form\DataTransformer\KeyValueContainer;
 use Closure;
 use InvalidArgumentException;
+use Traversable;
+
 class ArrayUtils {
     public static function apply(array &$items, Closure $closure): void {
         foreach($items as $item) {
@@ -38,5 +41,30 @@ class ArrayUtils {
         }
 
         return $array;
+    }
+
+    /**
+     * Extract an array out of $data or throw an exception if not possible.
+     *
+     * @param iterable|KeyValueContainer $data Something that can be converted to an array.
+     *
+     * @return array Native array representation of $data
+     *
+     * @throws InvalidArgumentException If $data can not be converted to an array.
+     */
+    public static function iterableKeyValueContainerToArray(KeyValueContainer|iterable $data): array {
+        if (is_array($data)) {
+            return $data;
+        }
+
+        if ($data instanceof KeyValueContainer) {
+            return $data->toArray();
+        }
+
+        if ($data instanceof Traversable) {
+            return iterator_to_array($data);
+        }
+
+        throw new InvalidArgumentException('$data must be an array or Traversable.');
     }
 }

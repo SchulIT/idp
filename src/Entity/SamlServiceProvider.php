@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Form\DataTransformer\KeyValueContainer;
+use App\Utils\ArrayUtils;
 use App\Validator\X509Certificate;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -36,6 +38,12 @@ class SamlServiceProvider extends ServiceProvider {
     #[ORM\ManyToMany(targetEntity: ServiceAttribute::class, mappedBy: 'services')]
     #[Serializer\Exclude]
     private Collection $attributes;
+
+    /**
+     * @var array<string, string>
+     */
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $attributeNameMapping = [ ];
 
     public function __construct() {
         parent::__construct();
@@ -73,6 +81,20 @@ class SamlServiceProvider extends ServiceProvider {
 
     public function setCertificate(string $certificate): self {
         $this->certificate = $certificate;
+        return $this;
+    }
+
+    public function getAttributeNameMapping(): array {
+        return $this->attributeNameMapping ?? [ ];
+    }
+
+    public function setAttributeNameMapping(KeyValueContainer|array $attributeNameMapping): SamlServiceProvider {
+        $this->attributeNameMapping = ArrayUtils::iterableKeyValueContainerToArray($attributeNameMapping);
+
+        if(count($this->attributeNameMapping) === 0) {
+            $this->attributeNameMapping = null;
+        }
+
         return $this;
     }
 

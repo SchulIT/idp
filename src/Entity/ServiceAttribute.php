@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Form\DataTransformer\KeyValueContainer;
+use App\Utils\ArrayUtils;
 use Traversable;
 use InvalidArgumentException;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -134,30 +135,7 @@ class ServiceAttribute {
      * @param iterable|KeyValueContainer $options Something that can be converted to an array.
      */
     public function setOptions(KeyValueContainer|iterable $options): void {
-        $this->options = $this->convertToArray($options);
-    }
-
-    /**
-     * Extract an array out of $data or throw an exception if not possible.
-     *
-     * @param iterable|KeyValueContainer $data Something that can be converted to an array.
-     *
-     * @return array Native array representation of $data
-     *
-     * @throws InvalidArgumentException If $data can not be converted to an array.
-     */
-    private function convertToArray(KeyValueContainer|iterable $data): array {
-        if (is_array($data)) {
-            return $data;
-        }
-
-        if ($data instanceof KeyValueContainer) {
-            return $data->toArray();
-        }
-
-        if ($data instanceof Traversable) {
-            return iterator_to_array($data);
-        }
+        $this->options = ArrayUtils::iterableKeyValueContainerToArray($options);
     }
 
     /**
