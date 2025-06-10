@@ -5,6 +5,8 @@ namespace App\Controller;
 use LightSaml\Model\Context\SerializationContext;
 use LightSaml\Provider\EntityDescriptor\EntityDescriptorProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -13,6 +15,7 @@ class IdpController extends AbstractController {
     public function __construct(private readonly string $kernelProjectDir)
     {
     }
+
     #[Route(path: '', name: 'idp_details')]
     public function index(EntityDescriptorProviderInterface $provider): Response {
         $context = new SerializationContext();
@@ -31,5 +34,24 @@ class IdpController extends AbstractController {
             'loginUrl' => $loginUrl,
             'certificate' => $certificateInfo
         ]);
+    }
+
+    #[Route(path: '/xml', name: 'download_idp_xml')]
+    public function downloadXml(EntityDescriptorProviderInterface $provider): Response {
+        $context = new SerializationContext();
+        $own = $provider->get();
+        $own->serialize($context->getDocument(), $context);
+        $context->getDocument()->formatOutput = true;
+        $idpXml = $context->getDocument()->saveXML();
+
+        $disposition = HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            'idp.xml'
+        );
+
+        $response = new Response($idpXml, 200, []);
+        $response->headers->set('Content-Disposition', $disposition);
+
+        return $response;
     }
 }
