@@ -39,6 +39,16 @@ class ActiveSessionsResolver {
         $currentSessionId = $this->requestStack->getMainRequest()->getSession()->getId();
 
         foreach($result->fetchAllAssociative() as $row) {
+            $browserInfo = null;
+
+            try {
+                if(!empty($row['user_agent'])) {
+                    $browserInfo = $this->browscap->getBrowser($row['user_agent']);
+                }
+            } catch(\BrowscapPHP\Exception) {
+                $browserInfo = null;
+            }
+
             $sessions[] = new ActiveSession(
                 (int)$row['user_id'],
                 $row['session_id'],
@@ -46,7 +56,7 @@ class ActiveSessionsResolver {
                 new DateTimeImmutable($row['started_at']),
                 $row['ip_address'],
                 $row['session_id'] === $currentSessionId,
-                !empty($row['user_agent']) ? $this->browscap->getBrowser($row['user_agent']) : null
+                 $browserInfo
             );
         }
 
