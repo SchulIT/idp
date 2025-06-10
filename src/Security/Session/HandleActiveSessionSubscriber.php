@@ -57,6 +57,14 @@ class HandleActiveSessionSubscriber implements EventSubscriberInterface {
          * (b) the session id changes during the request (which also would fail the foreign key check)
          */
 
+        $browserInfo = null;
+
+        try {
+            if(!empty($event->getRequest()->headers->get('User-Agent'))) {
+                $browserInfo = $this->browscap->getBrowser($event->getRequest()->headers->get('User-Agent'));
+            }
+        } catch(\BrowscapPHP\Exception) { }
+
         $this->sessionToSave = new ActiveSession(
             $user->getId(),
             $event->getRequest()->getSession()->getId(),
@@ -64,7 +72,7 @@ class HandleActiveSessionSubscriber implements EventSubscriberInterface {
             new DateTimeImmutable(),
             $event->getRequest()->getClientIp(),
             true,
-            !empty($event->getRequest()->headers->get('User-Agent')) ? $this->browscap->getBrowser($event->getRequest()->headers->get('User-Agent')) : null
+            $browserInfo
         );
     }
 

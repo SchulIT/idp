@@ -45,9 +45,7 @@ class ActiveSessionsResolver {
                 if(!empty($row['user_agent'])) {
                     $browserInfo = $this->browscap->getBrowser($row['user_agent']);
                 }
-            } catch(\BrowscapPHP\Exception) {
-                $browserInfo = null;
-            }
+            } catch(\BrowscapPHP\Exception) { }
 
             $sessions[] = new ActiveSession(
                 (int)$row['user_id'],
