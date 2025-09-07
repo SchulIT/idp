@@ -6,6 +6,7 @@ use App\Entity\EmailConfirmation;
 use App\Security\EmailConfirmation\ConfirmationManager;
 use App\Security\EmailConfirmation\EmailAddressAlreadyInUseException;
 use Exception;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,7 @@ class EmailConfirmationController extends AbstractController {
     private const CsrfTokenId = 'confirm_email';
 
     #[Route('', name: 'show_email_confirmation')]
-    public function index(EmailConfirmation $confirmation): Response {
+    public function index(#[MapEntity(mapping: ['token' => 'token'])] EmailConfirmation $confirmation): Response {
         return $this->render('users/confirmation.html.twig', [
             'confirmation' => $confirmation,
             'tokenId' => self::CsrfTokenId
@@ -24,7 +25,7 @@ class EmailConfirmationController extends AbstractController {
     }
 
     #[Route('/action', name: 'perform_email_confirmation_action', methods: ['POST'])]
-    public function action(EmailConfirmation $confirmation, Request $request, ConfirmationManager $confirmationManager): Response {
+    public function action(#[MapEntity(mapping: ['token' => 'token'])] $confirmation, Request $request, ConfirmationManager $confirmationManager): Response {
         if($this->isCsrfTokenValid(self::CsrfTokenId, $request->request->get('_csrf_token')) !== true) {
             $this->addFlash('error', 'Csrf token invalid.');
             return $this->redirectToRoute('show_email_confirmation', [
@@ -42,7 +43,7 @@ class EmailConfirmationController extends AbstractController {
 
     }
 
-    private function confirm(EmailConfirmation $confirmation, ConfirmationManager $confirmationManager): Response {
+    private function confirm(#[MapEntity(mapping: ['token' => 'token'])] EmailConfirmation $confirmation, ConfirmationManager $confirmationManager): Response {
         try {
             $confirmationManager->confirm($confirmation);
             $this->addFlash('success', 'user.email_confirmation.confirm.success');
@@ -57,7 +58,7 @@ class EmailConfirmationController extends AbstractController {
         return $this->redirectToRoute('users');
     }
 
-    private function sendConfirmation(EmailConfirmation $confirmation, ConfirmationManager $confirmationManager): Response {
+    private function sendConfirmation(#[MapEntity(mapping: ['token' => 'token'])] EmailConfirmation $confirmation, ConfirmationManager $confirmationManager): Response {
         try {
             $confirmationManager->newConfirmation($confirmation->getUser(), $confirmation->getEmailAddress());
             $this->addFlash('success', 'user.email_confirmation.confirm.success');
