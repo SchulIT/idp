@@ -186,7 +186,16 @@ services:
         calls:
             - setFormatter: [ '@SchulIT\CommonBundle\Monolog\LineFormatter' ]
 
+    SchulIT\CommonBundle\Monolog\UsernameProcessor:
+        tags:
+           - { name: monolog.processor }
     SchulIT\CommonBundle\Monolog\LineFormatter: ~
+    SchulIT\CommonBundle\Monolog\RequestProcessor:
+      tags:
+        - { name: monolog.processor }
+    SchulIT\CommonBundle\Monolog\ExceptionProcessor:
+      tags:
+        - { name: monolog.processor }
 
     # TWIG
     App\Twig\WebpackEntryCssSourceExtension:

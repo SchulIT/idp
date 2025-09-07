@@ -37,6 +37,7 @@
         "schulit/adauth-bundle": "^3.0.0",
         "schulit/common-bundle": "^5.0",
         "schulit/lightsaml-idp-bundle": "^3.0.0",
+        "scienta/doctrine-json-functions": "^6.3",
         "shapecode/cron-bundle": "^7.0",
         "stof/doctrine-extensions-bundle": "^1.7",
         "symfony/apache-pack": "^1.0",
