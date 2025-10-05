@@ -7,6 +7,7 @@ namespace App\Security\Voter;
 use LogicException;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class ProfileVoter extends Voter {
@@ -24,7 +25,7 @@ class ProfileVoter extends Voter {
     /**
      * @inheritDoc
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool {
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token, Vote|null $vote = null): bool {
         $user = $token->getUser();
 
         if(!$user instanceof User) {

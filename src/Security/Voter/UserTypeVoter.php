@@ -7,6 +7,7 @@ namespace App\Security\Voter;
 use App\Entity\UserType;
 use LogicException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class UserTypeVoter extends Voter {
@@ -23,7 +24,7 @@ class UserTypeVoter extends Voter {
     /**
      * @inheritDoc
      */
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token, Vote|null $vote = null): bool
     {
         return match ($attribute) {
             static::REMOVE => $this->canRemove($subject),

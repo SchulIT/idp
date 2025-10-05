@@ -9,6 +9,7 @@ use App\Entity\ServiceProvider;
 use App\Entity\User;
 use App\Service\UserServiceProviderResolver;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class ServiceProviderVoter extends Voter {
@@ -27,7 +28,7 @@ class ServiceProviderVoter extends Voter {
     /**
      * @param ServiceProvider $subject
      */
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool {
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token, Vote|null $vote = null): bool {
         if(!$subject instanceof SamlServiceProvider) {
             return true;
         }
