@@ -318,6 +318,9 @@ users:
       label: E-Mail Bestätigung erneut versenden
       success: E-Mail Bestätigung erneut versendet
 
+  linked:
+    label: Verknüpft
+
 management:
   label: Verwaltung
 
