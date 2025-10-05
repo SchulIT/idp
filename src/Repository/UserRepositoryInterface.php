@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\ActiveDirectoryUser;
@@ -83,7 +85,6 @@ interface UserRepositoryInterface {
 
     /**
      * @param string[] $usernames
-     * @param UserType $userType
      * @return User[]
      */
     public function findAllNotInUsernamesList(array $usernames, UserType $userType): array;

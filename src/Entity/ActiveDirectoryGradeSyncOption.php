@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -25,11 +27,10 @@ class ActiveDirectoryGradeSyncOption implements ActiveDirectorySyncOptionInterfa
     private string $source;
 
     #[ORM\Column(type: 'string', enumType: ActiveDirectorySyncSourceType::class)]
-    private ActiveDirectorySyncSourceType $sourceType;
+    private ActiveDirectorySyncSourceType $sourceType = ActiveDirectorySyncSourceType::Ou;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
-        $this->sourceType = ActiveDirectorySyncSourceType::Ou;
     }
 
     public function getGrade(): string {

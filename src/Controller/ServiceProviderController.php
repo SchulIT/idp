@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\SamlServiceProvider;
@@ -20,14 +22,12 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route(path: '/admin/service_providers')]
-class ServiceProviderController extends AbstractController {
-
+class ServiceProviderController extends AbstractController
+{
     public function __construct(private readonly ServiceProviderRepositoryInterface $repository)
     {
     }
-
-    #[Route(path: '', name: 'service_providers')]
+    #[Route(path: '/admin/service_providers', name: 'service_providers')]
     public function index(): Response {
         $serviceProviders = $this->repository
             ->findAll();
@@ -36,8 +36,7 @@ class ServiceProviderController extends AbstractController {
             'service_providers' => $serviceProviders
         ]);
     }
-
-    #[Route(path: '/{uuid}/certificate', name: 'service_provider_certificate')]
+    #[Route(path: '/admin/service_providers/{uuid}/certificate', name: 'service_provider_certificate')]
     public function certificateInfo(#[MapEntity(mapping: ['uuid' => 'uuid'])] ServiceProvider $serviceProvider): Response {
         if(!$serviceProvider instanceof SamlServiceProvider) {
             return $this->redirectToRoute('service_providers');
@@ -51,8 +50,7 @@ class ServiceProviderController extends AbstractController {
             'certificate' => $certificateInfo
         ]);
     }
-
-    #[Route(path: '/add', name: 'add_service_provider')]
+    #[Route(path: '/admin/service_providers/add', name: 'add_service_provider')]
     public function add(Request $request): Response {
         if($request->query->get('type', 'default') === 'saml') {
             $serviceProvider = new SamlServiceProvider();
@@ -75,8 +73,7 @@ class ServiceProviderController extends AbstractController {
             'type' => $serviceProvider::class
         ]);
     }
-
-    #[Route(path: '/{uuid}/edit', name: 'edit_service_provider')]
+    #[Route(path: '/admin/service_providers/{uuid}/edit', name: 'edit_service_provider')]
     public function edit(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] ServiceProvider $serviceProvider): Response {
         $form = $this->createForm(ServiceProviderType::class, $serviceProvider);
         $form->handleRequest($request);
@@ -93,8 +90,7 @@ class ServiceProviderController extends AbstractController {
             'service_provider' => $serviceProvider
         ]);
     }
-
-    #[Route(path: '/{uuid}/remove', name: 'remove_service_provider')]
+    #[Route(path: '/admin/service_providers/{uuid}/remove', name: 'remove_service_provider')]
     public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] ServiceProvider $serviceProvider, Request $request, TranslatorInterface $translator): Response {
         $form = $this->createForm(ConfirmType::class, [], [
             'message' => $translator->trans('service_providers.remove.confirm', [
@@ -116,12 +112,11 @@ class ServiceProviderController extends AbstractController {
             'service_provider' => $serviceProvider
         ]);
     }
-
     /**
      * @throws TransportExceptionInterface
      * @throws Exception
      */
-    #[Route(path: '/metadata', name: 'load_xml_metadata')]
+    #[Route(path: '/admin/service_providers/metadata', name: 'load_xml_metadata')]
     public function loadXml(Request $request, HttpClientInterface $httpClient): Response {
         $url = $request->query->get('url');
 

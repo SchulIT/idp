@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use Exception;
@@ -28,7 +30,7 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class SsoController extends AbstractController {
 
-    private const CSRF_TOKEN_ID = '_confirmation_token';
+    private const string CSRF_TOKEN_ID = '_confirmation_token';
 
     public function __construct(private readonly ServiceProviderConfirmationService $confirmationService)
     {
@@ -40,7 +42,7 @@ class SsoController extends AbstractController {
                          SsoIdpSendResponseProfileBuilderFactory $sendResponseBuilder,
                          CsrfTokenManagerInterface $tokenManager, ServiceProviderRepositoryInterface $serviceProviderRepository,
                          BuildContainerInterface $buildContainer): Response {
-        if($requestStorage->has() !== true) {
+        if(!$requestStorage->has()) {
             return $this->redirectToRoute('dashboard');
         }
 
@@ -66,7 +68,7 @@ class SsoController extends AbstractController {
             $serviceProvider = $serviceProviderRepository
                 ->findOneByEntityId($partyContext->getEntityId());
 
-            if ($serviceProvider === null || !$serviceProvider instanceof SamlServiceProvider) {
+            if (!$serviceProvider instanceof SamlServiceProvider) {
                 throw new BadRequestHttpException('The issusing service provider does not exist.');
             }
 
@@ -103,7 +105,6 @@ class SsoController extends AbstractController {
                 $data = $response->getData();
                 $destination = $response->getDestination();
                 $attributes = $attributeValueProvider->getValuesForUser($user, $serviceProvider->getEntityId());
-
                 return $this->render('sso/' . $type . '_post.html.twig', [
                     'service' => $serviceProvider,
                     'data' => $data,
@@ -111,19 +112,15 @@ class SsoController extends AbstractController {
                     'attributes' => $attributes,
                     'csrf_token' => $token->getValue()
                 ]);
-            } else {
-                if ($response instanceof RedirectResponse) {
-                    $destination = $response->getTargetUrl();
-
-                    $attributes = $attributeValueProvider->getValuesForUser($user, $serviceProvider->getEntityId());
-
-                    return $this->render('sso/' . $type . '_uri.html.twig', [
-                        'service' => $serviceProvider,
-                        'destination' => $destination,
-                        'attributes' => $attributes,
-                        'csrf_token' => $token->getValue()
-                    ]);
-                }
+            } elseif ($response instanceof RedirectResponse) {
+                $destination = $response->getTargetUrl();
+                $attributes = $attributeValueProvider->getValuesForUser($user, $serviceProvider->getEntityId());
+                return $this->render('sso/' . $type . '_uri.html.twig', [
+                    'service' => $serviceProvider,
+                    'destination' => $destination,
+                    'attributes' => $attributes,
+                    'csrf_token' => $token->getValue()
+                ]);
             }
 
             throw new RuntimeException('Unsupported Binding!');
@@ -143,12 +140,11 @@ class SsoController extends AbstractController {
         $data = $request->request->all('data');
         $token = $request->request->get('_csrf_token');
 
-        if($this->isCsrfTokenValid(self::CSRF_TOKEN_ID, $token) !== true) {
+        if(!$this->isCsrfTokenValid(self::CSRF_TOKEN_ID, $token)) {
             $token = $tokenManager->refreshToken(self::CSRF_TOKEN_ID);
 
             if ($type === 'post') {
                 $attributes = $attributeValueProvider->getValuesForUser($user, $serviceProvider->getEntityId());
-
                 return $this->render('sso/confirm_post.html.twig', [
                     'service' => $serviceProvider,
                     'data' => $data,
@@ -156,9 +152,8 @@ class SsoController extends AbstractController {
                     'attributes' => $attributes,
                     'csrf_token' => $token->getValue()
                 ]);
-            } else if ($type === 'redirect') {
+            } elseif ($type === 'redirect') {
                 $attributes = $attributeValueProvider->getValuesForUser($user, $serviceProvider->getEntityId());
-
                 return $this->render('sso/confirm_uri.html.twig', [
                     'service' => $serviceProvider,
                     'destination' => $destination,
@@ -169,13 +164,13 @@ class SsoController extends AbstractController {
         } else {
             $this->confirmationService->saveConfirmation($user, $serviceProvider);
 
-            if($type === 'post') {
+            if ($type === 'post') {
                 return $this->render('sso/redirect_post.html.twig', [
                     'service' => $serviceProvider,
                     'data' => $data,
                     'destination' => $destination
                 ]);
-            } else if($type === 'redirect') {
+            } elseif ($type === 'redirect') {
                 $token = $tokenManager->refreshToken(self::CSRF_TOKEN_ID);
                 return $this->render('sso/redirect_uri.html.twig', [
                     'service' => $serviceProvider,

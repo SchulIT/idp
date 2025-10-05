@@ -1,13 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
+use Override;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TextPrefixType extends TextType {
+    #[Override]
     public function configureOptions(OptionsResolver $resolver): void {
         parent::configureOptions($resolver);
 
@@ -20,6 +24,7 @@ class TextPrefixType extends TextType {
         $view->vars['prefix'] = $options['prefix'];
     }
 
+    #[Override]
     public function getBlockPrefix(): string {
         return 'text_prefix';
     }

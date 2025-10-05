@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\HealthCheck;
 
 use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
@@ -23,10 +25,10 @@ class HealthCheckService {
         foreach($this->checks as $check) {
             $checkResult = $check->runCheck();
 
-            if($checkResult instanceof HealthCheckResult) {
+            if ($checkResult instanceof HealthCheckResult) {
                 $results[] = $checkResult;
-            } else if(is_array($checkResult)) {
-                $results += array_filter($checkResult, fn($result) => // Ensure correct type
+            } elseif (is_array($checkResult)) {
+                $results += array_filter($checkResult, fn(\App\HealthCheck\HealthCheckResult $result): true => // Ensure correct type
 $result instanceof HealthCheckResult);
             }
         }
@@ -40,6 +42,6 @@ $result instanceof HealthCheckResult);
     public function runAllCheckReturnNonFine(): array {
         $results = $this->runAllChecks();
 
-        return array_filter($results, fn(HealthCheckResult $checkResult) => $checkResult->getType() !== HealthCheckResultType::Fine);
+        return array_filter($results, fn(HealthCheckResult $checkResult): bool => $checkResult->getType() !== HealthCheckResultType::Fine);
     }
 }

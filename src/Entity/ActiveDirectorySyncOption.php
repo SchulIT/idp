@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -19,22 +21,21 @@ class ActiveDirectorySyncOption implements ActiveDirectorySyncOptionInterface {
     private string $name;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $description;
+    private ?string $description = null;
 
     #[ORM\Column(type: 'string', unique: true)]
     #[Assert\NotBlank]
     private string $source;
 
     #[ORM\Column(type: 'string', nullable: false, enumType: ActiveDirectorySyncSourceType::class)]
-    private ActiveDirectorySyncSourceType $sourceType;
+    private ActiveDirectorySyncSourceType $sourceType = ActiveDirectorySyncSourceType::Ou;
 
     #[ORM\ManyToOne(targetEntity: UserType::class, inversedBy: 'syncOptions')]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private ?UserType $userType;
+    private ?UserType $userType = null;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
-        $this->sourceType = ActiveDirectorySyncSourceType::Ou;
     }
 
     public function getName(): string {

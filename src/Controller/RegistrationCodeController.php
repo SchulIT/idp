@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\RegistrationCode;
@@ -21,16 +23,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route(path: '/registration_codes')]
-class RegistrationCodeController extends AbstractController {
-
-    private const CodesPerPage = 25;
-
+class RegistrationCodeController extends AbstractController
+{
+    private const int CodesPerPage = 25;
     public function __construct(private readonly RegistrationCodeRepositoryInterface $repository)
     {
     }
-
-    #[Route(path: '', name: 'registration_codes')]
+    #[Route(path: '/registration_codes', name: 'registration_codes')]
     public function index(Request $request, UserRepositoryInterface $userRepository): Response {
         $query = $request->query->get('q');
         $page = $request->query->getInt('page');
@@ -57,8 +56,7 @@ class RegistrationCodeController extends AbstractController {
             'grades' => $grades
         ]);
     }
-
-    #[Route(path: '/export', name: 'export_codes')]
+    #[Route(path: '/registration_codes/export', name: 'export_codes')]
     public function export(Request $request, UserRepositoryInterface $userRepository, TranslatorInterface $translator): Response {
         $grade = $request->query->get('grade');
 
@@ -113,8 +111,7 @@ class RegistrationCodeController extends AbstractController {
 
         return $response;
     }
-
-    #[Route(path: '/remove/redeemed', name: 'remove_redeemed_codes')]
+    #[Route(path: '/registration_codes/remove/redeemed', name: 'remove_redeemed_codes')]
     public function removeRedeemed(Request $request): Response {
         $form = $this->createForm(ConfirmType::class, null, [
             'message' => 'codes.remove_redeemed.confirm'
@@ -131,8 +128,7 @@ class RegistrationCodeController extends AbstractController {
             'form' => $form->createView()
         ]);
     }
-
-    #[Route(path: '/add', name: 'add_registration_code')]
+    #[Route(path: '/registration_codes/add', name: 'add_registration_code')]
     public function add(Request $request, UserRepositoryInterface $userRepository): Response {
         $code = new RegistrationCode();
 
@@ -154,8 +150,7 @@ class RegistrationCodeController extends AbstractController {
             'form' => $form->createView()
         ]);
     }
-
-    #[Route(path: '/bulk', name: 'add_registration_code_bulk')]
+    #[Route(path: '/registration_codes/bulk', name: 'add_registration_code_bulk')]
     public function addBulk(Request $request, UserRepositoryInterface $userRepository, CodeGenerator $codeGenerator): Response {
         $form = $this->createForm(RegistrationCodeBulkType::class);
         $form->handleRequest($request);
@@ -172,7 +167,7 @@ class RegistrationCodeController extends AbstractController {
                     ->setStudent($user);
 
                 $this->repository->persist($code);
-                $count++;
+                ++$count;
             }
 
             $this->addFlash('success', 'codes.bulk.success');
@@ -185,8 +180,7 @@ class RegistrationCodeController extends AbstractController {
             'form' => $form->createView()
         ]);
     }
-
-    #[Route(path: '/bulk/students_without_parent', name: 'add_registration_code_bulk_for_students_without_parent')]
+    #[Route(path: '/registration_codes/bulk/students_without_parent', name: 'add_registration_code_bulk_for_students_without_parent')]
     public function addBulkForStudentsWithoutParent(Request $request, CodeGenerator $codeGenerator): Response {
         $form = $this->createForm(RegistrationCodeBulkStudentsWithoutParentAccountType::class);
         $form->handleRequest($request);
@@ -211,7 +205,7 @@ class RegistrationCodeController extends AbstractController {
                     ->setStudent($user);
 
                 $this->repository->persist($code);
-                $count++;
+                ++$count;
             }
 
             $this->addFlash('success', 'codes.bulk_noparents.success');
@@ -222,10 +216,9 @@ class RegistrationCodeController extends AbstractController {
             'form' => $form->createView()
         ]);
     }
-
-    #[Route(path: '/{uuid}/edit', name: 'edit_registration_code')]
+    #[Route(path: '/registration_codes/{uuid}/edit', name: 'edit_registration_code')]
     public function edit(#[MapEntity(mapping: ['uuid' => 'uuid'])] RegistrationCode $code, Request $request): Response {
-        if($code->getRedeemingUser() !== null) {
+        if($code->getRedeemingUser() instanceof User) {
             $this->addFlash('error', 'codes.edit.error.already_redeemed.message');
             return $this->redirectToRoute('registration_codes');
         }
@@ -246,8 +239,7 @@ class RegistrationCodeController extends AbstractController {
             'code' => $code
         ]);
     }
-
-    #[Route(path: '/{uuid}/remove', name: 'remove_registration_code')]
+    #[Route(path: '/registration_codes/{uuid}/remove', name: 'remove_registration_code')]
     public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] RegistrationCode $code, Request $request): Response {
         $form = $this->createForm(ConfirmType::class, [], [
             'message' => 'codes.remove.confirm',
@@ -269,5 +261,4 @@ class RegistrationCodeController extends AbstractController {
             'form' => $form->createView()
         ]);
     }
-
 }

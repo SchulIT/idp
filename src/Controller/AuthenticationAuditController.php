@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\AuthenticationAudit;
@@ -12,11 +14,10 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_SUPER_ADMIN')]
-#[Route('/admin/authentication_audit')]
 class AuthenticationAuditController extends AbstractController {
-    private const ItemsPerPage = 25;
+    private const int ItemsPerPage = 25;
 
-    #[Route('', name: 'authentication_audit')]
+    #[Route('/admin/authentication_audit', name: 'authentication_audit')]
     public function index(EntityManagerInterface $em, Request $request): Response {
         $page = $request->query->getInt('page', 1);
         $username = $request->query->get('username', null);

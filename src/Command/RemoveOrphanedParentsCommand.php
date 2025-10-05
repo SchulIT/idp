@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Repository\UserRepositoryInterface;
@@ -15,7 +17,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCommand(name: 'app:user:remove_orphaned', description: 'Löscht Eltern ohne verknüpften Lernenden.')]
 class RemoveOrphanedParentsCommand extends Command {
 
-    private const InactiveModifier = '-14 days';
+    private const string InactiveModifier = '-14 days';
 
     public function __construct(private readonly DateHelper $dateHelper, private readonly UserRepositoryInterface $userRepository, string $name = null) {
         parent::__construct($name);
@@ -34,7 +36,7 @@ class RemoveOrphanedParentsCommand extends Command {
         foreach($users as $user) {
             if($user->getLinkedStudents()->count() === 0 && $user->getCreatedAt() < $threshold) {
                 $this->userRepository->remove($user);
-                $count++;
+                ++$count;
             }
         }
 

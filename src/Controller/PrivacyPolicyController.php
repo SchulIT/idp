@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\PrivacyPolicy;
@@ -32,7 +34,7 @@ class PrivacyPolicyController extends AbstractController {
     public function show(#[CurrentUser] User $user): Response {
         $policy = $this->repository->findOne();
 
-        $mustConfirm = $policy !== null && $user->getPrivacyPolicyConfirmedAt() < $policy->getChangedAt();
+        $mustConfirm = $policy instanceof PrivacyPolicy && $user->getPrivacyPolicyConfirmedAt() < $policy->getChangedAt();
 
         return $this->render('privacy/show.html.twig', [
             'policy' => $policy,

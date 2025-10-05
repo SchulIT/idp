@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\ApplicationScope;
@@ -21,7 +23,7 @@ class ApplicationType extends AbstractType {
         $builder
             ->add('group_general', FieldsetType::class, [
                 'legend' => 'label.general',
-                'fields' => function(FormBuilderInterface $builder) {
+                'fields' => function(FormBuilderInterface $builder): void {
                     $builder
                         ->add('name', TextType::class, [
                             'label' => 'label.name'
@@ -33,11 +35,11 @@ class ApplicationType extends AbstractType {
                             'label_attr' => [
                                 'class' => 'radio-custom'
                             ],
-                            'choice_label' => fn(ApplicationScope $scope) => $this->translator->trans('application_scope.'.$scope->value, [], 'enums')
+                            'choice_label' => fn(ApplicationScope $scope): string => $this->translator->trans('application_scope.'.$scope->value, [], 'enums')
                         ])
                         ->add('service', EntityType::class, [
                             'class' => SamlServiceProvider::class,
-                            'query_builder' => fn(EntityRepository $repository) => $repository->createQueryBuilder('s')
+                            'query_builder' => fn(EntityRepository $repository): \Doctrine\ORM\QueryBuilder => $repository->createQueryBuilder('s')
                                 ->orderBy('s.name', 'asc'),
                             'choice_label' => 'name',
                             'label' => 'label.service',

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Security\EmailConfirmation\ConfirmationManager;
@@ -12,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class ConfirmEmailAddressController extends AbstractController {
     #[Route(path: '/confirm/{token}', name: 'confirm_email')]
     public function confirmEmailAddress(string $token, ConfirmationManager $confirmationManager): Response {
-        if(empty($token)) {
+        if($token === '' || $token === '0') {
             return $this->redirectToRoute('dashboard');
         }
 

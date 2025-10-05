@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\ActiveDirectoryUser;
@@ -37,7 +39,7 @@ class UserType extends AbstractType {
         $builder
             ->add('group_general', FieldsetType::class, [
                 'legend' => 'label.general',
-                'fields' => function(FormBuilderInterface $builder) use($user) {
+                'fields' => function(FormBuilderInterface $builder) use($user): void {
                     $builder
                         ->add('uuid', TextType::class, [
                             'disabled' => true,
@@ -88,7 +90,7 @@ class UserType extends AbstractType {
                         ])
                         ->add('type', EntityType::class, [
                             'class' => UserTypeEntity::class,
-                            'query_builder' => fn(EntityRepository $repository) => $repository->createQueryBuilder('t')
+                            'query_builder' => fn(EntityRepository $repository): \Doctrine\ORM\QueryBuilder => $repository->createQueryBuilder('t')
                                 ->orderBy('t.name', 'asc'),
                             'choice_label' => 'name',
                             'label' => 'label.user_type',
@@ -99,7 +101,7 @@ class UserType extends AbstractType {
                         ])
                         ->add('userRoles', EntityType::class, [
                             'class' => UserRole::class,
-                            'query_builder' => fn(EntityRepository $repository) => $repository->createQueryBuilder('r')
+                            'query_builder' => fn(EntityRepository $repository): \Doctrine\ORM\QueryBuilder => $repository->createQueryBuilder('r')
                                 ->orderBy('r.name', 'asc'),
                             'choice_label' => 'name',
                             'label' => 'label.user_roles',
@@ -112,7 +114,7 @@ class UserType extends AbstractType {
                         ])
                         ->add('enabledServices', EntityType::class, [
                             'class' => ServiceProvider::class,
-                            'query_builder' => fn(EntityRepository $repository) => $repository->createQueryBuilder('s')
+                            'query_builder' => fn(EntityRepository $repository): \Doctrine\ORM\QueryBuilder => $repository->createQueryBuilder('s')
                                 ->orderBy('s.name', 'asc'),
                             'choice_label' => 'name',
                             'label' => 'label.services',
@@ -127,20 +129,20 @@ class UserType extends AbstractType {
             ])
             ->add('group_links', FieldsetType::class, [
                 'legend' => 'label.students_simple',
-                'fields' => function(FormBuilderInterface $builder) {
+                'fields' => function(FormBuilderInterface $builder): void {
                     $builder
                         ->add('linkedStudents', EntityType::class, [
                             'label' => 'label.students_simple',
                             'required' => false,
                             'class' => User::class,
-                            'choice_label' => function(User $user) {
-                                if(!empty($user->getGrade())) {
+                            'choice_label' => function(User $user): string {
+                                if(!in_array($user->getGrade(), [null, '', '0'], true)) {
                                     return sprintf('%s, %s (%s)', $user->getLastname(), $user->getFirstname(), $user->getGrade());
                                 }
 
                                 return sprintf('%s, %s (%s)', $user->getLastname(), $user->getFirstname(), $user->getUsername());
                             },
-                            'query_builder' => fn(EntityRepository $repository) => $repository->createQueryBuilder('u')
+                            'query_builder' => fn(EntityRepository $repository): \Doctrine\ORM\QueryBuilder => $repository->createQueryBuilder('u')
                                 ->leftJoin('u.type', 't')
                                 ->where("t.alias = 'student'")
                                 ->orderBy('u.username', 'asc'),
@@ -154,7 +156,7 @@ class UserType extends AbstractType {
             ])
             ->add('group_idp', FieldsetType::class, [
                 'legend' => 'label.idp',
-                'fields' => function(FormBuilderInterface $builder) {
+                'fields' => function(FormBuilderInterface $builder): void {
                     $builder
                         ->add('roles', ChoiceType::class, [
                             'choices' => [
@@ -174,7 +176,7 @@ class UserType extends AbstractType {
             ])
             ->add('group_password', FieldsetType::class, [
                 'legend' => 'label.password',
-                'fields' => function(FormBuilderInterface $builder) {
+                'fields' => function(FormBuilderInterface $builder): void {
                     $builder
                         ->add('mustChangePassword', CheckboxType::class, [
                             'label' => 'label.must_change_password',
@@ -214,7 +216,7 @@ class UserType extends AbstractType {
             ]);
 
         $builder
-            ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
+            ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event): void {
                 /** @var User $user */
                 $user = $event->getData();
                 $form = $event->getForm();

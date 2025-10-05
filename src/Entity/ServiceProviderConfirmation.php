@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use DateTime;
@@ -12,12 +14,12 @@ class ServiceProviderConfirmation {
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private ?User $user;
+    private ?User $user = null;
 
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: ServiceProvider::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private ?ServiceProvider $serviceProvider;
+    private ?ServiceProvider $serviceProvider = null;
 
     #[ORM\Column(type: 'datetime')]
     #[Gedmo\Timestampable(on: 'update')]
@@ -61,7 +63,6 @@ class ServiceProviderConfirmation {
 
     /**
      * @param string[] $attributes
-     * @return ServiceProviderConfirmation
      */
     public function setAttributes(array $attributes): self {
         $this->attributes = $attributes;

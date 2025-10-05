@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\View\Filter;
 
 use App\Entity\UserType;
 
 class UserTypeFilterView {
 
-    /** @var bool */
     private bool $handleNull = false;
 
     /**

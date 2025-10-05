@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Functional\EventSubscriber;
 
 use App\Entity\User;
@@ -8,7 +10,7 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class MustChangePasswordRedirectEventSubscriberTest extends WebTestCase {
+final class MustChangePasswordRedirectEventSubscriberTest extends WebTestCase {
 
     private ?ObjectManager $em;
 
@@ -19,7 +21,7 @@ class MustChangePasswordRedirectEventSubscriberTest extends WebTestCase {
     private ?UserType $userType;
 
     public function setUp(): void {
-        $this->client = static::createClient();
+        $this->client = self::createClient();
 
         $this->em = $this->client->getContainer()
             ->get('doctrine')
@@ -46,6 +48,7 @@ class MustChangePasswordRedirectEventSubscriberTest extends WebTestCase {
         $this->em->flush();
     }
 
+    #[\Override]
     public function tearDown(): void {
         $this->em->close();
         $this->em = $this->user = null;
@@ -53,7 +56,7 @@ class MustChangePasswordRedirectEventSubscriberTest extends WebTestCase {
         parent::tearDown();
     }
 
-    public function testMustNotChangePassword() {
+    public function testMustNotChangePassword(): void {
         $this->user->setMustChangePassword(false);
         $this->em->persist($this->user);
         $this->em->flush();
@@ -62,7 +65,7 @@ class MustChangePasswordRedirectEventSubscriberTest extends WebTestCase {
 
         $this->client->followRedirects(true);
 
-        $crawler = $this->client->request('GET', '/login');
+        $crawler = $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, '/login');
         $button = $crawler->filter('button[type=submit]')->first();
         $form = $button->form();
 
@@ -71,10 +74,10 @@ class MustChangePasswordRedirectEventSubscriberTest extends WebTestCase {
 
         $crawler = $this->client->submit($form);
         $this->assertEquals('http://localhost/dashboard', $crawler->getUri(), 'Tests whether we land on the dashboard after successful login');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the dashboard');
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the dashboard');
     }
 
-    public function testMustChangePassword() {
+    public function testMustChangePassword(): void {
         $this->user->setMustChangePassword(true);
         $this->em->persist($this->user);
         $this->em->flush();
@@ -83,7 +86,7 @@ class MustChangePasswordRedirectEventSubscriberTest extends WebTestCase {
 
         $this->client->followRedirects(true);
 
-        $crawler = $this->client->request('GET', '/login');
+        $crawler = $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, '/login');
         $button = $crawler->filter('button[type=submit]')->first();
         $form = $button->form();
 
@@ -100,12 +103,12 @@ class MustChangePasswordRedirectEventSubscriberTest extends WebTestCase {
         $form['password_change[newPassword][second]']->setValue('Test23456$');
 
         $crawler = $this->client->submit($form);
-        $crawler = $this->client->request('GET', '/dashboard');
+        $crawler = $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, '/dashboard');
         $this->assertEquals('http://localhost/dashboard', $crawler->getUri(), 'Tests whether we land on the dashboard after successful password change');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the dashboard');
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the dashboard');
     }
 
-    public function testMustChangePasswordPlusIncomingSamlRequest() {
+    public function testMustChangePasswordPlusIncomingSamlRequest(): void {
         $this->user->setMustChangePassword(true);
         $this->em->persist($this->user);
         $this->em->flush();
@@ -115,7 +118,7 @@ class MustChangePasswordRedirectEventSubscriberTest extends WebTestCase {
         $this->client->followRedirects(true);
         $this->client->setMaxRedirects(10);
 
-        $crawler = $this->client->request('POST', '/idp/saml', [
+        $crawler = $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_POST, '/idp/saml', [
             'SAMLRequest' => 'testrequest'
         ]);
         $button = $crawler->filter('button[type=submit]')->first();

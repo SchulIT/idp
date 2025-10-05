@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\PasswordResetToken;
+use App\Entity\User;
 use App\Repository\UserRepositoryInterface;
 use App\Security\ForgotPassword\ForgotPasswordManager;
 use App\Security\ForgotPassword\TokenExpiredException;
@@ -21,9 +24,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ForgotPasswordController extends AbstractController {
 
-    private const CSRF_TOKEN_ID = 'forgot_pw';
+    private const string CSRF_TOKEN_ID = 'forgot_pw';
 
-    private const CSRF_TOKEN_KEY = '_csrf_token';
+    private const string CSRF_TOKEN_KEY = '_csrf_token';
 
     public function __construct(private readonly ForgotPasswordManager $manager, private readonly CsrfTokenManagerInterface $csrfTokenManager, private readonly TranslatorInterface $translator)
     {
@@ -45,10 +48,10 @@ class ForgotPasswordController extends AbstractController {
         if($request->isMethod('POST') && ($request->request->has('_username') || $request->request->has('_email'))) {
             $user = null;
 
-            if($request->request->has('_username')) {
+            if ($request->request->has('_username')) {
                 $username = $request->request->get('_username');
                 $user = $userRepository->findOneByUsername($username);
-            } else if($request->request->has('_email')) {
+            } elseif ($request->request->has('_email')) {
                 $email = $request->request->get('_email');
                 $user = $userRepository->findOneByEmail($email);
             } else {
@@ -56,9 +59,9 @@ class ForgotPasswordController extends AbstractController {
                 return $this->redirectToRoute('forgot_password', [ 'email' => $request->query->get('email')]);
             }
 
-            if($this->isCsrfTokenFromRequestValid($request) !== true) {
+            if (!$this->isCsrfTokenFromRequestValid($request)) {
                 $this->addFlash('error', $this->getCsrfTokenMessage());
-            } else if($user !== null) {
+            } elseif ($user instanceof User) {
                 try {
                     $token = $this->manager->createPasswordResetRequest($user, $user->getEmail());
                     $this->addFlash('success', $translator->trans('forgot_pw.request.success', [ '%expiry%' => $token->getExpiresAt()->format($translator->trans('date.with_time')) ]));
@@ -82,11 +85,11 @@ class ForgotPasswordController extends AbstractController {
     public function change(string $token, Request $request, PasswordStrengthHelper $passwordStrengthHelper, DateHelper $dateHelper): Response {
         $resetToken = $this->manager->getToken($token);
 
-        if($resetToken === null) {
+        if (!$resetToken instanceof PasswordResetToken) {
             return $this->render('auth/forgot_pw_error.html.twig', [
                 'error' => 'forgot_pw.error.token_not_found'
             ]);
-        } else if($resetToken->getExpiresAt() < $dateHelper->getNow()) {
+        } elseif ($resetToken->getExpiresAt() < $dateHelper->getNow()) {
             return $this->render('auth/forgot_pw_error.html.twig', [
                 'error' => 'forgot_pw.error.token_expired'
             ]);
@@ -98,11 +101,11 @@ class ForgotPasswordController extends AbstractController {
 
             $violations = $passwordStrengthHelper->validatePassword($password);
 
-            if($this->isCsrfTokenFromRequestValid($request) !== true) {
+            if (!$this->isCsrfTokenFromRequestValid($request)) {
                 $this->addFlash('error', $this->getCsrfTokenMessage());
-            } else if($violations->count() > 0) {
+            } elseif ($violations->count() > 0) {
                 // flashes are added in twig template
-            } else if($password !== $repeatPassword) {
+            } elseif ($password !== $repeatPassword) {
                 $this->addFlash('error', 'forgot_pw.change.password_error');
             } else {
                 try {

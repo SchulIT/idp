@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Entity\ServiceAttributeValue;
@@ -26,13 +28,13 @@ class AttributeResolver {
      * @return ServiceAttributeValueInterface[] $user
      */
     public function getDetailedResultingAttributeValuesForUser(User $user = null): array {
-        if($user === null) {
+        if(!$user instanceof User) {
             return [ ];
         }
 
         $values = [ ];
 
-        $keyFunc = fn(ServiceAttributeValueInterface $attributeValue) => $attributeValue->getAttribute()->getUuid()->toString();
+        $keyFunc = fn(ServiceAttributeValueInterface $attributeValue): string => $attributeValue->getAttribute()->getUuid()->toString();
 
         // USER TYPE
         $typeValues = $this->attributeValueRepository->getAttributeValuesForUserType($user->getType());
@@ -42,7 +44,7 @@ class AttributeResolver {
         // USER ROLES
         /** @var UserRole[] $userRoles */
         $userRoles = $user->getUserRoles()->toArray();
-        usort($userRoles, fn(UserRole $roleA, UserRole $roleB) => $roleB->getPriority() - $roleA->getPriority());
+        usort($userRoles, fn(UserRole $roleA, UserRole $roleB): int => $roleB->getPriority() - $roleA->getPriority());
 
         foreach($userRoles as $role) {
             $roleValues = $this->attributeValueRepository->getAttributeValuesForUserRole($role);
@@ -56,9 +58,8 @@ class AttributeResolver {
         // USER
         $userValues = $this->attributeValueRepository->getAttributeValuesForUser($user);
         $userValues = $this->makeArrayWithKeys($userValues, $keyFunc);
-        $values = array_replace($values, $userValues);
 
-        return $values;
+        return array_replace($values, $userValues);
     }
 
     /**
@@ -66,7 +67,7 @@ class AttributeResolver {
      * @return mixed[]
      */
     public function getResultingAttributeValuesForUser(User $user = null): array {
-        if($user === null) {
+        if(!$user instanceof User) {
             return [ ];
         }
 
@@ -78,9 +79,7 @@ class AttributeResolver {
             $values = array_merge($values, $this->getAttributesForRole($role));
         }
 
-        $values = array_merge($values, $this->getAttributeValuesForUser($user));
-
-        return $values;
+        return array_merge($values, $this->getAttributeValuesForUser($user));
     }
 
     /**
@@ -88,7 +87,7 @@ class AttributeResolver {
      * @return mixed[]
      */
     public function getAttributeValuesForUser(User $user = null): array {
-        if($user === null) {
+        if(!$user instanceof User) {
             return [ ];
         }
 

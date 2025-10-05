@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\User;
@@ -14,7 +16,7 @@ class KioskUserType extends AbstractType {
             ->add('user', EntityType::class, [
                 'label' => 'label.user',
                 'class' => User::class,
-                'choice_label' => fn(User $user) => $user->getUsername(),
+                'choice_label' => fn(User $user): string => $user->getUsername(),
                 'placeholder' => 'label.select',
                 'attr' => [
                     'data-choice' => 'true'

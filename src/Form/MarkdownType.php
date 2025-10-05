@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
+use Override;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -23,6 +26,7 @@ class MarkdownType extends TextareaType {
             ->setDefault('enable_links', true);
     }
 
+    #[Override]
     public function buildView(FormView $view, FormInterface $form, array $options): void {
         parent::buildView($view, $form, $options);
 
@@ -34,6 +38,7 @@ class MarkdownType extends TextareaType {
         ];
     }
 
+    #[Override]
     public function getBlockPrefix(): string {
         return 'markdown';
     }

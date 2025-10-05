@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security;
 
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
@@ -21,7 +23,7 @@ class CronUserProvider implements UserProviderInterface {
         return new InMemoryUser($this->username, $this->password, [ 'ROLE_CRON']);
     }
 
-    public function loadUserByUsername($username): UserInterface {
+    public function loadUserByUsername(string $username): UserInterface {
         return $this->loadUserByIdentifier($username);
     }
 

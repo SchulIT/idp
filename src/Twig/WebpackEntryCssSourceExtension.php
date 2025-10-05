@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Twig;
 
+use Override;
 use Symfony\Contracts\Service\Attribute\SubscribedService;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Symfony\WebpackEncoreBundle\Asset\EntrypointLookupInterface;
@@ -14,6 +17,7 @@ class WebpackEntryCssSourceExtension extends AbstractExtension {
 
     }
 
+    #[Override]
     public function getFunctions(): array {
         return [
             new TwigFunction('css_source', $this->getCssSource(...))

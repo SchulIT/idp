@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security;
 
 use App\ActiveDirectory\OptionResolver;
@@ -7,6 +9,7 @@ use App\Entity\ActiveDirectoryGradeSyncOption;
 use App\Entity\ActiveDirectoryRoleSyncOption;
 use App\Entity\ActiveDirectorySyncOption;
 use App\Entity\ActiveDirectoryUser;
+use App\Entity\User;
 use App\Entity\UserType;
 use App\Repository\ActiveDirectoryGradeSyncOptionRepositoryInterface;
 use App\Repository\ActiveDirectoryRoleSyncOptionRepositoryInterface;
@@ -53,7 +56,7 @@ class UserCreator {
      */
     public function canCreateUser(ActiveDirectoryUserInformation $response): bool {
         $this->initialize();
-        return $this->getTargetUserType($response) !== null;
+        return $this->getTargetUserType($response) instanceof UserType;
     }
 
     private function getTargetUserType(ActiveDirectoryUserInformation $response): ?UserType {
@@ -75,11 +78,11 @@ class UserCreator {
     public function createUser(ActiveDirectoryUserInformation $response, ?ActiveDirectoryUser $user = null): ?ActiveDirectoryUser {
         $this->initialize();
 
-        if ($user === null) {
+        if (!$user instanceof ActiveDirectoryUser) {
             // Try to find already existing user by GUID (because username has changed)
             $user = $this->userRepository->findActiveDirectoryUserByObjectGuid($response->getGuid());
 
-            if($user === null) {
+            if(!$user instanceof ActiveDirectoryUser) {
                 $user = new ActiveDirectoryUser();
                 $user->setObjectGuid(Uuid::fromString($response->getGuid()));
             }
@@ -117,7 +120,7 @@ class UserCreator {
         $existingUser = $this->userRepository->findOneByUsername($user->getUserPrincipalName());
 
         // Convert user (if necessary)
-        if($existingUser !== null && !$existingUser instanceof ActiveDirectoryUser) {
+        if($existingUser instanceof User && !$existingUser instanceof ActiveDirectoryUser) {
             $user = $this->userRepository->convertToActiveDirectory($existingUser, $user);
         }
 

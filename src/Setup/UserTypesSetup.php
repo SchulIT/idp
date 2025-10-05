@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Setup;
 
 use App\Entity\UserType;
@@ -27,7 +29,7 @@ class UserTypesSetup {
      * @return string[]
      */
     private function getExistingUserTypeAliases(): array {
-        return array_map(fn(UserType $type) => $type->getAlias(), $this->userTypeRepository->findAll());
+        return array_map(fn(UserType $type): string => $type->getAlias(), $this->userTypeRepository->findAll());
     }
 
     public function canSetup(): bool {
@@ -35,7 +37,7 @@ class UserTypesSetup {
         $exisingUserTypeAliases = $this->getExistingUserTypeAliases();
 
         foreach($defaultUserTypes as $defaultUserType) {
-            if(in_array($defaultUserType->getAlias(), $exisingUserTypeAliases) !== true) {
+            if(!in_array($defaultUserType->getAlias(), $exisingUserTypeAliases)) {
                 return true;
             }
         }
@@ -43,12 +45,12 @@ class UserTypesSetup {
         return false;
     }
 
-    public function setupDefaultUserTypes() {
+    public function setupDefaultUserTypes(): void {
         $defaultUserTypes = $this->getDefaultUserTypes();
         $exisingUserTypeAliases = $this->getExistingUserTypeAliases();
 
         foreach($defaultUserTypes as $defaultUserType) {
-            if(in_array($defaultUserType->getAlias(), $exisingUserTypeAliases) !== true) {
+            if(!in_array($defaultUserType->getAlias(), $exisingUserTypeAliases)) {
                 $this->userTypeRepository->persist($defaultUserType);
             }
         }

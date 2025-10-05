@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\ActiveDirectorySyncSourceType;
@@ -32,7 +34,7 @@ class ActiveDirectorySyncOptionType extends AbstractType {
                     'class' => 'radio-custom'
                 ],
                 'expanded' => true,
-                'choice_label' => fn(ActiveDirectorySyncSourceType $type) => $this->translator->trans('ad_source_type.' . $type->value, [], 'enums')
+                'choice_label' => fn(ActiveDirectorySyncSourceType $type): string => $this->translator->trans('ad_source_type.' . $type->value, [], 'enums')
             ])
             ->add('source', TextType::class, [
                 'label' => 'label.value'

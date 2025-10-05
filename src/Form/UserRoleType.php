@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\ServiceProvider;
@@ -25,7 +27,7 @@ class UserRoleType extends AbstractType {
         $builder
             ->add('group_general', FieldsetType::class, [
                 'legend' => 'label.general',
-                'fields' => function(FormBuilderInterface $builder) {
+                'fields' => function(FormBuilderInterface $builder): void {
                     $builder
                         ->add('name', TextType::class, [
                             'label' => 'label.name'
@@ -35,7 +37,7 @@ class UserRoleType extends AbstractType {
                         ])
                         ->add('enabledServices', EntityType::class, [
                             'class' => ServiceProvider::class,
-                            'query_builder' => fn(EntityRepository $repository) => $repository->createQueryBuilder('s')
+                            'query_builder' => fn(EntityRepository $repository): \Doctrine\ORM\QueryBuilder => $repository->createQueryBuilder('s')
                                 ->orderBy('s.name', 'asc'),
                             'choice_label' => 'name',
                             'label' => 'label.services',

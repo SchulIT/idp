@@ -1,30 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security;
 
 class ActiveDirectoryUserInformation {
-    /** @var string */
     private string $username;
 
-    /** @var string */
     private string $userPrincipalName;
 
-    /** @var string|null */
     private ?string $firstname = null;
 
-    /** @var string|null */
     private ?string $lastname = null;
 
-    /** @var string */
     private string $email;
 
-    /** @var string */
     private string $guid;
 
-    /** @var string|null */
     private ?string $uniqueId = null;
 
-    /** @var string */
     private string $ou;
 
     /** @var string[] */

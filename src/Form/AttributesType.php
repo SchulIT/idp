@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\ServiceAttributeType;
 use App\Repository\ServiceAttributeRepositoryInterface;
+use Override;
 use SchulIT\CommonBundle\Form\FieldsetType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -16,6 +19,7 @@ class AttributesType extends FieldsetType {
     {
     }
 
+    #[Override]
     public function configureOptions(OptionsResolver $resolver): void {
         parent::configureOptions($resolver);
 
@@ -26,6 +30,7 @@ class AttributesType extends FieldsetType {
             ->remove('fields');
     }
 
+    #[Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void {
         $attributeValues = $options['attribute_values'];
         $onlyUserEditable = $options['only_user_editable'];
@@ -44,24 +49,20 @@ class AttributesType extends FieldsetType {
                 'data' => $attributeValues[$attribute->getName()] ?? null
             ];
 
-            if($type === ChoiceType::class) {
+            if ($type === ChoiceType::class) {
                 $choices = [];
                 $values = $attributeValues[$attribute->getName()] ?? [ ];
-
                 if(!is_array($values)) {
                     $values = [ $values ];
                 }
-
                 foreach ($attribute->getOptions() as $key => $value) {
                     if($onlyUserEditable === false || in_array($key, $values)) {
                         $choices[$value] = $key;
                     }
                 }
-
                 if(count($choices) === 0) {
                     continue;
                 }
-
                 if ($attribute->isMultipleChoice()) {
                     $options['multiple'] = true;
                 } else {
@@ -70,13 +71,12 @@ class AttributesType extends FieldsetType {
                     ]);
                     $options['placeholder'] = false;
                 }
-
                 $options['choices'] = $choices;
                 $options['expanded'] = true;
                 $options['label_attr'] = [
                     'class' => $attribute->isMultipleChoice() ? 'checkbox-custom' : 'radio-custom'
                 ];
-            } else if($type === TextType::class && $options['disabled']) {
+            } elseif ($type === TextType::class && $options['disabled']) {
                 $type = ReadonlyTextType::class;
             }
 
@@ -85,6 +85,7 @@ class AttributesType extends FieldsetType {
         }
     }
 
+    #[Override]
     public function getBlockPrefix(): string {
         return $this->getName();
     }

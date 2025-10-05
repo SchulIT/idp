@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\SamlServiceProvider;
@@ -16,10 +18,6 @@ interface ServiceProviderRepositoryInterface {
     
     public function remove(ServiceProvider $provider): void;
 
-    /**
-     * @param string $entityId
-     * @return SamlServiceProvider|null
-     */
     public function findOneByEntityId(string $entityId): ?SamlServiceProvider;
 
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -17,22 +19,21 @@ class ActiveDirectoryRoleSyncOption implements ActiveDirectorySyncOptionInterfac
     private string $name;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $description;
+    private ?string $description = null;
 
     #[ORM\Column(type: 'string', unique: true)]
     #[Assert\NotBlank]
     private string $source;
 
     #[ORM\Column(type: 'string', nullable: false, enumType: ActiveDirectorySyncSourceType::class)]
-    private ActiveDirectorySyncSourceType $sourceType;
+    private ActiveDirectorySyncSourceType $sourceType = ActiveDirectorySyncSourceType::Ou;
 
     #[ORM\ManyToOne(targetEntity: UserRole::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private ?UserRole $userRole;
+    private ?UserRole $userRole = null;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
-        $this->sourceType = ActiveDirectorySyncSourceType::Ou;
     }
 
     public function getName(): string {

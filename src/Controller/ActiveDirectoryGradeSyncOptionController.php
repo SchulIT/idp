@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\ActiveDirectoryGradeSyncOption;
@@ -13,14 +15,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route(path: '/admin/ad_sync/grades')]
-class ActiveDirectoryGradeSyncOptionController extends AbstractController {
-
+class ActiveDirectoryGradeSyncOptionController extends AbstractController
+{
     public function __construct(private readonly ActiveDirectoryGradeSyncOptionRepositoryInterface $repository)
     {
     }
 
-    #[Route(path: '', name: 'ad_grades_sync_options')]
+    #[Route(path: '/admin/ad_sync/grades', name: 'ad_grades_sync_options')]
     public function index(): Response {
         $options = $this->repository->findAll();
 
@@ -29,7 +30,7 @@ class ActiveDirectoryGradeSyncOptionController extends AbstractController {
         ]);
     }
 
-    #[Route(path: '/add', name: 'add_ad_grades_sync_options')]
+    #[Route(path: '/admin/ad_sync/grades/add', name: 'add_ad_grades_sync_options')]
     public function add(Request $request): Response {
         $option = new ActiveDirectoryGradeSyncOption();
 
@@ -48,7 +49,7 @@ class ActiveDirectoryGradeSyncOptionController extends AbstractController {
         ]);
     }
 
-    #[Route(path: '/{uuid}/edit', name: 'edit_ad_grades_sync_options')]
+    #[Route(path: '/admin/ad_sync/grades/{uuid}/edit', name: 'edit_ad_grades_sync_options')]
     public function edit(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] ActiveDirectoryGradeSyncOption $option): Response {
         $form = $this->createForm(ActiveDirectoryGradeSyncOptionType::class, $option);
         $form->handleRequest($request);
@@ -66,7 +67,7 @@ class ActiveDirectoryGradeSyncOptionController extends AbstractController {
         ]);
     }
 
-    #[Route(path: '/{uuid}/remove', name: 'remove_ad_grades_sync_options')]
+    #[Route(path: '/admin/ad_sync/grades/{uuid}/remove', name: 'remove_ad_grades_sync_options')]
     public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] ActiveDirectoryGradeSyncOption $option, Request $request, TranslatorInterface $translator): Response {
         $form = $this->createForm(ConfirmType::class, [], [
             'message' => $translator->trans('ad_sync_options.grades.remove.confirm', [

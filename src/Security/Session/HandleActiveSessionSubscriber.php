@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security\Session;
 
 use App\Entity\User;
@@ -19,11 +21,11 @@ class HandleActiveSessionSubscriber implements EventSubscriberInterface {
     public function __construct(private readonly Connection $connection, private readonly Browscap $browscap) { }
 
     public function onKernelTerminate(FinishRequestEvent $event): void {
-        if($this->sessionToSave === null) {
+        if(!$this->sessionToSave instanceof ActiveSession) {
             return;
         }
 
-        if(empty($event->getRequest()->getSession()->getId())) {
+        if(in_array($event->getRequest()->getSession()->getId(), ['', '0'], true)) {
             // no session id available -> skip
             return;
         }
@@ -60,7 +62,7 @@ class HandleActiveSessionSubscriber implements EventSubscriberInterface {
         $browserInfo = null;
 
         try {
-            if(!empty($event->getRequest()->headers->get('User-Agent'))) {
+            if(!in_array($event->getRequest()->headers->get('User-Agent'), [null, '', '0'], true)) {
                 $browserInfo = $this->browscap->getBrowser($event->getRequest()->headers->get('User-Agent'));
             }
         } catch(\BrowscapPHP\Exception) { }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Api;
 
 use App\Entity\UserType;
@@ -12,18 +14,17 @@ use Symfony\Component\Routing\Attribute\Route;
 use OpenApi\Attributes as OA;
 use App\Response\UserType as UserTypeResponse;
 
-#[Route(path: '/api')]
-class UserTypeController extends AbstractController {
-
+class UserTypeController extends AbstractController
+{
     /**
      * Abfrage aller Benutzertypen im System.
      */
     #[OA\Get(operationId: 'api_usertypes_list', tags: ['Benutzertypen'])]
     #[OA\Response(response: '200', description: 'Liste mit Benutzertypen', content: new Model(type: ListUserTypeResponse::class))]
-    #[Route(path: '/user_types', methods: ['GET'])]
+    #[Route(path: '/api/user_types', methods: ['GET'])]
     public function getUserTypes(UserTypeRepositoryInterface $repository): Response {
         $types = array_map(
-            fn(UserType $type) => $this->transformResponse($type),
+            fn(UserType $type): \App\Response\UserType => $this->transformResponse($type),
             $repository->findAll()
         );
 
@@ -31,7 +32,6 @@ class UserTypeController extends AbstractController {
             new ListUserTypeResponse($types)
         );
     }
-
     private function transformResponse(UserType $entity): UserTypeResponse {
         return new UserTypeResponse($entity->getUuid()->toString(), $entity->getName(), $entity->getAlias(), $entity->getEduPerson());
     }

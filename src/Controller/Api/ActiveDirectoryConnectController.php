@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Api;
 
 use App\Entity\ActiveDirectoryUser;
@@ -23,7 +25,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 /**
  * Endpunkte für den Active Directory Connect Client
  */
-#[Route(path: '/api/ad_connect')]
 #[IsGranted('ROLE_ADCONNECT')]
 class ActiveDirectoryConnectController extends AbstractController {
 
@@ -39,13 +40,13 @@ class ActiveDirectoryConnectController extends AbstractController {
         description: "Liste der Active Directory Benutzer. Hinweis: Gelöschte Benutzer (die sich im Papierkorb befinden), werden nicht zurückgegeben.",
         content: new Model(type: ListActiveDirectoryUserResponse::class )
     )]
-    #[Route(path: '', methods: ['GET'])]
+    #[Route(path: '/api/ad_connect', methods: ['GET'])]
     public function list(): Response {
         $users = array_map(
-            fn(ActiveDirectoryUser $user) => $this->transformResponse($user),
+            fn(ActiveDirectoryUser $user): \App\Response\ActiveDirectoryUser => $this->transformResponse($user),
             array_filter(
                 $this->repository->findAllActiveDirectoryUsers(),
-                fn(ActiveDirectoryUser $user) => $user->isDeleted() === false
+                fn(ActiveDirectoryUser $user): bool => $user->isDeleted() === false
             )
         );
         return $this->json(new ListActiveDirectoryUserResponse($users));
@@ -59,7 +60,7 @@ class ActiveDirectoryConnectController extends AbstractController {
     #[OA\Response(response: '201', description: 'Benutzer wurde erfolgreich angelegt.')]
     #[OA\Response(response: '400', description: 'Validierung fehlgeschlagen.', content: new Model(type:ViolationListResponse::class))]
     #[OA\Response(response: '500', description: 'Serverfehler', content: new Model(type: ErrorResponse::class))]
-    #[Route(path: '', methods: ['POST'])]
+    #[Route(path: '/api/ad_connect', methods: ['POST'])]
     public function add(#[MapRequestPayload] ActiveDirectoryUserRequest $request): Response {
         $userInfo = $this->transformRequest($request);
 
@@ -84,7 +85,7 @@ class ActiveDirectoryConnectController extends AbstractController {
     #[OA\Response(response: '200', description: 'Benutzer wurde erfolgreich aktualisiert.')]
     #[OA\Response(response: '400', description: 'Validierung fehlgeschlagen.', content: new Model(type:ViolationListResponse::class))]
     #[OA\Response(response: '500', description: 'Serverfehler', content: new Model(type: ErrorResponse::class))]
-    #[Route(path: '/{objectGuid}', methods: ['PATCH'])]
+    #[Route(path: '/api/ad_connect/{objectGuid}', methods: ['PATCH'])]
     public function update(#[MapEntity(mapping: ['objectGuid' => 'objectGuid'])] ActiveDirectoryUser $user, #[MapRequestPayload] ActiveDirectoryUserRequest $request): Response {
         $user = $this->userCreator->createUser($this->transformRequest($request), $user);
         $this->repository->persist($user);
@@ -98,7 +99,7 @@ class ActiveDirectoryConnectController extends AbstractController {
     #[OA\Response(response: '204', description: 'Benutzer wurde erfolgreich gelöscht.')]
     #[OA\Response(response: '404', description: 'Benutzer wurde nicht gefunden.')]
     #[OA\Response(response: '500', description: 'Serverfehler', content: new Model(type: ErrorResponse::class))]
-    #[Route(path: '/{objectGuid}', methods: ['DELETE'])]
+    #[Route(path: '/api/ad_connect/{objectGuid}', methods: ['DELETE'])]
     public function remove(#[MapEntity(mapping: ['objectGuid' => 'objectGuid'])] ActiveDirectoryUser $user): Response {
         $this->repository->remove($user);
         return new Response(null, Response::HTTP_NO_CONTENT);

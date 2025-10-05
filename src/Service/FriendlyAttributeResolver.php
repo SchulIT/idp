@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Entity\ServiceAttribute;
@@ -9,7 +11,7 @@ use SchulIT\CommonBundle\Saml\ClaimTypes as CommonClaimTypes;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FriendlyAttributeResolver {
-    private $map;
+    private ?array $map = null;
 
     private bool $initialized = false;
 
@@ -17,8 +19,8 @@ class FriendlyAttributeResolver {
     {
     }
 
-    private function initialize() {
-        if($this->initialized === true) {
+    private function initialize(): void {
+        if($this->initialized) {
             return;
         }
 

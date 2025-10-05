@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Twig;
 
 use App\Entity\ServiceAttributeUserRoleValue;
@@ -8,6 +10,7 @@ use App\Entity\ServiceAttributeValue;
 use App\Entity\ServiceAttributeValueInterface;
 use App\Service\FriendlyAttributeResolver;
 use DateTime;
+use Override;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -18,6 +21,7 @@ class TwigFilters extends AbstractExtension {
     {
     }
 
+    #[Override]
     public function getFilters(): array {
         return [
             new TwigFilter('attributeSource', $this->attributeSource(...)),
@@ -34,22 +38,23 @@ class TwigFilters extends AbstractExtension {
         return $this->friendlyAttributeResolver->getFriendlyAttributeName($attribute);
     }
 
-    public function attributeSource(ServiceAttributeValueInterface $attributeValue) {
-        if($attributeValue instanceof ServiceAttributeValue) {
+    public function attributeSource(ServiceAttributeValueInterface $attributeValue): ?string {
+        if ($attributeValue instanceof ServiceAttributeValue) {
             return $this->translator->trans('users.attributes.sources.user');
-        } else if($attributeValue instanceof ServiceAttributeUserTypeValue) {
+        } elseif ($attributeValue instanceof ServiceAttributeUserTypeValue) {
             return sprintf(
                 '%s "%s"',
                 $this->translator->trans('users.attributes.sources.type'),
                 $attributeValue->getUserType()->getName()
             );
-        } else if($attributeValue instanceof ServiceAttributeUserRoleValue) {
+        } elseif ($attributeValue instanceof ServiceAttributeUserRoleValue) {
             return sprintf(
                 '%s "%s"',
                 $this->translator->trans('users.attributes.sources.role'),
                 $attributeValue->getUserRole()->getName()
             );
         }
+        return null;
     }
 
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use LightSaml\Model\Context\SerializationContext;
@@ -10,13 +12,12 @@ use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route(path: '/admin/idp')]
-class IdpController extends AbstractController {
+class IdpController extends AbstractController
+{
     public function __construct(private readonly string $kernelProjectDir)
     {
     }
-
-    #[Route(path: '', name: 'idp_details')]
+    #[Route(path: '/admin/idp', name: 'idp_details')]
     public function index(EntityDescriptorProviderInterface $provider): Response {
         $context = new SerializationContext();
         $own = $provider->get();
@@ -37,8 +38,7 @@ class IdpController extends AbstractController {
             'cert' => $certAsString
         ]);
     }
-
-    #[Route(path: '/xml', name: 'download_idp_xml')]
+    #[Route(path: '/admin/idp/xml', name: 'download_idp_xml')]
     public function downloadXml(EntityDescriptorProviderInterface $provider): Response {
         $context = new SerializationContext();
         $own = $provider->get();
@@ -51,7 +51,7 @@ class IdpController extends AbstractController {
             'idp.xml'
         );
 
-        $response = new Response($idpXml, 200, []);
+        $response = new Response($idpXml, \Symfony\Component\HttpFoundation\Response::HTTP_OK, []);
         $response->headers->set('Content-Disposition', $disposition);
 
         return $response;

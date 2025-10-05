@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Repository\UserRepositoryInterface;
@@ -14,7 +16,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCronJob(schedule: '0 0 * * *')]
 #[AsCommand(name: 'app:user:remove_deleted', description: 'Löscht alle zum Löschen vorgemerkten Benutzer, die vor mehr als 30 Tagen zum Löschen markiert wurden.')]
 class RemoveDeletedUsers extends Command {
-    private const Modifier = '-30 days';
+    private const string Modifier = '-30 days';
 
     public function __construct(private readonly DateHelper $dateHelper, private readonly UserRepositoryInterface $userRepository, string $name = null) {
         parent::__construct($name);

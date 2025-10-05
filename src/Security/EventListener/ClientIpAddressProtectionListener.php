@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security\EventListener;
 
 use App\Security\Badge\ClientIpAddressBadge;
@@ -16,7 +18,7 @@ class ClientIpAddressProtectionListener implements EventSubscriberInterface {
 
     public function checkPassport(CheckPassportEvent $event): void {
         $request = $this->requestStack->getMainRequest();
-        $ip = $request->getClientIp();
+        $request->getClientIp();
 
         $passport = $event->getPassport();
         if(!$passport->hasBadge(ClientIpAddressBadge::class)) {

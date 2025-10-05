@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Validator;
 
 use App\Entity\ServiceAttribute;
@@ -27,7 +29,7 @@ class ValidAttributesArrayValidator extends ConstraintValidator {
         /** @var ServiceAttribute[] $attributes */
         $attributes = ArrayUtils::createArrayWithKeys(
             $this->attributeRepository->findAll(),
-            fn(ServiceAttribute $attribute) => $attribute->getName());
+            fn(ServiceAttribute $attribute): string => $attribute->getName());
         $validAttributeNames = array_keys($attributes);
 
         foreach($value as $attributeName => $attributeValue) {
@@ -41,14 +43,14 @@ class ValidAttributesArrayValidator extends ConstraintValidator {
 
             $attribute = $attributes[$attributeName];
 
-            if($attribute->getType() === ServiceAttributeType::Text && $attributeValue !== null &&  !is_scalar($attributeValue)) {
+            if ($attribute->getType() === ServiceAttributeType::Text && $attributeValue !== null &&  !is_scalar($attributeValue)) {
                 $this->context
                     ->buildViolation($constraint->messageInvalidValue)
                     ->setParameter('{{ name }}', $attributeName)
                     ->setParameter('{{ type }}', 'string')
                     ->setParameter('{{ given }}', gettype($attributeValue))
                     ->addViolation();
-            } else if($attribute->getType() === ServiceAttributeType::Select) {
+            } elseif ($attribute->getType() === ServiceAttributeType::Select) {
                 if(!is_array($attributeValue)) {
                     $this->context
                         ->buildViolation($constraint->messageInvalidValue)
@@ -71,7 +73,7 @@ class ValidAttributesArrayValidator extends ConstraintValidator {
                                 ->addViolation();
                         }
 
-                        $i++;
+                        ++$i;
                     }
                 }
             }

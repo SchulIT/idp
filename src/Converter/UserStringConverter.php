@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Converter;
 
 use App\Entity\User;
 
 class UserStringConverter {
     public function convert(User $user): string {
-        if(empty($user->getLastname()) && empty($user->getFirstname())) {
+        if (in_array($user->getLastname(), [null, '', '0'], true) && in_array($user->getFirstname(), [null, '', '0'], true)) {
             return $user->getUsername();
-        } else if(empty($user->getFirstname())) {
+        } elseif (in_array($user->getFirstname(), [null, '', '0'], true)) {
             return sprintf('%s (%s)', $user->getFirstname(), $user->getUsername());
-        } else if(empty($user->getLastname())) {
+        } elseif (in_array($user->getLastname(), [null, '', '0'], true)) {
             return sprintf('%s (%s)', $user->getLastname(), $user->getUsername());
         }
 

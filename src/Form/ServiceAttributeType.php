@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\ServiceAttributeType as ServiceAttributeTypeEnum;
@@ -23,7 +25,7 @@ class ServiceAttributeType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options): void {
         $builder->add('group_general', FieldsetType::class, [
             'legend' => 'label.general',
-            'fields' => function(FormBuilderInterface $builder) {
+            'fields' => function(FormBuilderInterface $builder): void {
                 $builder
                     ->add('name', TextType::class, [
                         'label' => 'label.name'
@@ -51,11 +53,11 @@ class ServiceAttributeType extends AbstractType {
                             'class' => 'radio-custom'
                         ],
                         'expanded' => true,
-                        'choice_label' => fn(ServiceAttributeTypeEnum $type) => $this->translator->trans('service_attribute_type.' . $type->value, [ ], 'enums')
+                        'choice_label' => fn(ServiceAttributeTypeEnum $type): string => $this->translator->trans('service_attribute_type.' . $type->value, [ ], 'enums')
                     ])
                     ->add('services', EntityType::class, [
                         'class' => ServiceProvider::class,
-                        'query_builder' => fn(EntityRepository $repository) => $repository->createQueryBuilder('s')
+                        'query_builder' => fn(EntityRepository $repository): \Doctrine\ORM\QueryBuilder => $repository->createQueryBuilder('s')
                             ->orderBy('s.name', 'asc'),
                         'choice_label' => 'name',
                         'label' => 'label.services',
@@ -73,7 +75,7 @@ class ServiceAttributeType extends AbstractType {
                     'id'=> 'group_select'
                 ],
                 'legend' => 'label.options',
-                'fields' => function(FormBuilderInterface $builder) {
+                'fields' => function(FormBuilderInterface $builder): void {
                     $builder
                         ->add('isMultipleChoice', CheckboxType::class, [
                             'label' => 'label.is_multiple_choice',
@@ -97,7 +99,7 @@ class ServiceAttributeType extends AbstractType {
                         ]);
                 }
         ])
-            ->addEventListener(FormEvents::POST_SET_DATA, function(FormEvent $event) {
+            ->addEventListener(FormEvents::POST_SET_DATA, function(FormEvent $event): void {
                 $attribute = $event->getData();
                 $form = $event->getForm();
 
@@ -113,7 +115,7 @@ class ServiceAttributeType extends AbstractType {
                             'disabled' => true,
                             'mapped' => false,
                             'data' => $attribute->getType(),
-                            'choice_label' => fn(ServiceAttributeTypeEnum $type) => $this->translator->trans('service_attribute_type.' . $type->value, [ ], 'enums')
+                            'choice_label' => fn(ServiceAttributeTypeEnum $type): string => $this->translator->trans('service_attribute_type.' . $type->value, [ ], 'enums')
                         ]);
                 }
             });

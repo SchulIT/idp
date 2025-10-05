@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventSubscriber;
 
 use App\Response\ErrorResponse;
@@ -16,7 +18,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class ApiExceptionSubscriber implements EventSubscriberInterface {
 
-    private const JsonContentType = 'application/json';
+    private const string JsonContentType = 'application/json';
 
     public function __construct(private readonly SerializerInterface $serializer, private readonly LoggerInterface $logger)
     {
@@ -24,7 +26,6 @@ class ApiExceptionSubscriber implements EventSubscriberInterface {
 
     public function onKernelException(ExceptionEvent $event): void {
         $request = $event->getRequest();
-        $acceptable = $request->getAcceptableContentTypes();
 
         if(!in_array(self::JsonContentType, $request->getAcceptableContentTypes())) {
             return;
@@ -34,17 +35,16 @@ class ApiExceptionSubscriber implements EventSubscriberInterface {
         $code = Response::HTTP_INTERNAL_SERVER_ERROR;
 
         // Case 1: general HttpException (Authorization/Authentication) or BadRequest
-        if($throwable instanceof HttpException) {
+        if ($throwable instanceof HttpException) {
             $code = $throwable->getStatusCode();
             $message = new ErrorResponse($throwable->getMessage(), $throwable::class);
-        } else if($throwable instanceof ValidationFailedException) { // Case 2: validation failed
+        } elseif ($throwable instanceof ValidationFailedException) {
+            // Case 2: validation failed
             $code = Response::HTTP_BAD_REQUEST;
-
             $violations = [ ];
             foreach($throwable->getConstraintViolations() as $violation) {
                 $violations[] = new Violation($violation->getPropertyPath(), (string)$violation->getMessage());
             }
-
             $message = new ViolationListResponse($violations);
         } else { // Case 3: General error
             $message = new ErrorResponse(

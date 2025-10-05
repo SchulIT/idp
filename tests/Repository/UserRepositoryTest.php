@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Repository;
 
 use App\Entity\ActiveDirectoryUser;
@@ -10,11 +12,11 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class UserRepositoryTest extends KernelTestCase {
+final class UserRepositoryTest extends KernelTestCase {
 
-    private $repository;
+    private ?object $repository;
 
-    private $user;
+    private \App\Entity\User $user;
     private $adUser;
 
     public function setUp(): void {
@@ -53,7 +55,7 @@ class UserRepositoryTest extends KernelTestCase {
         $this->repository->persist($this->adUser);
     }
 
-    public function testConvertToUser() {
+    public function testConvertToUser(): void {
         $user = $this->repository->convertToUser($this->adUser);
 
         $this->assertNotNull($user);
@@ -61,7 +63,7 @@ class UserRepositoryTest extends KernelTestCase {
         $this->assertEquals($user->getId(), $this->adUser->getId());
     }
 
-    public function testConvertToActiveDirectoryUser() {
+    public function testConvertToActiveDirectoryUser(): void {
         $newAdUser = (new ActiveDirectoryUser())
                 ->setOu('OU=Users,DC=test,DC=lokal')
                 ->setGroups([])

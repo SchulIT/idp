@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security;
 
+use App\Entity\Application;
 use App\Repository\ApplicationRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,12 +48,12 @@ class ApplicationAuthenticator extends AbstractAuthenticator {
         $token = $request->headers->get(static::HEADER_KEY);
         $application = $this->repository->findOneByApiKey($token);
 
-        if($application === null) {
+        if(!$application instanceof Application) {
             throw new AuthenticationException('Invalid API key');
         }
 
         return new SelfValidatingPassport(
-            new UserBadge($token, fn($token) => $this->repository->findOneByApiKey($token))
+            new UserBadge($token, fn($token): ?Application => $this->repository->findOneByApiKey($token))
         );
     }
 

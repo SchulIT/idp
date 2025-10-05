@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\ActiveDirectorySyncOption;
@@ -13,14 +15,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route(path: '/admin/ad_sync')]
-class ActiveDirectorySyncOptionController extends AbstractController {
-
+class ActiveDirectorySyncOptionController extends AbstractController
+{
     public function __construct(private readonly ActiveDirectorySyncOptionRepositoryInterface $repository)
     {
     }
-
-    #[Route(path: '', name: 'ad_sync_options')]
+    #[Route(path: '/admin/ad_sync', name: 'ad_sync_options')]
     public function index(): Response {
         $syncOptions = $this->repository->findAll();
 
@@ -29,7 +29,7 @@ class ActiveDirectorySyncOptionController extends AbstractController {
         ]);
     }
 
-    #[Route(path: '/add', name: 'add_ad_sync_option')]
+    #[Route(path: '/admin/ad_sync/add', name: 'add_ad_sync_option')]
     public function add(Request $request): Response {
         $syncOption = new ActiveDirectorySyncOption();
 
@@ -48,7 +48,7 @@ class ActiveDirectorySyncOptionController extends AbstractController {
         ]);
     }
 
-    #[Route(path: '/{uuid}/edit', name: 'edit_ad_sync_option')]
+    #[Route(path: '/admin/ad_sync/{uuid}/edit', name: 'edit_ad_sync_option')]
     public function edit(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] ActiveDirectorySyncOption $syncOption): Response {
         $form = $this->createForm(ActiveDirectorySyncOptionType::class, $syncOption);
         $form->handleRequest($request);
@@ -66,7 +66,7 @@ class ActiveDirectorySyncOptionController extends AbstractController {
         ]);
     }
 
-    #[Route(path: '/{uuid}/remove', name: 'remove_ad_sync_option')]
+    #[Route(path: '/admin/ad_sync/{uuid}/remove', name: 'remove_ad_sync_option')]
     public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] ActiveDirectorySyncOption $syncOption, Request $request, TranslatorInterface $translator): Response {
         $form = $this->createForm(ConfirmType::class, [], [
             'message' => $translator->trans('ad_sync_options.remove.confirm', [

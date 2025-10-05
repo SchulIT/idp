@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Saml;
 
 use App\Entity\SamlServiceProvider;
@@ -40,7 +42,7 @@ class ServiceProviderEntityStore implements EntityDescriptorStoreInterface {
      * @inheritDoc
      */
     public function has($entityId): bool {
-        return $this->get($entityId) !== null;
+        return $this->get($entityId) instanceof EntityDescriptor;
     }
 
     /**
@@ -88,10 +90,7 @@ class ServiceProviderEntityStore implements EntityDescriptorStoreInterface {
         return $entityDescriptor;
     }
 
-    /**
-     * @param string $use
-     */
-    private function getKeyDescriptor(SamlServiceProvider $serviceProvider, $use): KeyDescriptor {
+    private function getKeyDescriptor(SamlServiceProvider $serviceProvider, string $use): KeyDescriptor {
         $keyDescriptor = new KeyDescriptor();
         $keyDescriptor->setUse($use);
         $certificate = new X509Certificate();

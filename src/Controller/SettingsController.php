@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Settings\AppSettings;
@@ -12,10 +14,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route(path: '/admin/settings')]
-class SettingsController extends AbstractController {
-
-    #[Route(path: '', name: 'settings')]
+class SettingsController extends AbstractController
+{
+    #[Route(path: '/admin/settings', name: 'settings')]
     public function app(Request $request, SettingsManagerInterface $settingsManager, SettingsFormFactoryInterface $formFactory): Response {
         $settings = [
             $settingsManager->createTemporaryCopy(AppSettings::class),

@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Twig;
 
 use League\CommonMark\MarkdownConverterInterface;
+use Override;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -12,6 +15,7 @@ class MarkdownExtension extends AbstractExtension {
     {
     }
 
+    #[Override]
     public function getFilters(): array {
         return [
             new TwigFilter('markdown_to_html', $this->markdown(...), [ 'is_safe' => ['html'] ])

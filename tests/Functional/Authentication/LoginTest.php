@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Functional\Authentication;
 
 use App\Entity\User;
@@ -11,25 +13,20 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken;
 
-class LoginTest extends WebTestCase {
+final class LoginTest extends WebTestCase {
 
-    /** @var EntityManagerInterface */
-    private $em;
+    private \Doctrine\ORM\EntityManagerInterface $em;
 
-    /** @var KernelBrowser */
-    private $client;
+    private \Symfony\Bundle\FrameworkBundle\KernelBrowser $client;
 
-    /** @var User */
-    private $user;
+    private ?\App\Entity\User $user = null;
 
-    /** @var User */
-    private $twoFactorUser;
+    private ?\App\Entity\User $twoFactorUser = null;
 
-    /** @var UserType */
-    private $userType;
+    private ?\App\Entity\UserType $userType = null;
 
     public function setUp(): void {
-        $this->client = static::createClient();
+        $this->client = self::createClient();
 
         $this->em = $this->client->getContainer()
             ->get('doctrine')
@@ -70,6 +67,7 @@ class LoginTest extends WebTestCase {
         $this->em->flush();
     }
 
+    #[\Override]
     public function tearDown(): void {
         $this->em->close();
         $this->em = $this->user = $this->twoFactorUser = $this->userType = null;
@@ -77,14 +75,14 @@ class LoginTest extends WebTestCase {
         parent::tearDown();
     }
 
-    public function testLoginNoTwoFactor() {
+    public function testLoginNoTwoFactor(): void {
         $this->client->restart();
 
         $this->client->followRedirects(true);
 
-        $crawler = $this->client->request('GET', '/dashboard');
+        $crawler = $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, '/dashboard');
         $this->assertEquals('http://localhost/login', $crawler->getUri(), 'Tests whether we land at the login page');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the login page');
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the login page');
 
         $button = $crawler->filter('button[type=submit]')->first();
         $form = $button->form();
@@ -94,7 +92,7 @@ class LoginTest extends WebTestCase {
 
         $crawler = $this->client->submit($form);
         $this->assertEquals('http://localhost/dashboard', $crawler->getUri(), 'Tests whether we land on the dashboard after successful login');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the dashboard');
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the dashboard');
 
         $tokenStorage = $this->client->getContainer()->get('security.token_storage');
 
@@ -106,14 +104,14 @@ class LoginTest extends WebTestCase {
         $this->assertEquals($this->user->getUserIdentifier(), $token->getUserIdentifier());
     }
 
-    public function testLoginTwoFactor() {
+    public function testLoginTwoFactor(): void {
         $this->client->restart();
 
         $this->client->followRedirects(true);
 
-        $crawler = $this->client->request('GET', '/dashboard');
+        $crawler = $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, '/dashboard');
         $this->assertEquals('http://localhost/login', $crawler->getUri(), 'Tests whether we land at the login page');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the login page');
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the login page');
 
         $button = $crawler->filter('button[type=submit]')->first();
         $form = $button->form();
@@ -123,7 +121,7 @@ class LoginTest extends WebTestCase {
 
         $crawler = $this->client->submit($form);
         $this->assertEquals('http://localhost/login/2fa', $crawler->getUri(), 'Tests whether we land on the two factor page');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the two factor page');
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the two factor page');
 
         $tokenStorage = $this->client->getContainer()->get('security.token_storage');
         $this->assertNotNull($tokenStorage->getToken());
@@ -131,9 +129,9 @@ class LoginTest extends WebTestCase {
         $token = $tokenStorage->getToken();
         $this->assertEquals($this->twoFactorUser->getUserIdentifier(), $token->getUserIdentifier());
 
-        $this->client->request('GET', '/dashboard');
+        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, '/dashboard');
         $this->assertEquals('http://localhost/login/2fa', $crawler->getUri(), 'Tests whether we land on the two factor page if we are partially authenticated and browsing to a secured page');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the two factor page (2)');
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the two factor page (2)');
 
 
         $code = TOTP::create($this->twoFactorUser->getGoogleAuthenticatorSecret())->now();
@@ -146,7 +144,7 @@ class LoginTest extends WebTestCase {
         $crawler = $this->client->submit($form);
 
         $this->assertEquals('http://localhost/dashboard', $crawler->getUri(), 'Tests whether we land on the dashboard after login');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the dashboard');
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the dashboard');
 
         $tokenStorage = $this->client->getContainer()->get('security.token_storage');
         $this->assertNotNull($tokenStorage->getToken());
@@ -156,14 +154,14 @@ class LoginTest extends WebTestCase {
         $this->assertEquals($this->twoFactorUser->getUserIdentifier(), $token->getUserIdentifier());
     }
 
-    public function testCancelTwoFactorLogin() {
+    public function testCancelTwoFactorLogin(): void {
         $this->client->restart();
 
         $this->client->followRedirects(true);
 
-        $crawler = $this->client->request('GET', '/dashboard');
+        $crawler = $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, '/dashboard');
         $this->assertEquals('http://localhost/login', $crawler->getUri(), 'Tests whether we land at the login page');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the login page');
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the login page');
 
         $button = $crawler->filter('button[type=submit]')->first();
         $form = $button->form();
@@ -173,7 +171,7 @@ class LoginTest extends WebTestCase {
 
         $crawler = $this->client->submit($form);
         $this->assertEquals('http://localhost/login/2fa', $crawler->getUri(), 'Tests whether we land on the two factor page');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the two factor page');
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the two factor page');
 
         $tokenStorage = $this->client->getContainer()->get('security.token_storage');
         $this->assertNotNull($tokenStorage->getToken());
@@ -186,6 +184,6 @@ class LoginTest extends WebTestCase {
         $crawler = $this->client->click($link);
 
         $this->assertEquals('http://localhost/logout/success', $crawler->getUri(), 'Tests if we land on the logout page after cancelling two factor authentication');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the logout page');
+        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the logout page');
     }
 }

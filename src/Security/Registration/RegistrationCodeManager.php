@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security\Registration;
 
 use App\Entity\RegistrationCode;
@@ -25,7 +27,7 @@ class RegistrationCodeManager {
     }
 
     public function isRedeemed(RegistrationCode $code): bool {
-        return $code->getRedeemingUser() !== null;
+        return $code->getRedeemingUser() instanceof User;
     }
 
     /**

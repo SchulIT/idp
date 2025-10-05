@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\View\Filter;
 
 use App\Entity\UserRole;
@@ -14,7 +16,7 @@ class UserRoleFilter {
     public function handle(?string $roleUuid): UserRoleFilterView {
         $roles = ArrayUtils::createArrayWithKeys(
             $this->userRoleRepository->findAll(),
-            fn(UserRole $role) => (string)$role->getUuid());
+            fn(UserRole $role): string => (string)$role->getUuid());
 
         $currentRole = $roles[$roleUuid] ?? null;
 

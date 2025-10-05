@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Listener;
 
 use App\Entity\User;
@@ -16,8 +18,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class HandleSamlRequestListenerTest extends TestCase {
-    public function testNoRedirectNoMasterRequest() {
+final class HandleSamlRequestListenerTest extends TestCase {
+    public function testNoRedirectNoMasterRequest(): void {
         $request = Request::create('/');
 
         $kernel = $this->createMock(HttpKernelInterface::class);
@@ -33,7 +35,7 @@ class HandleSamlRequestListenerTest extends TestCase {
         $this->assertNull($event->getResponse());
     }
 
-    public function testNoRedirectNoSamlRequest() {
+    public function testNoRedirectNoSamlRequest(): void {
         $request = Request::create('/');
 
         $kernel = $this->createMock(HttpKernelInterface::class);
@@ -55,7 +57,7 @@ class HandleSamlRequestListenerTest extends TestCase {
         $this->assertNull($event->getResponse());
     }
 
-    public function testRedirectExistingSamlRequest() {
+    public function testRedirectExistingSamlRequest(): void {
         $request = Request::create('/');
 
         $kernel = $this->createMock(HttpKernelInterface::class);
@@ -83,7 +85,7 @@ class HandleSamlRequestListenerTest extends TestCase {
         $this->assertEquals('/saml/sso', $response->headers->get('Location'));
     }
 
-    public function testNoRedirectExistingSamlRequestNotFullyAuthorized() {
+    public function testNoRedirectExistingSamlRequestNotFullyAuthorized(): void {
         $request = Request::create('/');
 
         $kernel = $this->createMock(HttpKernelInterface::class);
@@ -107,7 +109,7 @@ class HandleSamlRequestListenerTest extends TestCase {
         $this->assertNull($event->getResponse());
     }
 
-    public function testNoRedirectExistingSamlRequestAnonymousToken() {
+    public function testNoRedirectExistingSamlRequestAnonymousToken(): void {
         $request = Request::create('/');
 
         $kernel = $this->createMock(HttpKernelInterface::class);
@@ -131,7 +133,7 @@ class HandleSamlRequestListenerTest extends TestCase {
         $this->assertNull($event->getResponse());
     }
 
-    public function testNoRedirectExistingSamlRequestOnSsoPage() {
+    public function testNoRedirectExistingSamlRequestOnSsoPage(): void {
         $request = Request::create('/saml/sso');
         $request->attributes->set('_route', 'idp_saml');
 

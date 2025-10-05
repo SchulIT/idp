@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Security;
 
 use App\Security\PasswordStrengthHelper;
@@ -7,8 +9,8 @@ use App\Settings\AppSettings;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Validation;
 
-class PasswordStrengthHelperTest extends TestCase {
-    public function testInvalidPasswords() {
+final class PasswordStrengthHelperTest extends TestCase {
+    public function testInvalidPasswords(): void {
         $invalidPasswords = [
             'ABc123$', // to short (but with all requirements)
             'abc123$$', // no upper/lowercase letters

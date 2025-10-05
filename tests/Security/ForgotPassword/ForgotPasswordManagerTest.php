@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Security\ForgotPassword;
 
 use App\Entity\ActiveDirectoryUser;
@@ -20,8 +22,8 @@ use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
-class ForgotPasswordManagerTest extends TestCase {
-    public function testActiveDirectoryUsersCannotRequestNewPassword() {
+final class ForgotPasswordManagerTest extends TestCase {
+    public function testActiveDirectoryUsersCannotRequestNewPassword(): void {
         $manager = new ForgotPasswordManager(
             $this->createMock(PasswordResetTokenRepositoryInterface::class),
             $this->createMock(Environment::class),
@@ -37,7 +39,7 @@ class ForgotPasswordManagerTest extends TestCase {
         $manager->createPasswordResetRequest(new ActiveDirectoryUser(), 'foo@bla.com');
     }
 
-    public function testUsersWithoutEmailAddressCannotRequestNewPassword() {
+    public function testUsersWithoutEmailAddressCannotRequestNewPassword(): void {
         $manager = new ForgotPasswordManager(
             $this->createMock(PasswordResetTokenRepositoryInterface::class),
             $this->createMock(Environment::class),
@@ -53,7 +55,7 @@ class ForgotPasswordManagerTest extends TestCase {
         $manager->createPasswordResetRequest(new User(), null);
     }
 
-    public function testTooManyRequests() {
+    public function testTooManyRequests(): void {
         $dateHelper = new DateHelper();
         $dateHelper->setToday(new DateTime('2023-09-02 00:00:00'));
 
@@ -83,7 +85,7 @@ class ForgotPasswordManagerTest extends TestCase {
         $manager->createPasswordResetRequest(new User(), 'foo@example.com');
     }
 
-    public function testGarbageCollection() {
+    public function testGarbageCollection(): void {
         $repository = $this->createMock(PasswordResetTokenRepositoryInterface::class);
         $repository
             ->expects($this->once())
@@ -103,7 +105,7 @@ class ForgotPasswordManagerTest extends TestCase {
         $manager->garbageCollect();
     }
 
-    public function testCreateNewToken() {
+    public function testCreateNewToken(): void {
         $dateHelper = new DateHelper();
         $dateHelper->setToday(new DateTime('2023-09-02 00:00:00'));
 

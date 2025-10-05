@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Migrations\Factory;
 
 use Doctrine\Migrations\AbstractMigration;
@@ -8,7 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class MigrationFactoryDecorator implements MigrationFactory {
 
-    public function __construct(private MigrationFactory $factory, private EntityManagerInterface $entityManager)
+    public function __construct(private readonly MigrationFactory $factory, private readonly EntityManagerInterface $entityManager)
     {
     }
 

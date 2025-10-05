@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security;
 
+use App\Entity\KioskUser;
 use App\Repository\KioskUserRepositoryInterface;
 use App\Security\Badge\ClientIpAddressBadge;
+use Override;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +28,7 @@ class KioskUserAuthenticator extends AbstractLoginFormAuthenticator {
     /**
      * @inheritDoc
      */
+    #[Override]
     public function supports(Request $request): bool {
         return $request->query->has('token');
     }
@@ -50,7 +55,7 @@ class KioskUserAuthenticator extends AbstractLoginFormAuthenticator {
 
         $user = $this->repository->findOneByToken($token);
 
-        if($user === null) {
+        if(!$user instanceof KioskUser) {
             throw new UserNotFoundException();
         }
 

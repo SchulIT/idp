@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security;
 
 use App\Entity\User;
 use App\Security\EmailConfirmation\ConfirmationManager;
+use DateTime;
 use SchulIT\CommonBundle\Helper\DateHelper;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -28,19 +31,19 @@ class UserChecker implements UserCheckerInterface {
         }
 
         // First check: is the user account marked "active"?
-        if($user->isActive() !== true) {
+        if(!$user->isActive()) {
             throw new AccountDisabledException();
         }
 
         // Second check: does the user has a time window in which the account is active?
-        if($user->getEnabledFrom() !== null || $user->getEnabledUntil() !== null) {
+        if($user->getEnabledFrom() instanceof DateTime || $user->getEnabledUntil() instanceof DateTime) {
             $today = $this->dateHelper->getToday();
 
-            if($user->getEnabledFrom() !== null && $user->getEnabledFrom() > $today) {
+            if($user->getEnabledFrom() instanceof DateTime && $user->getEnabledFrom() > $today) {
                 throw new AccountDisabledException();
             }
 
-            if($user->getEnabledUntil() !== null && $user->getEnabledUntil() < $today) {
+            if($user->getEnabledUntil() instanceof DateTime && $user->getEnabledUntil() < $today) {
                 throw new AccountDisabledException();
             }
         }

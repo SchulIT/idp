@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Form\DataTransformer\KeyValueContainer;
@@ -30,7 +32,7 @@ class ServiceAttribute {
     private string $label;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $description;
+    private ?string $description = null;
 
     #[ORM\Column(type: 'boolean')]
     #[Serializer\Exclude]
@@ -42,7 +44,7 @@ class ServiceAttribute {
 
     #[ORM\Column(type: 'string', enumType: ServiceAttributeType::class)]
     #[Assert\NotNull]
-    private ?ServiceAttributeType $type;
+    private ?ServiceAttributeType $type = ServiceAttributeType::Text;
 
     #[ORM\Column(type: 'boolean')]
     private bool $isMultipleChoice = false;
@@ -63,7 +65,6 @@ class ServiceAttribute {
     public function __construct() {
         $this->uuid = Uuid::uuid4();
         $this->services = new ArrayCollection();
-        $this->type = ServiceAttributeType::Text;
     }
 
     public function getName(): string {

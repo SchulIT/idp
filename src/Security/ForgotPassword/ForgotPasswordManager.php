@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security\ForgotPassword;
 
 use App\Entity\ActiveDirectoryUser;
@@ -39,13 +41,13 @@ class ForgotPasswordManager {
             throw new UserCannotResetPasswordException(Reason::ActiveDirectoryUser);
         }
 
-        if(empty($emailAddress)) {
+        if($emailAddress === null || $emailAddress === '' || $emailAddress === '0') {
             throw new UserCannotResetPasswordException(Reason::NoEmailAddress);
         }
 
         $existingToken = $this->passwordResetTokenRepository->findMostRecentNonExpired($user);
 
-        if($existingToken !== null) {
+        if($existingToken instanceof PasswordResetToken) {
             throw new TooManyRequestsException();
         }
 
@@ -91,7 +93,7 @@ class ForgotPasswordManager {
     /**
      * @throws TokenExpiredException
      */
-    public function updatePassword(PasswordResetToken $token, #[SensitiveParameter] $newPassword): void {
+    public function updatePassword(PasswordResetToken $token, #[SensitiveParameter] string $newPassword): void {
         if($token < $this->dateHelper->getNow()) {
             throw new TokenExpiredException();
         }

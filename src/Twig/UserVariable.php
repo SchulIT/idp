@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Twig;
 
 use App\Entity\User;
 use App\Service\UserServiceProviderResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class UserVariable {
     public function __construct(private readonly TokenStorageInterface $tokenStorage, private readonly UserServiceProviderResolver $serviceProviderResolver)
@@ -14,7 +17,7 @@ class UserVariable {
     public function getUser(): ?User {
         $token = $this->tokenStorage->getToken();
 
-        if($token === null) {
+        if(!$token instanceof TokenInterface) {
             return null;
         }
 

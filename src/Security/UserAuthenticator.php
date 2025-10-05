@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security;
 
 use AdAuth\AdAuthInterface;
@@ -8,9 +10,11 @@ use AdAuth\Response\AuthenticationResponse;
 use AdAuth\Response\AuthenticationSuccessResponse;
 use AdAuth\SocketException;
 use App\Entity\ActiveDirectoryUser;
+use App\Entity\User;
 use App\Repository\UserRepositoryInterface;
 use App\Security\Badge\CachePasswordBadge;
 use App\Settings\LoginSettings;
+use Override;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -56,6 +60,7 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator {
     /**
      * @inheritDoc
      */
+    #[Override]
     public function supports(Request $request): bool {
         return $request->attributes->get('_route') === $this->checkRoute
             && $request->isMethod('POST');
@@ -111,9 +116,9 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator {
             throw new BadRequestHttpException('Password must not empty');
         }
 
-        if($this->loginSettings->allowEmailOnLogin && $this->userRepository->findOneByUsername($username) === null) {
+        if($this->loginSettings->allowEmailOnLogin && !$this->userRepository->findOneByUsername($username) instanceof User) {
             $user = $this->userRepository->findOneByEmail($username);
-            if($user !== null && !empty($user->getEmail())) {
+            if($user instanceof User && !in_array($user->getEmail(), [null, '', '0'], true)) {
                 $username = $user->getUsername();
             }
         }
@@ -121,8 +126,8 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator {
         return new Passport(
             new UserBadge($username),
             new CustomCredentials(
-                function($password, PasswordAuthenticatedUserInterface $user) {
-                    if($user instanceof ActiveDirectoryUser && $this->isActiveDirectoryEnabled === true) {
+                function($password, PasswordAuthenticatedUserInterface $user): bool {
+                    if($user instanceof ActiveDirectoryUser && $this->isActiveDirectoryEnabled) {
                         return $this->authenticateUsingActiveDirectory(new Credentials($user->getUserIdentifier(), $password), $user);
                     } else {
                         return $this->hasher->isPasswordValid($user, $password);

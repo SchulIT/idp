@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace App\Tests\Security;
 
 use App\Entity\User;
@@ -9,9 +12,9 @@ use DateTime;
 use PHPUnit\Framework\TestCase;
 use SchulIT\CommonBundle\Helper\DateHelper;
 
-class UserCheckerTest extends TestCase {
+final class UserCheckerTest extends TestCase {
 
-    public function testGrantActiveUser() {
+    public function testGrantActiveUser(): void {
         $dateHelper = new DateHelper();
         $userChecker = new UserChecker($dateHelper);
 
@@ -24,7 +27,7 @@ class UserCheckerTest extends TestCase {
         $this->addToAssertionCount(1);
     }
 
-    public function testDoNotGrantNonActiveUser() {
+    public function testDoNotGrantNonActiveUser(): void {
         $this->expectException(AccountDisabledException::class);
         $dateHelper = new DateHelper();
         $userChecker = new UserChecker($dateHelper);
@@ -43,7 +46,7 @@ class UserCheckerTest extends TestCase {
      *
      *
      */
-    public function testDoNotGrandActiveUserWithTimeWindowFutureEnabled() {
+    public function testDoNotGrandActiveUserWithTimeWindowFutureEnabled(): void {
         $this->expectException(AccountDisabledException::class);
         $dateHelper = new DateHelper(new DateTime('2018-08-01'));
         $userChecker = new UserChecker($dateHelper);
@@ -62,7 +65,7 @@ class UserCheckerTest extends TestCase {
      *
      *
      */
-    public function testDoNotGrandActiveUserWithTimeWindowPastEnabled() {
+    public function testDoNotGrandActiveUserWithTimeWindowPastEnabled(): void {
         $this->expectException(AccountDisabledException::class);
         $dateHelper = new DateHelper(new DateTime('2018-08-01'));
         $userChecker = new UserChecker($dateHelper);
@@ -75,7 +78,7 @@ class UserCheckerTest extends TestCase {
         $userChecker->checkPostAuth($user);
     }
 
-    public function testGrandActiveUserWithTimeWindow() {
+    public function testGrandActiveUserWithTimeWindow(): void {
         $dateHelper = new DateHelper(new DateTime('2018-08-01'));
         $userChecker = new UserChecker($dateHelper);
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Entity\ServiceAttribute;
@@ -29,7 +31,7 @@ class AttributePersister {
         /** @var ServiceAttribute[] $attributes */
         $attributes = $this->makeArrayWithKeys(
             $this->attributeRepository->findAll(),
-            fn(ServiceAttribute $attribute) => $attribute->getName()
+            fn(ServiceAttribute $attribute): string => $attribute->getName()
         );
 
         if($this->attributeValueRepository instanceof TransactionalRepositoryInterface) {
@@ -66,7 +68,7 @@ class AttributePersister {
     }
 
     public function persistUserAttributes(array $values, User $user): void {
-        $factory = function() use ($user) {
+        $factory = function() use ($user): \App\Entity\ServiceAttributeValue {
             $value = (new ServiceAttributeValue())
                 ->setUser($user);
             $user->getAttributes()->add($value);
@@ -77,14 +79,14 @@ class AttributePersister {
         /** @var ServiceAttributeValue[] $currentUserAttributes */
         $currentUserAttributes = $this->makeArrayWithKeys(
             $user->getAttributes()->toArray(),
-            fn(ServiceAttributeValue $attributeValue) => $attributeValue->getAttribute()->getName()
+            fn(ServiceAttributeValue $attributeValue): string => $attributeValue->getAttribute()->getName()
         );
 
         $this->persist($values, $currentUserAttributes, $factory);
     }
 
     public function persistUserRoleAttributes(array $values, UserRole $userRole): void {
-        $factory = function() use ($userRole) {
+        $factory = function() use ($userRole): \App\Entity\ServiceAttributeUserRoleValue {
             $value = (new ServiceAttributeUserRoleValue())
                 ->setUserRole($userRole);
             $userRole->getAttributes()->add($value);
@@ -95,14 +97,14 @@ class AttributePersister {
         /** @var ServiceAttributeUserRoleValue[] $currentUserAttributes */
         $currentUserAttributes = $this->makeArrayWithKeys(
             $userRole->getAttributes()->toArray(),
-            fn(ServiceAttributeUserRoleValue $attributeValue) => $attributeValue->getAttribute()->getName()
+            fn(ServiceAttributeUserRoleValue $attributeValue): string => $attributeValue->getAttribute()->getName()
         );
 
         $this->persist($values, $currentUserAttributes, $factory);
     }
 
     public function persistUserTypeAttributes(array $values, UserType $userType): void {
-        $factory = function() use ($userType) {
+        $factory = function() use ($userType): \App\Entity\ServiceAttributeUserTypeValue {
             $value = (new ServiceAttributeUserTypeValue())
                 ->setUserType($userType);
             $userType->getAttributes()->add($value);
@@ -113,7 +115,7 @@ class AttributePersister {
         /** @var ServiceAttributeUserRoleValue[] $currentUserAttributes */
         $currentUserAttributes = $this->makeArrayWithKeys(
             $userType->getAttributes()->toArray(),
-            fn(ServiceAttributeUserTypeValue $attributeValue) => $attributeValue->getAttribute()->getName()
+            fn(ServiceAttributeUserTypeValue $attributeValue): string => $attributeValue->getAttribute()->getName()
         );
 
         $this->persist($values, $currentUserAttributes, $factory);

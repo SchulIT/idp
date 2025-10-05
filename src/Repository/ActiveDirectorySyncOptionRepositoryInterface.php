@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\ActiveDirectorySyncOption;
@@ -11,13 +13,7 @@ interface ActiveDirectorySyncOptionRepositoryInterface {
      */
     public function findAll(): array;
 
-    /**
-     * @param ActiveDirectorySyncOption $option
-     */
     public function persist(ActiveDirectorySyncOption $option): void;
 
-    /**
-     * @param ActiveDirectorySyncOption $option
-     */
     public function remove(ActiveDirectorySyncOption $option): void;
 }

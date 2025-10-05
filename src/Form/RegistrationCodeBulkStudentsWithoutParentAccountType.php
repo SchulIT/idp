@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Converter\UserStringConverter;
@@ -19,7 +21,7 @@ class RegistrationCodeBulkStudentsWithoutParentAccountType extends AbstractType 
     public function buildForm(FormBuilderInterface $builder, array $options): void {
         $choices = ArrayUtils::createArrayWithKeys(
             $this->userRepository->findAllStudentsWithoutParents(),
-            fn(User $user) => $this->userConverter->convert($user));
+            fn(User $user): string => $this->userConverter->convert($user));
 
         $builder
             ->add('students', ChoiceType::class, [

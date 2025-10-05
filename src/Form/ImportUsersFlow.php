@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\User;
@@ -10,6 +12,7 @@ use App\Repository\UserRepositoryInterface;
 use Craue\FormFlowBundle\Form\FormFlow;
 use League\Csv\Exception as LeagueException;
 use \Exception;
+use Override;
 
 class ImportUsersFlow extends FormFlow {
 
@@ -20,6 +23,7 @@ class ImportUsersFlow extends FormFlow {
     {
     }
 
+    #[Override]
     public function loadStepsConfig(): array {
         return [
             [
@@ -39,6 +43,7 @@ class ImportUsersFlow extends FormFlow {
         ];
     }
 
+    #[Override]
     public function getFormOptions($step, array $options = []): array {
         $options = parent::getFormOptions($step, $options);
 
@@ -51,7 +56,7 @@ class ImportUsersFlow extends FormFlow {
 
             // Compute removal (if necessary)
             if($data->isPerformSync()) {
-                $usernames = array_map(fn(User $user) => $user->getUsername(), $addOrUpdate);
+                $usernames = array_map(fn(User $user): string => $user->getUsername(), $addOrUpdate);
                 $toDelete = $this->userRepository->findAllNotInUsernamesList($usernames, $data->getUserType());
                 $data->setRemoveUsers($toDelete);
             }

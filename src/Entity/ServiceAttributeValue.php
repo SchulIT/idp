@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use DateTime;
@@ -23,7 +25,7 @@ class ServiceAttributeValue implements ServiceAttributeValueInterface {
     
     #[ORM\Column(type: 'datetime', nullable: true)]
     #[Gedmo\Timestampable(on: 'update', field: ['value'])]
-    private ?DateTime $updatedAt;
+    private ?DateTime $updatedAt = null;
 
     public function getAttribute(): ServiceAttribute {
         return $this->attribute;

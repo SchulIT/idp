@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\KioskUser;
@@ -13,21 +15,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route(path: '/users/kiosk')]
-class KioskUserController extends AbstractController {
-
+class KioskUserController extends AbstractController
+{
     public function __construct(private readonly KioskUserRepositoryInterface $repository)
     {
     }
-
-    #[Route(path: '', name: 'kiosk_users')]
+    #[Route(path: '/users/kiosk', name: 'kiosk_users')]
     public function index(): Response {
         return $this->render('users/kiosk/index.html.twig', [
             'users' => $this->repository->findAll()
         ]);
     }
-
-    #[Route(path: '/add', name: 'add_kiosk_user')]
+    #[Route(path: '/users/kiosk/add', name: 'add_kiosk_user')]
     public function add(Request $request, KioskUserTokenGenerator $tokenGenerator): Response {
         $user = (new KioskUser())
             ->setToken($tokenGenerator->generateToken());
@@ -45,8 +44,7 @@ class KioskUserController extends AbstractController {
             'form' => $form->createView()
         ]);
     }
-
-    #[Route(path: '/{uuid}/edit', name: 'edit_kiosk_user')]
+    #[Route(path: '/users/kiosk/{uuid}/edit', name: 'edit_kiosk_user')]
     public function edit(#[MapEntity(mapping: ['uuid' => 'uuid'])] KioskUser $user, Request $request): Response {
         $form = $this->createForm(KioskUserType::class, $user);
         $form->handleRequest($request);
@@ -62,8 +60,7 @@ class KioskUserController extends AbstractController {
             'form' => $form->createView()
         ]);
     }
-
-    #[Route(path: '/{uuid}/remove', name: 'remove_kiosk_user')]
+    #[Route(path: '/users/kiosk/{uuid}/remove', name: 'remove_kiosk_user')]
     public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] KioskUser $user, Request $request): Response {
         $form = $this->createForm(ConfirmType::class, null, [
             'message' => 'users.kiosk.remove.confirm',

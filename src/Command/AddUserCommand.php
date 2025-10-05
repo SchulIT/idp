@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Entity\User;
@@ -22,7 +24,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class AddUserCommand extends Command {
 
     public function __construct(private readonly UserTypeRepositoryInterface $userTypeRepository, private readonly UserRepositoryInterface $userRepository,
-                                private readonly UserPasswordHasherInterface $passwordHasher, private readonly ValidatorInterface $validator, $name = null)
+                                private readonly UserPasswordHasherInterface $passwordHasher, private readonly ValidatorInterface $validator, ?string $name = null)
     {
         parent::__construct($name);
     }
@@ -86,7 +88,7 @@ class AddUserCommand extends Command {
         $isAdmin = $io->askQuestion($question);
 
         $userTypes = $this->userTypeRepository->findAll();
-        $choices = array_map(fn(UserType $type) => $type->getAlias(), $userTypes);
+        $choices = array_map(fn(UserType $type): string => $type->getAlias(), $userTypes);
 
         $question = new ChoiceQuestion('Benutzertyp wählen', $choices, 0);
         $selectedUserTypeAlias = $io->askQuestion($question);

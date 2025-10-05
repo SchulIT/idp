@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Request;
 
 use Symfony\Component\Validator\Constraints as Assert;
@@ -69,58 +71,34 @@ class ActiveDirectoryUserRequest {
         return $this->groups;
     }
 
-    /**
-     * @param string $objectGuid
-     */
     public function setObjectGuid(string $objectGuid): void {
         $this->objectGuid = $objectGuid;
     }
 
-    /**
-     * @param string $samAccountName
-     */
     public function setSamAccountName(string $samAccountName): void {
         $this->samAccountName = $samAccountName;
     }
 
-    /**
-     * @param string $userPrincipalName
-     */
     public function setUserPrincipalName(string $userPrincipalName): void {
         $this->userPrincipalName = $userPrincipalName;
     }
 
-    /**
-     * @param string $firstname
-     */
     public function setFirstname(string $firstname): void {
         $this->firstname = $firstname;
     }
 
-    /**
-     * @param string $lastname
-     */
     public function setLastname(string $lastname): void {
         $this->lastname = $lastname;
     }
 
-    /**
-     * @param string $email
-     */
     public function setEmail(string $email): void {
         $this->email = $email;
     }
 
-    /**
-     * @param string $ou
-     */
     public function setOu(string $ou): void {
         $this->ou = $ou;
     }
 
-    /**
-     * @param array $groups
-     */
     public function setGroups(array $groups): void {
         $this->groups = $groups;
     }

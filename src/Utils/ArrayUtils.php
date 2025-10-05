@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils;
 
 use App\Form\DataTransformer\KeyValueContainer;
@@ -25,7 +27,7 @@ class ArrayUtils {
             throw new InvalidArgumentException('$keys and $items parameter need to have the same length.');
         }
 
-        for($i = 0; $i < $count; $i++) {
+        for($i = 0; $i < $count; ++$i) {
             $array[$keys[$i]] = $values[$i];
         }
 
@@ -60,11 +62,6 @@ class ArrayUtils {
         if ($data instanceof KeyValueContainer) {
             return $data->toArray();
         }
-
-        if ($data instanceof Traversable) {
-            return iterator_to_array($data);
-        }
-
-        throw new InvalidArgumentException('$data must be an array or Traversable.');
+        return iterator_to_array($data);
     }
 }

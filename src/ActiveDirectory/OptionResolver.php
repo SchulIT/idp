@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ActiveDirectory;
 
 use App\Entity\ActiveDirectorySyncOptionInterface;
@@ -63,13 +65,8 @@ class OptionResolver {
     /**
      * @param string[] $groups
      */
-    private function checkForGroupMembership(ActiveDirectorySyncOptionInterface $options, array $groups): bool {
-        foreach($groups as $group) {
-            if($options->getSource() === $group) {
-                return true;
-            }
-        }
-
-        return false;
+    private function checkForGroupMembership(ActiveDirectorySyncOptionInterface $options, array $groups): bool
+    {
+        return in_array($options->getSource(), $groups, true);
     }
 }

@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security\Registration;
 
+use App\Entity\RegistrationCode;
 use App\Repository\RegistrationCodeRepositoryInterface;
 
 class CodeGenerator {
@@ -18,8 +21,8 @@ class CodeGenerator {
     private function generateRandomCode(): string {
         $code = '';
 
-        for($blockIdx = 0; $blockIdx < $this->blocks; $blockIdx++) {
-            for($charIdx = 0; $charIdx < $this->charactersPerBlock; $charIdx++) {
+        for($blockIdx = 0; $blockIdx < $this->blocks; ++$blockIdx) {
+            for($charIdx = 0; $charIdx < $this->charactersPerBlock; ++$charIdx) {
                 $randomIdx = random_int(0, 1000) % strlen($this->characters);
                 $code .= substr($this->characters, $randomIdx, 1);
             }
@@ -35,7 +38,7 @@ class CodeGenerator {
     public function generateCode(): string {
         do {
             $code = $this->generateRandomCode();
-        } while($this->codeRepository->findOneByCode($code) !== null);
+        } while($this->codeRepository->findOneByCode($code) instanceof RegistrationCode);
 
         return $code;
     }

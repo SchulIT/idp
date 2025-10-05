@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Entity\ServiceProvider;
@@ -7,6 +9,7 @@ use App\Entity\User;
 use App\Entity\UserRole;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -20,12 +23,10 @@ class UserServiceProviderResolver {
     private function getUser(): ?UserInterface {
         $token = $this->tokenStorage->getToken();
 
-        if($token === null) {
+        if(!$token instanceof TokenInterface) {
             return null;
         }
-
-        $user = $token->getUser();
-        return $user;
+        return $token->getUser();
     }
 
     /**
@@ -50,7 +51,7 @@ class UserServiceProviderResolver {
      * @return ArrayCollection
      */
     public function getServices(User $user = null): iterable {
-        if($user === null) {
+        if(!$user instanceof User) {
             return new ArrayCollection();
         }
 
@@ -82,7 +83,7 @@ class UserServiceProviderResolver {
         }
 
         // sort by name
-        usort($services, fn(ServiceProvider $serviceProviderA, ServiceProvider $serviceProviderB) => strcmp($serviceProviderA->getName(), $serviceProviderB->getName()));
+        usort($services, fn(ServiceProvider $serviceProviderA, ServiceProvider $serviceProviderB): int => strcmp($serviceProviderA->getName(), $serviceProviderB->getName()));
 
         return new ArrayCollection(array_values($services));
     }

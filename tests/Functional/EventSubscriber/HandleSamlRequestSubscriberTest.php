@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Functional\EventSubscriber;
 
 use App\Entity\User;
@@ -8,7 +10,7 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class HandleSamlRequestSubscriberTest extends WebTestCase {
+final class HandleSamlRequestSubscriberTest extends WebTestCase {
 
     private ?ObjectManager $em;
     private KernelBrowser $client;
@@ -16,7 +18,7 @@ class HandleSamlRequestSubscriberTest extends WebTestCase {
     private ?UserType $userType;
 
     public function setUp(): void {
-        $this->client = static::createClient();
+        $this->client = self::createClient();
 
         $this->em = $this->client->getContainer()
             ->get('doctrine')
@@ -43,6 +45,7 @@ class HandleSamlRequestSubscriberTest extends WebTestCase {
         $this->em->flush();
     }
 
+    #[\Override]
     public function tearDown(): void {
         $this->em->close();
         $this->em = $this->user = null;
@@ -50,9 +53,9 @@ class HandleSamlRequestSubscriberTest extends WebTestCase {
         parent::tearDown();
     }
 
-    public function testStoreAndRedirectSamlPostRequest() {
+    public function testStoreAndRedirectSamlPostRequest(): void {
         $this->client->followRedirects(true);
-        $crawler = $this->client->request('POST', '/idp/saml', [
+        $crawler = $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_POST, '/idp/saml', [
             'SAMLRequest' => 'foo'
         ]);
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\ActiveDirectoryGradeSyncOption;
@@ -25,7 +27,7 @@ class ActiveDirectoryGradeSyncOptionRepository implements ActiveDirectoryGradeSy
     /**
      * @inheritDoc
      */
-    public function persist(ActiveDirectoryGradeSyncOption $option) {
+    public function persist(ActiveDirectoryGradeSyncOption $option): void {
         $this->em->persist($option);
         $this->em->flush();
     }
@@ -33,7 +35,7 @@ class ActiveDirectoryGradeSyncOptionRepository implements ActiveDirectoryGradeSy
     /**
      * @inheritDoc
      */
-    public function remove(ActiveDirectoryGradeSyncOption $option) {
+    public function remove(ActiveDirectoryGradeSyncOption $option): void {
         $this->em->remove($option);
         $this->em->flush();
     }

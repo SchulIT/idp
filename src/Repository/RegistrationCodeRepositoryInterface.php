@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\RegistrationCode;
@@ -17,13 +19,11 @@ interface RegistrationCodeRepositoryInterface extends TransactionalRepositoryInt
     public function findAllUuids(): array;
 
     /**
-     * @param string $grade
      * @return RegistrationCode[]
      */
     public function findByGrade(string $grade): array;
 
     /**
-     * @param User $user
      * @return RegistrationCode[]
      */
     public function findAllByStudent(User $user): array;
@@ -31,9 +31,6 @@ interface RegistrationCodeRepositoryInterface extends TransactionalRepositoryInt
     /**
      * Checks whether at least one code is already in the system. It does not care about whether or not the code
      * was redeemed.
-     *
-     * @param User $user
-     * @return bool
      */
     public function codeForStudentExists(User $user): bool;
 

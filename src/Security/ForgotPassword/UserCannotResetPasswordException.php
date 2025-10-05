@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security\ForgotPassword;
 
 use Exception;
@@ -10,9 +12,6 @@ class UserCannotResetPasswordException extends Exception {
         parent::__construct($message, $code, $previous);
     }
 
-    /**
-     * @return Reason
-     */
     public function getReason(): Reason {
         return $this->reason;
     }#

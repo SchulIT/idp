@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use DateTime;
@@ -241,7 +243,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
 
     public function getExternalId(): ?string {
         if($this->linkedStudents->count() > 0) {
-            return implode(',', $this->linkedStudents->map(fn(User $user) => $user->getEmail())->toArray());
+            return implode(',', $this->linkedStudents->map(fn(User $user): ?string => $user->getEmail())->toArray());
         }
 
         return $this->externalId;
@@ -298,7 +300,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
 
     /**
      * @param string[] $roles
-     * @return User
      */
     public function setRoles(array $roles): self {
         $this->roles = $roles;
@@ -313,8 +314,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         return null;
     }
 
-    public function eraseCredentials(): void {
-        return;
+    public function eraseCredentials(): void
+    {
     }
 
     /**
@@ -345,7 +346,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
 
     /**
      * @param string[] $backupCodes
-     * @return User
      */
     public function setBackupCodes(array $backupCodes): self {
         $this->backupCodes = $backupCodes;

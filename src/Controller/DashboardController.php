@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
+use App\Entity\EmailConfirmation;
+use App\Entity\RegistrationCode;
 use App\Entity\User;
 use App\Form\LinkStudentType;
 use App\Repository\RegistrationCodeRepositoryInterface;
@@ -11,6 +15,7 @@ use App\Security\Session\ActiveSessionsResolver;
 use App\Security\Session\LogoutHelper;
 use App\Security\Voter\LinkStudentVoter;
 use App\Service\UserServiceProviderResolver;
+use DateTime;
 use Exception;
 use SchulIT\CommonBundle\Helper\DateHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,11 +58,11 @@ class DashboardController extends AbstractController {
 
     #[Route(path: '/confirmation', name: 'send_pending_email_confirmation', methods: ['POST'])]
     public function sendEmailConfirmation(#[CurrentUser] User $user, Request $request, ConfirmationManager $confirmationManager, TranslatorInterface $translator): Response {
-        if($user->getEmailConfirmation() === null) {
+        if(!$user->getEmailConfirmation() instanceof EmailConfirmation) {
             return $this->redirectToDashboard();
         }
 
-        if($this->isCsrfTokenValid(self::CsrfTokenId, $request->request->get('_csrf_token')) !== true) {
+        if(!$this->isCsrfTokenValid(self::CsrfTokenId, $request->request->get('_csrf_token'))) {
             $this->addFlash('error', $translator->trans('Invalid CSRF token.', [], 'security'));
             return $this->redirectToDashboard();
         }
@@ -79,15 +84,14 @@ class DashboardController extends AbstractController {
         if($form->isSubmitted() && $form->isValid() && !empty($form->get('code')->getData())) {
             $code = $codeRepository->findOneByCode($form->get('code')->getData());
 
-            if($code !== null) {
-                if($code->getValidFrom() !== null && $code->getValidFrom() > $dateHelper->getToday()) {
+            if($code instanceof RegistrationCode) {
+                if ($code->getValidFrom() instanceof DateTime && $code->getValidFrom() > $dateHelper->getToday()) {
                     $this->addFlash('error', $translator->trans('register.redeem.error.not_yet_valid', [
                         '%date%' => $code->getValidFrom()->format($translator->trans('date.format'))
                     ], 'security'));
-                }
-                else if($user->getLinkedStudents()->contains($code->getStudent())) {
+                } elseif ($user->getLinkedStudents()->contains($code->getStudent())) {
                     $this->addFlash('error', 'link.student.error.already_linked');
-                } if($code->getRedeemingUser() !== null) {
+                } if($code->getRedeemingUser() instanceof User) {
                     $this->addFlash('error', $translator->trans('register.redeem.error.already_redeemed', [], 'security'));
                 } else {
                     $user->addLinkedStudent($code->getStudent());

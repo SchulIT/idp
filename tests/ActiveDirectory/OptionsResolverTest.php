@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\ActiveDirectory;
 
 use App\ActiveDirectory\OptionResolver;
@@ -9,8 +11,8 @@ use App\Entity\ActiveDirectorySyncSourceType;
 use App\Entity\UserType;
 use PHPUnit\Framework\TestCase;
 
-class OptionsResolverTest extends TestCase {
-    public function testResolveGradeByGroup() {
+final class OptionsResolverTest extends TestCase {
+    public function testResolveGradeByGroup(): void {
         $options = [
             (new ActiveDirectoryGradeSyncOption())->setSource('5A')->setSourceType(ActiveDirectorySyncSourceType::Group)->setGrade('5A'),
             (new ActiveDirectoryGradeSyncOption())->setSource('6A')->setSourceType(ActiveDirectorySyncSourceType::Group)->setGrade('6A'),
@@ -25,7 +27,7 @@ class OptionsResolverTest extends TestCase {
         $this->assertEquals($options[0], $optionResolver->getOption($options, 'OU=6A,DC=test,DC=lokal', [ '5A', '6A' ]));
     }
 
-    public function testResolveGradeByOU() {
+    public function testResolveGradeByOU(): void {
         $options = [
             (new ActiveDirectoryGradeSyncOption())->setSource('OU=5A,DC=test,DC=lokal')->setSourceType(ActiveDirectorySyncSourceType::Ou)->setGrade('5A'),
             (new ActiveDirectoryGradeSyncOption())->setSource('OU=6A,DC=test,DC=lokal')->setSourceType(ActiveDirectorySyncSourceType::Ou)->setGrade('6A'),
@@ -40,7 +42,7 @@ class OptionsResolverTest extends TestCase {
         $this->assertEquals($options[1], $optionResolver->getOption($options, 'OU=6A,DC=test,DC=lokal', [ '5A' ]));
     }
 
-    public function testResolveUserTypeByGroup() {
+    public function testResolveUserTypeByGroup(): void {
         $userTypeTeacher = (new UserType())
             ->setName('Teacher');
 
@@ -64,7 +66,7 @@ class OptionsResolverTest extends TestCase {
         $this->assertNull($optionResolver->getOption($options, 'OU=Bla,DC=test,DC=lokal', [ ]));
     }
 
-    public function testResolveUserTypeByOU() {
+    public function testResolveUserTypeByOU(): void {
         $userTypeTeacher = (new UserType())
             ->setName('Teacher');
 

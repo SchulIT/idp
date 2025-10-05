@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Entity\SamlServiceProvider;
@@ -17,7 +19,7 @@ class ServiceProviderConfirmationService {
     public function needsConfirmation(User $user, SamlServiceProvider $serviceProvider): bool {
         $confirmation = $this->confirmationRepository->findOneByUserAndServiceProvider($user, $serviceProvider);
 
-        if($confirmation === null) {
+        if(!$confirmation instanceof ServiceProviderConfirmation) {
             return true;
         }
 
@@ -33,7 +35,7 @@ class ServiceProviderConfirmationService {
     public function saveConfirmation(User $user, SamlServiceProvider $serviceProvider): void {
         $confirmation = $this->confirmationRepository->findOneByUserAndServiceProvider($user, $serviceProvider);
 
-        if($confirmation === null) {
+        if(!$confirmation instanceof ServiceProviderConfirmation) {
             $confirmation = (new ServiceProviderConfirmation())
                 ->setUser($user)
                 ->setServiceProvider($serviceProvider);

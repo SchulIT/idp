@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventSubscriber;
 
+use App\Entity\PrivacyPolicy;
 use App\Entity\User;
 use App\Repository\PrivacyPolicyRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
@@ -14,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
@@ -34,7 +38,7 @@ class MustAcceptPrivacyPolicyRequestListener implements EventSubscriberInterface
 
         $token = $this->tokenStorage->getToken();
 
-        if($token === null || $token instanceof TwoFactorToken || !$token->getUser() instanceof User) {
+        if(!$token instanceof TokenInterface || $token instanceof TwoFactorToken || !$token->getUser() instanceof User) {
             return;
         }
 
@@ -77,7 +81,7 @@ class MustAcceptPrivacyPolicyRequestListener implements EventSubscriberInterface
 
         $policy = $this->privacyPolicyRepository->findOne();
 
-        if($policy === null) {
+        if(!$policy instanceof PrivacyPolicy) {
             return;
         }
 

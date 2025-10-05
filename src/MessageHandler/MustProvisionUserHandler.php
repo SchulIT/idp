@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\MessageHandler;
 
+use App\Entity\User;
 use App\Message\MustProvisionUser;
 use App\Repository\UserRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -18,7 +21,7 @@ class MustProvisionUserHandler {
     public function __invoke(MustProvisionUser $message): void {
         $user = $this->userRepository->findOneById($message->getUserId());
 
-        if($user !== null) {
+        if($user instanceof User) {
             $user->setPassword(
                 $this->passwordHasher->hashPassword($user, $user->getPassword())
             );

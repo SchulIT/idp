@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\ActiveDirectoryUser;
@@ -18,12 +20,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
-#[Route(path: '/profile')]
-class ProfileController extends AbstractController {
-
+class ProfileController extends AbstractController
+{
     use AttributeDataTrait;
-
-    #[Route(path: '', name: 'profile')]
+    #[Route(path: '/profile', name: 'profile')]
     public function index(#[CurrentUser] User $user, Request $request, AttributePersister $attributePersister, EntityManagerInterface $em, ConfirmationManager $confirmationManager): Response {
         $form = $this->createForm(ProfileType::class, $user);
         $form->handleRequest($request);
@@ -31,9 +31,9 @@ class ProfileController extends AbstractController {
         if($form->isSubmitted() && $form->isValid()) {
             $email = $form->get('email')->getData();
 
-            if(empty($email)) {
+            if (empty($email)) {
                 $user->setEmail(null);
-            } else if($user->getEmail() !== $email) {
+            } elseif ($user->getEmail() !== $email) {
                 $confirmationManager->newConfirmation($user, $email);
             }
 
@@ -56,8 +56,7 @@ class ProfileController extends AbstractController {
             'user' => $user
         ]);
     }
-
-    #[Route(path: '/password', name: 'profile_password')]
+    #[Route(path: '/profile/password', name: 'profile_password')]
     public function changePassword(#[CurrentUser] User $user, Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response {
         $this->denyAccessUnlessGranted(ProfileVoter::CHANGE_PASSWORD);
 

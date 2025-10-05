@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\UserRole;
@@ -15,16 +17,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route(path: '/admin/user_roles')]
-class UserRoleController extends AbstractController {
-
+class UserRoleController extends AbstractController
+{
     use AttributeDataTrait;
-
     public function __construct(private UserRoleRepositoryInterface $repository)
     {
     }
-
-    #[Route(path: '', name: 'user_roles')]
+    #[Route(path: '/admin/user_roles', name: 'user_roles')]
     public function index(): Response {
         $roles = $this->repository
             ->findAll();
@@ -33,8 +32,7 @@ class UserRoleController extends AbstractController {
             'roles' => $roles
         ]);
     }
-
-    #[Route(path: '/add', name: 'add_role')]
+    #[Route(path: '/admin/user_roles/add', name: 'add_role')]
     public function add(Request $request, AttributePersister $attributePersister): Response {
         $role = new UserRole();
 
@@ -55,8 +53,7 @@ class UserRoleController extends AbstractController {
             'form' => $form->createView()
         ]);
     }
-
-    #[Route(path: '/{uuid}/edit', name: 'edit_role')]
+    #[Route(path: '/admin/user_roles/{uuid}/edit', name: 'edit_role')]
     public function edit(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] UserRole $role, AttributePersister $attributePersister): Response {
         $form = $this->createForm(UserRoleType::class, $role);
         $form->handleRequest($request);
@@ -76,8 +73,7 @@ class UserRoleController extends AbstractController {
             'role' => $role
         ]);
     }
-
-    #[Route(path: '/{uuid}/remove', name: 'remove_role')]
+    #[Route(path: '/admin/user_roles/{uuid}/remove', name: 'remove_role')]
     public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] UserRole $role, Request $request, TranslatorInterface $translator): Response {
         $form = $this->createForm(ConfirmType::class, [ ], [
             'message' => $translator->trans('user_roles.remove.confirm', [

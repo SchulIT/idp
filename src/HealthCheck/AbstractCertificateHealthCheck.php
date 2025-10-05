@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\HealthCheck;
 
 use DateTime;
@@ -16,7 +18,7 @@ abstract class AbstractCertificateHealthCheck implements HealthCheckInterface {
     protected function checkCertificate(?string $certificate): HealthCheckResult {
         $now = new DateTime();
 
-        if(empty($certificate)) {
+        if($certificate === null || $certificate === '' || $certificate === '0') {
             return new HealthCheckResult(
                 HealthCheckResultType::Error,
                 'health_check.error',
@@ -44,13 +46,13 @@ abstract class AbstractCertificateHealthCheck implements HealthCheckInterface {
 
         $validTo = (new DateTime())->setTimestamp($certificateInfo['validTo_time_t']);
 
-        if($validTo < $now) {
+        if ($validTo < $now) {
             return new HealthCheckResult(
                 HealthCheckResultType::Error,
                 'health_check.error',
                 $this->getExpiredMessage()
             );
-        } else if($validTo < $now->add(new DateInterval('P' . static::CertificateWarningThresholdInDays . 'D'))) {
+        } elseif ($validTo < $now->add(new DateInterval('P' . static::CertificateWarningThresholdInDays . 'D'))) {
             return new HealthCheckResult(
                 HealthCheckResultType::Warning,
                 'health_check.error',

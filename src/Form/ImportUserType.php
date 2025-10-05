@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\User;
@@ -44,7 +46,7 @@ class ImportUserType extends AbstractType {
             ])
             ->add('type', EntityType::class, [
                 'class' => UserTypeEntity::class,
-                'query_builder' => fn(EntityRepository $repository) => $repository->createQueryBuilder('t')
+                'query_builder' => fn(EntityRepository $repository): \Doctrine\ORM\QueryBuilder => $repository->createQueryBuilder('t')
                     ->orderBy('t.name', 'asc'),
                 'choice_label' => 'name',
                 'label' => 'label.user_type',

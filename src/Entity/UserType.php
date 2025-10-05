@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -118,7 +120,6 @@ class UserType {
 
     /**
      * @param string[] $eduPerson
-     * @return UserType
      */
     public function setEduPerson(array $eduPerson): self {
         sort($eduPerson);

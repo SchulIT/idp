@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use DateTime;
@@ -17,7 +19,7 @@ class PasswordResetToken {
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private ?User $user;
+    private ?User $user = null;
 
     #[ORM\Column(type: 'datetime')]
     private DateTime $expiresAt;

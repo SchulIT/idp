@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use AdAuth\AdAuthInterface;
@@ -302,10 +304,10 @@ class UserController extends AbstractController {
                     new Credentials($adminUsername, $adminPassword)
                 );
 
-                if($response instanceof PasswordSuccessResponse) {
+                if ($response instanceof PasswordSuccessResponse) {
                     $this->addFlash('success', 'users.reset_pw_ad.success');
                     return $this->redirectToRoute('users');
-                } else if($response instanceof PasswordFailedResponse) {
+                } elseif ($response instanceof PasswordFailedResponse) {
                     $this->addFlash('error', $translator->trans('users.reset_pw_ad.failure', [
                         '%error%' => $response->getResult()
                     ]));

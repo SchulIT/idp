@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\ActiveDirectoryUser;
@@ -48,7 +50,7 @@ class UserRepository implements UserRepositoryInterface {
             ->orderBy('u.username', 'asc')
             ->setFirstResult($offset);
 
-        if($deleted === true) {
+        if($deleted) {
             $qb->where($qb->expr()->isNotNull('u.deletedAt'));
         } else {
             $qb->where($qb->expr()->isNull('u.deletedAt'));
@@ -188,7 +190,7 @@ class UserRepository implements UserRepositoryInterface {
             ->leftJoin('uInner.userRoles', 'rInner')
             ->leftJoin('uInner.linkedStudents', 'sInner');
 
-        if(!empty($grade)) {
+        if($grade !== null && $grade !== '' && $grade !== '0') {
             $qbInner
                 ->andWhere(
                     $qbInner->expr()->orX(
@@ -199,7 +201,7 @@ class UserRepository implements UserRepositoryInterface {
             $qb->setParameter('grade', $grade);
         }
 
-        if(!empty($query)) {
+        if($query !== null && $query !== '' && $query !== '0') {
             $qbInner
                 ->andWhere(
                     $qb->expr()->orX(
@@ -212,7 +214,7 @@ class UserRepository implements UserRepositoryInterface {
             $qb->setParameter('query', '%' . $query . '%');
         }
 
-        if($type !== null) {
+        if($type instanceof UserType) {
             $qbInner
                 ->andWhere(
                     'u.type = :type'
@@ -220,20 +222,20 @@ class UserRepository implements UserRepositoryInterface {
             $qb->setParameter('type', $type);
         }
 
-        if($role !== null) {
+        if($role instanceof UserRole) {
             $qbInner->andWhere(
                 'rInner.id = :role'
             );
             $qb->setParameter('role', $role);
         }
 
-        if($deleted === true) {
+        if($deleted) {
             $qbInner->andWhere($qb->expr()->isNotNull('u.deletedAt'));
         } else {
             $qbInner->andWhere($qb->expr()->isNull('u.deletedAt'));
         }
 
-        if(!is_numeric($page) || $page < 1) {
+        if($page < 1) {
             $page = 1;
         }
 
@@ -241,7 +243,7 @@ class UserRepository implements UserRepositoryInterface {
             $qb->expr()->in('u.id', $qbInner->getDQL())
         );
 
-        if($type !== null && $type->getAlias() === 'student' && $onlyNotLinked === true) {
+        if($type instanceof UserType && $type->getAlias() === 'student' && $onlyNotLinked) {
             $qb->andWhere(
                 $qb->expr()->in('u.id',
                     $this->em->createQueryBuilder()
@@ -309,7 +311,7 @@ class UserRepository implements UserRepositoryInterface {
             $qb->setMaxResults($limit);
         }
 
-        if($excludeDeleted === true) {
+        if($excludeDeleted) {
             $qb->andWhere($qb->expr()->isNull('u.deletedAt'));
         }
 
@@ -366,7 +368,7 @@ class UserRepository implements UserRepositoryInterface {
             ->from(User::class, 'u')
             ->where($qb->expr()->isNull('u.deletedAt'));
 
-        if($userType !== null) {
+        if($userType instanceof UserType) {
             $qb->andWhere('u.type = :type')
                 ->setParameter('type', $userType);
         }
@@ -392,7 +394,7 @@ class UserRepository implements UserRepositoryInterface {
 
         $result = $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
 
-        return array_map(fn($row) => $row['externalId'], $result);
+        return array_map(fn(array $row) => $row['externalId'], $result);
     }
 
     /**
@@ -404,7 +406,7 @@ class UserRepository implements UserRepositoryInterface {
         $qb->delete(User::class, 'u')
             ->where($qb->expr()->isNotNull('u.deletedAt'));
 
-        if($threshold !== null) {
+        if($threshold instanceof DateTime) {
             $qb->andWhere('u.deletedAt < :threshold')
                 ->setParameter('threshold', $threshold);
         }
@@ -460,7 +462,7 @@ class UserRepository implements UserRepositoryInterface {
             ->getQuery()
             ->getResult(Query::HYDRATE_ARRAY);
 
-        return array_map(fn($row) => $row['grade'], $result);
+        return array_map(fn(array $row) => $row['grade'], $result);
     }
 
     /**

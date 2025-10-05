@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Request;
 
 use App\Validator\ValidAttributesArray;
@@ -20,9 +22,6 @@ class UserAttributeRequest {
         return $this->attributes;
     }
 
-    /**
-     * @param array $attributes
-     */
     public function setAttributes(array $attributes): void {
         $this->attributes = $attributes;
     }

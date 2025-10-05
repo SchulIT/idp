@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
+use App\Entity\RegistrationCode;
 use App\Form\UserProfileCompleteType;
 use App\Repository\RegistrationCodeRepositoryInterface;
 use App\Security\Registration\CodeAlreadyRedeemedException;
 use App\Security\Registration\RegistrationCodeManager;
 use App\Settings\RegistrationSettings;
+use DateTime;
 use SchulIT\CommonBundle\Helper\DateHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,17 +18,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route(path: '/register')]
-class RegistrationController extends AbstractController {
-
-    private const CSRF_TOKEN_KEY = '_csrf_token';
-    private const CSRF_TOKEN_ID = 'registration';
-
+class RegistrationController extends AbstractController
+{
+    private const string CSRF_TOKEN_KEY = '_csrf_token';
+    private const string CSRF_TOKEN_ID = 'registration';
     public function __construct(private readonly TranslatorInterface $translator)
     {
     }
-
-    #[Route(path: '/redeem', name: 'redeem_registration_code')]
+    #[Route(path: '/register/redeem', name: 'redeem_registration_code')]
     public function redeem(Request $request, RegistrationCodeRepositoryInterface $codeRepository, RegistrationCodeManager $manager,
                            DateHelper $dateHelper, TranslatorInterface $translator): Response {
         if(!$request->isMethod('POST')) {
@@ -33,7 +34,7 @@ class RegistrationController extends AbstractController {
 
         $csrfToken = $request->request->get(self::CSRF_TOKEN_KEY);
 
-        if ($this->isCsrfTokenValid(self::CSRF_TOKEN_ID, $csrfToken) !== true) {
+        if (!$this->isCsrfTokenValid(self::CSRF_TOKEN_ID, $csrfToken)) {
             $this->addFlash('error', $this->getCsrfTokenMessage());
             return $this->redirectToRoute('login');
         }
@@ -47,7 +48,7 @@ class RegistrationController extends AbstractController {
 
         $code = $codeRepository->findOneByCode($registrationCode);
 
-        if($code === null) {
+        if(!$code instanceof RegistrationCode) {
             $this->addFlash('error', 'registration.not_found');
             return $this->redirectToRoute('login');
         }
@@ -57,7 +58,7 @@ class RegistrationController extends AbstractController {
             return $this->redirectToRoute('login');
         }
 
-        if($code->getValidFrom() !== null && $code->getValidFrom() > $dateHelper->getToday()) {
+        if($code->getValidFrom() instanceof DateTime && $code->getValidFrom() > $dateHelper->getToday()) {
             $this->addFlash('error', $translator->trans('register.redeem.error.not_yet_valid', [
                 '%date%' => $code->getValidFrom()->format($translator->trans('date.format'))
             ], 'security'));
@@ -68,8 +69,7 @@ class RegistrationController extends AbstractController {
             'code' => $code
         ]);
     }
-
-    #[Route(path: '/complete', name: 'register')]
+    #[Route(path: '/register/complete', name: 'register')]
     public function register(Request $request, RegistrationSettings $settings, RegistrationCodeRepositoryInterface $codeRepository,
                              RegistrationCodeManager $manager): Response {
         $registrationCode = $request->request->get('code');
@@ -81,7 +81,7 @@ class RegistrationController extends AbstractController {
 
         $code = $codeRepository->findOneByCode($registrationCode);
 
-        if($code === null) {
+        if(!$code instanceof RegistrationCode) {
             $this->addFlash('error', 'register.redeem.error.not_found');
             return $this->redirectToRoute('login');
         }
@@ -97,7 +97,7 @@ class RegistrationController extends AbstractController {
                 $isEmailConfirmationPending = $manager->complete($code, $user, $form->get('password')->getData());
                 $this->addFlash('success', 'registration.success');
 
-                if($isEmailConfirmationPending === true) {
+                if($isEmailConfirmationPending) {
                     $this->addFlash('info', 'registration.email_confirmation_pending');
                 }
             } catch (CodeAlreadyRedeemedException) {
@@ -112,7 +112,6 @@ class RegistrationController extends AbstractController {
             'form' => $form->createView()
         ]);
     }
-
     private function getCsrfTokenMessage(): string {
         return $this->translator->trans('Invalid CSRF token.', [], 'security');
     }

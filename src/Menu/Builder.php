@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Menu;
 
 use App\Entity\User;
@@ -96,7 +98,7 @@ class Builder {
             ])
                 ->setExtra('icon', 'fas fa-user-tag');
 
-            if($this->adAuthEnabled === true) {
+            if($this->adAuthEnabled) {
                 $menu->addChild('ad_sync_options.label', [
                     'route' => 'ad_sync_options'
                 ])

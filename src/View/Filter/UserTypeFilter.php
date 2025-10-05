@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\View\Filter;
 
 use App\Entity\UserType;
@@ -11,14 +13,10 @@ class UserTypeFilter {
     {
     }
 
-    public function handle($userType, ?UserType $defaultType = null) {
-        $types = ArrayUtils::createArrayWithKeys($this->userTypeRepository->findAll(), fn(UserType $type) => (string)$type->getUuid());
+    public function handle($userType, ?UserType $defaultType = null): \App\View\Filter\UserTypeFilterView {
+        $types = ArrayUtils::createArrayWithKeys($this->userTypeRepository->findAll(), fn(UserType $type): string => (string)$type->getUuid());
 
-        if($userType === null || is_numeric($userType)) {
-            $type = $defaultType;
-        } else {
-            $type = $types[$userType] ?? $defaultType;
-        }
+        $type = $userType === null || is_numeric($userType) ? $defaultType : $types[$userType] ?? $defaultType;
 
         return new UserTypeFilterView($types, $type);
     }

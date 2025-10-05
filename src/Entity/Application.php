@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use DateTime;
@@ -72,33 +74,19 @@ class Application implements UserInterface {
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getApiKey(): ?string {
         return $this->apiKey;
     }
 
-    /**
-     * @param string|null $apiKey
-     * @return Application
-     */
     public function setApiKey(?string $apiKey): Application {
         $this->apiKey = $apiKey;
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDescription(): ?string {
         return $this->description;
     }
 
-    /**
-     * @param string|null $description
-     * @return Application
-     */
     public function setDescription(?string $description): Application {
         $this->description = $description;
         return $this;

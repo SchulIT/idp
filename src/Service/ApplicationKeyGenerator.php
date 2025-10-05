@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Entity\Application;
@@ -23,7 +25,7 @@ class ApplicationKeyGenerator {
             $apiKey = bin2hex(openssl_random_pseudo_bytes(32));
             $application = $this->repository
                 ->findOneByApiKey($apiKey);
-        } while($application !== null);
+        } while($application instanceof Application);
 
         return $apiKey;
     }

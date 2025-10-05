@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Validator;
 
 use App\Entity\ActiveDirectoryUser;
@@ -29,7 +31,7 @@ class UniqueUsernameValidator extends ConstraintValidator {
 
         $user = $this->userRepository->findOneByUsername($value);
 
-        if($user !== null && $this->matchesType($user, $constraint->type) === false) {
+        if($user instanceof User && $this->matchesType($user, $constraint->type) === false) {
             $this->context
                 ->buildViolation($constraint->message)
                 ->addViolation();

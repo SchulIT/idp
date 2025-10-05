@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\RegistrationCode;
@@ -73,7 +75,7 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
                 ->setParameter('grade', $grade);
         }
 
-        if(!is_numeric($page) || $page < 1) {
+        if($page < 1) {
             $page = 1;
         }
 

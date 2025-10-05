@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Validator;
 
+use App\Entity\UserType;
 use App\Repository\UserTypeRepositoryInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -21,7 +24,7 @@ class ValidUserTypeUuidValidator extends ConstraintValidator {
             throw new UnexpectedTypeException($constraint, ValidUserTypeUuid::class);
         }
 
-        if($this->userTypeRepository->findOneByUuid($value) === null) {
+        if(!$this->userTypeRepository->findOneByUuid($value) instanceof UserType) {
             $this->context
                 ->buildViolation($constraint->message)
                 ->setParameter('{{ uuid }}', $value)

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\User;
@@ -19,14 +21,14 @@ class RegistrationCodeType extends AbstractType {
             ->add('student', EntityType::class, [
                 'label' => 'label.student',
                 'class' => User::class,
-                'choice_label' => function(User $user) {
-                    if(!empty($user->getGrade())) {
+                'choice_label' => function(User $user): string {
+                    if(!in_array($user->getGrade(), [null, '', '0'], true)) {
                         return sprintf('%s, %s (%s)', $user->getLastname(), $user->getFirstname(), $user->getGrade());
                     }
 
                     return sprintf('%s, %s (%s)', $user->getLastname(), $user->getFirstname(), $user->getUsername());
                 },
-                'query_builder' => fn(EntityRepository $repository) => $repository->createQueryBuilder('u')
+                'query_builder' => fn(EntityRepository $repository): \Doctrine\ORM\QueryBuilder => $repository->createQueryBuilder('u')
                     ->leftJoin('u.type', 't')
                     ->where("t.alias = 'student'")
                     ->orderBy('u.username', 'asc'),

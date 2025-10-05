@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security\EventListener;
 
 use App\Entity\AuthenticationAudit;
@@ -11,6 +13,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\TerminateEvent;
 use Symfony\Component\Security\Core\Authentication\Token\SwitchUserToken;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Event\LoginFailureEvent;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
@@ -23,8 +26,6 @@ class AuthenticationAuditEventSubscriber implements EventSubscriberInterface {
     /**
      * We need to store the authentication audit due to possible database locking errors during
      * security events.
-     *
-     * @var AuthenticationAudit|null
      */
     private ?AuthenticationAudit $auditToStore = null;
 
@@ -43,11 +44,11 @@ class AuthenticationAuditEventSubscriber implements EventSubscriberInterface {
     }
 
     public function onKernelTerminate(): void {
-        if($this->isEnabled !== true) {
+        if(!$this->isEnabled) {
             return; // In case auditing is not enabled, do not persist anything
         }
 
-        if($this->auditToStore !== null) {
+        if($this->auditToStore instanceof AuthenticationAudit) {
             try {
                 $this->auditToStore->setIpCountry($this->reader->country($this->auditToStore->getIpAddress())->country->isoCode);
             } catch (Throwable) { }
@@ -60,14 +61,14 @@ class AuthenticationAuditEventSubscriber implements EventSubscriberInterface {
     }
 
     public function onLoginSuccess(LoginSuccessEvent $event): void {
-        if($this->auditToStore !== null) {
+        if($this->auditToStore instanceof AuthenticationAudit) {
             return;
         }
 
         $audit = $this->createAudit($event->getRequest());
         $audit->setUsername($event->getUser()->getUserIdentifier());
-        $audit->setAuthenticatorFqcn(get_class($event->getAuthenticator()));
-        $audit->setTokenFqcn(get_class($event->getAuthenticatedToken()));
+        $audit->setAuthenticatorFqcn($event->getAuthenticator()::class);
+        $audit->setTokenFqcn($event->getAuthenticatedToken()::class);
         $audit->setFirewall($event->getFirewallName());
         $audit->setType(AuthenticationAuditType::Login);
 
@@ -78,7 +79,7 @@ class AuthenticationAuditEventSubscriber implements EventSubscriberInterface {
         $audit = $this->createAudit($event->getRequest());
         $audit->setType(AuthenticationAuditType::Logout);
 
-        if($event->getToken() !== null) {
+        if($event->getToken() instanceof TokenInterface) {
             $audit->setUsername($event->getToken()->getUserIdentifier());
         }
 
@@ -88,7 +89,7 @@ class AuthenticationAuditEventSubscriber implements EventSubscriberInterface {
     public function onSwitchUser(SwitchUserEvent $event): void {
         $audit = $this->createAudit($event->getRequest());
         $audit->setType(AuthenticationAuditType::SwitchUser);
-        $audit->setTokenFqcn(get_class($event->getToken()));
+        $audit->setTokenFqcn($event->getToken() instanceof TokenInterface ? $event->getToken()::class : self::class);
 
         $audit->setUsername($event->getToken()->getUserIdentifier());
         $token = $event->getToken();

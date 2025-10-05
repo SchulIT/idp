@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security\EmailConfirmation;
 
 use App\Converter\UserStringConverter;
@@ -25,13 +27,13 @@ readonly class ConfirmationManager {
     }
 
     public function hasConfirmation(User $user): bool {
-        return $this->repository->findOneByUser($user) !== null;
+        return $this->repository->findOneByUser($user) instanceof EmailConfirmation;
     }
 
     public function newConfirmation(User $user, string $email): void {
         $confirmation = $this->repository->findOneByUser($user);
 
-        if($confirmation === null) {
+        if(!$confirmation instanceof EmailConfirmation) {
             $confirmation = (new EmailConfirmation())
                 ->setUser($user);
         }
@@ -41,7 +43,7 @@ readonly class ConfirmationManager {
         // For security reasons: (re)generate token
         do {
             $confirmation->setToken(SecurityUtils::getRandomHexString(128));
-        } while ($this->repository->findOneByToken($confirmation->getToken()) !== null);
+        } while ($this->repository->findOneByToken($confirmation->getToken()) instanceof EmailConfirmation);
 
         $this->repository->persist($confirmation);
         $context = [
@@ -71,7 +73,7 @@ readonly class ConfirmationManager {
     public function getConfirmation(string $token): EmailConfirmation {
         $confirmation = $this->repository->findOneByToken($token);
 
-        if($confirmation === null) {
+        if(!$confirmation instanceof EmailConfirmation) {
             throw new TokenNotFoundException($token);
         }
 
@@ -84,11 +86,11 @@ readonly class ConfirmationManager {
     public function confirm(EmailConfirmation $confirmation): void {
         $user = $confirmation->getUser();
 
-        if($user === null) {
+        if(!$user instanceof User) {
             return;
         }
 
-        if($this->userRepository->findOneByEmail($confirmation->getEmailAddress()) !== null) {
+        if($this->userRepository->findOneByEmail($confirmation->getEmailAddress()) instanceof User) {
             $user->setEmail(null);
             $this->userRepository->persist($user);
             $this->repository->remove($confirmation);

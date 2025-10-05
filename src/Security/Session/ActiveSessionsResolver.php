@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security\Session;
 
 use App\Entity\User;
@@ -27,7 +29,6 @@ class ActiveSessionsResolver {
     }
 
     /**
-     * @param User $user
      * @return ActiveSession[]
      * @throws Exception
      * @throws \Exception

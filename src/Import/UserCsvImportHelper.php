@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Import;
 
 use League\Csv\Exception;
@@ -10,12 +12,12 @@ use League\Csv\Reader;
 
 class UserCsvImportHelper {
 
-    private const FirstnameHeader = 'Vorname';
-    private const LastnameHeader = 'Nachname';
-    private const IdHeader = 'ID';
-    private const EmailAddressHeader = 'E-Mail';
-    private const PasswordHeader = 'Passwort';
-    private const GradeHeader = 'Klasse';
+    private const string FirstnameHeader = 'Vorname';
+    private const string LastnameHeader = 'Nachname';
+    private const string IdHeader = 'ID';
+    private const string EmailAddressHeader = 'E-Mail';
+    private const string PasswordHeader = 'Passwort';
+    private const string GradeHeader = 'Klasse';
 
     public function __construct(private readonly UserRepositoryInterface $userRepository)
     {
@@ -63,14 +65,9 @@ class UserCsvImportHelper {
             if(empty($email)) {
                 throw new RecordInvalidException($offset, self::EmailAddressHeader);
             }
+            $user = $this->userRepository->findOneByUsername($email);
 
-            $user = null;
-
-            if($user === null) {
-                $user = $this->userRepository->findOneByUsername($email);
-            }
-
-            if($user === null) {
+            if(!$user instanceof User) {
                 $user = new User();
                 $user->setUsername($email);
                 $user->setEmail($email);

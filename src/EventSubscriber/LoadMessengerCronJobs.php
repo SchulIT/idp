@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventSubscriber;
 
 use GpsLab\Bundle\GeoIP2Bundle\Command\UpdateDatabaseCommand;

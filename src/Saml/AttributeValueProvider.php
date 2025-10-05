@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Saml;
 
 use App\Entity\SamlServiceProvider;
@@ -38,7 +40,7 @@ class AttributeValueProvider extends AbstractAttributeProvider {
      * @param User|null $user
      */
     public function getCommonAttributesForUser(User $user = null): array {
-        if($user === null) {
+        if(!$user instanceof User) {
             return [ ];
         }
 
@@ -65,7 +67,7 @@ class AttributeValueProvider extends AbstractAttributeProvider {
     private function getRequestedAttributes(string $entityId): array {
         $attributes = $this->attributeRepository->getAttributesForServiceProvider($entityId);
 
-        return $this->makeArrayWithKeys($attributes, fn(ServiceAttribute $attribute) => $attribute->getId());
+        return $this->makeArrayWithKeys($attributes, fn(ServiceAttribute $attribute): ?int => $attribute->getId());
     }
 
     /**
@@ -75,7 +77,7 @@ class AttributeValueProvider extends AbstractAttributeProvider {
         $attributeValues = $this->attributeResolver
             ->getDetailedResultingAttributeValuesForUser($user);
 
-        return $this->makeArrayWithKeys($attributeValues, fn(ServiceAttributeValueInterface $attributeValue) => $attributeValue->getAttribute()->getId());
+        return $this->makeArrayWithKeys($attributeValues, fn(ServiceAttributeValueInterface $attributeValue): ?int => $attributeValue->getAttribute()->getId());
     }
 
     /**
@@ -125,14 +127,13 @@ class AttributeValueProvider extends AbstractAttributeProvider {
     }
 
     /**
-     * @param string $entityId
      * @param Attribute[] $attributes
      * @return Attribute[]
      */
     private function renameAttributesIfNecessary(string $entityId, array $attributes): array {
         $service = $this->serviceProviderRepository->findOneByEntityId($entityId);
 
-        if(empty($service->getAttributeNameMapping())) {
+        if($service->getAttributeNameMapping() === []) {
             return $attributes;
         }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\ActiveDirectoryUser;
@@ -64,7 +66,7 @@ class ProfileType extends AbstractType {
             ]);
 
         $builder
-            ->addEventListener(FormEvents::POST_SET_DATA, function(FormEvent $event) {
+            ->addEventListener(FormEvents::POST_SET_DATA, function(FormEvent $event): void {
                 $user = $event->getData();
                 $form = $event->getForm();
 
@@ -73,7 +75,7 @@ class ProfileType extends AbstractType {
                         ->setData($user->getEmail());
                 }
             })
-            ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
+            ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event): void {
                 $user = $event->getData();
                 $form = $event->getForm();
 
