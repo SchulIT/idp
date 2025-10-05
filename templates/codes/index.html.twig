@@ -12,8 +12,59 @@
 {% block content %}
     <div class="container-fluid px-0">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex flex-wrap mt-n2">
+                            <div class="flex-fill mt-2">
+                                <form class="row row-cols-lg-auto g-1 align-items-center" method="get">
+                                    <div class="col">
+                                        <select name="grade" class="form-select form-select-sm" data-trigger="submit">
+                                            <option value="">{{ 'filter.all_grades'|trans }}</option>
+                                            {% for g in grades %}
+                                                <option value="{{ g }}" {% if grade is not null and g == grade %}selected{% endif %}>{{ g }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="col">
+                                        <input type="text" name="q" value="{{ query }}" class="form-control form-control-sm" placeholder="{{ 'codes.query'|trans }}">
+                                    </div>
+
+                                    {% if query is not empty or grade is not empty %}
+                                        <div class="col">
+                                            <a href="{{ path('registration_codes') }}" class="btn btn-outline-primary btn-sm">
+                                                <i class="fas fa-times-circle"></i>
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                </form>
+                            </div>
+                            <div class="ms-auto mt-2">
+                                <a href="{{ path('export_codes', { grade: grade }) }}" class="btn btn-outline-primary btn-sm">
+                                    <i class="fa fa-download"></i> {{ 'codes.export.label'|trans }}
+                                </a>
+                                <a href="{{ path('remove_redeemed_codes') }}" class="btn btn-outline-danger btn-sm">
+                                    <i class="fas fa-trash"></i> {{ 'codes.remove_redeemed.label'|trans }}
+                                </a>
+
+                                <div class="btn-group">
+                                    <a href="{{ path('add_registration_code') }}" class="btn btn-primary btn-sm" type="button">
+                                        <i class="fas fa-plus"></i> {{ 'codes.add.label'|trans }}
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="visually-hidden">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{ path('add_registration_code_bulk') }}"><i class="fas fa-plus"></i> {{ 'codes.bulk.label'|trans }}</a></li>
+                                        <li><a class="dropdown-item" href="{{ path('add_registration_code_bulk_for_students_without_parent') }}"><i class="fas fa-plus"></i> {{ 'codes.bulk_noparents.label'|trans }}</a></li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="table-responsive">
                         <table class="table table-striped table-hover card-table">
                             <colgroup>
@@ -82,66 +133,27 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-
-                {% include '@Common/includes/pagination.html.twig' with {
-                    currentFilters: {
-                        q: query,
-                        grade: grade
-                    },
-                    currentPage: page,
-                    paginationPath: 'registration_codes',
-                    lastPage: pages,
-                    showAlwaysFirstAndLast: true
-                } only %}
-            </div>
-
-            <div class="col-md-3 sticky-sidebar">
-                <div class="card">
-                    <div class="list-group list-group-flush">
-                        <a href="{{ path('add_registration_code') }}" class="list-group-item list-group-item-action">
-                            <i class="fas fa-plus"></i> {{ 'codes.add.label'|trans }}
-                        </a>
-                        <a href="{{ path('add_registration_code_bulk') }}" class="list-group-item list-group-item-action">
-                            <i class="fas fa-plus"></i> {{ 'codes.bulk.label'|trans }}
-                        </a>
-                        <a href="{{ path('add_registration_code_bulk_for_students_without_parent') }}" class="list-group-item list-group-item-action">
-                            <i class="fas fa-plus"></i> {{ 'codes.bulk_noparents.label'|trans }}
-                        </a>
-                        <a href="{{ path('export_codes', { grade: grade }) }}" class="list-group-item list-group-item-action">
-                            <i class="fa fa-download"></i> {{ 'codes.export.label'|trans }}
-                        </a>
-                        <a href="{{ path('remove_redeemed_codes') }}" class="list-group-item list-group-item-action list-group-item-danger">
-                            <i class="fas fa-trash"></i> {{ 'codes.remove_redeemed.label'|trans }}
-                        </a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-body">
-                        <form method="get">
-                            <div class="mb-3">
-                                <select name="grade" class="form-control" data-choice="true" data-trigger="submit">
-                                    <option value="">{{ 'filter.all_grades'|trans }}</option>
-                                    {% for g in grades %}
-                                        <option value="{{ g }}" {% if grade is not null and g == grade %}selected{% endif %}>{{ g }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-
-                            <div class="mb-3 mb-0">
-                                <div class="input-group">
-                                    <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="{{ 'codes.query'|trans }}">
-                                    <button type="submit" class="btn btn-outline-primary btn"><i class="fa fa-search"></i></button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
 
                     <div class="card-footer">
-                        <a href="{{ path('registration_codes') }}" class="btn btn-primary btn-sm">{{ 'filter.reset'|trans }}</a>
+                        <div class="d-flex">
+                            <div class="flex-fill align-self-center"></div>
+                            <div class="ms-auto">
+                                {% include '@Common/includes/pagination.html.twig' with {
+                                    currentFilters: {
+                                        q: query,
+                                        grade: grade
+                                    },
+                                    currentPage: page,
+                                    paginationPath: 'registration_codes',
+                                    lastPage: pages,
+                                    showAlwaysFirstAndLast: true
+                                } only %}
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+
             </div>
         </div>
     </div>

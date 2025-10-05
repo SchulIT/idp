@@ -321,6 +321,8 @@ users:
   linked:
     label: Verknüpft
 
+  count: '%count% Benutzer'
+
 management:
   label: Verwaltung
 

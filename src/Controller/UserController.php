@@ -87,26 +87,14 @@ class UserController extends AbstractController {
 
         $template = $deleted ? 'users/trash.html.twig' : 'users/index.html.twig';
 
-        $statistics = [ ];
-
-        if($deleted === false) {
-            foreach ($typeFilterView->getTypes() as $type) {
-                $statistics[] = [
-                    'type' => $type,
-                    'count' => $this->repository->countUsers($type)
-                ];
-            }
-        }
-
         return $this->render($template, [
             'users' => $paginator->getIterator(),
+            'count' => $paginator->count(),
             'page' => $page,
             'pages' => $pages,
             'grade' => $grade,
             'grades' => $grades,
             'q' => $q,
-            'statistics' => $statistics,
-            'count' => $this->repository->countUsers(),
             'roleFilter' => $roleFilterView,
             'typeFilter' => $typeFilterView,
             'withoutParents' => $withoutParents,

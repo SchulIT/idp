@@ -13,8 +13,61 @@
 {% block content %}
     <div class="container-fluid px-0">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex flex-wrap mt-n2">
+                            <div class="flex-fill mt-2">
+                                <form class="row row-cols-lg-auto g-1 align-items-center" method="get">
+                                    <div class="col">
+                                        <select name="type" class="form-select form-select-sm" data-trigger="submit">
+                                            <option value="">{{ 'filter.all_types'|trans }}</option>
+                                            {% for t in typeFilter.types %}
+                                                <option value="{{ t.uuid }}" {% if typeFilter.currentType is not null and typeFilter.currentType.id == t.id %}selected{% endif %}>{{ t.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="col">
+                                        <select name="role" class="form-select form-select-sm" data-trigger="submit">
+                                            <option value="">{{ 'filter.all_roles'|trans }}</option>
+                                            {% for r in roleFilter.roles %}
+                                                <option value="{{ r.uuid }}" {% if roleFilter.currentRole is not null and roleFilter.currentRole.id == r.id %}selected{% endif %}>{{ r.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="col">
+                                        <select name="grade" class="form-select form-select-sm" data-trigger="submit">
+                                            <option value="">{{ 'filter.all_grades'|trans }}</option>
+                                            {% for g in grades %}
+                                                <option value="{{ g }}" {% if grade is not null and g == grade %}selected{% endif %}>{{ g }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="col">
+                                        <input type="text" value="{{ q }}" name="q" class="form-control form-control-sm" >
+                                    </div>
+
+                                    {% if q is not empty or typeFilter.currentType != null or roleFilter.currentRole != null or grade is not null%}
+                                        <div class="col">
+                                            <a href="{{ path('users_trash') }}" class="btn btn-outline-primary btn-sm">
+                                                <i class="fas fa-times-circle"></i>
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                </form>
+                            </div>
+
+                            <div class="ms-auto mt-2">
+                                <a href="{{ path('empty_users_trash') }}" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i> {{ 'users.trash.remove_all.label'|trans }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="table-responsive">
                         <table class="table table-hover card-table">
                             <colgroup>
@@ -88,76 +141,28 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-
-                {% include '@Common/includes/pagination.html.twig' with {
-                    currentFilters: {
-                        q: q,
-                        grade: grade,
-                        type: (typeFilter.currentType ? typeFilter.currentType.uuid : null),
-                        role: (roleFilter.currentRole ? roleFilter.currentRole.uuid : null)
-                    },
-                    currentPage: page,
-                    paginationPath: 'users_trash',
-                    lastPage: pages,
-                    showAlwaysFirstAndLast: true
-                } only %}
-            </div>
-
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="list-group list-group-flush">
-                        <a href="{{ path('empty_users_trash') }}" class="list-group-item list-group-item-action list-group-item-danger">
-                            <i class="fas fa-trash"></i> {{ 'users.trash.remove_all.label'|trans }}
-                        </a>
-                        <a href="{{ path('users') }}" class="list-group-item list-group-item-action">
-                            <i class="fa fa-arrow-left"></i> {{ 'actions.back'|trans }}
-                        </a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-body">
-                        <form method="get">
-                            <div class="mb-3">
-                                <select name="type" class="form-control" data-choice="true" data-trigger="submit">
-                                    <option value="">{{ 'filter.all_types'|trans }}</option>
-                                    {% for t in typeFilter.types %}
-                                        <option value="{{ t.uuid }}" {% if typeFilter.currentType is not null and typeFilter.currentType.id == t.id %}selected{% endif %}>{{ t.name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
-                                <select name="role" class="form-control" data-choice="true" data-trigger="submit">
-                                    <option value="">{{ 'filter.all_roles'|trans }}</option>
-                                    {% for r in roleFilter.roles %}
-                                        <option value="{{ r.uuid }}" {% if roleFilter.currentRole is not null and roleFilter.currentRole.id == r.id %}selected{% endif %}>{{ r.name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
-                                <select name="grade" class="form-control" data-choice="true" data-trigger="submit">
-                                    <option value="">{{ 'filter.all_grades'|trans }}</option>
-                                    {% for g in grades %}
-                                        <option value="{{ g }}" {% if grade is not null and g == grade %}selected{% endif %}>{{ g }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-
-                            <div class="input-group">
-                                <input type="text" value="{{ q }}" name="q" class="form-control" >
-
-                                <button class="btn btn-outline-primary" type="submit" title="{{ 'search.label'|trans }}">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
 
                     <div class="card-footer">
-                        <a href="{{ path('users_trash') }}" class="btn btn-primary btn-sm">{{ 'filter.reset'|trans }}</a>
+                        <div class="d-flex">
+                            <div class="flex-fill align-self-center">
+                                {{ 'users.count'|trans({'%count%': count}) }}
+                            </div>
+
+                            <div class="ms-auto">
+                                {% include '@Common/includes/pagination.html.twig' with {
+                                    currentFilters: {
+                                        q: q,
+                                        grade: grade,
+                                        type: (typeFilter.currentType ? typeFilter.currentType.uuid : null),
+                                        role: (roleFilter.currentRole ? roleFilter.currentRole.uuid : null)
+                                    },
+                                    currentPage: page,
+                                    paginationPath: 'users_trash',
+                                    lastPage: pages,
+                                    showAlwaysFirstAndLast: true
+                                } only %}
+                            </div>
+                        </div>
                     </div>
                 </div>
 

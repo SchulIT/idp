@@ -109,3 +109,11 @@ table {
     background: var(--bs-table-accent-bg);
   }
 }
+
+.card {
+  .card-footer {
+    .pagination {
+      margin-bottom: 0;
+    }
+  }
+}
