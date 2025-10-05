@@ -12,8 +12,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AttributesType extends FieldsetType {
 
-    public const EXPANDED_THRESHOLD = 7;
-
     public function __construct(private readonly ServiceAttributeRepositoryInterface $serviceAttributeRepository)
     {
     }
@@ -74,13 +72,10 @@ class AttributesType extends FieldsetType {
                 }
 
                 $options['choices'] = $choices;
-
-                if (count($choices) < static::EXPANDED_THRESHOLD) {
-                    $options['expanded'] = true;
-                    $options['label_attr'] = [
-                        'class' => $attribute->isMultipleChoice() ? 'checkbox-custom' : 'radio-custom'
-                    ];
-                }
+                $options['expanded'] = true;
+                $options['label_attr'] = [
+                    'class' => $attribute->isMultipleChoice() ? 'checkbox-custom' : 'radio-custom'
+                ];
             } else if($type === TextType::class && $options['disabled']) {
                 $type = ReadonlyTextType::class;
             }
