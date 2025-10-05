@@ -6,15 +6,15 @@ namespace App\Command;
 
 use App\Repository\UserRepositoryInterface;
 use SchulIT\CommonBundle\Helper\DateHelper;
-use Shapecode\Bundle\CronBundle\Attribute\AsCronJob;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Scheduler\Attribute\AsCronTask;
 
-#[AsCronJob(schedule: '0 0 * * *')]
 #[AsCommand(name: 'app:user:remove_deleted', description: 'Löscht alle zum Löschen vorgemerkten Benutzer, die vor mehr als 30 Tagen zum Löschen markiert wurden.')]
+#[AsCronTask('0 0 * * *')]
 class RemoveDeletedUsers extends Command {
     private const string Modifier = '-30 days';
 

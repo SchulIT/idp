@@ -116,9 +116,6 @@ COPY .docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Export HTTP port
 EXPOSE 8080
 
-# Install cronjob
-RUN crontab -l | { cat; echo "*/2 * * * * php /var/www/html/bin/console shapecode:cron:run"; } | crontab -
-
 # Copy startup.sh
 COPY .docker/startup.sh startup.sh
 RUN chmod +x startup.sh

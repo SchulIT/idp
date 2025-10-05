@@ -14,4 +14,5 @@ common:
   locales: "%locales%"
   menu: mainMenu
   disable:
-    autoconfig: ~
+    autoconfig: true
+    cron: true

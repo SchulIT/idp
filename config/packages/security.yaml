@@ -11,8 +11,6 @@ security:
             entity:
                 class: App\Entity\User
                 property: username
-        cron:
-            id: App\Security\CronUserProvider
 
     role_hierarchy:
         ROLE_ADMIN: [ROLE_PASSWORD_MANAGER, ROLE_USER]
@@ -26,7 +24,6 @@ security:
         - { path: ^/login$, roles: PUBLIC_ACCESS }
         - { path: ^/(metadata|confirm|register|forgot_pw), roles: PUBLIC_ACCESS }
         - { path: ^/logout/success, roles: PUBLIC_ACCESS }
-        - { path: ^/cron, roles: ROLE_CRON }
         - { path: ^/exchange, roles: ROLE_IDPEXCHANGE }
         - { path: ^/api/ad_connect, roles: ROLE_ADCONNECT }
         - { path: ^/api, roles: ROLE_API }
@@ -42,13 +39,6 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
-        cron:
-            pattern: ^/cron
-            provider: cron
-            stateless: true
-            http_basic:
-                realm: Cronjob
 
         metadata:
             pattern: ^/metadata$

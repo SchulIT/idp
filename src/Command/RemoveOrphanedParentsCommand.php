@@ -6,15 +6,15 @@ namespace App\Command;
 
 use App\Repository\UserRepositoryInterface;
 use SchulIT\CommonBundle\Helper\DateHelper;
-use Shapecode\Bundle\CronBundle\Attribute\AsCronJob;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Scheduler\Attribute\AsCronTask;
 
-#[AsCronJob(schedule: '0 1 * * * ')]
 #[AsCommand(name: 'app:user:remove_orphaned', description: 'Löscht Eltern ohne verknüpften Lernenden.')]
+#[AsCronTask('0 1 * * * ')]
 class RemoveOrphanedParentsCommand extends Command {
 
     private const string InactiveModifier = '-14 days';

@@ -153,11 +153,6 @@ services:
 
 
     # Security
-    App\Security\CronUserProvider:
-        arguments:
-            $username: 'cron'
-            $password: '%env(CRON_PASSWORD)%'
-
     Symfony\Component\Security\Core\User\UserProviderInterface:
         alias: 'security.user.provider.concrete.database'
 
@@ -219,5 +214,9 @@ services:
             $logger: '@monolog.logger.browscap'
 
     Zenstruck\Messenger\Monitor\Command\PurgeCommand:
-        tags:
-            - { name: shapecode_cron.cron_job, expression: '@daily' }
+      tags:
+        - { name: scheduler.task, arguments: '', trigger: 'cron', expression: '@daily' }
+
+    SchulIT\CommonBundle\Command\ClearLogsCommand:
+      tags:
+        - { name: scheduler.task, arguments: '', trigger: 'cron', expression: '@daily' }

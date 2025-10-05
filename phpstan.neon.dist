@@ -5,7 +5,7 @@ parameters:
 	    - src
 	inferPrivatePropertyTypeFromConstructor: true
 	symfony:
-		container_xml_path: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
+		containerXmlPath: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
 	doctrine:
 		objectManagerLoader: tests/object-manager.php
 		allowNullablePropertyForRequiredField: true

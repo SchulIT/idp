@@ -8,15 +8,15 @@ use App\Entity\AuthenticationAudit;
 use DateInterval;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Shapecode\Bundle\CronBundle\Attribute\AsCronJob;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Scheduler\Attribute\AsCronTask;
 
 #[AsCommand('app:auth_audit:clear', description: 'Löscht Einträge aus dem Anmelde-Log anhand der konfigurierten Aufbewahrungsrichtlinie.')]
-#[AsCronJob('@daily')]
+#[AsCronTask('@daily')]
 class ClearAuthenticationAuditLogCommand extends Command {
     public function __construct(private readonly int $days, private readonly EntityManagerInterface $em,
                                 ?string $name = null) {
