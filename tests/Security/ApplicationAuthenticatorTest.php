@@ -9,14 +9,16 @@ use App\Entity\ApplicationScope;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 final class ApplicationAuthenticatorTest extends WebTestCase {
 
-    private \Doctrine\ORM\EntityManagerInterface $em;
+    private EntityManagerInterface|null $em;
 
-    private \Symfony\Bundle\FrameworkBundle\KernelBrowser $client;
+    private KernelBrowser|null $client;
 
-    private \App\Entity\Application $application;
+    private Application|null $application;
 
     public function setUp(): void {
         $this->client = self::createClient();
@@ -48,32 +50,32 @@ final class ApplicationAuthenticatorTest extends WebTestCase {
     }
 
     public function testAuthenticateNoApiKey(): void {
-        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, '/api/user_types', [], [], [
+        $this->client->request(Request::METHOD_GET, '/api/user_types', [], [], [
             'HTTP_ACCEPT' => 'application/json'
         ]);
 
         $this->client->getResponse();
 
-        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
         $this->assertEquals('application/json', $this->client->getResponse()->headers->get('Content-Type'));
     }
 
     public function testAuthenticateValidApplication(): void {
-        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, '/api/user_types', [], [], [
+        $this->client->request(Request::METHOD_GET, '/api/user_types', [], [], [
             'HTTP_X_TOKEN' => 'api-key',
             'Accept' => 'application/json'
         ]);
 
-        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertEquals('application/json', $this->client->getResponse()->headers->get('Content-Type'));
     }
 
     public function testAuthenticateInvalidApplication(): void {
-        $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, '/api/user_types', [], [], [
+        $this->client->request(Request::METHOD_GET, '/api/user_types', [], [], [
             'HTTP_X_TOKEN' => 'invalid-api-key'
         ]);
 
-        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
         $this->assertEquals('application/json', $this->client->getResponse()->headers->get('Content-Type'));
     }
 }

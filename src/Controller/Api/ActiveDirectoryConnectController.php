@@ -118,6 +118,6 @@ class ActiveDirectoryConnectController extends AbstractController {
     }
 
     private function transformResponse(ActiveDirectoryUser $user): ActiveDirectoryUserResponse {
-        return new ActiveDirectoryUserResponse($user->getUserIdentifier(), $user->getFirstname(), $user->getLastname(), $user->getGrade(), $user->getObjectGuid());
+        return new ActiveDirectoryUserResponse($user->getUserIdentifier(), $user->getFirstname(), $user->getLastname(), $user->getGrade(), $user->getObjectGuid()->toString());
     }
 }

@@ -28,8 +28,7 @@ class HealthCheckService {
             if ($checkResult instanceof HealthCheckResult) {
                 $results[] = $checkResult;
             } elseif (is_array($checkResult)) {
-                $results += array_filter($checkResult, fn(\App\HealthCheck\HealthCheckResult $result): true => // Ensure correct type
-$result instanceof HealthCheckResult);
+                $results += $checkResult;
             }
         }
 

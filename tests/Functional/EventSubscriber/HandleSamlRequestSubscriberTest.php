@@ -9,6 +9,7 @@ use App\Entity\UserType;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
 
 final class HandleSamlRequestSubscriberTest extends WebTestCase {
 
@@ -18,6 +19,7 @@ final class HandleSamlRequestSubscriberTest extends WebTestCase {
     private ?UserType $userType;
 
     public function setUp(): void {
+        self::ensureKernelShutdown();
         $this->client = self::createClient();
 
         $this->em = $this->client->getContainer()
@@ -55,7 +57,7 @@ final class HandleSamlRequestSubscriberTest extends WebTestCase {
 
     public function testStoreAndRedirectSamlPostRequest(): void {
         $this->client->followRedirects(true);
-        $crawler = $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_POST, '/idp/saml', [
+        $crawler = $this->client->request(Request::METHOD_POST, '/idp/saml', [
             'SAMLRequest' => 'foo'
         ]);
 

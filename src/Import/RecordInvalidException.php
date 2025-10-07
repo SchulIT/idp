@@ -12,7 +12,7 @@ class RecordInvalidException extends Exception {
 
     private readonly string $field;
 
-    public function __construct(int $index, string $field, $code = 0, Throwable $previous = null) {
+    public function __construct(int $index, string $field, $code = 0, Throwable|null $previous = null) {
         parent::__construct(sprintf('Record %d has an invalid field %s', $index, $field), $code, $previous);
 
         $this->index = $index;

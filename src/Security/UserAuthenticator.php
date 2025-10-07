@@ -126,12 +126,14 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator {
         return new Passport(
             new UserBadge($username),
             new CustomCredentials(
-                function($password, PasswordAuthenticatedUserInterface $user): bool {
+                function($password, UserInterface $user): bool {
                     if($user instanceof ActiveDirectoryUser && $this->isActiveDirectoryEnabled) {
                         return $this->authenticateUsingActiveDirectory(new Credentials($user->getUserIdentifier(), $password), $user);
-                    } else {
+                    } else if ($user instanceof PasswordAuthenticatedUserInterface) {
                         return $this->hasher->isPasswordValid($user, $password);
                     }
+
+                    return false;
                 },
                 $password
             ),

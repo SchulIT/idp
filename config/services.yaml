@@ -189,10 +189,6 @@ services:
         decorates: Doctrine\Migrations\Version\DbalMigrationFactory
         arguments: [ '@App\Migrations\Factory\MigrationFactoryDecorator.inner', '@doctrine.orm.entity_manager' ]
 
-    App\EventSubscriber\LoadMessengerCronJobs:
-        arguments:
-            $command: '@console.command.messenger_consume_messages'
-
     # Monolog
     SchulIT\CommonBundle\Monolog\DatabaseHandler:
         arguments:

@@ -39,7 +39,7 @@ class AttributeValueProvider extends AbstractAttributeProvider {
      *
      * @param User|null $user
      */
-    public function getCommonAttributesForUser(User $user = null): array {
+    public function getCommonAttributesForUser(User|null $user = null): array {
         if(!$user instanceof User) {
             return [ ];
         }

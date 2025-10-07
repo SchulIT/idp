@@ -27,7 +27,7 @@ class AttributeResolver {
      * @param User|null $user
      * @return ServiceAttributeValueInterface[] $user
      */
-    public function getDetailedResultingAttributeValuesForUser(User $user = null): array {
+    public function getDetailedResultingAttributeValuesForUser(User|null $user = null): array {
         if(!$user instanceof User) {
             return [ ];
         }
@@ -66,7 +66,7 @@ class AttributeResolver {
      * @param User|null $user
      * @return mixed[]
      */
-    public function getResultingAttributeValuesForUser(User $user = null): array {
+    public function getResultingAttributeValuesForUser(User|null $user = null): array {
         if(!$user instanceof User) {
             return [ ];
         }
@@ -86,7 +86,7 @@ class AttributeResolver {
      * @param User|null $user
      * @return mixed[]
      */
-    public function getAttributeValuesForUser(User $user = null): array {
+    public function getAttributeValuesForUser(User|null $user = null): array {
         if(!$user instanceof User) {
             return [ ];
         }

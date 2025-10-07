@@ -15,19 +15,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
 
 #[AsCommand(name: 'app:setup', description: 'Runs the initial setup.')]
-class SetupCommand extends Command {
+readonly class SetupCommand {
 
-    public function __construct(private readonly Connection $dbalConnection,
-                                private readonly UserTypesSetup $userTypeSetup,
-                                private readonly PdoSessionHandler $pdoSessionHandler,
-                                private readonly ActiveSessionsResolver $activeSessionsResolver,
-                                ?string $name = null) {
-        parent::__construct($name);
-    }
+    public function __construct(private Connection $dbalConnection,
+                                private UserTypesSetup $userTypeSetup,
+                                private PdoSessionHandler $pdoSessionHandler,
+                                private ActiveSessionsResolver $activeSessionsResolver) { }
 
-    public function execute(InputInterface $input, OutputInterface $output): int {
-        $io = new SymfonyStyle($input, $output);
-
+    public function __invoke(SymfonyStyle $io): int {
         $this->addDefaultUserType($io);
         $this->setupSessions($io);
         $this->setupRememberMe($io);

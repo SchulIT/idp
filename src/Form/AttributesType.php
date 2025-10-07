@@ -76,7 +76,7 @@ class AttributesType extends FieldsetType {
                 $options['label_attr'] = [
                     'class' => $attribute->isMultipleChoice() ? 'checkbox-custom' : 'radio-custom'
                 ];
-            } elseif ($type === TextType::class && $options['disabled']) {
+            } elseif (/*$type === TextType::class && */$options['disabled']) {
                 $type = ReadonlyTextType::class;
             }
 

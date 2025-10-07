@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use DateTime;
+use Deprecated;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -271,14 +272,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         $this->enabledServices->removeElement($serviceProvider);
     }
 
+    /**
+     * @return Collection<ServiceProvider>
+     */
     public function getEnabledServices(): Collection {
         return $this->enabledServices;
     }
 
+    /**
+     * @return Collection<ServiceAttributeValue>
+     */
     public function getAttributes(): Collection {
         return $this->attributes;
     }
 
+    /**
+     * @return Collection<UserRole>
+     */
     public function getUserRoles(): Collection {
         return $this->userRoles;
     }
@@ -314,6 +324,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         return null;
     }
 
+    #[Deprecated]
     public function eraseCredentials(): void
     {
     }
@@ -453,10 +464,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         $this->linkedStudents->removeElement($user);
     }
 
+    /**
+     * @return Collection<User>
+     */
     public function getLinkedStudents(): Collection {
         return $this->linkedStudents;
     }
 
+    /**
+     * @return Collection<User>
+     */
     public function getParents(): Collection {
         return $this->parents;
     }

@@ -14,15 +14,11 @@ use Symfony\Component\Scheduler\Attribute\AsCronTask;
 
 #[AsCommand(name: 'app:security:remove_expired_password_reset_tokens', description: 'Löscht abgelaufene Tokens zum Zurücksetzen des Passwortes')]
 #[AsCronTask('*/10 * * * *')]
-class RemoveExpiredPasswordRequestTokensCommand extends Command {
+readonly class RemoveExpiredPasswordRequestTokensCommand {
 
-    public function __construct(private readonly ForgotPasswordManager $forgotPasswordManager, string $name = null) {
-        parent::__construct($name);
-    }
+    public function __construct(private ForgotPasswordManager $forgotPasswordManager) { }
 
-    public function execute(InputInterface $input, OutputInterface $output): int {
-        $io = new SymfonyStyle($input, $output);
-
+    public function __invoke(SymfonyStyle $io): int {
         $io->section('Lösche alte Tokens');
 
         $count = $this->forgotPasswordManager->garbageCollect();

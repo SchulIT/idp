@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Security\EmailConfirmation\ConfirmationManager;
 use DateTime;
 use SchulIT\CommonBundle\Helper\DateHelper;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -25,7 +26,7 @@ class UserChecker implements UserCheckerInterface {
     /**
      * @inheritDoc
      */
-    public function checkPostAuth(UserInterface $user): void {
+    public function checkPostAuth(UserInterface $user, ?TokenInterface $token = null): void {
         if(!$user instanceof User) {
             return;
         }

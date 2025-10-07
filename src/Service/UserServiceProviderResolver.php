@@ -50,14 +50,12 @@ class UserServiceProviderResolver {
      * @param User|null $user
      * @return ArrayCollection
      */
-    public function getServices(User $user = null): iterable {
+    public function getServices(User|null $user = null): iterable {
         if(!$user instanceof User) {
             return new ArrayCollection();
         }
 
-        /** @var ServiceProvider[] $userServices */
         $userServices = $user->getEnabledServices();
-        /** @var ServiceProvider[] $typeServices */
         $typeServices = $user->getType()->getEnabledServices();
 
         $services = [ ];
@@ -70,11 +68,9 @@ class UserServiceProviderResolver {
             $services[$service->getId()] = $service;
         }
 
-        /** @var UserRole[] $userRoles */
         $userRoles = $user->getUserRoles();
 
         foreach($userRoles as $role) {
-            /** @var ServiceProvider[] $roleServices */
             $roleServices = $role->getEnabledServices();
 
             foreach($roleServices as $service) {
@@ -85,6 +81,6 @@ class UserServiceProviderResolver {
         // sort by name
         usort($services, fn(ServiceProvider $serviceProviderA, ServiceProvider $serviceProviderB): int => strcmp($serviceProviderA->getName(), $serviceProviderB->getName()));
 
-        return new ArrayCollection(array_values($services));
+        return new ArrayCollection($services);
     }
 }

@@ -15,18 +15,14 @@ use Symfony\Component\Scheduler\Attribute\AsCronTask;
 
 #[AsCommand(name: 'app:user:remove_orphaned', description: 'Löscht Eltern ohne verknüpften Lernenden.')]
 #[AsCronTask('0 1 * * * ')]
-class RemoveOrphanedParentsCommand extends Command {
+readonly class RemoveOrphanedParentsCommand {
 
     private const string InactiveModifier = '-14 days';
 
-    public function __construct(private readonly DateHelper $dateHelper, private readonly UserRepositoryInterface $userRepository, string $name = null) {
-        parent::__construct($name);
-    }
+    public function __construct(private DateHelper $dateHelper, private UserRepositoryInterface $userRepository) { }
 
 
-    public function execute(InputInterface $input, OutputInterface $output): int {
-        $style = new SymfonyStyle($input, $output);
-
+    public function __invoke(SymfonyStyle $style): int {
         $users = $this->userRepository->findParentUsersWithoutStudents();
         $this->userRepository->beginTransaction();
 

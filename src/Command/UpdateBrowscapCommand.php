@@ -16,17 +16,11 @@ use Symfony\Component\Scheduler\Attribute\AsCronTask;
 
 #[AsCommand('app:browscap:update', description: 'Aktualisiert den Browscap Cache')]
 #[AsCronTask('@daily')]
-class UpdateBrowscapCommand extends Command {
+readonly class UpdateBrowscapCommand {
 
-    public function __construct(private readonly BrowscapUpdater $browscapUpdater, string $name = null) {
-        parent::__construct($name);
+    public function __construct(private BrowscapUpdater $browscapUpdater) { }
 
-
-    }
-
-    public function execute(InputInterface $input, OutputInterface $output): int {
-        $io = new SymfonyStyle($input, $output);
-
+    public function __invoke(SymfonyStyle $io): int {
         $io->section('Aktualisiere Browscap-Cache');
 
         try {

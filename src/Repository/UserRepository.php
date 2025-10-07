@@ -42,7 +42,7 @@ class UserRepository implements UserRepositoryInterface {
         $this->em->rollback();
     }
 
-    public function findAll(int $offset = 0, int $limit = null, bool $deleted = false): array {
+    public function findAll(int $offset = 0, int|null $limit = null, bool $deleted = false): array {
         $qb = $this->em
             ->createQueryBuilder()
             ->select('u')

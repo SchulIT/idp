@@ -16,8 +16,8 @@ final class UserRepositoryTest extends KernelTestCase {
 
     private ?object $repository;
 
-    private \App\Entity\User $user;
-    private $adUser;
+    private User $user;
+    private ActiveDirectoryUser $adUser;
 
     public function setUp(): void {
         $kernel = self::bootKernel();
@@ -73,7 +73,6 @@ final class UserRepositoryTest extends KernelTestCase {
         $adUser = $this->repository->convertToActiveDirectory($this->user, $newAdUser);
 
         $this->assertNotNull($adUser);
-        $this->assertInstanceOf(ActiveDirectoryUser::class, $adUser);
         $this->assertEquals($adUser->getId(), $this->user->getId());
         $this->assertEquals($newAdUser->getOu(), $adUser->getOu());
         $this->assertEquals($newAdUser->getGroups(), $adUser->getGroups());

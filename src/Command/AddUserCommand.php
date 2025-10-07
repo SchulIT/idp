@@ -12,7 +12,6 @@ use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -21,17 +20,12 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[AsCommand(name: 'app:add-user', description: 'Erstellt einen neuen Benutzer')]
-class AddUserCommand extends Command {
+readonly class AddUserCommand {
 
-    public function __construct(private readonly UserTypeRepositoryInterface $userTypeRepository, private readonly UserRepositoryInterface $userRepository,
-                                private readonly UserPasswordHasherInterface $passwordHasher, private readonly ValidatorInterface $validator, ?string $name = null)
-    {
-        parent::__construct($name);
-    }
+    public function __construct(private UserTypeRepositoryInterface $userTypeRepository, private UserRepositoryInterface $userRepository,
+                                private UserPasswordHasherInterface $passwordHasher, private ValidatorInterface $validator) { }
 
-    public function execute(InputInterface $input, OutputInterface $output): int {
-        $io = new SymfonyStyle($input, $output);
-
+    public function __invoke(InputInterface $input, SymfonyStyle $io): int {
         $username = $io->ask('Username', null, function($username) {
             if(empty($username)) {
                 throw new RuntimeException('Benutzername darf nicht leer sein.');

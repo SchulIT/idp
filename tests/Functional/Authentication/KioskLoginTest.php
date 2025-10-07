@@ -10,19 +10,22 @@ use App\Entity\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 final class KioskLoginTest extends WebTestCase {
-    private \Doctrine\ORM\EntityManagerInterface $em;
+    private EntityManagerInterface|null $em;
 
-    private \Symfony\Bundle\FrameworkBundle\KernelBrowser $client;
+    private KernelBrowser|null $client;
 
-    private ?\App\Entity\User $user = null;
+    private ?User $user = null;
 
-    private ?\App\Entity\UserType $userType = null;
+    private ?UserType $userType = null;
 
-    private ?\App\Entity\KioskUser $kiosk = null;
+    private ?KioskUser $kiosk = null;
 
     public function setUp(): void {
+        self::ensureKernelShutdown();
         $this->client = self::createClient();
 
         $this->em = $this->client->getContainer()
@@ -69,9 +72,9 @@ final class KioskLoginTest extends WebTestCase {
         $this->em->persist($this->kiosk);
         $this->em->flush();
 
-        $crawler = $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, '/login/check?token=abc');
+        $crawler = $this->client->request(Request::METHOD_GET, '/login/check?token=abc');
         $this->assertEquals('http://localhost/dashboard', $crawler->getUri(), 'Tests whether we land at the dashboard page');
-        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the login page');
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the login page');
 
         $tokenStorage = $this->client->getContainer()->get('security.token_storage');
 
@@ -89,17 +92,17 @@ final class KioskLoginTest extends WebTestCase {
         $this->em->persist($this->kiosk);
         $this->em->flush();
 
-        $crawler = $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, '/login/check?token=abc');
+        $crawler = $this->client->request(Request::METHOD_GET, '/login/check?token=abc');
         $this->assertEquals('http://localhost/login', $crawler->getUri(), 'Tests whether we land at the login page');
-        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the login page');
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the login page');
     }
 
     public function testInvalidLogin(): void {
         $this->client->restart();
         $this->client->followRedirects(true);
 
-        $crawler = $this->client->request(\Symfony\Component\HttpFoundation\Request::METHOD_GET, '/login/check?token=foo');
+        $crawler = $this->client->request(Request::METHOD_GET, '/login/check?token=foo');
         $this->assertEquals('http://localhost/login', $crawler->getUri(), 'Tests whether we land at the login page');
-        $this->assertEquals(\Symfony\Component\HttpFoundation\Response::HTTP_OK, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the login page');
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode(), 'Ensure that we have a HTTP 200 at the login page');
     }
 }
