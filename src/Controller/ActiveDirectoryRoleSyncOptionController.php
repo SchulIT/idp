@@ -8,6 +8,7 @@ use App\Entity\ActiveDirectoryRoleSyncOption;
 use App\Form\ActiveDirectoryRoleSyncOptionType;
 use App\Repository\ActiveDirectoryRoleSyncOptionRepositoryInterface;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use SchulIT\CommonBundle\Http\Attribute\NotFoundRedirect;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,6 +50,7 @@ class ActiveDirectoryRoleSyncOptionController extends AbstractController
         ]);
     }
 
+    #[NotFoundRedirect(redirectRoute: 'ad_grades_sync_options', flashMessage: 'ad_sync_options.not_found')]
     #[Route(path: '/admin/ad_sync/roles/{uuid}/edit', name: 'edit_ad_role_sync_options')]
     public function edit(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] ActiveDirectoryRoleSyncOption $option): Response {
         $form = $this->createForm(ActiveDirectoryRoleSyncOptionType::class, $option);
@@ -67,6 +69,7 @@ class ActiveDirectoryRoleSyncOptionController extends AbstractController
         ]);
     }
 
+    #[NotFoundRedirect(redirectRoute: 'ad_grades_sync_options', flashMessage: 'ad_sync_options.not_found')]
     #[Route(path: '/admin/ad_sync/roles/{uuid}/remove', name: 'remove_ad_role_sync_options')]
     public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] ActiveDirectoryRoleSyncOption $option, Request $request, TranslatorInterface $translator): Response {
         $form = $this->createForm(ConfirmType::class, [], [

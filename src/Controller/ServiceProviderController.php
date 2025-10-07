@@ -11,6 +11,7 @@ use App\Repository\ServiceProviderRepositoryInterface;
 use Exception;
 use LightSaml\Model\Metadata\EntityDescriptor;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use SchulIT\CommonBundle\Http\Attribute\NotFoundRedirect;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
@@ -36,6 +37,8 @@ class ServiceProviderController extends AbstractController
             'service_providers' => $serviceProviders
         ]);
     }
+
+    #[NotFoundRedirect(redirectRoute: 'service_providers', flashMessage: 'service_providers.not_found')]
     #[Route(path: '/admin/service_providers/{uuid}/certificate', name: 'service_provider_certificate')]
     public function certificateInfo(#[MapEntity(mapping: ['uuid' => 'uuid'])] ServiceProvider $serviceProvider): Response {
         if(!$serviceProvider instanceof SamlServiceProvider) {
@@ -73,6 +76,8 @@ class ServiceProviderController extends AbstractController
             'type' => $serviceProvider::class
         ]);
     }
+
+    #[NotFoundRedirect(redirectRoute: 'service_providers', flashMessage: 'service_providers.not_found')]
     #[Route(path: '/admin/service_providers/{uuid}/edit', name: 'edit_service_provider')]
     public function edit(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] ServiceProvider $serviceProvider): Response {
         $form = $this->createForm(ServiceProviderType::class, $serviceProvider);
@@ -90,6 +95,8 @@ class ServiceProviderController extends AbstractController
             'service_provider' => $serviceProvider
         ]);
     }
+
+    #[NotFoundRedirect(redirectRoute: 'service_providers', flashMessage: 'service_providers.not_found')]
     #[Route(path: '/admin/service_providers/{uuid}/remove', name: 'remove_service_provider')]
     public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] ServiceProvider $serviceProvider, Request $request, TranslatorInterface $translator): Response {
         $form = $this->createForm(ConfirmType::class, [], [

@@ -8,6 +8,7 @@ use App\Entity\EmailConfirmation;
 use App\Security\EmailConfirmation\ConfirmationManager;
 use App\Security\EmailConfirmation\EmailAddressAlreadyInUseException;
 use Exception;
+use SchulIT\CommonBundle\Http\Attribute\NotFoundRedirect;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,8 @@ use Symfony\Component\Routing\Attribute\Route;
 class EmailConfirmationController extends AbstractController
 {
     private const string CsrfTokenId = 'confirm_email';
+
+    #[NotFoundRedirect(redirectRoute: 'users', flashMessage: 'users.email_confirmation.not_found')]
     #[Route('/users/confirmations/{token}', name: 'show_email_confirmation')]
     public function index(#[MapEntity(mapping: ['token' => 'token'])] EmailConfirmation $confirmation): Response {
         return $this->render('users/confirmation.html.twig', [
@@ -24,6 +27,8 @@ class EmailConfirmationController extends AbstractController
             'tokenId' => self::CsrfTokenId
         ]);
     }
+
+    #[NotFoundRedirect(redirectRoute: 'users', flashMessage: 'users.email_confirmation.not_found')]
     #[Route('/users/confirmations/{token}/action', name: 'perform_email_confirmation_action', methods: ['POST'])]
     public function action(#[MapEntity(mapping: ['token' => 'token'])] \App\Entity\EmailConfirmation $confirmation, Request $request, ConfirmationManager $confirmationManager): Response {
         if(!$this->isCsrfTokenValid(self::CsrfTokenId, $request->request->get('_csrf_token'))) {
@@ -42,6 +47,7 @@ class EmailConfirmationController extends AbstractController
         };
 
     }
+
     private function confirm(#[MapEntity(mapping: ['token' => 'token'])] EmailConfirmation $confirmation, ConfirmationManager $confirmationManager): Response {
         try {
             $confirmationManager->confirm($confirmation);

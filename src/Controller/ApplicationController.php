@@ -9,6 +9,7 @@ use App\Form\ApplicationType;
 use App\Repository\ApplicationRepositoryInterface;
 use App\Service\ApplicationKeyGenerator;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use SchulIT\CommonBundle\Http\Attribute\NotFoundRedirect;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,6 +49,7 @@ class ApplicationController extends AbstractController
         ]);
     }
 
+    #[NotFoundRedirect(redirectRoute: 'applications', flashMessage: 'applications.not_found')]
     #[Route(path: '/admin/applications/{uuid}/edit', name: 'edit_application')]
     public function edit(#[MapEntity(mapping: ['uuid' => 'uuid'])] Application $application, Request $request): Response {
         $form = $this->createForm(ApplicationType::class, $application);

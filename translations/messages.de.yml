@@ -226,6 +226,7 @@ user_menu:
 
 users:
   label: Benutzer
+  not_found: Der Benutzer wurde nicht gefunden.
   type:
     label: Art
     ad: Aus Active Directory synchronisiert
@@ -311,6 +312,7 @@ users:
 
   email_confirmation:
     label: E-Mail Bestätigung
+    not_found: Die E-Mail Bestätigung wurde nicht gefunden. Möglicherweise wurde die E-Mail-Adresse in der Zwischenzeit bestätigt.
     confirm:
       label: E-Mail-Adresse bestätigen
       success: E-Mail-Adresse bestätigt
@@ -329,6 +331,7 @@ management:
 user_roles:
   label: Benutzerrollen
   help: Jeder Benutzer kann mehreren Benutzergruppen zugeordnet werden. Jeder Benutzerrolle können Dienste und Rollen zugewiesen werden, welche für alle Mitglieder der Benutzergruppe automatisch freigeschaltet ist.
+  not_found: Die Benutzerrolle wurde nicht gefunden.
   add:
     label: Neue Rolle
     success: Rolle erfolgreich angelegt
@@ -344,6 +347,7 @@ user_roles:
 user_types:
   label: Benutzertypen
   help: Jeder Benutzer ist genau einem Benutzertypen zugeordnet. Jedem Benutzertypen können Dienste und Rollen zugewiesen werden, welche für alle Mitglieder der Benutzergruppe automatisch freigeschaltet ist.
+  not_found: Der Benutzertyp wurde nicht gefunden.
   add:
     label: Neuer Benutzertyp
     success: Benutzertyp erfolgreich angelegt
@@ -363,6 +367,7 @@ user_types:
 ad_sync_options:
   label: AD Synchronisationsregeln
   help: Falls das System an ein AD angebunden ist, kann über Synchronisierungsregeln festgelegt werden, welchem Benutzertypen ein Benutzer zugeordnet werden soll.
+  not_found: Die angefragte AD Synchronisationsregel wurde nicht gefunden.
   add:
     label: Neue AD Synchronisationsregel
     success: Synchronisationsregel erfolgreich angelegt
@@ -406,6 +411,7 @@ ad_sync_options:
 service_providers:
   label: Dienste
   help: Dienste sind Anwendungen (Service Provider), an denen sich ein Benutzer mithilfe dieses Sigle-Sign-Ons anmelden kann.
+  not_found: Der Dienst wurde nicht gefunden.
   type:
     default: Link
     saml: SAML
@@ -445,6 +451,7 @@ certificate_info:
 service_attributes:
   label: Attribute
   help: Mithilfe von Attributen können Eigenschaften der Benutzer festgelegt werden. Wird ein Attribut einem Dienst zugeordnet, so erhält der Dienst bei der Anmeldung eines Benutzers den entsprechenden Attributswert. Einige Dienste benötigen bestimmte Attribute, um zu funktionieren.
+  not_found: Das Attribut wurde nicht gefunden.
   add:
     label: Neues Attribut
     success: Attribut erfolgreich hinzugefügt
@@ -502,6 +509,7 @@ filter:
 
 applications:
   label: Anwendungen
+  not_found: Die angeforderte Anwendung wurde nicht gefunden.
   help: Hier können API-Keys für externe Anwendungen erzeugt werden. Diese können auf die API-Schnittstelle des Sigle-Sign-On zugreifen.
   add:
     label: Neue Anwendung
@@ -554,6 +562,7 @@ attributes:
 codes:
   label: Registrierungscodes
   empty: Aktuell sind keine Registrierungsocdes hinterlegt.
+  not_found: Der Registrierungscode wurde nicht gefunden.
   redeemed: eingelöst
   confirmed: Benutzer aktiv
   query: Code suchen

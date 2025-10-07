@@ -8,6 +8,7 @@ use App\Entity\ActiveDirectorySyncOption;
 use App\Form\ActiveDirectorySyncOptionType;
 use App\Repository\ActiveDirectorySyncOptionRepositoryInterface;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use SchulIT\CommonBundle\Http\Attribute\NotFoundRedirect;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,6 +49,7 @@ class ActiveDirectorySyncOptionController extends AbstractController
         ]);
     }
 
+    #[NotFoundRedirect(redirectRoute: 'ad_grades_sync_options', flashMessage: 'ad_sync_options.not_found')]
     #[Route(path: '/admin/ad_sync/{uuid}/edit', name: 'edit_ad_sync_option')]
     public function edit(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] ActiveDirectorySyncOption $syncOption): Response {
         $form = $this->createForm(ActiveDirectorySyncOptionType::class, $syncOption);
@@ -66,6 +68,7 @@ class ActiveDirectorySyncOptionController extends AbstractController
         ]);
     }
 
+    #[NotFoundRedirect(redirectRoute: 'ad_grades_sync_options', flashMessage: 'ad_sync_options.not_found')]
     #[Route(path: '/admin/ad_sync/{uuid}/remove', name: 'remove_ad_sync_option')]
     public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] ActiveDirectorySyncOption $syncOption, Request $request, TranslatorInterface $translator): Response {
         $form = $this->createForm(ConfirmType::class, [], [

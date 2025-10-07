@@ -10,6 +10,7 @@ use App\Form\UserRoleType;
 use App\Repository\UserRoleRepositoryInterface;
 use App\Service\AttributePersister;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use SchulIT\CommonBundle\Http\Attribute\NotFoundRedirect;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,6 +54,8 @@ class UserRoleController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    #[NotFoundRedirect(redirectRoute: 'user_roles', flashMessage: 'user_roles.not_found')]
     #[Route(path: '/admin/user_roles/{uuid}/edit', name: 'edit_role')]
     public function edit(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] UserRole $role, AttributePersister $attributePersister): Response {
         $form = $this->createForm(UserRoleType::class, $role);
@@ -73,6 +76,8 @@ class UserRoleController extends AbstractController
             'role' => $role
         ]);
     }
+
+    #[NotFoundRedirect(redirectRoute: 'user_roles', flashMessage: 'user_roles.not_found')]
     #[Route(path: '/admin/user_roles/{uuid}/remove', name: 'remove_role')]
     public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] UserRole $role, Request $request, TranslatorInterface $translator): Response {
         $form = $this->createForm(ConfirmType::class, [ ], [

@@ -12,6 +12,7 @@ use App\Security\Voter\UserTypeVoter;
 use App\Service\AttributePersister;
 use App\Setup\UserTypesSetup;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use SchulIT\CommonBundle\Http\Attribute\NotFoundRedirect;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -71,6 +72,8 @@ class UserTypeController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    #[NotFoundRedirect(redirectRoute: 'user_types', flashMessage: 'user_types.not_found')]
     #[Route(path: '/admin/user_types/{uuid}/edit', name: 'edit_user_type')]
     public function edit(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] UserType $userType, AttributePersister $attributePersister): Response {
         $form = $this->createForm(UserTypeType::class, $userType);
@@ -91,6 +94,8 @@ class UserTypeController extends AbstractController
             'type' => $userType
         ]);
     }
+
+    #[NotFoundRedirect(redirectRoute: 'user_types', flashMessage: 'user_types.not_found')]
     #[Route(path: '/admin/user_types/{uuid}/remove', name: 'remove_user_type')]
     public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] UserType $userType, Request $request, UserTypeRepositoryInterface $userTypeRepository, TranslatorInterface $translator): Response {
         $this->denyAccessUnlessGranted(UserTypeVoter::REMOVE, $userType);

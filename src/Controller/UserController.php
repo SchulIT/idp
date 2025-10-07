@@ -30,6 +30,7 @@ use App\View\Filter\UserRoleFilter;
 use App\View\Filter\UserTypeFilter;
 use DateTime;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use SchulIT\CommonBundle\Http\Attribute\NotFoundRedirect;
 use SchulIT\CommonBundle\Utils\RefererHelper;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -134,6 +135,7 @@ class UserController extends AbstractController {
         ]);
     }
 
+    #[NotFoundRedirect(redirectRoute: 'users', flashMessage: 'users.not_found')]
     #[Route(path: '/users/{uuid}/attributes', name: 'show_attributes')]
     #[IsGranted('ROLE_ADMIN')]
     public function showAttributes(#[MapEntity(mapping: ['uuid' => 'uuid'])] User $user, AttributeResolver $resolver, AttributeValueProvider $provider): Response {
@@ -172,6 +174,7 @@ class UserController extends AbstractController {
         ]);
     }
 
+    #[NotFoundRedirect(redirectRoute: 'users', flashMessage: 'users.not_found')]
     #[Route(path: '/users/{uuid}/edit', name: 'edit_user')]
     #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] User $user, AttributePersister $attributePersister, UserPasswordHasherInterface $passwordHasher): Response {
@@ -206,6 +209,7 @@ class UserController extends AbstractController {
         ]);
     }
 
+    #[NotFoundRedirect(redirectRoute: 'users', flashMessage: 'users.not_found')]
     #[Route(path: '/users/{uuid}/remove', name: 'remove_user')]
     #[IsGranted('ROLE_ADMIN')]
     public function remove(#[CurrentUser] User $currentUser, #[MapEntity(mapping: ['uuid' => 'uuid'])] User $user, Request $request, TranslatorInterface $translator): Response {
@@ -248,6 +252,7 @@ class UserController extends AbstractController {
         ]);
     }
 
+    #[NotFoundRedirect(redirectRoute: 'users', flashMessage: 'users.not_found')]
     #[Route(path: '/users/{uuid}/restore', name: 'restore_user', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function restore(#[CurrentUser] User $currentUser, #[MapEntity(mapping: ['uuid' => 'uuid'])]  User $user, Request $request): Response {
@@ -267,6 +272,7 @@ class UserController extends AbstractController {
         return $this->redirectToRoute('users_trash');
     }
 
+    #[NotFoundRedirect(redirectRoute: 'users', flashMessage: 'users.not_found')]
     #[Route(path: '/users/{uuid}/reset_password_ad', name: 'reset_password_ad')]
     #[IsGranted('ROLE_PASSWORD_MANAGER')]
     public function resetPasswordActiveDirectory(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] User $user, AdAuthInterface $adAuth, TranslatorInterface $translator): Response {
@@ -313,6 +319,7 @@ class UserController extends AbstractController {
         ]);
     }
 
+    #[NotFoundRedirect(redirectRoute: 'users', flashMessage: 'users.not_found')]
     #[Route(path: '/users/{uuid}/reset_password', name: 'reset_password')]
     #[IsGranted('ROLE_PASSWORD_MANAGER')]
     public function resetPassword(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] User $user, ForgotPasswordManager $manager, TranslatorInterface $translator): Response {
@@ -343,6 +350,7 @@ class UserController extends AbstractController {
         ]);
     }
 
+    #[NotFoundRedirect(redirectRoute: 'users', flashMessage: 'users.not_found')]
     #[Route('/users/{uuid}/logout', name: 'user_logout_everywhere')]
     #[IsGranted('ROLE_ADMIN')]
     public function logout(#[MapEntity(mapping: ['uuid' => 'uuid'])] User $user, LogoutHelper $logoutHelper, RefererHelper $refererHelper): Response {

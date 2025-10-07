@@ -15,6 +15,7 @@ use App\Security\Registration\CodeGenerator;
 use League\Csv\ByteSequence;
 use League\Csv\Writer;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use SchulIT\CommonBundle\Http\Attribute\NotFoundRedirect;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\HeaderUtils;
@@ -216,6 +217,8 @@ class RegistrationCodeController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    #[NotFoundRedirect(redirectRoute: 'registration_codes', flashMessage: 'codes.not_found')]
     #[Route(path: '/registration_codes/{uuid}/edit', name: 'edit_registration_code')]
     public function edit(#[MapEntity(mapping: ['uuid' => 'uuid'])] RegistrationCode $code, Request $request): Response {
         if($code->getRedeemingUser() instanceof User) {
@@ -239,6 +242,8 @@ class RegistrationCodeController extends AbstractController
             'code' => $code
         ]);
     }
+
+    #[NotFoundRedirect(redirectRoute: 'registration_codes', flashMessage: 'codes.not_found')]
     #[Route(path: '/registration_codes/{uuid}/remove', name: 'remove_registration_code')]
     public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] RegistrationCode $code, Request $request): Response {
         $form = $this->createForm(ConfirmType::class, [], [

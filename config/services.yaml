@@ -239,3 +239,8 @@ services:
     SchulIT\CommonBundle\Command\ClearLogsCommand:
       tags:
         - { name: scheduler.task, arguments: '', trigger: 'cron', expression: '@daily' }
+
+
+    SchulIT\CommonBundle\Http\AttributeResolver: ~
+    SchulIT\CommonBundle\Http\HttpNotFoundExceptionSubscriber: ~
+    SchulIT\CommonBundle\Http\ForbiddenRedirectSubscriber: ~

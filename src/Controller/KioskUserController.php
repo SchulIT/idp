@@ -9,6 +9,7 @@ use App\Form\KioskUserType;
 use App\Repository\KioskUserRepositoryInterface;
 use App\Service\KioskUserTokenGenerator;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use SchulIT\CommonBundle\Http\Attribute\NotFoundRedirect;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,6 +45,8 @@ class KioskUserController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    #[NotFoundRedirect(redirectRoute: 'kiosk_users', flashMessage: 'users.not_found')]
     #[Route(path: '/users/kiosk/{uuid}/edit', name: 'edit_kiosk_user')]
     public function edit(#[MapEntity(mapping: ['uuid' => 'uuid'])] KioskUser $user, Request $request): Response {
         $form = $this->createForm(KioskUserType::class, $user);
@@ -60,6 +63,8 @@ class KioskUserController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    #[NotFoundRedirect(redirectRoute: 'kiosk_users', flashMessage: 'users.not_found')]
     #[Route(path: '/users/kiosk/{uuid}/remove', name: 'remove_kiosk_user')]
     public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] KioskUser $user, Request $request): Response {
         $form = $this->createForm(ConfirmType::class, null, [

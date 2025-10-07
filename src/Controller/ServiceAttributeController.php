@@ -8,6 +8,7 @@ use App\Entity\ServiceAttribute;
 use App\Form\ServiceAttributeType;
 use App\Repository\ServiceAttributeRepositoryInterface;
 use SchulIT\CommonBundle\Form\ConfirmType;
+use SchulIT\CommonBundle\Http\Attribute\NotFoundRedirect;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,6 +51,7 @@ class ServiceAttributeController extends AbstractController {
         ]);
     }
 
+    #[NotFoundRedirect(redirectRoute: 'attributes', flashMessage: 'service_attributes.not_found')]
     #[Route(path: '/admin/attributes/{uuid}/edit', name: 'edit_attribute')]
     public function edit(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] ServiceAttribute $attribute): Response {
         $form = $this->createForm(ServiceAttributeType::class, $attribute);
@@ -68,6 +70,7 @@ class ServiceAttributeController extends AbstractController {
         ]);
     }
 
+    #[NotFoundRedirect(redirectRoute: 'attributes', flashMessage: 'service_attributes.not_found')]
     #[Route(path: '/admin/attributes/{uuid}/remove', name: 'remove_attribute')]
     public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] ServiceAttribute $attribute, Request $request, TranslatorInterface $translator): Response {
         $form = $this->createForm(ConfirmType::class, [], [
