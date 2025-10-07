@@ -20,7 +20,7 @@
         "jbtronics/settings-bundle": "^2.4",
         "jms/serializer-bundle": "^5.0",
         "knplabs/knp-menu-bundle": "^3.4",
-        "league/commonmark": "^1.4",
+        "league/commonmark": "^2.0",
         "league/csv": "^9.6",
         "lightsaml2/lightsaml": "^3.0",
         "lightsaml2/lightsaml-idp": "^3.0",

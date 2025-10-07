@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Twig;
 
-use League\CommonMark\MarkdownConverterInterface;
+use League\CommonMark\ConverterInterface;
 use Override;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 class MarkdownExtension extends AbstractExtension {
 
-    public function __construct(private readonly MarkdownConverterInterface $converter)
+    public function __construct(private readonly ConverterInterface $converter)
     {
     }
 
@@ -23,6 +23,6 @@ class MarkdownExtension extends AbstractExtension {
     }
 
     public function markdown(string $input): string {
-        return $this->converter->convertToHtml($input);
+        return $this->converter->convert($input)->getContent();
     }
 }
