@@ -132,11 +132,6 @@ class Builder {
                     ->setExtra('icon', 'fas fa-sign-in-alt');
             }
 
-            $menu->addChild('cron.label', [
-                'route' => 'admin_cronjobs'
-            ])
-                ->setExtra('icon', 'fas fa-history');
-
             $menu->addChild('logs.label', [
                 'route' => 'admin_logs'
             ])
