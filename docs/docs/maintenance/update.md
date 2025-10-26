@@ -22,6 +22,12 @@ $ git log --pretty=format:'%H' -n 1
 ```
 :::
 
+## Hintergrund-Dienste stoppen
+
+```bash
+$ systemctl stop --user sso-*
+```
+
 ## Quelltext aktualisieren
 
 Der Quelltext wird mittels Git aktualisiert:
@@ -36,7 +42,7 @@ Dabei ist `1.0.0` durch die entsprechende Version zu ersetzen.
 ## Abhängigkeiten aktualisieren
 
 ```bash
-$ composer install --no-dev --classmap-authoritative
+$ composer install --no-dev --classmap-authoritative --no-scripts
 $ npm install
 ```
 
@@ -56,12 +62,18 @@ $ php bin/console cache:clear
 $ php bin/console doctrine:migrations:migrate --no-interaction
 # Anwendung installieren (führt ggf. durch das Update neue Schritte aus - bisherige Schritte werden übersprungen)
 $ php bin/console app:setup
-# Cronjobs registrieren
-$ php bin/console shapecode:cron:scan
 # Browscap aktualisieren
 $ php bin/console app:browscap:update
 # GeoIP aktualisieren
 $ php bin/console geoip2:update
+```
+
+## Hintergrund-Dienste starten
+
+```bash
+$ systemctl start --user sso-background
+$ systemctl start --user sso-mails
+$ systemctl start --user sso-cron
 ```
 
 :::success Erfolg
@@ -83,6 +95,12 @@ $ git checkout HASH
 
 Siehe [Backup](backup#datenbank-zurückspielen)
 
+### Hintergrund-Dienste stoppen
+
+```bash
+$ systemctl stop --user sso-*
+```
+
 ### Abhängigkeiten aktualisieren
 
 ```bash
@@ -102,9 +120,20 @@ $ php bin/console assets:install
 ```bash
 # Cache leeren und aufwärmen
 $ php bin/console cache:clear
+# Datenbank migrieren
+$ php bin/console doctrine:migrations:migrate --no-interaction
 # Anwendung installieren (führt ggf. durch das Update neue Schritte aus - bisherige Schritte werden übersprungen)
 $ php bin/console app:setup
-# Cronjobs registrieren
-$ php bin/console shapecode:cron:scan
+# Browscap aktualisieren
+$ php bin/console app:browscap:update
+# GeoIP aktualisieren
+$ php bin/console geoip2:update
 ```
 
+### Hintergrund-Dienste starten
+
+```bash
+$ systemctl start --user sso-background
+$ systemctl start --user sso-mails
+$ systemctl start --user sso-cron
+```
