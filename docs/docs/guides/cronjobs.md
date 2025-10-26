@@ -13,7 +13,7 @@ Damit diese Funktion funktioniert, muss zusätzlich ein Hintergrundprozess laufe
 
 ## systemd-Dienst für Cronjobs
 
-Ein entsprechender systemd-Prozess sieht folgendermaßen aus (`~/.config/systemd/user/icc-cron.service`):
+Ein entsprechender systemd-Prozess sieht folgendermaßen aus (`~/.config/systemd/user/sso-cron.service`):
 
 ```
 [Unit]
