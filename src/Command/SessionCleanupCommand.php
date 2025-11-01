@@ -9,7 +9,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Scheduler\Attribute\AsCronTask;
 
-#[AsCommand('app:cleanup:sessions', description: 'Löscht alte Sessions aus der Datenbank')]
+#[AsCommand('app:security:remove_old_sessions', description: 'Löscht alte Sessions aus der Datenbank')]
 #[AsCronTask('@daily')]
 class SessionCleanupCommand {
 

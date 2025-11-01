@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Scheduler\Attribute\AsCronTask;
 
-#[AsCommand('app:auth_audit:clear', description: 'Löscht Einträge aus dem Anmelde-Log anhand der konfigurierten Aufbewahrungsrichtlinie.')]
+#[AsCommand('app:authentication_audit:cleanup', description: 'Löscht Einträge aus dem Anmelde-Log anhand der konfigurierten Aufbewahrungsrichtlinie.')]
 #[AsCronTask('@daily')]
 readonly class ClearAuthenticationAuditLogCommand {
     public function __construct(private int $days, private EntityManagerInterface $em) { }
