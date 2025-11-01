@@ -16,6 +16,7 @@ doctrine:
                 charset: utf8mb4
                 schema_filter: ~^(?!(sessions|rememberme_token|session_user))~ # exclude session and rememberme_token table
                 use_savepoints: true
+                profiling_collect_backtrace: '%kernel.debug%'
                 default_table_options:
                     charset: utf8mb4
                     collate: utf8mb4_unicode_ci
@@ -25,15 +26,17 @@ doctrine:
                 driver: 'pdo_mysql'
                 server_version: '%env(resolve:DATABASE_SERVER_VERSION)%'
                 use_savepoints: true
+                profiling_collect_backtrace: '%kernel.debug%'
                 default_table_options:
                     charset: utf8mb4
                     collate: utf8mb4_unicode_ci
 
     orm:
         auto_generate_proxy_classes: true
-        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-        auto_mapping: true
         enable_lazy_ghost_objects: true
+        report_fields_where_declared: true
+        validate_xml_mapping: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         controller_resolver:
             auto_mapping: false
         mappings:
@@ -47,16 +50,23 @@ doctrine:
             string_functions:
                 JSON_VALUE: Scienta\DoctrineJsonFunctions\Query\AST\Functions\Mariadb\JsonValue
 
+when@test:
+    doctrine:
+      dbal:
+        # "TEST_TOKEN" is typically set by ParaTest
+        dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+
 when@prod:
     doctrine:
-        orm:
-            auto_generate_proxy_classes: false
-            query_cache_driver:
-                type: pool
-                pool: doctrine.system_cache_pool
-            result_cache_driver:
-                type: pool
-                pool: doctrine.result_cache_pool
+      orm:
+          auto_generate_proxy_classes: false
+          proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
+          query_cache_driver:
+              type: pool
+              pool: doctrine.system_cache_pool
+          result_cache_driver:
+              type: pool
+              pool: doctrine.result_cache_pool
 
     framework:
         cache:
