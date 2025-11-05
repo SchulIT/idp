@@ -114,6 +114,10 @@ class AttributeValueProvider extends AbstractAttributeProvider {
         }
 
         foreach($this->getCommonAttributesForUser($user) as $name => $value) {
+            if(is_string($value)) {
+                $value = htmlspecialchars($value);
+            }
+            
             $attributes[] = new Attribute($name, $value);
         }
 
