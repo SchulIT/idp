@@ -68,4 +68,34 @@ document.addEventListener('DOMContentLoaded', function() {
             updateIcon(el.value, targetEl);
         });
     });
+
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', event => {
+            let button = event.submitter;
+
+            if(button === null) {
+                return;
+            }
+
+            if(!button.classList.contains('btn')) {
+                return;
+            }
+
+            let icon = button.querySelector('i');
+
+            if(icon === null) {
+                icon = document.createElement('i');
+                icon.className = 'fa-solid fa-spinner fa-spin me-1';
+                button.innerHTML = icon.outerHTML + button.innerHTML;
+            } else {
+                icon.className = 'fa-solid fa-spinner fa-spin';
+            }
+
+            if(button.getAttribute('value') !== null) {
+                button.classList.add('disabled');
+            } else {
+                button.setAttribute('disabled', 'disabled');
+            }
+        });
+    });
 });
