@@ -1,7 +1,7 @@
 ### --- First Stage: Base Image --- ###
 
 # Use the official PHP image with FPM as the base image
-FROM php:8.3-fpm-alpine AS base
+FROM php:8.4-fpm-alpine AS base
 
 LABEL maintainer="SchulIT" \
       description="Single Sign-On - SAML-Identity Provider für SchulIT Anwendungen"
