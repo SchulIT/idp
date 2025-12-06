@@ -1,46 +1,26 @@
 <?php
 
-use Symfony\Component\Dotenv\Dotenv;
+require_once __DIR__ . '/../config/bootstrap.php';
 
-require dirname(__DIR__).'/vendor/autoload.php';
+$kernel = new \App\Kernel($_SERVER['APP_ENV'], $_SERVER['APP_DEBUG']);
+$kernel->boot();
 
-if (method_exists(Dotenv::class, 'bootEnv')) {
-    (new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
-}
+$application = new \Symfony\Bundle\FrameworkBundle\Console\Application($kernel);
+$application->setAutoExit(false);
 
-if ($_SERVER['APP_DEBUG']) {
-    umask(0000);
-}
+$application->run(new \Symfony\Component\Console\Input\ArrayInput([
+    'command' => 'doctrine:database:drop',
+    '--if-exists' => '1',
+    '--force' => '1',
+]));
+$application->run(new \Symfony\Component\Console\Input\ArrayInput([
+    'command' => 'doctrine:database:create'
+]));
+$application->run(new \Symfony\Component\Console\Input\ArrayInput([
+    'command' => 'doctrine:schema:create'
+]));
+$application->run(new \Symfony\Component\Console\Input\ArrayInput([
+    'command' => 'app:setup'
+]));
 
-passthru(
-    sprintf(
-        'APP_ENV=%s php "%s/../bin/console" doctrine:database:drop --if-exists --force',
-        $_ENV['APP_ENV'],
-        __DIR__
-    )
-);
-
-passthru(
-    sprintf(
-        'APP_ENV=%s php "%s/../bin/console" doctrine:database:create',
-        $_ENV['APP_ENV'],
-        __DIR__
-    )
-);
-
-passthru(
-    sprintf(
-        'APP_ENV=%s php "%s/../bin/console" doctrine:schema:create',
-        $_ENV['APP_ENV'],
-        __DIR__
-    )
-);
-
-
-passthru(
-    sprintf(
-        'APP_ENV=%s php "%s/../bin/console" app:setup',
-        $_ENV['APP_ENV'],
-        __DIR__
-    )
-);
+$kernel->shutdown();

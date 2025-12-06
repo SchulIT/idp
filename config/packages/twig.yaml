@@ -4,7 +4,6 @@ twig:
       '%kernel.project_dir%/public/build': build
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
-    exception_controller: null
 
     form_themes:
       - form/layout.html.twig

@@ -34,6 +34,7 @@ doctrine:
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
+        enable_native_lazy_objects: true
         report_fields_where_declared: true
         validate_xml_mapping: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
@@ -50,11 +51,11 @@ doctrine:
             string_functions:
                 JSON_VALUE: Scienta\DoctrineJsonFunctions\Query\AST\Functions\Mariadb\JsonValue
 
-when@test:
-    doctrine:
-      dbal:
-        # "TEST_TOKEN" is typically set by ParaTest
-        dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+#when@test:
+#    doctrine:
+#      dbal:
+#        # "TEST_TOKEN" is typically set by ParaTest
+#        dbname_suffix: '_test%env(default::TEST_TOKEN)%'
 
 when@prod:
     doctrine:

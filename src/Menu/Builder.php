@@ -138,7 +138,7 @@ class Builder {
                 ->setExtra('icon', 'fas fa-clipboard-list');
 
             $menu->addChild('messenger.label', [
-                'route' => 'admin_messenger'
+                'route' => 'zenstruck_messenger_monitor_dashboard'
             ])
                 ->setExtra('icon', 'fas fa-envelope-open-text');
 

@@ -11,7 +11,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -19,15 +18,15 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  * Listener which checks whether there is a SAMLRequest pending from before login. If so, the listener redirects to the
  * SSO controller in order to send the SAMLResponse (and redirect the user to the requested service).
  */
-class HandleSamlRequestSubscriber implements EventSubscriberInterface {
+readonly class HandleSamlRequestSubscriber implements EventSubscriberInterface {
 
-    public function __construct(private readonly TokenStorageInterface $tokenStorage, private readonly RequestStorageInterface $samlRequestStorage, private readonly UrlGeneratorInterface $urlGenerator)
+    public function __construct(private TokenStorageInterface $tokenStorage, private RequestStorageInterface $samlRequestStorage, private UrlGeneratorInterface $urlGenerator)
     {
     }
 
     public function onRequest(RequestEvent $event): void {
         $request = $event->getRequest();
-        $route = $request->get('_route');
+        $route = $request->attributes->get('_route');
 
         if(!$event->isMainRequest()) {
             // prevent loops

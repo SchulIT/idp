@@ -1,4 +1,4 @@
-adauth:
+ad_auth:
   url: '%env(resolve:ADAUTH_URL)%'
   tls:
     peer_name: '%env(ADAUTH_PEERNAME)%'

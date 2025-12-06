@@ -1,7 +1,7 @@
 {% extends '@Common/main.html.twig' %}
 
 {% block menu %}
-    {{ knp_menu_render(mainMenu, {'currentClass': 'active' }) }}
+    {{ knp_menu_render('mainMenu', {'currentClass': 'active' }) }}
 
     {% set adminMenu = knp_menu_get('adminMenu') %}
     {% if adminMenu.getChild('admin').getChildren()|length > 0 %}
@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block submenu %}
-    {{ knp_menu_render(mainMenu, {'currentClass': 'active', 'template': '@Common/submenu.html.twig' }) }}
+    {{ knp_menu_render('mainMenu', {'currentClass': 'active', 'template': '@Common/submenu.html.twig' }) }}
 
     {{ knp_menu_render('adminMenu', {'currentClass': 'active', 'template': '@Common/submenu.html.twig' }) }}
     {{ knp_menu_render('servicesMenu', {'currentClass': 'active', 'template': '@Common/submenu.html.twig' }) }}

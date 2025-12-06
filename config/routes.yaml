@@ -17,10 +17,6 @@ login_check:
 2fa_login_check:
   path: /login/2fa/check
 
-common:
-    resource: "@CommonBundle/Controller"
-    type: attribute
-
 logout:
   path: /logout
 
