@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f29da67afcd8fbc3e62d0da7848981e2",
+    "content-hash": "9a3d0064a9686c133499972546932b73",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -3999,31 +3999,31 @@
         },
         {
             "name": "lightsaml2/symfony-bridge",
-            "version": "5.0.0",
+            "version": "6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lightsaml2/SymfonyBridgeBundle.git",
-                "reference": "40a1c22e41a3bbebd583c3e4db3d3c73cb1e8760"
+                "reference": "4af299c4f58dd78094acfa6c51d18e7114c9ea20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lightsaml2/SymfonyBridgeBundle/zipball/40a1c22e41a3bbebd583c3e4db3d3c73cb1e8760",
-                "reference": "40a1c22e41a3bbebd583c3e4db3d3c73cb1e8760",
+                "url": "https://api.github.com/repos/lightsaml2/SymfonyBridgeBundle/zipball/4af299c4f58dd78094acfa6c51d18e7114c9ea20",
+                "reference": "4af299c4f58dd78094acfa6c51d18e7114c9ea20",
                 "shasum": ""
             },
             "require": {
                 "lightsaml2/lightsaml": "^3.0",
-                "php": "^8.1",
-                "symfony/dependency-injection": "^6.4|^7.0",
-                "symfony/framework-bundle": "^6.4|^7.0",
-                "symfony/yaml": "^6.4|^7.0"
+                "php": "^8.3",
+                "symfony/dependency-injection": "^7.0|^8.0",
+                "symfony/framework-bundle": "^7.0|^8.0",
+                "symfony/yaml": "^7.0|^8.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^9.0",
-                "symfony/browser-kit": "^6.4|^7.0",
-                "symfony/filesystem": "^6.4|^7.0",
-                "symfony/finder": "^6.4|^7.0",
-                "symfony/routing": "^6.4|^7.0"
+                "symfony/browser-kit": "^7.0|^8.0",
+                "symfony/filesystem": "^7.0|^8.0",
+                "symfony/finder": "^7.0|^8.0",
+                "symfony/routing": "^7.0|^8.0"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -4047,9 +4047,9 @@
             "description": "Light SAML Symfony bridge bundle",
             "homepage": "http://www.lightsaml.com",
             "support": {
-                "source": "https://github.com/lightsaml2/SymfonyBridgeBundle/tree/5.0.0"
+                "source": "https://github.com/lightsaml2/SymfonyBridgeBundle/tree/6.0.0"
             },
-            "time": "2024-08-07T11:45:46+00:00"
+            "time": "2025-12-05T18:12:12+00:00"
         },
         {
             "name": "lorenzo/pinky",
@@ -12933,26 +12933,26 @@
         },
         {
             "name": "zenstruck/bytes",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zenstruck/bytes.git",
-                "reference": "e39fa60a6204576dbc62304bbab2ac395ff7610f"
+                "reference": "c1f173d65b2a4adf5d24af8c7aa8965e44ce029a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zenstruck/bytes/zipball/e39fa60a6204576dbc62304bbab2ac395ff7610f",
-                "reference": "e39fa60a6204576dbc62304bbab2ac395ff7610f",
+                "url": "https://api.github.com/repos/zenstruck/bytes/zipball/c1f173d65b2a4adf5d24af8c7aa8965e44ce029a",
+                "reference": "c1f173d65b2a4adf5d24af8c7aa8965e44ce029a",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.0"
+                "php": ">=8.1"
             },
             "require-dev": {
-                "phpstan/phpstan": "^1.4",
-                "phpunit/phpunit": "^9.5.0",
-                "symfony/phpunit-bridge": "^6.3",
-                "symfony/var-dumper": "^5.4|^6.0"
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^9.6.0",
+                "symfony/phpunit-bridge": "^6.4|^7.0|^8.0",
+                "symfony/var-dumper": "^6.4|^7.0|^8.0"
             },
             "type": "library",
             "autoload": {
@@ -12980,15 +12980,19 @@
             ],
             "support": {
                 "issues": "https://github.com/zenstruck/bytes/issues",
-                "source": "https://github.com/zenstruck/bytes/tree/v1.0.0"
+                "source": "https://github.com/zenstruck/bytes/tree/v1.1.0"
             },
             "funding": [
                 {
                     "url": "https://github.com/kbond",
                     "type": "github"
+                },
+                {
+                    "url": "https://github.com/nikophil",
+                    "type": "github"
                 }
             ],
-            "time": "2023-07-26T15:23:27+00:00"
+            "time": "2025-12-07T03:43:30+00:00"
         },
         {
             "name": "zenstruck/collection",

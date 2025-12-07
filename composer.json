@@ -24,7 +24,7 @@
         "league/csv": "^9.6",
         "lightsaml2/lightsaml": "^3.0",
         "lightsaml2/lightsaml-idp": "^3.0",
-        "lightsaml2/symfony-bridge": "^5.0",
+        "lightsaml2/symfony-bridge": "^6.0",
         "lorisleiva/cron-translator": "^0.4.6",
         "monolog/monolog": "^3",
         "nelmio/api-doc-bundle": "^4.0",
