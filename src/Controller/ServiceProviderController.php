@@ -4,24 +4,31 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Autoconfig\AutoconfigService;
+use App\Autoconfig\Configurator;
 use App\Entity\SamlServiceProvider;
 use App\Entity\ServiceProvider;
+use App\Form\ServiceProviderAutoconfigureType;
 use App\Form\ServiceProviderType;
 use App\Repository\ServiceProviderRepositoryInterface;
 use Exception;
 use LightSaml\Model\Metadata\EntityDescriptor;
+use Psr\Log\LoggerInterface;
 use SchulIT\CommonBundle\Form\ConfirmType;
 use SchulIT\CommonBundle\Http\Attribute\NotFoundRedirect;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Throwable;
 
 class ServiceProviderController extends AbstractController
 {
@@ -77,6 +84,48 @@ class ServiceProviderController extends AbstractController
         ]);
     }
 
+    #[Route(path: '/admin/service_providers/add/autoconfig', name: 'add_service_provider_autoconfig')]
+    public function addAutoconfig(
+        Request $request,
+        Configurator $configurator,
+        ValidatorInterface $validator,
+        LoggerInterface $logger
+    ): Response {
+        $autoconfigService = new AutoconfigService();
+
+        $form = $this->createForm(ServiceProviderAutoconfigureType::class, $autoconfigService);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            try {
+                $serviceProvider = new SamlServiceProvider()
+                    ->setAutoconfigureUrl($autoconfigService->autoconfigureUrl);
+                $configurator->configure($serviceProvider);
+                $violations = $validator->validate($serviceProvider);
+
+                if(count($violations) > 0) {
+                    foreach($violations as $violation) {
+                        $logger->error($violation->getMessage());
+                    }
+
+                    $this->addFlash('error', 'service_providers.autoconfig.validation_failed');
+                }
+
+                $this->repository->persist($serviceProvider);
+
+                $this->addFlash('success', 'service_providers.add.success');
+                return $this->redirectToRoute('service_providers');
+            } catch (Throwable $e) {
+                $this->addFlash('error', sprintf('%s: %s', get_class($e), $e->getMessage()));
+            }
+        }
+
+        return $this->render('service_providers/add_autoconfig.html.twig', [
+            'form' => $form->createView(),
+            'type' => $serviceProvider::class
+        ]);
+    }
+
     #[NotFoundRedirect(redirectRoute: 'service_providers', flashMessage: 'service_providers.not_found')]
     #[Route(path: '/admin/service_providers/{uuid}/edit', name: 'edit_service_provider')]
     public function edit(Request $request, #[MapEntity(mapping: ['uuid' => 'uuid'])] ServiceProvider $serviceProvider): Response {
@@ -119,6 +168,32 @@ class ServiceProviderController extends AbstractController
             'service_provider' => $serviceProvider
         ]);
     }
+
+    #[NotFoundRedirect(redirectRoute: 'service_providers', flashMessage: 'service_providers.not_found')]
+    #[Route(path: '/admin/service_providers/{uuid}/autoconfig', name: 'autoconfigure_service_provider')]
+    public function doAutoconfig(
+        #[MapEntity(mapping: ['uuid' => 'uuid'])] ServiceProvider $serviceProvider,
+        Configurator $configurator,
+
+    ): RedirectResponse {
+        if(!$serviceProvider instanceof SamlServiceProvider) {
+            return $this->redirectToRoute('service_providers');
+        }
+
+        try {
+            $configurator->configure($serviceProvider);
+            $this->repository->persist($serviceProvider);
+
+            $this->addFlash('success', 'service_providers.autoconfig.success');
+            return $this->redirectToRoute('service_providers');
+        } catch (Throwable $e) {
+            $this->addFlash('error', sprintf('%s: %s', get_class($e), $e->getMessage()));
+        }
+
+        return $this->redirectToRoute('service_providers');
+    }
+
+
     /**
      * @throws TransportExceptionInterface
      * @throws Exception

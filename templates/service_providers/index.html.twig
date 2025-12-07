@@ -24,6 +24,9 @@
                                 <a href="{{ path('add_service_provider') }}?type=saml" class="btn btn-primary btn-sm">
                                     <i class="fas fa-plus"></i> {{ 'service_providers.add.label.saml'|trans }}
                                 </a>
+                                <a href="{{ path('add_service_provider_autoconfig') }}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-plus"></i> {{ 'service_providers.add.label.autoconfigure'|trans }}
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -73,6 +76,14 @@
                                                 <a href="{{ path('remove_service_provider', { uuid: service.uuid }) }}" class="dropdown-item text-danger">
                                                     <i class="fa fa-trash"></i> {{ 'actions.remove'|trans }}
                                                 </a>
+
+                                                {% if service.autoconfigureUrl is defined and service.autoconfigureUrl is not empty %}
+                                                    <div class="dropdown-divider"></div>
+
+                                                    <a href="{{ path('autoconfigure_service_provider', { uuid: service.uuid }) }}" class="dropdown-item">
+                                                        {{ 'service_providers.autoconfig.label'|trans }}
+                                                    </a>
+                                                {% endif %}
 
                                                 {% if service.certificate is defined %}
                                                     <div class="dropdown-divider"></div>

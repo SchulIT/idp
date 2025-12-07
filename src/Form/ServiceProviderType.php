@@ -60,6 +60,11 @@ class ServiceProviderType extends AbstractType {
                 ],
                 'allow_add' => true,
                 'allow_delete' => true,
+            ])
+            ->add('autoconfigureUrl', UrlType::class, [
+                'label' => 'label.autoconfigure_url.label',
+                'help' => 'label.autoconfigure_url.help',
+                'required' => false
             ]);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event): void {
@@ -72,7 +77,8 @@ class ServiceProviderType extends AbstractType {
                 $form->remove('entityId')
                     ->remove('acsUrls')
                     ->remove('certificate')
-                    ->remove('attributeNameMapping');
+                    ->remove('attributeNameMapping')
+                    ->remove('autoconfigureUrl');
             }
         });
     }

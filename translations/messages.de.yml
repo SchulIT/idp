@@ -95,6 +95,9 @@ label:
     help: Falls der Service Provider andere Attributsnamen erwartet, können diese hier umbenannt werden.
   mapped_attribute_name: Neuer Attributename für SP
   original_attribute_name: Attributsname laut IdP
+  autoconfigure_url:
+    label: URL zur autom. Konfiguration
+    help: Diese URL - in der Regel https://sub.domain.tld/autoconfig - wird verwendet, um den Dienst automatisch zu konfigurieren. Dies funktioniert nur für SchulIT-Dienste.
 
 help:
   voluntary: Diese Angabe ist freiwillig.
@@ -418,6 +421,7 @@ service_providers:
   add:
     label:
       saml: Neuer Dienst (SAML)
+      autoconfigure: Neuer Dienst (SchulIT)
       default: Neuer Dienst
     success: Dienst erfolgreich angelegt
   edit:
@@ -438,6 +442,9 @@ service_providers:
       confirm: Soll das Token wirklich neu generiert werden?
       success: Token erfolgreich generiert
       submit: neu generieren
+  autoconfig:
+    label: Autoconfig durchführen
+    success: Automatische Konfiguration erfolgreich
 
 certificate_info:
   name: Name

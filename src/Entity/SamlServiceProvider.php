@@ -9,6 +9,7 @@ use App\Utils\ArrayUtils;
 use App\Validator\X509Certificate;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -37,7 +38,7 @@ class SamlServiceProvider extends ServiceProvider {
     /**
      * @var Collection<ServiceAttribute>
      */
-    #[ORM\ManyToMany(targetEntity: ServiceAttribute::class, mappedBy: 'services')]
+    #[ORM\ManyToMany(targetEntity: ServiceAttribute::class, mappedBy: 'services', cascade: ['persist', 'remove'])]
     #[Serializer\Exclude]
     private Collection $attributes;
 
@@ -46,6 +47,10 @@ class SamlServiceProvider extends ServiceProvider {
      */
     #[ORM\Column(type: 'json', nullable: true)]
     private ?array $attributeNameMapping = [ ];
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Url(protocols: ['https'])]
+    private ?string $autoconfigureUrl = null;
 
     public function __construct() {
         parent::__construct();
@@ -106,4 +111,14 @@ class SamlServiceProvider extends ServiceProvider {
     public function getAttributes(): Collection {
         return $this->attributes;
     }
+
+    public function getAutoconfigureUrl(): ?string {
+        return $this->autoconfigureUrl;
+    }
+
+    public function setAutoconfigureUrl(?string $autoconfigureUrl): SamlServiceProvider {
+        $this->autoconfigureUrl = $autoconfigureUrl;
+        return $this;
+    }
+
 }
