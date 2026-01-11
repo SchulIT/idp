@@ -121,8 +121,7 @@ class ServiceProviderController extends AbstractController
         }
 
         return $this->render('service_providers/add_autoconfig.html.twig', [
-            'form' => $form->createView(),
-            'type' => $serviceProvider::class
+            'form' => $form->createView()
         ]);
     }
 
