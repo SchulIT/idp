@@ -164,7 +164,7 @@
                             <div class="ms-auto">
                                 {% include '@Common/includes/pagination.html.twig' with {
                                     currentPage: page,
-                                    currentFilters: { request_id: requestId, username: username },
+                                    currentFilters: { request_id: requestId, username: username, country: country },
                                     paginationPath: 'authentication_audit',
                                     lastPage: pages,
                                     showAlwaysFirstAndLast: true
