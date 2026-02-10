@@ -318,6 +318,17 @@ class UserRepository implements UserRepositoryInterface {
         return array_map(fn(array $item) => $item['uuid'], $qb->getQuery()->getScalarResult());
     }
 
+    public function findAllByUuids(array $uuids): array {
+        return $this->em
+            ->createQueryBuilder()
+            ->select('u')
+            ->from(User::class, 'u')
+            ->where('u.uuid IN (:uuids)')
+            ->setParameter('uuids', $uuids)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findOneByExternalId(string $externalId): ?User {
         return $this->em
             ->getRepository(User::class)

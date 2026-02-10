@@ -8,6 +8,8 @@ use App\Entity\UserRole;
 
 interface UserRoleRepositoryInterface {
 
+    public function findOneByUuid(string $uuid): ?UserRole;
+
     /**
      * @return UserRole[]
      */

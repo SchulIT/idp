@@ -74,6 +74,12 @@ interface UserRepositoryInterface {
     public function findAllUuids(int $offset = 0, ?int $limit = null, bool $excludeDeleted = false): array;
 
     /**
+     * @param string[] $uuids
+     * @return User[]
+     */
+    public function findAllByUuids(array $uuids): array;
+
+    /**
      * @return User[]
      */
     public function findNextNonProvisionedUsers(int $limit): array;

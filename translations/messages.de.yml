@@ -262,6 +262,19 @@ users:
       success: Benutzer erfolgreich wiederhergestellt
       error: Die Anfrage war fehlerhaft. Der Benutzer wurde nicht wiederhergestellt. Bitte erneut probieren.
 
+  bulk:
+    label: Massenaktion
+    selected: ausgewählt
+    success: '%count% Benutzer erfolgreich aktualisiert'
+    actions:
+      select: Aktion auswählen
+      remove_user: Benutzer löschen
+      add_user_role: Benutzerrolle hinzufügen
+      remove_user_role: Benutzerrolle entfernen
+
+    user_role:
+      select: Benutzerrolle auswählen
+
   reset_pw:
     label: Passwort zurücksetzen
     help: An diese E-Mail Adresse wird ein Link zum zurücksetzen des Passwortes versendet.

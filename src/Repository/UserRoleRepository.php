@@ -6,11 +6,19 @@ namespace App\Repository;
 
 use App\Entity\UserRole;
 use Doctrine\ORM\EntityManagerInterface;
+use Override;
 
 class UserRoleRepository implements UserRoleRepositoryInterface {
 
     public function __construct(private readonly EntityManagerInterface $em)
     {
+    }
+
+    #[Override]
+    public function findOneByUuid(string $uuid): ?UserRole {
+        return $this->em
+            ->getRepository(UserRole::class)
+            ->findOneBy(['uuid' => $uuid]);
     }
 
     /**

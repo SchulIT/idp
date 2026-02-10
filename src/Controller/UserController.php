@@ -25,6 +25,7 @@ use App\Security\ForgotPassword\UserCannotResetPasswordException;
 use App\Security\Session\LogoutHelper;
 use App\Service\AttributePersister;
 use App\Service\AttributeResolver;
+use App\User\Bulk\BulkManager;
 use App\Utils\ArrayUtils;
 use App\View\Filter\UserRoleFilter;
 use App\View\Filter\UserTypeFilter;
@@ -35,6 +36,7 @@ use SchulIT\CommonBundle\Utils\RefererHelper;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -58,11 +60,17 @@ class UserController extends AbstractController {
     public const CsrfTokenId = 'remove_user';
     public const CsrfTokenKey = '_csrf_token';
 
-    public function __construct(private readonly UserRepositoryInterface $repository)
+    public const CsrfBulkTokenId = 'bulk';
+    public const CsrfBulkTokenKey = '_csrf_token';
+
+    public function __construct(
+        private readonly UserRepositoryInterface $repository,
+        private readonly RefererHelper $refererHelper
+    )
     {
     }
 
-    private function internalDisplay(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter, bool $deleted): Response {
+    private function internalDisplay(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter, bool $deleted, BulkManager $bulkManager): Response {
         $q = $request->query->get('q', null);
         $page = $request->query->getInt('page', 1);
         $grade = $request->query->get('grade', null);
@@ -100,19 +108,22 @@ class UserController extends AbstractController {
             'typeFilter' => $typeFilterView,
             'withoutParents' => $withoutParents,
             'csrf_id' => static::CsrfTokenId,
-            'csrf_key' => static::CsrfTokenKey
+            'csrf_key' => static::CsrfTokenKey,
+            'bulkActions' => $bulkManager->getActions(),
+            'bulkCsrfId' => self::CsrfBulkTokenId,
+            'bulkCsrfKey' => self::CsrfBulkTokenKey,
         ]);
     }
 
     #[Route(path: '/users', name: 'users')]
-    public function index(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter): Response {
-        return $this->internalDisplay($request, $typeFilter, $roleFilter, false);
+    public function index(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter, BulkManager $bulkManager): Response {
+        return $this->internalDisplay($request, $typeFilter, $roleFilter, false, $bulkManager);
     }
 
     #[Route(path: '/users/trash', name: 'users_trash')]
     #[IsGranted('ROLE_ADMIN')]
-    public function trash(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter): Response {
-        return $this->internalDisplay($request, $typeFilter, $roleFilter, true);
+    public function trash(Request $request, UserTypeFilter $typeFilter, UserRoleFilter $roleFilter, BulkManager $bulkManager): Response {
+        return $this->internalDisplay($request, $typeFilter, $roleFilter, true, $bulkManager);
     }
 
     #[Route(path: '/users/trash/empty', name: 'empty_users_trash')]
@@ -360,5 +371,28 @@ class UserController extends AbstractController {
         return $this->redirect(
             $refererHelper->getRefererPathFromRequest('users')
         );
+    }
+
+    #[Route(path: '/users/bulk', name: 'users_bulk', methods: ['POST'])]
+    public function bulk(BulkManager $bulkManager, Request $request, TranslatorInterface $translator): RedirectResponse {
+        $userUuids = explode(',', $request->request->get('users', ''));
+        $action = $request->request->get('action');
+        $role = $request->request->get('role');
+
+        $count = $bulkManager->perform($userUuids, $action, $role);
+
+        $this->addFlash(
+            'success',
+            $translator->trans(
+                'users.bulk.success',
+                ['%count%' => $count],
+            )
+        );
+
+        return $this->redirectToRequestReferer('users');
+    }
+
+    protected function redirectToRequestReferer(string $route, array $parameters = [ ]): RedirectResponse {
+        return $this->redirect($this->refererHelper->getRefererPathFromRequest($route, $parameters));
     }
 }

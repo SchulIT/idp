@@ -85,9 +85,45 @@
                         </div>
                     </div>
 
+                    <div class="card-header" data-role="bulk-actions">
+                        <form method="post" action="{{ path('users_bulk') }}" class="row row-cols-lg-auto g-1 align-items-center">
+                            <input type="hidden" name="users" value="" data-role="bulk-values">
+
+                            <div>
+                                <span data-role="bulk-counter"></span>
+                                {{ 'users.bulk.selected'|trans }}
+                            </div>
+
+                            <div class="col">
+                                <select name="action" class="form-select form-select-sm">
+                                    <option value="">{{ 'users.bulk.actions.select'|trans }}</option>
+                                    {% for key, action in bulkActions %}
+                                        <option value="{{ key }}">{{ action|trans }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col">
+                                <select name="role" class="form-select form-select-sm">
+                                    <option value="">{{ 'users.bulk.user_role.select'|trans }}</option>
+                                    {% for role in roleFilter.roles %}
+                                        <option value="{{ role.uuid }}">{{ role.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col">
+                                <button type="submit" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
                     <div class="table-responsive">
                         <table class="table table-hover table-striped card-table">
                             <colgroup>
+                                <col class="column-sm">
                                 <col class="column-sm">
                                 <col>
                                 <col class="column-180">
@@ -100,6 +136,7 @@
 
                             <thead>
                             <tr>
+                                <th><input type="checkbox" class="form-check-input" data-role="bulk-all"></th>
                                 <th></th>
                                 <th>{{ 'label.username'|trans }}</th>
                                 <th>{{ 'label.firstname'|trans }}</th>
@@ -115,10 +152,14 @@
                             {% for user in users %}
                                 <tr class="{% if loop.index0 % 2 == 0 %}odd{% endif %}">
                                     <td class="align-middle">
+                                        <input type="checkbox" class="form-check-input" value="{{ user.uuid }}" data-role="bulk-item">
+                                    </td>
+                                    <td class="align-middle">
                                         <span class="badge text-bg-primary" title="{{ user.type.name }}">
                                             {{ user.type.name|first }}
                                         </span>
                                     </td>
+
                                     <td class="align-middle">
                                         {{ user.username }}
 
@@ -281,3 +322,7 @@
         </div>
     </div>
 {% endblock%}
+
+{% block post_javascript %}
+    <script src="{{ asset('build/bulk.js') }}"></script>
+{% endblock %}
