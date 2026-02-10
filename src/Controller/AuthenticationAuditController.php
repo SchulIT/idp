@@ -22,9 +22,26 @@ class AuthenticationAuditController extends AbstractController {
         $page = $request->query->getInt('page', 1);
         $username = $request->query->get('username', null);
         $requestId = $request->query->get('request_id', null);
+        $country = $request->query->get('country', null);
 
         if($page < 1) {
             $page = 1;
+        }
+
+        $countries = $em->createQueryBuilder()
+            ->select('a.ipCountry')
+            ->from(AuthenticationAudit::class, 'a')
+            ->groupBy('a.ipCountry')
+            ->getQuery()
+            ->getSingleColumnResult();
+
+        $countries = array_filter(
+            $countries,
+            fn($country) => !empty($country)
+        );
+
+        if(!in_array($country, $countries)) {
+            $country = null;
         }
 
         $qb = $em->createQueryBuilder()
@@ -44,6 +61,11 @@ class AuthenticationAuditController extends AbstractController {
                 ->setParameter('requestId', $requestId);
         }
 
+        if(!empty($country)) {
+            $qb->andWhere('a.ipCountry = :country')
+                ->setParameter('country', $country);
+        }
+
         $paginator = new Paginator($qb->getQuery());
         $count = $paginator->count();
         $pages = 0;
@@ -57,7 +79,9 @@ class AuthenticationAuditController extends AbstractController {
             'page' => $page,
             'pages' => $pages,
             'username' => $username,
-            'requestId' => $requestId
+            'requestId' => $requestId,
+            'country' => $country,
+            'countries' => $countries
         ]);
     }
 }

@@ -26,7 +26,16 @@
                                         <input type="text" name="request_id" class="form-control form-control-sm" value="{{ requestId }}" placeholder="{{ 'authentication_audit.request_id'|trans }}">
                                     </div>
 
-                                    {% if username is not empty or requestId is not empty %}
+                                    <div class="col">
+                                        <select class="form-select form-select-sm" name="country" data-trigger="submit">
+                                            <option value="">{{ 'authentication_audit.country'|trans }}</option>
+                                            {% for c in countries %}
+                                                <option value="{{ c }}" {% if c == country %} selected{% endif %}>{{ c }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    {% if username is not empty or requestId is not empty or country is not empty %}
                                         <div class="col">
                                             <a href="{{ path('authentication_audit') }}" class="btn btn-outline-primary btn-sm">
                                                 <i class="fas fa-times-circle"></i>
