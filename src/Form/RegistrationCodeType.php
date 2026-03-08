@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class RegistrationCodeType extends AbstractType {
@@ -41,6 +42,11 @@ class RegistrationCodeType extends AbstractType {
                 'label' => 'label.enabled_from',
                 'required' => false,
                 'widget' => 'single_text'
+            ])
+            ->add('invitationEmail', EmailType::class, [
+                'label' => 'codes.invitation.email.label',
+                'help' => 'codes.invitation.email.help',
+                'required' => false,
             ]);
     }
 }

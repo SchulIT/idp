@@ -9,9 +9,18 @@ use App\Entity\User;
 use App\Form\RegistrationCodeBulkStudentsWithoutParentAccountType;
 use App\Form\RegistrationCodeBulkType;
 use App\Form\RegistrationCodeType;
+use App\Invitation\Importer;
+use App\Invitation\ImportInvitationEmailsRequest;
+use App\Invitation\ImportInvitationEmailsType;
+use App\Invitation\InvitationRequest;
+use App\Invitation\InvitationRequestFlow;
+use App\Invitation\ParentsEmailCsv;
+use App\Invitation\ParentStudentMatches;
+use App\Invitation\Sender;
 use App\Repository\RegistrationCodeRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use App\Security\Registration\CodeGenerator;
+use App\Settings\InvitationSettings;
 use League\Csv\ByteSequence;
 use League\Csv\Writer;
 use SchulIT\CommonBundle\Form\ConfirmType;
@@ -264,6 +273,54 @@ class RegistrationCodeController extends AbstractController
         return $this->render('codes/remove.html.twig', [
             'code' => $code,
             'form' => $form->createView()
+        ]);
+    }
+
+    #[Route(path: '/registration_codes/invitations/import', name: 'invite')]
+    public function invite(Request $request, Importer $importer): Response {
+        $importRequest = new ImportInvitationEmailsRequest();
+        $form = $this->createForm(ImportInvitationEmailsType::class, $importRequest);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $importer->handle($importRequest);
+
+            $this->addFlash('success', 'codes.invitation.invite.success');
+            return $this->redirectToRoute('registration_codes');
+        }
+
+        return $this->render('codes/invite.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/registration_codes/invitations/send', name: 'send_invitations')]
+    public function sendInvitations(Request $request, Sender $sender): Response {
+        if(!$sender->canSend()) {
+            $this->addFlash('error', 'codes.invitation.send.error');
+            return $this->redirectToRoute('registration_codes');
+        }
+
+        $codes = $this->repository->findAllPendingInvitation();
+        $form = $this->createForm(ConfirmType::class, null, [
+            'header' => 'codes.invitation.send.label',
+            'message' => 'codes.invitation.send.confirm',
+            'message_parameters' => [
+                '%count%' => count($codes)
+            ]
+        ]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $sender->send();
+
+            $this->addFlash('success', 'codes.invitation.send.success');
+            return $this->redirectToRoute('registration_codes');
+        }
+
+        return $this->render('codes/send_invitations.html.twig', [
+            'form' => $form->createView(),
+            'codes' => $codes
         ]);
     }
 }

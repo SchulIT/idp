@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use DateTime;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\SoftDeleteable;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -31,6 +32,14 @@ class RegistrationCode {
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[Assert\NotNull]
     private ?User $student = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\NotBlank(allowNull: true)]
+    #[Assert\Email]
+    private string|null $invitationEmail = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private DateTime|null $invitationSentAt = null;
 
     /**
      * The user which was created from this code.
@@ -62,6 +71,24 @@ class RegistrationCode {
 
     public function setStudent(?User $student): RegistrationCode {
         $this->student = $student;
+        return $this;
+    }
+
+    public function getInvitationEmail(): ?string {
+        return $this->invitationEmail;
+    }
+
+    public function setInvitationEmail(?string $invitationEmail): RegistrationCode {
+        $this->invitationEmail = $invitationEmail;
+        return $this;
+    }
+
+    public function getInvitationSentAt(): ?DateTime {
+        return $this->invitationSentAt;
+    }
+
+    public function setInvitationSentAt(?DateTime $invitationSentAt): RegistrationCode {
+        $this->invitationSentAt = $invitationSentAt;
         return $this;
     }
 

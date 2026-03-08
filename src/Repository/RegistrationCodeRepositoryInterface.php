@@ -11,7 +11,15 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 interface RegistrationCodeRepositoryInterface extends TransactionalRepositoryInterface {
     public function findOneByCode(string $code): ?RegistrationCode;
 
+    /**
+     * @return RegistrationCode[]
+     */
     public function findAll(): array;
+
+    /**
+     * @return RegistrationCode[]
+     */
+    public function findAllPendingInvitation(): array;
 
     /**
      * @return string[]

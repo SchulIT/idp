@@ -41,6 +41,16 @@
                                 </form>
                             </div>
                             <div class="ms-auto mt-2">
+                                <div class="dropdown d-inline">
+                                    <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                        <i class="fas fa-envelope"></i> {{ 'codes.invitation.label'|trans }}
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{ path('invite') }}"><i class="fas fa-upload"></i> {{ 'codes.invitation.csv.label'|trans }}</a></li>
+                                        <li><a class="dropdown-item" href="{{ path('send_invitations') }}"><i class="fas fa-paper-plane"></i> {{ 'codes.invitation.send.label'|trans }}</a></li>
+                                    </ul>
+                                </div>
+
                                 <a href="{{ path('export_codes', { grade: grade }) }}" class="btn btn-outline-primary btn-sm">
                                     <i class="fa fa-download"></i> {{ 'codes.export.label'|trans }}
                                 </a>
@@ -70,6 +80,8 @@
                             <colgroup>
                                 <col class="column-lg" >
                                 <col>
+                                <col>
+                                <col class="column-md">
                                 <col class="column-md">
                                 <col class="column-sm" >
                             </colgroup>
@@ -78,6 +90,8 @@
                             <tr>
                                 <th>{{ 'label.code'|trans }}</th>
                                 <th>{{ 'label.student'|trans }}</th>
+                                <th>{{ 'codes.invitation.email'|trans }}</th>
+                                <th>{{ 'codes.invitation.sent_at'|trans }}</th>
                                 <th>{{ 'label.user'|trans }}</th>
                                 <th>{{ 'label.enabled_from'|trans }}</th>
                                 <th></th>
@@ -98,6 +112,20 @@
                                         <a href="{{ path('edit_user', { uuid: code.student.uuid.toString }) }}">
                                             {{ code.student|user }}
                                         </a>
+                                    </td>
+                                    <td class="align-middle">
+                                        {% if code.invitationEmail is not null %}
+                                            {{ code.invitationEmail }}
+                                        {% else %}
+
+                                        {% endif %}
+                                    </td>
+                                    <td class="align-middle">
+                                        {% if code.invitationSentAt is not null %}
+                                            {{ code.invitationSentAt|format_datetime }}
+                                        {% else %}
+                                            <span class="badge text-bg-secondary">{{ 'codes.invitation.never'|trans }}</span>
+                                        {% endif %}
                                     </td>
                                     <td class="align-middle">
                                         {% if code.redeemingUser is not null %}
@@ -157,4 +185,4 @@
             </div>
         </div>
     </div>
-{% endblock%}
+{% endblock %}

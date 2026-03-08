@@ -40,6 +40,14 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
             ->getResult();
     }
 
+    public function findAllPendingInvitation(): array {
+        return $this->createDefaultQueryBuilder()
+            ->andWhere('c.invitationEmail IS NOT NULL')
+            ->andWhere('c.invitationSentAt IS NULL')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function persist(RegistrationCode $code): void {
         $this->em->persist($code);
         $this->em->flush();

@@ -1,0 +1,46 @@
+{% extends "main.html.twig" %}
+
+{% block title %}{{ 'codes.invitation.send.label'|trans }}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">{{ 'dashboard.label'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('registration_codes') }}">{{ 'codes.label'|trans }}</a></li>
+        <li class="breadcrumb-item">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+
+    <div class="card">
+        <div class="card-header">{{ 'codes.invitation.send.label'|trans }}</div>
+        <table class="table table-bordered table-striped">
+            <tbody>
+            {% for code in codes %}
+                <tr>
+                    <td>{{ code.student.lastname }}</td>
+                    <td>{{ code.student.firstname }}</td>
+                    <td>{{ code.student.grade }}</td>
+                    <td>{{ code.invitationEmail }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {{ form_widget(form) }}
+
+    <div class="buttons">
+        <button type="submit" class="btn btn-primary btn-sm">
+            <i class="fas fa-paper-plane"></i> {{ 'actions.confirm'|trans }}
+        </button>
+
+        <a href="{{ path('registration_codes') }}" class="btn btn-sm btn-secondary">
+            {{ 'actions.cancel'|trans }}
+        </a>
+    </div>
+    {{ form_end(form) }}
+
+
+{% endblock %}

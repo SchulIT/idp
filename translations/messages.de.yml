@@ -616,6 +616,44 @@ codes:
     confirm: 'Sollen wirklich alle eingelösten Codes aus dem System entfernt werden?'
     success: Alle eingelösten Codes aus dem System entfernt
 
+  invitation:
+    label: Einladungs-E-Mails
+
+    success: Einladungs-E-Mail-Adressen erfolgreich importiert
+
+    email:
+      label: Einladungs-E-Mail-Adresse
+      help: An diese E-Mail-Adresse wird eine E-Mail mit dem Registrierungscode und einer festgelegten Mitteilung gesendet. Der Versand erfolgt nicht automatisiert sondern auf Knopfdruck.
+    sent_at: Einladung versendet
+    never: nie
+
+    send:
+      label: Einladungen verschicken
+      confirm: "%count% Einladung(en) verschicken"
+      success: Einladungen verschickt
+      error: Bitte Einstellungen zu Einladungen prüfen. Betreff, Mitteilung und/oder Antwort-E-Mail-Adresse sind nicht gesetzt. Es wurden keine E-Mails verschickt.
+
+    csv:
+      label: Importieren
+      help: CSV-separierte Daten mit einer Spalte für die E-Mail-Adresse des Kindes und einer Spalte für die E-Mail-Adresse eines Elternteils.
+
+
+
+      delimiter:
+        label: Trennzeichen
+        help: Das in der CSV-Datei verwendete Trennzeichen (in der Regel Komma oder Semikolon).
+      header:
+        email:
+          label: Eltern-Spaltenname
+          help: Spaltenname für die Eltern-E-Mail-Adresse
+        student:
+          label: Kind-Spaltenname
+          help: Spaltenname für die Kind-E-Mail-Adresse (muss im System hinterlegt sein).
+
+      create_if_not_exist:
+        label: Erstellen (falls nicht vorhanden)
+        help: Wenn diese Option aktiv ist und kein Registrierungscode existiert (der noch nicht eingelöst wurde), wird ein neuer erstellt. Anderenfalls wird kein Registrierungscode erstellt und die Datenzeile wird ignoriert.
+
 link:
   student:
     label: Kind verknüpfen
@@ -747,6 +785,15 @@ settings:
     email:
       label: Anmeldung mit E-Mail Adresse
       help: Wenn diese Option aktiv ist, kann bei der Anmeldung als Anmeldename die hinterlegte E-Mail Adresse verwendet werden.
+
+  invitation:
+    label: Einladungen
+    message:
+      label: Inhalt der E-Mail
+      help: "Hier kann der Inhalt der E-Mail festgelegt werden. Folgende Platzhalter sind verfügbar: %code% (Registrierungscode), %firstname% (Vorname des Kindes), %lastname% (Nachname des Kindes)."
+    return_address:
+      label: Antwort-E-Mail-Adresse
+      help: An diese Adresse werden Antworten auf die Einladung verschickt.
 
 yes: ja
 no: nein

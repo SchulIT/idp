@@ -17,7 +17,7 @@
 {% block content %}
     {{ form_start(form) }}
 
-    {% for key in ['app', 'login', 'registration'] %}
+    {% for key in ['app', 'login', 'registration', 'invitation'] %}
         {% set subForm = form[key] %}
 
         <div class="card">

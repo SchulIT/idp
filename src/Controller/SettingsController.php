@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Settings\AppSettings;
+use App\Settings\InvitationSettings;
 use App\Settings\LoginSettings;
 use App\Settings\RegistrationSettings;
 use Jbtronics\SettingsBundle\Form\SettingsFormFactoryInterface;
@@ -21,7 +22,8 @@ class SettingsController extends AbstractController
         $settings = [
             $settingsManager->createTemporaryCopy(AppSettings::class),
             $settingsManager->createTemporaryCopy(LoginSettings::class),
-            $settingsManager->createTemporaryCopy(RegistrationSettings::class)
+            $settingsManager->createTemporaryCopy(RegistrationSettings::class),
+            $settingsManager->createTemporaryCopy(InvitationSettings::class),
             ];
 
         $form = $formFactory->createMultiSettingsFormBuilder($settings)->getForm();

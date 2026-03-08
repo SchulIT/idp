@@ -1,0 +1,28 @@
+{% apply inky_to_html|inline_css(css_source('email')) %}
+    <spacer size="16"></spacer>
+
+    <container>
+
+        <row class="header">
+            <columns>
+
+                <spacer size="16"></spacer>
+
+                <h4 class="text-center">{{ config.name }}</h4>
+            </columns>
+        </row>
+        <row>
+            <columns>
+                <spacer size="16"></spacer>
+
+                <h1 class="text-center">{{ subject }}</h1>
+
+                <spacer size="16"></spacer>
+
+                {{ message|markdown_to_html }}
+
+                <small>{{ 'notice'|trans({}, 'mail') }}</small>
+            </columns>
+        </row>
+    </container>
+{% endapply %}
