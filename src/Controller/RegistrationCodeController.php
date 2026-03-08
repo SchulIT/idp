@@ -46,6 +46,7 @@ class RegistrationCodeController extends AbstractController
         $grade = $request->query->get('grade');
 
         $grades = $userRepository->findGrades();
+        usort($grades, fn(string $gradeA, string $gradeB) => strnatcasecmp($gradeA, $gradeB));
 
         if(!in_array($grade, $grades)) {
             $grade = null;
