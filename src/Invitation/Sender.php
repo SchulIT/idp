@@ -24,6 +24,19 @@ readonly class Sender {
             && !empty($this->invitationSettings->subject);
     }
 
+    public function sendSingle(SendInvitationRequest $request): void {
+        $code = $request->code;
+
+        if($code->getRedeemingUser() !== null) {
+            return;
+        }
+
+        $code->setInvitationEmail($request->email);
+        $code->setInvitationSentAt(null);
+
+        $this->sendInvitation($code);
+    }
+
     public function send(): void {
         $this->codeRepository->beginTransaction();
 

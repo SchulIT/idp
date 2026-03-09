@@ -17,6 +17,8 @@ use App\Invitation\InvitationRequestFlow;
 use App\Invitation\ParentsEmailCsv;
 use App\Invitation\ParentStudentMatches;
 use App\Invitation\Sender;
+use App\Invitation\SendInvitationRequest;
+use App\Invitation\SendInvitationType;
 use App\Repository\RegistrationCodeRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use App\Security\Registration\CodeGenerator;
@@ -254,6 +256,32 @@ class RegistrationCodeController extends AbstractController
     }
 
     #[NotFoundRedirect(redirectRoute: 'registration_codes', flashMessage: 'codes.not_found')]
+    #[Route(path: '/registration_codes/{uuid}/invite', name: 'invite_registration_code')]
+    public function invite(#[MapEntity(mapping: ['uuid' => 'uuid'])] RegistrationCode $code, Request $request, Sender $sender): Response {
+        if($code->getRedeemingUser() instanceof User) {
+            $this->addFlash('error', 'codes.edit.error.already_redeemed.message');
+            return $this->redirectToRoute('registration_codes');
+        }
+
+        $invitationRequest = new SendInvitationRequest($code);
+        $invitationRequest->email = $code->getInvitationEmail();
+        $form = $this->createForm(SendInvitationType::class, $invitationRequest);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $sender->sendSingle($invitationRequest);
+            $this->addFlash('success', 'codes.invitation.send_single.success');
+
+            return $this->redirectToRoute('registration_codes');
+        }
+
+        return $this->render('codes/invite_single.html.twig', [
+            'form' => $form->createView(),
+            'code' => $code
+        ]);
+    }
+
+    #[NotFoundRedirect(redirectRoute: 'registration_codes', flashMessage: 'codes.not_found')]
     #[Route(path: '/registration_codes/{uuid}/remove', name: 'remove_registration_code')]
     public function remove(#[MapEntity(mapping: ['uuid' => 'uuid'])] RegistrationCode $code, Request $request): Response {
         $form = $this->createForm(ConfirmType::class, [], [
@@ -278,7 +306,7 @@ class RegistrationCodeController extends AbstractController
     }
 
     #[Route(path: '/registration_codes/invitations/import', name: 'invite')]
-    public function invite(Request $request, Importer $importer): Response {
+    public function importEmails(Request $request, Importer $importer): Response {
         $importRequest = new ImportInvitationEmailsRequest();
         $form = $this->createForm(ImportInvitationEmailsType::class, $importRequest);
         $form->handleRequest($request);

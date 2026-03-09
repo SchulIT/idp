@@ -497,6 +497,7 @@ actions:
   save: speichern
   cancel: abbrechen
   back: zurück
+  send: senden
 
 form:
   multiple_help: In diesem Feld ist Mehrfachauswahl mit den Tasten Strg und/oder Shift möglich.
@@ -632,6 +633,10 @@ codes:
       confirm: "%count% Einladung(en) verschicken"
       success: Einladungen verschickt
       error: Bitte Einstellungen zu Einladungen prüfen. Betreff, Mitteilung und/oder Antwort-E-Mail-Adresse sind nicht gesetzt. Es wurden keine E-Mails verschickt.
+
+    send_single:
+      label: Einladung verschicken
+      success: Einladung verschickt
 
     csv:
       label: Importieren
@@ -788,6 +793,9 @@ settings:
 
   invitation:
     label: Einladungen
+    subject:
+      label: Betreff der E-Mail
+      help: Hier kann der Betreff der E-Mail festgelegt werden.
     message:
       label: Inhalt der E-Mail
       help: "Hier kann der Inhalt der E-Mail festgelegt werden. Folgende Platzhalter sind verfügbar: %code% (Registrierungscode), %firstname% (Vorname des Kindes), %lastname% (Nachname des Kindes)."
