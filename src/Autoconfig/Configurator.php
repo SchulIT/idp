@@ -21,7 +21,7 @@ readonly class Configurator {
 
     public function __construct(
         private HttpClientInterface $client,
-        private SerializerInterface $serializer, private AutoconfigureUrlNotSetException $autoconfigureUrlNotSetException
+        private SerializerInterface $serializer
     ) { }
 
     /**
@@ -31,7 +31,7 @@ readonly class Configurator {
      * @throws HttpExceptionInterface
      */
     public function configure(SamlServiceProvider $samlServiceProvider): void {
-        if(empty($this->autoconfigureUrlNotSetException)) {
+        if(empty($samlServiceProvider->getAutoconfigureUrl())) {
             throw new AutoconfigureUrlNotSetException();
         }
 
