@@ -30,6 +30,23 @@
                             <span class="badge text-bg-secondary">NULL</span>
                         {% elseif values|length == 1 %}
                             {{ values[0] }}
+                        {% elseif attribute.name == 'urn:services' %}
+                            <ul class="list-unstyled">
+                                {% for value in values %}
+                                    {% set jsonValue = value|json_decode %}
+
+                                    {% if jsonValue is iterable and jsonValue['name'] is defined %}
+                                        <li>
+                                            {% if jsonValue['icon'] is not empty %}
+                                                <i class="fas fa-{{ jsonValue['icon'] }}"></i>
+                                            {% else %}
+                                                <i class="fa fa-th"></i>
+                                            {% endif %}
+                                            {{ jsonValue['name'] }}
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
                         {% else %}
                             <ul>
                             {% for value in values %}
