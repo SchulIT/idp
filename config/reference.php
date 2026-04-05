@@ -283,7 +283,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         }>,
  *     },
  *     asset_mapper?: bool|array{ // Asset Mapper configuration
- *         enabled?: bool|Param, // Default: false
+ *         enabled?: bool|Param, // Default: true
  *         paths?: array<string, scalar|Param|null>,
  *         excluded_patterns?: list<scalar|Param|null>,
  *         exclude_dotfiles?: bool|Param, // If true, any files starting with "." will be excluded from the asset mapper. // Default: true
@@ -1591,16 +1591,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     enable_static_query_cache?: bool|Param, // Default: true
  *     connection_keys?: list<mixed>,
  * }
- * @psalm-type WebpackEncoreConfig = array{
- *     output_path?: scalar|Param|null, // The path where Encore is building the assets - i.e. Encore.setOutputPath()
- *     crossorigin?: false|"anonymous"|"use-credentials"|Param, // crossorigin value when Encore.enableIntegrityHashes() is used, can be false (default), anonymous or use-credentials // Default: false
- *     preload?: bool|Param, // preload all rendered script and link tags automatically via the http2 Link header. // Default: false
- *     cache?: bool|Param, // Enable caching of the entry point file(s) // Default: false
- *     strict_mode?: bool|Param, // Throw an exception if the entrypoints.json file is missing or an entry is missing from the data // Default: true
- *     builds?: array<string, scalar|Param|null>,
- *     script_attributes?: array<string, scalar|Param|null>,
- *     link_attributes?: array<string, scalar|Param|null>,
- * }
  * @psalm-type AdAuthConfig = array{
  *     url?: scalar|Param|null,
  *     tls?: array{
@@ -1721,7 +1711,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             use_underscore?: bool|Param, // Default: true
  *             unordered_list_markers?: list<scalar|Param|null>,
  *         },
- *         ...<mixed>
+ *         ...<string, mixed>
  *     },
  * }
  * @psalm-type StofDoctrineExtensionsConfig = array{
@@ -2051,7 +2041,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     common?: CommonConfig,
  *     nelmio_api_doc?: NelmioApiDocConfig,
  *     composer_dependency_list?: ComposerDependencyListConfig,
- *     webpack_encore?: WebpackEncoreConfig,
  *     ad_auth?: AdAuthConfig,
  *     light_saml_symfony_bridge?: LightSamlSymfonyBridgeConfig,
  *     scheb_two_factor?: SchebTwoFactorConfig,
@@ -2081,7 +2070,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         common?: CommonConfig,
  *         nelmio_api_doc?: NelmioApiDocConfig,
  *         composer_dependency_list?: ComposerDependencyListConfig,
- *         webpack_encore?: WebpackEncoreConfig,
  *         ad_auth?: AdAuthConfig,
  *         light_saml_symfony_bridge?: LightSamlSymfonyBridgeConfig,
  *         scheb_two_factor?: SchebTwoFactorConfig,
@@ -2109,7 +2097,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         common?: CommonConfig,
  *         nelmio_api_doc?: NelmioApiDocConfig,
  *         composer_dependency_list?: ComposerDependencyListConfig,
- *         webpack_encore?: WebpackEncoreConfig,
  *         ad_auth?: AdAuthConfig,
  *         light_saml_symfony_bridge?: LightSamlSymfonyBridgeConfig,
  *         scheb_two_factor?: SchebTwoFactorConfig,
@@ -2140,7 +2127,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         nelmio_api_doc?: NelmioApiDocConfig,
  *         composer_dependency_list?: ComposerDependencyListConfig,
  *         dama_doctrine_test?: DamaDoctrineTestConfig,
- *         webpack_encore?: WebpackEncoreConfig,
  *         ad_auth?: AdAuthConfig,
  *         light_saml_symfony_bridge?: LightSamlSymfonyBridgeConfig,
  *         scheb_two_factor?: SchebTwoFactorConfig,

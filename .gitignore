@@ -105,3 +105,7 @@ modules.xml
 
 public/images/*
 public/build/*
+###> symfony/asset-mapper ###
+/public/assets/
+/assets/vendor/
+###< symfony/asset-mapper ###

@@ -1,53 +1,66 @@
-import EasyMDE from 'easymde';
+import {
+    ClassicEditor,
+    Bold,
+    Italic,
+    Link,
+    Paragraph,
+    Strikethrough,
+    Essentials,
+    BlockQuote,
+    List,
+    Code,
+    CodeBlock,
+    Heading,
+    Markdown,
+    HorizontalLine,
+    Emoji,
+    Mention,
+    Table,
+    TableToolbar
+} from 'ckeditor5';
 
-document.addEventListener('DOMContentLoaded', function(event) {
-    document.querySelectorAll('[data-editor=markdown]').forEach(function(el) {
-        if(el.classList.contains('md-textarea-hidden')) {
-            /*
-             * Somehow, when adding the markdown editor to an textarea,
-             * this event is triggered again (with the hidden textarea)...
-             */
-            return;
-        }
+import deTranslation from 'ckeditor5/translations/de.js';
+import 'ckeditor5/dist/ckeditor5.min.css';
 
-        if(el.getAttribute('data-preview') === null) {
-            console.error('You must provide an URL which returns the markdown preview');
-            return;
-        }
-
-        let previewUrl = el.getAttribute('data-preview');
-
-        let options = {
-            autoDownloadFontAwesome: false,
-            autofocus: false,
-            autosave: {
-                enabled: false
-            },
-            element: el,
-            placeholder: '',
-            toolbar: [
-                'bold', 'italic', 'heading', '|', 'unordered-list', 'ordered-list', '|', 'link',
-                'image', '|', 'preview', 'side-by-side', 'fullscreen', '|', 'guide'
+for(let el of document.querySelectorAll('[data-editor=markdown]')) {
+    ClassicEditor.create(
+        el,
+        {
+            licenseKey: 'GPL',
+            plugins: [
+                Bold,
+                Italic,
+                Link,
+                Paragraph,
+                Strikethrough,
+                Essentials,
+                BlockQuote,
+                List,
+                Code,
+                CodeBlock,
+                Heading,
+                Markdown,
+                HorizontalLine,
+                Emoji,
+                Mention,
+                Table,
+                TableToolbar
             ],
-            previewRender: function(text, preview) {
-                let request = new XMLHttpRequest();
-                request.open('POST', previewUrl, true);
-                request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-
-                request.onload = function() {
-                    if(request.status >= 200 && request.status < 400) {
-                        preview.innerHTML = request.responseText;
-                    }
-                };
-
-                request.send(text);
-
-                return 'Laden...';
+            toolbar: [
+                'heading', '|',
+                'bold', 'italic', 'strikethrough', '|',
+                'bulletedList', 'numberedList', '|',
+                'link', 'emoji', '|',
+                'blockquote', 'insertTable', 'code', 'codeBlock', 'horizontalLine', '|',
+                'undo', 'redo'
+            ],
+            table: {
+                defaultHeadings: { rows: 1 },
+                contentToolbar: [ 'tableColumn', 'tableRow' ]
             },
-            spellChecker: false,
-            status: false
-        };
-
-        new EasyMDE(options);
-    });
-});
+            translations: [
+                deTranslation
+            ]
+        }
+    );
+}

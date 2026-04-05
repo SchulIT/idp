@@ -1,12 +1,4 @@
-require('../css/app.scss');
-
 import { Tooltip, Modal} from "bootstrap";
-
-require('../../vendor/schulit/common-bundle/assets/js/polyfill');
-require('../../vendor/schulit/common-bundle/assets/js/menu');
-require('../../vendor/schulit/common-bundle/assets/js/dropdown-polyfill');
-require('../../vendor/schulit/common-bundle/assets/js/table-collapse');
-
 import Choices from "choices.js";
 
 document.addEventListener('DOMContentLoaded', function() {

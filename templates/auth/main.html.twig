@@ -6,7 +6,7 @@
     <title>{{ config.name }}</title>
 
     {% block css %}
-        <link rel="stylesheet" type="text/css" href="{{ preload(asset('build/simple.css')) }}">
+        <link rel="stylesheet" type="text/css" href="{{ preload(asset('bundles/common/simple.css')) }}">
 
         {% set customCSS = customCSS() %}
         {% if customCSS is not empty %}
@@ -74,7 +74,11 @@
 </div>
 
 {% block javascript %}
-    <script src="{{ preload(asset('build/app.js')) }}"></script>
+    <script src="{{ asset('polyfill.js') }}"></script>
+    <script src="{{ asset('menu.js') }}"></script>
+    <script src="{{ asset('dropdown-polyfill.js') }}"></script>
+    <script src="{{ asset('table-collapse.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 {% endblock %}
 
 </body>

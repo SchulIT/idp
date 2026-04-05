@@ -66,7 +66,6 @@ WORKDIR /var/www/html
 # Copy whole project into image
 COPY . .
 
-
 ### --- SECOND STAGE: Composer --- ###
 FROM base AS composer
 
@@ -77,30 +76,16 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 # Run composer install
 RUN composer install --no-dev --classmap-authoritative --no-scripts
 
-### --- Third stage: Install Assets --- ###
-FROM node:22-alpine AS assets
-
-# Set workdir and copy files
-WORKDIR /var/www/html
-COPY . .
-COPY --from=composer /var/www/html/assets/js /var/www/html/assets/js
-COPY --from=composer /var/www/html/vendor /var/www/html/vendor
-
-# Install dependencies
-RUN npm install 
-
-RUN npm run build
-
-
-### --- Fourth Stage: Runner --- ###
+### --- Third Stage: Runner --- ###
 FROM base AS runner
 
 # Set workdir and copy files
 WORKDIR /var/www/html
 COPY --from=composer /var/www/html/vendor /var/www/html/vendor
-COPY --from=assets /var/www/html/public/build /var/www/html/public/build
 
-# Install assets (copy 3rd party stuff)
+# Install assets
+RUN php bin/console importmap:install
+RUN php bin/console asset-map:compile
 RUN php bin/console assets:install
 
 # Install nginx configuration

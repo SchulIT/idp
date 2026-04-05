@@ -26,15 +26,8 @@ sidebar_position: 1
 * MariaDB 10.11+ (ein kompatibles MySQL kann funktionieren, ist jedoch nicht getestet)
 * Composer 2+
 * Git (zum einfachen Einspielen der Software)
-* NodeJS >= 18 inkl NPM (zum Erstellen der Javascript- und CSS-Dateien)
 
 Die Software muss auf einer Subdomain betrieben werden. Das Betreiben in einem Unterverzeichnis wird nicht unterstützt.
-
-:::tip Hinweis
-Theoretisch ist es auch ohne Git und NodeJS möglich, die Software zu installieren. Dazu kann der Quelltext mittels GitHub
-heruntergeladen werden. Die Assets müssen dann jedoch auf einer Maschine erzeugt werden, wo Node und NPM verfügbar sind.
-Dann muss das gesamte `/public/build`-Verzeichnis nach dem Erstellen der Assets auf den Webspace kopiert werden.
-:::
 
 ### Empfohlene Software (optional)
 

@@ -9,6 +9,8 @@ README.md
 CHANGELOG-*.md
 UPGRADE-*.md
 rector.php
+phpunit.xml.dist
+phpstan.neon.dist
 
 .env.local
 node_modules
@@ -18,3 +20,5 @@ certs/*.crt
 certs/*.key
 
 public/build
+public/assets
+public/bundles

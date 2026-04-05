@@ -77,7 +77,8 @@
 {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" href="{{ preload(asset('build/app.css')) }}" type="text/css" >
+    <link rel="stylesheet" href="{{ asset('bundles/common/app.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('vendor/@fortawesome/fontawesome-free/css/all.css') }}" type="text/css">
 
     {% set customCSS = customCSS() %}
     {% if customCSS is not empty %}
@@ -88,5 +89,12 @@
 {% endblock %}
 
 {% block javascript %}
-<script src="{{ preload(asset('build/app.js')) }}"></script>
+    <script src="{{ asset('polyfill.js') }}"></script>
+    <script src="{{ asset('menu.js') }}"></script>
+    <script src="{{ asset('dropdown-polyfill.js') }}"></script>
+    <script src="{{ asset('table-collapse.js') }}"></script>
+
+    {% block importmap %}
+        {{ importmap(['app', 'editor', 'collection']) }}
+    {% endblock %}
 {% endblock %}

@@ -43,6 +43,7 @@
         "stof/doctrine-extensions-bundle": "^1.7",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "^7.0",
+        "symfony/asset-mapper": "^7.0",
         "symfony/console": "^7.0",
         "symfony/dependency-injection": "^7.0",
         "symfony/doctrine-bridge": "^7.0",
@@ -69,11 +70,11 @@
         "symfony/twig-bundle": "^7.0",
         "symfony/validator": "^7.0",
         "symfony/web-link": "^7.0",
-        "symfony/webpack-encore-bundle": "^2.0",
         "symfony/yaml": "^7.0",
         "twig/cssinliner-extra": "^3.3",
         "twig/extra-bundle": "^3.3",
         "twig/inky-extra": "^3.3",
+        "twig/twig": "^2.12|^3.0",
         "zenstruck/messenger-monitor-bundle": "^0.5.1"
     },
     "require-dev": {
@@ -127,7 +128,8 @@
             "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
             "app:browscap:update": "symfony-cmd",
-            "geoip2:update": "symfony-cmd"
+            "geoip2:update": "symfony-cmd",
+            "importmap:install": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"

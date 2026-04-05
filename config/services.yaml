@@ -207,11 +207,6 @@ services:
       tags:
         - { name: monolog.processor }
 
-    # TWIG
-    App\Twig\WebpackEntryCssSourceExtension:
-        bind:
-            $publicDir: '%kernel.project_dir%/public'
-
     # BROWSCAP
     cache.browscap.psr16:
         class: Symfony\Component\Cache\Psr16Cache

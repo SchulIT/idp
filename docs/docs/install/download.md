@@ -18,13 +18,13 @@ Dabei muss `1.0.0` durch die gewünschte Version ersetzt werden.
 
 ```bash
 $ composer install --no-dev --classmap-authoritative --no-scripts
-$ npm install
 ```
 
 ## CSS- und JavaScript-Dateien erzeugen
 
 ```bash
-$ npm run build
+$ php bin/console importmap:install
+$ php bin/console asset-map:compile
 $ php bin/console assets:install
 ```
 
