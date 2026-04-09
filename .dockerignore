@@ -15,6 +15,7 @@ phpstan.neon.dist
 .env.local
 node_modules
 vendor
+var
 
 certs/*.crt
 certs/*.key

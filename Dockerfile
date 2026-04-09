@@ -1,114 +1,100 @@
 ### --- First Stage: Base Image --- ###
 
-# Use the official PHP image with FPM as the base image
-FROM php:8.4-fpm-alpine AS base
+# Build custom FrankenPHP image
+FROM dunglas/frankenphp:builder AS builder
+
+COPY --from=caddy:builder /usr/bin/xcaddy /usr/bin/xcaddy
+
+RUN CGO_ENABLED=1 \
+    XCADDY_SETCAP=1 \
+    XCADDY_GO_BUILD_FLAGS="-ldflags='-w -s' -tags=nobadger,nomysql,nopgx" \
+    CGO_CFLAGS=$(php-config --includes) \
+    CGO_LDFLAGS="$(php-config --ldflags) $(php-config --libs)" \
+    xcaddy build \
+        --output /usr/local/bin/frankenphp \
+        --with github.com/dunglas/frankenphp=./ \
+        --with github.com/dunglas/frankenphp/caddy=./caddy/ \
+        --with github.com/dunglas/caddy-cbrotli \
+        # Add extra Caddy modules here \
+        --with github.com/baldinof/caddy-supervisor
+
+RUN install-php-extensions \
+    @composer \
+    pdo_mysql \
+    pcntl  \
+    intl  \
+    zip  \
+    xsl  \
+    imagick \
+    apcu \
+    sysvsem \
+    pcntl \
+    opcache
+
+# Copy shared libs of frankenphp and all installed extensions to temporary location
+# You can also do this step manually by analyzing ldd output of frankenphp binary and each extension .so file
+RUN <<-EOF
+	apt-get update
+	apt-get install -y --no-install-recommends libtree
+	mkdir -p /tmp/libs
+	for target in $(which frankenphp) \
+		$(find "$(php -r 'echo ini_get("extension_dir");')" -maxdepth 2 -name "*.so"); do
+		libtree -pv "$target" 2>/dev/null | grep -oP '(?:── )\K/\S+(?= \[)' | while IFS= read -r lib; do
+			[ -f "$lib" ] && cp -n "$lib" /tmp/libs/
+		done
+	done
+EOF
+
+FROM dunglas/frankenphp AS runner
 
 LABEL maintainer="SchulIT" \
       description="Single Sign-On - SAML-Identity Provider für SchulIT Anwendungen"
 
 # Install dependencies and PHP extensions
-RUN apk add --no-cache icu-dev  \
-    libzip-dev \
-    imagemagick-dev \
-    libxslt-dev \
-    libgcrypt-dev \
-    supervisor \
-    nginx \
-    curl
+COPY --from=builder /usr/local/bin/frankenphp /usr/local/bin/frankenphp
+COPY --from=builder /usr/local/lib/php/extensions /usr/local/lib/php/extensions
+COPY --from=builder /tmp/libs /usr/lib
+COPY --from=builder /usr/local/bin/composer /usr/bin/composer
 
-RUN apk add --no-cache --virtual .build-deps \
-    autoconf \
-    g++ \
-    make \
-    && docker-php-ext-install -j$(nproc) pdo_mysql pcntl intl zip xsl sysvsem \
-    # Installing Imagic from PECL fails, so we need to install it manually
-    # && pecl install imagick \
-    && curl -L -o /tmp/imagick.tar.gz https://github.com/Imagick/imagick/archive/7088edc353f53c4bc644573a79cdcd67a726ae16.tar.gz \
-    && tar --strip-components=1 -xf /tmp/imagick.tar.gz \
-    && phpize \
-    && ./configure \
-    && make \
-    && make install \
-    && echo "extension=imagick.so" > /usr/local/etc/php/conf.d/ext-imagick.ini \
-    && rm -rf /tmp/* \
-    # End of manual installation of Imagick
-    && pecl install apcu \
-    && pecl clear-cache \
-    && apk del .build-deps \
-    && docker-php-source delete \
-    && docker-php-ext-enable pdo_mysql pcntl intl zip imagick apcu sysvsem
-
-# Copy php.ini
-RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php.ini
-
-# Set memory limit
-RUN echo "memory_limit=512M" > /usr/local/etc/php/conf.d/memory-limit.ini
-
-# Set settings for uploading files
-RUN echo "upload_max_filesize = 128M" >> /usr/local/etc/php/conf.d/uploads.ini
-RUN echo "post_max_size = 128M" >> /usr/local/etc/php/conf.d/uploads.ini
-
-# Set maximum execution time
-RUN echo "max_execution_time = 90" > /usr/local/etc/php/conf.d/execution-time.ini
-
-# Do not expose PHP
-RUN echo "expose_php = Off" > /usr/local/etc/php/conf.d/expose-php.ini
-
-# Configure PHP-FPM
-COPY .docker/fpm-pool.conf /usr/local/etc/php-fpm.d/www.conf
+COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
+COPY --from=builder /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
 
 # Set DB version so that symfony does not try to connect to a real DB
 ENV DATABASE_SERVER_VERSION=10.11.0-MariaDB
 
+# Install composer
+RUN install-php-extensions @composer
+
+# https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
 # Set working directory
-WORKDIR /var/www/html
+WORKDIR /app
 
 # Copy whole project into image
 COPY . .
 
-### --- SECOND STAGE: Composer --- ###
-FROM base AS composer
-
-# Install composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-ENV COMPOSER_ALLOW_SUPERUSER=1
-
 # Run composer install
 RUN composer install --no-dev --classmap-authoritative --no-scripts
 
-### --- Third Stage: Runner --- ###
-FROM base AS runner
-
-# Set workdir and copy files
-WORKDIR /var/www/html
-COPY --from=composer /var/www/html/vendor /var/www/html/vendor
-
-# Install assets
-RUN php bin/console importmap:install
-RUN php bin/console asset-map:compile
+# Install assets (copy 3rd party stuff)
 RUN php bin/console assets:install
 
-# Install nginx configuration
-# Configure nginx - http
-COPY .docker/nginx/nginx.conf /etc/nginx/nginx.conf
-# Configure nginx - default server
-COPY .docker/nginx/default.conf /etc/nginx/conf.d/icc.conf
-# RUN mkdir -p /etc/nginx/sites-enabled/ && ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+# Install JS/CSS assets
+RUN php bin/console importmap:install
 
-# Install supervisor configuration
-COPY .docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# Export HTTP port
-EXPOSE 8080
+# Compile assets
+RUN php bin/console asset-map:compile
 
 # Copy startup.sh
 COPY .docker/startup.sh startup.sh
 RUN chmod +x startup.sh
 
-RUN chown -R nobody:nobody /var/www/html /run /var/lib/nginx /var/log/nginx
-USER nobody
+# Copy Caddyfile
+COPY Caddyfile /etc/caddy/Caddyfile
 
+# Export HTTP port
+EXPOSE 80
+
+HEALTHCHECK --start-period=60s CMD php -r 'exit(false === @file_get_contents("http://localhost:2019/metrics", context: stream_context_create(["http" => ["timeout" => 5]])) ? 1 : 0);'
 CMD ["./startup.sh"]
-
-# Configure a healthcheck to validate that everything is up&running
-HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:8080/fpm-ping || exit 1

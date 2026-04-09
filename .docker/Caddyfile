@@ -1,0 +1,41 @@
+{
+    frankenphp {
+       php_ini date.timezone Europe/Berlin
+       php_ini memory_limit 512M
+       php_ini max_execution_time 90
+       php_ini post_max_size 128M
+       php_ini upload_max_filesize 128M
+       php_ini expose_php Off
+
+       worker {
+          file /app/public/index.php
+          watch
+       }
+    }
+
+    supervisor {
+        frankenphp php-cli bin/console messenger:consume async --time-limit=3600 --memory-limit=256M {
+            dir /app
+            restart_policy always
+        }
+        frankenphp php-cli bin/console messenger:consume mail --time-limit=3600 --memory-limit=256M {
+            dir /app
+            restart_policy always
+        }
+        frankenphp php-cli bin/console messenger:consume scheduler_default --time-limit=3600 --memory-limit=256M {
+            dir /app
+            restart_policy always
+        }
+    }
+
+    http_port 80
+}
+
+:80 {
+    log
+    encode zstd br gzip
+
+    root /app/public/
+
+    php_server
+}

@@ -55,17 +55,17 @@ jobs:
       - name: Install PHP dependencies
         run: composer install --prefer-dist --no-progress --no-scripts
 
-      - name: NPM install
-        run: npm install
-
-      - name: NPM build
-        run: npm run build
-
       - name: Run cache:clear
         run: php bin/console cache:clear
 
       - name: Run assets:install
         run: php bin/console assets:install
+
+      - name: Run importmap:install
+        run: php bin/console importmap:install
+
+      - name: Compile assets
+        run: php bin/console asset-map:compile
 
       - name: Run PHPStan
         run: vendor/bin/phpstan analyze ./src --level 5 --memory-limit 1G
@@ -79,15 +79,6 @@ jobs:
           KERNEL_CLASS: 'App\Kernel'
           APP_SECRET: 's$cretf0rt3st'
           SYMFONY_DEPRECATIONS_HELPER: 9999999
-
-      - name: Cache Node packages
-        id: node-cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
 
       - name: Save log to artifacts
         if: always()

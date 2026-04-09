@@ -12,9 +12,6 @@ if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
     # Migrate database
     php bin/console doctrine:migrations:migrate --no-interaction -v
 
-    # Scan for new cronjobs
-    php bin/console shapecode:cron:scan
-
     # Run app setup
     php bin/console app:setup
 
@@ -35,5 +32,5 @@ if [ ! -f /var/www/html/certs/idp.crt ] || [ ! -f /var/www/html/certs/idp.key ];
     php bin/console app:create-certificate --type saml --no-interaction
 fi
 
-# Start container
-/usr/bin/supervisord -c "/etc/supervisor/conf.d/supervisord.conf"
+# Start FrankenPHP
+/usr/local/bin/frankenphp run --config /etc/caddy/Caddyfile
