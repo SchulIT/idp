@@ -62,9 +62,6 @@ COPY --from=builder /usr/local/etc/php/php.ini-production /usr/local/etc/php/php
 # Set DB version so that symfony does not try to connect to a real DB
 ENV DATABASE_SERVER_VERSION=10.11.0-MariaDB
 
-# Install composer
-RUN install-php-extensions @composer
-
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
@@ -91,7 +88,7 @@ COPY .docker/startup.sh startup.sh
 RUN chmod +x startup.sh
 
 # Copy Caddyfile
-COPY Caddyfile /etc/caddy/Caddyfile
+COPY .docker/Caddyfile /etc/caddy/Caddyfile
 
 # Export HTTP port
 EXPOSE 80
