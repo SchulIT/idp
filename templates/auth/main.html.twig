@@ -7,6 +7,7 @@
 
     {% block css %}
         <link rel="stylesheet" type="text/css" href="{{ preload(asset('bundles/common/simple.css')) }}">
+        <link rel="stylesheet" href="{{ asset('vendor/@fortawesome/fontawesome-free/css/all.css') }}" type="text/css">
 
         {% set customCSS = customCSS() %}
         {% if customCSS is not empty %}
@@ -74,6 +75,9 @@
 </div>
 
 {% block javascript %}
+    {% block importmap %}
+        {{ importmap(['app']) }}
+    {% endblock %}
 {% endblock %}
 
 </body>
