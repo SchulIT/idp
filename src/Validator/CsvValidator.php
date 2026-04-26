@@ -2,7 +2,7 @@
 
 namespace App\Validator;
 
-use App\Invitation\CsvStep;
+use App\Invitation\ImportInvitationEmailsRequest;
 use League\Csv\Reader;
 use Override;
 use Symfony\Component\Validator\Constraint;
@@ -26,7 +26,7 @@ class CsvValidator extends ConstraintValidator {
             return;
         }
 
-        /** @var CsvStep $csv */
+        /** @var ImportInvitationEmailsRequest $csv */
         $csv = $this->context->getObject();
 
         try {
