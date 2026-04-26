@@ -6,6 +6,13 @@ framework:
             - vendor/schulit/common-bundle/assets/js/
         missing_import_mode: strict
 
+        precompress:
+            format: [ 'gzip' ]
+
+            # if you don't define the following option, AssetMapper will compress all
+            # the extensions considered safe (css, js, json, svg, xml, ttf, otf, wasm, etc.)
+            extensions: [ 'css', 'js', 'json', 'svg', 'xml' ]
+
 when@prod:
     framework:
         asset_mapper:

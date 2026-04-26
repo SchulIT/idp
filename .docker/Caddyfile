@@ -28,12 +28,21 @@
         }
     }
 
+    log {
+        level INFO
+        output stderr
+    }
+
+    servers {
+        trusted_proxies private_ranges
+    }
+
     http_port 80
 }
 
 :80 {
     log
-    encode zstd br gzip
+    encode gzip
 
     root /app/public/
 
