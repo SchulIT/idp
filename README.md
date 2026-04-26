@@ -1,8 +1,9 @@
 # Identity Provider
 
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/schulit/idp/php.yml?style=flat-square)
-![PHP 8.3](https://img.shields.io/badge/PHP-8.3-success.svg?style=flat-square)
-![Symfony 7](https://img.shields.io/badge/Symfony-7-success.svg?style=flat-square)
+![PHP 8.4](https://img.shields.io/badge/PHP-8.4-success.svg?style=flat-square)
+![PHP 8.5](https://img.shields.io/badge/PHP-8.5-success.svg?style=flat-square)
+![Symfony 7.4](https://img.shields.io/badge/Symfony-7.4-success.svg?style=flat-square)
 ![AGPL-3.0](https://img.shields.io/github/license/schulit/idp.svg?style=flat-square)
 
 Ein SAML Identity Provider, welcher für die SchulIT Software Suite benötigt wird.
