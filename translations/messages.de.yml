@@ -274,6 +274,10 @@ users:
       remove_user: Benutzer löschen
       add_user_role: Benutzerrolle hinzufügen
       remove_user_role: Benutzerrolle entfernen
+      set_grade: Klasse setzen (betrifft nur Schülerinnen/Schüler)
+
+    grade:
+      placeholder: Klasse eintragen oder leer lassen
 
     user_role:
       select: Benutzerrolle auswählen

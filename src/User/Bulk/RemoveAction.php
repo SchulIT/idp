@@ -5,6 +5,7 @@ namespace App\User\Bulk;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Override;
+use Symfony\Component\HttpFoundation\Request;
 
 readonly class RemoveAction implements BulkActionInterface {
     public function __construct(
@@ -14,7 +15,7 @@ readonly class RemoveAction implements BulkActionInterface {
     }
 
     #[Override]
-    public function performAction(User $user, mixed $parameter = null): void {
+    public function performAction(User $user, Request $request): void {
         $this->userRepository->remove($user);
     }
 

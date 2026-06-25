@@ -373,9 +373,8 @@ class UserController extends AbstractController {
     public function bulk(BulkManager $bulkManager, Request $request, TranslatorInterface $translator): RedirectResponse {
         $userUuids = explode(',', $request->request->get('users', ''));
         $action = $request->request->get('action');
-        $role = $request->request->get('role');
 
-        $count = $bulkManager->perform($userUuids, $action, $role);
+        $count = $bulkManager->perform($userUuids, $action, $request);
 
         $this->addFlash(
             'success',

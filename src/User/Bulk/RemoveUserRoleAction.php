@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Repository\UserRepositoryInterface;
 use App\Repository\UserRoleRepositoryInterface;
 use Override;
+use Symfony\Component\HttpFoundation\Request;
 
 readonly class RemoveUserRoleAction implements BulkActionInterface {
 
@@ -17,7 +18,9 @@ readonly class RemoveUserRoleAction implements BulkActionInterface {
     }
 
     #[Override]
-    public function performAction(User $user, mixed $parameter = null): void {
+    public function performAction(User $user, Request $request): void {
+        $parameter = $request->request->get('role');
+
         if(!is_string($parameter)) {
             return;
         }
