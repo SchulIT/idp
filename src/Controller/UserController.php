@@ -15,21 +15,17 @@ use App\Form\AttributeDataTrait;
 use App\Form\ResetPasswordType;
 use App\Form\ResetPasswortActiveDirectoryType;
 use App\Form\UserType;
-use App\Entity\UserType as UserTypeEntity;
 use App\Repository\UserRepositoryInterface;
-use App\Repository\UserTypeRepositoryInterface;
 use App\Saml\AttributeValueProvider;
 use App\Security\ForgotPassword\ForgotPasswordManager;
 use App\Security\ForgotPassword\TooManyRequestsException;
 use App\Security\ForgotPassword\UserCannotResetPasswordException;
 use App\Security\Session\LogoutHelper;
+use App\Service\Attribute\EffectiveAttributeResolver;
 use App\Service\AttributePersister;
-use App\Service\AttributeResolver;
 use App\User\Bulk\BulkManager;
-use App\Utils\ArrayUtils;
 use App\View\Filter\UserRoleFilter;
 use App\View\Filter\UserTypeFilter;
-use DateTime;
 use SchulIT\CommonBundle\Form\ConfirmType;
 use SchulIT\CommonBundle\Http\Attribute\NotFoundRedirect;
 use SchulIT\CommonBundle\Utils\RefererHelper;
@@ -149,8 +145,8 @@ class UserController extends AbstractController {
     #[NotFoundRedirect(redirectRoute: 'users', flashMessage: 'users.not_found')]
     #[Route(path: '/users/{uuid}/attributes', name: 'show_attributes')]
     #[IsGranted('ROLE_ADMIN')]
-    public function showAttributes(#[MapEntity(mapping: ['uuid' => 'uuid'])] User $user, AttributeResolver $resolver, AttributeValueProvider $provider): Response {
-        $attributes = $resolver->getDetailedResultingAttributeValuesForUser($user);
+    public function showAttributes(#[MapEntity(mapping: ['uuid' => 'uuid'])] User $user, EffectiveAttributeResolver $resolver, AttributeValueProvider $provider): Response {
+        $attributes = $resolver->getDetailedAttributeValuesForUser($user);
         $defaultAttributes = $provider->getCommonAttributesForUser($user);
 
         return $this->render('users/attributes.html.twig', [

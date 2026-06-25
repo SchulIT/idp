@@ -84,16 +84,20 @@
                             {% if attributeValue.attribute.multipleChoice %}
                                 <ul class="list-unstyled">
                                     {% for value in attributeValue.value %}
-                                        <li>{{ value }} ({{ attributeValue.attribute.options[value] }})</li>
+                                        <li>{{ value }} <span class="badge text-bg-secondary">{{ attributeValue.attribute.options[value] }}</span></li>
                                     {% endfor %}
                                 </ul>
                             {% else %}
-                                {{ attributeValue.value }} ({{ attributeValue.attribute.options[attributeValue.value] }})
+                                {{ attributeValue.value }} <span class="badge text-bg-secondary">{{ attributeValue.attribute.options[value] }}</span>
                             {% endif %}
                         {% endif %}
                     </td>
                     <td>
-                        {{ attributeValue|attributeSource }}
+                        <ul class="list-unstyled">
+                        {% for source in attributeValue.sources %}
+                            <li>{{ source|attributeSource }}</li>
+                        {% endfor %}
+                        </ul>
                     </td>
                 </tr>
             {% endfor %}

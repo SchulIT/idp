@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Saml;
 
-use App\Entity\SamlServiceProvider;
 use App\Entity\ServiceAttribute;
 use App\Entity\ServiceAttributeValueInterface;
 use App\Entity\ServiceProvider;
 use App\Entity\User;
 use App\Repository\ServiceAttributeRepository;
 use App\Repository\ServiceProviderRepositoryInterface;
-use App\Service\AttributeResolver;
+use App\Service\Attribute\EffectiveAttributeResolver;
+use App\Service\Attribute\ResolvedValue;
 use App\Service\UserServiceProviderResolver;
 use App\Traits\ArrayTrait;
-use Dom\Attr;
+use App\Utils\ArrayUtils;
 use LightSaml\ClaimTypes;
 use LightSaml\Model\Assertion\Attribute;
 use SchulIT\CommonBundle\Saml\ClaimTypes as ExtendedClaimTypes;
@@ -29,8 +29,13 @@ class AttributeValueProvider extends AbstractAttributeProvider {
 
     use ArrayTrait;
 
-    public function __construct(TokenStorageInterface $tokenStorage, private AttributeResolver $attributeResolver, private ServiceAttributeRepository $attributeRepository,
-                                private UserServiceProviderResolver $userServiceProviderResolver, private readonly ServiceProviderRepositoryInterface $serviceProviderRepository) {
+    public function __construct(
+        TokenStorageInterface                               $tokenStorage,
+        private readonly EffectiveAttributeResolver         $attributeResolver,
+        private readonly ServiceAttributeRepository         $attributeRepository,
+        private readonly UserServiceProviderResolver        $userServiceProviderResolver,
+        private readonly ServiceProviderRepositoryInterface $serviceProviderRepository
+    ) {
         parent::__construct($tokenStorage);
     }
 
@@ -38,6 +43,7 @@ class AttributeValueProvider extends AbstractAttributeProvider {
      * Returns a list of common attributes which should always be included in a SAMLResponse
      *
      * @param User|null $user
+     * @return array
      */
     public function getCommonAttributesForUser(User|null $user = null): array {
         if(!$user instanceof User) {
@@ -71,16 +77,6 @@ class AttributeValueProvider extends AbstractAttributeProvider {
     }
 
     /**
-     * @return ServiceAttributeValueInterface[]
-     */
-    private function getUserAttributeValues(User $user): array {
-        $attributeValues = $this->attributeResolver
-            ->getDetailedResultingAttributeValuesForUser($user);
-
-        return $this->makeArrayWithKeys($attributeValues, fn(ServiceAttributeValueInterface $attributeValue): ?int => $attributeValue->getAttribute()->getId());
-    }
-
-    /**
      * Returns a list of attributes for the given user and the given entityId (of the requested service provider).
      *
      * @return string[]
@@ -89,11 +85,14 @@ class AttributeValueProvider extends AbstractAttributeProvider {
         $attributes = [ ];
 
         $requestedAttributes = $this->getRequestedAttributes($entityId);
-        $userAttributes = $this->getUserAttributeValues($user);
+        $userAttributes = ArrayUtils::createArrayWithKeys(
+            $this->attributeResolver->getDetailedAttributeValuesForUser($user),
+            fn(ResolvedValue $value) => $value->attribute->getId()
+        );
 
         foreach($requestedAttributes as $attributeId => $requestedAttribute) {
             if(array_key_exists($attributeId, $userAttributes)) {
-                $attributes[$requestedAttribute->getSamlAttributeName()] = $userAttributes[$attributeId]->getValue();
+                $attributes[$requestedAttribute->getSamlAttributeName()] = $userAttributes[$attributeId]->value;
             }
         }
 

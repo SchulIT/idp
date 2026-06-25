@@ -35,6 +35,9 @@ label:
   value: Wert
   user_roles: Benutzerrollen
   is_multiple_choice: Mehrfach-Auswahl möglich (nur Auswahlfeld)
+  merge_values:
+    label: Werte zusammenführen
+    help: Wenn diese Option aktiviert ist, werden bei mehrfacher Definition eines Attributwertes für einen Benutzer die Werte aus allen Quellen zusammengeführt. Falls die Option nicht aktiv ist, werden die Werte entsprechend überschrieben.
   options: Optionen (nur Auswahlfeld)
   attributes: Attribute
   key: Schlüssel
@@ -80,7 +83,7 @@ label:
     help: Hier kann eine Font Awesome Icon Klasse eingetragen werden. Dabei handelt es sich um die CSS-Klasse, bspw. fab fa-facebook.
   priority:
     label: Priorität
-    help: Bei mehreren Benutzerrollen mit denselben Attributen gewinnt die Benutzerrolle mit der höchsten Priorität.
+    help: Bei mehreren Benutzerrollen mit denselben Attributen gewinnt die Benutzerrolle mit der höchsten Priorität. Attribute mit Mehrfachauswahl können auch zusammengeführt werden (muss pro Attribute aktiviert werden), dann wird die Priorität nicht berücksichtigt.
   parent: Eltern
   metadata:
     label: Metadaten-XML

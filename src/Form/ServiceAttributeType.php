@@ -84,6 +84,14 @@ class ServiceAttributeType extends AbstractType {
                                 'class' => 'checkbox-custom'
                             ]
                         ])
+                        ->add('mergeValues', CheckboxType::class, [
+                            'label' => 'label.merge_values.label',
+                            'help' => 'label.merge_values.help',
+                            'required' => false,
+                            'label_attr' => [
+                                'class' => 'checkbox-custom'
+                            ]
+                        ])
                         ->add('options', KeyValueType::class, [
                             'value_type' => TextType::class,
                             'value_options' => [

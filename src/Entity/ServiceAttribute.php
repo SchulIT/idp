@@ -38,6 +38,10 @@ class ServiceAttribute {
     #[Serializer\Exclude]
     private bool $isUserEditEnabled = true;
 
+    #[ORM\Column(type: 'boolean')]
+    #[Serializer\Exclude]
+    private bool $mergeValues = false;
+
     #[ORM\Column(type: 'string')]
     #[Assert\NotBlank]
     private string $samlAttributeName;
@@ -100,6 +104,15 @@ class ServiceAttribute {
 
     public function setIsUserEditEnabled(bool $isUserEditEnabled): self {
         $this->isUserEditEnabled = $isUserEditEnabled;
+        return $this;
+    }
+
+    public function isMergeValues(): bool {
+        return $this->mergeValues;
+    }
+
+    public function setMergeValues(bool $mergeValues): ServiceAttribute {
+        $this->mergeValues = $mergeValues;
         return $this;
     }
 
