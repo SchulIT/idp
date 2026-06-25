@@ -35,6 +35,13 @@ class AttributesType extends FieldsetType {
         $attributeValues = $options['attribute_values'];
         $onlyUserEditable = $options['only_user_editable'];
 
+        if(!$onlyUserEditable) {
+            $builder
+                ->add('callout', CalloutType::class, [
+                    'message' => 'service_attributes.override',
+                ]);
+        }
+
         foreach($this->serviceAttributeRepository->findAll() as $attribute) {
             $type = $attribute->getType() === ServiceAttributeType::Text ? TextType::class : ChoiceType::class;
 

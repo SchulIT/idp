@@ -473,6 +473,7 @@ certificate_info:
 
 service_attributes:
   label: Attribute
+  override: "Attributswerte werden entsprechend der Spezifität überschrieben. Es gilt: Benutzer überschreibt Benutzergruppe überschreibt Benutzertyp. Sind mehrere Benutzergruppen einem Benutzer zugeordnet, so überschreibt eine Benutzergruppe mit höherer Priorität den Wert einer Benutzergruppe mit niedriger Priorität. Attribute mit Mehrfachauswahl können auch so definiert werden, dass sie zusammengeführt anstatt überschreiben werden."
   help: Mithilfe von Attributen können Eigenschaften der Benutzer festgelegt werden. Wird ein Attribut einem Dienst zugeordnet, so erhält der Dienst bei der Anmeldung eines Benutzers den entsprechenden Attributswert. Einige Dienste benötigen bestimmte Attribute, um zu funktionieren.
   not_found: Das Attribut wurde nicht gefunden.
   add:

@@ -130,3 +130,9 @@
         {{ form_errors(form) }}
     </div>
 {%- endblock -%}
+
+{%- block callout_row -%}
+    <div class="bs-callout bs-callout-{{ form.vars.type }}">
+        {{ form.vars.message|trans(form.vars.message_parameters) }}
+    </div>
+{%- endblock -%}
