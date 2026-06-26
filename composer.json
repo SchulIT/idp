@@ -37,7 +37,7 @@
         "scheb/2fa-bundle": "^7.0",
         "scheb/2fa-google-authenticator": "^7.0",
         "scheb/2fa-trusted-device": "^7.0",
-        "schulit/adauth-bundle": "^4.0",
+        "schulit/adauth-bundle": "^5.0",
         "schulit/common-bundle": "^6.0",
         "schulit/lightsaml-idp-bundle": "^4.0",
         "scienta/doctrine-json-functions": "^6.3",

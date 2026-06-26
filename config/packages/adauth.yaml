@@ -1,6 +1,12 @@
 ad_auth:
-  url: '%env(resolve:ADAUTH_URL)%'
-  tls:
-    peer_name: '%env(ADAUTH_PEERNAME)%'
-    peer_fingerprint: '%env(ADAUTH_PEERFINGERPRINT)%'
-    ca_certificate_file: '%kernel.project_dir%/certs/ca.crt'
+  hosts:
+    primary:
+      url: '%env(resolve:ADAUTH_URL)%'
+      peer_name: '%env(ADAUTH_PEERNAME)%'
+      peer_fingerprint: '%env(ADAUTH_PEERFINGERPRINT)%'
+      ca_certificate_file: '%kernel.project_dir%/certs/ca.crt'
+    failover:
+      url: '%env(ADAUTH_FALLBACK_URL)%'
+      peer_name: '%env(ADAUTH_FALLBACK_PEERNAME)%'
+      peer_fingerprint: '%env(ADAUTH_FALLBACK_PEERFINGERPRINT)%'
+      ca_certificate_file: '%kernel.project_dir%/certs/ca.crt'

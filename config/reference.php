@@ -1593,12 +1593,12 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     connection_keys?: list<mixed>,
  * }
  * @psalm-type AdAuthConfig = array{
- *     url?: scalar|Param|null,
- *     tls?: array{
- *         peer_name?: scalar|Param|null,
- *         peer_fingerprint?: scalar|Param|null,
- *         ca_certificate_file?: scalar|Param|null,
- *     },
+ *     hosts?: array<string, array{ // Default: []
+ *         url?: string|Param,
+ *         peer_name?: string|Param,
+ *         peer_fingerprint?: string|Param,
+ *         ca_certificate_file?: string|Param,
+ *     }>,
  * }
  * @psalm-type LightSamlSymfonyBridgeConfig = array{
  *     own?: array{

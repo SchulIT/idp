@@ -59,6 +59,10 @@ oder Sonderzeichen (wie bspw. Doppelpunkte).
 Wenn alles richtig konfiguriert wurde, können sich nun importierte Benutzer anmelden.
 :::
 
+### Failover
+
+Um einen Failover-Server anzugeben, können die Variablen `ADAUTH_FAILOVER_URL`, `ADAUTH_FAILOVER_PEERNAME` und `ADAUTH_FAILOVER_PEERFINGERPRINT` verwendet werden.
+
 ## Zertifikat hinterlegen
 
 Es muss das Zertifikat der Zertifizierungsstelle hinterlegt werden, womit das Zertifikat des Authentication Servers 
