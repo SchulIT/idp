@@ -74,7 +74,13 @@ class RegistrationCodeRepository implements RegistrationCodeRepositoryInterface 
         $qb = $this->createDefaultQueryBuilder();
 
         if($query !== null) {
-            $qb->andWhere($qb->expr()->like('c.code', ':query'))
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('c.code', ':query'),
+                    $qb->expr()->like('u.firstname', ':query'),
+                    $qb->expr()->like('u.lastname', ':query'),
+                )
+            )
                 ->setParameter('query', '%' . $query . '%');
         }
 
