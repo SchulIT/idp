@@ -73,7 +73,7 @@ readonly class EffectiveAttributeResolver {
         }
 
         if($collection->userValue !== null) {
-            $value = $collection->userValue;
+            $value = $collection->userValue->getValue();
             $source = $collection->userValue;
         }
 
