@@ -4,7 +4,11 @@ let $checkboxes = document.querySelectorAll('[data-role=bulk-item]');
 let $input = document.querySelector('[data-role=bulk-values]');
 let $counter = document.querySelector('[data-role=bulk-counter]');
 
-$bulkActionsContainer.classList.add('d-none');
+if($selectAllCheckbox.checked !== true) {
+    $bulkActionsContainer.classList.add('d-none');
+} else {
+    updateValues();
+}
 
 $selectAllCheckbox.addEventListener('change', function(event) {
     event.preventDefault();
@@ -39,7 +43,9 @@ function updateValues() {
 
     if(values.length !== 0) {
         $bulkActionsContainer.classList.remove('d-none');
+        $selectAllCheckbox.checked = true;
     } else {
         $bulkActionsContainer.classList.add('d-none');
+        $selectAllCheckbox.checked = false;
     }
 }
