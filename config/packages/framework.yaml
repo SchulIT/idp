@@ -33,5 +33,7 @@ when@dev:
     framework:
         http_client:
             default_options:
+                max_duration: 10
+                http_version: '1.1'
                 verify_peer: false
                 verify_host: false
