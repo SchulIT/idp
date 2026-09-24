@@ -18,6 +18,11 @@
         <div class="card-header">{{ block('title') }}</div>
 
         <div class="card-body">
+            <div class="bs-callout bs-callout-info">
+                <h5>{{ 'info.label'|trans }}</h5>
+                <p>{{ 'users.reset_pw_ad.help'|trans }}</p>
+            </div>
+
             {{ form_widget(form) }}
         </div>
     </div>
