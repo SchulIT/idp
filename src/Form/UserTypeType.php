@@ -6,6 +6,7 @@ namespace App\Form;
 
 use App\Entity\UserType;
 use App\Entity\ServiceProvider;
+use App\Form\Type\RoleChoiceType;
 use App\Saml\EduPersonAffliation;
 use App\Service\AttributeResolver;
 use Doctrine\ORM\EntityRepository;
@@ -99,6 +100,9 @@ class UserTypeType extends AbstractType {
                             'label_attr' => [
                                 'class' => 'checkbox-custom'
                             ]
+                        ])
+                        ->add('roles', RoleChoiceType::class, [
+                            'required' => false
                         ]);
                 }
             ])

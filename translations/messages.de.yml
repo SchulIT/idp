@@ -42,7 +42,9 @@ label:
   attributes: Attribute
   key: Schlüssel
   idp: Identity Provider
-  roles: Rollen
+  roles:
+    label: Rollen
+    help: Rollen im Single Sign-On. Rollen können pro Benutzer, Benutzergruppe oder Benutzertyp festgelegt werden und werden für jeden Benutzer individuell zusammengeführt.
   code: Registrierungscode
   alias: Alias
   grade: Klasse

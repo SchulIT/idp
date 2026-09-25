@@ -54,6 +54,10 @@ class UserRole {
     #[Gedmo\SortablePosition]
     private int $priority = 0;
 
+    #[ORM\Column(type: 'json')]
+    #[Serializer\Exclude]
+    private array $roles = [ ];
+
     public function __construct() {
         $this->uuid = Uuid::uuid4();
         $this->users = new ArrayCollection();
@@ -113,6 +117,15 @@ class UserRole {
 
     public function setPriority(int $priority): UserRole {
         $this->priority = $priority;
+        return $this;
+    }
+
+    public function getRoles(): array {
+        return $this->roles;
+    }
+
+    public function setRoles(array $roles): UserRole {
+        $this->roles = $roles;
         return $this;
     }
 }

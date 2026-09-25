@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Entity\ServiceProvider;
+use App\Form\Type\RoleChoiceType;
 use App\Service\AttributeResolver;
 use Doctrine\ORM\EntityRepository;
 use SchulIT\CommonBundle\Form\FieldsetType;
@@ -51,6 +52,9 @@ class UserRoleType extends AbstractType {
                         ->add('priority', IntegerType::class, [
                             'label' => 'label.priority.label',
                             'help' => 'label.priority.help'
+                        ])
+                        ->add('roles', RoleChoiceType::class, [
+                            'required' => false
                         ]);
                 }
             ])

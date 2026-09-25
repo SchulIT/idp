@@ -9,6 +9,7 @@ use App\Entity\ServiceProvider;
 use App\Entity\User;
 use App\Entity\UserRole;
 use App\Entity\UserType as UserTypeEntity;
+use App\Form\Type\RoleChoiceType;
 use App\Security\PasswordStrengthHelper;
 use App\Service\AttributeResolver;
 use Doctrine\ORM\EntityRepository;
@@ -158,20 +159,7 @@ class UserType extends AbstractType {
                 'legend' => 'label.idp',
                 'fields' => function(FormBuilderInterface $builder): void {
                     $builder
-                        ->add('roles', ChoiceType::class, [
-                            'choices' => [
-                                'idp.roles.user' => 'ROLE_USER',
-                                'idp.roles.password_manager' => 'ROLE_PASSWORD_MANAGER',
-                                'idp.roles.admin' => 'ROLE_ADMIN',
-                                'idp.roles.super_admin' => 'ROLE_SUPER_ADMIN'
-                            ],
-                            'multiple' => true,
-                            'expanded' => true,
-                            'label' => 'label.roles',
-                            'label_attr' => [
-                                'class' => 'checkbox-custom'
-                            ]
-                        ]);
+                        ->add('roles', RoleChoiceType::class);
                 }
             ])
             ->add('group_password', FieldsetType::class, [

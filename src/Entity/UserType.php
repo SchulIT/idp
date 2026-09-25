@@ -84,6 +84,10 @@ class UserType {
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $icon = null;
 
+    #[ORM\Column(type: 'json')]
+    #[Serializer\Exclude]
+    private array $roles = [ ];
+
     public function __construct() {
         $this->uuid = Uuid::uuid4();
 
@@ -203,6 +207,15 @@ class UserType {
 
     public function setIcon(?string $icon): UserType {
         $this->icon = $icon;
+        return $this;
+    }
+
+    public function getRoles(): array {
+        return $this->roles;
+    }
+
+    public function setRoles(array $roles): UserType {
+        $this->roles = $roles;
         return $this;
     }
 }
