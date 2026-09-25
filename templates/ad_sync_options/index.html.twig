@@ -60,7 +60,7 @@
                                         <small class="d-block">{{ option.description }}</small>
                                     </td>
                                     <td class="align-middle">
-                                        <span class="badge text-bg-primary">{% if option.sourceType == 'ou' %}{{ 'label.ou'|trans }}{% else %}{{ 'label.ad_group'|trans }}{% endif %}</span> <br>
+                                        <span class="badge text-bg-primary">{{ option.sourceType|trans }}</span> <br>
                                         {{ option.source }}
                                     </td>
                                     <td class="align-middle">{{ option.userType.name }}</td>

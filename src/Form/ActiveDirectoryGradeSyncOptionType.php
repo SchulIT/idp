@@ -23,11 +23,7 @@ class ActiveDirectoryGradeSyncOptionType extends AbstractType {
             ->add('sourceType', EnumType::class, [
                 'class' => ActiveDirectorySyncSourceType::class,
                 'label' => $this->translator->trans('label.source', [], 'enums'),
-                'label_attr' => [
-                    'class' => 'radio-custom'
-                ],
                 'expanded' => true,
-                'choice_label' => fn(ActiveDirectorySyncSourceType $type): string => $this->translator->trans('ad_source_type.' . $type->value, [], 'enums')
             ])
             ->add('source', TextType::class, [
                 'label' => 'label.value'
