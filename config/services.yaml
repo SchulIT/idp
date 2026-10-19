@@ -133,6 +133,9 @@ services:
                 saml:
                     keyFile: '%idp_cert_key%'
                     certFile: '%idp_cert_file%'
+                oidc:
+                    keyFile: '%oauth2_private_key%'
+                    certFile: '%oauth2_public_key%'
 
     # Health Check
     App\HealthCheck\IdentityProviderCertificateCheck:
