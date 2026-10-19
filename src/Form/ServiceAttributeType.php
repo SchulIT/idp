@@ -46,6 +46,9 @@ class ServiceAttributeType extends AbstractType {
                     ->add('samlAttributeName', TextType::class, [
                         'label' => 'label.saml_attribute_name'
                     ])
+                    ->add('oidcClaimName', TextType::class, [
+                        'label' => 'label.oidc_claim_name.label'
+                    ])
                     ->add('type', EnumType::class, [
                         'class' => ServiceAttributeTypeEnum::class,
                         'label' => 'label.type',

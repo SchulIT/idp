@@ -24,6 +24,9 @@
                                 <a href="{{ path('add_service_provider') }}?type=saml" class="btn btn-primary btn-sm">
                                     <i class="fas fa-plus"></i> {{ 'service_providers.add.label.saml'|trans }}
                                 </a>
+                                <a href="{{ path('add_service_provider') }}?type=oidc" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-plus"></i> {{ 'service_providers.add.label.oidc'|trans }}
+                                </a>
                                 <a href="{{ path('add_service_provider_autoconfig') }}" class="btn btn-primary btn-sm">
                                     <i class="fas fa-plus"></i> {{ 'service_providers.add.label.autoconfigure'|trans }}
                                 </a>
@@ -55,6 +58,8 @@
 
                                         {% if service is instanceof('App\\Entity\\SamlServiceProvider') %}
                                             <span class="badge text-bg-primary">{{ 'service_providers.type.saml'|trans }}</span>
+                                        {% elseif service is instanceof('App\\Entity\\OidcServiceProvider') %}
+                                            <span class="badge text-bg-primary">{{ 'service_providers.type.oidc'|trans }}</span>
                                         {% else %}
                                             <span class="badge text-bg-primary">{{ 'service_providers.type.default'|trans }}</span>
                                         {% endif %}

@@ -164,6 +164,19 @@
     "league/csv": {
         "version": "9.6.0"
     },
+    "league/oauth2-server-bundle": {
+        "version": "1.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.2",
+            "ref": "374de24b3639ca6802e0b4f000fe2a56428f95a3"
+        },
+        "files": [
+            "config/packages/league_oauth2_server.yaml",
+            "config/routes/league_oauth2_server.yaml"
+        ]
+    },
     "lightsaml2/lightsaml": {
         "version": "dev-master"
     },
@@ -196,6 +209,18 @@
     },
     "nikic/php-parser": {
         "version": "v4.0.1"
+    },
+    "nyholm/psr7": {
+        "version": "1.8",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "4a8c0345442dcca1d8a2c65633dcf0285dd5a5a2"
+        },
+        "files": [
+            "config/packages/nyholm_psr7.yaml"
+        ]
     },
     "paragonie/constant_time_encoding": {
         "version": "v2.4.0"
@@ -332,6 +357,9 @@
     },
     "schulit/lightsaml-idp-bundle": {
         "version": "dev-master"
+    },
+    "schulit/openid-connect-provider-bundle": {
+        "version": "0.1.1"
     },
     "sebastian/code-unit-reverse-lookup": {
         "version": "1.0.1"

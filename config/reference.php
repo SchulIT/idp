@@ -680,7 +680,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         message_bus?: scalar|Param|null, // The message bus to use. // Default: "messenger.default_bus"
  *         routing?: array<string, array{ // Default: []
  *             service?: scalar|Param|null,
- *             secret?: scalar|Param|null, // The secret used to verify incoming request signatures. It must be set in production: with an empty value, requests from any sender are accepted. // Default: ""
+ *             secret?: scalar|Param|null, // The secret used to verify incoming request signatures. It must be set in production: with an empty value, depending on the parser, requests from any sender are accepted or every request is rejected. // Default: ""
  *         }>,
  *     },
  *     remote_event?: bool|array{ // RemoteEvent configuration
@@ -858,6 +858,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             provider?: scalar|Param|null,
  *             user?: scalar|Param|null, // Default: "REMOTE_USER"
  *         },
+ *         oauth2?: array<mixed>,
  *         login_link?: array{
  *             check_route?: scalar|Param|null, // Route that will validate the login link - e.g. "app_login_link_verify".
  *             check_post_only?: scalar|Param|null, // If true, only HTTP POST requests to "check_route" will be handled by the authenticator. // Default: false
@@ -966,7 +967,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             token_handler?: Param|string|array{
  *                 id?: scalar|Param|null,
  *                 oidc_user_info?: Param|string|array{
- *                     base_uri?: scalar|Param|null, // Base URI of the userinfo endpoint on the OIDC server, or the OIDC server URI to use the discovery (require "discovery" to be configured).
+ *                     base_uri?: scalar|Param|null, // Base URI of the userinfo endpoint on the OIDC server, or the OIDC server URI to use the discovery (require "discovery" to be configured). The latter must end with a slash when it has a path, as the discovery path is resolved against it as a relative URL.
  *                     discovery?: array{ // Enable the OIDC discovery.
  *                         cache?: array{
  *                             id?: scalar|Param|null, // Cache service id to use to cache the OIDC discovery configuration.
@@ -1035,9 +1036,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             lifetime?: int|Param, // Default: 31536000
  *             path?: scalar|Param|null, // Default: "/"
  *             domain?: scalar|Param|null, // Default: null
- *             secure?: true|false|"auto"|Param, // Default: "auto"
+ *             secure?: true|false|"auto"|Param, // Defaults to the value of "framework.session.cookie_secure", or to "auto".
  *             httponly?: bool|Param, // Default: true
- *             samesite?: null|"lax"|"strict"|"none"|Param, // Default: "lax"
+ *             samesite?: null|"lax"|"strict"|"none"|Param, // Defaults to the value of "framework.session.cookie_samesite", or to "lax".
  *             always_remember_me?: bool|Param, // Default: false
  *             remember_me_parameter?: scalar|Param|null, // Default: "_remember_me"
  *         },
@@ -1515,7 +1516,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     twig?: array{
  *         template?: scalar|Param|null, // Default: "@KnpMenu/menu.html.twig"
  *     },
- *     templating?: bool|Param, // Default: false
+ *     route_voter?: bool|Param, // Default: true
  *     default_renderer?: scalar|Param|null, // Default: "twig"
  * }
  * @psalm-type LightSamlIdpConfig = array{
@@ -2035,6 +2036,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     orm_storage?: array{
  *         default_entity_class?: scalar|Param|null, // Default: null
  *         prefetch_all?: bool|Param, // Default: true
+ *         throw_on_connection_error?: bool|Param, // Default: false
  *     },
  *     cache?: array{
  *         metadata_service?: scalar|Param|null, // Default: "cache.system"
@@ -2042,6 +2044,72 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         default_cacheable?: bool|Param, // Default: false
  *         ttl?: int|Param, // Default: 0
  *         invalidate_on_env_change?: bool|Param, // Default: true
+ *     },
+ * }
+ * @psalm-type LeagueOauth2ServerConfig = array{
+ *     authorization_server?: array{
+ *         private_key?: scalar|Param|null, // Full path to the private key file. How to generate a private key: https://oauth2.thephpleague.com/installation/#generating-public-and-private-keys
+ *         private_key_passphrase?: scalar|Param|null, // Passphrase of the private key, if any // Default: null
+ *         encryption_key?: scalar|Param|null, // The plain string or the ascii safe string used to create a Defuse\Crypto\Key to be used as an encryption key. How to generate an encryption key: https://oauth2.thephpleague.com/installation/#string-password
+ *         encryption_key_type?: scalar|Param|null, // The type of value of 'encryption_key' Should be either 'plain' or 'defuse' // Default: "plain"
+ *         access_token_ttl?: scalar|Param|null, // How long the issued access token should be valid for. The value should be a valid interval: http://php.net/manual/en/dateinterval.construct.php#refsect1-dateinterval.construct-parameters // Default: "PT1H"
+ *         refresh_token_ttl?: scalar|Param|null, // How long the issued refresh token should be valid for. The value should be a valid interval: http://php.net/manual/en/dateinterval.construct.php#refsect1-dateinterval.construct-parameters // Default: "P1M"
+ *         auth_code_ttl?: scalar|Param|null, // How long the issued auth code should be valid for. The value should be a valid interval: http://php.net/manual/en/dateinterval.construct.php#refsect1-dateinterval.construct-parameters // Default: "PT10M"
+ *         device_code_ttl?: scalar|Param|null, // How long the issued device code should be valid for. The value should be a valid interval: http://php.net/manual/en/dateinterval.construct.php#refsect1-dateinterval.construct-parameters // Default: "PT10M"
+ *         enable_client_credentials_grant?: bool|Param, // Whether to enable the client credentials grant // Default: true
+ *         enable_password_grant?: bool|Param, // Whether to enable the password grant
+ *         enable_refresh_token_grant?: bool|Param, // Whether to enable the refresh token grant // Default: true
+ *         enable_auth_code_grant?: bool|Param, // Whether to enable the authorization code grant // Default: true
+ *         require_code_challenge_for_public_clients?: bool|Param, // Whether to require code challenge for public clients for the auth code grant // Default: true
+ *         enable_implicit_grant?: bool|Param, // Whether to enable the implicit grant
+ *         persist_access_token?: bool|Param, // Whether to enable access token saving to persistence layer // Default: true
+ *         response_type_class?: scalar|Param|null, // Define a custom ResponseType // Default: null
+ *         revoke_refresh_tokens?: bool|Param, // Whether to revoke refresh tokens after they were used for all grant types // Default: true
+ *         enable_device_code_grant?: bool|Param, // Whether to enable the device code grant // Default: false
+ *         device_code_verification_uri?: scalar|Param|null, // The full URI the user will need to visit to enter the user code // Default: ""
+ *         enable_device_code_verification_uri_complete_generation?: bool|Param, // Whether to enable the generation of verification_uri_complete // Default: true
+ *         device_code_polling_interval?: scalar|Param|null, // How soon (in seconds) can the device code be used to poll for the access token without being throttled // Default: 5
+ *         enable_device_code_polling_interval_visibility?: bool|Param, // Whether to enable the visibility of polling interval // Default: true
+ *     },
+ *     resource_server?: array{
+ *         public_key?: scalar|Param|null, // Full path to the public key file How to generate a public key: https://oauth2.thephpleague.com/installation/#generating-public-and-private-keys
+ *         jwt_leeway?: scalar|Param|null, // The leeway in seconds to allow for clock skew in JWT verification. Default PT0S (no leeway). // Default: null
+ *     },
+ *     scopes?: array{
+ *         available?: list<scalar|Param|null>,
+ *         default?: list<scalar|Param|null>,
+ *     },
+ *     persistence?: array{ // Configures different persistence methods that can be used by the bundle for saving client and token data. Only one persistence method can be configured at a time.
+ *         doctrine?: array{
+ *             entity_manager?: scalar|Param|null, // Name of the entity manager that you wish to use for managing clients and tokens. // Default: "default"
+ *             table_prefix?: scalar|Param|null, // Table name prefix. // Default: "oauth2_"
+ *         },
+ *         in_memory?: scalar|Param|null,
+ *         custom?: array{
+ *             access_token_manager?: scalar|Param|null, // Service id of the custom access token manager
+ *             authorization_code_manager?: scalar|Param|null, // Service id of the custom authorization code manager
+ *             client_manager?: scalar|Param|null, // Service id of the custom client manager
+ *             refresh_token_manager?: scalar|Param|null, // Service id of the custom refresh token manager
+ *             device_code_manager?: scalar|Param|null, // Service id of the custom device code manager
+ *             credentials_revoker?: scalar|Param|null, // Service id of the custom credentials revoker
+ *         },
+ *     },
+ *     client?: array{
+ *         classname?: scalar|Param|null, // Set a custom client class. Must be a League\Bundle\OAuth2ServerBundle\Model\AbstractClient // Default: "League\\Bundle\\OAuth2ServerBundle\\Model\\Client"
+ *         allow_plaintext_secrets?: bool|Param, // Whether to allow plaintext client secrets. // Default: true
+ *     },
+ *     role_prefix?: scalar|Param|null, // Set a custom prefix that replaces the default 'ROLE_OAUTH2_' role prefix // Default: "ROLE_OAUTH2_"
+ * }
+ * @psalm-type AjgarlagOpenidConnectProviderConfig = array{
+ *     discovery?: array{
+ *         authorization_endpoint_route?: scalar|Param|null, // Route name for the authorization endpoint // Default: "oauth2_authorize"
+ *         token_endpoint_route?: scalar|Param|null, // Route name for the token endpoint // Default: "oauth2_token"
+ *         jwks_endpoint_route?: scalar|Param|null, // Route name for the jwks endpoint // Default: "openid_connect_jwks"
+ *         end_session_endpoint_route?: scalar|Param|null, // Route name for the end session endpoint // Default: "openid_connect_end_session"
+ *         userinfo_endpoint_route?: scalar|Param|null, // Route name for the userinfo endpoint // Default: "openid_connect_userinfo"
+ *     },
+ *     end_session?: array{
+ *         cancel_logout_default_path?: scalar|Param|null, // URL or route names to redirect user on session ending if no post logout redirect URI is given. // Default: "/"
  *     },
  * }
  * @psalm-type ConfigType = array{
@@ -2070,6 +2138,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     chrisguitarguy_request_id?: ChrisguitarguyRequestIdConfig,
  *     zenstruck_messenger_monitor?: ZenstruckMessengerMonitorConfig,
  *     jbtronics_settings?: JbtronicsSettingsConfig,
+ *     league_oauth2_server?: LeagueOauth2ServerConfig,
+ *     ajgarlag_openid_connect_provider?: AjgarlagOpenidConnectProviderConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -2099,6 +2169,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         chrisguitarguy_request_id?: ChrisguitarguyRequestIdConfig,
  *         zenstruck_messenger_monitor?: ZenstruckMessengerMonitorConfig,
  *         jbtronics_settings?: JbtronicsSettingsConfig,
+ *         league_oauth2_server?: LeagueOauth2ServerConfig,
+ *         ajgarlag_openid_connect_provider?: AjgarlagOpenidConnectProviderConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -2126,6 +2198,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         chrisguitarguy_request_id?: ChrisguitarguyRequestIdConfig,
  *         zenstruck_messenger_monitor?: ZenstruckMessengerMonitorConfig,
  *         jbtronics_settings?: JbtronicsSettingsConfig,
+ *         league_oauth2_server?: LeagueOauth2ServerConfig,
+ *         ajgarlag_openid_connect_provider?: AjgarlagOpenidConnectProviderConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -2156,6 +2230,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         chrisguitarguy_request_id?: ChrisguitarguyRequestIdConfig,
  *         zenstruck_messenger_monitor?: ZenstruckMessengerMonitorConfig,
  *         jbtronics_settings?: JbtronicsSettingsConfig,
+ *         league_oauth2_server?: LeagueOauth2ServerConfig,
+ *         ajgarlag_openid_connect_provider?: AjgarlagOpenidConnectProviderConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,

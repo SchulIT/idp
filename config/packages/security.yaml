@@ -30,6 +30,10 @@ security:
         - { path: ^/admin, roles: ROLE_SUPER_ADMIN }
         - { path: ^/login/2fa, roles: IS_AUTHENTICATED_2FA_IN_PROGRESS }
         - { path: ^/logout$, roles: IS_AUTHENTICATED_2FA_IN_PROGRESS }
+        - { path: ^/oauth2/authorize, roles: IS_AUTHENTICATED_REMEMBERED }
+        - { path: ^/.well-known/openid-configuration, roles: PUBLIC_ACCESS }
+        - { path: ^/oidc/.well-known/openid-configuration, roles: PUBLIC_ACCESS }
+        - { path: ^/oidc, roles: PUBLIC_ACCESS }
         - { path: ^, roles: ROLE_USER }
 
     firewalls:
@@ -48,6 +52,18 @@ security:
             custom_authenticators:
                 - App\Security\ApplicationAuthenticator
             provider: database
+
+        userinfo:
+            pattern: ^/oidc/userinfo$
+            oauth2: true
+
+        token:
+            pattern: ^/oauth2/token$
+            security: false
+
+        device_code:
+            pattern: ^/oauth2/device-code$
+            security: false
 
         api:
             pattern: ^/api

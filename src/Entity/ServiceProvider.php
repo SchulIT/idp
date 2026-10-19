@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity]
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'class', type: 'string')]
-#[ORM\DiscriminatorMap(['saml' => 'SamlServiceProvider', 'normal' => 'ServiceProvider'])]
+#[ORM\DiscriminatorMap(['saml' => 'SamlServiceProvider', 'oidc' => 'OidcServiceProvider', 'normal' => 'ServiceProvider'])]
 class ServiceProvider {
 
     use IdTrait;

@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Form;
 
+use App\Entity\OidcServiceProvider;
 use App\Entity\SamlServiceProvider;
 use App\Entity\ServiceProvider;
+use League\Bundle\OAuth2ServerBundle\ValueObject\RedirectUri;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -14,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Validator\Constraints\Url;
 
 class ServiceProviderType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options): void {
@@ -64,8 +68,10 @@ class ServiceProviderType extends AbstractType {
             ->add('autoconfigureUrl', UrlType::class, [
                 'label' => 'label.autoconfigure_url.label',
                 'help' => 'label.autoconfigure_url.help',
-                'required' => false
-            ]);
+                'required' => false,
+                'by_reference' => true,
+            ])
+            ->add('client', OAuthClientType::class);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event): void {
             $form = $event->getForm();
@@ -79,6 +85,10 @@ class ServiceProviderType extends AbstractType {
                     ->remove('certificate')
                     ->remove('attributeNameMapping')
                     ->remove('autoconfigureUrl');
+            }
+
+            if(!$provider instanceof OidcServiceProvider) {
+                $form->remove('client');
             }
         });
     }

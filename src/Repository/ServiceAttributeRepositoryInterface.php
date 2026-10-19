@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\ServiceAttribute;
+use App\Entity\ServiceProvider;
 
 interface ServiceAttributeRepositoryInterface {
 
@@ -27,5 +28,11 @@ interface ServiceAttributeRepositoryInterface {
      * @param string $entityId
      * @return ServiceAttribute[]
      */
-    public function getAttributesForServiceProvider($entityId): array;
+    public function getAttributesForSamlServiceProvider($entityId): array;
+
+    /**
+     * @param ServiceProvider $serviceProvider
+     * @return ServiceAttribute[]
+     */
+    public function getAttributesForServiceProvider(ServiceProvider $serviceProvider): array;
 }

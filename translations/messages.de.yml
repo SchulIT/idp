@@ -103,6 +103,18 @@ label:
   autoconfigure_url:
     label: URL zur autom. Konfiguration
     help: Diese URL - in der Regel https://sub.domain.tld/autoconfig - wird verwendet, um den Dienst automatisch zu konfigurieren. Dies funktioniert nur für SchulIT-Dienste.
+  scope_name:
+    label: Scope-Name
+    help: "Attribute, die diesem Dienst zugeordnet sind, werden als Claim bereitgestellt. Claims haben stets das Muster 'scope:claim_name', wobei der Scope hier für den Dienst festgelegt wird. Wichtig: Der Scope muss durch den Client auch angefordert werden."
+  redirect_uri:
+    label: Umleitungs-URLs
+    help: Angabe der gültigen Umleitungs-URLs für den Dienst.
+  client_id:
+    label: Client-ID
+  client_secret:
+    label: Client-Secret
+  oidc_claim_name:
+    label: Name des OIDC-Claims
 
 help:
   voluntary: Diese Angabe ist freiwillig.
@@ -441,20 +453,26 @@ service_providers:
   type:
     default: Link
     saml: SAML
+    oidc: OpenID Connect
   add:
     label:
       saml: Neuer Dienst (SAML)
+      oidc: Neuer Dienst (OIDC)
       autoconfigure: Neuer Dienst (SchulIT)
       default: Neuer Dienst
     success: Dienst erfolgreich angelegt
+    oidc_success: "OpenID Connect Dienst erfolgreich angelegt. Client-ID: %client_id% Client-Secret: %client_secret% (Bitte notieren, da dieses Secret nicht erneut angezeigt werden kann)."
   edit:
     label: Dienst bearbeiten
     success: Dienst erfolgreich aktualisiert
+    oidc_success: 'Client Secret aktualisiert. Es lautet: %client_secret% (Bitte notieren, da dieses Secret nicht erneut angezeigt werden kann).'
   remove:
     label: Dienst löschen
     success: Dienst erfolgreich gelöscht
     confirm: Soll der Dienst "%name%" wirklich gelöscht werden?
     help: Benutzer können sich anschließend nicht weiter an dem Dienst anmelden. Attribute des Dienst werden ebenfalls gelöscht.
+  oidc:
+    header: OpenID Connect-Informationen
   certificate_info: Zertifikat-Informationen
   token:
     label: Token anzeigen

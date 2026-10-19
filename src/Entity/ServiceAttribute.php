@@ -46,6 +46,10 @@ class ServiceAttribute {
     #[Assert\NotBlank]
     private string $samlAttributeName;
 
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank]
+    private string $oidcClaimName;
+
     #[ORM\Column(type: 'string', enumType: ServiceAttributeType::class)]
     #[Assert\NotNull]
     private ?ServiceAttributeType $type = ServiceAttributeType::Text;
@@ -62,7 +66,7 @@ class ServiceAttribute {
     #[ORM\JoinTable]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(onDelete: 'CASCADE')]
-    #[ORM\ManyToMany(targetEntity: SamlServiceProvider::class, inversedBy: 'attributes')]
+    #[ORM\ManyToMany(targetEntity: ServiceProvider::class, inversedBy: 'attributes')]
     #[Serializer\Exclude]
     private Collection $services;
 
@@ -125,6 +129,15 @@ class ServiceAttribute {
         return $this;
     }
 
+    public function getOidcClaimName(): string {
+        return $this->oidcClaimName;
+    }
+
+    public function setOidcClaimName(string $oidcClaimName): ServiceAttribute {
+        $this->oidcClaimName = $oidcClaimName;
+        return $this;
+    }
+
     public function getType(): ?ServiceAttributeType {
         return $this->type;
     }
@@ -160,7 +173,7 @@ class ServiceAttribute {
     }
 
     /**
-     * @return Collection<SamlServiceProvider>
+     * @return Collection<ServiceProvider>
      */
     public function getServices(): Collection {
         return $this->services;

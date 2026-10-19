@@ -6,23 +6,32 @@ namespace App\Controller;
 
 use App\Autoconfig\AutoconfigService;
 use App\Autoconfig\Configurator;
+use App\Entity\OAuthClient;
+use App\Entity\OidcServiceProvider;
 use App\Entity\SamlServiceProvider;
 use App\Entity\ServiceProvider;
 use App\Form\ServiceProviderAutoconfigureType;
 use App\Form\ServiceProviderType;
 use App\Repository\ServiceProviderRepositoryInterface;
+use App\Utils\SecurityUtils;
 use Exception;
+use League\Bundle\OAuth2ServerBundle\ValueObject\Grant;
+use League\Bundle\OAuth2ServerBundle\ValueObject\Scope;
 use LightSaml\Model\Metadata\EntityDescriptor;
 use Psr\Log\LoggerInterface;
+use Ramsey\Uuid\Uuid;
 use SchulIT\CommonBundle\Form\ConfirmType;
 use SchulIT\CommonBundle\Http\Attribute\NotFoundRedirect;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -61,9 +70,18 @@ class ServiceProviderController extends AbstractController
         ]);
     }
     #[Route(path: '/admin/service_providers/add', name: 'add_service_provider')]
-    public function add(Request $request): Response {
-        if($request->query->get('type', 'default') === 'saml') {
+    public function add(
+        Request $request,
+        #[Autowire(service: 'league.oauth2_server.password_hasher')] PasswordHasherInterface $passwordHasher,
+        TranslatorInterface $translator,
+        #[MapQueryParameter] string|null $type = null
+    ): Response {
+        if($type === 'saml') {
             $serviceProvider = new SamlServiceProvider();
+        } elseif($type === 'oidc') {
+            $serviceProvider = new OidcServiceProvider();
+            $client = new OAuthClient('', Uuid::uuid4()->toString(), '');
+            $serviceProvider->setClient($client);
         } else {
             $serviceProvider = new ServiceProvider();
         }
@@ -72,9 +90,39 @@ class ServiceProviderController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $this->repository->persist($serviceProvider);
+            if($serviceProvider instanceof OidcServiceProvider) {
+                $secret = SecurityUtils::getRandomHexString(128);
+                $hashedSecret = $passwordHasher->hash($secret);
 
-            $this->addFlash('success', 'service_providers.add.success');
+                $serviceProvider->getClient()->setName($serviceProvider->getName());
+                $serviceProvider->getClient()->setSecret($hashedSecret);
+
+                $serviceProvider->getClient()->setScopes(
+                    new Scope('openid'),
+                    new Scope('profile'),
+                    new Scope('email'),
+                    new Scope('groups'),
+                    new Scope($serviceProvider->getClient()->getScopeName())
+                );
+
+                $serviceProvider->getClient()->setGrants(
+                    new Grant('client_credentials'),
+                    new Grant('authorization_code'),
+                    new Grant('token'),
+                    new Grant('id_token')
+                );
+
+                $this->repository->persist($serviceProvider);
+
+                $this->addFlash('success', $translator->trans('service_providers.add.oidc_success', [
+                    '%client_id%' => $serviceProvider->getClient()->getIdentifier(),
+                    '%client_secret%' => $secret
+                ]));
+            } else {
+                $this->repository->persist($serviceProvider);
+                $this->addFlash('success', 'service_providers.add.success');
+            }
+
             return $this->redirectToRoute('service_providers');
         }
 

@@ -71,7 +71,7 @@ class AttributeValueProvider extends AbstractAttributeProvider {
      * @return ServiceAttribute[]
      */
     private function getRequestedAttributes(string $entityId): array {
-        $attributes = $this->attributeRepository->getAttributesForServiceProvider($entityId);
+        $attributes = $this->attributeRepository->getAttributesForSamlServiceProvider($entityId);
 
         return $this->makeArrayWithKeys($attributes, fn(ServiceAttribute $attribute): ?int => $attribute->getId());
     }

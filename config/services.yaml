@@ -235,3 +235,15 @@ services:
     SchulIT\CommonBundle\Http\AttributeResolver: ~
     SchulIT\CommonBundle\Http\HttpNotFoundExceptionSubscriber: ~
     SchulIT\CommonBundle\Http\ForbiddenRedirectSubscriber: ~
+
+
+    ajgarlag.openid_connect_provider.repository.identity_provider:
+      alias: App\Oidc\Repository\IdentityProvider
+
+    App\Oidc\Repository\IdentityProvider: ~
+
+    OpenIDConnectServer\Repositories\IdentityProviderInterface:
+      alias: App\Oidc\Repository\IdentityProvider
+
+    Ajgarlag\Bundle\OpenIDConnectProviderBundle\Repository\IdentityProvider:
+      alias: App\Oidc\Repository\IdentityProvider

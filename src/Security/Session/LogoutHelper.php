@@ -15,9 +15,9 @@ use Doctrine\DBAL\Connection;
  * Caveat: The user is not logged out from applications. This method only prevents the user
  * from logging in again after a session is expired.
  */
-class LogoutHelper {
+readonly class LogoutHelper {
 
-    public function __construct(private readonly Connection $connection, private readonly ActiveSessionsResolver $activeSessionsResolver) {
+    public function __construct(private Connection $connection, private ActiveSessionsResolver $activeSessionsResolver) {
 
     }
 

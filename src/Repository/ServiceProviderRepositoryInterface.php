@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\OidcServiceProvider;
 use App\Entity\SamlServiceProvider;
 use App\Entity\ServiceProvider;
 
@@ -19,6 +20,8 @@ interface ServiceProviderRepositoryInterface {
     public function remove(ServiceProvider $provider): void;
 
     public function findOneByEntityId(string $entityId): ?SamlServiceProvider;
+
+    public function findOneOidcByClientIdentifier(string $clientIdentifier): ?OidcServiceProvider;
 
 
 }

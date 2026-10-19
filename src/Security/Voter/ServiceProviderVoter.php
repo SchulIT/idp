@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Security\Voter;
 
+use App\Entity\OidcServiceProvider;
 use App\Entity\SamlServiceProvider;
 use App\Entity\ServiceProvider;
 use App\Entity\User;
@@ -14,7 +15,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class ServiceProviderVoter extends Voter {
 
-    public const ENABLED = 'enabled';
+    public const string ENABLED = 'enabled';
 
     public function __construct(private readonly UserServiceProviderResolver $userServiceProviderResolver)
     {
@@ -22,17 +23,13 @@ class ServiceProviderVoter extends Voter {
 
     protected function supports($attribute, $subject): bool {
         return $attribute === static::ENABLED
-            && $subject instanceof SamlServiceProvider;
+            && ($subject instanceof SamlServiceProvider || $subject instanceof OidcServiceProvider);
     }
 
     /**
      * @param ServiceProvider $subject
      */
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token, Vote|null $vote = null): bool {
-        if(!$subject instanceof SamlServiceProvider) {
-            return true;
-        }
-
         $user = $token->getUser();
 
         if(!$user instanceof User) {
@@ -43,7 +40,7 @@ class ServiceProviderVoter extends Voter {
         $services = $this->userServiceProviderResolver->getServices($user);
 
         foreach($services as $service) {
-            if($service instanceof SamlServiceProvider && $service->getEntityId() === $subject->getEntityId()) {
+            if(($service instanceof SamlServiceProvider || $service instanceof OidcServiceProvider) && $service->getId() === $subject->getId()) {
                 return true;
             }
         }

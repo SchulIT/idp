@@ -23,11 +23,12 @@
 
         <div class="card-body">
             {% for child in form %}
-                {% if child.vars.name != "acsUrls" and child.vars.name != "attributeNameMapping" %}
+                {% if child.vars.name != "acsUrls" and child.vars.name != "attributeNameMapping" and child.vars.name != "client" %}
                     {{ form_row(child) }}
                 {% endif %}
             {% endfor %}
 
+            {% if form.attributeNameMapping is defined %}
             <div class="mb-3 row">
                 {{ form_label(form.attributeNameMapping) }}
 
@@ -48,6 +49,7 @@
                     {% do form.attributeNameMapping.setRendered %}
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
 
@@ -71,6 +73,38 @@
             </button>
         </div>
     </div>
+    {% endif %}
+
+    {% if form.client is defined %}
+        <div class="card">
+            <div class="card-header">{{ 'service_providers.oidc.header'|trans }}</div>
+            <div class="card-body">
+                {{ form_row(form.client.identifier) }}
+                {{ form_row(form.client.scopeName) }}
+
+                <div class="mb-3 row">
+                    {{ form_label(form.client.redirectUris) }}
+
+                    <div class="col-sm-10">
+                        <div class="acs" data-collection="redirect-uris" data-prototype="{{ form_widget(form.client.redirectUris.vars.prototype)|e('html_attr') }}">
+                            {% for child in form.client.redirectUris %}
+                                {{ form_widget(child) }}
+                            {% endfor %}
+                        </div>
+
+                        {{ form_help(form.client.redirectUris) }}
+                        {{ form_errors(form.client.redirectUris) }}
+                        {% do form.client.redirectUris.setRendered %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <button class="btn btn-outline-primary btn-sm btn-add" type="button" data-collection="redirect-uris">
+                    <i class="fa fa-plus"></i> {{ 'actions.add'|trans }}
+                </button>
+            </div>
+        </div>
     {% endif %}
 
     <div class="buttons">

@@ -29,3 +29,18 @@ composer:
     resource: '@ComposerDependencyListBundle/Controller'
     type: attribute
     prefix: /dependencies
+
+oauth2:
+  resource: '@LeagueOAuth2ServerBundle/config/routes.php'
+  type: php
+  prefix: /oauth2
+
+ajgarlag_openid_connect_provider:
+  resource: '@AjgarlagOpenIDConnectProviderBundle/config/routes.php'
+  type: php
+  prefix: /oidc
+
+oidc_discovery:
+  path: /.well-known/openid-configuration
+  defaults:
+    _controller: "ajgarlag.openid_connect_provider.controller.discovery::__invoke"
