@@ -36,13 +36,6 @@ class SamlServiceProvider extends ServiceProvider {
     private string $certificate;
 
     /**
-     * @var Collection<ServiceAttribute>
-     */
-    #[ORM\ManyToMany(targetEntity: ServiceAttribute::class, mappedBy: 'services', cascade: ['persist', 'remove'])]
-    #[Serializer\Exclude]
-    private Collection $attributes;
-
-    /**
      * @var array<string, string>
      */
     #[ORM\Column(type: 'json', nullable: true)]
@@ -103,13 +96,6 @@ class SamlServiceProvider extends ServiceProvider {
         }
 
         return $this;
-    }
-
-    /**
-     * @return Collection<ServiceAttribute>
-     */
-    public function getAttributes(): Collection {
-        return $this->attributes;
     }
 
     public function getAutoconfigureUrl(): ?string {

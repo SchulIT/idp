@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -33,6 +34,13 @@ class ServiceProvider {
     #[ORM\Column(type: 'text', nullable: true)]
     #[Assert\NotBlank(allowNull: true)]
     private ?string $icon = null;
+
+    /**
+     * @var Collection<ServiceAttribute>
+     */
+    #[ORM\ManyToMany(targetEntity: ServiceAttribute::class, mappedBy: 'services', cascade: ['persist', 'remove'])]
+    #[Serializer\Exclude]
+    private Collection $attributes;
 
     public function __construct() {
         $this->uuid = Uuid::uuid4();
@@ -74,4 +82,10 @@ class ServiceProvider {
         return $this;
     }
 
+    /**
+     * @return Collection<ServiceAttribute>
+     */
+    public function getAttributes(): Collection {
+        return $this->attributes;
+    }
 }
