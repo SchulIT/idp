@@ -314,7 +314,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
             $roles = array_merge($roles, $role->getRoles());
         }
 
-        return array_unique($roles);
+        $roles = array_unique($roles);
+        sort($roles);
+
+        return $roles;
     }
 
     /**
