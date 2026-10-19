@@ -51,7 +51,7 @@
             <footer class="hidden-print">
                 <div class="container-fluid px-0">
                     <div class="row">
-                        {% if config.logo is defined and config.logo is not null %}
+                        {% if config.logo is defined and config.logo is not empty %}
                             <div class="col-auto d-none d-sm-inline-flex">
                                 <img src="{{ asset(config.logo) }}" class="logo" alt="" />
                             </div>
