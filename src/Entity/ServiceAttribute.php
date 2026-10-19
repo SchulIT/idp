@@ -58,10 +58,10 @@ class ServiceAttribute {
     private bool $isMultipleChoice = false;
 
     #[ORM\Column(type: 'json', nullable: true)]
-    private array $options = [ ];
+    private array|null $options = [ ];
 
     /**
-     * @var Collection<SamlServiceProvider>
+     * @var Collection<ServiceProvider>
      */
     #[ORM\JoinTable]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
@@ -169,7 +169,7 @@ class ServiceAttribute {
      * @return string[]
      */
     public function getOptions(): array {
-        return $this->options;
+        return $this->options ?? [ ];
     }
 
     /**

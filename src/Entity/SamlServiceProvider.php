@@ -47,7 +47,6 @@ class SamlServiceProvider extends ServiceProvider {
 
     public function __construct() {
         parent::__construct();
-        $this->attributes = new ArrayCollection();
     }
 
     public function getEntityId(): string {

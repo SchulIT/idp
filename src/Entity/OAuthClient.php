@@ -12,8 +12,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[UniqueEntity(fields: ['identifier'])]
 #[UniqueEntity(fields: ['scopeName'])]
 class OAuthClient extends AbstractClient {
+
+    /** @var non-empty-string */
     #[ORM\Id]
     #[ORM\Column(type: 'string', length: 36, unique: true)]
+    #[Assert\NotBlank]
     protected string $identifier;
 
     #[ORM\Column(type: 'string', length: 32, unique: true)]
@@ -22,7 +25,7 @@ class OAuthClient extends AbstractClient {
 
     #[ORM\OneToOne(targetEntity: OidcServiceProvider::class, mappedBy: 'client')]
     #[Assert\NotNull]
-    private OidcServiceProvider $serviceProvider;
+    private OidcServiceProvider|null $serviceProvider = null;
 
     public function getIdentifier(): string {
         return $this->identifier;

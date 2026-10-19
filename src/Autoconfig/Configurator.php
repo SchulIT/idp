@@ -80,7 +80,7 @@ readonly class Configurator {
             $rolesAttribute = new ServiceAttribute()
                 ->setName(sprintf('%s-roles', $samlServiceProvider->getUuidString()))
                 ->setSamlAttributeName($config->attributeConfig->samlAttributeName)
-                ->setOidcClaimName($config->attributeConfig->samlClaimName);
+                ->setOidcClaimName($config->attributeConfig->samlAttributeName);
             $rolesAttribute->addService($samlServiceProvider);
             $samlServiceProvider->getAttributes()->add($rolesAttribute);
         }

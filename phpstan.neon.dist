@@ -9,3 +9,7 @@ parameters:
 	doctrine:
 		objectManagerLoader: tests/object-manager.php
 		allowNullablePropertyForRequiredField: true
+	ignoreErrors:
+		-
+		    rawMessage: 'Property App\Entity\OAuthClient::$identifier type mapping mismatch: database can contain string but property expects non-empty-string.'
+		    path: src/Entity/OAuthClient.php
