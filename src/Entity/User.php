@@ -14,6 +14,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use JMS\Serializer\Annotation as Serializer;
 use Ramsey\Uuid\Uuid;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
+use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -492,5 +493,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
 
     public function getTypeString(): string {
         return (string)$this->getType()->getUuid();
+    }
+
+    public function __serialize(): array {
+        return [
+            'id' => $this->getId(),
+            'username' => $this->getUsername(),
+            'password' => $this->getPassword()
+        ];
+    }
+
+    public function __unserialize(array $data): void {
+        $this->id = $data['id'];
+        $this->username = $data['username'];
+        $this->password = $data['password'];
     }
 }
