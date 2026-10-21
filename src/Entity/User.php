@@ -308,7 +308,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     public function getRoles(): array {
         $roles = [ 'ROLE_USER' ];
         $roles = array_merge($roles, $this->roles);
-        $roles = array_merge($roles, $this->type->getRoles());
+
+        if($this->type !== null) {
+            $roles = array_merge($roles, $this->type->getRoles());
+        }
 
         foreach($this->userRoles as $role) {
             $roles = array_merge($roles, $role->getRoles());
