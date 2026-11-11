@@ -82,6 +82,8 @@
                                         <i class="fas fa-triangle-exclamation text-danger" title="{{ 'authentication_audit.type.error'|trans }}"></i>
                                     {% elseif item.type.value == 'switch_user' %}
                                         <i class="fa-solid fa-shuffle" title="{{ 'authentication_audit.type.switch_user'|trans }}"></i>
+                                    {% elseif item.type.value == 'deauthentication' %}
+                                        <i class="fa-solid fa-person-circle-exclamation" title="{{ 'authentication_audit.type.deauthentication'|trans }}"></i>
                                     {% endif %}
                                 </td>
                                 <td>

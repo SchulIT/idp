@@ -853,6 +853,7 @@ authentication_audit:
       logout: Abmeldung
       switch_user: Benutzerwechsel
       error: Fehler
+      deauthentication: Abmeldung durch System
   ip_address: IP-Adresse
   country: Land
   authenticator: Authenticator-Art

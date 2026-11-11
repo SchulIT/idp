@@ -9,4 +9,5 @@ enum AuthenticationAuditType: string {
     case SwitchUser = 'switch_user';
     case Logout = 'logout';
     case Error = 'error';
+    case Deauthentication = 'deauthentication';
 }

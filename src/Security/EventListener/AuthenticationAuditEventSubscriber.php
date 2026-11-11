@@ -18,6 +18,7 @@ use Symfony\Component\Security\Http\Event\LoginFailureEvent;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
 use Symfony\Component\Security\Http\Event\SwitchUserEvent;
+use Symfony\Component\Security\Http\Event\TokenDeauthenticatedEvent;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Throwable;
 
@@ -118,13 +119,22 @@ class AuthenticationAuditEventSubscriber implements EventSubscriberInterface {
         $this->auditToStore = $audit;
     }
 
+    public function onTokenDeauthenticated(TokenDeauthenticatedEvent $event): void {
+        $audit = $this->createAudit($event->getRequest());
+        $audit->setType(AuthenticationAuditType::Deauthentication);
+        $audit->setUsername($event->getOriginalToken()?->getUserIdentifier());
+
+        $this->auditToStore = $audit;
+    }
+
     public static function getSubscribedEvents(): array {
         return [
             SwitchUserEvent::class => 'onSwitchUser',
             LoginFailureEvent::class => 'onLoginFailure',
             LoginSuccessEvent::class => 'onLoginSuccess',
             LogoutEvent::class => 'onLogout',
-            TerminateEvent::class => 'onKernelTerminate'
+            TerminateEvent::class => 'onKernelTerminate',
+            TokenDeauthenticatedEvent::class => 'onTokenDeauthenticated'
         ];
     }
 }
