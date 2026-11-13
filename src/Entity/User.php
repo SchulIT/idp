@@ -12,10 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use JMS\Serializer\Annotation as Serializer;
+use Override;
 use Ramsey\Uuid\Uuid;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
 use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -28,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[UniqueEntity(fields: ['email'])]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false, hardDelete: true)]
 #[Serializer\Discriminator(disabled: true)]
-class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface {
+class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface, EquatableInterface {
 
     use IdTrait;
     use UuidTrait;
@@ -505,7 +507,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         return [
             'id' => $this->getId(),
             'username' => $this->getUsername(),
-            'password' => $this->getPassword()
+            'password' => $this->getPassword(),
+            'is_active' => $this->isActive(),
         ];
     }
 
@@ -513,5 +516,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         $this->id = $data['id'];
         $this->username = $data['username'];
         $this->password = $data['password'];
+        $this->isActive = $data['is_active'];
+    }
+
+    #[Override]
+    public function isEqualTo(UserInterface $user): bool {
+        if(!$user instanceof self) {
+            return false;
+        }
+
+        return ($user->getUserIdentifier() === $this->getUserIdentifier()) // probably not needed
+            && ($user->getPassword() === $this->getPassword())
+            && ($user->isActive() === $this->isActive());
     }
 }
