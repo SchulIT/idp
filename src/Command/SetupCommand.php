@@ -27,7 +27,6 @@ readonly class SetupCommand {
     public function __invoke(SymfonyStyle $io): int {
         $this->addDefaultUserType($io);
         $this->setupSessions($io);
-        $this->setupRememberMe($io);
         $this->setupOauth2($io);
 
         $io->success('Setup abgeschlossen');
@@ -39,22 +38,6 @@ readonly class SetupCommand {
         $io->section('Benutzertypen');
         $io->writeln('Prüfe, ob Benutzertypen existieren und lege sie ggf. an');
         $this->userTypeSetup->setupDefaultUserTypes();
-        $io->success('Fertig');
-    }
-
-    private function setupRememberMe(SymfonyStyle $io): void {
-        $io->section('Erstelle Tabelle für die "angemeldet bleiben"-Funktion, falls nicht vorhanden');
-        $sql = <<<SQL
-CREATE TABLE IF NOT EXISTS `rememberme_token` (
-    `series`   char(88)     UNIQUE PRIMARY KEY NOT NULL,
-    `value`    char(88)     NOT NULL,
-    `lastUsed` datetime     NOT NULL,
-    `class`    varchar(100) NOT NULL,
-    `username` varchar(200) NOT NULL
-);
-SQL;
-
-        $this->dbalConnection->executeQuery($sql);
         $io->success('Fertig');
     }
 
