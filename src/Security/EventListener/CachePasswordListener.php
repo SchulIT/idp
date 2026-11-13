@@ -11,9 +11,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
-class CachePasswordListener implements EventSubscriberInterface {
+readonly class CachePasswordListener implements EventSubscriberInterface {
 
-    public function __construct(private readonly UserRepositoryInterface $userRepository)
+    public function __construct(private UserRepositoryInterface $userRepository)
     {
     }
 
@@ -35,6 +35,15 @@ class CachePasswordListener implements EventSubscriberInterface {
         }
 
         $hasher = $badge->getHasher();
+
+        /*
+         * Check if password was changed and only update if password has indeed changed. This is needed so Symfony's
+         * ContextListener does not detect a change in the user entity which ensures users stay logged in using the
+         * "remember me"-functionality.
+         */
+        if($hasher->isPasswordValid($user, $badge->getPassword())) {
+            return;
+        }
 
         $user->setPassword($hasher->hashPassword($user, $plaintextPassword));
         $this->userRepository->persist($user);
